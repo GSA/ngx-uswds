@@ -1,0 +1,78 @@
+/*
+* * * * * ==============================
+* * * * * ==============================
+* * * * * ==============================
+* * * * * ==============================
+========================================
+========================================
+========================================
+----------------------------------------
+USWDS 2.2.0
+----------------------------------------
+UTILITIES SETTINGS
+----------------------------------------
+Read more about settings and
+USWDS utilities in the documentation:
+https://v2.designsystem.digital.gov/utilities
+----------------------------------------
+*/
+$utilities-use-important: true;
+
+/*
+----------------------------------------
+Utility breakpoints
+----------------------------------------
+Which breakpoints does your project
+need? Select as `true` any breakpoint
+used by utilities or layout grid
+----------------------------------------
+*/
+
+$theme-utility-breakpoints: (
+  'card':             false,   // 160px
+  'card-lg':          false,   // 240px
+  'mobile':           false,   // 320px
+  'mobile-lg':        true,    // 480px
+  'tablet':           true,    // 640px
+  'tablet-lg':        true,   // 800px
+  'desktop':          true,    // 1024px
+  'desktop-lg':       true,   // 1200px
+  'widescreen':       true,   // 1400px
+);
+
+/*
+----------------------------------------
+Settings
+----------------------------------------
+*/
+
+$width-settings: (
+  responsive:   true
+);
+
+/*
+----------------------------------------
+Values
+----------------------------------------
+*/
+// color palettes (text)
+$color-palettes: ('palette-color-state');
+
+// .background-color
+
+$background-color-palettes: ('palette-color-state');
+
+// .border-radius
+
+$border-radius-manual-values: (
+  'button': 5px,
+  'overlay': 6px,
+);
+
+// .min-width
+
+$min-width-manual-values: (
+  'menu': 200px
+);
+
+$margin-palettes: ('palette-units-em','palette-margin-default');

@@ -1,0 +1,5 @@
+<uswds-dropdown [id]="'dropdown1'" [label]="'Dropdown'" [options]="dropdownOptions" 
+  (optionChange)="onOptionChange($event)">
+</uswds-dropdown>
+
+{{selectedOption | json}}

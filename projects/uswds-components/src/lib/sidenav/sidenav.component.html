@@ -1,0 +1,22 @@
+<ul class="usa-sidenav">
+  <li *ngFor="let link of sidenavContent" class="usa-sidenav__item">
+    <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+    </ng-container>
+  </li>
+</ul>
+
+<ng-template #sideNavLinkTemplate let-link>
+  <a 
+    [attr.class]="link.selected ? 'usa-current' : ''"
+    href="javascript:void(0);"
+    [innerHtml]="link.labelText"
+    (click)="onSidenavItemClicked(link)">
+  </a>
+  <ul *ngIf="link.children" class="usa-sidenav__sublist">
+    <li *ngFor="let link of link.children" class="sidenav__item">
+      <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+      </ng-container>
+    </li>
+  </ul>
+</ng-template>
+

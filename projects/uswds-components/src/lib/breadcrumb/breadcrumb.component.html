@@ -1,0 +1,18 @@
+<nav 
+  class="usa-breadcrumb usa-breadcrumb--wrap"
+  [ngClass]="{'usa-breadcrumb--wrap': wrap}"
+  [attr.aria-label]="ariaLabel ? ariaLabel : 'Breadcrumbs'"
+>
+  <ol class="usa-breadcrumb__list">
+    <li *ngFor="let breadcrumb of breadcrumbs" class="usa-breadcrumb__list-item" 
+      [ngClass]="{'usa-current': breadcrumb === selectedBreadcrumb}"
+      [attr.aria-current]="breadcrumb === selectedBreadcrumb ? 'page': undefined"
+    >
+      <a href="javascript:void(0);" class="usa-breadcrumb__link" *ngIf="breadcrumb != selectedBreadcrumb"
+        [attr.ariaLabel]="breadcrumb.ariaLabel ? breadcrumb.ariaLabel : breadcrumb.label">
+        <span [innerHtml]="breadcrumb.label" (click)="onBreadcrumbClicked(breadcrumb)"></span>
+      </a>
+
+      <span *ngIf="breadcrumb === selectedBreadcrumb" [innerHtml]="breadcrumb.label"></span>
+    </li>
+  </ol>

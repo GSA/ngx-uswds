@@ -1,0 +1,12 @@
+<div class="usa-form-group">
+  <label class="usa-label" [attr.id]="id+'-label'" [for]="id">{{label}}</label>
+  <div class="usa-hint" [attr.id]="id + '-hint'">{{hint}}</div>
+  <div class="usa-date-picker">
+    <input
+      class="usa-input"
+      [attr.id]="id"
+      [attr.name]="id"
+      type="text"
+      [attr.aria-describedby]="id+ '-label' + ' ' + id + '-hint'">
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="usa-form-group" 
+  [ngClass]="{
+    'usa-form-group--month': unit === 'month',
+    'usa-form-group--year': unit === 'year',
+    'usa-form-group--day': unit === 'day'
+  }">
+  <label class="usa-label" [for]="id" [attr.id]="id + 'label'">{{label}}</label>
+  <input class="usa-input usa-input--inline"
+    (change)="onChange($event)"
+    (keydown)="onKeyDown($event)"
+    (keyup)="onKeyUp($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    [attr.aria-labelledby]="id + 'label'" 
+    [attr.id]="id" 
+    [attr.name]="name" type="text" [attr.maxlength]="maxLength"
+    [attr.minlength]="minLength"
+    pattern="[0-9]*" 
+    inputmode="numeric" value="">
+</div>

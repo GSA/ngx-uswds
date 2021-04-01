@@ -1,0 +1,18 @@
+<button class="usa-button"
+  [ngClass]="{
+    'usa-button--secondary': secondary,
+    'usa-button--accent-cool': accentCool,
+    'usa-button--accent-warm': accentWarm,
+    'usa-button--base': base,
+    'usa-button--outline': outline || inverse,
+    'usa-button--inverse': inverse,
+    'usa-button--big': big,
+    'usa-button--unstyled': unstyled
+  }"
+  [attr.aria-label]="ariaLabel"
+  [attr.aria-controls]="ariaControls"
+  [attr.aria-expanded]="ariaExpanded"
+  (click)="onClick($event)"
+>
+<ng-content></ng-content>
+</button>

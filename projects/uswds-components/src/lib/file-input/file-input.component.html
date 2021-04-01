@@ -1,0 +1,19 @@
+<div class="usa-form-group">
+  <label class="usa-label" [for]="id">{{label}}</label>
+  <input [attr.id]="id"
+    #fileInputEl
+    class="usa-file-input"
+    [ngClass]="{
+      'usa-file-input--drag': DRAG_OVER_STATE
+    }"
+    type="file"
+    [attr.name]="id"
+    [attr.multiple]="multiple"
+    [attr.accept]="acceptFileType"
+    [disabled]="disabled"
+    (dragover)="onDragOver()"
+    (dragleave)="onDragLeave()"
+    (drop)="onFileDrop($event)"
+    (change)="onChange($event)"
+  />
+</div>

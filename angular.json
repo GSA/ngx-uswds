@@ -28,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/styles.scss"
             ],
             "scripts": []
           },
@@ -92,7 +92,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/stylesstyles.scss"
             ],
             "scripts": []
           }
@@ -120,6 +120,46 @@
             "production": {
               "devServerTarget": "usa-components:serve:production"
             }
+          }
+        }
+      }
+    },
+    "uswds-components": {
+      "projectType": "library",
+      "root": "projects/uswds-components",
+      "sourceRoot": "projects/uswds-components/src",
+      "prefix": "uswds",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/uswds-components/tsconfig.lib.json",
+            "project": "projects/uswds-components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/uswds-components/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/uswds-components/src/test.ts",
+            "tsConfig": "projects/uswds-components/tsconfig.spec.json",
+            "karmaConfig": "projects/uswds-components/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/uswds-components/tsconfig.lib.json",
+              "projects/uswds-components/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
