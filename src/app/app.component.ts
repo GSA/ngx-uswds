@@ -75,16 +75,6 @@ export class AppComponent implements OnInit {
       href: 'process-list',
       id: 13
     },
-    {
-      labelText: 'Pagination (@gsa-sam/components)',
-      href: 'pagination',
-      id: 13
-    },
-    {
-      labelText: 'Table (@gsa-sam/material-extensions)',
-      href: 'table',
-      id: 14
-    },
   ];
 
   selectedItem: SidenavModel;

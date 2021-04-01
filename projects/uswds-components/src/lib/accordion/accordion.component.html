@@ -1,4 +1,4 @@
-<div class="usa-accordion" 
+<!-- <div class="usa-accordion" 
   [ngClass]="{'usa-accordion--bordered': isBordered}"
   [attr.role]="isMultiSelectable ? 'listbox' : undefined"
   [attr.aria-multiselectable]="isMultiSelectable ? isMultiSelectable : undefined">
@@ -16,4 +16,20 @@
       <ng-container *ngTemplateOutlet="accordionItem.itemContentTemplate"></ng-container>
     </div>
   </ng-container>
-</div>
+</div> -->
+
+<ng-template #t USWDSPanelHeader let-panel>
+  <button class="usa-accordion__button" [USWDSAccordionToggle]="panel">
+    {{panel.title}}<ng-template [ngTemplateOutlet]="panel.titleTpl?.templateRef"></ng-template>
+  </button>
+</ng-template>
+<ng-template ngFor let-panel [ngForOf]="panels">
+    <div role="tab" id="{{panel.id}}-header" class="usa-accordion__heading">
+      <ng-template [ngTemplateOutlet]="panel.headerTpl?.templateRef || t"
+                   [ngTemplateOutletContext]="{$implicit: panel, opened: panel.isOpen}"></ng-template>
+    </div>
+    <div id="{{panel.id}}" role="tabpanel" [attr.aria-labelledby]="panel.id + '-header'"
+         *ngIf="!destroyOnHide || panel.isOpen || panel.transitionRunning" class="usa-accordion__content">
+      <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
+    </div>
+</ng-template>

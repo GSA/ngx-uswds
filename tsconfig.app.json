@@ -3,7 +3,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
+    "paths": {
+      "uswds-components": [
+        "projects/uswds-components/src/public-api.ts"
+      ]
+    }
   },
   "files": [
     "src/main.ts",
