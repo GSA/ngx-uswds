@@ -1,17 +1,15 @@
-<ng-template #t UsaPanelHeader let-panel>
-  <button class="usa-accordion__button" [UsaAccordionToggle]="panel" (keyup)="onKeyUp($event, panel)">
-    {{panel.title}}<ng-template [ngTemplateOutlet]="panel.titleTpl?.templateRef"></ng-template>
-  </button>
+<ng-template #t let-panel>
+  <h4 id="{{panel.id}}-header" class="usa-accordion__heading">
+    <button class="usa-accordion__button" [UsaAccordionToggle]="panel" (keyup)="onKeyUp($event, panel)">
+      {{panel.title}}<ng-template [ngTemplateOutlet]="panel.titleTpl?.templateRef"></ng-template>
+    </button>
+  </h4>
 </ng-template>
 <ng-template ngFor let-panel [ngForOf]="panels">
-    <div role="tab" id="{{panel.id}}-header" class="usa-accordion__heading">
-      <ng-template [ngTemplateOutlet]="panel.headerTpl?.templateRef || t"
-                   [ngTemplateOutletContext]="{$implicit: panel, opened: panel.isOpen}"></ng-template>
-    </div>
-    <div id="{{panel.id}}" role="tabpanel" [attr.aria-labelledby]="panel.id + '-header'"
-         *ngIf="!destroyOnHide || panel.isOpen || panel.transitionRunning" class="usa-accordion__content">
-         <div>
-          <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
-         </div>
-    </div>
+    <ng-template [ngTemplateOutlet]="panel.headerTpl?.templateRef || t"
+                  [ngTemplateOutletContext]="{$implicit: panel, opened: panel.isOpen}"></ng-template>
+    <section id="{{panel.id}}" [attr.aria-labelledby]="panel.id + '-header'" 
+      *ngIf="!destroyOnHide || panel.isOpen || panel.transitionRunning" class="usa-accordion__content">
+        <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
+    </section>
 </ng-template>

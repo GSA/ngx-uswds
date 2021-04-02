@@ -2,6 +2,7 @@ import {
   AfterContentChecked, 
   ContentChildren, 
   Directive, 
+  ElementRef, 
   EventEmitter, 
   Input, 
   Output, 
@@ -21,7 +22,9 @@ export class UsaAccordionContent {
 /**
  * A directive that wraps the accordion header content.
  */
-@Directive({ selector: 'ng-template[UsaAccordionHeader]' })
+@Directive({ 
+  selector: 'ng-template[UsaAccordionHeader]' 
+})
 export class UsaAccordionHeader {
   constructor(public templateRef: TemplateRef<any>) { }
 }

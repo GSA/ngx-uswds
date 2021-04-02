@@ -3,7 +3,7 @@ import {
   Input, QueryList, ElementRef, NgZone, AfterContentChecked, 
   EventEmitter, Output 
 } from '@angular/core';
-import { Key } from '../util/key';
+import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 import { take } from 'rxjs/operators';
 import { ngbCollapsingTransition } from '../util/transition/uswdsCollapseTransition';
 import { ngbRunTransition } from '../util/transition/uswdsTransition';
@@ -172,6 +172,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   }
 
   ngAfterContentChecked() {
+    console.log(this.panels);
     // active id updates
     if (isString(this.activeIds)) {
       this.activeIds = this.activeIds.split(/\s*,\s*/);
@@ -208,20 +209,27 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   }
 
   onKeyUp($event: KeyboardEvent, panel: UsaPanel) {
-    switch($event.code) {
+    const keyPressed = $event.key || $event.keyCode;
+    switch(keyPressed) {
       case Key.ArrowDown:
+      case MicrosfotKeys.ArrowDown:
+      case KeyCode.ArrowDown:
         this._getPanelElementHeaderButton(
           this._getNextAccordion(panel, this.panels.toArray(), 1).id
         ).focus();
         $event.preventDefault();
         break;
       case Key.ArrowUp:
+      case MicrosfotKeys.ArrowUp:
+      case KeyCode.ArrowUp:
         this._getPanelElementHeaderButton(
           this._getNextAccordion(panel, this.panels.toArray(), -1).id
         ).focus();
         $event.preventDefault();
         break;
       case Key.Home:
+      case MicrosfotKeys.Home:
+      case KeyCode.Home:
         const firstPanel = this.panels.find(panel => !panel.disabled);
         if (firstPanel) {
           this._getPanelElementHeaderButton(firstPanel.id).focus();
@@ -229,6 +237,8 @@ export class UsaAccordionComponent implements AfterContentChecked  {
         $event.preventDefault();
         break;
       case Key.End:
+      case MicrosfotKeys.End:
+      case KeyCode.End:
         const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));
         if (lastFocusablePanel) {
           this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();
