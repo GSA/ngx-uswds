@@ -3,12 +3,13 @@ import {
   Input, QueryList, ElementRef, NgZone, AfterContentChecked, 
   EventEmitter, Output 
 } from '@angular/core';
+import { Key } from '../util/key';
 import { take } from 'rxjs/operators';
 import { ngbCollapsingTransition } from '../util/transition/uswdsCollapseTransition';
 import { ngbRunTransition } from '../util/transition/uswdsTransition';
-import { isString } from '../util/util';
-import { USWDSPanel } from './accordion-panel.directive';
-import { NgbAccordionConfig } from './accordion.config';
+import { isString, findLast } from '../util/util';
+import { UsaPanel } from './accordion-items';
+import { UsaAccordionConfig } from './accordion.config';
 
 
 /**
@@ -34,14 +35,18 @@ import { NgbAccordionConfig } from './accordion.config';
 }
 
 @Component({
-  selector: 'uswds-accordion',
-  exportAs: 'uswdsAccordion',
+  selector: 'usa-accordion',
+  exportAs: 'usaAccordion',
   templateUrl: './accordion.component.html',
-  host: {'class': 'usa-accordion', 'role': 'tablist', '[attr.aria-multiselectable]': 'isMultiSelectable'},
+  host: {
+    'class': 'usa-accordion',
+    '[class.usa-accordion--bordered]': 'bordered', 
+    'role': 'tablist', 
+    '[attr.aria-multiselectable]': '!singleSelect'},
 })
-export class USWDSAccordionComponent implements AfterContentChecked  {
+export class UsaAccordionComponent implements AfterContentChecked  {
 
-  @ContentChildren(USWDSPanel) panels: QueryList<USWDSPanel>;
+  @ContentChildren(UsaPanel) panels: QueryList<UsaPanel>;
 
   /**
    * If `true`, accordion will be animated.
@@ -63,7 +68,7 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
    *
    *  Opening a new panel will close others.
    */
-  @Input('closeOthers') closeOtherPanels: boolean;
+  @Input() singleSelect: boolean;
 
   /**
    * If `true`, panel content will be detached from DOM and not simply hidden when the panel is collapsed.
@@ -76,7 +81,7 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
    * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,
    * `'secondary'`, `'light'` and `'dark'`.
    */
-  @Input() type: string;
+  @Input() bordered: boolean;
 
   /**
    * Event emitted right before the panel toggle happens.
@@ -101,11 +106,11 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
   @Output() hidden = new EventEmitter<string>();
 
   constructor(
-      config: NgbAccordionConfig, private _element: ElementRef, private _ngZone: NgZone,
+      config: UsaAccordionConfig, private _element: ElementRef, private _ngZone: NgZone,
       private _changeDetector: ChangeDetectorRef) {
     this.animation = config.animation;
-    this.type = config.type;
-    this.closeOtherPanels = config.closeOthers;
+    this.bordered = config.bordered;
+    this.singleSelect = config.singleSelect;
   }
 
   /**
@@ -126,7 +131,7 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
    * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.
    */
   expandAll(): void {
-    if (this.closeOtherPanels) {
+    if (this.singleSelect) {
       if (this.activeIds.length === 0 && this.panels.length) {
         this._changeOpenState(this.panels.first, true);
       }
@@ -161,6 +166,11 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
     }
   }
 
+  /** Gets the expanded state string. */
+  _getExpandedState(panel: UsaPanel) {
+    return panel.isOpen ? 'expanded' : 'collapsed';
+  }
+
   ngAfterContentChecked() {
     // active id updates
     if (isString(this.activeIds)) {
@@ -171,7 +181,7 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
     this.panels.forEach(panel => { panel.isOpen = !panel.disabled && this.activeIds.indexOf(panel.id) > -1; });
 
     // closeOthers updates
-    if (this.activeIds.length > 1 && this.closeOtherPanels) {
+    if (this.activeIds.length > 1 && this.singleSelect) {
       this._closeOthers(this.activeIds[0], false);
       this._updateActiveIds();
     }
@@ -197,7 +207,53 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
     });
   }
 
-  private _changeOpenState(panel: USWDSPanel | null, nextState: boolean) {
+  onKeyUp($event: KeyboardEvent, panel: UsaPanel) {
+    switch($event.code) {
+      case Key.ArrowDown:
+        this._getPanelElementHeaderButton(
+          this._getNextAccordion(panel, this.panels.toArray(), 1).id
+        ).focus();
+        $event.preventDefault();
+        break;
+      case Key.ArrowUp:
+        this._getPanelElementHeaderButton(
+          this._getNextAccordion(panel, this.panels.toArray(), -1).id
+        ).focus();
+        $event.preventDefault();
+        break;
+      case Key.Home:
+        const firstPanel = this.panels.find(panel => !panel.disabled);
+        if (firstPanel) {
+          this._getPanelElementHeaderButton(firstPanel.id).focus();
+        }
+        $event.preventDefault();
+        break;
+      case Key.End:
+        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));
+        if (lastFocusablePanel) {
+          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();
+        }
+        $event.preventDefault();
+        break;
+    }
+  }
+
+  private _getNextAccordion(currentPanel: UsaPanel, allPanels: UsaPanel[] , delta: 1 | -1) {
+    const currentPanelIndex = allPanels.indexOf(currentPanel);
+    let nextPanelIndex = ((currentPanelIndex + delta) + allPanels.length) % allPanels.length;
+
+    while(nextPanelIndex != currentPanelIndex) {
+      if (!allPanels[nextPanelIndex].disabled) {
+        break;
+      }
+
+      nextPanelIndex = ((nextPanelIndex + delta) + allPanels.length) % allPanels.length;    
+    }
+
+    return allPanels[nextPanelIndex];
+  }
+
+  private _changeOpenState(panel: UsaPanel | null, nextState: boolean) {
     if (panel != null && !panel.disabled && panel.isOpen !== nextState) {
       let defaultPrevented = false;
 
@@ -208,7 +264,7 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
         panel.isOpen = nextState;
         panel.transitionRunning = true;
 
-        if (nextState && this.closeOtherPanels) {
+        if (nextState && this.singleSelect) {
           this._closeOthers(panel.id);
         }
         this._updateActiveIds();
@@ -226,7 +282,7 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
     });
   }
 
-  private _findPanelById(panelId: string): USWDSPanel | null { return this.panels.find(p => p.id === panelId) || null; }
+  private _findPanelById(panelId: string): UsaPanel | null { return this.panels.find(p => p.id === panelId) || null; }
 
   private _updateActiveIds() {
     this.activeIds = this.panels.filter(panel => panel.isOpen && !panel.disabled).map(panel => panel.id);
@@ -242,7 +298,7 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
       // The direction (show or hide) is choosen by each panel.isOpen state
       if (panel.transitionRunning) {
         const panelElement = this._getPanelElement(panel.id);
-        ngbRunTransition(this._ngZone, panelElement !, ngbCollapsingTransition, {
+        ngbRunTransition(this._ngZone, panelElement, ngbCollapsingTransition, {
           animation,
           runningTransition: 'stop',
           context: {direction: panel.isOpen ? 'show' : 'hide'}
@@ -263,5 +319,9 @@ export class USWDSAccordionComponent implements AfterContentChecked  {
 
   private _getPanelElement(panelId: string): HTMLElement | null {
     return this._element.nativeElement.querySelector('#' + panelId);
+  }
+
+  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {
+    return this._element.nativeElement.querySelector('#' + panelId + '-header button');
   }
 }

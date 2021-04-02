@@ -1,34 +1,33 @@
 import { Directive, Host, Input, Optional } from "@angular/core";
-import { USWDSPanel } from "./accordion-panel.directive";
-import { USWDSAccordionComponent } from "./accordion.component";
+import { UsaPanel } from "./accordion-items";
+import { UsaAccordionComponent } from "./accordion.component";
 
 /**
  * A directive to put on a button that toggles panel opening and closing.
- *
- * To be used inside the [`NgbPanelHeader`](#/components/accordion/api#NgbPanelHeader)
- *
- * @since 4.1.0
+ * 
+ * Due to circular dependency issue, this toggle button is on a separate file
  */
- @Directive({
-    selector: 'button[USWDSAccordionToggle]',
-    host: {
-      'type': 'button',
-      '[disabled]': 'panel.disabled',
-      '[class.collapsed]': '!panel.isOpen',
-      '[attr.aria-expanded]': 'panel.isOpen',
-      '[attr.aria-controls]': 'panel.id',
-      '(click)': 'accordion.toggle(panel.id)',
+@Directive({
+  selector: 'button[UsaAccordionToggle]',
+  host: {
+    'type': 'button',
+    '[disabled]': 'panel.disabled',
+    '[class.collapsed]': '!panel.isOpen',
+    '[attr.aria-expanded]': 'panel.isOpen',
+    '[attr.aria-controls]': 'panel.isOpen ? panel.id : undefined',
+    '[attr.aria-disabled]': 'panel.disabled && panel.isOpen ? true : undefined',
+    '(click)': 'accordion.toggle(panel.id)',
+  }
+})
+export class UsaAccordionToggle {
+  static ngAcceptInputType_UsaAccordionToggle: UsaPanel | '';
+
+  @Input()
+  set UsaAccordionToggle(panel: UsaPanel) {
+    if (panel) {
+      this.panel = panel;
     }
-  })
-  export class USWDSAccordionToggle {
-    static ngAcceptInputType_USWDSAccordionToggle: USWDSPanel | '';
-  
-    @Input()
-    set USWDSAccordionToggle(panel: USWDSPanel) {
-      if (panel) {
-        this.panel = panel;
-      }
-    }
-  
-    constructor(public accordion: USWDSAccordionComponent, @Optional() @Host() public panel: USWDSPanel) {}
+  }
+
+  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaPanel) { }
 }

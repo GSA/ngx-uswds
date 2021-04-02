@@ -117,3 +117,20 @@ export function runInZone<T>(zone: NgZone): OperatorFunction<T, T> {
 export function removeAccents(str: string): string {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
+
+/**
+* Returns the the last element in the array where predicate is true, and null
+* otherwise.
+* @param array The source array to search in
+* @param predicate find calls predicate once for each element of the array, in descending
+* order, until it finds one where predicate returns true. If such an element is found,
+* findLast immediately returns that element. Otherwise, findLast returns null.
+*/
+export function findLast<T>(array: Array<T>, predicate: (value: T, index: number, obj: T[]) => boolean): T {
+  let l = array.length;
+  while (l--) {
+      if (predicate(array[l], l, array))
+          return array[l];
+  }
+  return null;
+}

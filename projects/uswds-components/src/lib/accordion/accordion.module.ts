@@ -1,31 +1,33 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { USWDSAccordionContent } from "./accordion-content.directive";
-import { USWDSAccordionHeader } from "./accordion-header.directive";
-import { USWDSPanel } from "./accordion-panel.directive";
-import { USWDSAccordionTitle } from "./accordion-title.directive";
-import { USWDSAccordionToggle } from "./accordion-toggle.directive";
-import { USWDSAccordionComponent } from "./accordion.component";
+import { 
+  UsaAccordionContent, 
+  UsaAccordionHeader, 
+  UsaAccordionTitle, 
+  UsaPanel
+} from "./accordion-items";
+import { UsaAccordionToggle } from "./accordion-toggle.directive";
+import { UsaAccordionComponent } from "./accordion.component";
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
   ],
   declarations: [
-    USWDSAccordionComponent,
-    USWDSAccordionHeader,
-    USWDSAccordionContent,
-    USWDSAccordionTitle,
-    USWDSAccordionToggle,
-    USWDSPanel
+    UsaAccordionComponent,
+    UsaAccordionHeader,
+    UsaAccordionContent,
+    UsaAccordionTitle,
+    UsaAccordionToggle,
+    UsaPanel
   ],
   exports: [
-    USWDSAccordionComponent,
-    USWDSAccordionHeader,
-    USWDSAccordionContent,
-    USWDSAccordionTitle,
-    USWDSAccordionToggle,
-    USWDSPanel
+    UsaAccordionComponent,
+    UsaAccordionHeader,
+    UsaAccordionContent,
+    UsaAccordionTitle,
+    UsaAccordionToggle,
+    UsaPanel
   ]
 })
-export class USWDSAccordionModule {}
+export class UsaAccordionModule {}

@@ -7,11 +7,11 @@ import {Injectable} from '@angular/core';
  * to provide default values for all accordions used in the application.
  */
 @Injectable({providedIn: 'root'})
-export class NgbAccordionConfig {
-  closeOthers = false;
-  type: string;
+export class UsaAccordionConfig {
+  singleSelect = false;
+  bordered: boolean;
 
-  private _animation: boolean;
+  private _animation: boolean = true;
 
   get animation(): boolean { return this._animation; }
   set animation(animation: boolean) { this._animation = animation; }

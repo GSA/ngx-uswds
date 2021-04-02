@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { USWDSAccordionModule } from "uswds-components";
+import { UsaAccordionModule } from "uswds-components";
 import { AccordionComponent } from "./accordion.component";
 
 @NgModule({
   imports: [
     CommonModule,
-    USWDSAccordionModule
+    UsaAccordionModule
   ],
   declarations: [
     AccordionComponent

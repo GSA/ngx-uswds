@@ -22,6 +22,9 @@ export interface NgbTransitionCtx<T> {
 
 const noopFn: NgbTransitionEndFn = () => {};
 
+const transitionTimerDelayMs = 5;
+
+
 const runningTransitions = new Map<HTMLElement, NgbTransitionCtx<any>>();
 
 export const ngbRunTransition =
@@ -51,7 +54,7 @@ export const ngbRunTransition =
 
           // Running the start function
           const endFn = startFn(element, options.animation, context) || noopFn;
-
+          
           // If 'prefer-reduced-motion' is enabled, the 'transition' will be set to 'none'.
           // If animations are disabled, we have to emit a value and complete the observable
           // In this case we have to call the end function, but can finish immediately by emitting a value,
@@ -85,7 +88,7 @@ export const ngbRunTransition =
           zone.runOutsideAngular(() => {
             const transitionEnd$ =
                 fromEvent(element, 'transitionend').pipe(takeUntil(stop$), filter(({target}) => target === element));
-            const timer$ = timer(transitionDurationMs).pipe(takeUntil(stop$));
+            const timer$ = timer(transitionDurationMs + transitionTimerDelayMs).pipe(takeUntil(stop$));
 
             race(timer$, transitionEnd$, finishTransition$).pipe(takeUntil(stop$)).subscribe(() => {
               runningTransitions.delete(element);

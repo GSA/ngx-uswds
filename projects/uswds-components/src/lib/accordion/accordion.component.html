@@ -1,25 +1,5 @@
-<!-- <div class="usa-accordion" 
-  [ngClass]="{'usa-accordion--bordered': isBordered}"
-  [attr.role]="isMultiSelectable ? 'listbox' : undefined"
-  [attr.aria-multiselectable]="isMultiSelectable ? isMultiSelectable : undefined">
-  <ng-container *ngFor="let accordionItem of accordionItems">
-    <h4 class="usa-accordion__heading">
-      <button class="usa-accordion__button"
-        (click)="onAccordionClicked(accordionItem)"
-        [attr.aria-expanded]="accordionItem.expanded"
-        [attr.aria-controls]="accordionItem.id"
-        >
-        <ng-container *ngTemplateOutlet="accordionItem.itemHeaderTemplate"></ng-container>
-      </button>
-    </h4>
-    <div [attr.id]="accordionItem.id" class="usa-accordion__content usa-prose" [hidden]="!accordionItem.expanded">
-      <ng-container *ngTemplateOutlet="accordionItem.itemContentTemplate"></ng-container>
-    </div>
-  </ng-container>
-</div> -->
-
-<ng-template #t USWDSPanelHeader let-panel>
-  <button class="usa-accordion__button" [USWDSAccordionToggle]="panel">
+<ng-template #t UsaPanelHeader let-panel>
+  <button class="usa-accordion__button" [UsaAccordionToggle]="panel" (keyup)="onKeyUp($event, panel)">
     {{panel.title}}<ng-template [ngTemplateOutlet]="panel.titleTpl?.templateRef"></ng-template>
   </button>
 </ng-template>
@@ -30,6 +10,8 @@
     </div>
     <div id="{{panel.id}}" role="tabpanel" [attr.aria-labelledby]="panel.id + '-header'"
          *ngIf="!destroyOnHide || panel.isOpen || panel.transitionRunning" class="usa-accordion__content">
-      <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
+         <div>
+          <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
+         </div>
     </div>
 </ng-template>
