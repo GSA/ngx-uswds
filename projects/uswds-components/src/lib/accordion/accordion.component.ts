@@ -1,15 +1,16 @@
 import { 
   ChangeDetectorRef, Component, ContentChildren, 
   Input, QueryList, ElementRef, NgZone, AfterContentChecked, 
-  EventEmitter, Output 
+  EventEmitter, Output, OnInit, OnDestroy, Renderer2 
 } from '@angular/core';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
-import { take } from 'rxjs/operators';
-import { ngbCollapsingTransition } from '../util/transition/uswdsCollapseTransition';
-import { ngbRunTransition } from '../util/transition/uswdsTransition';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { isString, findLast } from '../util/util';
 import { UsaPanel } from './accordion-items';
 import { UsaAccordionConfig } from './accordion.config';
+import { Subject } from 'rxjs';
+import { AnimationEvent } from '@angular/animations';
+import { UsaExpansionAnimations } from './accordion-animations';
 
 
 /**
@@ -38,10 +39,10 @@ import { UsaAccordionConfig } from './accordion.config';
   selector: 'usa-accordion',
   exportAs: 'usaAccordion',
   templateUrl: './accordion.component.html',
+  animations: [UsaExpansionAnimations.bodyExpansion],
   host: {
     'class': 'usa-accordion',
     '[class.usa-accordion--bordered]': 'bordered', 
-    'role': 'tablist', 
     '[attr.aria-multiselectable]': '!singleSelect'},
 })
 export class UsaAccordionComponent implements AfterContentChecked  {
@@ -84,6 +85,11 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   @Input() bordered: boolean;
 
   /**
+   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.
+   */
+  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;
+
+  /**
    * Event emitted right before the panel toggle happens.
    *
    * See [NgbPanelChangeEvent](#/components/accordion/api#NgbPanelChangeEvent) for payload details.
@@ -106,8 +112,10 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   @Output() hidden = new EventEmitter<string>();
 
   constructor(
-      config: UsaAccordionConfig, private _element: ElementRef, private _ngZone: NgZone,
-      private _changeDetector: ChangeDetectorRef) {
+      config: UsaAccordionConfig, 
+      private _element: ElementRef,
+      private _renderer: Renderer2
+    ) {
     this.animation = config.animation;
     this.bordered = config.bordered;
     this.singleSelect = config.singleSelect;
@@ -172,7 +180,6 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   }
 
   ngAfterContentChecked() {
-    console.log(this.panels);
     // active id updates
     if (isString(this.activeIds)) {
       this.activeIds = this.activeIds.split(/\s*,\s*/);
@@ -183,29 +190,9 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
     // closeOthers updates
     if (this.activeIds.length > 1 && this.singleSelect) {
-      this._closeOthers(this.activeIds[0], false);
+      this._closeOthers(this.activeIds[0]);
       this._updateActiveIds();
     }
-
-    // Setup the initial classes here
-    this._ngZone.onStable.pipe(take(1)).subscribe(() => {
-      this.panels.forEach(panel => {
-        const panelElement = this._getPanelElement(panel.id);
-        if (panelElement) {
-          if (!panel.initClassDone) {
-            panel.initClassDone = true;
-            ngbRunTransition(this._ngZone, panelElement, ngbCollapsingTransition, {
-              animation: false,
-              runningTransition: 'continue',
-              context: {direction: panel.isOpen ? 'show' : 'hide'}
-            });
-          }
-        } else {
-          // Classes must be initialized next time it will be in the dom
-          panel.initClassDone = false;
-        }
-      });
-    });
   }
 
   onKeyUp($event: KeyboardEvent, panel: UsaPanel) {
@@ -248,6 +235,23 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     }
   }
 
+  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {
+    if (event.fromState === 'collapsed' && event.toState === 'expanded') {
+      this._renderer.removeStyle(panel, 'display');
+    }
+  }
+
+  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {
+    if (event.fromState !== 'void') {
+      if (event.toState === 'expanded') {
+        this.shown.emit();
+      } else if (event.toState === 'collapsed') {
+        this._renderer.setStyle(panel, 'display', 'none');
+        this.hidden.emit();
+      }
+    }
+  }
+
   private _getNextAccordion(currentPanel: UsaPanel, allPanels: UsaPanel[] , delta: 1 | -1) {
     const currentPanelIndex = allPanels.indexOf(currentPanel);
     let nextPanelIndex = ((currentPanelIndex + delta) + allPanels.length) % allPanels.length;
@@ -272,22 +276,19 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
       if (!defaultPrevented) {
         panel.isOpen = nextState;
-        panel.transitionRunning = true;
 
         if (nextState && this.singleSelect) {
           this._closeOthers(panel.id);
         }
         this._updateActiveIds();
-        this._runTransitions(this.animation);
       }
     }
   }
 
-  private _closeOthers(panelId: string, enableTransition = true) {
+  private _closeOthers(panelId: string) {
     this.panels.forEach(panel => {
       if (panel.id !== panelId && panel.isOpen) {
         panel.isOpen = false;
-        panel.transitionRunning = enableTransition;
       }
     });
   }
@@ -296,39 +297,6 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
   private _updateActiveIds() {
     this.activeIds = this.panels.filter(panel => panel.isOpen && !panel.disabled).map(panel => panel.id);
-  }
-
-  private _runTransitions(animation: boolean) {
-    // detectChanges is performed to ensure that all panels are in the dom (via transitionRunning = true)
-    // before starting the animation
-    this._changeDetector.detectChanges();
-
-    this.panels.forEach(panel => {
-      // When panel.transitionRunning is true, the transition needs to be started OR reversed,
-      // The direction (show or hide) is choosen by each panel.isOpen state
-      if (panel.transitionRunning) {
-        const panelElement = this._getPanelElement(panel.id);
-        ngbRunTransition(this._ngZone, panelElement, ngbCollapsingTransition, {
-          animation,
-          runningTransition: 'stop',
-          context: {direction: panel.isOpen ? 'show' : 'hide'}
-        }).subscribe(() => {
-          panel.transitionRunning = false;
-          const {id} = panel;
-          if (panel.isOpen) {
-            panel.shown.emit();
-            this.shown.emit(id);
-          } else {
-            panel.hidden.emit();
-            this.hidden.emit(id);
-          }
-        });
-      }
-    });
-  }
-
-  private _getPanelElement(panelId: string): HTMLElement | null {
-    return this._element.nativeElement.querySelector('#' + panelId);
   }
 
   private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {

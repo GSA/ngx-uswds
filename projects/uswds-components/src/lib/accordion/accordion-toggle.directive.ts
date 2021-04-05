@@ -12,6 +12,7 @@ import { UsaAccordionComponent } from "./accordion.component";
   host: {
     'type': 'button',
     '[disabled]': 'panel.disabled',
+    'class': 'usa-accordion__button',
     '[class.collapsed]': '!panel.isOpen',
     '[attr.aria-expanded]': 'panel.isOpen',
     '[attr.aria-controls]': 'panel.isOpen ? panel.id : undefined',

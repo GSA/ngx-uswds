@@ -3,7 +3,6 @@ import { NgModule } from "@angular/core";
 import { 
   UsaAccordionContent, 
   UsaAccordionHeader, 
-  UsaAccordionTitle, 
   UsaPanel
 } from "./accordion-items";
 import { UsaAccordionToggle } from "./accordion-toggle.directive";
@@ -17,7 +16,6 @@ import { UsaAccordionComponent } from "./accordion.component";
     UsaAccordionComponent,
     UsaAccordionHeader,
     UsaAccordionContent,
-    UsaAccordionTitle,
     UsaAccordionToggle,
     UsaPanel
   ],
@@ -25,7 +23,6 @@ import { UsaAccordionComponent } from "./accordion.component";
     UsaAccordionComponent,
     UsaAccordionHeader,
     UsaAccordionContent,
-    UsaAccordionTitle,
     UsaAccordionToggle,
     UsaPanel
   ]

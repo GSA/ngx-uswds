@@ -15,6 +15,11 @@
       "es2018",
       "dom"
     ],
+    "paths": {
+      "uswds-components": [
+        "projects/uswds-components/src/public-api.ts"
+      ]
+    },
     "rootDir": "."
   },
   "exclude": [

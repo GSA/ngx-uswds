@@ -1,5 +1,7 @@
 import { 
   AfterContentChecked, 
+  AfterContentInit, 
+  AfterViewInit, 
   ContentChildren, 
   Directive, 
   ElementRef, 
@@ -23,17 +25,9 @@ export class UsaAccordionContent {
  * A directive that wraps the accordion header content.
  */
 @Directive({ 
-  selector: 'ng-template[UsaAccordionHeader]' 
+  selector: 'ng-template[UsaAccordionHeader]',
 })
 export class UsaAccordionHeader {
-  constructor(public templateRef: TemplateRef<any>) { }
-}
-
-/**
- * A directive that wraps the accordion title content.
- */
-@Directive({ selector: 'ng-template[UsaAccordionTitle]' })
-export class UsaAccordionTitle {
   constructor(public templateRef: TemplateRef<any>) { }
 }
 
@@ -59,15 +53,12 @@ export class UsaPanel implements AfterContentChecked {
   /* A flag to specified that the transition panel classes have been initialized */
   initClassDone = false;
 
-  /* A flag to specified if the panel is currently being animated, to ensure its presence in the dom */
-  transitionRunning = false;
-
   /**
    *  The panel title.
    *
    *  You can alternatively use [`NgbPanelTitle`] to set panel title.
    */
-  @Input() title: string;
+  @Input() header: string;
 
   /**
    * Type of the current panel.
@@ -99,11 +90,9 @@ export class UsaPanel implements AfterContentChecked {
   @Output() hidden = new EventEmitter<void>();
 
 
-  titleTpl: UsaAccordionTitle;
   headerTpl: UsaAccordionHeader;
   contentTpl: UsaAccordionContent;
 
-  @ContentChildren(UsaAccordionTitle, { descendants: false }) titleTpls: QueryList<UsaAccordionTitle>;
   @ContentChildren(UsaAccordionHeader, { descendants: false }) headerTpls: QueryList<UsaAccordionHeader>;
   @ContentChildren(UsaAccordionContent, { descendants: false }) contentTpls: QueryList<UsaAccordionContent>;
 
@@ -111,7 +100,6 @@ export class UsaPanel implements AfterContentChecked {
     // We are using @ContentChildren instead of @ContentChild as in the Angular version being used
     // only @ContentChildren allows us to specify the {descendants: false} option.
     // Without {descendants: false} there are issues when accordions are wrapped inside accordions
-    this.titleTpl = this.titleTpls.first;
     this.headerTpl = this.headerTpls.first;
     this.contentTpl = this.contentTpls.first;
   }
