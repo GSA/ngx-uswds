@@ -1,39 +1,14 @@
 import { 
-  ChangeDetectorRef, Component, ContentChildren, 
-  Input, QueryList, ElementRef, NgZone, AfterContentChecked, 
-  EventEmitter, Output, OnInit, OnDestroy, Renderer2 
+  Component, ContentChildren, 
+  Input, QueryList, ElementRef, AfterContentChecked, 
+  EventEmitter, Output, Renderer2 
 } from '@angular/core';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
-import { distinctUntilChanged } from 'rxjs/operators';
 import { isString, findLast } from '../util/util';
-import { UsaPanel } from './accordion-items';
+import { UsaPanel, UsaPanelChangeEvent } from './accordion-items';
 import { UsaAccordionConfig } from './accordion.config';
-import { Subject } from 'rxjs';
 import { AnimationEvent } from '@angular/animations';
 import { UsaExpansionAnimations } from './accordion-animations';
-
-
-/**
- * An event emitted right before toggling an accordion panel.
- */
- export interface NgbPanelChangeEvent {
-  /**
-   * The id of the accordion panel being toggled.
-   */
-  panelId: string;
-
-  /**
-   * The next state of the panel.
-   *
-   * `true` if it will be opened, `false` if closed.
-   */
-  nextState: boolean;
-
-  /**
-   * Calling this function will prevent panel toggling.
-   */
-  preventDefault: () => void;
-}
 
 @Component({
   selector: 'usa-accordion',
@@ -72,11 +47,6 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   @Input() singleSelect: boolean;
 
   /**
-   * If `true`, panel content will be detached from DOM and not simply hidden when the panel is collapsed.
-   */
-  @Input() destroyOnHide = true;
-
-  /**
    * Type of panels.
    *
    * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,
@@ -94,7 +64,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
    *
    * See [NgbPanelChangeEvent](#/components/accordion/api#NgbPanelChangeEvent) for payload details.
    */
-  @Output() panelChange = new EventEmitter<NgbPanelChangeEvent>();
+  @Output() panelChange = new EventEmitter<UsaPanelChangeEvent>();
 
   /**
    * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.

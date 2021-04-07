@@ -1,10 +1,7 @@
 import { 
   AfterContentChecked, 
-  AfterContentInit, 
-  AfterViewInit, 
   ContentChildren, 
   Directive, 
-  ElementRef, 
   EventEmitter, 
   Input, 
   Output, 
@@ -12,6 +9,29 @@ import {
   TemplateRef } from "@angular/core";
 
 let nextId = 0;
+
+
+/**
+ * An event emitted right before toggling an accordion panel.
+ */
+ export interface UsaPanelChangeEvent {
+  /**
+   * The id of the accordion panel being toggled.
+   */
+  panelId: string;
+
+  /**
+   * The next state of the panel.
+   *
+   * `true` if it will be opened, `false` if closed.
+   */
+  nextState: boolean;
+
+  /**
+   * Calling this function will prevent panel toggling.
+   */
+  preventDefault: () => void;
+}
 
 /**
  * A directive that wraps the accordion panel content.
@@ -60,13 +80,6 @@ export class UsaPanel implements AfterContentChecked {
    */
   @Input() header: string;
 
-  /**
-   * Type of the current panel.
-   *
-   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,
-   * `'secondary'`, `'light'` and `'dark'`.
-   */
-  @Input() type: string;
 
   /**
    * An optional class applied to the accordion card element that wraps both panel title and content.

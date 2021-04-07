@@ -5,6 +5,7 @@
       </button>
     </div>
     <section #panelContent id="{{panel.id}}" class="usa-accordion__content"
+      [@.disabled]="!animation"
       [@bodyExpansion]="panel.isOpen ? 'expanded' : 'collapsed'"
       (@bodyExpansion.start)="onBodyExpansionStart($event, panelContent)"
       (@bodyExpansion.done)="onBodyExpansionEnd($event, panelContent)"
