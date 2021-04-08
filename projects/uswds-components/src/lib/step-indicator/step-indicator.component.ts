@@ -1,8 +1,9 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { UsaStepIndicatorHeaderComponent } from './step-indicator-header.component';
-import { StepIndicatorConfig } from './step-indicator.config';
+import { UsaStepIndicatorConfig } from './step-indicator.config';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 import { getNextItemIndexInList, findLastIndex } from '../util/util';
+import { UsaStepIndicatorModel } from './step-indicator.model';
 
 let stepIndicatorId = 0;
 
@@ -47,6 +48,12 @@ export class UsaStepIndicatorComponent implements OnChanges {
    */
   @Input() headerPosition: 'top' | 'bottom';
 
+  /**
+   * Disables the ability to navigate to steps by clicking on the step bar
+   */
+  @Input() disableStepSelection;
+
+
   @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;
 
   /**
@@ -57,12 +64,12 @@ export class UsaStepIndicatorComponent implements OnChanges {
   /**
    * All possible steps
    */
-  @Input() steps: any[];
+  @Input() steps: UsaStepIndicatorModel[];
 
-  @Output() currentStepChange = new EventEmitter();
+  @Output() currentStepChange = new EventEmitter<number>();
 
   constructor(
-    config: StepIndicatorConfig,
+    config: UsaStepIndicatorConfig,
     private elementRef: ElementRef,
   ) { 
     this.hideLabels = config.hideLabels;
@@ -70,6 +77,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
     this.displayCounters = config.displayCounters;
     this.smallCounters = config.smallCounters;
     this.headerPosition = config.headerPosition;
+    this.disableStepSelection = config.disableStepSelection;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -82,7 +90,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
   }
 
   onStepClicked(stepIndex: number, step: any) {
-    if (step.disabled) {
+    if (step.disabled || this.disableStepSelection) {
       return;
     }
 

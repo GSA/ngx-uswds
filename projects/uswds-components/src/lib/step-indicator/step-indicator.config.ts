@@ -7,7 +7,7 @@ import {Injectable} from '@angular/core';
  * to provide default values for all accordions used in the application.
  */
 @Injectable({providedIn: 'root'})
-export class StepIndicatorConfig {
+export class UsaStepIndicatorConfig {
   /**
    * Hides labels on each step when set to true
    * @default false
@@ -38,5 +38,10 @@ export class StepIndicatorConfig {
    * String value of 'top' represents above while 'bottom' represents below
    * @default bottom
    */
-  headerPosition: 'top' | 'bottom' = 'bottom'
+  headerPosition: 'top' | 'bottom' = 'bottom';
+
+  /**
+   * Disable the ability to click on specific step segments in step indicator
+   */
+  disableStepSelection = false;
 }

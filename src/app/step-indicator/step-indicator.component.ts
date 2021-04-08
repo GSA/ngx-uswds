@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { UsaStepIndicatorModel, UsaStepIndicatorConfig } from 'uswds-components';
 
 @Component({
   selector: 'app-step-indicator',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StepIndicatorComponent {
 
-  steps = [
+  steps: UsaStepIndicatorModel[] = [
     {label: 'Step 1'},
     {label: 'Step 2'},
     {label: 'Step 3'},
@@ -16,7 +17,11 @@ export class StepIndicatorComponent {
 
   currentStep = 0;
 
-  constructor() { }
+  constructor(
+    config: UsaStepIndicatorConfig
+  ) { 
+    config.disableStepSelection = false;
+  }
 
   onNext() {
     this.currentStep++;

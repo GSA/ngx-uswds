@@ -182,7 +182,7 @@ export function getNextItemInList<T extends {disabled: boolean}>(currentIndex: n
  * @param delta - either 1 to get next item in positive direction or -1 to get next item in previous direction
  * @returns next focusable item's index
  */
- export function getNextItemIndexInList<T extends {disabled: boolean}>(currentIndex: number, allItems: T[], delta: 1 | -1) {
+ export function getNextItemIndexInList<T extends {disabled?: boolean}>(currentIndex: number, allItems: T[], delta: 1 | -1) {
   let nextItemIndex = ((currentIndex + delta) + allItems.length) % allItems.length;
 
   while(nextItemIndex != currentIndex) {
