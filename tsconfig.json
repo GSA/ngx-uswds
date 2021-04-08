@@ -9,12 +9,17 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es5",
     "module": "es2020",
     "lib": [
       "es2018",
       "dom"
     ],
+    "paths": {
+      "uswds-components": [
+        "projects/uswds-components/src/public-api.ts"
+      ]
+    },
     "rootDir": "."
   },
   "exclude": [

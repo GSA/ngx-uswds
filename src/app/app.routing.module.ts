@@ -25,12 +25,8 @@ import { LinkComponent } from "./link/link.component";
 import { LinkModule } from "./link/link.module";
 import { ListComponent } from "./list/list.component";
 import { ListModule } from "./list/list.module";
-import { PaginationComponent } from "./pagination/pagination.component";
-import { PaginationBasicModule } from "./pagination/pagination.module";
 import { ProcessListComponent } from "./process-list/process-list.component";
 import { ProcessListModule } from "./process-list/process-list.module";
-import { TableComponent } from "./table/table.component";
-import { TableModule } from "./table/table.module";
 
 
 const routes: Routes = [
@@ -88,16 +84,8 @@ const routes: Routes = [
     component: ListComponent
   },
   {
-    path: 'pagination',
-    component: PaginationComponent,
-  },
-  {
     path: 'process-list',
     component: ProcessListComponent,
-  },
-  {
-    path: 'table',
-    component: TableComponent,
   },
 ]
 @NgModule({
@@ -117,8 +105,6 @@ const routes: Routes = [
     LinkModule,
     ListModule,
     ProcessListModule,
-    PaginationBasicModule,
-    TableModule,
   ],
   exports: [
     RouterModule,

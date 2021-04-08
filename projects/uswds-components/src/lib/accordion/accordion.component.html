@@ -1,19 +1,15 @@
-<div class="usa-accordion" 
-  [ngClass]="{'usa-accordion--bordered': isBordered}"
-  [attr.role]="isMultiSelectable ? 'listbox' : undefined"
-  [attr.aria-multiselectable]="isMultiSelectable ? isMultiSelectable : undefined">
-  <ng-container *ngFor="let accordionItem of accordionItems">
-    <h4 class="usa-accordion__heading">
-      <button class="usa-accordion__button"
-        (click)="onAccordionClicked(accordionItem)"
-        [attr.aria-expanded]="accordionItem.expanded"
-        [attr.aria-controls]="accordionItem.id"
-        >
-        <ng-container *ngTemplateOutlet="accordionItem.itemHeaderTemplate"></ng-container>
+<ng-template ngFor let-panel [ngForOf]="panels">
+    <div role="heading" id="{{panel.id}}-header" class="usa-accordion__heading" [attr.aria-level]="headerLevel">
+      <button class="usa-accordion__button" [UsaAccordionToggle]="panel" (keyup)="onKeyUp($event, panel)">
+        {{panel.header}}<ng-template [ngTemplateOutlet]="panel.headerTpl?.templateRef"></ng-template>
       </button>
-    </h4>
-    <div [attr.id]="accordionItem.id" class="usa-accordion__content usa-prose" [hidden]="!accordionItem.expanded">
-      <ng-container *ngTemplateOutlet="accordionItem.itemContentTemplate"></ng-container>
     </div>
-  </ng-container>
-</div>
+    <section #panelContent id="{{panel.id}}" class="usa-accordion__content"
+      [@.disabled]="!animation"
+      [@bodyExpansion]="panel.isOpen ? 'expanded' : 'collapsed'"
+      (@bodyExpansion.start)="onBodyExpansionStart($event, panelContent)"
+      (@bodyExpansion.done)="onBodyExpansionEnd($event, panelContent)"
+      [attr.aria-labelledby]="panel.id + '-header'">
+        <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
+    </section>
+</ng-template>

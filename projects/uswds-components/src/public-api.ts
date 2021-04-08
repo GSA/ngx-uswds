@@ -3,9 +3,8 @@
  */
 
  // Accordion
-export * from './lib/accordion/accordion-content.component';
-export * from './lib/accordion/accordion-header.component';
-export * from './lib/accordion/accordion-item.component';
+export * from './lib/accordion/accordion-items';
+export * from './lib/accordion/accordion-toggle.directive';
 export * from './lib/accordion/accordion.component';
 export * from './lib/accordion/accordion.module';
 
