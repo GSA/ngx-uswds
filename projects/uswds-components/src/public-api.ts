@@ -73,3 +73,10 @@ export * from './lib/sidenav/sidenav.model';
 export * from './lib/sidenav/sidenav.component';
 export * from './lib/sidenav/sidenav.module';
 
+// Step Indicator
+export * from './lib/step-indicator/step-indicator.model';
+export * from './lib/step-indicator/step-indicator.config';
+export * from './lib/step-indicator/step-indicator.component';
+export * from './lib/step-indicator/step-indicator-header.component';
+export * from './lib/step-indicator/step-indicator.module';
+

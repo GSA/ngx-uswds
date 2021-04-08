@@ -27,6 +27,8 @@ import { ListComponent } from "./list/list.component";
 import { ListModule } from "./list/list.module";
 import { ProcessListComponent } from "./process-list/process-list.component";
 import { ProcessListModule } from "./process-list/process-list.module";
+import { StepIndicatorComponent } from "./step-indicator/step-indicator.component";
+import { StepIndicatorModule } from "./step-indicator/step-indicator.module";
 
 
 const routes: Routes = [
@@ -87,6 +89,10 @@ const routes: Routes = [
     path: 'process-list',
     component: ProcessListComponent,
   },
+  {
+    path: 'step-indicator',
+    component: StepIndicatorComponent,
+  },
 ]
 @NgModule({
   imports: [
@@ -105,6 +111,7 @@ const routes: Routes = [
     LinkModule,
     ListModule,
     ProcessListModule,
+    StepIndicatorModule
   ],
   exports: [
     RouterModule,

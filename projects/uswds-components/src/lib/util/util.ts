@@ -134,3 +134,64 @@ export function findLast<T>(array: Array<T>, predicate: (value: T, index: number
   }
   return null;
 }
+
+/**
+* Returns the the last element's index in the array where predicate is true, and null
+* otherwise.
+* @param array The source array to search in
+* @param predicate calls predicate once for each element of the array, in descending
+* order, until it finds one where predicate returns true. If such an element is found,
+* findLastIndex immediately returns that element's index. Otherwise, findLast returns -1.
+*/
+export function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: number, obj: T[]) => boolean): number {
+  let l = array.length;
+  while (l--) {
+      if (predicate(array[l], l, array))
+          return l;
+  }
+  return -1;
+}
+
+/**
+ * Gets the next focusable item in a list. It is expected that the items in the given list contain
+ * a disabled property such that disabled items are skipped when calculating next focusable item.
+ * @param currentIndex - Starting point from where to start checking
+ * @param allItems - all items in list
+ * @param delta - either 1 to get next item in positive direction or -1 to get next item in previous direction
+ * @returns next item
+ */
+export function getNextItemInList<T extends {disabled: boolean}>(currentIndex: number, allItems: T[], delta: 1 | -1) {
+  let nextItemIndex = ((currentIndex + delta) + allItems.length) % allItems.length;
+
+  while(nextItemIndex != currentIndex) {
+    if (!allItems[nextItemIndex].disabled) {
+      break;
+    }
+    
+    nextItemIndex = ((nextItemIndex + delta) + allItems.length) % allItems.length;    
+  }
+
+  return allItems[nextItemIndex];
+}
+
+/**
+ * Gets the next focusable item's index in a list. It is expected that the items in the given list contain
+ * a disabled property such that disabled items are skipped when calculating next focusable item.
+ * @param currentIndex - Starting point from where to start checking
+ * @param allItems - all items in list
+ * @param delta - either 1 to get next item in positive direction or -1 to get next item in previous direction
+ * @returns next focusable item's index
+ */
+ export function getNextItemIndexInList<T extends {disabled?: boolean}>(currentIndex: number, allItems: T[], delta: 1 | -1) {
+  let nextItemIndex = ((currentIndex + delta) + allItems.length) % allItems.length;
+
+  while(nextItemIndex != currentIndex) {
+    if (!allItems[nextItemIndex].disabled) {
+      break;
+    }
+    
+    nextItemIndex = ((nextItemIndex + delta) + allItems.length) % allItems.length;    
+  }
+
+  return nextItemIndex;
+}
