@@ -4,7 +4,7 @@ import {
   EventEmitter, Output, Renderer2 
 } from '@angular/core';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
-import { isString, findLast } from '../util/util';
+import { isString, findLast, getNextItemInList } from '../util/util';
 import { UsaPanel, UsaPanelChangeEvent } from './accordion-items';
 import { UsaAccordionConfig } from './accordion.config';
 import { AnimationEvent } from '@angular/animations';
@@ -172,7 +172,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
       case MicrosfotKeys.ArrowDown:
       case KeyCode.ArrowDown:
         this._getPanelElementHeaderButton(
-          this._getNextAccordion(panel, this.panels.toArray(), 1).id
+          this._getNextAccordion(panel, 1).id
         ).focus();
         $event.preventDefault();
         break;
@@ -180,10 +180,9 @@ export class UsaAccordionComponent implements AfterContentChecked  {
       case MicrosfotKeys.ArrowUp:
       case KeyCode.ArrowUp:
         this._getPanelElementHeaderButton(
-          this._getNextAccordion(panel, this.panels.toArray(), -1).id
+          this._getNextAccordion(panel, -1).id
         ).focus();
         $event.preventDefault();
-        break;
       case Key.Home:
       case MicrosfotKeys.Home:
       case KeyCode.Home:
@@ -222,19 +221,11 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     }
   }
 
-  private _getNextAccordion(currentPanel: UsaPanel, allPanels: UsaPanel[] , delta: 1 | -1) {
-    const currentPanelIndex = allPanels.indexOf(currentPanel);
-    let nextPanelIndex = ((currentPanelIndex + delta) + allPanels.length) % allPanels.length;
-
-    while(nextPanelIndex != currentPanelIndex) {
-      if (!allPanels[nextPanelIndex].disabled) {
-        break;
-      }
-
-      nextPanelIndex = ((nextPanelIndex + delta) + allPanels.length) % allPanels.length;    
-    }
-
-    return allPanels[nextPanelIndex];
+  private _getNextAccordion(currentPanel: UsaPanel, delta: 1 | -1) {
+    const allPanels = this.panels.toArray();
+    const currentIndex = allPanels.indexOf(currentPanel);
+    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);
+    return nextPanel
   }
 
   private _changeOpenState(panel: UsaPanel | null, nextState: boolean) {

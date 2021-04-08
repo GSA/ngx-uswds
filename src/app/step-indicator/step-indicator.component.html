@@ -1,0 +1,29 @@
+
+<usa-step-indicator [steps]="steps" [currentStep]="currentStep" (currentStepChange)="onStepChange($event)">
+  <h2 UsaStepHeader></h2>
+</usa-step-indicator>
+
+<usa-step-indicator [steps]="steps" [currentStep]="currentStep" (currentStepChange)="onStepChange($event)" [hideLabels]="true">
+  <h2 UsaStepHeader></h2>
+</usa-step-indicator>
+
+<usa-step-indicator [steps]="steps" [currentStep]="currentStep" (currentStepChange)="onStepChange($event)" [displayCounters]="true">
+  <h2 UsaStepHeader></h2>
+</usa-step-indicator>
+
+<usa-step-indicator [steps]="steps" [currentStep]="currentStep" (currentStepChange)="onStepChange($event)" [displayCounters]="true" [smallCounters]="true">
+  <h2 UsaStepHeader></h2>
+</usa-step-indicator>
+
+<usa-step-indicator [steps]="steps" [currentStep]="currentStep" (currentStepChange)="onStepChange($event)" [headerPosition]="'top'">
+  <h2 UsaStepHeader></h2>
+</usa-step-indicator>
+
+<ul class="usa-button-group">
+  <li class="usa-button-group__item">
+    <button class="usa-button usa-button--outline" (click)="onPrev()" [disabled]="currentStep === 0">Back</button>
+  </li>
+  <li class="usa-button-group__item">
+    <button class="usa-button" (click)="onNext()" [disabled]="currentStep === steps.length - 1">Next</button>
+  </li>
+</ul>

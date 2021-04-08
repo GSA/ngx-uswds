@@ -75,6 +75,11 @@ export class AppComponent implements OnInit {
       href: 'process-list',
       id: 13
     },
+    {
+      labelText: 'Step Indicator',
+      href: 'step-indicator',
+      id: 14
+    },
   ];
 
   selectedItem: SidenavModel;

@@ -1,0 +1,38 @@
+<div class="usa-step-indicator" aria-label="progress">
+
+  <div *ngIf="headerPosition === 'top'" class="usa-step-indicator__header">
+    <ng-container *ngTemplateOutlet="headerTemplate" ></ng-container>
+  </div>
+
+  <div class="usa-step-indicator__segments" role="tablist" [attr.id]="id">
+    <a *ngFor="let step of steps; index as i"
+      role="tab"
+      tabindex="0"
+      class="usa-step-indicator__segment"
+      [attr.id]=""
+      [disabled]="step.disabled"
+      (click)="onStepClicked(i, step)"
+      (keyup.enter)="onStepClicked(i, step)"
+      (keyup)="onKeyUp($event, i)"
+      [ngClass]="{
+        'usa-step-indicator__segment--complete': i < currentStep,
+        'usa-step-indicator__segment--current': i === currentStep,
+        'cursor-pointer': !step.disabled
+      }"
+      [attr.aria-current]="i == currentStep ? true : undefined"
+      [attr.aria-selected]="i == currentStep ? true : undefined"
+      >
+      <span class="usa-step-indicator__segment-label">{{step.label}}
+        <span class="usa-sr-only">{{i < currentStep ? 'completed' : i > currentStep ? 'not completed' : ''}}</span>
+      </span>
+    </a>
+  </div>
+
+  <div *ngIf="headerPosition === 'bottom'" class="usa-step-indicator__header">
+    <ng-container *ngTemplateOutlet="headerTemplate" ></ng-container>
+  </div>
+</div>
+
+<ng-template #headerTemplate>
+  <ng-content select="[UsaStepHeader]"></ng-content>
+</ng-template>
