@@ -63,8 +63,6 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
   /**
    * Event emitted right before the panel toggle happens.
-   *
-   * See [NgbPanelChangeEvent](#/components/accordion/api#NgbPanelChangeEvent) for payload details.
    */
   @Output() panelChange = new EventEmitter<UsaPanelChangeEvent>();
 

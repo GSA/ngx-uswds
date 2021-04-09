@@ -74,9 +74,7 @@ export class UsaPanel implements AfterContentChecked {
   initClassDone = false;
 
   /**
-   *  The panel title.
-   *
-   *  You can alternatively use [`NgbPanelTitle`] to set panel title.
+   *  The panel header.
    */
   @Input() header: string;
 
