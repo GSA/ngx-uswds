@@ -9,6 +9,7 @@
       </button>
     </div>
     <section #panelContent id="{{panel.id}}" class="usa-accordion__content"
+      class="overflow-hidden"
       [@.disabled]="!animation"
       [@bodyExpansion]="panel.isOpen ? 'expanded' : 'collapsed'"
       (@bodyExpansion.start)="onBodyExpansionStart($event, panelContent)"
