@@ -9,10 +9,10 @@
       role="tab"
       [attr.tabindex]="step.disabled || disableStepSelection ? undefined : 0"
       class="usa-step-indicator__segment"
-      [attr.id]=""
+      [attr.id]="id + '-' + i"
       (click)="onStepClicked(i, step)"
       (keyup.enter)="onStepClicked(i, step)"
-      (keyup)="onKeyUp($event, i)"
+      (keydown)="onKeyDown($event, i)"
       [ngClass]="{
         'usa-step-indicator__segment--complete': i < currentStep,
         'usa-step-indicator__segment--current': i === currentStep,

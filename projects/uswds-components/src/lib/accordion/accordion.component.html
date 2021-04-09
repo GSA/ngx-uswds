@@ -1,7 +1,11 @@
 <ng-template ngFor let-panel [ngForOf]="panels">
     <div role="heading" id="{{panel.id}}-header" class="usa-accordion__heading" [attr.aria-level]="headerLevel">
-      <button class="usa-accordion__button" [UsaAccordionToggle]="panel" (keyup)="onKeyUp($event, panel)">
-        {{panel.header}}<ng-template [ngTemplateOutlet]="panel.headerTpl?.templateRef"></ng-template>
+      <button class="usa-accordion__button"
+        [UsaAccordionToggle]="panel"
+        (keydown)="onKeyDown($event, panel)" 
+        >
+        {{panel.header}}
+        <ng-template [ngTemplateOutlet]="panel.headerTpl?.templateRef"></ng-template>
       </button>
     </div>
     <section #panelContent id="{{panel.id}}" class="usa-accordion__content"

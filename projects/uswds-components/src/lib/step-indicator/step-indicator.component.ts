@@ -97,7 +97,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
     this.currentStepChange.emit(stepIndex);
   }
 
-  onKeyUp(event: KeyboardEvent, index: number) {
+  onKeyDown(event: KeyboardEvent, index: number) {
     const keyPressed = event.key || event.keyCode;
     let nextStepIndex: number;
     switch(keyPressed) {

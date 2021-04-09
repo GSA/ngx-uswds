@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component } from "@angular/core";
+import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { BrowserAnimationsModule, NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UsaPanelChangeEvent } from "./accordion-items";
 import { UsaAccordionComponent } from "./accordion.component";
 import { UsaAccordionConfig } from "./accordion.config";

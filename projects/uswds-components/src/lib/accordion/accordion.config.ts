@@ -10,7 +10,7 @@ import {Injectable} from '@angular/core';
 export class UsaAccordionConfig {
   singleSelect = false;
   bordered: boolean;
-
+  headerLevel: 2 | 3 | 4 | 5 | 6 = 4;
   private _animation: boolean = true;
 
   get animation(): boolean { return this._animation; }

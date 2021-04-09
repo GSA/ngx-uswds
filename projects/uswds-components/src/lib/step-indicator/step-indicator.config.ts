@@ -25,7 +25,7 @@ export class UsaStepIndicatorConfig {
    * Displays step counters in between each step
    * @default true
    */
-  displayCounters: boolean = true;
+  displayCounters: boolean = false;
 
   /**
    * Shrinks the size of counters if they are displayed

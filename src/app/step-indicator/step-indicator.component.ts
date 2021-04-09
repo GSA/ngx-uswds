@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UsaStepIndicatorModel, UsaStepIndicatorConfig } from 'uswds-components';
+import { UsaStepIndicatorModel } from 'uswds-components';
 
 @Component({
   selector: 'app-step-indicator',
@@ -7,32 +7,102 @@ import { UsaStepIndicatorModel, UsaStepIndicatorConfig } from 'uswds-components'
 })
 export class StepIndicatorComponent {
 
-  steps: UsaStepIndicatorModel[] = [
+  stepsDefault: UsaStepIndicatorModel[] = [
     {label: 'Step 1'},
     {label: 'Step 2'},
     {label: 'Step 3'},
-    {label: 'Step 4', disabled: true},
+    {label: 'Step 4'},
     {label: 'Step 5'},
   ];
 
-  currentStep = 0;
+  currentStepDefault = 0;
 
-  constructor(
-    config: UsaStepIndicatorConfig
-  ) { 
-    config.disableStepSelection = false;
-  }
+  /** Hide Labels */
+  stepsHideLabels: UsaStepIndicatorModel[] = [
+    {label: 'Step 1'},
+    {label: 'Step 2'},
+    {label: 'Step 3'},
+    {label: 'Step 4'},
+    {label: 'Step 5'},
+  ];
 
-  onNext() {
-    this.currentStep++;
-  }
+  currentStepHideLabel = 0;
 
-  onPrev() {
-    this.currentStep--;
-  }
+  /** Center Labels */
+  stepsCenterLabels: UsaStepIndicatorModel[] = [
+    {label: 'Step 1'},
+    {label: 'Step 2'},
+    {label: 'Step 3'},
+    {label: 'Step 4'},
+    {label: 'Step 5'},
+  ];
 
-  onStepChange(stepIndex: number) {
-    this.currentStep = stepIndex;
-  }
+  currentStepCenterLabel = 0;
+
+  /** Display Counters */
+  stepsShowCounters: UsaStepIndicatorModel[] = [
+    {label: 'Step 1'},
+    {label: 'Step 2'},
+    {label: 'Step 3'},
+    {label: 'Step 4'},
+    {label: 'Step 5'},
+  ];
+
+  currentStepShowCounters = 0;
+
+  /** Display Counters Small */
+  stepsShowCountersSmall: UsaStepIndicatorModel[] = [
+    {label: 'Step 1'},
+    {label: 'Step 2'},
+    {label: 'Step 3'},
+    {label: 'Step 4'},
+    {label: 'Step 5'},
+  ];
+
+  currentStepShowCountersSmall = 0;
+
+  /** Display Header Top */
+  stepsHeaderTop: UsaStepIndicatorModel[] = [
+    {label: 'Step 1'},
+    {label: 'Step 2'},
+    {label: 'Step 3'},
+    {label: 'Step 4'},
+    {label: 'Step 5'},
+  ];
+
+  currentStepHeaderTop = 0;
+
+  /** Disable Step Selection */
+  stepsDisableSingleStep: UsaStepIndicatorModel[] = [
+    {label: 'Step 1'},
+    {label: 'Step 2'},
+    {label: 'Step 3'},
+    {label: 'Step 4'},
+    {label: 'Step 5', disabled: true},
+  ];
+
+  currentStepDisableSingle = 0;
+
+  /** Disable Step Selection */
+  stepsDisableSelection: UsaStepIndicatorModel[] = [
+    {label: 'Step 1'},
+    {label: 'Step 2'},
+    {label: 'Step 3'},
+    {label: 'Step 4'},
+    {label: 'Step 5'},
+  ];
+
+  currentStepDisableSelection = 0;
+
+  /** Disable Step Selection */
+  stepsCustomHeader: UsaStepIndicatorModel[] = [
+    {label: 'Step 1'},
+    {label: 'Step 2'},
+    {label: 'Step 3'},
+    {label: 'Step 4'},
+    {label: 'Step 5'},
+  ];
+
+  currentStepCustomHeader = 0;
 
 }

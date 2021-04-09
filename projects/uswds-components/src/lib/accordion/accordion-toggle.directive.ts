@@ -17,6 +17,7 @@ import { UsaAccordionComponent } from "./accordion.component";
     '[attr.aria-expanded]': 'panel.isOpen',
     '[attr.aria-controls]': 'panel.isOpen ? panel.id : undefined',
     '[attr.aria-disabled]': 'panel.disabled && panel.isOpen ? true : undefined',
+    '[attr.aria-label]': 'panel.ariaLabel',
     '(click)': 'accordion.toggle(panel.id)',
   }
 })

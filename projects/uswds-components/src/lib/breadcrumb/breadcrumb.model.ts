@@ -3,5 +3,5 @@ export interface USWDSBreadcrumbModel {
   id: any;
   href?: string;
   ariaLabel?: string;
-  optionalData?: any
+  [propName: string]: any;
 }

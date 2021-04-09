@@ -17,8 +17,10 @@ import { UsaExpansionAnimations } from './accordion-animations';
   animations: [UsaExpansionAnimations.bodyExpansion],
   host: {
     'class': 'usa-accordion',
-    '[class.usa-accordion--bordered]': 'bordered', 
-    '[attr.aria-multiselectable]': '!singleSelect'},
+    '[class.usa-accordion--bordered]': 'bordered',
+    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',
+    'role': 'tablist',
+  },
 })
 export class UsaAccordionComponent implements AfterContentChecked  {
 
@@ -57,7 +59,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   /**
    * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.
    */
-  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;
+  @Input() headerLevel: 2 | 3 | 4 | 5 | 6;
 
   /**
    * Event emitted right before the panel toggle happens.
@@ -89,6 +91,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     this.animation = config.animation;
     this.bordered = config.bordered;
     this.singleSelect = config.singleSelect;
+    this.headerLevel = config.headerLevel;
   }
 
   /**
@@ -165,7 +168,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     }
   }
 
-  onKeyUp($event: KeyboardEvent, panel: UsaPanel) {
+  onKeyDown($event: KeyboardEvent, panel: UsaPanel) {
     const keyPressed = $event.key || $event.keyCode;
     switch(keyPressed) {
       case Key.ArrowDown:
@@ -183,6 +186,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
           this._getNextAccordion(panel, -1).id
         ).focus();
         $event.preventDefault();
+        break;
       case Key.Home:
       case MicrosfotKeys.Home:
       case KeyCode.Home:

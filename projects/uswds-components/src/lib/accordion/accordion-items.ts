@@ -89,6 +89,14 @@ export class UsaPanel implements AfterContentChecked {
   @Input() cardClass: string;
 
   /**
+   * Defines the aria label for accordion header button. Generally if the header is a text, then this is
+   * not needed as screen readers can announce the text. However, if the header is a custom template
+   * with items that screen readers cannot compute (icons / images), then having a descriptive label can
+   * help
+   */
+  @Input() ariaLabel: string;
+
+  /**
    * An event emitted when the panel is shown, after the transition. It has no payload.
    *
    * @since 8.0.0

@@ -122,7 +122,7 @@ describe('StepIndicatorComponent', () => {
     allSteps[0].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keyup',{
+    const event = new KeyboardEvent('keydown',{
       key: Key.ArrowRight
     });
 
@@ -141,7 +141,7 @@ describe('StepIndicatorComponent', () => {
     allSteps[0].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keyup',{
+    const event = new KeyboardEvent('keydown',{
       key: Key.ArrowRight
     });
 
@@ -157,7 +157,7 @@ describe('StepIndicatorComponent', () => {
     allSteps[0].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keyup',{
+    const event = new KeyboardEvent('keydown',{
       key: Key.ArrowLeft
     });
 
@@ -176,7 +176,7 @@ describe('StepIndicatorComponent', () => {
     allSteps[0].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keyup',{
+    const event = new KeyboardEvent('keydown',{
       key: Key.ArrowLeft
     });
 
@@ -192,7 +192,7 @@ describe('StepIndicatorComponent', () => {
     allSteps[2].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keyup',{
+    const event = new KeyboardEvent('keydown',{
       key: Key.Home
     });
 
@@ -212,7 +212,7 @@ describe('StepIndicatorComponent', () => {
     allSteps[3].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keyup',{
+    const event = new KeyboardEvent('keydown',{
       key: Key.Home
     });
 
@@ -228,7 +228,7 @@ describe('StepIndicatorComponent', () => {
     allSteps[2].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keyup',{
+    const event = new KeyboardEvent('keydown',{
       key: Key.End
     });
 
@@ -248,7 +248,7 @@ describe('StepIndicatorComponent', () => {
     allSteps[2].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keyup',{
+    const event = new KeyboardEvent('keydown',{
       key: Key.End
     });
 
