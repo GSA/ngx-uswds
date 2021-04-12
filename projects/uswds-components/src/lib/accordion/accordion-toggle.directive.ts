@@ -1,5 +1,5 @@
 import { Directive, Host, Input, Optional } from "@angular/core";
-import { UsaPanel } from "./accordion-items";
+import { UsaAccordionItem } from "./accordion-items";
 import { UsaAccordionComponent } from "./accordion.component";
 
 /**
@@ -22,14 +22,14 @@ import { UsaAccordionComponent } from "./accordion.component";
   }
 })
 export class UsaAccordionToggle {
-  static ngAcceptInputType_UsaAccordionToggle: UsaPanel | '';
+  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';
 
   @Input()
-  set UsaAccordionToggle(panel: UsaPanel) {
+  set UsaAccordionToggle(panel: UsaAccordionItem) {
     if (panel) {
       this.panel = panel;
     }
   }
 
-  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaPanel) { }
+  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }
 }

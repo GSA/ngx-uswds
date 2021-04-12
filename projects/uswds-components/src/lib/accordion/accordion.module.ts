@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { 
   UsaAccordionContent, 
   UsaAccordionHeader, 
-  UsaPanel
+  UsaAccordionItem
 } from "./accordion-items";
 import { UsaAccordionToggle } from "./accordion-toggle.directive";
 import { UsaAccordionComponent } from "./accordion.component";
@@ -17,14 +17,14 @@ import { UsaAccordionComponent } from "./accordion.component";
     UsaAccordionHeader,
     UsaAccordionContent,
     UsaAccordionToggle,
-    UsaPanel
+    UsaAccordionItem
   ],
   exports: [
     UsaAccordionComponent,
     UsaAccordionHeader,
     UsaAccordionContent,
     UsaAccordionToggle,
-    UsaPanel
+    UsaAccordionItem
   ]
 })
 export class UsaAccordionModule {}

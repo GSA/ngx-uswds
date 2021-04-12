@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 import { isString, findLast, getNextItemInList } from '../util/util';
-import { UsaPanel, UsaPanelChangeEvent } from './accordion-items';
+import { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';
 import { UsaAccordionConfig } from './accordion.config';
 import { AnimationEvent } from '@angular/animations';
 import { UsaExpansionAnimations } from './accordion-animations';
@@ -24,7 +24,7 @@ import { UsaExpansionAnimations } from './accordion-animations';
 })
 export class UsaAccordionComponent implements AfterContentChecked  {
 
-  @ContentChildren(UsaPanel) panels: QueryList<UsaPanel>;
+  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;
 
   /**
    * If `true`, accordion will be animated.
@@ -64,7 +64,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   /**
    * Event emitted right before the panel toggle happens.
    */
-  @Output() panelChange = new EventEmitter<UsaPanelChangeEvent>();
+  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();
 
   /**
    * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.
@@ -146,7 +146,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   }
 
   /** Gets the expanded state string. */
-  _getExpandedState(panel: UsaPanel) {
+  _getExpandedState(panel: UsaAccordionItem) {
     return panel.isOpen ? 'expanded' : 'collapsed';
   }
 
@@ -166,7 +166,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     }
   }
 
-  onKeyDown($event: KeyboardEvent, panel: UsaPanel) {
+  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {
     const keyPressed = $event.key || $event.keyCode;
     switch(keyPressed) {
       case Key.ArrowDown:
@@ -223,14 +223,14 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     }
   }
 
-  private _getNextAccordion(currentPanel: UsaPanel, delta: 1 | -1) {
+  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {
     const allPanels = this.panels.toArray();
     const currentIndex = allPanels.indexOf(currentPanel);
     const nextPanel = getNextItemInList(currentIndex, allPanels, delta);
     return nextPanel
   }
 
-  private _changeOpenState(panel: UsaPanel | null, nextState: boolean) {
+  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {
     if (panel != null && !panel.disabled && panel.isOpen !== nextState) {
       let defaultPrevented = false;
 
@@ -256,7 +256,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     });
   }
 
-  private _findPanelById(panelId: string): UsaPanel | null { return this.panels.find(p => p.id === panelId) || null; }
+  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }
 
   private _updateActiveIds() {
     this.activeIds = this.panels.filter(panel => panel.isOpen && !panel.disabled).map(panel => panel.id);

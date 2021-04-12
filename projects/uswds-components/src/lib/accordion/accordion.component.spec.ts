@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { UsaPanelChangeEvent } from "./accordion-items";
+import { UsaAccordionChangeEvent } from "./accordion-items";
 import { UsaAccordionComponent } from "./accordion.component";
 import { UsaAccordionConfig } from "./accordion.config";
 import { UsaAccordionModule } from "./accordion.module";
@@ -99,10 +99,10 @@ class TestComponent {
     {id: 'two', disabled: false, header: 'Panel 2', content: 'bar'},
     {id: 'three', disabled: false, header: 'Panel 3', content: 'baz'}
   ];
-  changeCallback = (event: UsaPanelChangeEvent) => {};
+  changeCallback = (event: UsaAccordionChangeEvent) => {};
   shownCallback = (panelId: string) => {};
   hiddenCallback = (panelId: string) => {};
   panelShownCallback = (panelId?: string) => {};
   panelHiddenCallback = (panelId?: string) => {};
-  preventDefaultCallback = (event: UsaPanelChangeEvent) => { event.preventDefault(); };
+  preventDefaultCallback = (event: UsaAccordionChangeEvent) => { event.preventDefault(); };
 }

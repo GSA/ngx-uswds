@@ -14,7 +14,7 @@ let nextId = 0;
 /**
  * An event emitted right before toggling an accordion panel.
  */
- export interface UsaPanelChangeEvent {
+ export interface UsaAccordionChangeEvent {
   /**
    * The id of the accordion panel being toggled.
    */
@@ -54,8 +54,8 @@ export class UsaAccordionHeader {
 /**
  * A directive that wraps an individual accordion panel with title and collapsible content.
  */
-@Directive({ selector: 'usa-panel' })
-export class UsaPanel implements AfterContentChecked {
+@Directive({ selector: 'usa-accordion-item' })
+export class UsaAccordionItem implements AfterContentChecked {
   /**
    *  If `true`, the panel is disabled an can't be toggled.
    */
@@ -66,7 +66,7 @@ export class UsaPanel implements AfterContentChecked {
    *
    *  If not provided, it will be auto-generated in the `usa-panel-xxx` format.
    */
-  @Input() id = `usa-panel-${nextId++}`;
+  @Input() id = `usa-accordion-item-${nextId++}`;
 
   isOpen = false;
 
