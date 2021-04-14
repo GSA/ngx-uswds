@@ -80,6 +80,11 @@ export class AppComponent implements OnInit {
       href: 'step-indicator',
       id: 14
     },
+    {
+      labelText: 'Modal',
+      href: 'modal',
+      id: 15
+    },
   ];
 
   selectedItem: SidenavModel;
