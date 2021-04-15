@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {NgModule} from '@angular/core';
 
 import { UsaModal } from './modal';
@@ -10,6 +11,9 @@ export {NgbModalRef, UsaActiveModal} from './modal-ref';
 export {ModalDismissReasons} from './modal-dismiss-reasons';
 
 @NgModule({
+  imports: [
+    CommonModule
+  ],
   declarations: [UsaModalBackdrop, NgbModalWindow],
   entryComponents: [UsaModalBackdrop, NgbModalWindow],
   providers: [ UsaModal ]

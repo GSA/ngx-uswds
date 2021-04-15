@@ -83,14 +83,10 @@ export interface UsaModalOptions {
   scrollable?: boolean;
 
   /**
-   * Size of a new modal window.
+   * Size of a new modal window. Default is 'sm'
    */
-  size?: 'sm' | 'lg' | 'xl' | string;
+  size?: 'sm' | 'lg';
 
-  /**
-   * A custom class to append to the modal window.
-   */
-  windowClass?: string;
 
   /**
    * A custom class to append to the modal dialog.
@@ -105,6 +101,11 @@ export interface UsaModalOptions {
    * @since 1.1.0
    */
   backdropClass?: string;
+
+  /**
+   * Display close button (true by default)
+   */
+  showClose?: boolean;
 }
 
 /**
@@ -126,10 +127,10 @@ export class UsaModalConfig implements Required<UsaModalOptions> {
   injector: Injector;
   keyboard = true;
   scrollable: boolean;
-  size: 'sm' | 'lg' | 'xl' | string;
-  windowClass: string;
+  size: 'sm' | 'lg';
   modalDialogClass: string;
   backdropClass: string;
+  showClose: boolean = true;
 
   private _animation: boolean;
 

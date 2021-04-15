@@ -30,7 +30,7 @@ export class NgbModalStack {
   private _modalRefs: NgbModalRef[] = [];
   private _windowAttributes = [
     'animation', 'ariaLabelledBy', 'ariaDescribedBy', 'backdrop', 'centered', 'keyboard', 'scrollable', 'size',
-    'windowClass'
+    'modalDialogClass', 'overlayElement', 'showClose'
   ];
   private _windowCmpts: ComponentRef<NgbModalWindow>[] = [];
   private _activeInstances: EventEmitter<NgbModalRef[]> = new EventEmitter();
@@ -132,6 +132,7 @@ export class NgbModalStack {
       ComponentRef<NgbModalWindow> {
     let windowFactory = moduleCFR.resolveComponentFactory(NgbModalWindow);
     let windowCmptRef = windowFactory.create(this._injector, contentRef.nodes);
+    windowCmptRef.instance.overlayElement = containerEl;
     this._applicationRef.attachView(windowCmptRef.hostView);
     containerEl.appendChild(windowCmptRef.location.nativeElement);
     return windowCmptRef;

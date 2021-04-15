@@ -12,7 +12,13 @@ export class ModalComponent {
   constructor(private modalService: UsaModal) {}
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title', 
+      showClose: false, 
+      size: 'lg',
+      backdrop: 'static',
+      modalDialogClass: 'usa-modal--full'
+    }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -24,7 +30,10 @@ export class ModalComponent {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
-    } else {
+    } else if (reason === ModalDismissReasons.CLOSE_CLICKED) {
+      return 'by clicking close button';
+    }
+    else {
       return `with: ${reason}`;
     }
   }

@@ -26,8 +26,9 @@ import {reflow} from '../util/util';
 @Component({
   selector: 'ngb-modal-window',
   host: {
-    'class': 'usa-modal',
+    '[class]': '"usa-modal" + (modalDialogClass ? " " + modalDialogClass : "")',
     '[class.fade]': 'animation',
+    '[class.usa-modal--lg]': 'size === \'lg\'',
     'role': 'dialog',
     'tabindex': '-1',
     '[attr.aria-modal]': 'true',
@@ -39,6 +40,10 @@ import {reflow} from '../util/util';
       <div class="usa-modal__main">
         <ng-content></ng-content>
       </div>
+
+      <button *ngIf="showClose" class="usa-button usa-modal__close" aria-label="Close this window" (click)="onCloseClicked()">
+        <img aria-hidden="true" focusable="false" src="assets/image/close.svg" style="width: 15px" class="margin-top-2 margin-right-2">
+      </button>
     </div>
     `,
   encapsulation: ViewEncapsulation.None,
@@ -58,8 +63,9 @@ export class NgbModalWindow implements OnInit,
   @Input() keyboard = true;
   @Input() scrollable: string;
   @Input() size: string;
-  @Input() windowClass: string;
   @Input() modalDialogClass: string;
+  @Input() overlayElement: Element;
+  @Input() showClose: boolean = true;
 
   @Output('dismiss') dismissEvent = new EventEmitter();
 
@@ -71,7 +77,7 @@ export class NgbModalWindow implements OnInit,
 
   dismiss(reason): void { this.dismissEvent.emit(reason); }
 
-  ngOnInit() { this._elWithFocus = this._document.activeElement; }
+  ngOnInit() { this._elWithFocus = this._document.activeElement; console.log(this) }
 
   ngAfterViewInit() { this._show(); }
 
@@ -95,6 +101,10 @@ export class NgbModalWindow implements OnInit,
     this._restoreFocus();
 
     return transitions$;
+  }
+
+  onCloseClicked() {
+    this.dismiss(ModalDismissReasons.CLOSE_CLICKED);
   }
 
   private _show() {
@@ -152,8 +162,8 @@ export class NgbModalWindow implements OnInit,
       // 1. clicking on modal dialog itself
       // 2. closing was prevented by mousedown/up handlers
       // 3. clicking on scrollbar when the viewport is too small and modal doesn't fit (click is not triggered at all)
-      fromEvent<MouseEvent>(nativeElement, 'click').pipe(takeUntil(this._closed$)).subscribe(({target}) => {
-        if (nativeElement === target) {
+      fromEvent<MouseEvent>(this.overlayElement, 'click').pipe(takeUntil(this._closed$)).subscribe(({target}) => {
+        if (this.overlayElement === target) {
           if (this.backdrop === 'static') {
             this._bumpBackdrop();
           } else if (this.backdrop === true && !preventClose) {
