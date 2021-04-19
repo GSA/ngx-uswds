@@ -1,7 +1,7 @@
 import {Injectable, Injector} from '@angular/core';
 
 /**
- * Options available when opening new modal windows with `NgbModal.open()` method.
+ * Options available when opening new modal windows with `UsaModal.open()` method.
  */
 export interface UsaModalOptions {
   /**
@@ -109,7 +109,6 @@ export interface UsaModalOptions {
 }
 
 /**
- * A configuration service for the [`NgbModal`](#/components/modal/api#NgbModal) service.
  *
  * You can inject this service, typically in your root component, and customize the values of its properties in
  * order to provide default values for all modals used in the application.

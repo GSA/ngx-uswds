@@ -5,29 +5,29 @@ import {getTransitionDurationMs} from './util';
 import {environment} from '../../environment';
 import {runInZone} from '../util';
 
-export type NgbTransitionStartFn<T = any> = (element: HTMLElement, animation: boolean, context: T) =>
-    NgbTransitionEndFn | void;
-export type NgbTransitionEndFn = () => void;
+export type UsaTransitionStartFn<T = any> = (element: HTMLElement, animation: boolean, context: T) =>
+    UsaTransitionEndFn | void;
+export type UsaTransitionEndFn = () => void;
 
-export interface NgbTransitionOptions<T> {
+export interface UsaTransitionOptions<T> {
   animation: boolean;
   runningTransition: 'continue' | 'stop';
   context?: T;
 }
 
-export interface NgbTransitionCtx<T> {
+export interface UsaTransitionCtx<T> {
   transition$: Subject<any>;
   complete: () => void;
   context: T;
 }
 
-const noopFn: NgbTransitionEndFn = () => {};
+const noopFn: UsaTransitionEndFn = () => {};
 
 const {transitionTimerDelayMs} = environment;
-const runningTransitions = new Map<HTMLElement, NgbTransitionCtx<any>>();
+const runningTransitions = new Map<HTMLElement, UsaTransitionCtx<any>>();
 
-export const ngbRunTransition =
-    <T>(zone: NgZone, element: HTMLElement, startFn: NgbTransitionStartFn<T>, options: NgbTransitionOptions<T>):
+export const usaRunTransition =
+    <T>(zone: NgZone, element: HTMLElement, startFn: UsaTransitionStartFn<T>, options: UsaTransitionOptions<T>):
         Observable<undefined> => {
 
           // Getting initial context from options
@@ -81,7 +81,7 @@ export const ngbRunTransition =
           // 1. We have to both listen for the 'transitionend' event and have a 'just-in-case' timer,
           // because 'transitionend' event might not be fired in some browsers, if the transitioning
           // element becomes invisible (ex. when scrolling, making browser tab inactive, etc.). The timer
-          // guarantees, that we'll release the DOM element and complete 'ngbRunTransition'.
+          // guarantees, that we'll release the DOM element and complete 'usaRunTransition'.
           // 2. We need to filter transition end events, because they might bubble from shorter transitions
           // on inner DOM elements. We're only interested in the transition on the 'element' itself.
           zone.runOutsideAngular(() => {
@@ -102,6 +102,6 @@ export const ngbRunTransition =
           return transition$.asObservable();
         };
 
-export const ngbCompleteTransition = (element: HTMLElement) => {
+export const usaCompleteTransition = (element: HTMLElement) => {
   runningTransitions.get(element) ?.complete();
 };

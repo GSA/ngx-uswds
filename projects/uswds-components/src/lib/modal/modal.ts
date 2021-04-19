@@ -1,8 +1,8 @@
 import {Injectable, Injector, ComponentFactoryResolver} from '@angular/core';
 
 import {UsaModalOptions, UsaModalConfig} from './modal-config';
-import {NgbModalRef} from './modal-ref';
-import {NgbModalStack} from './modal-stack';
+import {UsaModalRef} from './modal-ref';
+import {UsaModalStack} from './modal-stack';
 
 /**
  * A service for opening modal windows.
@@ -13,19 +13,17 @@ import {NgbModalStack} from './modal-stack';
 @Injectable({providedIn: 'root'})
 export class UsaModal {
   constructor(
-      private _moduleCFR: ComponentFactoryResolver, private _injector: Injector, private _modalStack: NgbModalStack,
+      private _moduleCFR: ComponentFactoryResolver, private _injector: Injector, private _modalStack: UsaModalStack,
       private _config: UsaModalConfig) {}
 
   /**
    * Opens a new modal window with the specified content and supplied options.
    *
    * Content can be provided as a `TemplateRef` or a component type. If you pass a component type as content,
-   * then instances of those components can be injected with an instance of the `NgbActiveModal` class. You can then
-   * use `NgbActiveModal` methods to close / dismiss modals from "inside" of your component.
-   *
-   * Also see the [`NgbModalOptions`](#/components/modal/api#NgbModalOptions) for the list of supported options.
+   * then instances of those components can be injected with an instance of the `UsaActiveModal` class. You can then
+   * use `UsaActiveModal` methods to close / dismiss modals from "inside" of your component.
    */
-  open(content: any, options: UsaModalOptions = {}): NgbModalRef {
+  open(content: any, options: UsaModalOptions = {}): UsaModalRef {
     const combinedOptions = {...this._config, animation: this._config.animation, ...options};
     return this._modalStack.open(this._moduleCFR, this._injector, content, combinedOptions);
   }

@@ -20,11 +20,13 @@ import {filter, switchMap, take, takeUntil, tap} from 'rxjs/operators';
 import {getFocusableBoundaryElements} from '../util/focus-trap';
 import { Key, KeyCode, MicrosfotKeys} from '../util/key';
 import {ModalDismissReasons} from './modal-dismiss-reasons';
-import {ngbRunTransition, NgbTransitionOptions} from '../util/transition/usaTransition';
-import {reflow} from '../util/util';
+import {usaRunTransition, UsaTransitionOptions} from '../util/transition/usaTransition';
+import { AnimationEvent } from '@angular/animations';
+import { usaDialogAnimations } from './modal-animations';
 
 @Component({
-  selector: 'ngb-modal-window',
+  selector: 'usa-modal-window',
+  animations: [usaDialogAnimations.dialogContainer],
   host: {
     '[class]': '"usa-modal" + (modalDialogClass ? " " + modalDialogClass : "")',
     '[class.fade]': 'animation',
@@ -33,7 +35,8 @@ import {reflow} from '../util/util';
     'tabindex': '-1',
     '[attr.aria-modal]': 'true',
     '[attr.aria-labelledby]': 'ariaLabelledBy',
-    '[attr.aria-describedby]': 'ariaDescribedBy'
+    '[attr.aria-describedby]': 'ariaDescribedBy',
+    '[@dialogContainer]': '_state',
   },
   template: `
     <div #dialog class="usa-modal__content">
@@ -48,10 +51,13 @@ import {reflow} from '../util/util';
     `,
   encapsulation: ViewEncapsulation.None,
 })
-export class NgbModalWindow implements OnInit,
+export class UsaModalWindow implements OnInit,
     AfterViewInit, OnDestroy {
   private _closed$ = new Subject<void>();
   private _elWithFocus: Element | null = null;  // element that is focused prior to modal opening
+
+  /** State of the dialog animation. */
+  _state: 'void' | 'enter' | 'slideEnter';
 
   @ViewChild('dialog', {static: true}) private _dialogEl: ElementRef<HTMLElement>;
 
@@ -72,12 +78,20 @@ export class NgbModalWindow implements OnInit,
   shown = new Subject<void>();
   hidden = new Subject<void>();
 
+  /** Emits when an animation state changes. */
+  _animationStateChanged = new EventEmitter<AnimationEvent>();
+
   constructor(
-      @Inject(DOCUMENT) private _document: any, private _elRef: ElementRef<HTMLElement>, private _zone: NgZone) {}
+      @Inject(DOCUMENT) private _document: any, 
+      private _elRef: ElementRef<HTMLElement>, 
+      private _zone: NgZone,
+    ) {
+      this._state = this.animation ? 'slideEnter' : 'enter';
+    }
 
   dismiss(reason): void { this.dismissEvent.emit(reason); }
 
-  ngOnInit() { this._elWithFocus = this._document.activeElement; console.log(this) }
+  ngOnInit() { this._elWithFocus = this._document.activeElement; }
 
   ngAfterViewInit() { this._show(); }
 
@@ -85,11 +99,11 @@ export class NgbModalWindow implements OnInit,
 
   hide(): Observable<any> {
     const {nativeElement} = this._elRef;
-    const context: NgbTransitionOptions<any> = {animation: this.animation, runningTransition: 'stop'};
+    const context: UsaTransitionOptions<any> = {animation: this.animation, runningTransition: 'stop'};
 
     const windowTransition$ =
-        ngbRunTransition(this._zone, nativeElement, () => nativeElement.classList.remove('show'), context);
-    const dialogTransition$ = ngbRunTransition(this._zone, this._dialogEl.nativeElement, () => {}, context);
+        usaRunTransition(this._zone, nativeElement, () => nativeElement.classList.remove('show'), context);
+    const dialogTransition$ = usaRunTransition(this._zone, this._dialogEl.nativeElement, () => {}, context);
 
     const transitions$ = zip(windowTransition$, dialogTransition$);
     transitions$.subscribe(() => {
@@ -108,16 +122,13 @@ export class NgbModalWindow implements OnInit,
   }
 
   private _show() {
-    const context: NgbTransitionOptions<any> = {animation: this.animation, runningTransition: 'continue'};
+    const context: UsaTransitionOptions<any> = {animation: this.animation, runningTransition: 'continue'};
 
     const windowTransition$ =
-        ngbRunTransition(this._zone, this._elRef.nativeElement, (element: HTMLElement, animation: boolean) => {
-          if (animation) {
-            reflow(element);
-          }
+        usaRunTransition(this._zone, this._elRef.nativeElement, (element: HTMLElement, animation: boolean) => {
           element.classList.add('show');
         }, context);
-    const dialogTransition$ = ngbRunTransition(this._zone, this._dialogEl.nativeElement, () => {}, context);
+    const dialogTransition$ = usaRunTransition(this._zone, this._dialogEl.nativeElement, () => {}, context);
 
     zip(windowTransition$, dialogTransition$).subscribe(() => {
       this.shown.next();
@@ -181,7 +192,7 @@ export class NgbModalWindow implements OnInit,
   private _setFocus() {
     const {nativeElement} = this._elRef;
     if (!nativeElement.contains(document.activeElement)) {
-      const autoFocusable = nativeElement.querySelector(`[ngbAutofocus]`) as HTMLElement;
+      const autoFocusable = nativeElement.querySelector(`[usaAutofocus]`) as HTMLElement;
       const firstFocusable = getFocusableBoundaryElements(nativeElement)[0];
 
       const elementToFocus = autoFocusable || firstFocusable || nativeElement;
@@ -207,7 +218,7 @@ export class NgbModalWindow implements OnInit,
 
   private _bumpBackdrop() {
     if (this.backdrop === 'static') {
-      ngbRunTransition(this._zone, this._elRef.nativeElement, ({classList}) => {
+      usaRunTransition(this._zone, this._elRef.nativeElement, ({classList}) => {
         classList.add('modal-static');
         return () => classList.remove('modal-static');
       }, {animation: this.animation, runningTransition: 'continue'});

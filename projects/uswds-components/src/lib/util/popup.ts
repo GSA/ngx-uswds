@@ -13,7 +13,7 @@ import {
 import {Observable, of} from 'rxjs';
 import {mergeMap, take, tap} from 'rxjs/operators';
 
-import {ngbRunTransition} from './transition/usaTransition';
+import {usaRunTransition} from './transition/usaTransition';
 
 export class ContentRef {
   constructor(public nodes: any[], public viewRef?: ViewRef, public componentRef?: ComponentRef<any>) {}
@@ -40,7 +40,7 @@ export class PopupService<T> {
     const {nativeElement} = this._windowRef.location;
     const transition$ = this._ngZone.onStable.pipe(
         take(1), mergeMap(
-                     () => ngbRunTransition(
+                     () => usaRunTransition(
                          this._ngZone, nativeElement, ({classList}) => classList.add('show'),
                          {animation, runningTransition: 'continue'})));
 
@@ -52,7 +52,7 @@ export class PopupService<T> {
       return of(undefined);
     }
 
-    return ngbRunTransition(
+    return usaRunTransition(
                this._ngZone, this._windowRef.location.nativeElement, ({classList}) => classList.remove('show'),
                {animation, runningTransition: 'stop'})
         .pipe(tap(() => {

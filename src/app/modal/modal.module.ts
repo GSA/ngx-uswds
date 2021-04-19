@@ -9,7 +9,7 @@ import { UsaModalModule } from 'uswds-components';
   declarations: [ModalComponent],
   imports: [
     CommonModule,
-    UsaModalModule
+    UsaModalModule,
   ],
   entryComponents: [
     ModalComponent,

@@ -4,7 +4,7 @@ import {Observable, of, Subject, zip} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 import { UsaModalBackdrop } from './modal-backdrop';
-import {NgbModalWindow} from './modal-window';
+import {UsaModalWindow} from './modal-window';
 
 import {ContentRef} from '../util/popup';
 
@@ -18,22 +18,22 @@ export class UsaActiveModal {
   /**
    * Closes the modal with an optional `result` value.
    *
-   * The `NgbModalRef.result` promise will be resolved with the provided value.
+   * The `UsaModalRef.result` promise will be resolved with the provided value.
    */
   close(result?: any): void {}
 
   /**
    * Dismisses the modal with an optional `reason` value.
    *
-   * The `NgbModalRef.result` promise will be rejected with the provided value.
+   * The `UsaModalRef.result` promise will be rejected with the provided value.
    */
   dismiss(reason?: any): void {}
 }
 
 /**
- * A reference to the newly opened modal returned by the `NgbModal.open()` method.
+ * A reference to the newly opened modal returned by the `UsaModal.open()` method.
  */
-export class NgbModalRef {
+export class UsaModalRef {
   private _closed = new Subject<any>();
   private _dismissed = new Subject<any>();
   private _hidden = new Subject<void>();
@@ -97,7 +97,7 @@ export class NgbModalRef {
   get shown(): Observable<void> { return this._windowCmptRef.instance.shown.asObservable(); }
 
   constructor(
-      private _windowCmptRef: ComponentRef<NgbModalWindow>, private _contentRef: ContentRef,
+      private _windowCmptRef: ComponentRef<UsaModalWindow>, private _contentRef: ContentRef,
       private _backdropCmptRef?: ComponentRef<UsaModalBackdrop>, private _beforeDismiss?: Function) {
     _windowCmptRef.instance.dismissEvent.subscribe((reason: any) => { this.dismiss(reason); });
 
@@ -111,7 +111,7 @@ export class NgbModalRef {
   /**
    * Closes the modal with an optional `result` value.
    *
-   * The `NgbMobalRef.result` promise will be resolved with the provided value.
+   * The `UsaMobalRef.result` promise will be resolved with the provided value.
    */
   close(result?: any): void {
     if (this._windowCmptRef) {
@@ -130,7 +130,7 @@ export class NgbModalRef {
   /**
    * Dismisses the modal with an optional `reason` value.
    *
-   * The `NgbModalRef.result` promise will be rejected with the provided value.
+   * The `UsaModalRef.result` promise will be rejected with the provided value.
    */
   dismiss(reason?: any): void {
     if (this._windowCmptRef) {
@@ -154,37 +154,26 @@ export class NgbModalRef {
   }
 
   private _removeModalElements() {
-    const windowTransition$ = this._windowCmptRef.instance.hide();
-    const backdropTransition$ = this._backdropCmptRef ? this._backdropCmptRef.instance.hide() : of(undefined);
 
-    // hiding window
-    windowTransition$.subscribe(() => {
-      const {nativeElement} = this._windowCmptRef.location;
+    if (this._backdropCmptRef) {
+      const {nativeElement} = this._backdropCmptRef.location;
       nativeElement.parentNode.removeChild(nativeElement);
-      this._windowCmptRef.destroy();
+      this._backdropCmptRef.destroy();
+      this._backdropCmptRef = <any>null;
+    }
 
-      if (this._contentRef && this._contentRef.viewRef) {
-        this._contentRef.viewRef.destroy();
-      }
+    const {nativeElement} = this._windowCmptRef.location;
+    nativeElement.parentNode.removeChild(nativeElement);
+    this._windowCmptRef.destroy();
 
-      this._windowCmptRef = <any>null;
-      this._contentRef = <any>null;
-    });
+    if (this._contentRef && this._contentRef.viewRef) {
+      this._contentRef.viewRef.destroy();
+    }
 
-    // hiding backdrop
-    backdropTransition$.subscribe(() => {
-      if (this._backdropCmptRef) {
-        const {nativeElement} = this._backdropCmptRef.location;
-        nativeElement.parentNode.removeChild(nativeElement);
-        this._backdropCmptRef.destroy();
-        this._backdropCmptRef = <any>null;
-      }
-    });
+    this._windowCmptRef = <any>null;
+    this._contentRef = <any>null;
 
-    // all done
-    zip(windowTransition$, backdropTransition$).subscribe(() => {
-      this._hidden.next();
-      this._hidden.complete();
-    });
+    this._hidden.next();
+    this._hidden.complete();
   }
 }
