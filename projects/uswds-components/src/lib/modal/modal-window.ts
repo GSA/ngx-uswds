@@ -14,7 +14,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import {fromEvent, Observable, Subject, zip} from 'rxjs';
+import {fromEvent, Subject} from 'rxjs';
 import {filter, switchMap, take, takeUntil, tap} from 'rxjs/operators';
 
 import {getFocusableBoundaryElements} from '../util/focus-trap';
@@ -65,9 +65,7 @@ export class UsaModalWindow implements OnInit,
   @Input() ariaLabelledBy: string;
   @Input() ariaDescribedBy: string;
   @Input() backdrop: boolean | string = true;
-  @Input() centered: string;
   @Input() keyboard = true;
-  @Input() scrollable: string;
   @Input() size: string;
   @Input() modalDialogClass: string;
   @Input() overlayElement: Element;
@@ -97,24 +95,11 @@ export class UsaModalWindow implements OnInit,
 
   ngOnDestroy() { this._disableEventHandling(); }
 
-  hide(): Observable<any> {
-    const {nativeElement} = this._elRef;
-    const context: UsaTransitionOptions<any> = {animation: this.animation, runningTransition: 'stop'};
-
-    const windowTransition$ =
-        usaRunTransition(this._zone, nativeElement, () => nativeElement.classList.remove('show'), context);
-    const dialogTransition$ = usaRunTransition(this._zone, this._dialogEl.nativeElement, () => {}, context);
-
-    const transitions$ = zip(windowTransition$, dialogTransition$);
-    transitions$.subscribe(() => {
-      this.hidden.next();
-      this.hidden.complete();
-    });
-
+  hide() {
     this._disableEventHandling();
     this._restoreFocus();
-
-    return transitions$;
+    this.hidden.next();
+    this.hidden.complete();
   }
 
   onCloseClicked() {
@@ -122,19 +107,6 @@ export class UsaModalWindow implements OnInit,
   }
 
   private _show() {
-    const context: UsaTransitionOptions<any> = {animation: this.animation, runningTransition: 'continue'};
-
-    const windowTransition$ =
-        usaRunTransition(this._zone, this._elRef.nativeElement, (element: HTMLElement, animation: boolean) => {
-          element.classList.add('show');
-        }, context);
-    const dialogTransition$ = usaRunTransition(this._zone, this._dialogEl.nativeElement, () => {}, context);
-
-    zip(windowTransition$, dialogTransition$).subscribe(() => {
-      this.shown.next();
-      this.shown.complete();
-    });
-
     this._enableEventHandling();
     this._setFocus();
   }
@@ -145,7 +117,6 @@ export class UsaModalWindow implements OnInit,
       fromEvent<KeyboardEvent>(nativeElement, 'keydown')
           .pipe(
               takeUntil(this._closed$),
-              // tslint:disable-next-line:deprecation
               filter(e => e.key === Key.Escape || e.key === MicrosfotKeys.Escape || e.which === KeyCode.Escape))
           .subscribe(event => {
             if (this.keyboard) {
@@ -154,13 +125,9 @@ export class UsaModalWindow implements OnInit,
                   this._zone.run(() => this.dismiss(ModalDismissReasons.ESC));
                 }
               });
-            } else if (this.backdrop === 'static') {
-              this._bumpBackdrop();
             }
           });
 
-      // We're listening to 'mousedown' and 'mouseup' to prevent modal from closing when pressing the mouse
-      // inside the modal dialog and releasing it outside
       let preventClose = false;
       fromEvent<MouseEvent>(this._dialogEl.nativeElement, 'mousedown')
           .pipe(
@@ -169,15 +136,9 @@ export class UsaModalWindow implements OnInit,
               filter(({target}) => nativeElement === target))
           .subscribe(() => { preventClose = true; });
 
-      // We're listening to 'click' to dismiss modal on modal window click, except when:
-      // 1. clicking on modal dialog itself
-      // 2. closing was prevented by mousedown/up handlers
-      // 3. clicking on scrollbar when the viewport is too small and modal doesn't fit (click is not triggered at all)
       fromEvent<MouseEvent>(this.overlayElement, 'click').pipe(takeUntil(this._closed$)).subscribe(({target}) => {
         if (this.overlayElement === target) {
-          if (this.backdrop === 'static') {
-            this._bumpBackdrop();
-          } else if (this.backdrop === true && !preventClose) {
+          if (this.backdrop === true && !preventClose) {
             this._zone.run(() => this.dismiss(ModalDismissReasons.BACKDROP_CLICK));
           }
         }
@@ -214,14 +175,5 @@ export class UsaModalWindow implements OnInit,
       setTimeout(() => elementToFocus.focus());
       this._elWithFocus = null;
     });
-  }
-
-  private _bumpBackdrop() {
-    if (this.backdrop === 'static') {
-      usaRunTransition(this._zone, this._elRef.nativeElement, ({classList}) => {
-        classList.add('modal-static');
-        return () => classList.remove('modal-static');
-      }, {animation: this.animation, runningTransition: 'continue'});
-    }
   }
 }

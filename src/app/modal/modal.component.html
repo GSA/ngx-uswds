@@ -1,17 +1,76 @@
-<ng-template #content let-modal>
-  <h2 class="usa-modal__heading" id="modal-1-heading">
-    Are you sure you want to continue?
-  </h2>
-  <div class="usa-prose">
-    <p id="modal-1-description">You have unsaved changes that will be lost.</p>
-  </div>
-  <div class="usa-modal__footer">
-    <button type="button" class="usa-button usa-button--outline" (click)="modal.close('Save click')">Save</button>
-  </div>
-</ng-template>
+<div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
+  <uswds-card-header>
+    <h2 class="usa-card__heading">
+      Default Modal
+    </h2>
+  </uswds-card-header>
+  <uswds-card-body>
+    <usa-modal-default></usa-modal-default>
+  </uswds-card-body>
+</div>
 
-<button class="usa-button" (click)="open(content)">Launch demo modal</button>
+<div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
+  <uswds-card-header>
+    <h2 class="usa-card__heading">
+      Large Modal
+    </h2>
+  </uswds-card-header>
+  <uswds-card-body>
+    <usa-modal-large></usa-modal-large>
+  </uswds-card-body>
+</div>
 
-<hr>
+<div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
+  <uswds-card-header>
+    <h2 class="usa-card__heading">
+      Forced Modal
+    </h2>
+  </uswds-card-header>
+  <uswds-card-body>
+    <usa-modal-forced></usa-modal-forced>
+  </uswds-card-body>
+</div>
 
-<pre>{{ closeResult }}</pre>
+<div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
+  <uswds-card-header>
+    <h2 class="usa-card__heading">
+      Component as Modal Content
+    </h2>
+  </uswds-card-header>
+  <uswds-card-body>
+    <usa-modal-component-wrapper></usa-modal-component-wrapper>
+  </uswds-card-body>
+</div>
+
+<div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
+  <uswds-card-header>
+    <h2 class="usa-card__heading">
+      Auto-focus Specific Item in Modal on Open
+    </h2>
+  </uswds-card-header>
+  <uswds-card-body>
+    <usa-modal-custom-focus></usa-modal-custom-focus>
+  </uswds-card-body>
+</div>
+
+<div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
+  <uswds-card-header>
+    <h2 class="usa-card__heading">
+      Modal with large content in body
+    </h2>
+  </uswds-card-header>
+  <uswds-card-body>
+    <usa-modal-scrollable></usa-modal-scrollable>
+  </uswds-card-body>
+</div>
+
+<div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
+  <uswds-card-header>
+    <h2 class="usa-card__heading">
+      Stacked Modal
+    </h2>
+  </uswds-card-header>
+  <uswds-card-body>
+    <usa-modal-stacked></usa-modal-stacked>
+  </uswds-card-body>
+</div>

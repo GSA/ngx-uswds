@@ -1,40 +1,6 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaModal } from 'uswds-components';
-
 @Component({
   selector: 'usa-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent {
-  closeResult = '';
-
-  constructor(private modalService: UsaModal) {}
-
-  open(content) {
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title', 
-      showClose: false, 
-      size: 'lg',
-      backdrop: 'static',
-      modalDialogClass: 'usa-modal--full'
-    }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else if (reason === ModalDismissReasons.CLOSE_CLICKED) {
-      return 'by clicking close button';
-    }
-    else {
-      return `with: ${reason}`;
-    }
-  }
-}
+export class ModalComponent {}

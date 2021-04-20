@@ -47,15 +47,6 @@ export interface UsaModalOptions {
   beforeDismiss?: () => boolean | Promise<boolean>;
 
   /**
-   * If `true`, the modal will be centered vertically.
-   *
-   * Default value is `false`.
-   *
-   * @since 1.1.0
-   */
-  centered?: boolean;
-
-  /**
    * A selector specifying the element all new modal windows should be appended to.
    * Since v5.3.0 it is also possible to pass the reference to an `HTMLElement`.
    *
@@ -76,13 +67,6 @@ export interface UsaModalOptions {
   keyboard?: boolean;
 
   /**
-   * Scrollable modal content (false by default).
-   *
-   * @since 5.0.0
-   */
-  scrollable?: boolean;
-
-  /**
    * Size of a new modal window. Default is 'sm'
    */
   size?: 'sm' | 'lg';
@@ -94,13 +78,6 @@ export interface UsaModalOptions {
    * @since 9.1.0
    */
   modalDialogClass?: string;
-
-  /**
-   * A custom class to append to the modal backdrop.
-   *
-   * @since 1.1.0
-   */
-  backdropClass?: string;
 
   /**
    * Display close button (true by default)
@@ -121,14 +98,11 @@ export class UsaModalConfig implements Required<UsaModalOptions> {
   ariaDescribedBy: string;
   backdrop: boolean | 'static' = true;
   beforeDismiss: () => boolean | Promise<boolean>;
-  centered: boolean;
   container: string;
   injector: Injector;
   keyboard = true;
-  scrollable: boolean;
   size: 'sm' | 'lg';
   modalDialogClass: string;
-  backdropClass: string;
   showClose: boolean = true;
 
   private _animation: boolean;

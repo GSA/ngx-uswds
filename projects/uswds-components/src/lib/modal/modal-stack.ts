@@ -70,7 +70,7 @@ export class UsaModalStack {
     const revertPaddingForScrollBar = this._scrollBar.compensate();
     const removeBodyClass = () => {
       if (!this._modalRefs.length) {
-        renderer.removeClass(this._document.body, 'modal-open');
+        renderer.removeClass(this._document.body, 'usa-js-modal--active');
         this._revertAriaHidden();
       }
     };
@@ -105,7 +105,7 @@ export class UsaModalStack {
 
     this._applyWindowOptions(windowCmptRef.instance, options);
     if (this._modalRefs.length === 1) {
-      renderer.addClass(this._document.body, 'modal-open');
+      renderer.addClass(this._document.body, 'usa-js-modal--active');
     }
 
     if (backdropCmptRef && backdropCmptRef.instance) {
@@ -192,9 +192,6 @@ export class UsaModalStack {
         Injector.create({providers: [{provide: UsaActiveModal, useValue: context}], parent: contentInjector});
     const componentRef = contentCmptFactory.create(modalContentInjector);
     const componentNativeEl = componentRef.location.nativeElement;
-    if (options.scrollable) {
-      (componentNativeEl as HTMLElement).classList.add('component-host-scrollable');
-    }
     this._applicationRef.attachView(componentRef.hostView);
     // FIXME: we should here get rid of the component nativeElement
     // and use `[Array.from(componentNativeEl.childNodes)]` instead and remove the above CSS class.

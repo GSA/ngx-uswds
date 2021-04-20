@@ -162,7 +162,8 @@ export class UsaModalRef {
       this._backdropCmptRef = <any>null;
     }
 
-    const {nativeElement} = this._windowCmptRef.location;
+    this._windowCmptRef.instance.hide();
+    const nativeElement = this._windowCmptRef.location.nativeElement;
     nativeElement.parentNode.removeChild(nativeElement);
     this._windowCmptRef.destroy();
 
