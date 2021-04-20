@@ -22,6 +22,7 @@ import { ModalDismissReasons, UsaModal, UsaModalRef } from "uswds-components";
       </ul>
     </div>
   </ng-template>
+  <div class="display-block margin-bottom-2"><code>usaAutoFocus</code> on element to recieve focus on open</div>
   <button class="usa-button" (click)="open(content)">Auto Focus 'Go Back' button on open</button>
   <hr>
   <pre>{{ closeResult }}</pre>

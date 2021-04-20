@@ -22,6 +22,7 @@ import { ModalDismissReasons, UsaModal, UsaModalRef } from "uswds-components";
       </ul>
   </div>
   </ng-template>
+  <code class="display-block margin-bottom-2">{{'{'}}showClose: false, backdrop: 'static', keyboard: false{{'}'}}</code>
   <button class="usa-button" (click)="open(content)">Launch Forced modal</button>
   <hr>
   <pre>{{ closeResult }}</pre>
@@ -38,7 +39,8 @@ export class ModalForcedComponent {
     this.modalRef = this.modalService.open(content, 
       {
         showClose: false,
-        backdrop: 'static'
+        backdrop: 'static',
+        keyboard: false,
       }
     );
     this.modalRef.result.then((result) => {

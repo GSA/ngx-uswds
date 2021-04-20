@@ -22,6 +22,7 @@ import { ModalDismissReasons, UsaModal, UsaModalRef } from "uswds-components";
         </ul>
     </div>
   </ng-template>
+  <code class="display-block margin-bottom-2">{{'{'}}size: 'lg'{{'}'}}</code>
   <button class="usa-button" (click)="open(content)">Launch Large modal</button>
   <hr>
   <pre>{{ closeResult }}</pre>
