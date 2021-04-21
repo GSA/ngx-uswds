@@ -47,14 +47,6 @@ export interface UsaModalOptions {
   beforeDismiss?: () => boolean | Promise<boolean>;
 
   /**
-   * A selector specifying the element all new modal windows should be appended to.
-   * Since v5.3.0 it is also possible to pass the reference to an `HTMLElement`.
-   *
-   * If not specified, will be `body`.
-   */
-  container?: string | HTMLElement;
-
-  /**
    * The `Injector` to use for modal content.
    */
   injector?: Injector;
@@ -98,15 +90,10 @@ export class UsaModalConfig implements Required<UsaModalOptions> {
   ariaDescribedBy: string;
   backdrop: boolean | 'static' = true;
   beforeDismiss: () => boolean | Promise<boolean>;
-  container: string;
   injector: Injector;
   keyboard = true;
   size: 'sm' | 'lg';
   modalDialogClass: string;
   showClose: boolean = true;
-
-  private _animation: boolean;
-
-  get animation(): boolean { return this._animation }
-  set animation(animation: boolean) { this._animation = animation; }
+  animation: boolean = true;
 }

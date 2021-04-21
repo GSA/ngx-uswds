@@ -18,7 +18,6 @@ import {ContentRef} from '../util/popup';
 import {ScrollBar} from '../util/scrollbar';
 import {isDefined, isString} from '../util/util';
 import {UsaModalBackdrop} from './modal-backdrop';
-import { UsaModalOptions } from './modal-config';
 import {UsaActiveModal, UsaModalRef} from './modal-ref';
 import {UsaModalWindow} from './modal-window';
 
@@ -26,18 +25,21 @@ import {UsaModalWindow} from './modal-window';
 export class UsaModalStack {
   private _activeWindowCmptHasChanged = new Subject();
   private _ariaHiddenValues: Map<Element, string | null> = new Map();
-  private _backdropAttributes = ['animation', 'backdropClass'];
   private _modalRefs: UsaModalRef[] = [];
   private _windowAttributes = [
-    'animation', 'ariaLabelledBy', 'ariaDescribedBy', 'backdrop', 'centered', 'keyboard', 'scrollable', 'size',
+    'animation', 'ariaLabelledBy', 'ariaDescribedBy', 'backdrop', 'keyboard', 'size',
     'modalDialogClass', 'overlayElement', 'showClose'
   ];
   private _windowCmpts: ComponentRef<UsaModalWindow>[] = [];
   private _activeInstances: EventEmitter<UsaModalRef[]> = new EventEmitter();
 
   constructor(
-      private _applicationRef: ApplicationRef, private _injector: Injector, @Inject(DOCUMENT) private _document: any,
-      private _scrollBar: ScrollBar, private _rendererFactory: RendererFactory2, private _ngZone: NgZone) {
+      private _applicationRef: ApplicationRef, 
+      private _injector: Injector, 
+      @Inject(DOCUMENT) private _document: any,
+      private _scrollBar: ScrollBar, 
+      private _rendererFactory: RendererFactory2, 
+      private _ngZone: NgZone) {
     // Trap focus on active WindowCmpt
     this._activeWindowCmptHasChanged.subscribe(() => {
       if (this._windowCmpts.length) {
@@ -50,24 +52,12 @@ export class UsaModalStack {
   }
 
   open(moduleCFR: ComponentFactoryResolver, contentInjector: Injector, content: any, options): UsaModalRef {
-    let containerEl = options.container;
-    let shouldRemoveContainer = false;
 
-    if (!containerEl && isDefined(options.container)) {
-      containerEl = this._document.querySelector(options.container);
-    }
-
-    if (!containerEl) {
-      let wrapperNode: Element = this._document.createElement("div");
-      wrapperNode.className = 'usa-modal-wrapper';
-      this._document.body.appendChild(wrapperNode);
-      containerEl = wrapperNode;
-      shouldRemoveContainer = true;
-    }
-  
     const renderer = this._rendererFactory.createRenderer(null, null);
+    let containerEl: Element = this._document.body;
 
     const revertPaddingForScrollBar = this._scrollBar.compensate();
+    
     const removeBodyClass = () => {
       if (!this._modalRefs.length) {
         renderer.removeClass(this._document.body, 'usa-js-modal--active');
@@ -75,30 +65,22 @@ export class UsaModalStack {
       }
     };
 
-    const removeContainer = () => {
-      if (shouldRemoveContainer) {
-        (this._document.body as Element).removeChild(containerEl);
-      }
-    }
-
-    if (!containerEl) {
-      throw new Error(`The specified modal container "${options.container || 'body'}" was not found in the DOM.`);
-    }
-
     const activeModal = new UsaActiveModal();
     const contentRef =
-        this._getContentRef(moduleCFR, options.injector || contentInjector, content, activeModal, options);
+        this._getContentRef(moduleCFR, options.injector || contentInjector, content, activeModal);
 
     let backdropCmptRef: ComponentRef<UsaModalBackdrop> | undefined =
         options.backdrop !== false ? this._attachBackdrop(moduleCFR, containerEl) : undefined;
-    let windowCmptRef: ComponentRef<UsaModalWindow> = this._attachWindowComponent(moduleCFR, backdropCmptRef.instance._el.nativeElement, contentRef);
+
+    const overlayRef: HTMLDivElement = backdropCmptRef.instance._el.nativeElement.querySelector('.usa-modal-overlay');
+
+    let windowCmptRef: ComponentRef<UsaModalWindow> = this._attachWindowComponent(moduleCFR, overlayRef, contentRef);
     let usaModalRef: UsaModalRef = new UsaModalRef(windowCmptRef, contentRef, backdropCmptRef, options.beforeDismiss);
 
     this._registerModalRef(usaModalRef);
     this._registerWindowCmpt(windowCmptRef);
     usaModalRef.result.then(revertPaddingForScrollBar, revertPaddingForScrollBar);
     usaModalRef.result.then(removeBodyClass, removeBodyClass);
-    usaModalRef.result.then(removeContainer, removeContainer);
     
     activeModal.close = (result: any) => { usaModalRef.close(result); };
     activeModal.dismiss = (reason: any) => { usaModalRef.dismiss(reason); };
@@ -108,9 +90,6 @@ export class UsaModalStack {
       renderer.addClass(this._document.body, 'usa-js-modal--active');
     }
 
-    if (backdropCmptRef && backdropCmptRef.instance) {
-      this._applyBackdropOptions(backdropCmptRef.instance, options);
-    }
     return usaModalRef;
   }
 
@@ -146,17 +125,8 @@ export class UsaModalStack {
     });
   }
 
-  private _applyBackdropOptions(backdropInstance: UsaModalBackdrop, options: Object): void {
-    this._backdropAttributes.forEach((optionName: string) => {
-      if (isDefined(options[optionName])) {
-        backdropInstance[optionName] = options[optionName];
-      }
-    });
-  }
-
   private _getContentRef(
-      moduleCFR: ComponentFactoryResolver, contentInjector: Injector, content: any, activeModal: UsaActiveModal,
-      options: UsaModalOptions): ContentRef {
+      moduleCFR: ComponentFactoryResolver, contentInjector: Injector, content: any, activeModal: UsaActiveModal): ContentRef {
     if (!content) {
       return new ContentRef([]);
     } else if (content instanceof TemplateRef) {
@@ -164,7 +134,7 @@ export class UsaModalStack {
     } else if (isString(content)) {
       return this._createFromString(content);
     } else {
-      return this._createFromComponent(moduleCFR, contentInjector, content, activeModal, options);
+      return this._createFromComponent(moduleCFR, contentInjector, content, activeModal);
     }
   }
 
@@ -185,8 +155,7 @@ export class UsaModalStack {
   }
 
   private _createFromComponent(
-      moduleCFR: ComponentFactoryResolver, contentInjector: Injector, content: any, context: UsaActiveModal,
-      options: UsaModalOptions): ContentRef {
+      moduleCFR: ComponentFactoryResolver, contentInjector: Injector, content: any, context: UsaActiveModal): ContentRef {
     const contentCmptFactory = moduleCFR.resolveComponentFactory(content);
     const modalContentInjector =
         Injector.create({providers: [{provide: UsaActiveModal, useValue: context}], parent: contentInjector});

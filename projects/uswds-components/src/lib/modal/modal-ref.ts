@@ -154,27 +154,26 @@ export class UsaModalRef {
   }
 
   private _removeModalElements() {
+    this._windowCmptRef.instance.hide().subscribe(() => {
+      if (this._backdropCmptRef) {
+        const {nativeElement} = this._backdropCmptRef.location;
+        nativeElement.parentNode.removeChild(nativeElement);
+        this._backdropCmptRef.destroy();
+        this._backdropCmptRef = <any>null;
+      }
 
-    if (this._backdropCmptRef) {
-      const {nativeElement} = this._backdropCmptRef.location;
+      const nativeElement = this._windowCmptRef.location.nativeElement;
       nativeElement.parentNode.removeChild(nativeElement);
-      this._backdropCmptRef.destroy();
-      this._backdropCmptRef = <any>null;
-    }
+      this._windowCmptRef.destroy();
+  
+      if (this._contentRef && this._contentRef.viewRef) {
+        this._contentRef.viewRef.destroy();
+      }
+      this._windowCmptRef = <any>null;
+      this._contentRef = <any>null;
 
-    this._windowCmptRef.instance.hide();
-    const nativeElement = this._windowCmptRef.location.nativeElement;
-    nativeElement.parentNode.removeChild(nativeElement);
-    this._windowCmptRef.destroy();
-
-    if (this._contentRef && this._contentRef.viewRef) {
-      this._contentRef.viewRef.destroy();
-    }
-
-    this._windowCmptRef = <any>null;
-    this._contentRef = <any>null;
-
-    this._hidden.next();
-    this._hidden.complete();
+      this._hidden.next();
+      this._hidden.complete();
+    });
   }
 }

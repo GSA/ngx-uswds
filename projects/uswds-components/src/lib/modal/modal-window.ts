@@ -14,15 +14,14 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import {fromEvent, Subject} from 'rxjs';
+import {fromEvent, Observable, Subject} from 'rxjs';
 import {filter, switchMap, take, takeUntil, tap} from 'rxjs/operators';
 
 import {getFocusableBoundaryElements} from '../util/focus-trap';
 import { Key, KeyCode, MicrosfotKeys} from '../util/key';
 import {ModalDismissReasons} from './modal-dismiss-reasons';
-import {usaRunTransition, UsaTransitionOptions} from '../util/transition/usaTransition';
-import { AnimationEvent } from '@angular/animations';
 import { usaDialogAnimations } from './modal-animations';
+import { AnimationEvent } from '@angular/animations';
 
 @Component({
   selector: 'usa-modal-window',
@@ -36,7 +35,9 @@ import { usaDialogAnimations } from './modal-animations';
     '[attr.aria-modal]': 'true',
     '[attr.aria-labelledby]': 'ariaLabelledBy',
     '[attr.aria-describedby]': 'ariaDescribedBy',
+    '[@.disabled]': '!animation',
     '[@dialogContainer]': '_state',
+    '(@dialogContainer.done)': '_onAnimationDone($event)',
   },
   template: `
     <div #dialog class="usa-modal__content">
@@ -57,7 +58,7 @@ export class UsaModalWindow implements OnInit,
   private _elWithFocus: Element | null = null;  // element that is focused prior to modal opening
 
   /** State of the dialog animation. */
-  _state: 'void' | 'enter' | 'slideEnter';
+  _state: 'void' | 'enter' | 'slideEnter' | 'exit' | 'slideExit';
 
   @ViewChild('dialog', {static: true}) private _dialogEl: ElementRef<HTMLElement>;
 
@@ -76,30 +77,36 @@ export class UsaModalWindow implements OnInit,
   shown = new Subject<void>();
   hidden = new Subject<void>();
 
-  /** Emits when an animation state changes. */
-  _animationStateChanged = new EventEmitter<AnimationEvent>();
+  _animationStateChanged = new Subject<void>();
 
   constructor(
       @Inject(DOCUMENT) private _document: any, 
       private _elRef: ElementRef<HTMLElement>, 
       private _zone: NgZone,
-    ) {
-      this._state = this.animation ? 'slideEnter' : 'enter';
-    }
+    ) {}
 
   dismiss(reason): void { this.dismissEvent.emit(reason); }
 
-  ngOnInit() { this._elWithFocus = this._document.activeElement; }
+  ngOnInit() { 
+    this._elWithFocus = this._document.activeElement;
+    this._state = this.animation ? 'slideEnter' : 'enter';
+  }
 
   ngAfterViewInit() { this._show(); }
 
   ngOnDestroy() { this._disableEventHandling(); }
 
-  hide() {
+  hide(): Observable<any> {
+
+    const exitAnimation$ = this._startExitAnimation();
+    exitAnimation$.subscribe(() => {
+      this.hidden.next();
+      this.hidden.complete();
+    });
+
     this._disableEventHandling();
     this._restoreFocus();
-    this.hidden.next();
-    this.hidden.complete();
+    return exitAnimation$;
   }
 
   onCloseClicked() {
@@ -175,5 +182,18 @@ export class UsaModalWindow implements OnInit,
       setTimeout(() => elementToFocus.focus());
       this._elWithFocus = null;
     });
+  }
+
+  private _startExitAnimation() {
+    this._state = this.animation ? 'slideExit' : 'exit';
+    return this._animationStateChanged.asObservable();
+  }
+
+  /** Callback, invoked whenever an animation on the host completes. */
+  private _onAnimationDone(event: AnimationEvent) {
+    if (event.toState === 'exit' || event.toState === 'slideExit') {
+      this._animationStateChanged.next();
+      this._animationStateChanged.complete();
+    }
   }
 }

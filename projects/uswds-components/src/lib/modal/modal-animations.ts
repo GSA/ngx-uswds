@@ -16,8 +16,19 @@ const animationBody = [
   ),
   transition('* => slideEnter', [
     style({right: '-15rem'}),
-    animate('1s', style({right: '0rem'}))
-  ])
+    animate('150ms', style({right: '0rem'}))
+  ]),
+
+  transition('* => void, * => exit', [
+    style({transform: 'none'}),
+    animate('75ms cubic-bezier(0.4, 0.0, 0.2, 1)',
+      style({opacity: 0})
+    )
+  ]),
+  transition('* => slideExit', [
+    style({right: '0rem'}),
+    animate('150ms', style({right: '-15rem'}))
+  ]),
 ];
 
 /**
