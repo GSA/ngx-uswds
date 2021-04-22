@@ -1,0 +1,35 @@
+<usa-accordion [headerLevel]="2" #dynamicAccordion>
+
+  <usa-accordion-item header="Simple Text Header" id="dynamicPanel1">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
+      officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 
+      wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+
+  <usa-accordion-item id="dynamicPanel2">
+    <ng-template UsaAccordionHeader>
+      <b class="text-primary">I am a <i>Template</i> Header</b>
+    </ng-template>
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
+      officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 
+      wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+
+  <usa-accordion-item header="Disabled Header" id="dynamicPanel3" [disabled]="true">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
+      officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 
+      wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+</usa-accordion>
+
+<div class="margin-top-2">
+  <button class="usa-button usa-button--outline" (click)="toggleAccordion('dynamicPanel1')">Toggle Panel 1</button>
+  <button class="usa-button usa-button--outline" (click)="toggleAccordion('dynamicPanel2')">Toggle Panel 2</button>
+  <button class="usa-button usa-button--outline" (click)="toggleAccordion('dynamicPanel3')">Toggle Panel 3</button>
+</div>

@@ -1,8 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AccordionComponent } from "./accordion/accordion.component";
-import { AccordionModule } from "./accordion/accordion.module";
 import { AlertComponent } from "./alert/alert.component";
 import { AlertModule } from "./alert/alert.module";
 import { BreadcrumbComponent } from "./breadcrumb/breadcrumb.component";
@@ -25,13 +23,12 @@ import { LinkComponent } from "./link/link.component";
 import { LinkModule } from "./link/link.module";
 import { ListComponent } from "./list/list.component";
 import { ListModule } from "./list/list.module";
-import { ModalComponent } from "./modal/modal.component";
-import { ModalModule } from "./modal/modal.module";
 import { ProcessListComponent } from "./process-list/process-list.component";
 import { ProcessListModule } from "./process-list/process-list.module";
 import { StepIndicatorComponent } from "./step-indicator/step-indicator.component";
 import { StepIndicatorModule } from "./step-indicator/step-indicator.module";
-
+import {AccordionModule, ROUTES as ACCORDION_ROUTES} from './accordion/accordion.module';
+import { ModalModule,  ROUTES as MODAL_ROUTES } from "./modal/modal.module";
 
 const routes: Routes = [
   {
@@ -41,7 +38,7 @@ const routes: Routes = [
   },
   {
     path: 'accordion',
-    component: AccordionComponent
+    children: ACCORDION_ROUTES
   },
   {
     path: 'alert',
@@ -97,7 +94,7 @@ const routes: Routes = [
   },
   {
     path: 'modal',
-    component: ModalComponent,
+    children: MODAL_ROUTES,
   },
 ]
 @NgModule({

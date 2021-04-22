@@ -1,0 +1,33 @@
+<span class="display-block margin-bottom-2">You can listen for <code>panelChange</code> event 
+  and prevent it from opening if needed</span>
+<usa-accordion [headerLevel]="2" (panelChange)="beforePanelChange($event)">
+  <usa-accordion-item header="Simple Text Header" id="panelToggle1">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+
+  <usa-accordion-item id="panelToggle2" header="Accordion Cannot Be Toggled">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+
+  <usa-accordion-item header="Accordion can be opened, but not closed" id="panelToggle3">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+</usa-accordion>

@@ -52,7 +52,7 @@ export class ModalScrollableComponent {
   constructor(private modalService: UsaModal) {}
 
   open(content) {
-    this.modalRef = this.modalService.open(content)
+    this.modalRef = this.modalService.open(content);
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

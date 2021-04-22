@@ -13,8 +13,11 @@ import {UsaModalStack} from './modal-stack';
 @Injectable({providedIn: 'root'})
 export class UsaModal {
   constructor(
-      private _moduleCFR: ComponentFactoryResolver, private _injector: Injector, private _modalStack: UsaModalStack,
-      private _config: UsaModalConfig) {}
+    private _moduleCFR: ComponentFactoryResolver, 
+    private _injector: Injector, 
+    private _modalStack: UsaModalStack,
+    private _config: UsaModalConfig
+  ) {}
 
   /**
    * Opens a new modal window with the specified content and supplied options.

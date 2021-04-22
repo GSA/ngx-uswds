@@ -2,9 +2,8 @@ import { Component } from "@angular/core";
 import { ModalDismissReasons, UsaModal, UsaModalRef } from "uswds-components";
 
 @Component({
-  selector: `usa-modal-custom-container`,
+  selector: `usa-modal-disable-animation`,
   template: `
-  <div class="height-mobile" id="modalAttach"></div>
   <ng-template #content let-modal>
     <h2 class="usa-modal__heading" id="modal-1-heading">
       Are you sure you want to continue?
@@ -28,7 +27,7 @@ import { ModalDismissReasons, UsaModal, UsaModalRef } from "uswds-components";
   <pre>{{ closeResult }}</pre>
   `
 })
-export class ModalCustomContainerComponent {
+export class ModalDisableAnimationComponent {
   closeResult = '';
 
   modalRef: UsaModalRef;
@@ -36,7 +35,7 @@ export class ModalCustomContainerComponent {
   constructor(private modalService: UsaModal) {}
 
   open(content) {
-    this.modalRef = this.modalService.open(content, {container: '#modalAttach'})
+    this.modalRef = this.modalService.open(content, {animation: false});
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

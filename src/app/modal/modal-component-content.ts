@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Injector, Input } from "@angular/core";
 import { ModalDismissReasons, UsaActiveModal, UsaModal, UsaModalRef } from "uswds-components";
 
 @Component({
@@ -17,7 +17,7 @@ export class ModalComponentWrapper {
   constructor(private modalService: UsaModal) {}
 
   open() {
-    this.modalRef = this.modalService.open(ModalComponentContent)
+    this.modalRef = this.modalService.open(ModalComponentContent);
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

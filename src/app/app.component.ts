@@ -98,8 +98,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     const subscription = this.router.events.subscribe(data => {
       if (data instanceof NavigationEnd) {
-        const url = data.url.substring(1, data.url.length);
-        this.selectedItem = this.sidenavModel.find(model => model.href === url);
+        const url = this.router.url;
+        const sideNavItem = url.substring(1, url.length).split('/')[0];
+        this.selectedItem = this.sidenavModel.find(model => model.href === sideNavItem);
         if (this.selectedItem) {
           this.selectedItem.selected = true;
           subscription.unsubscribe();
