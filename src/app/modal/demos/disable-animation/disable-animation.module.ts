@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { DisableAnimationComponent } from './disable-animation.component';
 import { UsaModalModule } from 'uswds-components';
 
-
-
 @NgModule({
   declarations: [DisableAnimationComponent],
   imports: [

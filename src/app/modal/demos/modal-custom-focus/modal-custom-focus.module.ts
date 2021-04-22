@@ -1,15 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalBasicComponent } from './modal-basic.component';
+import { ModalCustomFocusComponent } from './modal-custom-focus.component';
 import { UsaModalModule } from 'uswds-components';
+
 
 @NgModule({
   declarations: [
-    ModalBasicComponent
+    ModalCustomFocusComponent
   ],
   imports: [
     CommonModule,
     UsaModalModule,
+  ],
+  exports: [
+    ModalCustomFocusComponent
   ]
 })
-export class ModalBasicModule { }
+export class ModalCustomFocusModule { }

@@ -1,31 +1,12 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaActiveModal, UsaModal, UsaModalRef } from "uswds-components";
 
 @Component({
-  selector: `usa-modal-stacked`,
-  template: `
-  <ng-template #content let-modal>
-    <h2 class="usa-modal__heading" id="modal-1-heading">
-      Open A Second Modal
-    </h2>
-    <div class="usa-prose">
-      <p id="modal-1-description">Click button below to open a stacked modal</p>
-    </div>
-    <div class="usa-modal__footer">
-      <ul class="usa-button-group">
-        <li class="usa-button-group__item">
-            <button type="button" class="usa-button" (click)="openModalB()">Open second Modal</button>
-        </li>
-      </ul>
-    </div>
-    <pre>{{ closeBResult }}</pre>
-  </ng-template>
-  <button class="usa-button" (click)="open(content)">Launch Default modal</button>
-  <hr>
-  <pre>{{ closeResult }}</pre>
-  `
+  selector: 'usa-modal-stacked',
+  templateUrl: './modal-stacked.component.html',
 })
-export class ModalStackedAComponent {
+export class ModalStackedComponent {
+
   closeResult = '';
   closeBResult = '';
 
@@ -70,16 +51,14 @@ export class ModalStackedAComponent {
   }
 }
 
-
 @Component({
   selector: `usa-modal-stacked-b`,
   template: `
-
-    <h2 class="usa-modal__heading" id="modal-1-heading">
+    <h2 class="usa-modal__heading" id="modal-8-heading">
       Are you sure you want to continue?
     </h2>
     <div class="usa-prose">
-      <p id="modal-1-description">You have unsaved changes that will be lost.</p>
+      <p id="modal-8-description">You have unsaved changes that will be lost.</p>
     </div>
     <div class="usa-modal__footer">
       <ul class="usa-button-group">

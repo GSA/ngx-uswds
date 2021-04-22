@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaModal, UsaModalRef } from 'uswds-components';
+import { ModalDismissReasons, UsaModal, UsaModalRef } from "uswds-components";
 
 @Component({
-  selector: 'usa-modal-basic',
-  templateUrl: './modal-basic.component.html'
+  selector: 'usa-modal-custom-focus',
+  templateUrl: './modal-custom-focus.component.html',
 })
-export class ModalBasicComponent {
+export class ModalCustomFocusComponent {
 
   closeResult = '';
 
@@ -14,7 +14,7 @@ export class ModalBasicComponent {
   constructor(private modalService: UsaModal) {}
 
   open(content) {
-    this.modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-1-heading'})
+    this.modalRef = this.modalService.open(content)
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

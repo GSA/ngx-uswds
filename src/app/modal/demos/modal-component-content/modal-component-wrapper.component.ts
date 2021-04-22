@@ -1,15 +1,12 @@
-import { Component, Injector, Input } from "@angular/core";
+import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaActiveModal, UsaModal, UsaModalRef } from "uswds-components";
 
 @Component({
-  selector: `usa-modal-component-wrapper`,
-  template: `
-  <button class="usa-button" (click)="open()">Launch Modal with Component as Content</button>
-  <hr>
-  <pre>{{ closeResult }}</pre>
-  `
+  selector: 'usa-modal-component-wrapper',
+  templateUrl: './modal-component-wrapper.component.html',
 })
 export class ModalComponentWrapper {
+
   closeResult = '';
 
   modalRef: UsaModalRef;
@@ -17,7 +14,7 @@ export class ModalComponentWrapper {
   constructor(private modalService: UsaModal) {}
 
   open() {
-    this.modalRef = this.modalService.open(ModalComponentContent);
+    this.modalRef = this.modalService.open(ModalContent);
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -39,14 +36,15 @@ export class ModalComponentWrapper {
   }
 }
 
+
 @Component({
-  selector: `usa-modal-component-content`,
+  selector: `usa-modal-content`,
   template: `
-    <h2 class="usa-modal__heading" id="modal-1-heading">
+    <h2 class="usa-modal__heading" id="modal-5-heading">
       Are you sure you want to continue?
     </h2>
     <div class="usa-prose">
-      <p id="modal-1-description">You have unsaved changes that will be lost.</p>
+      <p id="modal-5-description">You have unsaved changes that will be lost.</p>
     </div>
     <div class="usa-modal__footer">
       <ul class="usa-button-group">
@@ -58,9 +56,9 @@ export class ModalComponentWrapper {
         </li>
       </ul>
     </div>
-  `
+  `,
 })
-export class ModalComponentContent {
+export class ModalContent {
 
   constructor(public activeModal: UsaActiveModal) {}
 

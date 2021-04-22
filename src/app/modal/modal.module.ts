@@ -1,14 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from './modal.component';
 import { UsaModalModule, USWDSCardModule } from 'uswds-components';
-import { ModalDefaultComponent } from './modal-default.component';
-import { ModalForcedComponent } from './modal-forced.component';
-import { ModalComponentContent, ModalComponentWrapper } from './modal-component-content';
-import { ModalCustomFocusComponent } from './modal-custom-focus';
-import { ModalScrollableComponent } from './modal-scrollable-content';
-import { ModalStackedAComponent, ModalStackedBComponent } from './modal-stacked.component';
-import { ModalDisableAnimationComponent } from './modal-disable-animation';
 import { DemoWrapperComponent } from '../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../shared/examples-page/examples.component';
 import { ModalBasicModule } from './demos/basic/modal-basic.module';
@@ -19,6 +11,15 @@ import { DisableAnimationModule } from './demos/disable-animation/disable-animat
 import { ModalForcedActionComponent } from './demos/modal-forced-action/modal-forced-action.component';
 import { ModalForcedActionModule } from './demos/modal-forced-action/modal-forced-action.module';
 import { ModalLargeComponent } from './demos/modal-large/modal-large.component';
+import { ModalComponentWrapperModule } from './demos/modal-component-content/modal-component-wrapper.module';
+import { ModalCustomFocusModule } from './demos/modal-custom-focus/modal-custom-focus.module';
+import { ModalStackedModule } from './demos/modal-stacked/modal-stacked.module';
+import { ModalStackedComponent } from './demos/modal-stacked/modal-stacked.component';
+import { ModalScrollableContentComponent } from './demos/modal-scrollable-content/modal-scrollable-content.component';
+import { ModalScrollableContentModule } from './demos/modal-scrollable-content/modal-scrollable-content.module';
+import { ModalComponentWrapper } from './demos/modal-component-content/modal-component-wrapper.component';
+import { ModalCustomFocusComponent } from './demos/modal-custom-focus/modal-custom-focus.component';
+import { DisableAnimationComponent } from './demos/disable-animation/disable-animation.component';
 
 
 declare var require: any;
@@ -42,7 +43,7 @@ const DEMOS = {
   },
   disableAnimation: {
     title: 'Modal Disable Animation',
-    type: ModalDisableAnimationComponent,
+    type: DisableAnimationComponent,
     code: require('!!raw-loader!./demos/disable-animation/disable-animation.component'),
     markup: require('!!raw-loader!./demos/disable-animation/disable-animation.component.html'),
     module: require('!!raw-loader!./demos/disable-animation/disable-animation.module'),
@@ -55,6 +56,38 @@ const DEMOS = {
     markup: require('!!raw-loader!./demos/modal-forced-action/modal-forced-action.component.html'),
     module: require('!!raw-loader!./demos/modal-forced-action/modal-forced-action.module'),
     path: 'src/app/modal/demos/modal-forced-action',
+  },
+  componentContent: {
+    title: 'Use Component Reference for Modal',
+    type: ModalComponentWrapper,
+    code: require('!!raw-loader!./demos/modal-component-content/modal-component-wrapper.component'),
+    markup: require('!!raw-loader!./demos/modal-component-content/modal-component-wrapper.component.html'),
+    module: require('!!raw-loader!./demos/modal-component-content/modal-component-wrapper.module'),
+    path: 'src/app/modal/demos/modal-component-content',
+  },
+  customFocus: {
+    title: 'Modal Set Initial Focus Element on Open',
+    type: ModalCustomFocusComponent,
+    code: require('!!raw-loader!./demos/modal-custom-focus/modal-custom-focus.component'),
+    markup: require('!!raw-loader!./demos/modal-custom-focus/modal-custom-focus.component.html'),
+    module: require('!!raw-loader!./demos/modal-custom-focus/modal-custom-focus.module'),
+    path: 'src/app/modal/demos/modal-custom-focus',
+  },
+  modalStacked: {
+    title: 'Modal Stacked',
+    type: ModalStackedComponent,
+    code: require('!!raw-loader!./demos/modal-stacked/modal-stacked.component'),
+    markup: require('!!raw-loader!./demos/modal-stacked/modal-stacked.component.html'),
+    module: require('!!raw-loader!./demos/modal-stacked/modal-stacked.module'),
+    path: 'src/app/modal/demos/modal-stacked',
+  },
+  modalScrollable: {
+    title: 'Modal Scrollable',
+    type: ModalScrollableContentComponent,
+    code: require('!!raw-loader!./demos/modal-scrollable-content/modal-scrollable-content.component'),
+    markup: require('!!raw-loader!./demos/modal-scrollable-content/modal-scrollable-content.component.html'),
+    module: require('!!raw-loader!./demos/modal-scrollable-content/modal-scrollable-content.module'),
+    path: 'src/app/modal/demos/modal-scrollable-content',
   }
 };
 
@@ -79,18 +112,6 @@ export const ROUTES = [
 ];
 
 @NgModule({
-  declarations: [
-    ModalComponent,
-    ModalDefaultComponent,
-    ModalForcedComponent,
-    ModalComponentWrapper,
-    ModalComponentContent,
-    ModalCustomFocusComponent,
-    ModalScrollableComponent,
-    ModalStackedAComponent,
-    ModalStackedBComponent,
-    ModalDisableAnimationComponent,
-  ],
   imports: [
     CommonModule,
     UsaModalModule,
@@ -99,10 +120,10 @@ export const ROUTES = [
     ModalLargeModule,
     DisableAnimationModule,
     ModalForcedActionModule,
-  ],
-  entryComponents: [
-    ModalComponentContent,
-    ModalStackedBComponent,
+    ModalComponentWrapperModule,
+    ModalCustomFocusModule,
+    ModalStackedModule,
+    ModalScrollableContentModule,
   ]
 })
 export class ModalModule { 
