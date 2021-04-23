@@ -1,0 +1,38 @@
+<div uswds-card class="margin-top-2 margin-bottom-4">
+
+  <uswds-card-header>
+    <div class="pin-right margin-right-4">
+      <button class="usa-button usa-button--unstyled margin-left-1"
+        *ngIf="code"
+        (click)="showCode = !showCode" aria-label="Show Code">
+        {{showCode ? 'Hide' : 'Show'}} Code
+      </button>
+      <a class="usa-button usa-button--unstyled margin-left-1" *ngIf="getGithubLink()" [attr.href]="getGithubLink()"
+        target="_blank" aria-label="Open new window in github">
+        Github
+      </a>
+    </div>
+    <h2 class="grid-col-5">
+      {{ demoTitle }}
+    </h2>
+  </uswds-card-header>
+
+  <uswds-card-body>
+    <div *ngIf="showCode" class="padding-bottom-2 border font-mono-sm margin-bottom-2">
+      <div class="border-bottom">
+        <ng-container *ngFor="let tab of tabs">
+          <button class="usa-button usa-button--outline margin-3"
+          [ngClass]="{'usa-button--active': tab.type === activeTab}" 
+          (click)="activeTab=tab.type">{{tab.name}}</button>
+        </ng-container>
+      </div>
+      <pre class="highlight overflow-auto" *ngIf="activeTab === 'code'"><code [highlight]="code.default"></code></pre>
+      <pre class="highlight overflow-auto"  *ngIf="activeTab === 'markUp'"><code [highlight]="markup.default"></code></pre>
+      <pre class="highlight overflow-auto"  *ngIf="activeTab === 'module'"><code [highlight]="module.default"></code></pre>
+    </div>
+
+    <ng-content></ng-content>
+
+  </uswds-card-body>
+
+</div>

@@ -20,7 +20,6 @@ const createTestComponent = (html: string) =>
     createGenericTestComponent(html, TestComponent) as ComponentFixture<TestComponent>;
 
 function getPanels(element: HTMLElement): HTMLDivElement[] {
-  console.log(element);
   return <HTMLDivElement[]>Array.from(element.querySelectorAll('.usa-accordion__heading'));
 }
 

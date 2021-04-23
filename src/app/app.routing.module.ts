@@ -1,8 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AccordionComponent } from "./accordion/accordion.component";
-import { AccordionModule } from "./accordion/accordion.module";
 import { AlertComponent } from "./alert/alert.component";
 import { AlertModule } from "./alert/alert.module";
 import { BreadcrumbComponent } from "./breadcrumb/breadcrumb.component";
@@ -29,7 +27,8 @@ import { ProcessListComponent } from "./process-list/process-list.component";
 import { ProcessListModule } from "./process-list/process-list.module";
 import { StepIndicatorComponent } from "./step-indicator/step-indicator.component";
 import { StepIndicatorModule } from "./step-indicator/step-indicator.module";
-
+import {AccordionModule, ROUTES as ACCORDION_ROUTES} from './accordion/accordion.module';
+import { ModalModule,  ROUTES as MODAL_ROUTES } from "./modal/modal.module";
 
 const routes: Routes = [
   {
@@ -39,7 +38,7 @@ const routes: Routes = [
   },
   {
     path: 'accordion',
-    component: AccordionComponent
+    children: ACCORDION_ROUTES
   },
   {
     path: 'alert',
@@ -93,6 +92,10 @@ const routes: Routes = [
     path: 'step-indicator',
     component: StepIndicatorComponent,
   },
+  {
+    path: 'modal',
+    children: MODAL_ROUTES,
+  },
 ]
 @NgModule({
   imports: [
@@ -111,7 +114,8 @@ const routes: Routes = [
     LinkModule,
     ListModule,
     ProcessListModule,
-    StepIndicatorModule
+    StepIndicatorModule,
+    ModalModule,
   ],
   exports: [
     RouterModule,

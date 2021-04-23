@@ -62,6 +62,13 @@ export * from './lib/link/link.module';
 export * from './lib/list/list.component';
 export * from './lib/list/list.module';
 
+// Modal
+export * from './lib/modal/modal-dismiss-reasons';
+export * from './lib/modal/modal-ref';
+export * from './lib/modal/modal';
+export * from './lib/modal/modal.module';
+export * from './lib/modal/modal-config';
+
 // Process List
 export * from './lib/process-list/process-list-header.component';
 export * from './lib/process-list/process-list-item.component';

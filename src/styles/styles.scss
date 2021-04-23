@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 // @import './material.theme';
+@import '~highlight.js/styles/github.css';
 
 $theme-image-path: '~node_modules/uswds/src/img';
 $theme-font-path: '~node_modules/uswds/src/fonts';

@@ -1,0 +1,22 @@
+<ng-template #content let-modal>
+  <h2 class="usa-modal__heading" id="modal-4-heading">
+    Your session will end soon.
+  </h2>
+  <div class="usa-prose">
+    <p id="modal-4-description">You’ve been inactive for too long. Please choose to stay signed in or sign out. Otherwise, you’ll be signed out automatically in 5 minutes.</p>
+  </div>
+  <div class="usa-modal__footer">
+    <ul class="usa-button-group">
+      <li class="usa-button-group__item">
+          <button type="button" class="usa-button" (click)="close('Sign In')">Yes, stay signed in</button>
+        </li>
+      <li class="usa-button-group__item">
+          <button type="button" class="usa-button usa-button--unstyled padding-105 text-center" (click)="close('Sign Out')">Sign out</button>
+        </li>
+      </ul>
+  </div>
+  </ng-template>
+  <code class="display-block margin-bottom-2">{{'{'}}showClose: false, backdrop: 'static', keyboard: false{{'}'}}</code>
+  <button class="usa-button" (click)="open(content)">Launch Forced modal</button>
+  <hr>
+  <pre>{{ closeResult }}</pre>
