@@ -17,7 +17,7 @@ import { usaFocusTrap } from '../util/focus-trap';
 import {ContentRef} from '../util/popup';
 import {ScrollBar} from '../util/scrollbar';
 import {isDefined, isString} from '../util/util';
-import {UsaModalBackdrop} from './modal-backdrop';
+import {UsaModalWrapper} from './modal-wrapper';
 import {UsaActiveModal, UsaModalRef} from './modal-ref';
 import {UsaModalWindow} from './modal-window';
 
@@ -28,7 +28,7 @@ export class UsaModalStack {
   private _modalRefs: UsaModalRef[] = [];
   private _windowAttributes = [
     'animation', 'ariaLabelledBy', 'ariaDescribedBy', 'backdrop', 'keyboard', 'size',
-    'modalDialogClass', 'overlayElement', 'showClose'
+    'modalDialogClass', 'overlayElement', 'showClose', 'id'
   ];
   private _windowCmpts: ComponentRef<UsaModalWindow>[] = [];
   private _activeInstances: EventEmitter<UsaModalRef[]> = new EventEmitter();
@@ -69,7 +69,7 @@ export class UsaModalStack {
     const contentRef =
         this._getContentRef(moduleCFR, options.injector || contentInjector, content, activeModal);
 
-    let backdropCmptRef: ComponentRef<UsaModalBackdrop> | undefined =
+    let backdropCmptRef: ComponentRef<UsaModalWrapper> | undefined =
         options.backdrop !== false ? this._attachBackdrop(moduleCFR, containerEl) : undefined;
 
     const overlayRef: HTMLDivElement = backdropCmptRef.instance._el.nativeElement.querySelector('.usa-modal-overlay');
@@ -99,8 +99,8 @@ export class UsaModalStack {
 
   hasOpenModals(): boolean { return this._modalRefs.length > 0; }
 
-  private _attachBackdrop(moduleCFR: ComponentFactoryResolver, containerEl: any): ComponentRef<UsaModalBackdrop> {
-    let backdropFactory = moduleCFR.resolveComponentFactory(UsaModalBackdrop);
+  private _attachBackdrop(moduleCFR: ComponentFactoryResolver, containerEl: any): ComponentRef<UsaModalWrapper> {
+    let backdropFactory = moduleCFR.resolveComponentFactory(UsaModalWrapper);
     let backdropCmptRef = backdropFactory.create(this._injector);
     this._applicationRef.attachView(backdropCmptRef.hostView);
     containerEl.appendChild(backdropCmptRef.location.nativeElement);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaActiveModal, UsaModal, UsaModalRef } from "uswds-components";
+import { ModalDismissReasons, UsaActiveModal, UsaModalService, UsaModalRef } from "uswds-components";
 
 @Component({
   selector: 'usa-modal-stacked',
@@ -13,7 +13,7 @@ export class ModalStackedComponent {
   modalRef: UsaModalRef;
   modalBRef: UsaModalRef;
 
-  constructor(private modalService: UsaModal) {}
+  constructor(private modalService: UsaModalService) {}
 
   open(content) {
     this.modalRef = this.modalService.open(content)

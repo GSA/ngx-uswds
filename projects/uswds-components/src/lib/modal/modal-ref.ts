@@ -3,7 +3,7 @@ import {ComponentRef} from '@angular/core';
 import {Observable, of, Subject, zip} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-import { UsaModalBackdrop } from './modal-backdrop';
+import { UsaModalWrapper } from './modal-wrapper';
 import {UsaModalWindow} from './modal-window';
 
 import {ContentRef} from '../util/popup';
@@ -98,7 +98,7 @@ export class UsaModalRef {
 
   constructor(
       private _windowCmptRef: ComponentRef<UsaModalWindow>, private _contentRef: ContentRef,
-      private _backdropCmptRef?: ComponentRef<UsaModalBackdrop>, private _beforeDismiss?: Function) {
+      private _backdropCmptRef?: ComponentRef<UsaModalWrapper>, private _beforeDismiss?: Function) {
     _windowCmptRef.instance.dismissEvent.subscribe((reason: any) => { this.dismiss(reason); });
 
     this.result = new Promise((resolve, reject) => {

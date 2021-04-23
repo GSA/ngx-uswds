@@ -20,6 +20,8 @@ import { ModalScrollableContentModule } from './demos/modal-scrollable-content/m
 import { ModalComponentWrapper } from './demos/modal-component-content/modal-component-wrapper.component';
 import { ModalCustomFocusComponent } from './demos/modal-custom-focus/modal-custom-focus.component';
 import { DisableAnimationComponent } from './demos/disable-animation/disable-animation.component';
+import { FooterComponent } from './demos/footer/footer.component';
+import { FooterModule } from './demos/footer/footer.module';
 
 
 declare var require: any;
@@ -88,6 +90,14 @@ const DEMOS = {
     markup: require('!!raw-loader!./demos/modal-scrollable-content/modal-scrollable-content.component.html'),
     module: require('!!raw-loader!./demos/modal-scrollable-content/modal-scrollable-content.module'),
     path: 'src/app/modal/demos/modal-scrollable-content',
+  },
+  modalFooter: {
+    title: '',
+    type: FooterComponent,
+    code: require('!!raw-loader!./demos/footer/footer.component'),
+    markup: require('!!raw-loader!./demos/footer/footer.component.html'),
+    module: require('!!raw-loader!./demos/footer/footer.module'),
+    path: 'src/app/modal/demos/footer',
   }
 };
 
@@ -124,6 +134,7 @@ export const ROUTES = [
     ModalCustomFocusModule,
     ModalStackedModule,
     ModalScrollableContentModule,
+    FooterModule,
   ]
 })
 export class ModalModule { 

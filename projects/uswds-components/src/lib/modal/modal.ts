@@ -11,7 +11,7 @@ import {UsaModalStack} from './modal-stack';
  * the `.open()` method.
  */
 @Injectable({providedIn: 'root'})
-export class UsaModal {
+export class UsaModalService {
   constructor(
     private _moduleCFR: ComponentFactoryResolver, 
     private _injector: Injector, 

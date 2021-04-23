@@ -23,15 +23,16 @@ import {ModalDismissReasons} from './modal-dismiss-reasons';
 import { usaDialogAnimations } from './modal-animations';
 import { AnimationEvent } from '@angular/animations';
 
+let nextId = 0;
 @Component({
   selector: 'usa-modal-window',
   animations: [usaDialogAnimations.dialogContainer],
   host: {
     '[class]': '"usa-modal" + (modalDialogClass ? " " + modalDialogClass : "")',
-    '[class.fade]': 'animation',
     '[class.usa-modal--lg]': 'size === \'lg\'',
     'role': 'dialog',
     'tabindex': '-1',
+    '[attr.id]': 'id',
     '[attr.aria-modal]': 'true',
     '[attr.aria-labelledby]': 'ariaLabelledBy',
     '[attr.aria-describedby]': 'ariaDescribedBy',
@@ -71,6 +72,7 @@ export class UsaModalWindow implements OnInit,
   @Input() modalDialogClass: string;
   @Input() overlayElement: Element;
   @Input() showClose: boolean = true;
+  @Input() id: string = `usa-modal-${nextId++}`;
 
   @Output('dismiss') dismissEvent = new EventEmitter();
 
@@ -194,6 +196,11 @@ export class UsaModalWindow implements OnInit,
     if (event.toState === 'exit' || event.toState === 'slideExit') {
       this._animationStateChanged.next();
       this._animationStateChanged.complete();
+    }
+
+    if (event.toState === 'enter' || event.toState === 'slideEnter') {
+      this.shown.next();
+      this.shown.complete();
     }
   }
 }

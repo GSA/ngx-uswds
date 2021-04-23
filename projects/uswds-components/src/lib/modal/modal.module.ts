@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {NgModule} from '@angular/core';
 
-import { UsaModal } from './modal';
-import {UsaModalBackdrop} from './modal-backdrop';
+import { UsaModalService } from './modal';
+import {UsaModalWrapper} from './modal-wrapper';
 import {UsaModalWindow} from './modal-window';
 
-export { UsaModal } from './modal';
+export { UsaModalService as UsaModal } from './modal';
 export {UsaModalConfig, UsaModalOptions} from './modal-config';
 export {UsaModalRef, UsaActiveModal} from './modal-ref';
 export {ModalDismissReasons} from './modal-dismiss-reasons';
@@ -14,9 +14,9 @@ export {ModalDismissReasons} from './modal-dismiss-reasons';
   imports: [
     CommonModule,
   ],
-  declarations: [UsaModalBackdrop, UsaModalWindow],
-  entryComponents: [UsaModalBackdrop, UsaModalWindow],
-  providers: [ UsaModal ]
+  declarations: [UsaModalWrapper, UsaModalWindow],
+  entryComponents: [UsaModalWrapper, UsaModalWindow],
+  providers: [ UsaModalService ]
 })
 export class UsaModalModule {
 }

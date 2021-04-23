@@ -75,6 +75,11 @@ export interface UsaModalOptions {
    * Display close button (true by default)
    */
   showClose?: boolean;
+
+  /**
+   * Modal Id
+   */
+  id?: string;
 }
 
 /**
@@ -96,4 +101,5 @@ export class UsaModalConfig implements Required<UsaModalOptions> {
   modalDialogClass: string;
   showClose: boolean = true;
   animation: boolean = true;
+  id: string;
 }

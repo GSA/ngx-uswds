@@ -1,7 +1,7 @@
 import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
 
 @Component({
-  selector: 'usa-modal-backdrop',
+  selector: 'usa-modal-wrapper',
   encapsulation: ViewEncapsulation.None,
   template: `
     <div class="usa-modal-overlay"></div>
@@ -11,6 +11,6 @@ import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
     'style': 'z-index: 1050'
   }
 })
-export class UsaModalBackdrop {
+export class UsaModalWrapper {
   constructor(public _el: ElementRef<HTMLElement>) {}
 }
