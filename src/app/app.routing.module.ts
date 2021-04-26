@@ -29,6 +29,8 @@ import { StepIndicatorComponent } from "./step-indicator/step-indicator.componen
 import { StepIndicatorModule } from "./step-indicator/step-indicator.module";
 import {AccordionModule, ROUTES as ACCORDION_ROUTES} from './accordion/accordion.module';
 import { ModalModule,  ROUTES as MODAL_ROUTES } from "./modal/modal.module";
+import { TooltipComponent } from './tooltip/tooltip.component';
+import { TooltipModule } from './tooltip/tooltip.module';
 
 const routes: Routes = [
   {
@@ -96,6 +98,10 @@ const routes: Routes = [
     path: 'modal',
     children: MODAL_ROUTES,
   },
+  {
+    path: 'tooltip',
+    component: TooltipComponent,
+  },
 ]
 @NgModule({
   imports: [
@@ -116,6 +122,7 @@ const routes: Routes = [
     ProcessListModule,
     StepIndicatorModule,
     ModalModule,
+    TooltipModule
   ],
   exports: [
     RouterModule,

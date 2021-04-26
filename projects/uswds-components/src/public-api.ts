@@ -87,3 +87,6 @@ export * from './lib/step-indicator/step-indicator.component';
 export * from './lib/step-indicator/step-indicator-header.component';
 export * from './lib/step-indicator/step-indicator.module';
 
+// Tooltip
+export * from './lib/tooltip/tooltip.directive';
+export * from './lib/tooltip/tooltip.module';
