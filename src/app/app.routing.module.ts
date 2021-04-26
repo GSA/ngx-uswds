@@ -29,8 +29,7 @@ import { StepIndicatorComponent } from "./step-indicator/step-indicator.componen
 import { StepIndicatorModule } from "./step-indicator/step-indicator.module";
 import {AccordionModule, ROUTES as ACCORDION_ROUTES} from './accordion/accordion.module';
 import { ModalModule,  ROUTES as MODAL_ROUTES } from "./modal/modal.module";
-import { TooltipComponent } from './tooltip/tooltip.component';
-import { TooltipModule } from './tooltip/tooltip.module';
+import { TooltipModule, ROUTES as TOOLTIP_ROUTES } from './tooltip/tooltip.module';
 
 const routes: Routes = [
   {
@@ -100,7 +99,7 @@ const routes: Routes = [
   },
   {
     path: 'tooltip',
-    component: TooltipComponent,
+    children: TOOLTIP_ROUTES
   },
 ]
 @NgModule({
