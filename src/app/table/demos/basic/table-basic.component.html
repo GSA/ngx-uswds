@@ -1,0 +1,45 @@
+<usa-table [displayedData]="displyedData">
+  <ng-container usaColumnDef="position">
+    <th usa-table-header *usaTableHeaderDef>Position</th>
+    <td *usaTableDataDef="let element">{{element}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="name">
+    <th usa-table-header *usaTableHeaderDef>Name</th>
+    <td *usaTableDataDef="let element" class="text-center">{{element}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="weight">
+    <th usa-table-header *usaTableHeaderDef>Weight</th>
+    <td *usaTableDataDef="let element">{{element}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="symbol">
+    <th usa-table-header *usaTableHeaderDef>Symbol</th>
+    <td *usaTableDataDef="let element">{{element}}</td>
+  </ng-container>
+
+  <ng-container usaColumnDef="header-col-1">
+    <th
+      usa-table-header
+      *usaTableHeaderDef
+      [style.text-align]="center"
+      [attr.colspan]="2"
+    >
+      First group
+    </th>
+  </ng-container>
+  <ng-container usaColumnDef="header-col-2">
+    <th
+      usa-table-header
+      *usaTableHeaderDef
+      [style.text-align]="center"
+      [attr.colspan]="2"
+    >
+      Second group
+    </th>
+  </ng-container>
+
+  <tr usa-header-row *usaHeaderRowDef="['header-col-1', 'header-col-2']"></tr>
+
+  <tr *usaHeaderRowDef="displayedColumns"></tr>
+
+  <tr *usaDataRowDef="let row; columns: displayedColumns;"></tr>
+</usa-table>

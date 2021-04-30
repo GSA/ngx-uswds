@@ -85,6 +85,11 @@ export class AppComponent implements OnInit {
       href: 'modal',
       id: 15
     },
+    {
+      labelText: 'Table',
+      href: 'table',
+      id: 16
+    },
   ];
 
   selectedItem: SidenavModel;

@@ -1,0 +1,36 @@
+<!-- <ng-content select="caption"></ng-content>
+<ng-content select="colgroup, col"></ng-content> -->
+<!-- <ng-container headerRowOutlet></ng-container> -->
+<table class="usa-table">
+  <thead>
+    <ng-container *ngFor="let headerRowDef of _headerRowDefs"
+      [ngTemplateOutlet]="headerTmpl" [ngTemplateOutletContext]="{tableHeaders: headerRowDef.usaHeaderRowDef}"></ng-container>
+  </thead>
+  <tbody>
+
+    <ng-container *ngFor="let data of displayedData"
+      [ngTemplateOutlet]="dataTmpl" [ngTemplateOutletContext]="{tableData: data}">
+
+    </ng-container>
+  </tbody>
+</table>
+
+<ng-template #headerTmpl let-tableHeaders="tableHeaders">
+  <tr>
+    <ng-container *ngFor="let header of tableHeaders" 
+    [ngTemplateOutlet]="_columnHeaderMap?.get(header)?.templateRef"></ng-container>
+  </tr>
+</ng-template>
+
+<ng-template #dataTmpl let-tableData="tableData">
+  <tr>
+    <ng-container *ngFor="let data of tableData | keyvalue"
+    [ngTemplateOutlet]="_columnDataMap?.get(data.key)?.templateRef" [ngTemplateOutletContext]="{$implicit: data.value}">
+    {{log(data.value)}}
+
+  </ng-container>
+  </tr>
+</ng-template>
+<!-- <ng-container rowOutlet></ng-container>
+<ng-container noDataRowOutlet></ng-container>
+<ng-container footerRowOutlet></ng-container> -->
