@@ -15,7 +15,7 @@
     <td usa-table-data  *usaTableDataDef="let document" data-label="Year">{{document.year}}</td>
   </ng-container>
   <ng-container usaColumnDef="settings">
-    <th usa-table-header *usaTableHeaderDef></th>
+    <th usa-table-header *usaTableHeaderDef>Remove</th>
     <td usa-table-data  *usaTableDataDef="let document, let index='index'" data-label="Year">
       <button class="usa-button" (click)="onRemoveRowClicked(year, index)">Remove Row</button>
     </td>

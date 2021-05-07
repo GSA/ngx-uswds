@@ -12,7 +12,7 @@
         Github
       </a>
     </div>
-    <h2 class="grid-col-5">
+    <h2 *ngIf="demoTitle && demoTitle.length > 0" class="grid-col-5">
       {{ demoTitle }}
     </h2>
   </uswds-card-header>
