@@ -1,4 +1,5 @@
-import { Component, ElementRef, Input } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
+import { Component, ElementRef, Inject, Input } from "@angular/core";
 
 @Component({
   selector: `button[usa-sort]`,
@@ -33,15 +34,28 @@ export class UsaSort {
 
   constructor(
     public _el: ElementRef,
+    @Inject(DOCUMENT) private _document: Document
   ) {}
 
   onClick() {
     this.toggleAriaSort();
     const sortFn = this.sortFn ? this.sortFn : this.defaultSortFunction;
-    const eventInit: CustomEventInit = 
-      { bubbles: true, 
-        detail: {sortFn, sortState: this.ariaSort, columnHeaderText: this._columnHeaderText}};
-    this._el.nativeElement.dispatchEvent(new CustomEvent('sort', eventInit));
+    const eventDetails = {
+      sortFn, 
+      sortState: this.ariaSort, 
+      columnHeaderText: this._columnHeaderText
+    };
+
+    let event: CustomEvent;
+    if (typeof(Event) === 'function') {
+      event = new CustomEvent('sort', {bubbles: true, detail: eventDetails});
+    } else {
+      // IE11 support
+      event = this._document.createEvent('CustomEvent');
+      event.initCustomEvent('sort', true, true, eventDetails);
+    }
+
+    this._el.nativeElement.dispatchEvent(event);
   }
 
   setColumnHeader(columnHeaderText: string) {
