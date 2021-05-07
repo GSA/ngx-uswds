@@ -1,0 +1,55 @@
+<usa-table 
+  [displayedData]="tableData" 
+  [scrollable]="true"
+>
+  <caption>Scrollable table</caption>
+  <!-- Top Row Headers-->
+  <ng-container usaColumnDef="fedBudget">
+    <th usa-table-header *usaTableHeaderDef rowspan="2"><div class="margin-bottom-1">Federal Budget</div> Baseline Projections</th>
+  </ng-container>
+  <ng-container *ngFor="let year of [2017, 2018, 2019, 2020, 2021]">
+    <ng-container usaColumnDef="{{year}}">
+      <th usa-table-header *usaTableHeaderDef colspan="2" class="text-center">{{year}}</th>
+    </ng-container>
+  </ng-container>
+  <ng-container usaColumnDef="historicalAvg">
+    <th usa-table-header *usaTableHeaderDef colspan="2" class="text-center">Hist. Avg.</th>
+  </ng-container>
+
+  <!-- Second Row Headers -->
+  <ng-container *ngFor="let year of [2017, 2018, 2019, 2020, 2021]">
+    <ng-container usaColumnDef="gdp{{year}}">
+      <th usa-table-header *usaTableHeaderDef class="text-right">
+        %GDP
+      </th>
+      <td usa-table-data *usaTableDataDef="let data" data-label="%GDP" 
+        class="font-mono-sm text-tabular text-right">
+        {{data['gdp' + year]}}
+      </td>
+    </ng-container>
+
+    <ng-container usaColumnDef="usd{{year}}">
+      <th usa-table-header *usaTableHeaderDef class="text-right">USD*</th>
+      <td usa-table-data  *usaTableDataDef="let data" data-label="USD*" 
+        class="font-mono-sm text-tabular text-right">
+        {{data['usd' + year]}}
+      </td>
+    </ng-container>
+  </ng-container>
+
+  <ng-container usaColumnDef="gdpAvg">
+    <th usa-table-header *usaTableHeaderDef class="text-right">%GDP</th>
+    <td usa-table-data  *usaTableDataDef="let data" data-label="%GDP" 
+      class="font-mono-sm text-tabular text-right">{{data.gdpAvg}}</td>
+  </ng-container>
+
+  <ng-container usaColumnDef="usdAvg">
+    <th usa-table-header *usaTableHeaderDef class="text-right">USD*</th>
+    <td usa-table-data  *usaTableDataDef="let data" data-label="USD*" 
+      class="font-mono-sm text-tabular text-right">{{data.usdAvg}}</td>
+  </ng-container>
+
+  <tr *usaHeaderRowDef="topRowHeaders"></tr>
+  <tr *usaHeaderRowDef="secondRowHeaders"></tr>
+  <tr *usaDataRowDef="let row; columns: secondRowHeaders;"></tr>
+</usa-table>

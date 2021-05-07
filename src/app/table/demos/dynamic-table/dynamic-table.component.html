@@ -1,0 +1,28 @@
+<usa-table [displayedData]="displyedData">
+  <caption>
+    Dynamically Add / Remove data rows
+  </caption>
+  <ng-container usaColumnDef="title">
+    <th usa-table-header *usaTableHeaderDef>Document Title <button usa-sort></button></th>
+    <td usa-table-data  *usaTableDataDef="let document" data-label="Document Title">{{document.title}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="description">
+    <th usa-table-header *usaTableHeaderDef>Description</th>
+    <td usa-table-data  *usaTableDataDef="let document" data-label="Description">{{document.description}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="year">
+    <th usa-table-header *usaTableHeaderDef>Year</th>
+    <td usa-table-data  *usaTableDataDef="let document" data-label="Year">{{document.year}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="settings">
+    <th usa-table-header *usaTableHeaderDef></th>
+    <td usa-table-data  *usaTableDataDef="let document, let index='index'" data-label="Year">
+      <button class="usa-button" (click)="onRemoveRowClicked(year, index)">Remove Row</button>
+    </td>
+  </ng-container>
+
+  <tr *usaHeaderRowDef="displayedColumns"></tr>
+  <tr *usaDataRowDef="let row; columns: displayedColumns;"></tr>
+</usa-table>
+
+<button class="usa-button" (click)="addLastDataRow()">Add Last Removed Data Row</button>

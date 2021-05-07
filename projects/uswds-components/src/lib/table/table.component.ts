@@ -1,118 +1,98 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, Directive, ElementRef, Inject, Input, IterableDiffers, OnDestroy, OnInit, QueryList, Renderer2, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { TableHeader } from './table-header.model';
-
-
-/** Interface used to provide an outlet for rows to be inserted into. */
-export interface RowOutlet {
-  viewContainer: ViewContainerRef;
-}
-
-@Directive({
-  selector: `[usaTableHeaderDef]`,
-})
-export class UsaTableHeaderDef {
-  constructor(
-    public templateRef: TemplateRef<any>,
-  ) {}
-}
-
-@Directive({
-  selector: `[usa-table-header]`,
-  host: {
-    'class': 'font-mono-xs',
-  }
-})
-export class UsaTableHeader implements AfterViewInit {
-  constructor(
-    public elementRef: ElementRef,
-  ) {}
-
-  ngAfterViewInit() {
-  }
-}
-
-@Directive({
-  selector: `[usaHeaderRowDef]`,
-})
-export class UsaHeaderRowDef implements AfterViewInit {
-  
-  @Input() usaHeaderRowDef: string[];
-  
-  constructor(public templateRef: TemplateRef<any>) {}
-
-  ngAfterViewInit() {
-  }
-}
-
-/**
- * Provides a handle for the table to grab the view container's ng-container to insert the header.
- * @docs-private
- */
- @Directive({selector: '[headerRowOutlet]'})
- export class HeaderRowOutlet implements RowOutlet {
-   constructor(public viewContainer: ViewContainerRef, public elementRef: ElementRef) {}
- }
-
-@Directive({
-  selector: `[usaTableDataDef]`,
-})
-export class UsaTableDataDef {
-
-  constructor(
-    public templateRef: TemplateRef<any>,
-  ) {}
-}
-
-@Directive({
-  selector: `[usaDataRowDef]`,
-})
-export class UsaDataRowDef implements AfterViewInit {
-
-  @Input() usaDataRowDefRow;
-
-  @Input()
-  usaDataRowDefColumns: Iterable<string>;
-
-  constructor(
-    public templateRef: TemplateRef<any>,
-    public iterDiff: IterableDiffers,
-  ) {}
-
-  ngAfterViewInit() {
-    console.log('datarowdef', this);
-  }
-}
+import { 
+  AfterContentInit, 
+  ChangeDetectionStrategy, 
+  ChangeDetectorRef, 
+  Component, 
+  ContentChild, 
+  ContentChildren, 
+  Directive, 
+  ElementRef, 
+  HostListener, 
+  Inject, 
+  Input, 
+  OnChanges, 
+  OnDestroy, 
+  QueryList, 
+  TemplateRef, 
+} from '@angular/core';
+import { TableDataSource } from './models';
+import { UsaDataRowDef, UsaTableData, UsaTableDataDef } from './table-data';
+import { UsaHeaderRowDef, UsaTableHeader, UsaTableHeaderDef } from './table-header';
+import { UsaSort } from './table-sort.component';
+import { UsaTableConfig } from './table.config';
 
 @Directive({
   selector: `[usaColumnDef]`
 })
-export class UsaColumnDef implements OnInit {
-  @ContentChild(UsaTableHeaderDef) tableHeader: UsaTableHeaderDef;
-  @ContentChild(UsaTableDataDef) tableData: UsaTableDataDef;
+export class UsaColumnDef {
+  @ContentChild(UsaTableHeaderDef) tableHeaderTemplate: UsaTableHeaderDef;
+  @ContentChild(UsaTableHeader) tableHeader: UsaTableHeader;
+
+  @ContentChild(UsaTableDataDef) tableDataTemplate: UsaTableDataDef;
+  @ContentChildren(UsaTableData) tableData: QueryList<UsaTableData>;
+
+  @ContentChild(UsaSort) tableSort: UsaSort;
 
   @Input() usaColumnDef: string;
 
-  constructor(  ) {}
+  isSortActive = false;
 
-  ngOnInit() {
+  setSortActive(sortState: 'ascending' | 'descending') {
+    this.tableHeader.setSortState(sortState);
+    this.tableData.forEach(data => data.setSortActive());
+    this.isSortActive = true;
+  }
+
+  setSortInactive() {
+    this.tableHeader.setSortState('none');
+    this.tableData.forEach(data => data.setSortInactive());
+    this.isSortActive = false;
   }
 }
-
 
 
 @Component({
   selector: 'usa-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsaTableComponent implements OnInit, AfterViewInit, OnDestroy, AfterContentInit {
+export class UsaTableComponent implements AfterContentInit, OnChanges {
 
-  // Outlets in the table's template where the header, data rows, and footer will be inserted.
-  // @ViewChild(DataRowOutlet, {static: true}) _rowOutlet: DataRowOutlet;
-  // @ViewChild(HeaderRowOutlet, {static: true}) _headerRowOutlet: HeaderRowOutlet;
-  // @ViewChild(FooterRowOutlet, {static: true}) _footerRowOutlet: FooterRowOutlet;
-  // @ViewChild(NoDataRowOutlet, {static: true}) _noDataRowOutlet: NoDataRowOutlet;
+  /**
+   * Display table without column borders
+   * @default false
+   */
+  @Input() borderless: boolean;
+
+  /**
+   * Allow table to scroll horizontally when content expand view width
+   * @default true
+  */
+  @Input() scrollable: boolean;
+
+  /**
+   * Add alternating light/grey background color when displaying table rows
+   * @default false
+   */
+  @Input() striped: boolean;
+
+  /**
+   * Minimize table cell padding
+   * @default false
+   */
+  @Input() compact: boolean;
+
+  /**
+   * Stack table when in mobile sized view
+   */
+  @Input() stacked: boolean;
+
+  /**
+   * Displays first column as header when in stacked mode
+   */
+  @Input() stackedHeader: boolean;
 
   /**
    * The column definitions provided by the user that contain what the header, data, and footer
@@ -121,8 +101,7 @@ export class UsaTableComponent implements OnInit, AfterViewInit, OnDestroy, Afte
   @ContentChildren(UsaColumnDef, {descendants: true}) _contentColumnDefs: QueryList<UsaColumnDef>;
 
   /** Set of data row definitions that were provided to the table as content children. */
-  @ContentChildren(UsaDataRowDef, {descendants: true}) _tableDataDefs: QueryList<UsaDataRowDef>;
-  _dataRowDefs: UsaDataRowDef[];
+  @ContentChild(UsaDataRowDef) _tableDataDefs: UsaDataRowDef;
 
   /** Set of header row definitions that were provided to the table as content children. */
   @ContentChildren(UsaHeaderRowDef, {
@@ -132,63 +111,103 @@ export class UsaTableComponent implements OnInit, AfterViewInit, OnDestroy, Afte
   /** Array Populated by Content Childern of UsaHeaderRowDef */
   _headerRowDefs: UsaHeaderRowDef[];
 
-  // /** Set of footer row definitions that were provided to the table as content children. */
-  // @ContentChildren(CdkFooterRowDef, {
-  //   descendants: true
-  // }) _contentFooterRowDefs: QueryList<CdkFooterRowDef>;
-
-  // /** Row definition that will only be rendered if there's no data in the table. */
-  // @ContentChild(CdkNoDataRow) _noDataRow: CdkNoDataRow;
-
-  // @Input() displayedColumns: TableHeader[];
-
   
-  @Input() displayedData: any[];
+  @Input() displayedData: TableDataSource[];
 
-  _columnHeaderMap: Map<string, any>;
-  _columnDataMap: Map<string, any>;
+  _columnHeaderMap: Map<string, UsaColumnDef> = new Map();
+  _columnDataMap: Map<string, TemplateRef<UsaTableDataDef>> = new Map();
 
-  private _document: any;
-
-  constructor(
-    @Inject(DOCUMENT) _document: any,
-    private _elementRef: ElementRef,
-  ) { 
-    this._document = _document;
+  /**
+   * Reference of table sort info if new data is dynamically added / removed
+   */
+  _sortedColumnInfo: {sortState: 'ascending' | 'descending', sortFn: Function, sortColumn: UsaColumnDef} = {
+    sortState: undefined,
+    sortFn: undefined,
+    sortColumn: undefined
   }
 
-  ngOnInit(): void {
-    
-  }
+  _ariaLiveSortMessage: string;
 
-  ngAfterViewInit() {
-    this._columnHeaderMap = new Map();
+  /**
+   * Event bubbled up from sort button on click. Sorts the table based on
+   * sort function for the given column
+   * @param $event 
+   */
+  @HostListener('sort', ['$event'])
+  onSortClicked($event: CustomEvent) {    
     this._contentColumnDefs.forEach(column => {
-      this._columnHeaderMap.set(column.usaColumnDef, column.tableHeader);
+      if (!column.tableSort) {
+        return;
+      }
+      const tableSortEl = column.tableSort._el.nativeElement;
+      if (column.isSortActive && $event.target != tableSortEl) {
+        column.setSortInactive();
+      } else if (tableSortEl === $event.target) {
+        this._sortColumnData(column, $event.detail.sortFn, $event.detail.sortState);
+      }
     });
 
+    this.setAriaLiveOnSort();
+    $event.stopImmediatePropagation();
   }
 
-  ngAfterContentInit() {
-    this._columnHeaderMap = new Map();
-    this._columnDataMap = new Map();
+  constructor(
+    private config: UsaTableConfig,
+    public cdr: ChangeDetectorRef,
+  ) { 
+    this.borderless = this.config.borderless;
+    this.compact = this.config.compact;
+    this.scrollable = this.config.scrollable;
+    this.striped = this.config.striped;
+    this.stacked = this.config.stacked;
+    this.stackedHeader = this.config.stackedHeader;
+  }
+
+  ngAfterContentInit(): void {
     this._contentColumnDefs.forEach(column => {
-      this._columnHeaderMap.set(column.usaColumnDef, column.tableHeader);
-      this._columnDataMap.set(column.usaColumnDef, column.tableData);
+      this._columnHeaderMap.set(column.usaColumnDef, column);
+      this._columnDataMap.set(column.usaColumnDef, column.tableDataTemplate?.templateRef); 
     });
 
     this._headerRowDefs = this._contentHeaderRowDefs.toArray();
-    this._dataRowDefs = this._tableDataDefs.toArray();
-    console.log('data row', this._dataRowDefs);
-    console.log('data map', this._columnDataMap);
-
   }
 
-  ngOnDestroy() {
-    // this._headerRowOutlet.viewContainer.clear();
+  ngOnChanges(changes) {
+    if (!changes.displayedData || !this._sortedColumnInfo.sortColumn) {
+      return;
+    }
+
+    this._sortColumnData(
+      this._sortedColumnInfo.sortColumn, 
+      this._sortedColumnInfo.sortFn, 
+      this._sortedColumnInfo.sortState);
   }
 
-  log(headers) {
-    console.log(headers);
+  private _sortColumnData(sortColumn: UsaColumnDef, sortFn: Function, sortState: 'ascending' | 'descending') {
+    this.displayedData.sort((a, b) => {
+      const valueA = a[sortColumn.usaColumnDef];
+      const valueB = b[sortColumn.usaColumnDef];
+
+      // Invert sorting if state is descending
+      return sortState === 'ascending' ? sortFn(valueA, valueB) : (-1) * sortFn(valueA,valueB);
+    });
+
+    // this._refreshDataMappings(this._contentColumnDefs, sortedData);
+    sortColumn.setSortActive(sortState);
+
+    this._sortedColumnInfo = {
+      sortFn,
+      sortState,
+      sortColumn
+    };
+  }
+
+  private setAriaLiveOnSort() {
+    if (!this._sortedColumnInfo.sortColumn || !this._sortedColumnInfo.sortState) {
+      return;
+    }
+
+    const sortedColumn = this._sortedColumnInfo.sortColumn.tableHeader._defaultAriaLabel;
+    this._ariaLiveSortMessage = `The column ${sortedColumn} is now sorted in ${this._sortedColumnInfo.sortState} order`;
   }
 }

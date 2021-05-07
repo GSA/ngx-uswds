@@ -88,7 +88,10 @@ export * from './lib/step-indicator/step-indicator-header.component';
 export * from './lib/step-indicator/step-indicator.module';
 
 // Table
-export * from './lib/table/table-header.model';
+export * from './lib/table/models';
+export * from './lib/table/table-data';
+export * from './lib/table/table-header';
+export * from './lib/table/table-sort.component';
 export * from './lib/table/table.component';
 export * from './lib/table/table.module';
 

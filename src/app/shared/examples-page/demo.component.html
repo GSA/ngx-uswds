@@ -8,7 +8,7 @@
         {{showCode ? 'Hide' : 'Show'}} Code
       </button>
       <a class="usa-button usa-button--unstyled margin-left-1" *ngIf="getGithubLink()" [attr.href]="getGithubLink()"
-        target="_blank" aria-label="Open new window in github">
+        target="_blank" [attr.aria-label]="'Open new window for ' + demoTitle + ' in github'">
         Github
       </a>
     </div>

@@ -1,0 +1,60 @@
+<usa-table [displayedData]="tableData" [scrollable]="true">
+  <caption>
+    Recently admitted US states (sortable table example)
+  </caption>
+  <ng-container usaColumnDef="name">
+    <th usa-table-header *usaTableHeaderDef>
+      Name
+      <button usa-sort></button>
+    </th>
+    <td usa-table-data  *usaTableDataDef="let state" data-label="Name">{{state.name}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="order">
+    <th usa-table-header *usaTableHeaderDef>
+      Order admitted to union 
+      <button usa-sort></button>
+    </th>
+    <td usa-table-data  *usaTableDataDef="let state" data-label="Order admitted to union">{{state.order}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="ratificationDate">
+    <th usa-table-header *usaTableHeaderDef>
+      Date of ratification vote
+      <button usa-sort [sortFn]="compareDates"></button>
+    </th>
+    <td usa-table-data  *usaTableDataDef="let state" data-label="Date of ratification vote">{{state.ratificationDate}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="admittedDate">
+    <th usa-table-header *usaTableHeaderDef>
+      Date admitted to union
+      <button usa-sort [sortFn]="compareDates"></button>
+    </th>
+    <td usa-table-data  *usaTableDataDef="let state" data-label="Date admitted to union">{{state.admittedDate}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="votesInFavorPercent">
+    <th usa-table-header *usaTableHeaderDef>
+      Percent of voters in favor of ratification
+      <button usa-sort></button>
+    </th>
+    <td usa-table-data  *usaTableDataDef="let state" data-label="Percent of voters in favor of ratification">{{state.votesInFavorPercent}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="votesInFavorNumber">
+    <th usa-table-header *usaTableHeaderDef>
+      Votes cast in favor of ratification
+      <button 
+        usa-sort 
+        [sortFn]="compareCommaSeparatedNumbers">
+    </button>
+    </th>
+    <td usa-table-data *usaTableDataDef="let state" data-label="Votes cast in favor of ratification">{{state.votesInFavorNumber}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="population">
+    <th usa-table-header *usaTableHeaderDef>
+      Estimated population at time of admission
+      <button usa-sort [sortFn]="compareCommaSeparatedNumbers"></button>
+    </th>
+    <td usa-table-data  *usaTableDataDef="let state" data-label="Estimated population at time of admission">{{state.population}}</td>
+  </ng-container>
+
+  <tr *usaHeaderRowDef="tableColumns"></tr>
+  <tr *usaDataRowDef="let row; columns: tableColumns;"></tr>
+</usa-table>

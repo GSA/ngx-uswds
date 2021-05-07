@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsaColumnDef, UsaDataRowDef, UsaHeaderRowDef, UsaTableComponent, UsaTableDataDef, UsaTableHeader, UsaTableHeaderDef } from './table.component';
-
-
+import { UsaColumnDef, UsaTableComponent } from './table.component';
+import { UsaHeaderRowDef, UsaTableHeader, UsaTableHeaderDef } from './table-header';
+import { UsaTableDataDef, UsaDataRowDef, UsaTableData } from './table-data';
+import { UsaSort } from './table-sort.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,8 @@ import { UsaColumnDef, UsaDataRowDef, UsaHeaderRowDef, UsaTableComponent, UsaTab
     UsaHeaderRowDef,
     UsaTableDataDef,
     UsaDataRowDef,
+    UsaSort,
+    UsaTableData,
   ],
   imports: [
     CommonModule
@@ -25,6 +28,8 @@ import { UsaColumnDef, UsaDataRowDef, UsaHeaderRowDef, UsaTableComponent, UsaTab
     UsaTableHeaderDef,
     UsaTableDataDef,
     UsaDataRowDef,
+    UsaSort,
+    UsaTableData,
   ]
 })
 export class UsaTableModule { }

@@ -1,45 +1,56 @@
-<usa-table [displayedData]="displyedData">
-  <ng-container usaColumnDef="position">
-    <th usa-table-header *usaTableHeaderDef>Position</th>
-    <td *usaTableDataDef="let element">{{element}}</td>
-  </ng-container>
-  <ng-container usaColumnDef="name">
-    <th usa-table-header *usaTableHeaderDef>Name</th>
-    <td *usaTableDataDef="let element" class="text-center">{{element}}</td>
-  </ng-container>
-  <ng-container usaColumnDef="weight">
-    <th usa-table-header *usaTableHeaderDef>Weight</th>
-    <td *usaTableDataDef="let element">{{element}}</td>
-  </ng-container>
-  <ng-container usaColumnDef="symbol">
-    <th usa-table-header *usaTableHeaderDef>Symbol</th>
-    <td *usaTableDataDef="let element">{{element}}</td>
-  </ng-container>
+<div class="grid-row">
+  <input type="checkbox" id="borderless" name="borderless" value="Borderless" class="usa-checkbox__input" checked
+    (change)="borderless = $event.target.checked">
+  <label for="borderless" class="usa-checkbox__label">Borderless</label><br>
 
-  <ng-container usaColumnDef="header-col-1">
-    <th
-      usa-table-header
-      *usaTableHeaderDef
-      [style.text-align]="center"
-      [attr.colspan]="2"
-    >
-      First group
-    </th>
-  </ng-container>
-  <ng-container usaColumnDef="header-col-2">
-    <th
-      usa-table-header
-      *usaTableHeaderDef
-      [style.text-align]="center"
-      [attr.colspan]="2"
-    >
-      Second group
-    </th>
-  </ng-container>
+  <input type="checkbox" id="striped" name="striped" value="Striped" class="usa-checkbox__input" 
+    (change)="striped = $event.target.checked">
+  <label for="striped" class="usa-checkbox__label">Striped</label><br>
 
-  <tr usa-header-row *usaHeaderRowDef="['header-col-1', 'header-col-2']"></tr>
+  <input type="checkbox" id="compact" name="compact" value="Compact" class="usa-checkbox__input" 
+    (change)="compact = $event.target.checked">
+  <label for="compact" class="usa-checkbox__label">Compact</label><br>
+
+  <input type="checkbox" id="scrollable" name="scrollable" value="Scrollable" class="usa-checkbox__input" 
+    (change)="scrollable = $event.target.checked">
+  <label for="scrollable" class="usa-checkbox__label">Scrollable</label><br>
+
+  <input type="checkbox" id="stacked" name="stacked" value="Stacked" class="usa-checkbox__input" 
+    (change)="stacked = $event.target.checked">
+  <label for="stacked" class="usa-checkbox__label">Stacked (Mobile View)</label><br>
+
+  <input type="checkbox" id="stackedHeader" name="stackedHeader" value="Stacked Header" class="usa-checkbox__input" 
+    (change)="stackedHeader = $event.target.checked">
+  <label for="stackedHeader" class="usa-checkbox__label">Stacked Header (Mobile View)</label><br>
+</div>
+
+
+
+<usa-table 
+  [displayedData]="displyedData" 
+  [borderless]="borderless" 
+  [striped]="striped"
+  [compact]="compact"
+  [scrollable]="scrollable"
+  [stacked]="stacked"
+  [stackedHeader]="stackedHeader"
+>
+  <caption>
+    Borderless table: A borderless table can be useful when you want the information to feel more a part of the text it accompanies and extends.
+  </caption>
+  <ng-container usaColumnDef="title">
+    <th usa-table-header *usaTableHeaderDef>Document Title</th>
+    <td usa-table-data  *usaTableDataDef="let document" data-label="Document Title">{{document.title}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="description">
+    <th usa-table-header *usaTableHeaderDef>Description</th>
+    <td usa-table-data  *usaTableDataDef="let document" data-label="Description">{{document.description}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="year">
+    <th usa-table-header *usaTableHeaderDef>Year</th>
+    <td usa-table-data  *usaTableDataDef="let document" data-label="Year">{{document.year}}</td>
+  </ng-container>
 
   <tr *usaHeaderRowDef="displayedColumns"></tr>
-
   <tr *usaDataRowDef="let row; columns: displayedColumns;"></tr>
 </usa-table>
