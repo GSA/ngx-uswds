@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { UsaTooltipModule } from 'projects/uswds-components/src/lib/tooltip/tooltip.module';
-import { USWDSCardModule} from "uswds-components";
 import { DocumentationComponentsSharedModule, DocumentationDemoList } from '../shared';
 import { DemoWrapperComponent } from '../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../shared/examples-page/examples.component';
@@ -46,6 +45,9 @@ export const ROUTES = [
     DocumentationComponentsSharedModule,
     UsaTooltipModule,
   ],
+  declarations: [
+    TooltipComponent,
+  ]
 })
 export class TooltipModule {
   constructor(demoList: DocumentationDemoList) {
