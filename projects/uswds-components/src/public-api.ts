@@ -95,3 +95,6 @@ export * from './lib/table/table-sort.component';
 export * from './lib/table/table.component';
 export * from './lib/table/table.module';
 
+// Tooltip
+export * from './lib/tooltip/tooltip.directive';
+export * from './lib/tooltip/tooltip.module';

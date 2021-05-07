@@ -86,10 +86,15 @@ export class AppComponent implements OnInit {
       id: 15
     },
     {
-      labelText: 'Table',
-      href: 'table',
+      labelText: 'Tooltip',
+      href: 'tooltip',
       id: 16
     },
+    {
+      labelText: 'Table',
+      href: 'table',
+      id: 17,
+    }
   ];
 
   selectedItem: SidenavModel;
