@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TrackByFunction } from '@angular/core';
 import { TableDataSource } from 'uswds-components';
 
 @Component({
@@ -38,6 +38,10 @@ export class DynamicTableComponent {
       year: 1863
     },
   ];
+
+  trackByFn: TrackByFunction<TableDataSource> = (index: number, item: TableDataSource) =>  {
+    return item.id
+  }
 
   addLastDataRow() {
     if (!this.removedData.length) {

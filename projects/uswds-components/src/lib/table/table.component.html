@@ -13,8 +13,8 @@
         [ngTemplateOutlet]="headerTmpl" [ngTemplateOutletContext]="{tableHeaders: headerRowDef.usaHeaderRowDef}"></ng-container>
     </thead>
     <tbody>
-      <ng-container *ngFor="let data of displayedData; index as i" 
-        [ngTemplateOutlet]="dataTmpl" [ngTemplateOutletContext]="{data: data, index: i}"></ng-container>
+      <ng-container *ngFor="let data of displayedData; index as i; trackBy: trackBy ? trackBy : undefined" 
+        [ngTemplateOutlet]="dataTmpl" [ngTemplateOutletContext]="{data: data, index: i}"> </ng-container>
     </tbody>
   </table>
 </div>

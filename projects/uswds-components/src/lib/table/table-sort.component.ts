@@ -84,6 +84,11 @@ export class UsaSort {
     ) {
       return value1 - value2;
     }
+
+    if (!value1 || !value2) {
+      return value1 ? 1 : value2 ? -1 : 0;
+    }
+    
     // Otherwise, compare alphabetically based on current user locale
     return value1
       .toString()

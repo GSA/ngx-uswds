@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import { 
   AfterContentInit, 
   ChangeDetectionStrategy, 
@@ -7,14 +6,12 @@ import {
   ContentChild, 
   ContentChildren, 
   Directive, 
-  ElementRef, 
   HostListener, 
-  Inject, 
   Input, 
   OnChanges, 
-  OnDestroy, 
   QueryList, 
-  TemplateRef, 
+  TemplateRef,
+  TrackByFunction, 
 } from '@angular/core';
 import { TableDataSource } from './models';
 import { UsaDataRowDef, UsaTableData, UsaTableDataDef } from './table-data';
@@ -93,6 +90,14 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
    * Displays first column as header when in stacked mode
    */
   @Input() stackedHeader: boolean;
+
+  /**
+   * Tracking function that will be used to check the differences in data changes. 
+   * Used similarly to ngFor trackBy function Optimize row operations by identifying 
+   * a row based on its data relative to the function to know if a row should be 
+   * added/removed/moved. Accepts a function that takes two parameters, index and item.
+   */
+  @Input() trackBy: TrackByFunction<TableDataSource>;
 
   /**
    * The column definitions provided by the user that contain what the header, data, and footer
