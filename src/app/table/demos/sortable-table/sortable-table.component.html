@@ -1,11 +1,12 @@
-<usa-table [displayedData]="tableData" [scrollable]="true">
+<usa-table [displayedData]="tableData" [scrollable]="true" (sortClicked)="onSortClicked($event)">
   <caption>
     Recently admitted US states (sortable table example)
   </caption>
   <ng-container usaColumnDef="name">
     <th usa-table-header *usaTableHeaderDef>
       Name
-      <button usa-sort></button>
+      <!-- Sort event in for each column -->
+      <button usa-sort (sortClicked)="onSortClicked({column: 'name', sortState: $event})"></button>
     </th>
     <td usa-table-data  *usaTableDataDef="let state" data-label="Name">{{state.name}}</td>
   </ng-container>
