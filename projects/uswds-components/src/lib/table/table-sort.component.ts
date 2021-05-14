@@ -1,5 +1,5 @@
 import { DOCUMENT } from "@angular/common";
-import { Component, ElementRef, Inject, Input } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Inject, Input, Output } from "@angular/core";
 
 @Component({
   selector: `button[usa-sort]`,
@@ -27,6 +27,8 @@ import { Component, ElementRef, Inject, Input } from "@angular/core";
 export class UsaSort {
   @Input() sortFn: (a: any, b: any) => number;
 
+  @Output() sortClicked = new EventEmitter();
+
   ariaSort: 'ascending' | 'descending' | 'none' = 'none';
   ariaLabel: string;
 
@@ -34,7 +36,7 @@ export class UsaSort {
 
   constructor(
     public _el: ElementRef,
-    @Inject(DOCUMENT) private _document: Document
+    @Inject(DOCUMENT) private _document
   ) {}
 
   onClick() {
@@ -56,6 +58,7 @@ export class UsaSort {
     }
 
     this._el.nativeElement.dispatchEvent(event);
+    this.sortClicked.emit(this.ariaSort);
   }
 
   setColumnHeader(columnHeaderText: string) {

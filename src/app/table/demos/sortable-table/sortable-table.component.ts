@@ -34,4 +34,8 @@ export class SortableTableComponent {
     
     return parsedDateA.getTime() - parsedDateB.getTime();
   }
+
+  onSortClicked($event: {column: string, sortState: 'ascending' | 'descending'}) {
+    console.log($event)
+  }
 }

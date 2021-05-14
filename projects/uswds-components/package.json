@@ -1,6 +1,6 @@
 {
-  "name": "uswds-components",
-  "version": "0.0.1",
+  "name": "ngx-uswds",
+  "version": "0.0.3",
   "peerDependencies": {
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.2.4",
