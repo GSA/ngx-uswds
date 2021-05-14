@@ -6,9 +6,11 @@ import {
   ContentChild, 
   ContentChildren, 
   Directive, 
+  EventEmitter, 
   HostListener, 
   Input, 
   OnChanges, 
+  Output, 
   QueryList, 
   TemplateRef,
   TrackByFunction, 
@@ -32,7 +34,7 @@ export class UsaColumnDef {
   @ContentChild(UsaSort) tableSort: UsaSort;
 
   @Input() usaColumnDef: string;
-
+  
   isSortActive = false;
 
   setSortActive(sortState: 'ascending' | 'descending') {
@@ -100,6 +102,12 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
   @Input() trackBy: TrackByFunction<TableDataSource>;
 
   /**
+   * Emitted whenever a column's sort button is clicked. Emits columns name and
+   * sort state (ascending/descending) value
+   */
+  @Output() sortClicked = new EventEmitter<{column: string, sortState: 'ascending' | 'descending'}>();
+
+  /**
    * The column definitions provided by the user that contain what the header, data, and footer
    * cells should render for each column.
    */
@@ -139,7 +147,8 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
    * @param $event 
    */
   @HostListener('sort', ['$event'])
-  onSortClicked($event: CustomEvent) {    
+  onSortClicked($event: CustomEvent) {  
+    let isColumnFound = false;  
     this._contentColumnDefs.forEach(column => {
       if (!column.tableSort) {
         return;
@@ -149,11 +158,23 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
         column.setSortInactive();
       } else if (tableSortEl === $event.target) {
         this._sortColumnData(column, $event.detail.sortFn, $event.detail.sortState);
+        isColumnFound = true;
       }
     });
 
     this.setAriaLiveOnSort();
     $event.stopImmediatePropagation();
+
+    if (!isColumnFound) {
+      return;
+    }
+    
+    const sortEvent = {
+      column: this._sortedColumnInfo.sortColumn.usaColumnDef,
+      sortState: this._sortedColumnInfo.sortState
+    };
+
+    this.sortClicked.emit(sortEvent);
   }
 
   constructor(
