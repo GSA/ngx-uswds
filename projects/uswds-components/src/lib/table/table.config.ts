@@ -39,4 +39,12 @@ export class UsaTableConfig {
    * @default false
    */
   stackedHeader = false;
+
+  /**
+   * Whether or not the data is sorted server side. If set to true, then
+   * the table will not perform sort operations on given data, but simply
+   * handle bookkeeping of sort state and event emission
+   * @default false
+   */
+  serverSideSort = false;
 }

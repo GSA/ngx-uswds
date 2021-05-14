@@ -1,4 +1,5 @@
 import { 
+  AfterContentChecked,
   AfterContentInit, 
   ChangeDetectionStrategy, 
   ChangeDetectorRef, 
@@ -57,7 +58,7 @@ export class UsaColumnDef {
   styleUrls: ['./table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsaTableComponent implements AfterContentInit, OnChanges {
+export class UsaTableComponent implements AfterContentInit, OnChanges, AfterContentChecked {
 
   /**
    * Display table without column borders
@@ -102,6 +103,13 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
   @Input() trackBy: TrackByFunction<TableDataSource>;
 
   /**
+   * Whether or not the data is sorted server side. If set to true, then
+   * the table will not perform sort operations on given data, but simply
+   * handle bookkeeping of sort state and event emission
+   */
+  @Input() serverSideSort: boolean;
+
+  /**
    * Emitted whenever a column's sort button is clicked. Emits columns name and
    * sort state (ascending/descending) value
    */
@@ -140,6 +148,12 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
   }
 
   _ariaLiveSortMessage: string;
+
+  /**
+   * Internal flag that gets raised anytime input data reference changes to indicate
+   * next content check cycle, we need to re-evaluate the column with data sort active
+   */
+  _resortAfterContentCheck: boolean = false;
 
   /**
    * Event bubbled up from sort button on click. Sorts the table based on
@@ -187,6 +201,7 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
     this.striped = this.config.striped;
     this.stacked = this.config.stacked;
     this.stackedHeader = this.config.stackedHeader;
+    this.serverSideSort = this.config.serverSideSort;
   }
 
   ngAfterContentInit(): void {
@@ -203,13 +218,39 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
       return;
     }
 
+    this._resortAfterContentCheck = true;
+    this.cdr.detectChanges();
+  }
+
+  ngAfterContentChecked() {
+    if (!this._resortAfterContentCheck) {
+      return;
+    }
+
     this._sortColumnData(
       this._sortedColumnInfo.sortColumn, 
       this._sortedColumnInfo.sortFn, 
       this._sortedColumnInfo.sortState);
+    this.cdr.detectChanges();
+    this._resortAfterContentCheck = false;
   }
 
   private _sortColumnData(sortColumn: UsaColumnDef, sortFn: Function, sortState: 'ascending' | 'descending') {
+    sortColumn.setSortActive(sortState);
+
+    this._sortedColumnInfo = {
+      sortFn,
+      sortState,
+      sortColumn
+    };
+
+    /**
+     * Sorting done from server side - omit front end side sorting
+     */
+    if (this.serverSideSort) {
+      return;
+    }
+
     this.displayedData.sort((a, b) => {
       const valueA = a[sortColumn.usaColumnDef];
       const valueB = b[sortColumn.usaColumnDef];
@@ -218,14 +259,7 @@ export class UsaTableComponent implements AfterContentInit, OnChanges {
       return sortState === 'ascending' ? sortFn(valueA, valueB) : (-1) * sortFn(valueA,valueB);
     });
 
-    // this._refreshDataMappings(this._contentColumnDefs, sortedData);
-    sortColumn.setSortActive(sortState);
 
-    this._sortedColumnInfo = {
-      sortFn,
-      sortState,
-      sortColumn
-    };
   }
 
   private setAriaLiveOnSort() {
