@@ -1,4 +1,8 @@
-<usa-table [displayedData]="tableData" [scrollable]="true" (sortClicked)="onSortClicked($event)">
+<usa-table 
+  [displayedData]="tableData" 
+  [scrollable]="true"
+  [serverSideSort]="false" 
+  (sortClicked)="onSortClicked($event)">
   <caption>
     Recently admitted US states (sortable table example)
   </caption>
