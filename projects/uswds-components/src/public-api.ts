@@ -53,6 +53,7 @@ export * from './lib/dropdown/dropdown.module';
 // File Input
 export * from './lib/file-input/file-input.component';
 export * from './lib/file-input/file-input.module';
+export * from './lib/file-input/file-input.config';
 
 // Link
 export * from './lib/link/link.component';
