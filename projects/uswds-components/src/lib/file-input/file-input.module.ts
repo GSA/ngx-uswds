@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { USWDSFileInputComponent } from './file-input.component';
+import { UsaFileInputComponent } from './file-input.component';
 import { FileInputConfig } from "./file-input.config";
 import { UsaFilePreviewDirective } from "./file-preview.directive";
 
@@ -11,14 +11,14 @@ import { UsaFilePreviewDirective } from "./file-preview.directive";
     ReactiveFormsModule,
   ],
   declarations: [
-    USWDSFileInputComponent,
+    UsaFileInputComponent,
     UsaFilePreviewDirective,
   ],
   exports: [
-    USWDSFileInputComponent
+    UsaFileInputComponent
   ],
   providers: [
     FileInputConfig
   ]
 })
-export class USWDSFileInputModule {}
+export class UsaFileInputModule {}

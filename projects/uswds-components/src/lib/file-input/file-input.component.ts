@@ -1,25 +1,33 @@
 import { 
-  ChangeDetectorRef, 
   Component, 
   ElementRef, 
   Input, 
-  Output, 
   TemplateRef, 
   ViewChild, 
+  forwardRef,
+  Output,
   EventEmitter, 
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FileInputConfig } from './file-input.config';
 
 export interface UploadedFile {
   isLoading?: boolean, 
   imageId: string, 
-  file: File 
+  file: File
 }
 @Component({
-  selector: 'uswds-file-input',
+  selector: 'usa-file-input',
   templateUrl: './file-input.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UsaFileInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class USWDSFileInputComponent {
+export class UsaFileInputComponent implements ControlValueAccessor{
 
   @ViewChild('fileInputEl') fileInputElement: ElementRef;
 
@@ -43,15 +51,16 @@ export class USWDSFileInputComponent {
 
   @Output() selectedFilesChange = new EventEmitter<File[]>();
 
-  readonly DRAG_CLASS = 'usa-file-input--drag';
-
   DRAG_OVER_STATE = false;
   ERROR_STATE = false;
 
-  instructions: HTMLElement;
-  dropTarget: HTMLElement;
-
   inputFiles: UploadedFile[] = [];
+
+  // Save the callbacks, make sure to have a default so your app
+  // doesn't crash when one isn't (yet) registered
+  private onChange = (v: any) => {};
+  private onTouched = () => {};
+
 
   constructor(
     private fileInputConfig: FileInputConfig,
@@ -74,22 +83,25 @@ export class USWDSFileInputComponent {
     this.DRAG_OVER_STATE = false;
   }
 
-  onChange($event) {
+  onNewFilesUpload($event) {
     const newFiles: File[] = Array.from($event.target.files);
-
-    // Validate new files match expected types
-    let areValidFiles = true;
-    newFiles.forEach(file => {
-      areValidFiles = areValidFiles && this.validateFileType(file);
-    });
-
-    if (!areValidFiles) {
-      this.ERROR_STATE = true;
+    
+    if (newFiles.length === 0) {
       return;
     }
 
-    this.ERROR_STATE = false;
+    // Validate new files match expected types
+    let areValidFiles = this.validateFileType(newFiles);
 
+    if (areValidFiles) {
+      this.ERROR_STATE = false;
+    } else {
+      this.ERROR_STATE = true;
+      this.selectedFiles = [];
+      this.inputFiles = [];
+      return;
+    }
+    
     // Clear current files OR append to existing based on user config
     if (!this.multiple || this.clearFilesOnAdd) {
       this.inputFiles = [];
@@ -108,24 +120,101 @@ export class USWDSFileInputComponent {
     });
 
     this.selectedFilesChange.emit(this.selectedFiles);
+
+    // Notify Angular to update its model
+    this.onChange(this.selectedFiles);
+    this.onTouched();
+  }
+
+  removeFile(file: File) {
+    const index = this.selectedFiles.indexOf(file);
+    let inputFileIndex = -1;
+    this.inputFiles.forEach((inputFile, index) => {
+      if (inputFile.file === file) {
+        inputFileIndex = index;
+      }
+    });
+
+    if (index === -1 || inputFileIndex === -1) {
+      return;
+    }
+
+    this.selectedFiles.splice(index, 1);
+    this.selectedFilesChange.emit(this.selectedFiles);
+    this.writeValue(this.selectedFiles);
+    this.onChange(this.selectedFiles);
+    this.onTouched();
+  }
+
+  clearFiles() {
+    this.selectedFiles = [];
+    this.selectedFilesChange.emit(this.selectedFiles);
+    this.writeValue(this.selectedFiles);
+    this.onChange(this.selectedFiles);
+    this.onTouched();
   }
 
   trackLoadedFilesBy(index: number, item: UploadedFile) {
     return item.imageId;
   }
 
-  private validateFileType(file: File) {
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  writeValue(files: File[]): void {
+    if (this.disabled) {
+      return;
+    }
+    let areValidFiles = this.validateFileType(files);
+
+    if (areValidFiles) {
+      this.ERROR_STATE = false;
+    } else {
+      this.ERROR_STATE = true;
+      return;
+    }
+
+    this.inputFiles = [];
+    this.selectedFiles = files;
+    // Read file data and add laoding / preview states
+    files.forEach(file => {
+      const imageId = this.getImageId(file, this.inputFiles);
+      const inputFile = {
+        isLoading: true, imageId, file
+      };
+      this.inputFiles.push(inputFile);
+    });
+  }
+
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
+
+  private validateFileType(files: File[]) {
     if (!this.acceptFileType) {
       return true;;
     }
 
     const acceptedFiles = this.acceptFileType.split(',');
-    const isValidFileType = acceptedFiles.some(acceptedFileType => {
-      return file.name.indexOf(acceptedFileType) > 0 || file.type.includes(acceptedFileType.replace(/\*/g, ""))
-    });
 
-    return isValidFileType;
+    for(let i = 0; i < files.length; i++) {
+      const isValidFileType = acceptedFiles.some(acceptedFileType => {
+        return files[i].name.indexOf(acceptedFileType) > 0 || files[i].type.includes(acceptedFileType.replace(/\*/g, ""))
+      });
+
+      if (!isValidFileType) {
+        return false;
+      }
+    }
+
+    return true;
   }
+
+
 
   /**
    * Given a file and list of pre-uploaded files, generates and returns an id for the file.

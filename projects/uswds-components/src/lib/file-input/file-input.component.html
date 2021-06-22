@@ -1,7 +1,7 @@
 <div class="usa-form-group">
   <label class="usa-label" [for]="id">{{label}}</label>
   <span class="usa-hint" [attr.id]="id + '-hint'">{{hint}}</span>
-  <div class="usa-file-input">
+  <div class="usa-file-input grid-row">
     <div class="usa-file-input__target" [ngClass]="{
         'usa-file-input--drag': DRAG_OVER_STATE,
         'has-invalid-file': ERROR_STATE
@@ -31,7 +31,7 @@
       <input [attr.id]="id" class="usa-file-input__input" type="file" [attr.name]="id" [attr.files]="selectedFiles"
         [attr.aria-describedby]="id + '-hint'" [attr.accept]="acceptFileType"
         [attr.multiple]="multiple ? multiple : undefined" [disabled]="disabled" (dragover)="onDragOver()"
-        (dragleave)="onDragLeave()" (drop)="onFileDrop($event)" (change)="onChange($event)">
+        (dragleave)="onDragLeave()" (drop)="onFileDrop($event)" (change)="onNewFilesUpload($event)">
     </div>
   </div>
 </div>
