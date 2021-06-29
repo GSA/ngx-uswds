@@ -1,6 +1,10 @@
 {
   "name": "ngx-uswds",
   "version": "0.0.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GSA/ngx-uswds.git"
+  },
   "peerDependencies": {
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.2.4",
