@@ -21,8 +21,6 @@ let stepIndicatorId = 0;
 })
 export class UsaStepIndicatorComponent implements OnChanges {
 
-  @ContentChild('UsaStepHeader') header: UsaStepIndicatorHeaderComponent;
-
   /**
    * Hides labels on each step when set to true
    */
