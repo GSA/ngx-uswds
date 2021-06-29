@@ -17,8 +17,6 @@ import { DateInputComponent } from "./date-input/date-input.component";
 import { DateInputModule } from "./date-input/date-input.module";
 import { DropdownComponent } from "./dropdown/dropdown.component";
 import { DropdownModule } from "./dropdown/dropdown.module";
-import { FileInputComponent } from "./file-input/file-input.component";
-import { FileInputModule } from "./file-input/file-input.module";
 import { LinkComponent } from "./link/link.component";
 import { LinkModule } from "./link/link.module";
 import { ListComponent } from "./list/list.component";
@@ -31,6 +29,7 @@ import {AccordionModule, ROUTES as ACCORDION_ROUTES} from './accordion/accordion
 import { ModalModule,  ROUTES as MODAL_ROUTES } from "./modal/modal.module";
 import { TableModule, ROUTES as TABLE_ROUTES } from './table/table.module';
 import { TooltipModule, ROUTES as TOOLTIP_ROUTES } from './tooltip/tooltip.module';
+import { FileInputModule, ROUTES as FILE_INPUT_ROUTES } from './file-input/file-input.module';
 
 const routes: Routes = [
   {
@@ -76,7 +75,7 @@ const routes: Routes = [
   },
   {
     path: 'file-input',
-    component: FileInputComponent
+    children: FILE_INPUT_ROUTES,
   },
   {
     path: 'link',

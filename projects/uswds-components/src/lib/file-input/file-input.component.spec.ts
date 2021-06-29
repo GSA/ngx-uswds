@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { USWDSFileInputComponent } from './file-input.component';
+import { UsaFileInputComponent } from './file-input.component';
 
 describe('USWDSFileInputComponent', () => {
-  let component: USWDSFileInputComponent;
-  let fixture: ComponentFixture<USWDSFileInputComponent>;
+  let component: UsaFileInputComponent;
+  let fixture: ComponentFixture<UsaFileInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ USWDSFileInputComponent ]
+      declarations: [ UsaFileInputComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(USWDSFileInputComponent);
+    fixture = TestBed.createComponent(UsaFileInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

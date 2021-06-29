@@ -55,11 +55,11 @@ export class AppComponent implements OnInit {
     //   href: 'dropdown',
     //   id:9
     // },
-    // {
-    //   labelText: 'File Input',
-    //   href: 'file-input',
-    //   id:10
-    // },
+    {
+      labelText: 'File Input',
+      href: 'file-input',
+      id:10
+    },
     // {
     //   labelText: 'Link',
     //   href: 'link',

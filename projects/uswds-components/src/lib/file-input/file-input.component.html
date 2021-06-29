@@ -1,19 +1,44 @@
 <div class="usa-form-group">
   <label class="usa-label" [for]="id">{{label}}</label>
-  <input [attr.id]="id"
-    #fileInputEl
-    class="usa-file-input"
-    [ngClass]="{
-      'usa-file-input--drag': DRAG_OVER_STATE
-    }"
-    type="file"
-    [attr.name]="id"
-    [attr.multiple]="multiple"
-    [attr.accept]="acceptFileType"
-    [disabled]="disabled"
-    (dragover)="onDragOver()"
-    (dragleave)="onDragLeave()"
-    (drop)="onFileDrop($event)"
-    (change)="onChange($event)"
-  />
+  <span class="usa-hint" [attr.id]="id + '-hint'">{{hint}}</span>
+  <div class="usa-file-input grid-row">
+    <div class="usa-file-input__target" [ngClass]="{
+        'usa-file-input--drag': DRAG_OVER_STATE,
+        'has-invalid-file': ERROR_STATE
+      }">
+      <ng-container *ngIf="displayFileInfo && (inputFiles && inputFiles.length); else selectFiles">
+        <div class="usa-file-input__preview-heading">
+          <ng-container *ngIf="inputFiles.length > 1; else singleFileSelected">
+            {{inputFiles.length}} files selected
+            <span class="usa-file-input__choose">Change files</span>
+          </ng-container>
+          <ng-template #singleFileSelected>
+            Selected file
+            <span class="usa-file-input__choose">Change file</span>
+          </ng-template>
+        </div>
+        <div class="usa-file-input__preview" aria-hidden="true"
+          *ngFor="let inputFile of inputFiles; trackBy:trackLoadedFilesBy">
+          <img [attr.id]="inputFile.imageId" [usaFilePreview]="inputFile.file" alt=""
+            class="usa-file-input__preview-image " />
+          {{inputFile.file.name}}
+        </div>
+      </ng-container>
+
+      <div class="usa-file-input__box"></div>
+      <div *ngIf="ERROR_STATE === true" class="usa-file-input__accepted-files-message">This is not a valid file type.
+      </div>
+      <input [attr.id]="id" class="usa-file-input__input" type="file" [attr.name]="id" [attr.files]="selectedFiles"
+        [attr.aria-describedby]="id + '-hint'" [attr.accept]="acceptFileType"
+        [attr.multiple]="multiple ? multiple : undefined" [disabled]="disabled" (dragover)="onDragOver()"
+        (dragleave)="onDragLeave()" (drop)="onFileDrop($event)" (change)="onNewFilesUpload($event)">
+    </div>
+  </div>
 </div>
+
+<ng-template #selectFiles>
+  <div class="usa-file-input__instructions" aria-hidden="true">
+    <span class="usa-file-input__drag-text">Drag file here or </span>
+    <span class="usa-file-input__choose">choose from folder</span>
+  </div>
+</ng-template>
