@@ -37,8 +37,6 @@ export class UsaFileInputComponent implements ControlValueAccessor{
 
   @Input() id: string;
 
-  @Input() label: string | TemplateRef<any>;
-
   @Input() hint: string | TemplateRef<any>;
 
   @Input() disabled: boolean;
@@ -166,7 +164,7 @@ export class UsaFileInputComponent implements ControlValueAccessor{
   }
 
   writeValue(files: File[]): void {
-    if (this.disabled) {
+    if (this.disabled || !files) {
       return;
     }
     let areValidFiles = this.validateFileType(files);

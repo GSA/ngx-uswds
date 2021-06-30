@@ -67,6 +67,8 @@ export * from './lib/list/list.module';
 export * from './lib/modal/modal-dismiss-reasons';
 export * from './lib/modal/modal-ref';
 export * from './lib/modal/modal';
+export * from './lib/modal/modal-wrapper';
+export * from './lib/modal/modal-window';
 export * from './lib/modal/modal.module';
 export * from './lib/modal/modal-config';
 
