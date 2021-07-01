@@ -1,6 +1,7 @@
-# UsaComponents
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+# NgxUSWDS
+This project takes components in uswds and implements them through angular.  
+Original USWDS components can be found here - https://designsystem.digital.gov/components  
+Current progress / documentation of this project can be found here - https://gsa.github.io/ngx-uswds   
 
 ## Development server
 
