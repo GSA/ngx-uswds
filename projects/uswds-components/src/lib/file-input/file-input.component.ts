@@ -201,7 +201,8 @@ export class UsaFileInputComponent implements ControlValueAccessor{
 
     for(let i = 0; i < files.length; i++) {
       const isValidFileType = acceptedFiles.some(acceptedFileType => {
-        return files[i].name.indexOf(acceptedFileType) > 0 || files[i].type.includes(acceptedFileType.replace(/\*/g, ""))
+        const endsWithFileType = new RegExp(acceptedFileType + '$').test(files[i].name);
+        return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\*/g, ""))
       });
 
       if (!isValidFileType) {
