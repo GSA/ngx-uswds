@@ -61,7 +61,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     AccordionModule,
     ButtonGroupModule,
     CheckboxModule,
