@@ -11,6 +11,8 @@ import { FileInputMultipleModule } from './demos/file-input-multiple/file-input-
 import { FileInputTypeModule } from './demos/file-input-type/file-input-type.module';
 import { FileInputRemoveComponent } from './demos/file-input-remove/file-input-remove.component';
 import { FileInputRemoveModule } from './demos/file-input-remove/file-input-remove.module';
+import { FileInputUploadComponent } from './demos/file-input-upload/file-input-upload.component';
+import { FileInputUploadModule } from './demos/file-input-upload/file-input-upload.module';
 
 declare var require;
 
@@ -30,6 +32,14 @@ const DEMOS = {
     markup: require('!!raw-loader!./demos/file-input-multiple/file-input-multiple.component.html'),
     module: require('!!raw-loader!./demos/file-input-multiple/file-input-multiple.module'),
     path: 'src/app/file-input/demos/file-input-multiple',
+  },
+  serverLoad: {
+    title: 'Upload to Server',
+    type: FileInputUploadComponent,
+    code: require('!!raw-loader!./demos/file-input-upload/file-input-upload.component'),
+    markup: require('!!raw-loader!./demos/file-input-upload/file-input-upload.component.html'),
+    module: require('!!raw-loader!./demos/file-input-upload/file-input-upload.module'),
+    path: 'src/app/file-input/demos/file-input-upload',
   },
   acceptType: {
     title: 'Accept PDF and CSV Only',
@@ -77,6 +87,7 @@ export const ROUTES = [
     FileInputMultipleModule,
     FileInputTypeModule,
     FileInputRemoveModule,
+    FileInputUploadModule,
   ],
 })
 export class FileInputModule { 

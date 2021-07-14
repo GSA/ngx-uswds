@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
 export interface FileInputOptions {
   
@@ -29,6 +30,14 @@ export interface FileInputOptions {
    * @default true
    */
   displayFileInfo: boolean;
+
+  /**
+   * Method for making backend calls when files are uploaded. When multiple files are uploaded
+   * at once, this method is called multiple times - one for each file. If no method is provided,
+   * then the files will simply be uploaded browser side only
+   * @default undefined
+   */
+  uploadRequest?: (file: File) => Observable<any>;
 }
 
 @Injectable({
@@ -39,4 +48,5 @@ export class FileInputConfig implements Required<FileInputOptions> {
   acceptFileType = undefined;
   clearFilesOnAdd = true;
   displayFileInfo = true;
+  uploadRequest = undefined;
 }

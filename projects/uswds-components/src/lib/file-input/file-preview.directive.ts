@@ -1,11 +1,17 @@
-import { Directive, ElementRef, Input, OnInit } from "@angular/core";
+import { HttpResponse } from "@angular/common/http";
+import { Directive, ElementRef, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Observable } from "rxjs";
 
 @Directive({
   selector: `[usaFilePreview]`
 })
 export class UsaFilePreviewDirective implements OnInit {
 
-  @Input() usaFilePreview: File;
+  @Input() file: File;
+
+  @Input() uploadRequest: (file: File) => Observable<any>;
+
+  @Output() uploadError = new EventEmitter<File>();
 
   imageElement: HTMLImageElement;
 
@@ -18,22 +24,30 @@ export class UsaFilePreviewDirective implements OnInit {
     this.imageElement.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     this.imageElement.classList.add('is-loading');
     
-    const fileReader = new FileReader();
-    fileReader.onloadend = (() => {
-      const filePreviewClass = this._getFilePreviewClass(this.usaFilePreview.name);
-      const previewImage: HTMLImageElement = this.el.nativeElement;
+    if (!this.uploadRequest) {
+      this.removeLoading(this.file, this.imageElement);
+      return;
+    }
 
-      // Removes loader and displays preview
-      previewImage.classList.remove('is-loading');
-      previewImage.src = fileReader.result as string;
-      previewImage.onerror = () => {
-        previewImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-        previewImage.classList.add(filePreviewClass);
-        previewImage.onerror = null;
-      };
-    });
+    this.uploadRequest(this.file).toPromise()
+      .then(() => {
+        this.removeLoading(this.file, this.imageElement);
+      })
+      .catch(() => {
+        this.uploadError.emit(this.file);
+        this.imageElement.classList.remove('is-loading');
+        this.imageElement.src = '';
+      });
+  }
 
-    fileReader.readAsDataURL(this.usaFilePreview);
+  private removeLoading(file: File, imageElement: HTMLImageElement) {
+    const filePreviewClass = this._getFilePreviewClass(this.file.name);  
+    imageElement.classList.remove('is-loading');
+    if (file.type.indexOf('image') > -1) {
+      imageElement.src = URL.createObjectURL(file);
+    } else {
+      imageElement.classList.add(filePreviewClass);
+    }
   }
 
 

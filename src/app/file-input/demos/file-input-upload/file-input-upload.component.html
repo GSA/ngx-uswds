@@ -1,0 +1,24 @@
+<label for="fileInputMultipleId" class="usa-label">Multiple File Input With Server Side Delay</label>
+<usa-file-input
+  [id]="'fileInputMultipleId'" 
+  [multiple]="true"
+  [uploadRequest]="simulateServerDelay ? uploadFilesMethod : undefined"
+  (selectedFilesChange)="onFilesChange($event)"
+  (uploadError)="onUploadError($event)"
+>
+</usa-file-input>
+
+
+<button class="usa-button margin-top-2" (click)="simulateServerDelay = !simulateServerDelay">Toggle Server Side Upload Delay</button>
+<button class="usa-button margin-top-2" (click)="onToggleServerSideResponse()">Toggle Server Side Response</button>
+
+<p>
+  <code class="display-block">[uploadRequest]="(file: File) => Observable"</code>
+  <span *ngIf="simulateServerDelay; else hidden">Simulating delay from server side. Response will be {{serverResponseSucceeds ? 'OK' : 'error'}}</span>
+  <ng-template #hidden>
+    No request to server
+  </ng-template>
+</p>
+<p *ngFor="let failedUpload of failedUploads" class="text-red">
+  {{failedUpload.name}} failed to upload
+</p>
