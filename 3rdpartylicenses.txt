@@ -42,6 +42,8 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+@gsa-sam/ngx-uswds
+
 classlist.js
 Dedicated to the public domain
 This is free and unencumbered software released into the public domain.
@@ -250,8 +252,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-
-ngx-uswds
 
 rxjs
 Apache-2.0
