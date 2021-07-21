@@ -9,6 +9,7 @@ import {
   EventEmitter, 
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { FileInputConfig } from './file-input.config';
 
 export interface UploadedFile {
@@ -27,7 +28,7 @@ export interface UploadedFile {
     },
   ],
 })
-export class UsaFileInputComponent implements ControlValueAccessor{
+export class UsaFileInputComponent implements ControlValueAccessor {
 
   @ViewChild('fileInputEl') fileInputElement: ElementRef;
 
@@ -47,7 +48,11 @@ export class UsaFileInputComponent implements ControlValueAccessor{
 
   @Input() displayFileInfo: boolean;
 
+  @Input() uploadRequest: (file: File) => Observable<any>;
+
   @Output() selectedFilesChange = new EventEmitter<File[]>();
+
+  @Output() uploadError = new EventEmitter<File>();
 
   DRAG_OVER_STATE = false;
   ERROR_STATE = false;
@@ -67,6 +72,7 @@ export class UsaFileInputComponent implements ControlValueAccessor{
     this.acceptFileType = this.fileInputConfig.acceptFileType;
     this.clearFilesOnAdd = this.fileInputConfig.clearFilesOnAdd;
     this.displayFileInfo = this.fileInputConfig.displayFileInfo;
+    this.uploadRequest = this.fileInputConfig.uploadRequest;
   }
 
   onDragLeave() {
@@ -77,7 +83,7 @@ export class UsaFileInputComponent implements ControlValueAccessor{
     this.DRAG_OVER_STATE = true;
   }
 
-  onFileDrop($event) {
+  onFileDrop() {
     this.DRAG_OVER_STATE = false;
   }
 
@@ -150,6 +156,10 @@ export class UsaFileInputComponent implements ControlValueAccessor{
     this.writeValue(this.selectedFiles);
     this.onChange(this.selectedFiles);
     this.onTouched();
+  }
+
+  onUploadError(file: File) {
+    this.uploadError.emit(file);
   }
 
   trackLoadedFilesBy(index: number, item: UploadedFile) {

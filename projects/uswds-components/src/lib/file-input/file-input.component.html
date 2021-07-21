@@ -17,7 +17,7 @@
       </div>
       <div class="usa-file-input__preview" aria-hidden="true"
         *ngFor="let inputFile of inputFiles; trackBy:trackLoadedFilesBy">
-        <img [attr.id]="inputFile.imageId" [usaFilePreview]="inputFile.file" alt=""
+        <img usaFilePreview [attr.id]="inputFile.imageId" [file]="inputFile.file" [uploadRequest]="uploadRequest" (uploadError)="onUploadError($event)"
           class="usa-file-input__preview-image " />
         {{inputFile.file.name}}
       </div>
@@ -29,7 +29,7 @@
     <input [attr.id]="id" class="usa-file-input__input" type="file" [attr.name]="id" [attr.files]="selectedFiles"
       [attr.aria-describedby]="id + '-hint'" [attr.accept]="acceptFileType"
       [attr.multiple]="multiple ? multiple : undefined" [disabled]="disabled" (dragover)="onDragOver()"
-      (dragleave)="onDragLeave()" (drop)="onFileDrop($event)" (change)="onNewFilesUpload($event)">
+      (dragleave)="onDragLeave()" (drop)="onFileDrop()" (change)="onNewFilesUpload($event)">
   </div>
 </div>
 
