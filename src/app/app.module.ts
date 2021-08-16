@@ -2,19 +2,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { 
+import {
   USWDSSidenavModule,
- } 
+}
   from 'uswds-components';
 import { AppRoutingModule } from './app.routing.module';
 import { USWDSCardModule } from 'uswds-components';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MarkdownModule } from 'ngx-markdown';
+import { SideNavigationComponent } from './side-navigation/side-navigation.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SideNavigationComponent
   ],
   imports: [
     BrowserModule,

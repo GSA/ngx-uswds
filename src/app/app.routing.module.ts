@@ -1,19 +1,20 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { ButtonGroupComponent } from "./button-group/button-group.component";
-import { ButtonGroupModule } from "./button-group/button-group.module";
-import { CheckboxComponent } from "./checkbox/checkbox.component";
-import { CheckboxModule } from "./checkbox/checkbox.module";
-import { DropdownComponent } from "./dropdown/dropdown.component";
-import { DropdownModule } from "./dropdown/dropdown.module";
-import { StepIndicatorComponent } from "./step-indicator/step-indicator.component";
-import { StepIndicatorModule } from "./step-indicator/step-indicator.module";
-import {AccordionModule, ROUTES as ACCORDION_ROUTES} from './accordion/accordion.module';
-import { ModalModule,  ROUTES as MODAL_ROUTES } from "./modal/modal.module";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ButtonGroupComponent } from './button-group/button-group.component';
+import { ButtonGroupModule } from './button-group/button-group.module';
+import { CheckboxComponent } from './checkbox/checkbox.component';
+import { CheckboxModule } from './checkbox/checkbox.module';
+import { DropdownComponent } from './dropdown/dropdown.component';
+import { DropdownModule } from './dropdown/dropdown.module';
+import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
+import { StepIndicatorModule } from './step-indicator/step-indicator.module';
+import { AccordionModule, ROUTES as ACCORDION_ROUTES } from './accordion/accordion.module';
+import { ModalModule, ROUTES as MODAL_ROUTES } from './modal/modal.module';
 import { TableModule, ROUTES as TABLE_ROUTES } from './table/table.module';
 import { TooltipModule, ROUTES as TOOLTIP_ROUTES } from './tooltip/tooltip.module';
 import { FileInputModule, ROUTES as FILE_INPUT_ROUTES } from './file-input/file-input.module';
+import { SideNavigationComponent } from './side-navigation/side-navigation.component';
 
 const routes: Routes = [
   {
@@ -57,7 +58,11 @@ const routes: Routes = [
     path: 'tooltip',
     children: TOOLTIP_ROUTES
   },
-]
+  {
+    path: 'sidenav',
+    component: SideNavigationComponent
+  }
+];
 @NgModule({
   imports: [
     CommonModule,
@@ -76,4 +81,4 @@ const routes: Routes = [
     RouterModule,
   ]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
