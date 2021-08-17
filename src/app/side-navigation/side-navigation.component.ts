@@ -67,7 +67,7 @@ export class SideNavigationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSidenavClick(): void {
+  onSidenavClick(event: any): void {
     console.log('side nav link clicked');
   }
 
