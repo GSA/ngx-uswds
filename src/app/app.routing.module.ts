@@ -14,7 +14,7 @@ import { ModalModule, ROUTES as MODAL_ROUTES } from './modal/modal.module';
 import { TableModule, ROUTES as TABLE_ROUTES } from './table/table.module';
 import { TooltipModule, ROUTES as TOOLTIP_ROUTES } from './tooltip/tooltip.module';
 import { FileInputModule, ROUTES as FILE_INPUT_ROUTES } from './file-input/file-input.module';
-import { SideNavigationComponent } from './side-navigation/side-navigation.component';
+import { SideNavigationModule, ROUTES as SIDE_NAV_ROUTES } from './side-navigation/side-navigation.module';
 
 const routes: Routes = [
   {
@@ -59,8 +59,8 @@ const routes: Routes = [
     children: TOOLTIP_ROUTES
   },
   {
-    path: 'sidenav',
-    component: SideNavigationComponent
+    path: 'side-navigation',
+    children: SIDE_NAV_ROUTES
   }
 ];
 @NgModule({
@@ -75,7 +75,8 @@ const routes: Routes = [
     StepIndicatorModule,
     ModalModule,
     TableModule,
-    TooltipModule
+    TooltipModule,
+    SideNavigationModule
   ],
   exports: [
     RouterModule,

@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     },
     {
       labelText: 'Side Navigation',
-      href: 'sidenav',
+      href: 'side-navigation',
       id: 18,
     }
   ];

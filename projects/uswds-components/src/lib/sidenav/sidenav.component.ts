@@ -1,22 +1,62 @@
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { AfterViewInit, Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { SidenavModel } from './sidenav.model';
 
 
 @Component({
   selector: `uswds-sidenav`,
-  templateUrl: `sidenav.component.html`
+  templateUrl: `sidenav.component.html`,
+  styleUrls: ['sidenav.component.scss']
 })
-export class USWDSSidenavComponent {
+export class USWDSSidenavComponent implements OnInit {
 
   @Input() sidenavContent: SidenavModel[];
 
+  @Input() enableCollapse = false;
+
+  /**
+   * Classes to be applied to toggle button
+   */
+  @Input() buttonClasses = '';
+
   @Output() sidenavClicked = new EventEmitter<SidenavModel>();
+
+  @ContentChild('expand')
+  expand: TemplateRef<any>;
+
+  @ContentChild('collapse')
+  collapse: TemplateRef<any>;
+
+  ngOnInit(): void {
+    // If collapse is enabled, collapse all children by default
+    if (this.enableCollapse) {
+      this.sidenavContent.map(link => {
+        if (link.children) {
+          link.collapsed = link.collapsed === undefined ? true : link.collapsed;
+          this.collapseChildren(link);
+        }
+      });
+    }
+  }
+
+  collapseChildren(link: SidenavModel): void {
+    link.children = link.children.map(childLink => {
+      childLink.collapsed = true;
+      return childLink;
+    });
+  }
 
   onSidenavItemClicked(item: SidenavModel): void {
     this.deselectSideNav(this.sidenavContent);
     this.selectSideNav(item, this.sidenavContent);
     this.deactivateChild(this.sidenavContent);
+    if (item.children) {
+      item.collapsed = false;
+    }
     this.sidenavClicked.emit(item);
+  }
+
+  toggleChildrenExpansion(link: SidenavModel): void {
+    link.children.map(childLink => childLink.collapsed = !childLink.collapsed);
   }
 
   /**
@@ -63,12 +103,31 @@ export class USWDSSidenavComponent {
     const topLevelLink = allNavItems.find(item => item.selected);
     if (topLevelLink.children) {
       const selectedChildLink = topLevelLink.children.find(item => item.selected);
-      if (selectedChildLink.children) {
+      if (selectedChildLink?.children) {
         const selectedGrandchildLink = selectedChildLink.children.find(item => item.selected);
         if (selectedGrandchildLink) {
           selectedChildLink.selected = false;
         }
       }
+    }
+  }
+
+  handleButtonClick(link: SidenavModel): void {
+    link.collapsed = !link.collapsed;
+  }
+
+  expandAll(): void {
+    this.sidenavContent.forEach(link => this.expandChildren(link, false));
+  }
+
+  collapseAll(): void {
+    this.sidenavContent.forEach(link => this.expandChildren(link, true));
+  }
+
+  private expandChildren(link: SidenavModel, collapsedValue: boolean): void {
+    if (link.children) {
+      link.collapsed = collapsedValue;
+      link.children.forEach(childLink => childLink.children ? this.expandChildren(childLink, collapsedValue) : null);
     }
   }
 }

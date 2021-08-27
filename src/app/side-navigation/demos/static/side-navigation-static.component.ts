@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SidenavModel } from 'uswds-components';
 
 @Component({
-  selector: 'app-side-navigation',
-  templateUrl: './side-navigation.component.html',
-  styles: []
+  selector: 'app-side-navigation-static',
+  templateUrl: './side-navigation-static.component.html'
 })
-export class SideNavigationComponent implements OnInit {
+export class SideNavigationStaticComponent {
+
+
 
   sidenavModel: SidenavModel[] = [
     {
@@ -64,10 +65,7 @@ export class SideNavigationComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
-  onSidenavClick(): void {
+  onSidenavClick(event: any): void {
     console.log('side nav link clicked');
   }
 

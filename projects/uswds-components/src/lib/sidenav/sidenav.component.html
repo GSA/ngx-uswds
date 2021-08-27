@@ -4,19 +4,29 @@
     </ng-container>
   </li>
 </ul>
+<div *ngIf="enableCollapse">
+  <button class="usa-button" (click)="expandAll()">Expand All</button>
+  <button class="usa-button" (click)="collapseAll()">Collapse All</button>
+</div>
 
 <ng-template #sideNavLinkTemplate let-link>
-  <a 
-    [attr.class]="link.selected ? 'usa-current' : ''"
-    href="javascript:void(0);"
-    [innerHtml]="link.labelText"
-    (click)="onSidenavItemClicked(link)">
-  </a>
-  <ul *ngIf="link.children" class="usa-sidenav__sublist">
-    <li *ngFor="let link of link.children" class="sidenav__item">
-      <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
-      </ng-container>
-    </li>
-  </ul>
+  <div class="link-container">
+    <a [attr.class]="link.selected ? 'usa-current' : ''" href="javascript:void(0);" [innerHtml]="link.labelText"
+      (click)="onSidenavItemClicked(link)">
+    </a>
+    <div *ngIf="enableCollapse && link.children" class="toggle-button">
+      <button class="toggle-button" class="usa-button" (click)="handleButtonClick(link)" [ngClass]="buttonClasses">
+        <ng-container [ngTemplateOutlet]="expand" *ngIf="link.collapsed"></ng-container>
+        <ng-container [ngTemplateOutlet]="collapse" *ngIf="!link.collapsed"></ng-container>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="!enableCollapse || (enableCollapse && !link.collapsed)">
+    <ul class="usa-sidenav__sublist">
+      <li *ngFor="let link of link.children" class="sidenav__item">
+        <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+        </ng-container>
+      </li>
+    </ul>
+  </div>
 </ng-template>
-

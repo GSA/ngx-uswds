@@ -11,12 +11,12 @@ import { USWDSCardModule } from 'uswds-components';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MarkdownModule } from 'ngx-markdown';
-import { SideNavigationComponent } from './side-navigation/side-navigation.component';
+import { IconModule } from '@gsa-sam/ngx-uswds-icons';
+import { allIcons, NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SideNavigationComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +25,8 @@ import { SideNavigationComponent } from './side-navigation/side-navigation.compo
     USWDSSidenavModule,
     USWDSCardModule,
     MarkdownModule.forRoot(),
+    IconModule,
+    NgxBootstrapIconsModule.pick(allIcons)
   ],
   providers: [
     {
