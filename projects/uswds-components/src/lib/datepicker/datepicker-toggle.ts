@@ -26,7 +26,7 @@
  import {UsaDatepickerControl, UsaDatepickerPanel} from './datepicker-base';
  
  
- /** Can be used to override the icon of a `matDatepickerToggle`. */
+ /** Can be used to override the icon of a `usaDatepickerToggle`. */
  @Directive({
    selector: '[usaDatepickerToggleIcon]'
  })
@@ -43,13 +43,13 @@
      '[class.usa-accent]': 'datepicker && datepicker.color === "accent"',
      '[class.usa-warn]': 'datepicker && datepicker.color === "warn"',
      // Used by the test harness to tie this toggle to its datepicker.
-     '[attr.data-mat-calendar]': 'datepicker ? datepicker.id : null',
+     '[attr.data-usa-calendar]': 'datepicker ? datepicker.id : null',
      // Bind the `click` on the host, rather than the inner `button`, so that we can call
      // `stopPropagation` on it without affecting the user's `click` handlers. We need to stop
      // it so that the input doesn't get focused automatically by the form field (See #21836).
      '(click)': '_open($event)',
    },
-   exportAs: 'matDatepickerToggle',
+   exportAs: 'usaDatepickerToggle',
    encapsulation: ViewEncapsulation.None,
    changeDetection: ChangeDetectionStrategy.OnPush,
  })

@@ -1,3 +1,6 @@
-<usa-datepicker-wrapper [label]="'Basic Datepicker'" [id]="'basicDatepicker'" [hint]="'mm/dd/yyyy'"></usa-datepicker-wrapper>
-
+<usa-datepicker-wrapper [label]="'Basic Datepicker'" [id]="'basicDatepicker'" [hint]="'mm/dd/yyyy'">
+  <input [usaDatepicker]="picker" [min]="min" [max]="max">
+  <usa-datepicker-toggle [for]="picker"></usa-datepicker-toggle>
+  <usa-datepicker #picker></usa-datepicker>
+</usa-datepicker-wrapper>
 

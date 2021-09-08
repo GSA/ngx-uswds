@@ -42,7 +42,7 @@ export class UsaCalendarCell<D = any> {
 }
 
 /** Event emitted when a date inside the calendar is triggered as a result of a user action. */
-export interface MatCalendarUserEvent<D> {
+export interface UsaCalendarUserEvent<D> {
   value: D;
   event: Event;
 }
@@ -116,11 +116,11 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
   @Input() previewEnd: number | null = null;
 
   /** Emits when a new value is selected. */
-  @Output() readonly selectedValueChange = new EventEmitter<MatCalendarUserEvent<number>>();
+  @Output() readonly selectedValueChange = new EventEmitter<UsaCalendarUserEvent<number>>();
 
   /** Emits when the preview has changed as a result of a user action. */
   @Output() readonly previewChange =
-    new EventEmitter<MatCalendarUserEvent<UsaCalendarCell | null>>();
+    new EventEmitter<UsaCalendarUserEvent<UsaCalendarCell | null>>();
 
   /** The number of blank cells to put at the beginning for the first row. */
   _firstRowOffset: number;
@@ -337,7 +337,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
     }
   }
 
-  /** Finds the MatCalendarCell that corresponds to a DOM node. */
+  /** Finds the UsaCalendarCell that corresponds to a DOM node. */
   private _getCellFromElement(element: HTMLElement): UsaCalendarCell | null {
     let cell: HTMLElement | undefined;
 

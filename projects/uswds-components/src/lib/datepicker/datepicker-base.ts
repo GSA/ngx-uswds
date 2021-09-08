@@ -7,7 +7,7 @@ import { usaFocusTrap } from "../util/focus-trap";
 import { hasModifierKey, KeyCode } from "../util/key";
 import { coerceStringArray } from "../util/util";
 import { UsaCalendar, UsaCalendarHeader } from "./calendar/calendar";
-import { MatCalendarUserEvent, UsaCalendarCellClassFunction } from "./calendar/calendar-body";
+import { UsaCalendarUserEvent, UsaCalendarCellClassFunction } from "./calendar/calendar-body";
 import { DateAdapter } from "./date-adapter/date-adapter";
 import { UsaDateRangeSelectionStrategy, USA_DATE_RANGE_SELECTION_STRATEGY } from "./date-range-selection-strategy";
 import { DateRange, ExtractDateTypeFromSelection, UsaDateSelectionModel } from "./date-selection-model";
@@ -33,7 +33,7 @@ export interface UsaDatepickerControl<D> {
   stateChanges: Observable<void>;
 }
 
-/** A datepicker that can be attached to a {@link MatDatepickerControl}. */
+/** A datepicker that can be attached to a {@link UsaDatepickerControl}. */
 export interface UsaDatepickerPanel<C extends UsaDatepickerControl<D>, S,
     D = ExtractDateTypeFromSelection<S>> {
   /** Stream that emits whenever the date picker is closed. */
@@ -57,9 +57,9 @@ export interface UsaDatepickerPanel<C extends UsaDatepickerControl<D>, S,
 }
 
 /**
- * Component used as the content for the datepicker overlay. We use this instead of using
- * MatCalendar directly as the content so we can control the initial focus. This also gives us a
- * place to put additional features of the overlay that are not part of the calendar itself in the
+ * Component used as the content for the datepicker display. We use this instead of using
+ * UsaCalendar directly as the content so we can control the initial focus. This also gives us a
+ * place to put additional features of the display that are not part of the calendar itself in the
  * future. (e.g. confirmation buttons).
  * @docs-private
  */
@@ -83,7 +83,7 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
   @ViewChild(UsaCalendar) _calendar: UsaCalendar<D>;
 
   /** Reference to the datepicker that created the overlay. */
-  datepicker: MatDatepickerBase<any, S, D>;
+  datepicker: UsaDatepickerBase<any, S, D>;
 
   /** Start of the comparison range. */
   comparisonStart: D | null;
@@ -152,7 +152,7 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
     this._animationDone.complete();
   }
 
-  _handleUserSelection(event: MatCalendarUserEvent<D | null>) {
+  _handleUserSelection(event: UsaCalendarUserEvent<D | null>) {
     const selection = this._model.selection;
     const value = event.value;
     const isRange = selection instanceof DateRange;
@@ -196,7 +196,7 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
 
 /** Base class for a datepicker. */
 @Directive()
-export abstract class MatDatepickerBase<C extends UsaDatepickerControl<D>, S,
+export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
   D = ExtractDateTypeFromSelection<S>> implements UsaDatepickerPanel<C, S, D>, OnDestroy,
     OnChanges {
   private _inputStateChanges = Subscription.EMPTY;
@@ -307,7 +307,7 @@ export abstract class MatDatepickerBase<C extends UsaDatepickerControl<D>, S,
   private _opened = false;
 
   /** The id for the datepicker calendar. */
-  id: string = `mat-datepicker-${datepickerUid++}`;
+  id: string = `usa-datepicker-${datepickerUid++}`;
 
   /** The minimum selectable date. */
   _getMinDate(): D | null {
@@ -391,7 +391,7 @@ export abstract class MatDatepickerBase<C extends UsaDatepickerControl<D>, S,
    */
   registerInput(input: C): UsaDateSelectionModel<S, D> {
     if (this.datepickerInput && isDevMode()) {
-      throw Error('A MatDatepicker can only be associated with a single input.');
+      throw Error('A UsaDatepicker can only be associated with a single input.');
     }
     this._inputStateChanges.unsubscribe();
     this.datepickerInput = input;
@@ -409,7 +409,7 @@ export abstract class MatDatepickerBase<C extends UsaDatepickerControl<D>, S,
     }
 
     if (!this.datepickerInput && isDevMode()) {
-      throw Error('Attempted to open an MatDatepicker with no associated input.');
+      throw Error('Attempted to open an UsaDatepicker with no associated input.');
     }
 
     this._focusedElementBeforeOpen = document.activeElement as HTMLElement;

@@ -25,7 +25,7 @@ import {
 import {
   UsaCalendarBody,
   UsaCalendarCell,
-  MatCalendarUserEvent,
+  UsaCalendarUserEvent,
   UsaCalendarCellClassFunction,
 } from './calendar-body';
 import {createMissingDateImplError} from '../datepicker-errors';
@@ -124,14 +124,14 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   @Output() readonly selectedChange: EventEmitter<D | null> = new EventEmitter<D | null>();
 
   /** Emits when any date is selected. */
-  @Output() readonly _userSelection: EventEmitter<MatCalendarUserEvent<D | null>> =
-      new EventEmitter<MatCalendarUserEvent<D | null>>();
+  @Output() readonly _userSelection: EventEmitter<UsaCalendarUserEvent<D | null>> =
+      new EventEmitter<UsaCalendarUserEvent<D | null>>();
 
   /** Emits when any date is activated. */
   @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
 
   /** The body of calendar table */
-  @ViewChild(UsaCalendarBody) _matCalendarBody: UsaCalendarBody;
+  @ViewChild(UsaCalendarBody) _usaCalendarBody: UsaCalendarBody;
 
   /** The label for this month (e.g. "January 2017"). */
   _monthLabel: string;
@@ -186,7 +186,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
         throw createMissingDateImplError('DateAdapter');
       }
       if (!this._dateFormats) {
-        throw createMissingDateImplError('MAT_DATE_FORMATS');
+        throw createMissingDateImplError('USA_DATE_FORMATS');
       }
     }
 
@@ -212,7 +212,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   }
 
   /** Handles when a new date is selected. */
-  _dateSelected(event: MatCalendarUserEvent<number>) {
+  _dateSelected(event: UsaCalendarUserEvent<number>) {
     const date = event.value;
     const selectedYear = this._dateAdapter.getYear(this.activeDate);
     const selectedMonth = this._dateAdapter.getMonth(this.activeDate);
@@ -346,11 +346,11 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell(movePreview?: boolean) {
-    this._matCalendarBody._focusActiveCell(movePreview);
+    this._usaCalendarBody._focusActiveCell(movePreview);
   }
 
   /** Called when the user has activated a new cell and the preview needs to be updated. */
-  _previewChanged({event, value: cell}: MatCalendarUserEvent<UsaCalendarCell<D> | null>) {
+  _previewChanged({event, value: cell}: UsaCalendarUserEvent<UsaCalendarCell<D> | null>) {
     if (this._rangeStrategy) {
       // We can assume that this will be a range, because preview
       // events aren't fired for single date selections.
@@ -381,7 +381,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     this._weekdays = weekdays.slice(firstDayOfWeek).concat(weekdays.slice(0, firstDayOfWeek));
   }
 
-  /** Creates MatCalendarCells for the dates in this month. */
+  /** Creates UsaCalendarCells for the dates in this month. */
   private _createWeekCells() {
     this._createCellForPrevMonth();
 

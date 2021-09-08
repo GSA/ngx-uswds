@@ -27,7 +27,7 @@ import { DateAdapter } from '../date-adapter/date-adapter';
 import { UsaDateFormats, USA_DATE_FORMATS } from '../date-adapter/date-formats';
 import { DateRange } from '../date-selection-model';
 import { createMissingDateImplError } from '../datepicker-errors';
-import { MatCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';
+import { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';
 
 /**
  * An internal component used to display a single year in the datepicker.
@@ -108,7 +108,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
   @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
 
   /** The body of calendar table */
-  @ViewChild(UsaCalendarBody) _matCalendarBody: UsaCalendarBody;
+  @ViewChild(UsaCalendarBody) _usaCalendarBody: UsaCalendarBody;
 
   /** Grid of calendar cells representing the months of the year. */
   _months: UsaCalendarCell[][];
@@ -153,7 +153,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
   }
 
   /** Handles when a new month is selected. */
-  _monthSelected(event: MatCalendarUserEvent<number>) {
+  _monthSelected(event: UsaCalendarUserEvent<number>) {
     const month = event.value;
     const normalizedDate =
           this._dateAdapter.createDate(this._dateAdapter.getYear(this.activeDate), month, 1);
@@ -252,7 +252,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
-    this._matCalendarBody._focusActiveCell();
+    this._usaCalendarBody._focusActiveCell();
   }
 
   /**
@@ -264,7 +264,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
         this._dateAdapter.getMonth(date) : null;
   }
 
-  /** Creates an MatCalendarCell for the given month. */
+  /** Creates an UsaCalendarCell for the given month. */
   private _createCellForMonth(month: number, monthName: string) {
     const date = this._dateAdapter.createDate(this._dateAdapter.getYear(this.activeDate), month, 1);
     const ariaLabel = this._dateAdapter.format(date, this._dateFormats.display.monthYearA11yLabel);

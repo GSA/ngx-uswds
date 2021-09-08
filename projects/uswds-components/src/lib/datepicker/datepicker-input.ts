@@ -8,14 +8,14 @@ import { UsaDatepickerPanel, UsaDatepickerControl } from "./datepicker-base";
 import { DateFilterFn, UsaDatepickerInputBase } from "./datepicker-input-base";
 
 /** @docs-private */
-export const MAT_DATEPICKER_VALUE_ACCESSOR: any = {
+export const USA_DATEPICKER_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => UsaDatepickerInput),
   multi: true
 };
 
 /** @docs-private */
-export const MAT_DATEPICKER_VALIDATORS: any = {
+export const USA_DATEPICKER_VALIDATORS: any = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => UsaDatepickerInput),
   multi: true
@@ -24,8 +24,8 @@ export const MAT_DATEPICKER_VALIDATORS: any = {
 @Directive({
   selector: 'input[usaDatepicker]',
   providers: [
-    MAT_DATEPICKER_VALUE_ACCESSOR,
-    MAT_DATEPICKER_VALIDATORS,
+    USA_DATEPICKER_VALUE_ACCESSOR,
+    USA_DATEPICKER_VALIDATORS,
   ],
   host: {
     'class': 'usa-input',

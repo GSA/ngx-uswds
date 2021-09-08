@@ -29,7 +29,7 @@ import { DateAdapter } from '../date-adapter/date-adapter';
 import { DateRange } from '../date-selection-model';
 import { createMissingDateImplError } from '../datepicker-errors';
 import { UsaCalendar } from './calendar';
-import { MatCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';
+import { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';
 
 export const yearsPerPage = 12;
 
@@ -116,7 +116,7 @@ export class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {
   @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
 
   /** The body of calendar table */
-  @ViewChild(UsaCalendarBody) _matCalendarBody: UsaCalendarBody;
+  @ViewChild(UsaCalendarBody) _usaCalendarBody: UsaCalendarBody;
 
   /** Grid of calendar cells representing the currently displayed years. */
   _years: UsaCalendarCell[][];
@@ -183,7 +183,7 @@ export class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {
   }
 
   /** Handles when a new year is selected. */
-  _yearSelected(event: MatCalendarUserEvent<number>) {
+  _yearSelected(event: UsaCalendarUserEvent<number>) {
     const year = event.value;
     this.yearSelected.emit(this._dateAdapter.createDate(year, 0, 1));
     let month = this._dateAdapter.getMonth(this.activeDate);
@@ -266,10 +266,10 @@ export class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
-    this._matCalendarBody._focusActiveCell();
+    this._usaCalendarBody._focusActiveCell();
   }
 
-  /** Creates an MatCalendarCell for the given year. */
+  /** Creates an UsaCalendarCell for the given year. */
   private _createCellForYear(year: number) {
     const date = this._dateAdapter.createDate(year, 0, 1);
     const yearName = this._dateAdapter.getYearName(date);

@@ -27,7 +27,7 @@ import {
   ɵComponentType,
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { MatCalendarUserEvent, UsaCalendarCellClassFunction } from './calendar-body';
+import { UsaCalendarUserEvent, UsaCalendarCellClassFunction } from './calendar-body';
 import { createMissingDateImplError } from '../datepicker-errors';
 import { UsaMonthView } from './month-view';
 import {
@@ -43,7 +43,7 @@ import { UsaDateFormats, USA_DATE_FORMATS } from '../date-adapter/date-formats';
  * Possible views for the calendar.
  * @docs-private
  */
-export type MatCalendarView = 'month' | 'year' | 'multi-year';
+export type UsaCalendarView = 'month' | 'year' | 'multi-year';
 
 /** Counter used to generate unique IDs. */
 let uniqueId = 0;
@@ -124,6 +124,16 @@ export class UsaCalendarHeader<D> {
       !this._isSameView(this.calendar.activeDate, this.calendar.maxDate);
   }
 
+  previousYearEnabled(): boolean {
+    return !this.calendar.minDate ||
+      !(this._dateAdapter.getYear(this.calendar.activeDate) === this._dateAdapter.getYear(this.calendar.minDate));
+  }
+
+  nextYearEnabled(): boolean {
+    return !this.calendar.maxDate ||
+      !(this._dateAdapter.getYear(this.calendar.activeDate) === this._dateAdapter.getYear(this.calendar.maxDate));
+  }
+
   /** Whether the two dates represent the same view in the current view mode (month or year). */
   private _isSameView(date1: D, date2: D): boolean {
     if (this.calendar.currentView == 'month') {
@@ -167,7 +177,7 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   private _startAt: D | null;
 
   /** Whether the calendar should be started in month or year view. */
-  @Input() startView: MatCalendarView = 'month';
+  @Input() startView: UsaCalendarView = 'month';
 
   /** The currently selected date. */
   @Input()
@@ -227,12 +237,12 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   /**
    * Emits when the current view changes.
    */
-  @Output() readonly viewChanged: EventEmitter<MatCalendarView> =
-    new EventEmitter<MatCalendarView>(true);
+  @Output() readonly viewChanged: EventEmitter<UsaCalendarView> =
+    new EventEmitter<UsaCalendarView>(true);
 
   /** Emits when any date is selected. */
-  @Output() readonly _userSelection: EventEmitter<MatCalendarUserEvent<D | null>> =
-    new EventEmitter<MatCalendarUserEvent<D | null>>();
+  @Output() readonly _userSelection: EventEmitter<UsaCalendarUserEvent<D | null>> =
+    new EventEmitter<UsaCalendarUserEvent<D | null>>();
 
   /** Reference to the current month view component. */
   @ViewChild(UsaMonthView) monthView: UsaMonthView<D>;
@@ -256,8 +266,8 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   private _clampedActiveDate: D;
 
   /** Whether the calendar is in month view. */
-  get currentView(): MatCalendarView { return this._currentView; }
-  set currentView(value: MatCalendarView) {
+  get currentView(): UsaCalendarView { return this._currentView; }
+  set currentView(value: UsaCalendarView) {
     const viewChangedResult = this._currentView !== value ? value : null;
     this._currentView = value;
     this._moveFocusOnNextTick = true;
@@ -266,7 +276,7 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
       this.viewChanged.emit(viewChangedResult);
     }
   }
-  private _currentView: MatCalendarView;
+  private _currentView: UsaCalendarView;
 
   /**
    * Emits whenever there is a state change that the header may need to respond to.
@@ -284,13 +294,12 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
       }
 
       if (!this._dateFormats) {
-        throw createMissingDateImplError('MAT_DATE_FORMATS');
+        throw createMissingDateImplError('USA_DATE_FORMATS');
       }
     }
   }
 
   ngAfterContentInit() {
-    //  this._calendarHeaderPortal = new ComponentPortal(this.headerComponent || MatCalendarHeader);
     this.activeDate = this.startAt || this._dateAdapter.today();
 
     // Assign to the private property since we don't want to move focus on init.
@@ -337,7 +346,7 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
 
   /** Handles date selection in the month view. */
-  _dateSelected(event: MatCalendarUserEvent<D | null>): void {
+  _dateSelected(event: UsaCalendarUserEvent<D | null>): void {
     const date = event.value;
 
     if (this.selected instanceof DateRange ||

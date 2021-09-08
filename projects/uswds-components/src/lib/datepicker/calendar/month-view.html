@@ -8,7 +8,10 @@
         <abbr [attr.title]="day.long">{{day.narrow}}</abbr>
       </th>
     </tr>
-    <tr><th aria-hidden="true" class="mat-calendar-table-header-divider" colspan="7"></th></tr>
+    <tr>
+      <!-- Empty divider for header and calendar contents -->
+      <th aria-hidden="true" colspan="7"></th>
+    </tr>
   </thead>
   <tbody usa-calendar-body
          [label]="_monthLabel"

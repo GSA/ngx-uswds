@@ -35,9 +35,9 @@
     */
    useUtcForDisplay: boolean = false;
  
-   constructor(@Optional() @Inject(USA_DATE_LOCALE) matDateLocale: string) {
+   constructor(@Optional() @Inject(USA_DATE_LOCALE) usaDateLocale: string) {
      super();
-     super.setLocale(matDateLocale);
+     super.setLocale(usaDateLocale);
    }
  
    getYear(date: Date): number {
