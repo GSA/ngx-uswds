@@ -1,0 +1,25 @@
+
+<usa-calendar
+  [id]="datepicker.id"
+  [ngClass]="datepicker.panelClass"
+  [startAt]="datepicker.startAt"
+  [minDate]="datepicker._getMinDate()"
+  [maxDate]="datepicker._getMaxDate()"
+  [dateFilter]="datepicker._getDateFilter()"
+  [headerComponent]="datepicker.calendarHeaderComponent"
+  [selected]="_getSelected()"
+  [dateClass]="datepicker.dateClass"
+  [comparisonStart]="comparisonStart"
+  [comparisonEnd]="comparisonEnd"
+  (_userSelection)="_handleUserSelection($event)"></usa-calendar>
+
+<ng-template></ng-template>
+
+<!-- Invisible close button for screen reader users. -->
+<button
+  type="button"
+  class="usa-sr-only"
+  [class.cdk-visually-hidden]="!_closeButtonFocused"
+  (focus)="_closeButtonFocused = true"
+  (blur)="_closeButtonFocused = false"
+  (click)="datepicker.close()">{{ _closeButtonText }}</button>

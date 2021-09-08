@@ -1,0 +1,51 @@
+<!-- 
+<div class="mat-calendar-header">
+  <div class="mat-calendar-controls">
+    <button mat-button type="button" class="mat-calendar-period-button"
+            (click)="currentPeriodClicked()" [attr.aria-label]="periodButtonLabel"
+            [attr.aria-describedby]="_buttonDescriptionId" aria-live="polite">
+      <span [attr.id]="_buttonDescriptionId">{{periodButtonText}}</span>
+      <svg class="mat-calendar-arrow"
+           viewBox="0 0 10 5" focusable="false">
+           <polygon points="0,0 5,5 10,0"/>
+      </svg>
+    </button>
+
+    <div class="mat-calendar-spacer"></div>
+
+    <ng-content></ng-content>
+
+    <button type="button" class="mat-calendar-previous-button"
+            [disabled]="!previousEnabled()" (click)="previousClicked()"
+            [attr.aria-label]="prevButtonLabel">
+    </button>
+
+    <button type="button" class="mat-calendar-next-button"
+            [disabled]="!nextEnabled()" (click)="nextClicked()"
+            [attr.aria-label]="nextButtonLabel">
+    </button>
+  </div>
+</div> -->
+
+<div class="usa-date-picker__calendar__row">
+  <div class="usa-date-picker__calendar__cell usa-date-picker__calendar__cell--center-items">
+    <button type="button" (click)="previousYearClicked()" class="usa-date-picker__calendar__previous-year" aria-label="Navigate back one year">&nbsp;</button>
+  </div>
+  <div class="usa-date-picker__calendar__cell usa-date-picker__calendar__cell--center-items">
+    <button type="button" (click)="previousClicked()"
+      class="usa-date-picker__calendar__previous-month" 
+      aria-label="Navigate back one month">&nbsp;</button>
+  </div>
+  <div class="usa-date-picker__calendar__cell usa-date-picker__calendar__month-label">
+    <button type="button" (click)="monthClicked()" class="usa-date-picker__calendar__month-selection" aria-label="March. Click to select month">{{monthLabel}}</button>
+    <button type="button" (click)="yearClicked()" class="usa-date-picker__calendar__year-selection" aria-label="2025. Click to select year">{{yearLabel}}</button>
+  </div>
+  <div class="usa-date-picker__calendar__cell usa-date-picker__calendar__cell--center-items">
+    <button type="button" (click)="nextClicked()" 
+      class="usa-date-picker__calendar__next-month" 
+      aria-label="Navigate forward one month">&nbsp;</button>
+  </div>
+  <div class="usa-date-picker__calendar__cell usa-date-picker__calendar__cell--center-items">
+    <button type="button" (click)="nextYearClicked()" class="usa-date-picker__calendar__next-year" aria-label="Navigate forward one year">&nbsp;</button>
+  </div>
+</div>

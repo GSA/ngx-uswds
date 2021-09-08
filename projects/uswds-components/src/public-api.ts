@@ -68,3 +68,12 @@ export * from './lib/table/table.module';
 // Tooltip
 export * from './lib/tooltip/tooltip.directive';
 export * from './lib/tooltip/tooltip.module';
+
+// Datepicker
+export * from './lib/datepicker/datepicker.module';
+export * from './lib/datepicker/datepicker-input';
+export * from './lib/datepicker/datepicker-toggle';
+export * from './lib/datepicker/calendar/calendar';
+export * from './lib/datepicker/calendar/calendar-body';
+export * from './lib/datepicker/datepicker';
+
