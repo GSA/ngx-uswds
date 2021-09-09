@@ -1,14 +1,14 @@
 
 <usa-calendar
-  [id]="datepicker.id"
-  [ngClass]="datepicker.panelClass"
-  [startAt]="datepicker.startAt"
-  [minDate]="datepicker._getMinDate()"
-  [maxDate]="datepicker._getMaxDate()"
-  [dateFilter]="datepicker._getDateFilter()"
-  [headerComponent]="datepicker.calendarHeaderComponent"
+  [id]="datePicker.id"
+  [ngClass]="datePicker.panelClass"
+  [startAt]="datePicker.startAt"
+  [minDate]="datePicker._getMinDate()"
+  [maxDate]="datePicker._getMaxDate()"
+  [dateFilter]="datePicker._getDateFilter()"
+  [headerComponent]="datePicker.calendarHeaderComponent"
   [selected]="_getSelected()"
-  [dateClass]="datepicker.dateClass"
+  [dateClass]="datePicker.dateClass"
   [comparisonStart]="comparisonStart"
   [comparisonEnd]="comparisonEnd"
   (_userSelection)="_handleUserSelection($event)"></usa-calendar>
@@ -20,4 +20,4 @@
   [class.cdk-visually-hidden]="!_closeButtonFocused"
   (focus)="_closeButtonFocused = true"
   (blur)="_closeButtonFocused = false"
-  (click)="datepicker.close()">{{ _closeButtonText }}</button>
+  (click)="datePicker.close()">{{ _closeButtonText }}</button>

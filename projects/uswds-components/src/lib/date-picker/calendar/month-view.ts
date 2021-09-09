@@ -28,7 +28,7 @@ import {
   UsaCalendarUserEvent,
   UsaCalendarCellClassFunction,
 } from './calendar-body';
-import {createMissingDateImplError} from '../datepicker-errors';
+import {createMissingDateImplError} from '../date-picker-errors';
 import {Subscription} from 'rxjs';
 import {startWith} from 'rxjs/operators';
 import {DateRange} from '../date-selection-model';
@@ -45,7 +45,7 @@ const DAYS_PER_WEEK = 7;
 
 
 /**
- * An internal component used to display a single month in the datepicker.
+ * An internal component used to display a single month in the datePicker.
  * @docs-private
  */
 @Component({
@@ -213,9 +213,9 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
 
   /** Handles when a new date is selected. */
   _dateSelected(event: UsaCalendarUserEvent<number>) {
-    const date = event.value;
+    const date = new Date(event.value).getDate();
     const selectedYear = this._dateAdapter.getYear(this.activeDate);
-    const selectedMonth = this._dateAdapter.getMonth(this.activeDate);
+    const selectedMonth = new Date(event.value).getMonth();
     const selectedDate = this._dateAdapter.createDate(selectedYear, selectedMonth, date);
     let rangeStartDate: number | null;
     let rangeEndDate: number | null;
@@ -317,7 +317,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
     if (event.keyCode === KeyCode.Space || event.keyCode === KeyCode.Enter) {
       if (this._selectionKeyPressed && this._canSelect(this._activeDate)) {
-        this._dateSelected({value: this._dateAdapter.getDate(this._activeDate), event});
+        this._dateSelected({value: this._getCellCompareValue(this._activeDate), event});
       }
 
       this._selectionKeyPressed = false;

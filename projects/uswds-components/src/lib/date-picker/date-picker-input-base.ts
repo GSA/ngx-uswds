@@ -30,23 +30,23 @@ import {
   UsaDateSelectionModel,
   DateSelectionModelChange,
 } from './date-selection-model';
-import { createMissingDateImplError } from './datepicker-errors';
+import { createMissingDateImplError } from './date-picker-errors';
 import { KeyCode } from '../util/key';
 import { BooleanInput, coerceBooleanProperty } from '../util/boolean-property';
 
 /**
- * An event used for datepicker input and change events. We don't always have access to a native
+ * An event used for datePicker input and change events. We don't always have access to a native
  * input or change event because the event may have been triggered by the user clicking on the
- * calendar popup. For consistency, we always use UsaDatepickerInputEvent instead.
+ * calendar popup. For consistency, we always use UsaDatePickerInputEvent instead.
  */
-export class UsaDatepickerInputEvent<D, S = unknown> {
-  /** The new value for the target datepicker input. */
+export class UsaDatePickerInputEvent<D, S = unknown> {
+  /** The new value for the target datePicker input. */
   value: D | null;
 
   constructor(
-    /** Reference to the datepicker input component that emitted the event. */
-    public target: UsaDatepickerInputBase<S, D>,
-    /** Reference to the native input element associated with the datepicker input. */
+    /** Reference to the datePicker input component that emitted the event. */
+    public target: UsaDatePickerInputBase<S, D>,
+    /** Reference to the native input element associated with the datePicker input. */
     public targetElement: HTMLElement) {
     this.value = this.target.value;
   }
@@ -55,9 +55,9 @@ export class UsaDatepickerInputEvent<D, S = unknown> {
 /** Function that can be used to filter out dates from a calendar. */
 export type DateFilterFn<D> = (date: D | null) => boolean;
 
-/** Base class for datepicker inputs. */
+/** Base class for datePicker inputs. */
 @Directive()
-export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection<S>>
+export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection<S>>
   implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy, Validator {
 
   /** Whether the component has been initialized. */
@@ -73,7 +73,7 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   }
   protected _model: UsaDateSelectionModel<S, D> | undefined;
 
-  /** Whether the datepicker-input is disabled. */
+  /** Whether the datePicker-input is disabled. */
   @Input()
   get disabled(): boolean { return !!this._disabled || this._parentDisabled(); }
   set disabled(value: boolean) {
@@ -99,12 +99,12 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   private _disabled: boolean;
 
   /** Emits when a `change` event is fired on this `<input>`. */
-  @Output() readonly dateChange: EventEmitter<UsaDatepickerInputEvent<D, S>> =
-    new EventEmitter<UsaDatepickerInputEvent<D, S>>();
+  @Output() readonly dateChange: EventEmitter<UsaDatePickerInputEvent<D, S>> =
+    new EventEmitter<UsaDatePickerInputEvent<D, S>>();
 
   /** Emits when an `input` event is fired on this `<input>`. */
-  @Output() readonly dateInput: EventEmitter<UsaDatepickerInputEvent<D, S>> =
-    new EventEmitter<UsaDatepickerInputEvent<D, S>>();
+  @Output() readonly dateInput: EventEmitter<UsaDatePickerInputEvent<D, S>> =
+    new EventEmitter<UsaDatePickerInputEvent<D, S>>();
 
   /** Emits when the internal state has changed */
   readonly stateChanges = new Subject<void>();
@@ -126,7 +126,7 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   /** The form control validator for whether the input parses. */
   private _parseValidator: ValidatorFn = (): ValidationErrors | null => {
     return this._lastValueValid ?
-      null : { 'usaDatepickerParse': { 'text': this._elementRef.nativeElement.value } };
+      null : { 'usaDatePickerParse': { 'text': this._elementRef.nativeElement.value } };
   }
 
   /** The form control validator for the date filter. */
@@ -134,7 +134,7 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     const controlValue = this._dateAdapter.getValidDateOrNull(
       this._dateAdapter.deserialize(control.value));
     return !controlValue || this._matchesFilter(controlValue) ?
-      null : { 'usaDatepickerFilter': true };
+      null : { 'usaDatePickerFilter': true };
   }
 
   /** The form control validator for the min date. */
@@ -144,7 +144,7 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     const min = this._getMinDate();
     return (!min || !controlValue ||
       this._dateAdapter.compareDate(min, controlValue) <= 0) ?
-      null : { 'usaDatepickerMin': { 'min': min, 'actual': controlValue } };
+      null : { 'usaDatePickerMin': { 'min': min, 'actual': controlValue } };
   }
 
   /** The form control validator for the max date. */
@@ -154,7 +154,7 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     const max = this._getMaxDate();
     return (!max || !controlValue ||
       this._dateAdapter.compareDate(max, controlValue) >= 0) ?
-      null : { 'usaDatepickerMax': { 'max': max, 'actual': controlValue } };
+      null : { 'usaDatePickerMax': { 'max': max, 'actual': controlValue } };
   }
 
   /** Gets the base validator functions. */
@@ -187,8 +187,8 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
         this._cvaOnChange(value);
         this._onTouched();
         this._formatValue(value);
-        this.dateInput.emit(new UsaDatepickerInputEvent(this, this._elementRef.nativeElement));
-        this.dateChange.emit(new UsaDatepickerInputEvent(this, this._elementRef.nativeElement));
+        this.dateInput.emit(new UsaDatePickerInputEvent(this, this._elementRef.nativeElement));
+        this.dateChange.emit(new UsaDatePickerInputEvent(this, this._elementRef.nativeElement));
       }
     });
   }
@@ -295,7 +295,7 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     if (!this._dateAdapter.sameDate(date, this.value)) {
       this._assignValue(date);
       this._cvaOnChange(date);
-      this.dateInput.emit(new UsaDatepickerInputEvent(this, this._elementRef.nativeElement));
+      this.dateInput.emit(new UsaDatePickerInputEvent(this, this._elementRef.nativeElement));
     } else {
       // Call the CVA change handler for invalid values
       // since this is what marks the control as dirty.
@@ -310,7 +310,7 @@ export abstract class UsaDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   }
 
   _onChange() {
-    this.dateChange.emit(new UsaDatepickerInputEvent(this, this._elementRef.nativeElement));
+    this.dateChange.emit(new UsaDatePickerInputEvent(this, this._elementRef.nativeElement));
   }
 
   /** Handles blur events on the input. */

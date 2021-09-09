@@ -28,7 +28,7 @@ import {
 } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { UsaCalendarUserEvent, UsaCalendarCellClassFunction } from './calendar-body';
-import { createMissingDateImplError } from '../datepicker-errors';
+import { createMissingDateImplError } from '../date-picker-errors';
 import { UsaMonthView } from './month-view';
 import {
   isSameMultiYearView,
@@ -149,7 +149,7 @@ export class UsaCalendarHeader<D> {
   }
 }
 
-/** A calendar that is used as part of the datepicker. */
+/** A calendar that is used as part of the datePicker. */
 @Component({
   selector: 'usa-calendar',
   templateUrl: 'calendar.html',

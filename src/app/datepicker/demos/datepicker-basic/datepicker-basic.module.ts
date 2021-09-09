@@ -1,19 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DatepickerBasicComponent } from './datepicker-basic.component';
-import { UsaDatepickerModule } from 'uswds-components';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import { DatePickerBasicComponent } from './datePicker-basic.component';
+import { UsaDatePickerModule } from 'uswds-components';
 
 @NgModule({
-  declarations: [DatepickerBasicComponent],
+  declarations: [DatePickerBasicComponent],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    UsaDatepickerModule,
+    UsaDatePickerModule,
   ],
-  exports: [DatepickerBasicComponent]
+  exports: [DatePickerBasicComponent]
 })
-export class DatepickerBasicModule { }
+export class DatePickerBasicModule { }

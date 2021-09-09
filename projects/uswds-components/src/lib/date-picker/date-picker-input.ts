@@ -4,33 +4,33 @@ import { Subscription } from "rxjs";
 import { DateAdapter } from "./date-adapter/date-adapter";
 import { UsaDateFormats, USA_DATE_FORMATS } from "./date-adapter/date-formats";
 import { DateSelectionModelChange } from "./date-selection-model";
-import { UsaDatepickerPanel, UsaDatepickerControl } from "./datepicker-base";
-import { DateFilterFn, UsaDatepickerInputBase } from "./datepicker-input-base";
+import { UsaDatePickerPanel, UsaDatePickerControl } from "./date-picker-base";
+import { DateFilterFn, UsaDatePickerInputBase } from "./date-picker-input-base";
 
 /** @docs-private */
 export const USA_DATEPICKER_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => UsaDatepickerInput),
+  useExisting: forwardRef(() => UsaDatePickerInput),
   multi: true
 };
 
 /** @docs-private */
 export const USA_DATEPICKER_VALIDATORS: any = {
   provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => UsaDatepickerInput),
+  useExisting: forwardRef(() => UsaDatePickerInput),
   multi: true
 };
 
 @Directive({
-  selector: 'input[usaDatepicker]',
+  selector: 'input[usaDatePicker]',
   providers: [
     USA_DATEPICKER_VALUE_ACCESSOR,
     USA_DATEPICKER_VALIDATORS,
   ],
   host: {
     'class': 'usa-input',
-    '[attr.aria-haspopup]': '_datepicker ? "dialog" : null',
-    '[attr.aria-owns]': '(_datepicker?.opened && _datepicker.id) || null',
+    '[attr.aria-haspopup]': '_datePicker ? "dialog" : null',
+    '[attr.aria-owns]': '(_datePicker?.opened && _datePicker.id) || null',
     '[attr.min]': 'min ? _dateAdapter.toIso8601(min) : null',
     '[attr.max]': 'max ? _dateAdapter.toIso8601(max) : null',
     '[disabled]': 'disabled',
@@ -39,22 +39,22 @@ export const USA_DATEPICKER_VALIDATORS: any = {
     '(blur)': '_onBlur()',
     '(keydown)': '_onKeydown($event)',
   },
-  exportAs: 'usaDatepickerInput',
+  exportAs: 'usaDatePickerInput',
 })
-export class UsaDatepickerInput<D> extends UsaDatepickerInputBase<D | null, D>
-  implements UsaDatepickerControl<D | null>, OnDestroy {
+export class UsaDatePickerInput<D> extends UsaDatePickerInputBase<D | null, D>
+  implements UsaDatePickerControl<D | null>, OnDestroy {
   private _closedSubscription = Subscription.EMPTY;
 
-  /** The datepicker that this input is associated with. */
+  /** The datePicker that this input is associated with. */
   @Input()
-  set usaDatepicker(datepicker: UsaDatepickerPanel<UsaDatepickerControl<D>, D | null, D>) {
-    if (datepicker) {
-      this._datepicker = datepicker;
-      this._closedSubscription = datepicker.closedStream.subscribe(() => this._onTouched());
-      this._registerModel(datepicker.registerInput(this));
+  set usaDatePicker(datePicker: UsaDatePickerPanel<UsaDatePickerControl<D>, D | null, D>) {
+    if (datePicker) {
+      this._datePicker = datePicker;
+      this._closedSubscription = datePicker.closedStream.subscribe(() => this._onTouched());
+      this._registerModel(datePicker.registerInput(this));
     }
   }
-  _datepicker: UsaDatepickerPanel<UsaDatepickerControl<D>, D | null, D>;
+  _datePicker: UsaDatePickerPanel<UsaDatePickerControl<D>, D | null, D>;
 
   /** The minimum valid date. */
   @Input()
@@ -82,8 +82,8 @@ export class UsaDatepickerInput<D> extends UsaDatepickerInputBase<D | null, D>
   }
   private _max: D | null;
 
-  /** Function that can be used to filter out dates within the datepicker. */
-  @Input('usaDatepickerFilter')
+  /** Function that can be used to filter out dates within the datePicker. */
+  @Input('usaDatePickerFilter')
   get dateFilter() { return this._dateFilter; }
   set dateFilter(value: DateFilterFn<D | null>) {
     const wasMatchingValue = this._matchesFilter(this.value);
@@ -107,7 +107,7 @@ export class UsaDatepickerInput<D> extends UsaDatepickerInputBase<D | null, D>
   }
 
   /**
-   * Gets the element that the datepicker popup should be connected to.
+   * Gets the element that the datePicker popup should be connected to.
    * @return The element to connect the popup to.
    */
   getConnectedOverlayOrigin(): ElementRef {
@@ -130,10 +130,10 @@ export class UsaDatepickerInput<D> extends UsaDatepickerInputBase<D | null, D>
     this._closedSubscription.unsubscribe();
   }
 
-  /** Opens the associated datepicker. */
+  /** Opens the associated datePicker. */
   protected _openPopup(): void {
-    if (this._datepicker) {
-      this._datepicker.open();
+    if (this._datePicker) {
+      this._datePicker.open();
     }
   }
 

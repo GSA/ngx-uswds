@@ -27,7 +27,7 @@ import {startWith} from 'rxjs/operators';
 import { KeyCode } from '../../util/key';
 import { DateAdapter } from '../date-adapter/date-adapter';
 import { DateRange } from '../date-selection-model';
-import { createMissingDateImplError } from '../datepicker-errors';
+import { createMissingDateImplError } from '../date-picker-errors';
 import { UsaCalendar } from './calendar';
 import { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';
 
@@ -36,7 +36,7 @@ export const yearsPerPage = 12;
 export const yearsPerRow = 4;
 
 /**
- * An internal component used to display a year selector in the datepicker.
+ * An internal component used to display a year selector in the datePicker.
  * @docs-private
  */
 @Component({

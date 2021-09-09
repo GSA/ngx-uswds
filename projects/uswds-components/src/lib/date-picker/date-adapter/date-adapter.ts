@@ -9,7 +9,7 @@
  import {inject, InjectionToken, LOCALE_ID} from '@angular/core';
  import {Observable, Subject} from 'rxjs';
  
- /** InjectionToken for datepicker that can be used to override default locale code. */
+ /** InjectionToken for datePicker that can be used to override default locale code. */
  export const USA_DATE_LOCALE = new InjectionToken<{}>('USA_DATE_LOCALE', {
    providedIn: 'root',
    factory: USA_DATE_LOCALE_FACTORY,
@@ -209,7 +209,7 @@
     * Attempts to deserialize a value to a valid date object. This is different from parsing in that
     * deserialize should only accept non-ambiguous, locale-independent formats (e.g. a ISO 8601
     * string). The default implementation does not allow any deserialization, it simply checks that
-    * the given value is already a valid date object or null. The `<usa-datepicker>` will call this
+    * the given value is already a valid date object or null. The `<usa-datePicker>` will call this
     * method on all of its `@Input()` properties that accept dates. It is therefore possible to
     * support passing values from your backend directly to these properties by overriding this method
     * to also deserialize the format used by your backend.

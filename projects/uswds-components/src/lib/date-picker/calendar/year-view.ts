@@ -26,11 +26,11 @@ import { KeyCode } from '../../util/key';
 import { DateAdapter } from '../date-adapter/date-adapter';
 import { UsaDateFormats, USA_DATE_FORMATS } from '../date-adapter/date-formats';
 import { DateRange } from '../date-selection-model';
-import { createMissingDateImplError } from '../datepicker-errors';
+import { createMissingDateImplError } from '../date-picker-errors';
 import { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';
 
 /**
- * An internal component used to display a single year in the datepicker.
+ * An internal component used to display a single year in the datePicker.
  * @docs-private
  */
 @Component({

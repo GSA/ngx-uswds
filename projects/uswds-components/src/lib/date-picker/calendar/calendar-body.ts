@@ -136,7 +136,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
   /** Called when a cell is clicked. */
   _cellClicked(cell: UsaCalendarCell, event: MouseEvent): void {
     if (cell.enabled) {
-      this.selectedValueChange.emit({ value: cell.value, event });
+      this.selectedValueChange.emit({ value: cell.compareValue, event });
     }
   }
 

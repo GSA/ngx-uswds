@@ -1,22 +1,21 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UsaCalendar, UsaCalendarHeader } from "./calendar/calendar";
 import { UsaCalendarBody } from "./calendar/calendar-body";
 import { UsaMonthView } from "./calendar/month-view";
 import { UsaMultiYearView } from "./calendar/multi-year-view";
 import { UsaYearView } from "./calendar/year-view";
 import { UsaNativeDateModule } from "./date-adapter";
-import { UsaDatepicker, UsaDatepickerWrapper } from "./datepicker";
-import { UsaDatepickerContent } from "./datepicker-base";
-import { UsaDatepickerInput } from "./datepicker-input";
-import { UsaDatepickerToggle } from "./datepicker-toggle";
+import { UsaDatePicker, UsaDatePickerWrapper } from "./date-picker";
+import { UsaDatePickerContent } from "./date-picker-base";
+import { UsaDatePickerInput } from "./date-picker-input";
+import { UsaDatePickerButton } from "./date-picker-button";
 
 
 @NgModule({
   declarations: [
-    UsaDatepickerInput,
-    UsaDatepickerToggle,
+    UsaDatePickerInput,
+    UsaDatePickerButton,
     UsaCalendar,
     UsaCalendarHeader,
     UsaCalendarBody,
@@ -24,24 +23,24 @@ import { UsaDatepickerToggle } from "./datepicker-toggle";
     UsaYearView,
     UsaMultiYearView,
     UsaCalendarBody,
-    UsaDatepickerContent,
-    UsaDatepicker,
-    UsaDatepickerWrapper,
+    UsaDatePickerContent,
+    UsaDatePicker,
+    UsaDatePickerWrapper,
   ],
   imports: [
     CommonModule,
     UsaNativeDateModule,
   ],
   exports: [
-    UsaDatepickerInput,
-    UsaDatepickerToggle,
+    UsaDatePickerInput,
+    UsaDatePickerButton,
     UsaNativeDateModule,
     UsaCalendar,
     UsaCalendarHeader,
     UsaCalendarBody,
-    UsaDatepickerContent,
-    UsaDatepicker,
-    UsaDatepickerWrapper,
+    UsaDatePickerContent,
+    UsaDatePicker,
+    UsaDatePickerWrapper,
   ]
 })
-export class UsaDatepickerModule {}
+export class UsaDatePickerModule {}
