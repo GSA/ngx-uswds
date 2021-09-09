@@ -1,12 +1,4 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
- import {
+import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -18,14 +10,14 @@
   SimpleChanges,
   OnDestroy,
 } from '@angular/core';
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 /** Extra CSS classes that can be associated with a calendar cell. */
-export type UsaCalendarCellCssClasses = string | string[] | Set<string> | {[key: string]: any};
+export type UsaCalendarCellCssClasses = string | string[] | Set<string> | { [key: string]: any };
 
 /** Function that can generate the extra classes that should be added to a calendar cell. */
 export type UsaCalendarCellClassFunction<D> =
-    (date: D, view: 'month' | 'year' | 'multi-year') => UsaCalendarCellCssClasses;
+  (date: D, view: 'month' | 'year' | 'multi-year') => UsaCalendarCellCssClasses;
 
 /**
  * An internal class that represents the data corresponding to a single calendar cell.
@@ -33,12 +25,12 @@ export type UsaCalendarCellClassFunction<D> =
  */
 export class UsaCalendarCell<D = any> {
   constructor(public value: number,
-              public displayValue: string,
-              public ariaLabel: string,
-              public enabled: boolean,
-              public cssClasses: UsaCalendarCellCssClasses = {},
-              public compareValue = value,
-              public rawValue?: D) {}
+    public displayValue: string,
+    public ariaLabel: string,
+    public enabled: boolean,
+    public cssClasses: UsaCalendarCellCssClasses = {},
+    public compareValue = value,
+    public rawValue?: D) { }
 }
 
 /** Event emitted when a date inside the calendar is triggered as a result of a user action. */
@@ -144,7 +136,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
   /** Called when a cell is clicked. */
   _cellClicked(cell: UsaCalendarCell, event: MouseEvent): void {
     if (cell.enabled) {
-      this.selectedValueChange.emit({value: cell.value, event});
+      this.selectedValueChange.emit({ value: cell.value, event });
     }
   }
 
@@ -155,7 +147,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     const columnChanges = changes['numCols'];
-    const {rows, numCols} = this;
+    const { rows, numCols } = this;
 
     if (changes['rows'] || columnChanges) {
       this._firstRowOffset = rows && rows.length && rows[0].length ? numCols - rows[0].length : 0;
@@ -195,7 +187,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
     this._ngZone.runOutsideAngular(() => {
       this._ngZone.onStable.pipe(take(1)).subscribe(() => {
         const activeCell: HTMLElement | null =
-            this._elementRef.nativeElement.querySelector('.usa-date-picker__calendar__date--focused');
+          this._elementRef.nativeElement.querySelector('.usa-date-picker__calendar__date--focused');
 
         if (activeCell) {
           if (!movePreview) {
@@ -316,7 +308,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
       const cell = this._getCellFromElement(event.target as HTMLElement);
 
       if (cell) {
-        this._ngZone.run(() => this.previewChange.emit({value: cell.enabled ? cell : null, event}));
+        this._ngZone.run(() => this.previewChange.emit({ value: cell.enabled ? cell : null, event }));
       }
     }
   }
@@ -332,7 +324,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
       // we have a gap between the cells and the rows and we don't want to remove the
       // range just for it to show up again when the user moves a few pixels to the side.
       if (event.target && isTableCell(event.target as HTMLElement)) {
-        this._ngZone.run(() => this.previewChange.emit({value: null, event}));
+        this._ngZone.run(() => this.previewChange.emit({ value: null, event }));
       }
     }
   }
@@ -378,9 +370,9 @@ function isEnd(value: number, start: number | null, end: number | null): boolean
 
 /** Checks whether a value is inside of a range. */
 function isInRange(value: number,
-                   start: number | null,
-                   end: number | null,
-                   rangeEnabled: boolean): boolean {
+  start: number | null,
+  end: number | null,
+  rangeEnabled: boolean): boolean {
   return rangeEnabled && start !== null && end !== null && start !== end &&
-         value >= start && value <= end;
+    value >= start && value <= end;
 }

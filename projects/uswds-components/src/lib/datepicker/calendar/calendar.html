@@ -11,7 +11,7 @@
     </usa-year-view>
     <usa-multi-year-view #multiYearView *ngSwitchCase="'multi-year'" [(activeDate)]="activeDate" [selected]="selected"
       [dateFilter]="dateFilter" [maxDate]="maxDate" [minDate]="minDate" [dateClass]="dateClass"
-      (yearSelected)="_yearSelectedInMultiYearView($event)" (selectedChange)="_goToDateInView($event, 'year')">
+      (yearSelected)="_yearSelectedInMultiYearView($event)" (selectedChange)="_goToDateInView($event, 'month')">
     </usa-multi-year-view>
   </div>
 </div>

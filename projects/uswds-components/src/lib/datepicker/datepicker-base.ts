@@ -1,10 +1,8 @@
 import { DOCUMENT } from "@angular/common";
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Directive, ElementRef, EventEmitter, HostListener, Inject, Injector, Input, isDevMode, NgZone, OnChanges, OnDestroy, OnInit, Optional, Output, SimpleChanges, ViewChild, ViewContainerRef } from "@angular/core";
-import { merge, Observable, Subject, Subscription } from "rxjs";
-import { filter, take } from "rxjs/operators";
+import { Observable, Subject, Subscription } from "rxjs";
 import { BooleanInput, coerceBooleanProperty } from "../util/boolean-property";
 import { usaFocusTrap } from "../util/focus-trap";
-import { hasModifierKey, KeyCode } from "../util/key";
 import { coerceStringArray } from "../util/util";
 import { UsaCalendar, UsaCalendarHeader } from "./calendar/calendar";
 import { UsaCalendarUserEvent, UsaCalendarCellClassFunction } from "./calendar/calendar-body";
@@ -35,7 +33,7 @@ export interface UsaDatepickerControl<D> {
 
 /** A datepicker that can be attached to a {@link UsaDatepickerControl}. */
 export interface UsaDatepickerPanel<C extends UsaDatepickerControl<D>, S,
-    D = ExtractDateTypeFromSelection<S>> {
+  D = ExtractDateTypeFromSelection<S>> {
   /** Stream that emits whenever the date picker is closed. */
   closedStream: EventEmitter<void>;
   /** The input element the datepicker is associated with. */
@@ -63,7 +61,7 @@ export interface UsaDatepickerPanel<C extends UsaDatepickerControl<D>, S,
  * future. (e.g. confirmation buttons).
  * @docs-private
  */
- @Component({
+@Component({
   selector: 'usa-datepicker-content',
   templateUrl: './datepicker-content.html',
   host: {
@@ -94,12 +92,6 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
   /** Whether the datepicker is above or below the input. */
   _isAbove: boolean;
 
-  /** Current state of the animation. */
-  _animationState: 'enter-dropdown' | 'enter-dialog' | 'void';
-
-  /** Emits when an animation has finished. */
-  readonly _animationDone = new Subject<void>();
-
   /** Text for the close button. */
   _closeButtonText: string;
 
@@ -109,19 +101,24 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
 
   /** Keeps track of last click and indicates whether it was inside the calender or outside */
   private wasInside = false;
-  
+
 
   @HostListener('click')
   clickInside() {
     this.wasInside = true;
   }
-  
+
   @HostListener('document:click')
   clickout() {
     if (!this.wasInside) {
       this.datepicker.close();
     }
     this.wasInside = false;
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    this.datepicker.close();
+    event.stopImmediatePropagation();
   }
 
   constructor(
@@ -131,7 +128,7 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
     private _zone: NgZone,
     private _el: ElementRef,
     @Optional() @Inject(USA_DATE_RANGE_SELECTION_STRATEGY)
-        private _rangeSelectionStrategy: UsaDateRangeSelectionStrategy<D>) {
+    private _rangeSelectionStrategy: UsaDateRangeSelectionStrategy<D>) {
     this._closeButtonText = 'Close';
   }
 
@@ -149,7 +146,6 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
 
   ngOnDestroy() {
     this._subscriptions.unsubscribe();
-    this._animationDone.complete();
   }
 
   _handleUserSelection(event: UsaCalendarUserEvent<D | null>) {
@@ -164,10 +160,10 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
     // change. This isn't very intuitive, but it's here for backwards-compatibility.
     if (isRange && this._rangeSelectionStrategy) {
       const newSelection = this._rangeSelectionStrategy.selectionFinished(value,
-          selection as unknown as DateRange<D>, event.event);
+        selection as unknown as DateRange<D>, event.event);
       this._model.updateSelection(newSelection as unknown as S, this);
     } else if (value && (isRange ||
-              !this._dateAdapter.sameDate(value, selection as unknown as D))) {
+      !this._dateAdapter.sameDate(value, selection as unknown as D))) {
       this._model.add(value);
     }
 
@@ -175,11 +171,6 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
     if (!this._model || this._model.isComplete()) {
       this.datepicker.close();
     }
-  }
-
-  _startExitAnimation() {
-    this._animationState = 'void';
-    this._changeDetectorRef.markForCheck();
   }
 
   _getSelected() {
@@ -198,7 +189,7 @@ export class UsaDatepickerContent<S, D = ExtractDateTypeFromSelection<S>> implem
 @Directive()
 export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
   D = ExtractDateTypeFromSelection<S>> implements UsaDatepickerPanel<C, S, D>, OnDestroy,
-    OnChanges {
+  OnChanges {
   private _inputStateChanges = Subscription.EMPTY;
 
   /** An input indicating the type of the custom header component for the calendar, if set. */
@@ -219,22 +210,11 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
   /** The view that the calendar should start in. */
   @Input() startView: 'month' | 'year' | 'multi-year' = 'month';
 
-  /**
-   * Whether the calendar UI is in touch mode. In touch mode the calendar opens in a dialog rather
-   * than a dropdown and elements have more padding to allow for bigger touch targets.
-   */
-  @Input()
-  get touchUi(): boolean { return this._touchUi; }
-  set touchUi(value: boolean) {
-    this._touchUi = coerceBooleanProperty(value);
-  }
-  private _touchUi = false;
-
   /** Whether the datepicker pop-up should be disabled. */
   @Input()
   get disabled(): boolean {
     return this._disabled === undefined && this.datepickerInput ?
-        this.datepickerInput.disabled : !!this._disabled;
+      this.datepickerInput.disabled : !!this._disabled;
   }
   set disabled(value: boolean) {
     const newValue = coerceBooleanProperty(value);
@@ -246,16 +226,8 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
   }
   private _disabled: boolean;
 
-  /** Preferred position of the datepicker in the X axis. */
-  @Input()
-  xPosition: DatepickerDropdownPositionX = 'start';
-
-  /** Preferred position of the datepicker in the Y axis. */
-  @Input()
-  yPosition: DatepickerDropdownPositionY = 'below';
-
   /**
-   * Whether to restore focus to the previously-focused element when the calendar is closed.
+   * Whether to restore focus to the datepicker input when the calendar is closed.
    * Note that automatic focus restoration is an accessibility feature and it is recommended that
    * you provide your own equivalent, if you decide to turn it off.
    */
@@ -326,9 +298,6 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
   /** Reference to the component instance rendered in the overlay. */
   private _componentRef: ComponentRef<UsaDatepickerContent<S, D>> | null;
 
-  /** The element that was focused before the datepicker was opened. */
-  private _focusedElementBeforeOpen: HTMLElement | null = null;
-
   /** The input element this datepicker is associated with. */
   datepickerInput: C;
 
@@ -340,6 +309,7 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
     private _injector: Injector,
     private _vcr: ViewContainerRef,
     private _cfr: ComponentFactoryResolver,
+    private _el: ElementRef,
     @Optional() private _dateAdapter: DateAdapter<D>,
     /**
      * @deprecated No longer being used. To be removed.
@@ -352,13 +322,7 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    const positionChange = changes['xPosition'] || changes['yPosition'];
-
-    if (positionChange && !positionChange.firstChange) {
-      console.log('todo');
-    }
-
+  ngOnChanges() {
     this.stateChanges.next(undefined);
   }
 
@@ -396,7 +360,7 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
     this._inputStateChanges.unsubscribe();
     this.datepickerInput = input;
     this._inputStateChanges =
-        input.stateChanges.subscribe(() => this.stateChanges.next(undefined));
+      input.stateChanges.subscribe(() => this.stateChanges.next(undefined));
     return this._model;
   }
 
@@ -412,7 +376,6 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
       throw Error('Attempted to open an UsaDatepicker with no associated input.');
     }
 
-    this._focusedElementBeforeOpen = document.activeElement as HTMLElement;
     this._openOverlay();
     this._opened = true;
     this.openedStream.emit();
@@ -434,18 +397,16 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
       if (this._opened) {
         this._opened = false;
         this.closedStream.emit();
-        this._focusedElementBeforeOpen = null;
       }
     };
 
-    if (this._restoreFocus && this._focusedElementBeforeOpen &&
-      typeof this._focusedElementBeforeOpen.focus === 'function') {
+    if (this._restoreFocus) {
       // Because IE moves focus asynchronously, we can't count on it being restored before we've
       // marked the datepicker as closed. If the event fires out of sequence and the element that
       // we're refocusing opens the datepicker on focus, the user could be stuck with not being
       // able to close the calendar at all. We work around it by making the logic, that marks
       // the datepicker as closed, async as well.
-      this._focusedElementBeforeOpen.focus();
+      this.datepickerInput.getConnectedOverlayOrigin().nativeElement.focus();
       setTimeout(completeClose);
     } else {
       completeClose();
@@ -471,9 +432,7 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
 
     this._forwardContentValues(this._componentRef.instance);
 
-    /** TODO: USE ID INSTEAD */
-    const wrapper = document.querySelector('.usa-date-picker__wrapper');
-
+    const wrapper = this.findAncestor(this._el.nativeElement, 'usa-date-picker__wrapper');
     (this._componentRef.location.nativeElement as HTMLElement).style.top = `${(wrapper as any).offsetHeight}px`;
     wrapper.appendChild(this._componentRef.location.nativeElement);
   }
@@ -483,12 +442,23 @@ export abstract class UsaDatepickerBase<C extends UsaDatepickerControl<D>, S,
     if (!this._componentRef) {
       return;
     }
-    this._vcr.remove(this._vcr.indexOf(this._componentRef !.hostView));
+    this._vcr.remove(this._vcr.indexOf(this._componentRef!.hostView));
     this._componentRef = null;
+  }
+
+
+  /**
+   * Finds closest ancestor element with the given class
+   * @param element - The element to start searching from - this element will be exempt from the search
+   * @param cls - The class string to search for
+   * @returns Either root element if not found or the queried element
+   */
+  private findAncestor(element: HTMLElement, cls: string) {
+    while ((element = element.parentElement) && !element.classList.contains(cls));
+    return element;
   }
 
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_opened: BooleanInput;
-  static ngAcceptInputType_touchUi: BooleanInput;
   static ngAcceptInputType_restoreFocus: BooleanInput;
 }
