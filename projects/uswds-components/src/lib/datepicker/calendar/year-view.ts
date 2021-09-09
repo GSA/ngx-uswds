@@ -1,10 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -20,11 +13,11 @@ import {
   OnDestroy,
   isDevMode,
 } from '@angular/core';
-import {Subscription} from 'rxjs';
-import {startWith} from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { KeyCode } from '../../util/key';
-import { DateAdapter } from '../date-adapter/date-adapter';
-import { UsaDateFormats, USA_DATE_FORMATS } from '../date-adapter/date-formats';
+import { DateAdapter } from '../dateadapter/date-adapter';
+import { UsaDateFormats, USA_DATE_FORMATS } from '../dateadapter/date-formats';
 import { DateRange } from '../date-selection-model';
 import { createMissingDateImplError } from '../date-picker-errors';
 import { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';
@@ -126,9 +119,9 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
   _selectedMonth: number | null;
 
   constructor(readonly _changeDetectorRef: ChangeDetectorRef,
-              @Optional() @Inject(USA_DATE_FORMATS) private _dateFormats: UsaDateFormats,
-              @Optional() public _dateAdapter: DateAdapter<D>
-              ) {
+    @Optional() @Inject(USA_DATE_FORMATS) private _dateFormats: UsaDateFormats,
+    @Optional() public _dateAdapter: DateAdapter<D>
+  ) {
 
     if (isDevMode()) {
       if (!this._dateAdapter) {
@@ -156,15 +149,15 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
   _monthSelected(event: UsaCalendarUserEvent<number>) {
     const month = event.value;
     const normalizedDate =
-          this._dateAdapter.createDate(this._dateAdapter.getYear(this.activeDate), month, 1);
+      this._dateAdapter.createDate(this._dateAdapter.getYear(this.activeDate), month, 1);
 
     this.monthSelected.emit(normalizedDate);
 
     const daysInMonth = this._dateAdapter.getNumDaysInMonth(normalizedDate);
 
     this.selectedChange.emit(this._dateAdapter.createDate(
-        this._dateAdapter.getYear(this.activeDate), month,
-        Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));
+      this._dateAdapter.getYear(this.activeDate), month,
+      Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));
   }
 
   /** Handles keydown events on the calendar body when calendar is in year view. */
@@ -190,19 +183,19 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
         break;
       case KeyCode.Home:
         this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate,
-            -this._dateAdapter.getMonth(this._activeDate));
+          -this._dateAdapter.getMonth(this._activeDate));
         break;
       case KeyCode.End:
         this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate,
-            11 - this._dateAdapter.getMonth(this._activeDate));
+          11 - this._dateAdapter.getMonth(this._activeDate));
         break;
       case KeyCode.PageUp:
         this.activeDate =
-            this._dateAdapter.addCalendarYears(this._activeDate, event.altKey ? -10 : -1);
+          this._dateAdapter.addCalendarYears(this._activeDate, event.altKey ? -10 : -1);
         break;
       case KeyCode.PageDown:
         this.activeDate =
-            this._dateAdapter.addCalendarYears(this._activeDate, event.altKey ? 10 : 1);
+          this._dateAdapter.addCalendarYears(this._activeDate, event.altKey ? 10 : 1);
         break;
       case KeyCode.Enter:
       case KeyCode.Space:
@@ -230,7 +223,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
     if (event.keyCode === KeyCode.Space || event.keyCode === KeyCode.Enter) {
       if (this._selectionKeyPressed) {
-        this._monthSelected({value: this._dateAdapter.getMonth(this._activeDate), event});
+        this._monthSelected({ value: this._dateAdapter.getMonth(this._activeDate), event });
       }
 
       this._selectionKeyPressed = false;
@@ -246,7 +239,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
     let monthNames = this._dateAdapter.getMonthNames('short');
     // First row of months only contains 5 elements so we can fit the year label on the same row.
     this._months = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]].map(row => row.map(
-        month => this._createCellForMonth(month, monthNames[month])));
+      month => this._createCellForMonth(month, monthNames[month])));
     this._changeDetectorRef.markForCheck();
   }
 
@@ -261,7 +254,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
    */
   private _getMonthInCurrentYear(date: D | null) {
     return date && this._dateAdapter.getYear(date) == this._dateAdapter.getYear(this.activeDate) ?
-        this._dateAdapter.getMonth(date) : null;
+      this._dateAdapter.getMonth(date) : null;
   }
 
   /** Creates an UsaCalendarCell for the given month. */
@@ -271,7 +264,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
     const cellClasses = this.dateClass ? this.dateClass(date, 'year') : undefined;
 
     return new UsaCalendarCell(month, monthName.toLocaleUpperCase(), ariaLabel,
-        this._shouldEnableMonth(month), cellClasses);
+      this._shouldEnableMonth(month), cellClasses);
   }
 
   /** Whether the given month is enabled. */
@@ -280,8 +273,8 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
     const activeYear = this._dateAdapter.getYear(this.activeDate);
 
     if (month === undefined || month === null ||
-        this._isYearAndMonthAfterMaxDate(activeYear, month) ||
-        this._isYearAndMonthBeforeMinDate(activeYear, month)) {
+      this._isYearAndMonthAfterMaxDate(activeYear, month) ||
+      this._isYearAndMonthBeforeMinDate(activeYear, month)) {
       return false;
     }
 
@@ -293,7 +286,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
 
     // If any date in the month is enabled count the month as enabled.
     for (let date = firstOfMonth; this._dateAdapter.getMonth(date) == month;
-         date = this._dateAdapter.addCalendarDays(date, 1)) {
+      date = this._dateAdapter.addCalendarDays(date, 1)) {
       if (this.dateFilter(date)) {
         return true;
       }
@@ -336,7 +329,7 @@ export class UsaYearView<D> implements AfterContentInit, OnDestroy {
   private _setSelectedMonth(value: DateRange<D> | D | null) {
     if (value instanceof DateRange) {
       this._selectedMonth = this._getMonthInCurrentYear(value.start) ||
-                            this._getMonthInCurrentYear(value.end);
+        this._getMonthInCurrentYear(value.end);
     } else {
       this._selectedMonth = this._getMonthInCurrentYear(value);
     }

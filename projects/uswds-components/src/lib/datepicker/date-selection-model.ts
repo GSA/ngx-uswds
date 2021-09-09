@@ -1,5 +1,5 @@
 import { FactoryProvider, Injectable, Optional, SkipSelf, OnDestroy } from '@angular/core';
-import { DateAdapter } from './date-adapter/date-adapter';
+import { DateAdapter } from './dateadapter/date-adapter';
 import { Observable, Subject } from 'rxjs';
 
 /** A class representing a range of dates. */
@@ -42,6 +42,7 @@ export interface DateSelectionModelChange<S> {
 /**
  * A selection model containing a date selection.
  * @docs-private
+ * @dynamic
  */
 @Injectable()
 export abstract class UsaDateSelectionModel<S, D = ExtractDateTypeFromSelection<S>>

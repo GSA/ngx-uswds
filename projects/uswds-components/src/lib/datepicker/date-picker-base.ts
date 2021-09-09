@@ -6,7 +6,7 @@ import { usaFocusTrap } from "../util/focus-trap";
 import { coerceStringArray } from "../util/util";
 import { UsaCalendar, UsaCalendarHeader } from "./calendar/calendar";
 import { UsaCalendarUserEvent, UsaCalendarCellClassFunction } from "./calendar/calendar-body";
-import { DateAdapter } from "./date-adapter/date-adapter";
+import { DateAdapter } from "./dateadapter/date-adapter";
 import { UsaDateRangeSelectionStrategy, USA_DATE_RANGE_SELECTION_STRATEGY } from "./date-range-selection-strategy";
 import { DateRange, ExtractDateTypeFromSelection, UsaDateSelectionModel } from "./date-selection-model";
 import { createMissingDateImplError } from "./date-picker-errors";

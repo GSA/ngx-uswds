@@ -1,10 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 
 import {
   AfterContentInit,
@@ -23,10 +16,9 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
   ɵComponentType,
 } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { UsaCalendarUserEvent, UsaCalendarCellClassFunction } from './calendar-body';
 import { createMissingDateImplError } from '../date-picker-errors';
 import { UsaMonthView } from './month-view';
@@ -36,8 +28,8 @@ import {
 } from './multi-year-view';
 import { UsaYearView } from './year-view';
 import { USA_SINGLE_DATE_SELECTION_MODEL_PROVIDER, DateRange } from '../date-selection-model';
-import { DateAdapter } from '../date-adapter/date-adapter';
-import { UsaDateFormats, USA_DATE_FORMATS } from '../date-adapter/date-formats';
+import { DateAdapter } from '../dateadapter/date-adapter';
+import { UsaDateFormats, USA_DATE_FORMATS } from '../dateadapter/date-formats';
 
 /**
  * Possible views for the calendar.

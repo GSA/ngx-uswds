@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -28,17 +20,17 @@ import {
   UsaCalendarUserEvent,
   UsaCalendarCellClassFunction,
 } from './calendar-body';
-import {createMissingDateImplError} from '../date-picker-errors';
-import {Subscription} from 'rxjs';
-import {startWith} from 'rxjs/operators';
-import {DateRange} from '../date-selection-model';
+import { createMissingDateImplError } from '../date-picker-errors';
+import { Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
+import { DateRange } from '../date-selection-model';
 import {
   UsaDateRangeSelectionStrategy,
   USA_DATE_RANGE_SELECTION_STRATEGY,
 } from '../date-range-selection-strategy';
 import { hasModifierKey, KeyCode } from '../../util/key';
-import { DateAdapter } from '../date-adapter/date-adapter';
-import { UsaDateFormats, USA_DATE_FORMATS } from '../date-adapter/date-formats';
+import { DateAdapter } from '../dateadapter/date-adapter';
+import { UsaDateFormats, USA_DATE_FORMATS } from '../dateadapter/date-formats';
 
 
 const DAYS_PER_WEEK = 7;
@@ -125,7 +117,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
 
   /** Emits when any date is selected. */
   @Output() readonly _userSelection: EventEmitter<UsaCalendarUserEvent<D | null>> =
-      new EventEmitter<UsaCalendarUserEvent<D | null>>();
+    new EventEmitter<UsaCalendarUserEvent<D | null>>();
 
   /** Emits when any date is activated. */
   @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
@@ -173,13 +165,13 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   _todayDate: number | null;
 
   /** The names of the weekdays. */
-  _weekdays: {long: string, narrow: string}[];
+  _weekdays: { long: string, narrow: string }[];
 
   constructor(readonly _changeDetectorRef: ChangeDetectorRef,
-              @Optional() @Inject(USA_DATE_FORMATS) private _dateFormats: UsaDateFormats,
-              @Optional() public _dateAdapter: DateAdapter<D>,
-              @Inject(USA_DATE_RANGE_SELECTION_STRATEGY) @Optional()
-                  private _rangeStrategy?: UsaDateRangeSelectionStrategy<D>) {
+    @Optional() @Inject(USA_DATE_FORMATS) private _dateFormats: UsaDateFormats,
+    @Optional() public _dateAdapter: DateAdapter<D>,
+    @Inject(USA_DATE_RANGE_SELECTION_STRATEGY) @Optional()
+    private _rangeStrategy?: UsaDateRangeSelectionStrategy<D>) {
 
     if (isDevMode()) {
       if (!this._dateAdapter) {
@@ -231,7 +223,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
       this.selectedChange.emit(selectedDate);
     }
 
-    this._userSelection.emit({value: selectedDate, event: event.event});
+    this._userSelection.emit({ value: selectedDate, event: event.event });
     this._previewStart = this._previewEnd = null;
     this._changeDetectorRef.markForCheck();
   }
@@ -259,22 +251,22 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
         break;
       case KeyCode.Home:
         this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate,
-            1 - this._dateAdapter.getDate(this._activeDate));
+          1 - this._dateAdapter.getDate(this._activeDate));
         break;
       case KeyCode.End:
         this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate,
-            (this._dateAdapter.getNumDaysInMonth(this._activeDate) -
-              this._dateAdapter.getDate(this._activeDate)));
+          (this._dateAdapter.getNumDaysInMonth(this._activeDate) -
+            this._dateAdapter.getDate(this._activeDate)));
         break;
       case KeyCode.PageUp:
         this.activeDate = event.altKey ?
-            this._dateAdapter.addCalendarYears(this._activeDate, -1) :
-            this._dateAdapter.addCalendarMonths(this._activeDate, -1);
+          this._dateAdapter.addCalendarYears(this._activeDate, -1) :
+          this._dateAdapter.addCalendarMonths(this._activeDate, -1);
         break;
       case KeyCode.PageDown:
         this.activeDate = event.altKey ?
-            this._dateAdapter.addCalendarYears(this._activeDate, 1) :
-            this._dateAdapter.addCalendarMonths(this._activeDate, 1);
+          this._dateAdapter.addCalendarYears(this._activeDate, 1) :
+          this._dateAdapter.addCalendarMonths(this._activeDate, 1);
         break;
       case KeyCode.Enter:
       case KeyCode.Space:
@@ -294,7 +286,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
         if (this._previewEnd != null && !hasModifierKey(event)) {
           this._previewStart = this._previewEnd = null;
           this.selectedChange.emit(null);
-          this._userSelection.emit({value: null, event});
+          this._userSelection.emit({ value: null, event });
           event.preventDefault();
           event.stopPropagation(); // Prevents the overlay from closing.
         }
@@ -317,7 +309,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
     if (event.keyCode === KeyCode.Space || event.keyCode === KeyCode.Enter) {
       if (this._selectionKeyPressed && this._canSelect(this._activeDate)) {
-        this._dateSelected({value: this._getCellCompareValue(this._activeDate), event});
+        this._dateSelected({ value: this._getCellCompareValue(this._activeDate), event });
       }
 
       this._selectionKeyPressed = false;
@@ -329,15 +321,15 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     this._setRanges(this.selected);
     this._todayDate = this._getCellCompareValue(this._dateAdapter.today());
     this._monthLabel = this._dateFormats.display.monthLabel
-        ? this._dateAdapter.format(this.activeDate, this._dateFormats.display.monthLabel)
-        : this._dateAdapter.getMonthNames('short')[this._dateAdapter.getMonth(this.activeDate)]
-            .toLocaleUpperCase();
+      ? this._dateAdapter.format(this.activeDate, this._dateFormats.display.monthLabel)
+      : this._dateAdapter.getMonthNames('short')[this._dateAdapter.getMonth(this.activeDate)]
+        .toLocaleUpperCase();
 
     let firstOfMonth = this._dateAdapter.createDate(this._dateAdapter.getYear(this.activeDate),
-        this._dateAdapter.getMonth(this.activeDate), 1);
+      this._dateAdapter.getMonth(this.activeDate), 1);
     this._firstWeekOffset =
-        (DAYS_PER_WEEK + this._dateAdapter.getDayOfWeek(firstOfMonth) -
-         this._dateAdapter.getFirstDayOfWeek()) % DAYS_PER_WEEK;
+      (DAYS_PER_WEEK + this._dateAdapter.getDayOfWeek(firstOfMonth) -
+        this._dateAdapter.getFirstDayOfWeek()) % DAYS_PER_WEEK;
 
     this._initWeekdays();
     this._createWeekCells();
@@ -350,13 +342,13 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   }
 
   /** Called when the user has activated a new cell and the preview needs to be updated. */
-  _previewChanged({event, value: cell}: UsaCalendarUserEvent<UsaCalendarCell<D> | null>) {
+  _previewChanged({ event, value: cell }: UsaCalendarUserEvent<UsaCalendarCell<D> | null>) {
     if (this._rangeStrategy) {
       // We can assume that this will be a range, because preview
       // events aren't fired for single date selections.
       const value = cell ? cell.rawValue! : null;
       const previewRange =
-          this._rangeStrategy.createPreview(value, this.selected as DateRange<D>, event);
+        this._rangeStrategy.createPreview(value, this.selected as DateRange<D>, event);
       this._previewStart = this._getCellCompareValue(previewRange.start);
       this._previewEnd = this._getCellCompareValue(previewRange.end);
 
@@ -376,7 +368,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
 
     // Rotate the labels for days of the week based on the configured first day of the week.
     let weekdays = longWeekdays.map((long, i) => {
-        return {long, narrow: narrowWeekdays[i]};
+      return { long, narrow: narrowWeekdays[i] };
     });
     this._weekdays = weekdays.slice(firstDayOfWeek).concat(weekdays.slice(0, firstDayOfWeek));
   }
@@ -392,7 +384,7 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     for (let i = daysInPrevMonth - this._firstWeekOffset; i < daysInPrevMonth; i++) {
       this._prevMonthDays.push(this.getCalendarCell(prevMonth, i));
     }
-    
+
     this._weeks = [[]];
     for (let i = 0, cell = this._firstWeekOffset; i < daysInMonth; i++, cell++) {
       if (cell == DAYS_PER_WEEK) {
@@ -445,9 +437,9 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   /** Date filter for the month */
   private _shouldEnableDate(date: D): boolean {
     return !!date &&
-        (!this.minDate || this._dateAdapter.compareDate(date, this.minDate) >= 0) &&
-        (!this.maxDate || this._dateAdapter.compareDate(date, this.maxDate) <= 0) &&
-        (!this.dateFilter || this.dateFilter(date));
+      (!this.minDate || this._dateAdapter.compareDate(date, this.minDate) >= 0) &&
+      (!this.maxDate || this._dateAdapter.compareDate(date, this.maxDate) <= 0) &&
+      (!this.dateFilter || this.dateFilter(date));
   }
 
   /**
@@ -456,13 +448,13 @@ export class UsaMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
    */
   private _getDateInCurrentMonth(date: D | null): number | null {
     return date && this._hasSameMonthAndYear(date, this.activeDate) ?
-        this._dateAdapter.getDate(date) : null;
+      this._dateAdapter.getDate(date) : null;
   }
 
   /** Checks whether the 2 dates are non-null and fall within the same month of the same year. */
   private _hasSameMonthAndYear(d1: D | null, d2: D | null): boolean {
     return !!(d1 && d2 && this._dateAdapter.getMonth(d1) == this._dateAdapter.getMonth(d2) &&
-              this._dateAdapter.getYear(d1) == this._dateAdapter.getYear(d2));
+      this._dateAdapter.getYear(d1) == this._dateAdapter.getYear(d2));
   }
 
   /** Gets the value that will be used to one cell to another. */

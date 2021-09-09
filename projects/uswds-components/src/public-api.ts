@@ -70,10 +70,5 @@ export * from './lib/tooltip/tooltip.directive';
 export * from './lib/tooltip/tooltip.module';
 
 // DatePicker
-export * from './lib/date-picker/date-picker.module';
-export * from './lib/date-picker/date-picker-input';
-export * from './lib/date-picker/date-picker-button';
-export * from './lib/date-picker/calendar/calendar';
-export * from './lib/date-picker/calendar/calendar-body';
-export * from './lib/date-picker/date-picker';
+export * from './lib/datepicker/index';
 

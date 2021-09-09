@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -22,10 +14,10 @@ import {
   Inject,
   forwardRef,
 } from '@angular/core';
-import {Subscription} from 'rxjs';
-import {startWith} from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { KeyCode } from '../../util/key';
-import { DateAdapter } from '../date-adapter/date-adapter';
+import { DateAdapter } from '../dateadapter/date-adapter';
 import { DateRange } from '../date-selection-model';
 import { createMissingDateImplError } from '../date-picker-errors';
 import { UsaCalendar } from './calendar';
@@ -188,9 +180,9 @@ export class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {
     this.yearSelected.emit(this._dateAdapter.createDate(year, 0, 1));
     let month = this._dateAdapter.getMonth(this.activeDate);
     let daysInMonth =
-        this._dateAdapter.getNumDaysInMonth(this._dateAdapter.createDate(year, month, 1));
+      this._dateAdapter.getNumDaysInMonth(this._dateAdapter.createDate(year, month, 1));
     this.selectedChange.emit(this._dateAdapter.createDate(year, month,
-        Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));
+      Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));
   }
 
   /** Handles keydown events on the calendar body when calendar is in multi-year view. */
@@ -220,13 +212,13 @@ export class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {
         break;
       case KeyCode.PageUp:
         this.activeDate =
-            this._dateAdapter.addCalendarYears(
-                this._activeDate, event.altKey ? -yearsPerPage * 10 : -yearsPerPage);
+          this._dateAdapter.addCalendarYears(
+            this._activeDate, event.altKey ? -yearsPerPage * 10 : -yearsPerPage);
         break;
       case KeyCode.PageDown:
         this.activeDate =
-            this._dateAdapter.addCalendarYears(
-                this._activeDate, event.altKey ? yearsPerPage * 10 : yearsPerPage);
+          this._dateAdapter.addCalendarYears(
+            this._activeDate, event.altKey ? yearsPerPage * 10 : yearsPerPage);
         break;
       case KeyCode.Enter:
       case KeyCode.Space:
@@ -253,7 +245,7 @@ export class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
     if (event.keyCode === KeyCode.Space || event.keyCode === KeyCode.Enter) {
       if (this._selectionKeyPressed) {
-        this._yearSelected({value: this._dateAdapter.getYear(this._activeDate), event});
+        this._yearSelected({ value: this._dateAdapter.getYear(this._activeDate), event });
       }
 
       this._selectionKeyPressed = false;
@@ -282,8 +274,8 @@ export class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {
   private _shouldEnableYear(year: number) {
     // disable if the year is greater than maxDate lower than minDate
     if (year === undefined || year === null ||
-        (this.maxDate && year > this._dateAdapter.getYear(this.maxDate)) ||
-        (this.minDate && year < this._dateAdapter.getYear(this.minDate))) {
+      (this.maxDate && year > this._dateAdapter.getYear(this.maxDate)) ||
+      (this.minDate && year < this._dateAdapter.getYear(this.minDate))) {
       return false;
     }
 
@@ -327,7 +319,7 @@ export function isSameMultiYearView<D>(
   const year2 = dateAdapter.getYear(date2);
   const startingYear = getStartingYear(dateAdapter, minDate, maxDate);
   return Math.floor((year1 - startingYear) / yearsPerPage) ===
-          Math.floor((year2 - startingYear) / yearsPerPage);
+    Math.floor((year2 - startingYear) / yearsPerPage);
 }
 
 /**
@@ -359,6 +351,6 @@ function getStartingYear<D>(
 }
 
 /** Gets remainder that is non-negative, even if first number is negative */
-function euclideanModulo (a: number, b: number): number {
+function euclideanModulo(a: number, b: number): number {
   return (a % b + b) % b;
 }

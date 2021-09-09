@@ -19,11 +19,11 @@ import {
   Validator,
   ValidatorFn,
 } from '@angular/forms';
-import { DateAdapter } from './date-adapter/date-adapter';
+import { DateAdapter } from './dateadapter/date-adapter';
 import {
   USA_DATE_FORMATS,
   UsaDateFormats,
-} from './date-adapter/date-formats';
+} from './dateadapter/date-formats';
 import { Subscription, Subject } from 'rxjs';
 import {
   ExtractDateTypeFromSelection,

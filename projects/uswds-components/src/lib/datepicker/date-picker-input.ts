@@ -1,8 +1,8 @@
 import { Directive, ElementRef, forwardRef, Inject, Input, OnDestroy, Optional } from "@angular/core";
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidatorFn, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { DateAdapter } from "./date-adapter/date-adapter";
-import { UsaDateFormats, USA_DATE_FORMATS } from "./date-adapter/date-formats";
+import { DateAdapter } from "./dateadapter/date-adapter";
+import { UsaDateFormats, USA_DATE_FORMATS } from "./dateadapter/date-formats";
 import { DateSelectionModelChange } from "./date-selection-model";
 import { UsaDatePickerPanel, UsaDatePickerControl } from "./date-picker-base";
 import { DateFilterFn, UsaDatePickerInputBase } from "./date-picker-input-base";
