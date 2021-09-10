@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UsaDateFormats, USA_DATE_FORMATS, USA_NATIVE_DATE_FORMATS } from 'uswds-components';
 
 /** Define custom format here - This example overrides just the date input while keeping other values default */
@@ -17,11 +17,4 @@ export const UsaDemoFormat: UsaDateFormats = {
     {provide: USA_DATE_FORMATS, useValue: UsaDemoFormat}
   ]
 })
-export class DatepickerFormatComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class DatepickerFormatComponent {}

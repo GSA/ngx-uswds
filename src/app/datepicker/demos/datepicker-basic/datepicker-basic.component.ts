@@ -4,8 +4,4 @@ import { Component } from '@angular/core';
   selector: 'usa-date-picker-basic',
   templateUrl: './datepicker-basic.component.html',
 })
-export class DatePickerBasicComponent {
-  log($event) {
-    console.log($event);
-  }
-}
+export class DatePickerBasicComponent {}
