@@ -4,8 +4,10 @@ import { USWDSSidenavModule } from 'uswds-components';
 import { DocumentationComponentsSharedModule, DocumentationDemoList } from '../shared';
 import { DemoWrapperComponent } from '../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../shared/examples-page/examples.component';
-import { SideNavigationToggleModule } from './demos/toggle/side-navigation-toggle.module';
-import { SideNavigationToggleComponent } from './demos/toggle/side-navigation-toggle.component';
+import { SideNavigationToggleSingleComponent } from './demos/toggle-single/side-navigation-toggle-single.component';
+import { SideNavigationToggleSingleModule } from './demos/toggle-single/side-navigation-toggle-single.module';
+import { SideNavigationToggleMultiModule } from './demos/toggle-multi/side-navigation-toggle-multi.module';
+import { SideNavigationToggleMultiComponent } from './demos/toggle-multi/side-navigation-toggle-multi.component';
 import { SideNavigationStaticComponent } from './demos/static/side-navigation-static.component';
 import { SideNavigationStaticModule } from './demos/static/side-navigation-static.module';
 
@@ -21,13 +23,21 @@ const DEMOS = {
     module: require('!!raw-loader!./demos/static/side-navigation-static.module'),
     path: 'src/app/side-navigation/demos/static',
   },
-  toggle: {
-    title: 'Toggleable Side Nav',
-    type: SideNavigationToggleComponent,
-    code: require('!!raw-loader!./demos/toggle/side-navigation-toggle.component'),
-    markup: require('!!raw-loader!./demos/toggle/side-navigation-toggle.component.html'),
-    module: require('!!raw-loader!./demos/toggle/side-navigation-toggle.module'),
-    path: 'src/app/side-navigation/demos/toggle',
+  toggleSingle: {
+    title: 'Toggleable Side Nav - Single',
+    type: SideNavigationToggleSingleComponent,
+    code: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.component'),
+    markup: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.component.html'),
+    module: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.module'),
+    path: 'src/app/side-navigation/demos/toggle-multi',
+  },
+  toggleMulti: {
+    title: 'Toggleable Side Nav - Multiple',
+    type: SideNavigationToggleMultiComponent,
+    code: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.component'),
+    markup: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.component.html'),
+    module: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.module'),
+    path: 'src/app/side-navigation/demos/toggle-multi',
   }
 };
 
@@ -58,8 +68,9 @@ export const ROUTES = [
     CommonModule,
     DocumentationComponentsSharedModule,
     // USWDSSidenavModule,
-    SideNavigationToggleModule,
-    SideNavigationStaticModule
+    SideNavigationToggleMultiModule,
+    SideNavigationStaticModule,
+    SideNavigationToggleSingleModule
   ]
 })
 export class SideNavigationModule {

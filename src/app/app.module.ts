@@ -11,8 +11,6 @@ import { USWDSCardModule } from 'uswds-components';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MarkdownModule } from 'ngx-markdown';
-import { IconModule } from '@gsa-sam/ngx-uswds-icons';
-import { allIcons, NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
 
 @NgModule({
   declarations: [
@@ -24,9 +22,7 @@ import { allIcons, NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
     AppRoutingModule,
     USWDSSidenavModule,
     USWDSCardModule,
-    MarkdownModule.forRoot(),
-    IconModule,
-    NgxBootstrapIconsModule.pick(allIcons)
+    MarkdownModule.forRoot()
   ],
   providers: [
     {

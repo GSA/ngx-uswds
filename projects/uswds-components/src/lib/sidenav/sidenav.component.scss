@@ -1,9 +1,9 @@
-.link-container {
-  display: flex;
-  a {
-    width: 100%;
+.usa-sidenav__item{
+  span.side-nav-label{
+    display: block;
+    padding: 0.5rem 1rem;
   }
-  .toggle-button{
-    display: flex;
+  a{
+    cursor: pointer;
   }
 }

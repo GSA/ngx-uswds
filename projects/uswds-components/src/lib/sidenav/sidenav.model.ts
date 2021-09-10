@@ -1,6 +1,9 @@
+import { QueryParamsHandling } from '@angular/router';
+
 export interface SidenavModel {
+  mode?: NavigationMode; // TODO make not optional
   labelText: string;
-  href: string;
+  href?: string;
   id?: any;
   selected?: boolean;
   children?: SidenavModel[];
@@ -11,4 +14,18 @@ export interface SidenavModel {
 
   /** Any additional data users may want to attach to the sidenav model */
   optionalData?: any;
+
+  /**
+   * Query string paramaters supporeted with external and internal links
+   * ex. { 'name': 'value',...}
+   */
+  queryParams?: {
+    [k: string]: any;
+  };
+
+  queryParamsHandling?: QueryParamsHandling;
+}
+
+export enum NavigationMode {
+  INTERNAL, EXTERNAL, LABEL
 }

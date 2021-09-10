@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { USWDSSidenavModule } from 'uswds-components';
-import { SideNavigationStaticComponent } from './side-navigation-static.component';
+import { SideNavigationToggleSingleComponent } from './side-navigation-toggle-single.component';
 
 
 @NgModule({
@@ -10,10 +10,10 @@ import { SideNavigationStaticComponent } from './side-navigation-static.componen
     USWDSSidenavModule
   ],
   declarations: [
-    SideNavigationStaticComponent
+    SideNavigationToggleSingleComponent
   ],
   exports: [
-    SideNavigationStaticComponent
+    SideNavigationToggleSingleComponent
   ]
 })
-export class SideNavigationStaticModule { }
+export class SideNavigationToggleSingleModule { }

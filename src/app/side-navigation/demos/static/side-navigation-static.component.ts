@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SidenavModel } from 'uswds-components';
+import { NavigationMode, SidenavModel } from 'uswds-components';
 
 @Component({
   selector: 'app-side-navigation-static',
@@ -11,16 +11,19 @@ export class SideNavigationStaticComponent {
 
   sidenavModel: SidenavModel[] = [
     {
+      mode: NavigationMode.EXTERNAL,
       labelText: 'Accordion',
       href: 'accordion',
       id: 1,
       children: [
         {
+          mode: NavigationMode.EXTERNAL,
           labelText: 'Accordion - Child',
           href: 'accordian-child',
           id: 100,
           children: [
             {
+              mode: NavigationMode.EXTERNAL,
               labelText: 'Accordion - Grandchild',
               href: 'accordian-grandchild',
               id: 1000
@@ -30,33 +33,40 @@ export class SideNavigationStaticComponent {
       ]
     },
     {
+      mode: NavigationMode.INTERNAL,
       labelText: 'File Input',
-      href: 'file-input',
+      href: '/file-input',
       id: 10,
+      queryParams: { index: 'opportunities' },
       children: [
         {
+          mode: NavigationMode.INTERNAL,
           labelText: 'File Input - Child',
-          href: 'file-input-child',
+          href: '/file-input-child',
           id: 104
         },
       ]
     },
     {
+      mode: NavigationMode.LABEL,
       labelText: 'Step Indicator',
       href: 'step-indicator',
       id: 14
     },
     {
+      mode: NavigationMode.LABEL,
       labelText: 'Modal',
       href: 'modal',
       id: 15
     },
     {
+      mode: NavigationMode.LABEL,
       labelText: 'Tooltip',
       href: 'tooltip',
       id: 16
     },
     {
+      mode: NavigationMode.LABEL,
       labelText: 'Table',
       href: 'table',
       id: 17,

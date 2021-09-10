@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
-import { SidenavModel } from 'uswds-components';
+import { Component, ViewChild } from '@angular/core';
+import { SidenavModel, USWDSSidenavComponent } from 'uswds-components';
 
 @Component({
-  selector: 'app-side-navigation-toggle',
-  templateUrl: './side-navigation-toggle.component.html'
+  selector: 'app-side-navigation-toggle-single',
+  templateUrl: './side-navigation-toggle-single.component.html'
 })
-export class SideNavigationToggleComponent {
+export class SideNavigationToggleSingleComponent {
+
+  @ViewChild(USWDSSidenavComponent)
+  sidenav: USWDSSidenavComponent;
 
 
 
@@ -14,13 +17,11 @@ export class SideNavigationToggleComponent {
       labelText: 'Accordion',
       href: 'accordion',
       id: 1,
-      collapsed: false,
       children: [
         {
           labelText: 'Accordion - Child',
           href: 'accordian-child',
           id: 100,
-          collapsed: true,
           children: [
             {
               labelText: 'Accordion - Grandchild',
@@ -28,6 +29,16 @@ export class SideNavigationToggleComponent {
               id: 1000
             }
           ]
+        },
+        {
+          labelText: 'Accordion - Child 2',
+          href: 'accordian-child-2',
+          id: 200,
+        },
+        {
+          labelText: 'Accordion - Child 3',
+          href: 'accordian-child-3',
+          id: 300,
         }
       ]
     },
@@ -67,8 +78,8 @@ export class SideNavigationToggleComponent {
 
   constructor() { }
 
-  onSidenavClick(event: any): void {
-    console.log('side nav link clicked');
+  collapseAll(): void {
+    this.sidenav.collapseAll();
   }
 
 }

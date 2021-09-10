@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
-import { SidenavModel } from './sidenav.model';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { NavigationMode, SidenavModel } from './sidenav.model';
 
 
 @Component({
@@ -9,36 +9,41 @@ import { SidenavModel } from './sidenav.model';
 })
 export class USWDSSidenavComponent implements OnInit {
 
+  NavigationMode = NavigationMode;
+
   @Input() sidenavContent: SidenavModel[];
 
-  @Input() enableCollapse = false;
+  /**
+   * Enables navigation items to be toggled. By default all items are fully collapsed unless specified in sidenavContent.
+   *
+   * 'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse
+   *
+   * 'multiple' will allow all branches to be expanded independently of each other.
+   */
+  @Input() expandType: 'single' | 'multiple';
 
   /**
-   * Classes to be applied to toggle button
+   * Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.
    */
-  @Input() buttonClasses = '';
+  @Input() collapseLabels = false;
 
   @Output() sidenavClicked = new EventEmitter<SidenavModel>();
 
-  @ContentChild('expand')
-  expand: TemplateRef<any>;
-
-  @ContentChild('collapse')
-  collapse: TemplateRef<any>;
-
   ngOnInit(): void {
-    // If collapse is enabled, collapse all children by default
-    if (this.enableCollapse) {
+    // If collapse is enabled, collapse all children by default. If label, expand to show children
+    if (this.expandType) {
       this.sidenavContent.map(link => {
-        if (link.children) {
+        if (link.mode !== NavigationMode.LABEL) {
           link.collapsed = link.collapsed === undefined ? true : link.collapsed;
+        }
+        if (link.children) {
           this.collapseChildren(link);
         }
       });
     }
   }
 
-  collapseChildren(link: SidenavModel): void {
+  private collapseChildren(link: SidenavModel): void {
     link.children = link.children.map(childLink => {
       childLink.collapsed = true;
       return childLink;
@@ -46,17 +51,38 @@ export class USWDSSidenavComponent implements OnInit {
   }
 
   onSidenavItemClicked(item: SidenavModel): void {
+
     this.deselectSideNav(this.sidenavContent);
     this.selectSideNav(item, this.sidenavContent);
     this.deactivateChild(this.sidenavContent);
-    if (item.children) {
-      item.collapsed = false;
+    if (item.children && this.canCollapseLabel(item)) {
+      item.collapsed = !item.collapsed;
+      this.toggleBasedOnSelected(item.children);
+    }
+    if (this.expandType === 'single') {
+
+      this.toggleBasedOnSelected(this.sidenavContent);
     }
     this.sidenavClicked.emit(item);
   }
 
-  toggleChildrenExpansion(link: SidenavModel): void {
-    link.children.map(childLink => childLink.collapsed = !childLink.collapsed);
+  /**
+   *
+   * @param link - Link which has been clicked on
+   * @returns true if either link is not a label, or it is a label and label collapse is enabled
+   */
+  private canCollapseLabel(link: SidenavModel): boolean {
+    return link.mode === NavigationMode.LABEL ? this.collapseLabels : true;
+  }
+
+  private toggleBasedOnSelected(links: SidenavModel[]): void {
+    links.forEach(link => {
+      link.collapsed = link.selected ? false : true;
+      if (link.children) {
+        this.toggleBasedOnSelected(link.children);
+      }
+      return;
+    });
   }
 
   /**
@@ -112,15 +138,19 @@ export class USWDSSidenavComponent implements OnInit {
     }
   }
 
-  handleButtonClick(link: SidenavModel): void {
-    link.collapsed = !link.collapsed;
+  /**
+   * When expandType is multiple, expands all collapseable links in sidenav
+   */
+  public expandAll(): void {
+    if (this.expandType === 'multiple') {
+      this.sidenavContent.forEach(link => this.expandChildren(link, false));
+    }
   }
 
-  expandAll(): void {
-    this.sidenavContent.forEach(link => this.expandChildren(link, false));
-  }
-
-  collapseAll(): void {
+  /**
+   * Collapses all links
+   */
+  public collapseAll(): void {
     this.sidenavContent.forEach(link => this.expandChildren(link, true));
   }
 
@@ -130,4 +160,35 @@ export class USWDSSidenavComponent implements OnInit {
       link.children.forEach(childLink => childLink.children ? this.expandChildren(childLink, collapsedValue) : null);
     }
   }
+  private queryStringBuilder(item: SidenavModel): string {
+    const ret = [];
+    let keys = [];
+    if (item.queryParams) {
+      keys = Object.keys(item.queryParams);
+    }
+    for (const d of keys) {
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d]));
+    }
+    return ret.join('&');
+  }
+
+  /**
+   * creates url from provided route and query params
+   * @param item - Link to use when building url
+   */
+  urlBuilder(item: SidenavModel): string {
+    let url = item.href;
+    const queryParams = this.queryStringBuilder(item);
+    if (queryParams) {
+      if (url.indexOf('?') === -1) {
+        url += '?' + queryParams;
+      } else if (url.indexOf('?') === url.length - 1) {
+        url += queryParams;
+      } else {
+        url += '&' + queryParams;
+      }
+    }
+    return url;
+  }
+
 }
