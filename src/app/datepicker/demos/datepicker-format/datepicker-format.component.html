@@ -1,0 +1,8 @@
+
+<label class="usa-label" id="datepickerFormatLabel'" for="datepickerFormat">Datepicker Format</label>
+<div class="usa-hint">month dd, yyyy</div>
+<usa-date-picker-wrapper>
+  <input [usaDatePicker]="picker" [id]="'datepickerFormat'">
+  <usa-date-picker-button [for]="picker"></usa-date-picker-button>
+  <usa-date-picker #picker></usa-date-picker>
+</usa-date-picker-wrapper>

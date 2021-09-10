@@ -1,0 +1,45 @@
+<div class="grid-row">
+  <div class="desktop:grid-col-5 tablet: grid-col-12">
+    <!-- Min Date -->
+    <label class="usa-label" id="minDatePickerLabel'" for="minDatePicker">Min Date</label>
+    <usa-date-picker-wrapper>
+      <input [usaDatePicker]="minPicker" [id]="'minDatePicker'" [(ngModel)]="minDateModel" [max]="maxDateModel">
+      <usa-date-picker-button [for]="minPicker"></usa-date-picker-button>
+      <usa-date-picker #minPicker></usa-date-picker>
+    </usa-date-picker-wrapper>
+  </div>
+  <div class="desktop:grid-col-5 tablet: grid-col-12">
+    <!-- Max Date -->
+    <label class="usa-label" id="maxDatePickerLabel'" for="maxDatePicker">Max Date</label>
+    <usa-date-picker-wrapper>
+      <input [usaDatePicker]="maxPicker" [id]="'maxDatePicker'" [(ngModel)]="maxDateModel" [min]="minDateModel">
+      <usa-date-picker-button [for]="maxPicker"></usa-date-picker-button>
+      <usa-date-picker #maxPicker></usa-date-picker>
+    </usa-date-picker-wrapper>
+  </div>
+</div>
+
+<!-- Validation Date -->
+<label class="usa-label" id="datePickerValidationLabel'" for="datePickerValidation">Date Picker Validation</label>
+<usa-date-picker-wrapper>
+  <input [usaDatePicker]="validationPicker" [id]="'datePickerValidation'" required
+    [attr.class]="isInvalid(datePickerValidation) ? 'usa-input usa-input--error' : 'usa-input'"
+    [(ngModel)]="validationModel"
+    [min]="minDateModel" [max]="maxDateModel" 
+    #datePickerValidation="ngModel">
+  <usa-date-picker-button [for]="validationPicker"></usa-date-picker-button>
+  <usa-date-picker #validationPicker></usa-date-picker>
+</usa-date-picker-wrapper>
+
+<div *ngIf="isInvalid(datePickerValidation)" class="usa-error-message">
+  <div *ngIf="datePickerValidation.errors?.usaDatePickerMin">
+    Date must be after {{minDateModel.toDateString()}}
+  </div>
+  <div *ngIf="datePickerValidation.errors?.usaDatePickerMax">
+    Date must be before {{maxDateModel.toDateString()}}
+  </div>
+  <div *ngIf="datePickerValidation.errors?.required">
+    Date is required
+  </div>
+</div>
+

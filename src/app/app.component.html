@@ -1,14 +1,14 @@
 <div class="padding-1 grid-row">
-  <div class="grid-col-1 margin-right-2 margin-bottom-2 border fit-content">
+  <div class="tablet:grid-col-2 mobile-lg: grid-col-12 margin-right-2 margin-bottom-2 border fit-content">
     <uswds-sidenav [sidenavContent]="sidenavModel" (sidenavClicked)="onSidenavClick($event)">
     </uswds-sidenav>
   </div>
 
-  <div uswds-card class="grid-col-10">
+  <div uswds-card class="tablet:grid-col-9 mobile-lg: grid-col-12">
     <uswds-card-header>
       <h1 class="usa-card__heading ">{{selectedItem?.labelText}}</h1>
     </uswds-card-header>
-    <uswds-card-body>
+    <uswds-card-body class="padding-1">
       <router-outlet></router-outlet>
     </uswds-card-body>
   </div>

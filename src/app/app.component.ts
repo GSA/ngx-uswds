@@ -39,6 +39,11 @@ export class AppComponent implements OnInit {
       labelText: 'Table',
       href: 'table',
       id: 17,
+    },
+    {
+      labelText: 'Date Picker',
+      href: 'datepicker',
+      id: 18,
     }
   ];
 

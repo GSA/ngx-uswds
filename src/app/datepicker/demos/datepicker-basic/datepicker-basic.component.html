@@ -1,0 +1,19 @@
+<div class="margin-bottom-2">
+  <p class="text-italic">When Date Picker Calendar is open:</p>
+  <span class="display-block"><code>Tab / Shift + Tab</code> - Move focus between calender header buttons and calender body </span>
+  <span class="display-block"><code>Up/Down/Left/Right Arrow </code>- Navigate across each cell of calender body when focus is on calender body</span>
+  <span class="display-block"><code>Enter / Space </code>- Select a Date</span>
+  <span class="display-block"><code>Home / End </code>- Move focus to first/last cell on calender body</span>
+  <span class="display-block"><code>End </code>- Move focus to last cell on calendar body </span>
+  <span class="display-block"><code>Page Up / Page Down </code>- Go to next month on month view or next set of years on multi year view</span>
+  <span class="display-block"><code>Escape </code>- Close the calendar </span>
+
+</div>
+
+<label class="usa-label" id="basicDatePickerLabel'" for="basicDatePicker">Basic Date Picker</label>
+<div class="usa-hint">mm/dd/yyyy</div>
+<usa-date-picker-wrapper>
+  <input [usaDatePicker]="picker" [id]="'basicDatePicker'">
+  <usa-date-picker-button [for]="picker"></usa-date-picker-button>
+  <usa-date-picker #picker></usa-date-picker>
+</usa-date-picker-wrapper>

@@ -14,6 +14,7 @@ import { ModalModule,  ROUTES as MODAL_ROUTES } from "./modal/modal.module";
 import { TableModule, ROUTES as TABLE_ROUTES } from './table/table.module';
 import { TooltipModule, ROUTES as TOOLTIP_ROUTES } from './tooltip/tooltip.module';
 import { FileInputModule, ROUTES as FILE_INPUT_ROUTES } from './file-input/file-input.module';
+import { DatePickerModule, ROUTES as DATEPICKER_ROUTES } from "./datePicker/datePicker.module";
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
     path: 'tooltip',
     children: TOOLTIP_ROUTES
   },
+  {
+    path: 'datepicker',
+    children: DATEPICKER_ROUTES,
+  },
 ]
 @NgModule({
   imports: [
@@ -70,7 +75,8 @@ const routes: Routes = [
     StepIndicatorModule,
     ModalModule,
     TableModule,
-    TooltipModule
+    TooltipModule,
+    DatePickerModule,
   ],
   exports: [
     RouterModule,
