@@ -1,11 +1,11 @@
-<table class="usa-date-picker__calendar__table" role="presentation">
+<table class="usa-date-picker__calendar__table">
   <thead>
     <tr>
       <!-- For the day-of-the-week column header, we use an `<abbr>` element because VoiceOver
            ignores the `aria-label`. ChromeVox, however, does not read the full name
            for the `<abbr>`, so we still set `aria-label` on the header element. -->
       <th scope="col" *ngFor="let day of _weekdays" [attr.aria-label]="day.long" class="usa-date-picker__calendar__day-of-week">
-        <abbr [attr.title]="day.long">{{day.narrow}}</abbr>
+        <span [attr.title]="day.long">{{day.narrow}}</span>
       </th>
     </tr>
     <tr>

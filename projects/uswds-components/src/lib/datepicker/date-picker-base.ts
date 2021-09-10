@@ -48,8 +48,10 @@ export interface UsaDatePickerPanel<C extends UsaDatePickerControl<D>, S,
   openedStream: EventEmitter<void>;
   /** Emits when the datePicker's state changes. */
   stateChanges: Subject<void>;
-  /** Opens the datePicker. */
+  /** Opens the date picker. */
   open(): void;
+  /** Closes the date picker */
+  close(): void;
   /** Register an input with the datePicker. */
   registerInput(input: C): UsaDateSelectionModel<S, D>;
 }
@@ -298,6 +300,9 @@ export abstract class UsaDatePickerBase<C extends UsaDatePickerControl<D>, S,
   /** Reference to the component instance rendered in the overlay. */
   private _componentRef: ComponentRef<UsaDatePickerContent<S, D>> | null;
 
+  /** The element that was focused before the datepicker was opened. */
+  private _focusedElementBeforeOpen: HTMLElement | null = null;
+
   /** The input element this datePicker is associated with. */
   datePickerInput: C;
 
@@ -376,6 +381,7 @@ export abstract class UsaDatePickerBase<C extends UsaDatePickerControl<D>, S,
       throw Error('Attempted to open an UsaDatePicker with no associated input.');
     }
 
+    this._focusedElementBeforeOpen = document.activeElement as HTMLElement;
     this._openOverlay();
     this._opened = true;
     this.openedStream.emit();
@@ -397,6 +403,7 @@ export abstract class UsaDatePickerBase<C extends UsaDatePickerControl<D>, S,
       if (this._opened) {
         this._opened = false;
         this.closedStream.emit();
+        this._focusedElementBeforeOpen = null;
       }
     };
 
@@ -406,7 +413,12 @@ export abstract class UsaDatePickerBase<C extends UsaDatePickerControl<D>, S,
       // we're refocusing opens the datePicker on focus, the user could be stuck with not being
       // able to close the calendar at all. We work around it by making the logic, that marks
       // the datePicker as closed, async as well.
-      this.datePickerInput.getConnectedOverlayOrigin().nativeElement.focus();
+      if (!this.datePickerInput.getConnectedOverlayOrigin().nativeElement.disabled) {
+        this.datePickerInput.getConnectedOverlayOrigin().nativeElement.focus();
+      } else if (this._focusedElementBeforeOpen) {
+        this._focusedElementBeforeOpen.focus();
+      }
+
       setTimeout(completeClose);
     } else {
       completeClose();

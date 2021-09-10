@@ -36,7 +36,7 @@ export class UsaDatePickerButtonIcon { }
     // Bind the `click` on the host, rather than the inner `button`, so that we can call
     // `stopPropagation` on it without affecting the user's `click` handlers. We need to stop
     // it so that the input doesn't get focused automatically by the form field (See #21836).
-    '(click)': '_open($event)',
+    '(click)': '_toggle($event)',
   },
   exportAs: 'usaDatePickerButton',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -95,8 +95,14 @@ export class UsaDatePickerButton<D> implements AfterContentInit, OnChanges, OnDe
     this._watchStateChanges();
   }
 
-  _open(event: Event): void {
-    if (this.datePicker && !this.disabled) {
+  _toggle(event: Event): void {
+    if (!this.datePicker) {
+      return;
+    }
+
+    if (this.datePicker && this.datePicker.opened) {
+      this.datePicker.close();
+    } else if (!this.disabled) {
       this.datePicker.open();
       event.stopPropagation();
     }

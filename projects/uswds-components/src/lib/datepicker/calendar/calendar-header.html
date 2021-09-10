@@ -10,8 +10,8 @@
       aria-label="Navigate back one month">&nbsp;</button>
   </div>
   <div class="usa-date-picker__calendar__cell usa-date-picker__calendar__month-label">
-    <button type="button" (click)="monthClicked()" class="usa-date-picker__calendar__month-selection" aria-label="March. Click to select month">{{monthLabel}}</button>
-    <button type="button" (click)="yearClicked()" class="usa-date-picker__calendar__year-selection" aria-label="2025. Click to select year">{{yearLabel}}</button>
+    <button type="button" (click)="monthClicked()" class="usa-date-picker__calendar__month-selection" [attr.aria-label]="monthLabel + '. Click to select month'">{{monthLabel}}</button>
+    <button type="button" (click)="yearClicked()" class="usa-date-picker__calendar__year-selection" [attr.aria-label]="yearLabel + '. Click to select year'">{{yearLabel}}</button>
   </div>
   <div class="usa-date-picker__calendar__cell usa-date-picker__calendar__cell--center-items">
     <button type="button" [disabled]="!nextEnabled()" (click)="nextClicked()" 
@@ -23,3 +23,7 @@
       class="usa-date-picker__calendar__next-year" aria-label="Navigate forward one year">&nbsp;</button>
   </div>
 </div>
+
+<span class="usa-sr-only" aria-live="polite">
+  {{monthLabel + ' ' + yearLabel}}
+</span>

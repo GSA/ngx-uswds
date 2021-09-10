@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatePickerValidationComponent } from './datePicker-validation.component';
 import { UsaDatePickerModule } from 'uswds-components';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -12,7 +12,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     UsaDatePickerModule,
     FormsModule,
-    ReactiveFormsModule,
   ],
   exports: [DatePickerValidationComponent]
 })

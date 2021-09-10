@@ -1,0 +1,24 @@
+<label class="usa-label" id="allDisabledpickerLabel'" for="allDisabledpicker">Completely Disabled Datepicker</label>
+<div class="usa-hint">mm/dd/yyyy</div>
+<usa-date-picker-wrapper>
+  <input [usaDatePicker]="allDisabledpicker" [id]="'allDisabledpicker'" disabled>
+  <usa-date-picker-button [for]="allDisabledpicker"></usa-date-picker-button>
+  <usa-date-picker #allDisabledpicker></usa-date-picker>
+</usa-date-picker-wrapper>
+
+<label class="usa-label" id="popupDisabledPickerLabel'" for="popupDisabledPicker">Popup Disabled Datepicker</label>
+<div class="usa-hint">mm/dd/yyyy</div>
+<usa-date-picker-wrapper>
+  <input [usaDatePicker]="popupDisabledPicker" [id]="'popupDisabledPicker'">
+  <usa-date-picker-button [for]="popupDisabledPicker" disabled></usa-date-picker-button>
+  <usa-date-picker #popupDisabledPicker></usa-date-picker>
+</usa-date-picker-wrapper>
+
+
+<label class="usa-label" id="inputDisabledpickerLabel'" for="inputDisabledpicker">Input Disabled Datepicker</label>
+<div class="usa-hint">mm/dd/yyyy</div>
+<usa-date-picker-wrapper>
+  <input [usaDatePicker]="inputDisabledpicker" [id]="'inputDisabledpicker'" disabled>
+  <usa-date-picker-button [for]="inputDisabledpicker"></usa-date-picker-button>
+  <usa-date-picker #inputDisabledpicker disabled="false"></usa-date-picker>
+</usa-date-picker-wrapper>

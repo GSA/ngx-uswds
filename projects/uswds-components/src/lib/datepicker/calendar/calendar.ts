@@ -49,6 +49,7 @@ let uniqueId = 0;
 })
 export class UsaCalendarHeader<D> {
   _buttonDescriptionId = `mat-calendar-button-${uniqueId++}`;
+  ariaLiveText = '';
 
   constructor(
     @Inject(forwardRef(() => UsaCalendar)) public calendar: UsaCalendar<D>,
@@ -84,6 +85,7 @@ export class UsaCalendarHeader<D> {
   /** Handles user clicks on the previous button. */
   previousClicked(): void {
     this.calendar.activeDate = this._dateAdapter.addCalendarMonths(this.calendar.activeDate, -1);
+    this.ariaLiveText = this._dateAdapter.getMonthNames('long')[this._dateAdapter.getMonth(this.calendar.activeDate)];
   }
 
   /** Handles user clicks on the next button. */
