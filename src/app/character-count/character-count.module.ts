@@ -16,7 +16,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/character-count-basic.component'),
     markup: require('!!raw-loader!./demos/basic/character-count-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/character-count-basic.module'),
-    path: 'src/app/accordion/demos/basic',
+    path: 'src/app/character-count/demos/basic',
   },
 };
 
