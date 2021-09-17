@@ -1,17 +1,20 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { USWDSCheckboxComponent } from "./checkbox.component";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { UsaCheckboxComponent, UsaCheckboxLabelDescription } from './checkbox.component';
+
 
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
   declarations: [
-    USWDSCheckboxComponent
+    UsaCheckboxComponent, 
+    UsaCheckboxLabelDescription
+  ],
+  imports: [
+    CommonModule,
   ],
   exports: [
-    USWDSCheckboxComponent
+    UsaCheckboxComponent,
+    UsaCheckboxLabelDescription
   ]
 })
-export class USWDSCheckboxModule {}
+export class UsaCheckboxModule { }
