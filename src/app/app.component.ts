@@ -48,7 +48,12 @@ export class AppComponent implements OnInit {
     {
       labelText: 'Checkbox',
       href: 'checkbox',
-      id: 19
+      id: 19,
+    },
+    {
+      labelText: 'Character Count',
+      href: 'character-count',
+      id: 19,
     }
   ];
 
