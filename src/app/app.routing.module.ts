@@ -3,8 +3,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { ButtonGroupComponent } from "./button-group/button-group.component";
 import { ButtonGroupModule } from "./button-group/button-group.module";
-import { CheckboxComponent } from "./checkbox/checkbox.component";
-import { CheckboxModule } from "./checkbox/checkbox.module";
+import { CheckboxModule, ROUTES as CHECKBOX_ROUTES } from "./checkbox/checkbox.module";
 import { DropdownComponent } from "./dropdown/dropdown.component";
 import { DropdownModule } from "./dropdown/dropdown.module";
 import { StepIndicatorComponent } from "./step-indicator/step-indicator.component";
@@ -33,7 +32,7 @@ const routes: Routes = [
   },
   {
     path: 'checkbox',
-    component: CheckboxComponent
+    children: CHECKBOX_ROUTES,
   },
   {
     path: 'dropdown',

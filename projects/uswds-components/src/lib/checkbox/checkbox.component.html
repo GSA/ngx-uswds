@@ -1,14 +1,21 @@
 <div class="usa-checkbox">
-  <input class="usa-checkbox__input"
-    type="checkbox"
-    [ngClass]="{'usa-checkbox__input--tile': tileFormat}"
-    [checked]="checked"
-    [attr.id]="id" type="checkbox" [attr.name]="name" [attr.value]="value" 
-    [disabled]="disabled"
-    [attr.aria-labelledby]="id+'label'"
-    (click)="onClick()"
->
-  <label class="usa-checkbox__label" [attr.for]="id" [attr.id]="id+'label'">
+  <input #input
+  class="usa-checkbox__input" type="checkbox"
+  [ngClass]="{'usa-checkbox__input--tile': tile}"
+  [id]="id"
+  [required]="required"
+  [checked]="checked"
+  [indeterminate]="indeterminate"
+  [disabled]="disabled"
+  [attr.name]="name"
+  [attr.aria-label]="ariaLabel || null"
+  [attr.aria-labelledby]="ariaLabelledby"
+  [attr.aria-checked]="_getAriaChecked()"
+  [attr.aria-describedby]="ariaDescribedby"
+  (change)="preventChangePropogation($event)"
+  (click)="onCheckboxClick($event)">
+  <label class="usa-checkbox__label" [for]="id">
     <ng-content></ng-content>
+    <ng-content select="usaCheckboxDescription"></ng-content>
   </label>
 </div>
