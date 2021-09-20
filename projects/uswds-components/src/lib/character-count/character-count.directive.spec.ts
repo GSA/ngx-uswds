@@ -14,7 +14,7 @@ class CharacterCountTestComponent {
   constructor(public elementRef: ElementRef) {}
 }
 
-fdescribe('CharacterCountDirective', () => {
+describe('CharacterCountDirective', () => {
   const MESSAGE_CLASS = `usa-character-count__message`;
   const MESSAGE_INVALID_CLASS = `usa-character-count__message--invalid`;
   let fixture: ComponentFixture<CharacterCountTestComponent>;
