@@ -15,6 +15,7 @@ import { TableModule, ROUTES as TABLE_ROUTES } from './table/table.module';
 import { TooltipModule, ROUTES as TOOLTIP_ROUTES } from './tooltip/tooltip.module';
 import { FileInputModule, ROUTES as FILE_INPUT_ROUTES } from './file-input/file-input.module';
 import { DatePickerModule, ROUTES as DATEPICKER_ROUTES } from "./datePicker/datePicker.module";
+import { CharacterCountModule, ROUTES as CHARACTER_COUNT_ROUTES } from "./character-count/character-count.module";
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
     path: 'datepicker',
     children: DATEPICKER_ROUTES,
   },
+  {
+    path: 'character-count',
+    children: CHARACTER_COUNT_ROUTES,
+  },
 ]
 @NgModule({
   imports: [
@@ -77,6 +82,7 @@ const routes: Routes = [
     TableModule,
     TooltipModule,
     DatePickerModule,
+    CharacterCountModule,
   ],
   exports: [
     RouterModule,

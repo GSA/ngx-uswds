@@ -72,3 +72,7 @@ export * from './lib/tooltip/tooltip.module';
 // DatePicker
 export * from './lib/datepicker/index';
 
+// Character Counter
+export * from './lib/character-count/character-count.module';
+export * from './lib/character-count/character-count.directive';
+
