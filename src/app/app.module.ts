@@ -11,6 +11,8 @@ import { USWDSCardModule } from 'uswds-components';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MarkdownModule } from 'ngx-markdown';
+import { ThemeSwitcherModule } from './shared/theme-switcher/theme-switcher.module';
+import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { MarkdownModule } from 'ngx-markdown';
     USWDSSidenavModule,
     USWDSCardModule,
     MarkdownModule.forRoot(),
+    UsaAppHeaderModule,
   ],
   providers: [
     {
