@@ -2,7 +2,7 @@
  * Public API Surface of uswds-components
  */
 
- // Accordion
+// Accordion
 export * from './lib/accordion/accordion-items';
 export * from './lib/accordion/accordion-toggle.directive';
 export * from './lib/accordion/accordion.component';
@@ -44,6 +44,11 @@ export * from './lib/modal/modal-wrapper';
 export * from './lib/modal/modal-window';
 export * from './lib/modal/modal.module';
 export * from './lib/modal/modal-config';
+
+// Search
+
+export * from './lib/search/search.component';
+export * from './lib/search/search.module';
 
 // Sidenav
 export * from './lib/sidenav/sidenav.model';
