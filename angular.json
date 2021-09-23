@@ -25,6 +25,8 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "extractCss": true,
+            "outputHashing": "none",
             "aot": true,
             "assets": [
               "src/favicon.ico",

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ButtonGroupComponent } from "./button-group/button-group.component";
 import { ButtonGroupModule } from "./button-group/button-group.module";
 import { CheckboxModule, ROUTES as CHECKBOX_ROUTES } from "./checkbox/checkbox.module";
+import { RadioModule, ROUTES as RADIO_ROUTES } from "./radio/radio.module";
 import { DropdownComponent } from "./dropdown/dropdown.component";
 import { DropdownModule } from "./dropdown/dropdown.module";
 import { StepIndicatorComponent } from "./step-indicator/step-indicator.component";
@@ -66,6 +67,10 @@ const routes: Routes = [
     path: 'character-count',
     children: CHARACTER_COUNT_ROUTES,
   },
+  {
+    path: 'radio',
+    children: RADIO_ROUTES,
+  },
 ]
 @NgModule({
   imports: [
@@ -82,6 +87,7 @@ const routes: Routes = [
     TooltipModule,
     DatePickerModule,
     CharacterCountModule,
+    RadioModule,
   ],
   exports: [
     RouterModule,
