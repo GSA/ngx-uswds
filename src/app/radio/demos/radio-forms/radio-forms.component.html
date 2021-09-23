@@ -1,0 +1,24 @@
+<legend class="usa-legend">Select one historical figure</legend>
+<usa-radio-group name="historical-figures-3" [ngModel]="templateModel" (ngModelChange)="onTemplateFormsModelChange($event)">
+  <usa-radio [id]="'historical-truth-3'" value="sojourner-truth" [checked]="true">Sojourner Truth</usa-radio>
+  <usa-radio [id]="'historical-douglass-3'" value="frederick-douglass">Frederick Douglass</usa-radio>
+  <usa-radio [id]="'historical-washington-3'" value="booker-t-washington" >Booker T. Washington</usa-radio>
+  <usa-radio [disabled]="true" [id]="'historical-carver-3'" value="george-washington-carver">George Washington Carver</usa-radio>
+</usa-radio-group>
+
+<div class="margin-top-2">
+  Selected Value: <code>{{templateModel}}</code>
+</div>
+
+<legend class="usa-legend margin-top-5">Select one historical figure</legend>
+<usa-radio-group name="historical-figures-4" [formControl]="reactiveFormControl" [tile]="true">
+  <usa-radio [id]="'historical-truth-4'" value="sojourner-truth">Sojourner Truth</usa-radio>
+  <usa-radio [id]="'historical-douglass-4'" value="frederick-douglass">Frederick Douglass</usa-radio>
+  <usa-radio [id]="'historical-washington-4'" value="booker-t-washington" >Booker T. Washington</usa-radio>
+  <usa-radio [disabled]="true" [id]="'historical-carver-4'" value="george-washington-carver">George Washington Carver</usa-radio>
+</usa-radio-group>
+
+<div class="margin-top-2">
+  Selected Value: <code>{{reactiveFormControl.value}}</code>
+</div>
+

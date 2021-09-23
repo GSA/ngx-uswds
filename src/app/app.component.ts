@@ -53,8 +53,13 @@ export class AppComponent implements OnInit {
     {
       labelText: 'Character Count',
       href: 'character-count',
-      id: 19,
-    }
+      id: 20,
+    },
+    {
+      labelText: 'Radio',
+      href: 'radio',
+      id: 21,
+    },
   ];
 
   selectedItem: SidenavModel;
