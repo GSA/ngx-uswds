@@ -18,11 +18,10 @@ export class ThemeSwitcherComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit() {
-    this.themeSwitcherService.setStyle('base', 'uswds-styles.css');
     this.themeSelector.nativeElement.addEventListener('change', ($event) => {
       const value = ($event.target as HTMLSelectElement).value;
       if (value === 'uswds') {
-        this.themeSwitcherService.setStyle('theme', 'uswds-styles.css');
+        this.themeSwitcherService.removeStyle('theme');
       } else if (value === 'samStyles') {
         this.themeSwitcherService.setStyle('theme', 'sam-styles.css');
       }

@@ -1,0 +1,31 @@
+<p>
+  The top level element of step indicator uses <code>aria-label="progress"</code> to help provide
+  context to screen readers
+</p>
+<p>
+  The step indicator uses a <code>role="tablist"</code> for the wrapper element of all step segments
+  and <code>role="tab"</code> for each segment.
+</p>
+<p>
+  The indicator interlly uses an incrementing id to ensure uniqueness between each indicator and segments' id. 
+  Users may pass in their own id.
+</p>
+<p>
+  The indicator contains additional text for screen readers to indicate completed and current step as users
+  select through each segment.
+</p>
+
+<h3>Theming</h3>
+<usa-table [displayedData]="dataRows" borderless="true">
+  <ng-container usaColumnDef="variable">
+    <th usa-table-header *usaTableHeaderDef style="width: 40%;">Variable</th>
+    <td usa-table-data *usaTableDataDef="let theme" data-label="Theme"  style="width: 40%;"><code>{{theme.variable}}</code></td>
+  </ng-container>
+  <ng-container usaColumnDef="description">
+    <th usa-table-header *usaTableHeaderDef>Description</th>
+    <td usa-table-data *usaTableDataDef="let theme" data-label="Description">{{theme.description}}</td>
+  </ng-container>
+
+  <tr *usaHeaderRowDef="columnHeaders"></tr>
+  <tr *usaDataRowDef="let row; columns: columnHeaders;"></tr>
+</usa-table>
