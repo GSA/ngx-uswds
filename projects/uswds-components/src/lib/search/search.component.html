@@ -2,7 +2,7 @@
   <form class="usa-search" role="search" [ngClass]="[searchSettings?.formClass ? searchSettings?.formClass : '']">
     <label class="usa-sr-only" [attr.for]="searchSettings.id">Search</label>
     <input class="usa-input" [attr.id]="searchSettings.id" type="search" name="search" #searchInput />
-    <button class="usa-button" type="submit" (click)="addItem(searchInput.value); searchInput.value=''">
+    <button class="usa-button" (click)="addItem(searchInput.value); searchInput.value=''">
       <span [ngClass]="[searchSettings?.size === 'small' ? 'usa-sr-only' : 'usa-search__submit-text']">
         {{(searchSettings?.language === 'es') ? 'Buscar' : 'Search'}}
       </span>
