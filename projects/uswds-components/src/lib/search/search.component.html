@@ -1,0 +1,11 @@
+<section [attr.aria-label]=searchSettings.ariaLabel>
+  <form class="usa-search" role="search" [ngClass]="[searchSettings?.formClass ? searchSettings?.formClass : '']">
+    <label class="usa-sr-only" [attr.for]="searchSettings.id">Search</label>
+    <input class="usa-input" [attr.id]="searchSettings.id" type="search" name="search" />
+    <button class="usa-button" type="submit">
+      <span [ngClass]="[searchSettings?.size === 'small' ? 'usa-sr-only' : 'usa-search__submit-text']">
+        {{(searchSettings?.language === 'es') ? 'Buscar' : 'Search'}}
+      </span>
+    </button>
+  </form>
+</section>

@@ -2,7 +2,7 @@
  * Public API Surface of usa-components
  */
 
- // Accordion
+// Accordion
 export * from './lib/accordion/accordion-items';
 export * from './lib/accordion/accordion-toggle.directive';
 export * from './lib/accordion/accordion.component';
@@ -49,6 +49,10 @@ export * from './lib/modal/modal-config';
 export * from './lib/sidenav/sidenav.model';
 export * from './lib/sidenav/sidenav.component';
 export * from './lib/sidenav/sidenav.module';
+
+//search
+export * from './lib/search/search.component';
+export * from './lib/search/search.module';
 
 // Step Indicator
 export * from './lib/step-indicator/step-indicator.model';
