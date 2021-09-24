@@ -5,6 +5,8 @@ import { DemoWrapperComponent } from '../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../shared/examples-page/examples.component';
 import { SearchBasicComponent } from "./demos/basic/search-basic.component";
 import { SearchBasicModule } from "./demos/basic/search-basic.module";
+import { SearchOptionalComponent } from "./demos/optional/search-optional.component";
+import { SearchOptionalModule } from "./demos/optional/search-optional.module";
 
 declare var require: any;
 
@@ -17,14 +19,14 @@ const DEMOS = {
     module: require('!!raw-loader!./demos/basic/search-basic.module'),
     path: 'src/app/search/demos/basic',
   },
-  // forms: {
-  //   title: 'Radio with Angular Forms',
-  //   type: RadioFormsComponent,
-  //   code: require('!!raw-loader!./demos/radio-forms/radio-forms.component'),
-  //   markup: require('!!raw-loader!./demos/radio-forms/radio-forms.component.html'),
-  //   module: require('!!raw-loader!./demos/radio-forms/radio-forms.module'),
-  //   path: 'src/app/radio/demos/radio-forms',
-  // },
+  optional: {
+    title: 'Search Optional ',
+    type: SearchOptionalComponent,
+    code: require('!!raw-loader!./demos/optional/search-optional.component'),
+    markup: require('!!raw-loader!./demos/optional/search-optional.component.html'),
+    module: require('!!raw-loader!./demos/optional/search-optional.module'),
+    path: 'src/app/search/demos/optional',
+  },
 
 }
 
@@ -53,6 +55,7 @@ export const ROUTES = [
     CommonModule,
     DocumentationComponentsSharedModule,
     SearchBasicModule,
+    SearchOptionalModule,
 
   ],
 })

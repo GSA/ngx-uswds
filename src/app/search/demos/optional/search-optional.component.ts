@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
+  selector: 'app-search-optional',
+  templateUrl: './search-optional.component.html',
   styles: [
   ]
 })
-export class SearchComponent implements OnInit {
+export class SearchOptionalComponent implements OnInit {
   defaultModel = '';
   bigModel = '';
   smallModel = '';
