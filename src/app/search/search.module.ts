@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SearchComponent } from './search.component';
 import { UsaSearchModule } from 'uswds-components';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'search' },
@@ -19,7 +20,9 @@ export const ROUTES: Routes = [
   imports: [
     CommonModule,
     UsaSearchModule,
-    RouterModule.forChild(ROUTES) 
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule.forChild(ROUTES)
   ],
   exports: [RouterModule, SearchComponent]
 })

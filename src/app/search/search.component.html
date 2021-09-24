@@ -1,18 +1,25 @@
 <!-- Default -->
 <h3>Default</h3>
-<usa-search [searchSettings]="searchSettings"></usa-search>
+<usa-search [searchSettings]="searchSettings" [(ngModel)]="defaultModel"></usa-search>
+
+<div>Default Search Value: {{defaultModel}}</div>
 
 <!-- Big Variant-->
 <h3>Big Variant</h3>
-<usa-search [searchSettings]="bigSearchSettings"></usa-search>
+<usa-search [searchSettings]="bigSearchSettings" [(ngModel)]="bigModel"></usa-search>
+
+<div>Default Search Value: {{defaultModel}}</div>
 
 <!-- Small Variant -->
 <h3>Small Variant</h3>
-<usa-search [searchSettings]="smallSearchSettings"></usa-search>
+<usa-search [searchSettings]="smallSearchSettings" [(ngModel)]="smallModel"></usa-search>
+
+<div>Default Search Value: {{defaultModel}}</div>
 
 <!-- Spanish Default -->
 <h3>Spanish Variant</h3>
-<usa-search [searchSettings]="spanishSearchSettings"></usa-search>
+<usa-search [searchSettings]="spanishSearchSettings" [(ngModel)]="spanishModel"></usa-search>
+
 
 <!-- Spanish Big Variant -->
 <h3>Spanish Big Variant</h3>
