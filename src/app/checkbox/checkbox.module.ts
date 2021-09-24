@@ -9,6 +9,8 @@ import { CheckboxFormsComponent } from "./demos/checkbox-forms/checkbox-forms.co
 import { CheckboxFormsModule } from "./demos/checkbox-forms/checkbox-forms.module";
 import { CheckboxIndeterminateComponent } from "./demos/checkbox-indeterminate/checkbox-indeterminate.component";
 import { CheckboxIndeterminateModule } from "./demos/checkbox-indeterminate/checkbox-indeterminate.module";
+import { CheckboxFooterComponent } from "./demos/footer/checkbox-footer.component";
+import { CheckboxFooterModule } from "./demos/footer/checkbox-footer.module";
 
 declare var require: any;
 
@@ -37,6 +39,14 @@ const DEMOS = {
     module: require('!!raw-loader!./demos/checkbox-indeterminate/checkbox-indeterminate.module'),
     path: 'src/app/checkbox/demos/checkbox-indeterminate',
   },
+  footer: {
+    title: 'General Accessibility',
+    type: CheckboxFooterComponent,
+    code: require('!!raw-loader!./demos/footer/checkbox-footer.component'),
+    markup: require('!!raw-loader!./demos/footer/checkbox-footer.component.html'),
+    module: require('!!raw-loader!./demos/footer/checkbox-footer.module'),
+    path: 'src/app/checkbox/demos/footer',
+  }
 }
 
 export const ROUTES = [
@@ -66,6 +76,7 @@ export const ROUTES = [
     CheckboxBasicModule,
     CheckboxIndeterminateModule,
     CheckboxFormsModule,
+    CheckboxFooterModule,
   ],
 })
 export class CheckboxModule {
