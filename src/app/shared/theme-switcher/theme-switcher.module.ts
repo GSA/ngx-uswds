@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ThemeSwitcherService } from "./theme-switcher.service";
-import { ThemeSwitcherComponent } from "./theme-swotcher.component";
+import { ThemeSwitcherComponent } from "./theme-switcher.component";
 
 
 @NgModule({

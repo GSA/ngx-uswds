@@ -4,7 +4,7 @@ import { ThemeSwitcherService } from "./theme-switcher.service";
 @Component({
   selector: `usa-theme-switcher`,
   template: `
-    <select #select class="usa-select display-inline width-auto bg-primary-dark text-base-lightest">
+    <select #select class="usa-select display-inline width-auto bg-primary-dark text-base-lightest" aria-label="Application Theme Switcher">
       <option value="uswds">USWDS Styles</option>
       <option value="samStyles">Sam Styles</option>
     </select>
@@ -13,18 +13,23 @@ import { ThemeSwitcherService } from "./theme-switcher.service";
 export class ThemeSwitcherComponent implements AfterViewInit {
   @ViewChild('select') themeSelector: ElementRef<HTMLSelectElement>;
   
+  currentStyle = 'uswds';
+
   constructor(
     private themeSwitcherService: ThemeSwitcherService
   ) {}
 
   ngAfterViewInit() {
     this.themeSelector.nativeElement.addEventListener('change', ($event) => {
-      const value = ($event.target as HTMLSelectElement).value;
-      if (value === 'uswds') {
-        this.themeSwitcherService.removeStyle('theme');
-      } else if (value === 'samStyles') {
+      this.currentStyle = ($event.target as HTMLSelectElement).value;
+      if (this.currentStyle === 'uswds') {
+        this.themeSwitcherService.setStyle('theme', 'uswds-styles.css');
+      } else if (this.currentStyle  === 'samStyles') {
         this.themeSwitcherService.setStyle('theme', 'sam-styles.css');
       }
-    })
+    });
+
+    this.themeSwitcherService.setStyle('theme', 'uswds-styles.css');
+
   }
 }
