@@ -13,6 +13,7 @@ import { DateAdapter } from "./dateadapter/date-adapter";
 import { NativeDateAdapter } from "./dateadapter/native-date-adapter";
 import { USA_DATE_FORMATS } from "./dateadapter/date-formats";
 import { USA_NATIVE_DATE_FORMATS } from "./dateadapter/native-date-formats";
+import { HoverClassModule } from "../util/hover-class";
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { USA_NATIVE_DATE_FORMATS } from "./dateadapter/native-date-formats";
   ],
   imports: [
     CommonModule,
+    HoverClassModule,
   ],
   providers: [
     {provide: DateAdapter, useClass: NativeDateAdapter},

@@ -35,7 +35,7 @@
             "styles": [
               {
                 "input": "src/styles/uswds-styles.scss",
-                "inject": true,
+                "inject": false,
                 "bundleName": "uswds-styles"
               },
               {
