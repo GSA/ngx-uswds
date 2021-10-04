@@ -1,6 +1,6 @@
 {
   "name": "usa-components",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -35,10 +35,10 @@
     "@angular-devkit/build-angular": "~0.1002.0",
     "@angular/cli": "~10.2.0",
     "@angular/compiler-cli": "~10.2.0",
-    "angular-cli-github-pages": "0.2.0",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "angular-cli-github-pages": "0.2.0",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",

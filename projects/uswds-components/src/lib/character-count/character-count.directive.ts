@@ -2,6 +2,8 @@ import { Directive, ElementRef, Input, NgZone, OnDestroy, OnInit, Optional, Rend
 import { NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
+declare var ResizeObserver;
+
 let nextId = 0;
 @Directive({
   selector: '[usaCharacterCount]',
@@ -32,7 +34,7 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
    * Watch for resize event changes to the host element. We want to keep the character
    * counter's width attribute in line with host's width for resizable input
    */
-  private _inputResizeObserver: ResizeObserver;
+  private _inputResizeObserver;
 
   /**
    * Reference to character counter message element. This will be created during init if
