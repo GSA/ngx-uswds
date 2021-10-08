@@ -5,6 +5,8 @@ import { DemoWrapperComponent } from '../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../shared/examples-page/examples.component';
 import { SearchBasicComponent } from "./demos/basic/search-basic.component";
 import { SearchBasicModule } from "./demos/basic/search-basic.module";
+import { SearchCustomButtonTextComponent } from "./demos/custom-button-text/search-custom-button-text.component";
+import { SearchCustomButtonTextModule } from "./demos/custom-button-text/search-custom-button-text.module";
 import { SearchOnChangeComponent } from "./demos/onchange/search-onchange.component";
 import { SearchOnChangeModule } from "./demos/onchange/search-onchange.module";
 import { SearchOptionalComponent } from "./demos/optional/search-optional.component";
@@ -28,6 +30,14 @@ const DEMOS = {
     markup: require('!!raw-loader!./demos/optional/search-optional.component.html'),
     module: require('!!raw-loader!./demos/optional/search-optional.module'),
     path: 'src/app/search/demos/optional',
+  },
+  customButtonText: {
+    title: 'Custom Button Text ',
+    type: SearchCustomButtonTextComponent,
+    code: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component'),
+    markup: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component.html'),
+    module: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.module'),
+    path: 'src/app/search/demos/custom-button-text',
   },
   onchange: {
     title: 'Search text change event and OnBlur ',
@@ -66,7 +76,8 @@ export const ROUTES = [
     DocumentationComponentsSharedModule,
     SearchBasicModule,
     SearchOptionalModule,
-    SearchOnChangeModule
+    SearchOnChangeModule,
+    SearchCustomButtonTextModule
 
   ],
 })

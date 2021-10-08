@@ -31,9 +31,5 @@ export class SearchOptionalComponent {
 
   };
 
-  buttonTextSearchSettings = {
-    ariaLabel: 'Small Search Component',
-    id: 'search-field-small',
-    buttonText: 'Apply'
-  };
+
 }
