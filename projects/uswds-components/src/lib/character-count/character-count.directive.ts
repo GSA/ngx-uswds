@@ -1,29 +1,51 @@
-import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, Inject, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Directive, ElementRef, Input, NgZone, OnDestroy, OnInit, Optional, Renderer2 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
+declare var ResizeObserver;
+
 let nextId = 0;
 @Directive({
-  selector: '[usaCharacterCount]'
+  selector: '[usaCharacterCount]',
 })
 export class UsaCharacterCountDirective implements OnInit, OnDestroy {
 
+  /** Directive's main input - max length of characters allowed */
   @Input() usaCharacterCount: number;
 
+  /** 
+   * Id to use for character count message text. Will be auto-generated if not passed in
+   */
   @Input() messageId = `usa-character-count-${nextId++}`;
 
   private readonly MESSAGE_CLASS = `usa-character-count__message`;
   private readonly MESSAGE_INVALID_CLASS = `usa-character-count__message--invalid`;
 
-
+  /** 
+   * Subscription to form control's value changes if one exists
+   * Allows us to unsubscribe during cleanup
+   */
   valueSubscription = new Subscription();
 
+  /** Reference to character count text being displayed to users */
   characterCounterText = '';
 
+  /**
+   * Watch for resize event changes to the host element. We want to keep the character
+   * counter's width attribute in line with host's width for resizable input
+   */
+  private _inputResizeObserver;
+
+  /**
+   * Reference to character counter message element. This will be created during init if
+   * one with provided messageId does not already exist as sibling.
+   */
+  private _messageElement: HTMLSpanElement;
+
   constructor(
-    @Inject(DOCUMENT) private document: Document,
     private element: ElementRef,
+    private renderer2: Renderer2,
+    private zone: NgZone,
     @Optional() private control: NgControl
   ) { }
 
@@ -38,13 +60,47 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
       this.element.nativeElement.addEventListener('input', this.inputEventHandler.bind(this));
     }
 
+    // Get reference to character counter's message element
+    this._messageElement = this.getMessageElement();
     this.setCharacterCountText(0, this.usaCharacterCount);
+
+
+    /** Watch for input field's resize event so we can keep character counter text aligned with input */
+    this._inputResizeObserver = new ResizeObserver((change) => {
+      // Run renderer inside angular's zone so that we can ensure change detection will pick it up
+      this.zone.run(() => {
+        this._messageElement.style.width = `${change[0].borderBoxSize[0].inlineSize}px`;
+      })
+    });
+
+    this._inputResizeObserver.observe(this.element.nativeElement);
   }
 
   ngOnDestroy() {
     /** Clean Up */
     this.valueSubscription.unsubscribe();
     this.element.nativeElement.removeEventListener('input', this.inputEventHandler);
+    this._inputResizeObserver.unobserve(this.element.nativeElement);
+  }
+
+  /** Gets reference to span element that will be used to display character counter text. If one does not exists, it will be created
+   * and attached as sibling to host form element
+   */
+  private getMessageElement() {
+    let messageElement: HTMLSpanElement = this.element.nativeElement.parentElement.querySelector(`.${this.MESSAGE_CLASS}#${this.messageId}`);
+    if (messageElement) {
+      return messageElement;
+    }
+
+    messageElement = this.renderer2.createElement('span');
+    messageElement.classList.add('usa-hint', this.MESSAGE_CLASS);
+    messageElement.setAttribute('aria-live', 'polite');
+    messageElement.setAttribute('id', this.messageId);
+    messageElement.style.width = `${this.element.nativeElement.offsetWidth}px`;
+    (this.element.nativeElement.parentElement as HTMLElement).insertBefore(messageElement, this.element.nativeElement.nextSibling);
+    this._messageElement = messageElement;
+    
+    return messageElement;
   }
 
   private inputEventHandler($event: InputEvent | string) {
@@ -69,25 +125,15 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
    * @param currentLength 
    */
   private setCharacterCountText(currentLength: number, maxLength: number) {
-    // Get reference to character counter's message element
-    let message: HTMLElement = this.element.nativeElement.parentElement.querySelector(`.${this.MESSAGE_CLASS}#${this.messageId}`);
-
-    if (!message) {
-      message = this.document.createElement(`span`);
-      message.classList.add('usa-hint', this.MESSAGE_CLASS);
-      message.setAttribute('aria-live', 'polite');
-      message.setAttribute('id', this.messageId);
-      (this.element.nativeElement.parentElement as HTMLElement).insertBefore(message, this.element.nativeElement.nextSibling);
-    }
 
     // Get message to display for amount of characters left
     this.characterCounterText = this.generateCharacterCounterText(currentLength, maxLength);
 
     // Add error css if over limit
     const isOverLimit = currentLength && currentLength > maxLength;
-    message.classList.toggle(this.MESSAGE_INVALID_CLASS, isOverLimit);
+    this._messageElement.classList.toggle(this.MESSAGE_INVALID_CLASS, isOverLimit);
 
-    message.innerHTML = this.characterCounterText;
+    this._messageElement.innerHTML = this.characterCounterText;
   }
 
   /**

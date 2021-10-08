@@ -16,34 +16,9 @@ export class AppComponent implements OnInit {
       id: 1
     },
     {
-      labelText: 'File Input',
-      href: 'file-input',
-      id: 10
-    },
-    {
-      labelText: 'Step Indicator',
-      href: 'step-indicator',
-      id: 14
-    },
-    {
-      labelText: 'Modal',
-      href: 'modal',
-      id: 15
-    },
-    {
-      labelText: 'Tooltip',
-      href: 'tooltip',
-      id: 16
-    },
-    {
-      labelText: 'Table',
-      href: 'table',
-      id: 17,
-    },
-    {
-      labelText: 'Date Picker',
-      href: 'datepicker',
-      id: 18,
+      labelText: 'Character Count',
+      href: 'character-count',
+      id: 20,
     },
     {
       labelText: 'Checkbox',
@@ -51,14 +26,39 @@ export class AppComponent implements OnInit {
       id: 19,
     },
     {
-      labelText: 'Character Count',
-      href: 'character-count',
-      id: 20,
+      labelText: 'Date Picker',
+      href: 'datepicker',
+      id: 18,
+    },
+    {
+      labelText: 'File Input',
+      href: 'file-input',
+      id: 10
+    },
+    {
+      labelText: 'Modal',
+      href: 'modal',
+      id: 15
     },
     {
       labelText: 'Radio',
       href: 'radio',
       id: 21,
+    },
+    {
+      labelText: 'Step Indicator',
+      href: 'step-indicator',
+      id: 14
+    },
+    {
+      labelText: 'Table',
+      href: 'table',
+      id: 17,
+    },
+    {
+      labelText: 'Tooltip',
+      href: 'tooltip',
+      id: 16
     },
     {
       labelText: 'Search',

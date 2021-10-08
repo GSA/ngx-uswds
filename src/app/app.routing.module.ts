@@ -8,7 +8,7 @@ import { RadioModule, ROUTES as RADIO_ROUTES } from "./radio/radio.module";
 import { DropdownComponent } from "./dropdown/dropdown.component";
 import { DropdownModule } from "./dropdown/dropdown.module";
 import { StepIndicatorComponent } from "./step-indicator/step-indicator.component";
-import { StepIndicatorModule } from "./step-indicator/step-indicator.module";
+import { StepIndicatorModule, ROUTES as STEP_INDICATOR_ROUTES } from "./step-indicator/step-indicator.module";
 import { AccordionModule, ROUTES as ACCORDION_ROUTES } from './accordion/accordion.module';
 import { ModalModule, ROUTES as MODAL_ROUTES } from "./modal/modal.module";
 import { TableModule, ROUTES as TABLE_ROUTES } from './table/table.module';
@@ -46,7 +46,7 @@ const routes: Routes = [
   },
   {
     path: 'step-indicator',
-    component: StepIndicatorComponent,
+    children: STEP_INDICATOR_ROUTES,
   },
   {
     path: 'modal',

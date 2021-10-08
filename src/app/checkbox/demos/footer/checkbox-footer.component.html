@@ -1,0 +1,47 @@
+<p>
+  Each checkbox will have it's <code>aria-checked</code> set to true when checked and false when it becomes unchecked.
+  When in indeterminate state, <code>aria-checked</code> value will be <code>mixed</code>
+</p>
+
+<h3>Keyboard Support</h3>
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><kbd>Tab</kbd></th>
+      <td>
+        <ul>
+          <li>Moves keyboard focus to the next <code>checkbox</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <th><kbd>Space</kbd></th>
+      <td>
+        <ul>
+          <li>Toggles <code>checkbox</code> between checked and unchecked</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Theming</h3>
+<usa-table [displayedData]="dataRows" borderless="true">
+  <ng-container usaColumnDef="variable">
+    <th usa-table-header *usaTableHeaderDef style="width: 40%;">Variable</th>
+    <td usa-table-data *usaTableDataDef="let theme" data-label="Theme"  style="width: 40%;"><code>{{theme.variable}}</code></td>
+  </ng-container>
+  <ng-container usaColumnDef="description">
+    <th usa-table-header *usaTableHeaderDef>Description</th>
+    <td usa-table-data *usaTableDataDef="let theme" data-label="Description">{{theme.description}}</td>
+  </ng-container>
+
+  <tr *usaHeaderRowDef="columnHeaders"></tr>
+  <tr *usaDataRowDef="let row; columns: columnHeaders;"></tr>
+</usa-table>

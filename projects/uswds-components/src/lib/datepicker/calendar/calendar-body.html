@@ -37,6 +37,7 @@
   <button
   role="gridcell"
   class="usa-date-picker__calendar__date"
+  [hover-class]="'usa-date-picker__calendar__date--focused'"
   [ngClass]="data.item.cssClasses"
   [tabindex]="_isActiveCell(data.rowIndex, data.colIndex) ? 0 : -1"
   [attr.aria-disabled]="!data.item.enabled"
