@@ -5,6 +5,8 @@ import { DemoWrapperComponent } from '../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../shared/examples-page/examples.component';
 import { SearchBasicComponent } from "./demos/basic/search-basic.component";
 import { SearchBasicModule } from "./demos/basic/search-basic.module";
+import { SearchOnChangeComponent } from "./demos/onchange/search-onchange.component";
+import { SearchOnChangeModule } from "./demos/onchange/search-onchange.module";
 import { SearchOptionalComponent } from "./demos/optional/search-optional.component";
 import { SearchOptionalModule } from "./demos/optional/search-optional.module";
 
@@ -26,6 +28,14 @@ const DEMOS = {
     markup: require('!!raw-loader!./demos/optional/search-optional.component.html'),
     module: require('!!raw-loader!./demos/optional/search-optional.module'),
     path: 'src/app/search/demos/optional',
+  },
+  onchange: {
+    title: 'Search text change event and OnBlur ',
+    type: SearchOnChangeComponent,
+    code: require('!!raw-loader!./demos/onchange/search-onchange.component'),
+    markup: require('!!raw-loader!./demos/onchange/search-onchange.component.html'),
+    module: require('!!raw-loader!./demos/onchange/search-onchange.module'),
+    path: 'src/app/search/demos/onchange',
   },
 
 }
@@ -56,6 +66,7 @@ export const ROUTES = [
     DocumentationComponentsSharedModule,
     SearchBasicModule,
     SearchOptionalModule,
+    SearchOnChangeModule
 
   ],
 })

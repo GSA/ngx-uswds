@@ -6,13 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class SearchOptionalComponent implements OnInit {
+export class SearchOptionalComponent {
   defaultModel = '';
   bigModel = 'test model';
   smallModel = '';
-  onBlurSearchText = ''
-  searchtext = '';
-  searchTextModel = '';
+
 
   searchSettings = {
     ariaLabel: 'Default Search Component',
@@ -28,27 +26,14 @@ export class SearchOptionalComponent implements OnInit {
 
   smallSearchSettings = {
     ariaLabel: 'Small Search Component',
-    id: 'search-field-en-small',
+    id: 'search-field-small',
     size: 'small',
 
   };
 
   buttonTextSearchSettings = {
-    ariaLabel: 'Small (Spanish) Search Component',
-    id: 'search-field-es-small',
+    ariaLabel: 'Small Search Component',
+    id: 'search-field-small',
     buttonText: 'Apply'
   };
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  onBlurUpdate(event) {
-    this.onBlurSearchText = event;
-    console.log('search value ', event)
-  }
-  onSearchTextUpdate(event) {
-    this.searchtext = event;
-  }
 }
