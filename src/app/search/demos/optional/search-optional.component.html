@@ -2,23 +2,26 @@
 <h3>Big Variant</h3>
 <usa-search [searchSettings]="bigSearchSettings" [(ngModel)]="bigModel"></usa-search>
 
-<div>Search Value: {{defaultModel}}</div>
+<div>Search Value: {{bigModel}}</div>
 
 <!-- Small Variant -->
 <h3>Small Variant</h3>
 <usa-search [searchSettings]="smallSearchSettings" [(ngModel)]="smallModel"></usa-search>
 
-<div>Search Value: {{defaultModel}}</div>
-
-<!-- Spanish Default -->
-<h3>Spanish Variant</h3>
-<usa-search [searchSettings]="spanishSearchSettings" [(ngModel)]="spanishModel"></usa-search>
+<div>Search Value: {{smallModel}}</div>
 
 
-<!-- Spanish Big Variant -->
-<h3>Spanish Big Variant</h3>
-<usa-search [searchSettings]="spanishBigSearchSettings"></usa-search>
+<!-- Custom button Text -->
+<h3>Custom button Text</h3>
+<usa-search [searchSettings]="buttonTextSearchSettings"></usa-search>
 
-<!-- Spanish small variant -->
-<h3>Spanish small Variant</h3>
-<usa-search [searchSettings]="spanishSmallSearchSettings"></usa-search>
+<h3>on blur getting search text</h3>
+<usa-search [searchSettings]="buttonTextSearchSettings" (onBlurChange)="onBlurUpdate($event)"></usa-search>
+Search Text: {{onBlurSearchText}}
+
+<h3>Search text change</h3>
+<usa-search [searchSettings]="buttonTextSearchSettings" [(ngModel)]="searchTextModel"
+  (onSearchTextChange)="onSearchTextUpdate($event)"></usa-search>
+Search Text: {{searchtext}}
+<br />
+Model: {{searchTextModel}}

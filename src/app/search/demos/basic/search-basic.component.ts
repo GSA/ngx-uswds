@@ -6,10 +6,9 @@ import { Component } from '@angular/core';
 })
 export class SearchBasicComponent {
   defaultModel = '';
-  searchSettings = {
 
+  searchSettings = {
     ariaLabel: 'Default Search Component',
-    formClass: '',
     id: 'search-field-search-field',
     size: 'default',
     language: 'en'

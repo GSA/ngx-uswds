@@ -1,20 +1,18 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 // Search Settings class
 export class SearchSettings {
   public ariaLabel: string;
-  public formClass: string;
   public id: string;
   public size: string;
-  public language: string;
+  public buttonText: string;
+  public placeholder: string
 }
 
-// Search component class
 @Component({
   selector: 'usa-search',
   templateUrl: './search.component.html',
-  styleUrls: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -22,47 +20,49 @@ export class SearchSettings {
       multi: true,
     },
   ],
-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
 
   model: string = '';
-
 
   private _onChange = (_: any) => { };
   private _onTouched = () => { };
 
   @Input() searchSettings: SearchSettings = new SearchSettings();
 
+  @Output() onBlurChange: EventEmitter<string> = new EventEmitter(null);
+
+  @Output() onSearchTextChange: EventEmitter<string> = new EventEmitter(null);
+
   constructor(public cdr: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
+  focusChange(event) {
+    this.onBlurChange.emit(event.target.value)
   }
 
+  onKeydown(event): void {
+    if (event.code == 'Enter') {
+      this.model = event.target.value;
+      this.updateModel();
+      event.preventDefault();
+    }
+  }
 
+  onValueChange(event) {
+    this.onSearchTextChange.emit(event);
+  }
 
-
-  // Helper method to programatically add a value to the existing items array
-  addItem(val) {
+  // Helper method to programatically update the search value to the model
+  onSubmit(val, ev) {
     this.model = val;
     this.updateModel();
-  }
-
-  // Method that is fired when the child component event notifies us that the items array has been modified within the child component
-  updateItems($event) {
-    this.updateModel();
+    ev.preventDefault();
   }
 
   // Helper method that gets a new instance of the model and notifies ControlValueAccessor that we have a new model for this FormControl (our custom component)
   updateModel() {
-    const model = this.getModel();
-    this._onChange(model);
-  }
-
-  // Helper method to return a new instance of an array that contains our items
-  getModel() {
-    return this.model;
+    this._onChange(this.model);
   }
 
   // ControlValueAccessor (and Formly) is trying to update the value of the FormControl (our custom component) programatically
@@ -71,6 +71,7 @@ export class SearchComponent implements OnInit {
   writeValue(value: any) {
     if (value) {
       this.model = value;
+
       this.cdr.markForCheck();
     } else {
       this.model = '';
@@ -86,6 +87,15 @@ export class SearchComponent implements OnInit {
   // ControlValueAccessor hook (not used)
   registerOnTouched(fn: any) {
     this._onTouched = fn;
+  }
+
+  getClass() {
+    const cls =
+      this.searchSettings && this.searchSettings.size === 'big'
+        ? 'usa-search--big'
+        : (this.searchSettings && this.searchSettings.size == 'small') ?
+          'usa-search--small' : '';
+    return cls;
   }
 }
 

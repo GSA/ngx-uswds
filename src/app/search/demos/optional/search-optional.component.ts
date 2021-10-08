@@ -8,61 +8,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchOptionalComponent implements OnInit {
   defaultModel = '';
-  bigModel = '';
+  bigModel = 'test model';
   smallModel = '';
-  spanishModel = '';
+  onBlurSearchText = ''
+  searchtext = '';
+  searchTextModel = '';
 
   searchSettings = {
-
     ariaLabel: 'Default Search Component',
-    formClass: '',
     id: 'search-field-search-field',
-    size: 'default',
-    language: 'en'
   };
 
   bigSearchSettings = {
-
     ariaLabel: 'Big Search Component',
-    formClass: 'usa-search--big',
     id: 'search-field-en-big',
     size: 'big',
-    language: 'en'
+
   };
 
   smallSearchSettings = {
     ariaLabel: 'Small Search Component',
-    formClass: 'usa-search--small',
     id: 'search-field-en-small',
     size: 'small',
-    language: 'en'
+
   };
 
-  spanishSearchSettings = {
-
-    ariaLabel: 'Default (Spanish) search component',
-    formClass: '',
-    id: 'search-field-es',
-    size: 'default',
-    language: 'es'
-  };
-
-  spanishBigSearchSettings = {
-
-    ariaLabel: 'Big (Spanish) Search Component',
-    formClass: 'usa-search--big',
-    id: 'search-field-es-big',
-    size: 'big',
-    language: 'es'
-  };
-
-  spanishSmallSearchSettings = {
-
+  buttonTextSearchSettings = {
     ariaLabel: 'Small (Spanish) Search Component',
-    formClass: 'usa-search--small',
     id: 'search-field-es-small',
-    size: 'small',
-    language: 'es'
+    buttonText: 'Apply'
   };
 
   constructor() { }
@@ -70,4 +44,11 @@ export class SearchOptionalComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onBlurUpdate(event) {
+    this.onBlurSearchText = event;
+    console.log('search value ', event)
+  }
+  onSearchTextUpdate(event) {
+    this.searchtext = event;
+  }
 }
