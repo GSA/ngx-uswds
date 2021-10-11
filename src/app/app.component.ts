@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
     {
       labelText: 'Accordion',
       href: 'accordion',
-      id:1
+      id: 1
     },
     {
       labelText: 'Character Count',
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     {
       labelText: 'File Input',
       href: 'file-input',
-      id:10
+      id: 10
     },
     {
       labelText: 'Modal',
@@ -60,6 +60,11 @@ export class AppComponent implements OnInit {
       href: 'tooltip',
       id: 16
     },
+    {
+      labelText: 'Search',
+      href: 'search',
+      id: 22,
+    }
   ];
 
   selectedItem: SidenavModel;
@@ -67,7 +72,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-  ) {}
+  ) { }
 
 
   ngOnInit() {
@@ -86,6 +91,6 @@ export class AppComponent implements OnInit {
 
   onSidenavClick(sidenav: SidenavModel) {
     this.selectedItem = sidenav;
-    this.router.navigate([sidenav.href], {relativeTo: this.activatedRoute});
+    this.router.navigate([sidenav.href], { relativeTo: this.activatedRoute });
   }
 }

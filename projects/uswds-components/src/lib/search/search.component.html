@@ -1,0 +1,16 @@
+ <section [attr.aria-label]="ariaLabel">
+   <form class="usa-search" role="search" [ngClass]="{
+    'usa-search--big': size === 'big',
+    'usa-search--small':size == 'small'
+   }">
+     <label class="usa-sr-only" [attr.for]="id">Search</label>
+     <input class="usa-input" [attr.id]="id" type="search" [attr.name]="name" [placeholder]="placeholder" #searchInput
+       [value]="model" (blur)="focusChange($event)" (input)="onValueChange($event.target.value)"
+       (keydown)="onKeydown($event)" />
+     <button class="usa-button" type="submit" (click)="onSubmit(searchInput.value, $event);">
+       <span [ngClass]="[size === 'small' ? 'usa-sr-only' : 'usa-search__submit-text']">
+         {{ buttonText }}
+       </span>
+     </button>
+   </form>
+ </section>
