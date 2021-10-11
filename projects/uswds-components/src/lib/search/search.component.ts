@@ -25,7 +25,7 @@ export class SearchComponent {
 
   @Input() ariaLabel = 'search component'
   @Input() id = `usa-search-${nextId++}`;
-  @Input() size: string;
+  @Input() size: 'big' | 'small';
   @Input() buttonText = 'Search';
   @Input() placeholder = '';
   @Input() name = "search";
