@@ -13,12 +13,6 @@ export class SearchOnChangeComponent implements OnInit {
   searchTextModel = '';
 
 
-
-  buttonTextSearchSettings = {
-    ariaLabel: 'Small Search Component',
-    id: 'search-field-small',
-  };
-
   constructor() { }
 
   ngOnInit(): void {

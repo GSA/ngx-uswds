@@ -7,10 +7,4 @@ import { Component } from '@angular/core';
 export class SearchCustomButtonTextComponent {
   model = '';
 
-  searchSettings = {
-    ariaLabel: 'Default Search Component',
-    id: 'search-field-search-field',
-    size: 'default',
-    buttonText: 'Apply'
-  };
 }

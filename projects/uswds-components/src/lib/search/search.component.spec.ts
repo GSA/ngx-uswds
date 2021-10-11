@@ -91,18 +91,4 @@ describe('SearchComponent', () => {
     });
   })
 
-  describe('getClass', () => {
-    it('should return class name', () => {
-      component.searchSettings.size = 'big'
-      const cls = component.getClass();
-      expect(cls).toBe('usa-search--big');
-    });
-    it('should return class name', () => {
-      component.searchSettings.size = 'small'
-      const cls = component.getClass();
-      expect(cls).toBe('usa-search--small');
-    });
-
-  })
-
 });

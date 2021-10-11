@@ -1,14 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Key } from '../util/key';
 
-// Search Settings class
-export class SearchSettings {
-  public ariaLabel: string;
-  public id: string;
-  public size: string;
-  public buttonText: string;
-  public placeholder: string
-}
+let nextId = 0;
 
 @Component({
   selector: 'usa-search',
@@ -29,20 +23,25 @@ export class SearchComponent {
   private _onChange = (_: any) => { };
   private _onTouched = () => { };
 
-  @Input() searchSettings: SearchSettings = new SearchSettings();
+  @Input() ariaLabel = 'search component'
+  @Input() id = `usa-search-${nextId++}`;
+  @Input() size: string;
+  @Input() buttonText = 'Search';
+  @Input() placeholder = '';
+  @Input() name = "search";
 
-  @Output() onBlurChange: EventEmitter<string> = new EventEmitter(null);
+  @Output() onBlur: EventEmitter<string> = new EventEmitter(null);
 
-  @Output() onSearchTextChange: EventEmitter<string> = new EventEmitter(null);
+  @Output() searchTextChange: EventEmitter<string> = new EventEmitter(null);
 
   constructor(public cdr: ChangeDetectorRef) { }
 
   focusChange(event) {
-    this.onBlurChange.emit(event.target.value)
+    this.onBlur.emit(event.target.value)
   }
 
   onKeydown(event): void {
-    if (event.code == 'Enter') {
+    if (event.code == Key.Enter) {
       this.model = event.target.value;
       this.updateModel();
       event.preventDefault();
@@ -50,7 +49,7 @@ export class SearchComponent {
   }
 
   onValueChange(event) {
-    this.onSearchTextChange.emit(event);
+    this.searchTextChange.emit(event);
   }
 
   // Helper method to programatically update the search value to the model
@@ -87,15 +86,6 @@ export class SearchComponent {
   // ControlValueAccessor hook (not used)
   registerOnTouched(fn: any) {
     this._onTouched = fn;
-  }
-
-  getClass() {
-    const cls =
-      this.searchSettings && this.searchSettings.size === 'big'
-        ? 'usa-search--big'
-        : (this.searchSettings && this.searchSettings.size == 'small') ?
-          'usa-search--small' : '';
-    return cls;
   }
 }
 
