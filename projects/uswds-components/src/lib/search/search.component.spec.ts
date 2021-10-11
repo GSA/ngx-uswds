@@ -25,7 +25,7 @@ describe('SearchComponent', () => {
 
   describe('onValueChange', () => {
     it('Should emit an event when the search input value changes', () => {
-      const eventSpy = spyOn(component.onSearchTextChange, 'emit');
+      const eventSpy = spyOn(component.searchTextChange, 'emit');
       component.onValueChange('test');
       fixture.detectChanges()
       expect(eventSpy).toHaveBeenCalled();
@@ -34,7 +34,7 @@ describe('SearchComponent', () => {
 
   describe('focusChange', () => {
     it('Should emit an event on input blur', () => {
-      const eventSpy = spyOn(component.onBlurChange, 'emit');
+      const eventSpy = spyOn(component.onBlur, 'emit');
       component.focusChange({ target: { value: 'test' } });
       fixture.detectChanges()
       expect(eventSpy).toHaveBeenCalled();
