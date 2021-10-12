@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchOnChangeComponent implements OnInit {
   onBlurSearchText = '';
-  OnChangeSearchText = ''
   searchtext = '';
   searchTextModel = '';
 
@@ -19,7 +18,7 @@ export class SearchOnChangeComponent implements OnInit {
   }
 
   onBlurUpdate(event) {
-    this.OnChangeSearchText = event;
+    this.onBlurSearchText = event;
     console.log('search value ', event)
   }
   onSearchTextUpdate(event) {
