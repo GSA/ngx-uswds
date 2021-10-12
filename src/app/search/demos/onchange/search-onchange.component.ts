@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchOnChangeComponent implements OnInit {
   onBlurSearchText = '';
-  OnChangeSearchText = ''
   searchtext = '';
   searchTextModel = '';
 
