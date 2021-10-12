@@ -19,7 +19,7 @@ export class SearchOnChangeComponent implements OnInit {
   }
 
   onBlurUpdate(event) {
-    this.OnChangeSearchText = event;
+    this.onBlurSearchText = event;
     console.log('search value ', event)
   }
   onSearchTextUpdate(event) {
