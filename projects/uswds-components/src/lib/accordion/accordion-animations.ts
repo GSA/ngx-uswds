@@ -8,7 +8,7 @@ import {
 } from '@angular/animations';
 
 /** Time and timing curve for accordion item animations. */
-export const ACCORDION_ITEM_ANIMATION_TIMING = '225ms linear';
+export const ACCORDION_ITEM_ANIMATION_TIMING = '150ms linear';
 
 export const UsaExpansionAnimations: {
   readonly bodyExpansion: AnimationTriggerMetadata;

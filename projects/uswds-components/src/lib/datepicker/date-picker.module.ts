@@ -14,6 +14,7 @@ import { NativeDateAdapter } from "./dateadapter/native-date-adapter";
 import { USA_DATE_FORMATS } from "./dateadapter/date-formats";
 import { USA_NATIVE_DATE_FORMATS } from "./dateadapter/native-date-formats";
 import { HoverClassModule } from "../util/hover-class";
+import { UsaDatePickerButtonIcon } from "uswds-components";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { HoverClassModule } from "../util/hover-class";
     UsaDatePickerContent,
     UsaDatePicker,
     UsaDatePickerWrapper,
+    UsaDatePickerButtonIcon,
   ],
   imports: [
     CommonModule,
