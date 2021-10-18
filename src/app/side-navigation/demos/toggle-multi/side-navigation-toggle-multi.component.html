@@ -1,5 +1,5 @@
-<div style="width: 33%;">
-  <uswds-sidenav [sidenavContent]="sidenavModel" [expandType]="'multiple'" [collapseLabels]="true">
+<div class="width-mobile-lg">
+  <uswds-sidenav [sidenavContent]="sidenavModel" [expandType]="'multiple'" [enableLabelCollapse]="false" [autoCollapseLabels]=false [selectFirstLabelChild]=true>
   </uswds-sidenav>
 </div>
 <button class="usa-button" (click)="expandAll()">Expand All</button>

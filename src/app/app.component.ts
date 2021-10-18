@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { SidenavModel } from 'projects/uswds-components/src/public-api';
+import { NavigationMode, SidenavModel } from 'projects/uswds-components/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -13,37 +13,44 @@ export class AppComponent implements OnInit {
     {
       labelText: 'Accordion',
       href: 'accordion',
-      id: 1
+      id: 1,
+      mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'File Input',
       href: 'file-input',
-      id: 10
+      id: 10,
+      mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'Step Indicator',
       href: 'step-indicator',
-      id: 14
+      id: 14,
+      mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'Modal',
       href: 'modal',
-      id: 15
+      id: 15,
+      mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'Tooltip',
       href: 'tooltip',
-      id: 16
+      id: 16,
+      mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'Table',
       href: 'table',
       id: 17,
+      mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'Side Navigation',
       href: 'side-navigation',
       id: 18,
+      mode: NavigationMode.INTERNAL
     }
   ];
 

@@ -47,6 +47,5 @@
 </ng-template>
 
 <ng-template #sideNavLabelLinkTemplate let-link>
-  <span [attr.class]="link.selected ? ' usa-current' : ''" (click)="onSidenavItemClicked(link)"><span
-      class="side-nav-label">{{link.labelText}}</span></span>
+  <span [ngClass]="{'side-nav-label': true, 'usa-current': link.selected}" (click)="onSidenavItemClicked(link)">{{link.labelText}}</span>
 </ng-template>

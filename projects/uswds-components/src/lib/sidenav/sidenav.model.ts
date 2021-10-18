@@ -1,7 +1,7 @@
 import { QueryParamsHandling } from '@angular/router';
 
 export interface SidenavModel {
-  mode?: NavigationMode; // TODO make not optional
+  mode: NavigationMode;
   labelText: string;
   href?: string;
   id?: any;

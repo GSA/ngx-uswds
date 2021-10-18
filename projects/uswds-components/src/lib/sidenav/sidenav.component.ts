@@ -14,7 +14,7 @@ export class USWDSSidenavComponent implements OnInit {
   @Input() sidenavContent: SidenavModel[];
 
   /**
-   * Enables navigation items to be toggled. By default all items are fully collapsed unless specified in sidenavContent.
+   * Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.
    *
    * 'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse
    *
@@ -23,18 +23,35 @@ export class USWDSSidenavComponent implements OnInit {
   @Input() expandType: 'single' | 'multiple';
 
   /**
+   * Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation
+   */
+  @Input() autoCollapseLabels: boolean = true;
+
+  /**
    * Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.
    */
-  @Input() collapseLabels = false;
+  @Input() enableLabelCollapse = false;
+
+  /**
+   * If true, the first child of the first label in the side nav will be selected by default
+   */
+  @Input() selectFirstLabelChild = false;
+
+
 
   @Output() sidenavClicked = new EventEmitter<SidenavModel>();
 
   ngOnInit(): void {
-    // If collapse is enabled, collapse all children by default. If label, expand to show children
+    let labelChildNotSelected = this.selectFirstLabelChild;
+    // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label
     if (this.expandType) {
       this.sidenavContent.map(link => {
         if (link.mode !== NavigationMode.LABEL) {
+          // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration
           link.collapsed = link.collapsed === undefined ? true : link.collapsed;
+        }
+        else {
+          link.collapsed = link.collapsed === undefined ? !this.autoCollapseLabels && this.expandType !== 'multiple' : link.collapsed;
         }
         if (link.children) {
           this.collapseChildren(link);
@@ -72,7 +89,7 @@ export class USWDSSidenavComponent implements OnInit {
    * @returns true if either link is not a label, or it is a label and label collapse is enabled
    */
   private canCollapseLabel(link: SidenavModel): boolean {
-    return link.mode === NavigationMode.LABEL ? this.collapseLabels : true;
+    return link.mode === NavigationMode.LABEL ? this.enableLabelCollapse : true;
   }
 
   private toggleBasedOnSelected(links: SidenavModel[]): void {

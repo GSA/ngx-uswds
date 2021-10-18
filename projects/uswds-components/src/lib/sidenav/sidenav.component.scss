@@ -2,6 +2,10 @@
   span.side-nav-label{
     display: block;
     padding: 0.5rem 1rem;
+    cursor: pointer;
+    &:not(.usa-current){
+      color: #565c65;
+    }
   }
   a{
     cursor: pointer;

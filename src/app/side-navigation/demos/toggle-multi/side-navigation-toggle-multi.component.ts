@@ -51,7 +51,7 @@ export class SideNavigationToggleMultiComponent {
       labelText: 'File Input',
       href: 'file-input',
       id: 10,
-      mode: NavigationMode.INTERNAL,
+      mode: NavigationMode.LABEL,
       children: [
         {
           labelText: 'File Input - Child',
