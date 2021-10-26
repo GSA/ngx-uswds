@@ -1,0 +1,153 @@
+<div class="usa-overlay" [class.is-visible]="mobileNavActive" (click)="closeMobileNav()"></div>
+<header class="usa-header" [ngClass]="{'usa-header--extended': extended, 'usa-header--basic': !extended}">
+  <div class="usa-nav-container">
+    <div class="usa-navbar">
+      <div class="usa-logo">
+        <ng-container *ngIf="getTypeOfTitle() === 'object'; else titleText" [ngTemplateOutlet]="title"></ng-container>
+        <ng-template #titleText><em class="usa-logo__text">{{title}}</em></ng-template>
+      </div>
+      <button #usaNavOpen class="usa-menu-btn" (click)="openMobileNav()">
+        <ng-container *ngIf="menuButtonTemplate; else menu" [ngTemplateOutlet]="menuButtonTemplate"></ng-container>
+        <ng-template #menu>
+          Menu
+          <span class="usa-sr-only">Menu</span>
+        </ng-template>
+      </button>
+    </div>
+    <nav [attr.aria-label]="navAriaLabel" class="usa-nav" (keydown.esc)="closeMobileNav()"
+      (animationend)="navAnimationEnd()" [class.is-visible]="mobileNavActive">
+        <button #usaNavClose class="usa-nav__close" (click)="closeMobileNav()">
+          <span>Close</span>
+          <span class="usa-sr-only">Close</span>
+        </button>
+        <ul class="usa-nav__primary usa-accordion">
+          <li *ngFor="let link of model.navigationLinks" class="usa-nav__primary-item">
+            <ng-container [ngTemplateOutlet]="link.route ? linkTemplate : dropDownTemplate"
+              [ngTemplateOutletContext]="{ $implicit: link }"></ng-container>
+          </li>
+        </ul>
+        <ng-content [select]="usaHeaderPrimaryContent"></ng-content>
+        <div *ngIf="extended" class="usa-nav__secondary">
+          <ul class="usa-nav__secondary-links">
+            <li *ngFor="let link of model.secondaryLinks" class="usa-nav__secondary-item">
+              <ng-container [ngTemplateOutlet]="
+                navigationHelper.isLinkInternal(link)
+                  ? secondaryRouteLinkTemplate
+                  : navigationHelper.isLinkExternal(link)
+                  ? secondaryHREFLinkTemplate
+                  : secondaryEVENTLinkTemplate
+              " [ngTemplateOutletContext]="{ $implicit: link }"></ng-container>
+            </li>
+          </ul>
+        </div>
+    </nav>
+  </div>
+</header>
+<ng-template #homeLinkRouteTemplate let-home>
+  <a [routerLink]="home.route" title="Home" aria-label="Go to Home page">
+    <img class="sds-header__logo" [src]="home.logo" [alt]="home.text" />
+  </a>
+</ng-template>
+
+<ng-template #homeLinkHREFTemplate let-home>
+  <a [attr.href]="home.route" title="Home" aria-label="Go to Home page">
+    <img class="sds-header__logo" [src]="home.logo" [alt]="home.text" />
+  </a>
+</ng-template>
+
+<ng-template #secondaryRouteLinkTemplate let-link>
+  <a [attr.id]="link.id" [routerLink]="[link.route]" [attr.class]="link.selected ? 'usa-current' : ''"
+    href="javascript:void(0)">
+    <ng-container [ngTemplateOutlet]="iconLinkTemplate" [ngTemplateOutletContext]="{ $implicit: link }">
+    </ng-container>
+  </a>
+</ng-template>
+
+<ng-template #secondaryHREFLinkTemplate let-link>
+  <a [attr.id]="link.id" [attr.href]="[link.route]" [attr.class]="link.selected ? 'usa-current' : ''">
+    <ng-container [ngTemplateOutlet]="iconLinkTemplate" [ngTemplateOutletContext]="{ $implicit: link }">
+    </ng-container>
+  </a>
+</ng-template>
+
+<ng-template #secondaryEVENTLinkTemplate let-link>
+  <a [attr.id]="link.id" (click)="linkClickEvent(link)" href="javascript:void(0)"
+    [attr.class]="link.selected ? 'usa-current' : ''">
+    <ng-container [ngTemplateOutlet]="iconLinkTemplate" [ngTemplateOutletContext]="{ $implicit: link }">
+    </ng-container>
+  </a>
+</ng-template>
+
+<ng-template #iconLinkTemplate let-link>
+  <div class="sds-stack sds-sm">
+    <usa-icon class="sds-stack-icon text-ink" [icon]="link.imageClass"></usa-icon>
+    <usa-icon *ngIf="link.hasCounter" class="sds-stack-icon" [icon]="'circle-fill'" [size]="'xs'"
+      [classes]="['counter-icon']"></usa-icon>
+  </div>
+  <span class="sds-nav__secondary-item-text">{{ link.text }}</span>
+</ng-template>
+
+<ng-template #linkTemplate let-link>
+  <ng-container [ngTemplateOutlet]="
+      navigationHelper.isLinkInternal(link)
+        ? linkRouteTemplate
+        : navigationHelper.isLinkExternal(link)
+        ? linkHREFTemplate
+        : linkEventTemplate
+    " [ngTemplateOutletContext]="{ $implicit: link }"></ng-container>
+</ng-template>
+
+<ng-template #linkRouteTemplate let-link>
+  <a [attr.id]="link.id" [attr.class]="link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'"
+    href="javascript:void(0)" [routerLink]="[link.route]">{{ link.text }}</a>
+</ng-template>
+
+<ng-template #linkHREFTemplate let-link>
+  <a [attr.id]="link.id" [attr.class]="link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'"
+    [attr.href]="[link.route]">{{ link.text }}</a>
+</ng-template>
+
+<ng-template #linkEventTemplate let-link>
+  <a [attr.id]="link.id" [attr.class]="link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'"
+    href="javascript:void(0)" (click)="linkClickEvent(link)">{{ link.text }}</a>
+</ng-template>
+
+<ng-template #dropDownTemplate let-link>
+  <button [attr.id]="link.id" [attr.class]="
+      link.selected
+        ? 'usa-accordion__button usa-nav__link usa-current'
+        : 'usa-accordion__button usa-nav__link'
+    " aria-expanded="false" [attr.aria-controls]="removeWhiteSpace(link.text) + '-section'">
+    <span>{{ link.text }}</span>
+  </button>
+  <ul [attr.id]="removeWhiteSpace(link.text) + '-section'" class="usa-nav__submenu" hidden>
+    <li *ngFor="let childLink of link.children" class="usa-nav__submenu-item">
+      <ng-container [ngTemplateOutlet]="
+          navigationHelper.isLinkInternal(childLink)
+            ? dropDownRouteLinkTemplate
+            : navigationHelper.isLinkExternal(childLink)
+            ? dropDownHREFLinkTemplate
+            : dropDownEVENTLinkTemplate
+        " [ngTemplateOutletContext]="{ $implicit: childLink }"></ng-container>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template #dropDownRouteLinkTemplate let-childLink>
+  <a [routerLink]="[childLink.route]" href="javascript:void(0)">{{ childLink.text }}</a>
+</ng-template>
+
+<ng-template #dropDownHREFLinkTemplate let-childLink>
+  <a [attr.href]="[childLink.route]">{{ childLink.text }}</a>
+</ng-template>
+
+<ng-template #dropDownEVENTLinkTemplate let-childLink>
+  <a href="javascript:void(0)" (click)="linkClickEvent(childLink)">{{
+    childLink.text
+    }}</a>
+</ng-template>
+
+<ng-template #fillerBlock>
+  <!--Empty filler space for secondary links for when header logo display is turned off-->
+  <div class="usa-navbar--blank ">Ngx USWDS</div>
+</ng-template>

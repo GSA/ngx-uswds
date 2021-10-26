@@ -28,8 +28,5 @@ export class ThemeSwitcherComponent implements AfterViewInit {
         this.themeSwitcherService.setStyle('theme', 'sam-styles.css');
       }
     });
-
-    this.themeSwitcherService.setStyle('theme', 'uswds-styles.css');
-
   }
 }

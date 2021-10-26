@@ -7,7 +7,6 @@ import { CheckboxModule, ROUTES as CHECKBOX_ROUTES } from "./checkbox/checkbox.m
 import { RadioModule, ROUTES as RADIO_ROUTES } from "./radio/radio.module";
 import { DropdownComponent } from "./dropdown/dropdown.component";
 import { DropdownModule } from "./dropdown/dropdown.module";
-import { StepIndicatorComponent } from "./step-indicator/step-indicator.component";
 import { StepIndicatorModule, ROUTES as STEP_INDICATOR_ROUTES } from "./step-indicator/step-indicator.module";
 import { AccordionModule, ROUTES as ACCORDION_ROUTES } from './accordion/accordion.module';
 import { ModalModule, ROUTES as MODAL_ROUTES } from "./modal/modal.module";
@@ -17,6 +16,7 @@ import { FileInputModule, ROUTES as FILE_INPUT_ROUTES } from './file-input/file-
 import { DatePickerModule, ROUTES as DATEPICKER_ROUTES } from "./datePicker/datePicker.module";
 import { CharacterCountModule, ROUTES as CHARACTER_COUNT_ROUTES } from "./character-count/character-count.module";
 import { SearchModule, ROUTES as SEARCH_ROUTES } from './search/search.module';
+import { HeaderModule, ROUTES as HEADER_ROUTES } from "./header/header.module";
 
 const routes: Routes = [
   {
@@ -76,6 +76,10 @@ const routes: Routes = [
     path: 'search',
     children: SEARCH_ROUTES,
   },
+  {
+    path: 'header',
+    children: HEADER_ROUTES,
+  },
 ]
 @NgModule({
   imports: [
@@ -94,6 +98,7 @@ const routes: Routes = [
     CharacterCountModule,
     RadioModule,
     SearchModule,
+    HeaderModule,
   ],
   exports: [
     RouterModule,

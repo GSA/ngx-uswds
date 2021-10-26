@@ -85,3 +85,6 @@ export * from './lib/radio/radio.module';
 export * from './lib/radio/radio.component';
 export * from './lib/radio/radio-group.component';
 
+// Header
+export * from './lib/header/index';
+
