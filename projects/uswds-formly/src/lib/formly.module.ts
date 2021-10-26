@@ -3,7 +3,9 @@ import { USWDSFormlyInputModule } from './input/input.module';
 
 @NgModule({
     imports: [
-        USWDSFormlyInputModule
+        USWDSFormlyInputModule,
+
     ],
+
 })
 export class USWDSFormlyModule { }

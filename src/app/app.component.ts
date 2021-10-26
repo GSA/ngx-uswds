@@ -64,6 +64,11 @@ export class AppComponent implements OnInit {
       labelText: 'Search',
       href: 'search',
       id: 22,
+    },
+    {
+      labelText: 'Formly Input',
+      href: 'formly-input',
+      id: 22,
     }
   ];
 

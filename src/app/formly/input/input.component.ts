@@ -17,9 +17,8 @@ export class FormlyInputComponent {
       key: 'search',
       type: 'input',
       templateOptions: {
-        placeholder: 'Formly is terrific!',
-
-
+        placeholder: 'type here...',
+        label: 'test'
       },
     },];
 

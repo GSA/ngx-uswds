@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { USWDSFormlyInputComponent } from './input';
+import { FormlyWrapperFormFieldComponent } from '../wrapper/form-field-wrapper';
 
 
 @NgModule({
-    declarations: [USWDSFormlyInputComponent],
+    declarations: [USWDSFormlyInputComponent, FormlyWrapperFormFieldComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -15,6 +16,7 @@ import { USWDSFormlyInputComponent } from './input';
                 {
                     name: 'input',
                     component: USWDSFormlyInputComponent,
+                    wrappers: ['form-field'],
                 },
             ],
         }),
