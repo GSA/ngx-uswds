@@ -13,19 +13,19 @@ export class SideNavigationStaticComponent {
     {
       mode: NavigationMode.EXTERNAL,
       labelText: 'Accordion',
-      href: 'accordion',
+      href: 'javascript:void(0)',
       id: 1,
       children: [
         {
           mode: NavigationMode.EXTERNAL,
           labelText: 'Accordion - Child',
-          href: 'accordian-child',
+          href: 'javascript:void(0)',
           id: 100,
           children: [
             {
               mode: NavigationMode.EXTERNAL,
               labelText: 'Accordion - Grandchild',
-              href: 'accordian-grandchild',
+              href: 'javascript:void(0)',
               id: 1000
             }
           ]

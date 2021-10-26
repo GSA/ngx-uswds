@@ -36,16 +36,16 @@
 
 <ng-template #sideNavInternalLinkTemplate let-link>
   <a [attr.class]="link.selected ? ' usa-current' : ''" [routerLink]="[link.href]" (click)="onSidenavItemClicked(link)"
-    [queryParams]="link.queryParams" [queryParamsHandling]="link.queryParamsHandling">
-    <span>{{link.labelText}}</span>
+    [queryParams]="link.queryParams" [queryParamsHandling]="link.queryParamsHandling" href="javascript:void(0)">
+    {{link.labelText}}
   </a>
 </ng-template>
 
 <ng-template #sideNavExternalLinkTemplate let-link>
   <a [attr.class]="link.selected ? ' usa-current' : ''" [attr.href]="urlBuilder(link)"
-    (click)="onSidenavItemClicked(link)"><span>{{link.labelText}}</span></a>
+    (click)="onSidenavItemClicked(link)">{{link.labelText}}</a>
 </ng-template>
 
 <ng-template #sideNavLabelLinkTemplate let-link>
-  <span [ngClass]="{'side-nav-label': true, 'usa-current': link.selected}" (click)="onSidenavItemClicked(link)">{{link.labelText}}</span>
+  <a [ngClass]="{'usa-current': link.selected}" href="javascript:void(0)" (click)="onSidenavItemClicked(link)">{{link.labelText}}</a>
 </ng-template>

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {
-  USWDSSidenavModule,
+  UsaSidenavModule,
 }
   from 'uswds-components';
 import { AppRoutingModule } from './app.routing.module';
@@ -22,7 +22,7 @@ import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    USWDSSidenavModule,
+    UsaSidenavModule,
     USWDSCardModule,
     MarkdownModule.forRoot(),
     UsaAppHeaderModule,

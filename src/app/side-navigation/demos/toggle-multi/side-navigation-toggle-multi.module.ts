@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { USWDSSidenavModule } from 'uswds-components';
+import { UsaSidenavModule } from 'uswds-components';
 import { SideNavigationToggleMultiComponent } from './side-navigation-toggle-multi.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    USWDSSidenavModule,
+    UsaSidenavModule,
   ],
   declarations: [
     SideNavigationToggleMultiComponent

@@ -1,13 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavigationMode, SidenavModel } from './sidenav.model';
 
 
 @Component({
-  selector: `uswds-sidenav`,
+  selector: `usa-sidenav`,
   templateUrl: `sidenav.component.html`,
-  styleUrls: ['sidenav.component.scss']
 })
-export class USWDSSidenavComponent implements OnInit {
+export class UsaSidenavComponent implements OnInit {
 
   NavigationMode = NavigationMode;
 
@@ -42,7 +41,6 @@ export class USWDSSidenavComponent implements OnInit {
   @Output() sidenavClicked = new EventEmitter<SidenavModel>();
 
   ngOnInit(): void {
-    let labelChildNotSelected = this.selectFirstLabelChild;
     // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label
     if (this.expandType) {
       this.sidenavContent.map(link => {

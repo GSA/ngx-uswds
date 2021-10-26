@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavigationMode, SidenavModel, USWDSSidenavComponent } from 'uswds-components';
+import { NavigationMode, SidenavModel, UsaSidenavComponent } from 'uswds-components';
 
 @Component({
   selector: 'app-side-navigation-toggle-multi',
@@ -7,8 +7,8 @@ import { NavigationMode, SidenavModel, USWDSSidenavComponent } from 'uswds-compo
 })
 export class SideNavigationToggleMultiComponent {
 
-  @ViewChild(USWDSSidenavComponent)
-  sidenav: USWDSSidenavComponent;
+  @ViewChild(UsaSidenavComponent)
+  sidenav: UsaSidenavComponent;
 
 
 

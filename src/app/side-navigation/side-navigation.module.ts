@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { USWDSSidenavModule } from 'uswds-components';
+import { UsaSidenavModule } from 'uswds-components';
 import { DocumentationComponentsSharedModule, DocumentationDemoList } from '../shared';
 import { DemoWrapperComponent } from '../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../shared/examples-page/examples.component';

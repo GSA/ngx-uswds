@@ -26,6 +26,23 @@ export interface SidenavModel {
   queryParamsHandling?: QueryParamsHandling;
 }
 
+/**
+ * Refers to navigation type for each side nav link.
+ */
 export enum NavigationMode {
-  INTERNAL, EXTERNAL, LABEL
+  /** 
+   * Navigation within a known route of the application. Navigation will be done through
+   * Angular's routerLink directive
+   */
+  INTERNAL, 
+
+  /**
+   * Navigation to external url outside of the application. Navigation will be done through href attribute
+   */
+  EXTERNAL, 
+
+  /**
+   * No Navigation should occur. Only an event will be emitted when use clicks on a navigation item with this mode
+   */
+  LABEL
 }
