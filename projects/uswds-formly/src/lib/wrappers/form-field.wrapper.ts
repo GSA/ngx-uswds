@@ -16,7 +16,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'uswds-formly-wrapper-form-field',
   template: `
-    <div class="usa-form-group" [class.usa-form-group--error]="showError">
+    <div class="usa-form-group">
       <label
         class="usa-label"
         *ngIf="to.label && to.hideLabel !== true"
