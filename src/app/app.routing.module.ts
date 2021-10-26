@@ -17,6 +17,8 @@ import { FileInputModule, ROUTES as FILE_INPUT_ROUTES } from './file-input/file-
 import { DatePickerModule, ROUTES as DATEPICKER_ROUTES } from "./datePicker/datePicker.module";
 import { CharacterCountModule, ROUTES as CHARACTER_COUNT_ROUTES } from "./character-count/character-count.module";
 import { SearchModule, ROUTES as SEARCH_ROUTES } from './search/search.module';
+import { FormlyInputModule } from "./formly/input/input.module";
+import { FormlyInputComponent } from "./formly/input/input.component";
 
 const routes: Routes = [
   {
@@ -39,6 +41,10 @@ const routes: Routes = [
   {
     path: 'dropdown',
     component: DropdownComponent
+  },
+  {
+    path: 'formly-input',
+    component: FormlyInputComponent
   },
   {
     path: 'file-input',
@@ -86,6 +92,7 @@ const routes: Routes = [
     CheckboxModule,
     DropdownModule,
     FileInputModule,
+    FormlyInputModule,
     StepIndicatorModule,
     ModalModule,
     TableModule,

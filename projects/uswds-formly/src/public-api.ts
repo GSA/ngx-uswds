@@ -1,2 +1,3 @@
-export { USWDSFormlyInputModule } from './input/input.module';
-export { USWDSFormlyInputComponent } from './input/input';
+export * from './lib/input/input.module';
+export * from './lib/input/input';
+export * from './lib/formly.module';

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { USWDSFormlyInputModule } from '../input/input.module';
+import { USWDSFormlyInputModule } from './input/input.module';
 
 @NgModule({
     imports: [
