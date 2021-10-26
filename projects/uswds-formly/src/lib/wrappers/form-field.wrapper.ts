@@ -21,13 +21,11 @@ import { FieldWrapper } from '@ngx-formly/core';
         class="usa-label"
         *ngIf="to.label && to.hideLabel !== true"
         [attr.for]="id"
-        [ngClass]="to.labelClass"
+        
       >
-        <span>{{ to.label }}</span>
+       {{ to.label }}
       </label>
-      <small *ngIf="to.description" class="form-text text-muted">{{
-        to.description
-      }}</small>
+      <small *ngIf="to.description" class="form-text text-muted" [innerHTML]="to.description"></small>
       <ng-template #fieldComponent></ng-template>
       <div
         *ngIf="showError"

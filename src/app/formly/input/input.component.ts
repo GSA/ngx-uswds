@@ -18,7 +18,8 @@ export class FormlyInputComponent {
       type: 'input',
       templateOptions: {
         placeholder: 'type here...',
-        label: 'Search',
+        label: 'Keyword Search',
+        description: `For more information on how to use our keyword search, visit our <a href="#"> help guide </a>`,
         required: true
       },
     },];
