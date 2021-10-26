@@ -1,0 +1,58 @@
+
+<!-- Create the first row separately so we can include a special spacer cell. -->
+<tr *ngFor="let row of rows; let rowIndex = index" role="row">
+  <!-- First Row -->
+  <ng-container *ngIf="rowIndex === 0">
+    <td *ngFor="let item of prevMonthRow; let colIndex = index">
+      <ng-container [ngTemplateOutlet]="cellButton" 
+        [ngTemplateOutletContext]="{$implicit: {item: item, prevMonth: true}}"></ng-container>
+    </td>
+    <td *ngFor="let item of rows[0]; let colIndex = index">
+      <ng-container [ngTemplateOutlet]="cellButton" 
+        [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}">
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <!-- Middle rows -->
+  <ng-container *ngIf="rowIndex > 0 && rowIndex < rows.length - 1">
+    <td *ngFor="let item of row; let colIndex = index">
+      <ng-container [ngTemplateOutlet]="cellButton" [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}"></ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container *ngIf="rowIndex === rows.length - 1">
+    <td *ngFor="let item of rows[rows.length - 1]; let colIndex = index">
+      <ng-container [ngTemplateOutlet]="cellButton" [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}"></ng-container>
+    </td>
+    <td *ngFor="let item of nextMonthRow; let colIndex = index">
+      <ng-container [ngTemplateOutlet]="cellButton" 
+        [ngTemplateOutletContext]="{$implicit: {item: item, nextMonth: true}}">
+      </ng-container>
+    </td>
+  </ng-container>
+</tr>
+
+<ng-template #cellButton let-data>
+  <button
+  role="gridcell"
+  class="usa-date-picker__calendar__date"
+  [hover-class]="'usa-date-picker__calendar__date--focused'"
+  [ngClass]="data.item.cssClasses"
+  [tabindex]="_isActiveCell(data.rowIndex, data.colIndex) ? 0 : -1"
+  [attr.aria-disabled]="!data.item.enabled"
+  [class.text-base-light]="data.item.enabled ? undefined : true"
+  [class.usa-date-picker__calendar__date--selected]="_isSelected(data.item.compareValue)"
+  [class.usa-date-picker__calendar__date--current-month]="view === 'month' && !data.prevMonth && !data.nextMonth && data.item.enabled"
+  [class.usa-date-picker__calendar__date--previous-month]="view === 'month' &&  data.prevMonth && data.item.enabled"
+  [class.usa-date-picker__calendar__date--next-month]="view === 'month' && data.nextMonth && data.item.enabled"
+  [class.usa-date-picker__calendar__date--today]="!data.prevMonth && !data.nextMonth && todayValue === data.item.compareValue"
+  [class.usa-date-picker__calendar__date--focused]="_isActiveCell(data.rowIndex, data.colIndex)"
+  [class.usa-date-picker__calendar__year]="view === 'multi-year'"
+  [attr.aria-label]="data.item.ariaLabel"
+  [attr.aria-disabled]="!data.item.enabled || null"
+  [attr.aria-selected]="_isSelected(data.item.compareValue)"
+  (click)="_cellClicked(data.item, $event)">
+    {{data.item.displayValue}}
+</button>
+</ng-template>

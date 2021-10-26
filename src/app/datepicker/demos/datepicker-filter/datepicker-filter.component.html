@@ -1,0 +1,8 @@
+<label class="usa-label" id="filterDatepickerLabel'" for="filterDatepicker">Filter Date Picker</label>
+<div class="usa-hint">Please select a day</div>
+<usa-date-picker-wrapper>
+  <input [usaDatePicker]="picker" [id]="'filterDatepicker'" [usaDatePickerFilter]="weekdaysOnlyFilter">
+  <usa-date-picker-button [for]="picker"></usa-date-picker-button>
+  <usa-date-picker #picker></usa-date-picker>
+</usa-date-picker-wrapper>
+

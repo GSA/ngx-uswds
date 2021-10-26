@@ -1,8 +1,8 @@
 /*
- * Public API Surface of uswds-components
+ * Public API Surface of usa-components
  */
 
- // Accordion
+// Accordion
 export * from './lib/accordion/accordion-items';
 export * from './lib/accordion/accordion-toggle.directive';
 export * from './lib/accordion/accordion.component';
@@ -50,6 +50,10 @@ export * from './lib/sidenav/sidenav.model';
 export * from './lib/sidenav/sidenav.component';
 export * from './lib/sidenav/sidenav.module';
 
+//search
+export * from './lib/search/search.component';
+export * from './lib/search/search.module';
+
 // Step Indicator
 export * from './lib/step-indicator/step-indicator.model';
 export * from './lib/step-indicator/step-indicator.config';
@@ -68,3 +72,16 @@ export * from './lib/table/table.module';
 // Tooltip
 export * from './lib/tooltip/tooltip.directive';
 export * from './lib/tooltip/tooltip.module';
+
+// DatePicker
+export * from './lib/datepicker/index';
+
+// Character Counter
+export * from './lib/character-count/character-count.module';
+export * from './lib/character-count/character-count.directive';
+
+// Radio
+export * from './lib/radio/radio.module';
+export * from './lib/radio/radio.component';
+export * from './lib/radio/radio-group.component';
+

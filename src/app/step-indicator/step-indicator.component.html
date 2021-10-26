@@ -82,6 +82,19 @@
 <div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
   <uswds-card-header>
     <h2 class="usa-card__heading">
+      Center Labels And Display Counters
+    </h2>
+  </uswds-card-header>
+  <uswds-card-body>
+    <code class="display-block margin-bottom-2">[displayCounters]="true", [centerLabels]="true"</code>
+    <usa-step-indicator [steps]="centerAndCounterLabels" [(currentStep)]="currentStepCenterAndCounterLabels" [displayCounters]="true" [centerLabels]="true">
+    </usa-step-indicator>
+  </uswds-card-body>
+</div>
+
+<div uswds-card class="tablet:grid-col-11 mobile-lg:grid-col-12">
+  <uswds-card-header>
+    <h2 class="usa-card__heading">
       Header Position Top
     </h2>
   </uswds-card-header>

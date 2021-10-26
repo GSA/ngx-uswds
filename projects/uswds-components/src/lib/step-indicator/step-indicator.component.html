@@ -7,7 +7,8 @@
   <ol class="usa-step-indicator__segments" role="tablist" [attr.id]="id">
     <li *ngFor="let step of steps; index as i"
       role="tab"
-      [attr.tabindex]="step.disabled || disableStepSelection ? undefined : 0"
+      [attr.tabindex]="0"
+      [attr.aria-disabled]="step.disabled || disableStepSelection ? true : undefined"
       class="usa-step-indicator__segment"
       [attr.id]="id + '-' + i"
       (click)="onStepClicked(i, step)"

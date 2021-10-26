@@ -1,0 +1,11 @@
+<label for="basicInput">Basic Character Count Input</label>
+<input type="text" [usaCharacterCount]="25" class="usa-input" id="basicInput">
+
+<!--Character counter text will be created here-->
+
+<div class="margin-top-5"></div>
+
+<label for="formControlInput">Character Counter for elements with Form Control</label>
+<textarea class="usa-textarea" type="textarea" id="formControlInput" [maxLength]="50"
+  [usaCharacterCount]="50" [formControl]="formControl" rows="5"></textarea>
+<!--Character counter text will be created here-->

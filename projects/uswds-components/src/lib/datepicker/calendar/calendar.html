@@ -1,0 +1,17 @@
+<div class="usa-date-picker__calendar__date-picker">
+  <usa-calendar-header></usa-calendar-header>
+  <div [ngSwitch]="currentView">
+    <usa-month-view #monthView *ngSwitchCase="'month'" [(activeDate)]="activeDate" [selected]="selected"
+      [dateFilter]="dateFilter" [maxDate]="maxDate" [minDate]="minDate" [dateClass]="dateClass"
+      [comparisonStart]="comparisonStart" [comparisonEnd]="comparisonEnd" (_userSelection)="_dateSelected($event)">
+    </usa-month-view>
+    <usa-year-view #yearView *ngSwitchCase="'year'" [(activeDate)]="activeDate" [selected]="selected"
+      [dateFilter]="dateFilter" [maxDate]="maxDate" [minDate]="minDate" [dateClass]="dateClass"
+      (monthSelected)="_monthSelectedInYearView($event)" (selectedChange)="_goToDateInView($event, 'month')">
+    </usa-year-view>
+    <usa-multi-year-view #multiYearView *ngSwitchCase="'multi-year'" [(activeDate)]="activeDate" [selected]="selected"
+      [dateFilter]="dateFilter" [maxDate]="maxDate" [minDate]="minDate" [dateClass]="dateClass"
+      (yearSelected)="_yearSelectedInMultiYearView($event)" (selectedChange)="_goToDateInView($event, 'month')">
+    </usa-multi-year-view>
+  </div>
+</div>

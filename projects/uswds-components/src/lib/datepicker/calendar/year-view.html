@@ -1,0 +1,16 @@
+<table class="usa-date-picker__calendar__table" role="grid">
+  <tbody usa-calendar-body
+         [label]="_yearLabel"
+         [rows]="_months"
+         [todayValue]="_todayMonth!"
+         [startValue]="_selectedMonth!"
+         [endValue]="_selectedMonth!"
+         [labelMinRequiredCells]="2"
+         [numCols]="4"
+         [cellAspectRatio]="4 / 7"
+         [activeCell]="_dateAdapter.getMonth(activeDate)"
+         (selectedValueChange)="_monthSelected($event)"
+         (keyup)="_handleCalendarBodyKeyup($event)"
+         (keydown)="_handleCalendarBodyKeydown($event)">
+  </tbody>
+</table>

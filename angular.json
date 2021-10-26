@@ -25,13 +25,24 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "extractCss": true,
+            "outputHashing": "none",
             "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles/styles.scss"
+              {
+                "input": "src/styles/uswds-styles.scss",
+                "inject": false,
+                "bundleName": "uswds-styles"
+              },
+              {
+                "input": "src/styles/sam.scss",
+                "inject": false,
+                "bundleName": "sam-styles"
+              }
             ],
             "scripts": []
           },
@@ -44,7 +55,7 @@
                 }
               ],
               "optimization": true,
-              "outputHashing": "all",
+              "outputHashing": "none",
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,

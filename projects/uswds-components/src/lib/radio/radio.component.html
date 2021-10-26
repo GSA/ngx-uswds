@@ -1,0 +1,22 @@
+<div class="usa-radio">
+  <input #input
+  class="usa-radio__input" type="radio"
+  [ngClass]="{'usa-radio__input--tile': tile}"
+  [id]="id"
+  [required]="required"
+  [checked]="checked"
+  [disabled]="disabled"
+  [value]="value"
+  [attr.name]="name"
+  [attr.aria-label]="ariaLabel || null"
+  [attr.aria-labelledby]="ariaLabelledby"
+  [attr.aria-checked]="checked"
+  [attr.aria-describedby]="ariaDescribedby"
+  (click)="onRadioClicked($event, input)"
+  (change)="preventChangePropogation($event)"
+  >
+  <label class="usa-radio__label" [for]="id">
+    <ng-content></ng-content>
+    <ng-content select="usaRadioDescription"></ng-content>
+  </label>
+</div>

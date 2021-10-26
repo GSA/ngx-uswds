@@ -1,0 +1,19 @@
+<legend class="usa-legend">Select any historical figure</legend>
+<usa-checkbox>Sojourner Truth</usa-checkbox>
+<usa-checkbox>Frederick Douglass</usa-checkbox>
+<usa-checkbox>Booker T. Washington</usa-checkbox>
+<usa-checkbox [disabled]="true">George Washington Carver</usa-checkbox>
+
+<div class="margin-top-5"></div>
+
+<legend class="usa-legend">Select any historical figure</legend>
+<usa-checkbox [tile]="true">
+  Sojourner Truth
+  <span usaCheckboxDescription>
+    This is optional text that can be used to describe the label in more detail.
+  </span>
+</usa-checkbox>
+<usa-checkbox [tile]="true">Frederick Douglass</usa-checkbox>
+<usa-checkbox [tile]="true">Booker T. Washington</usa-checkbox>
+<usa-checkbox [disabled]="true" [tile]="true">George Washington Carver</usa-checkbox>
+

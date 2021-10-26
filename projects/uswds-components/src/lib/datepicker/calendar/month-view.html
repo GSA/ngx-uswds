@@ -1,0 +1,33 @@
+<table class="usa-date-picker__calendar__table">
+  <thead>
+    <tr>
+      <!-- For the day-of-the-week column header, we use an `<abbr>` element because VoiceOver
+           ignores the `aria-label`. ChromeVox, however, does not read the full name
+           for the `<abbr>`, so we still set `aria-label` on the header element. -->
+      <th scope="col" *ngFor="let day of _weekdays" [attr.aria-label]="day.long" class="usa-date-picker__calendar__day-of-week">
+        <span [attr.title]="day.long">{{day.narrow}}</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody usa-calendar-body
+         [label]="_monthLabel"
+         [rows]="_weeks"
+         [view]="'month'"
+         [prevMonthRow]="_prevMonthDays"
+         [nextMonthRow]="_nextMonthDays"
+         [todayValue]="_todayDate!"
+         [startValue]="_rangeStart!"
+         [endValue]="_rangeEnd!"
+         [comparisonStart]="_comparisonRangeStart"
+         [comparisonEnd]="_comparisonRangeEnd"
+         [previewStart]="_previewStart"
+         [previewEnd]="_previewEnd"
+         [isRange]="_isRange"
+         [labelMinRequiredCells]="3"
+         [activeCell]="_dateAdapter.getDate(activeDate) - 1"
+         (selectedValueChange)="_dateSelected($event)"
+         (previewChange)="_previewChanged($event)"
+         (keyup)="_handleCalendarBodyKeyup($event)"
+         (keydown)="_handleCalendarBodyKeydown($event)">
+  </tbody>
+</table>
