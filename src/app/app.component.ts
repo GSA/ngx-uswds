@@ -6,7 +6,6 @@ import { ThemeSwitcherService } from './shared/theme-switcher/theme-switcher.ser
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   title = 'usa-components';

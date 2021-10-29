@@ -1,128 +1,56 @@
-
-
-export interface HeaderModel {
-
-    /**
-     * Header logo and header logo home link
-     */
-    home: HeaderHome;
-
-    /**
-     * List of secondary links
-     */
-    secondaryLinks: HeaderSecondaryLink[];
-
-    /**
-     * List of main navigaation links/drop downs
-     */
-    navigationLinks: HeaderNavigationLink[];
-}
-
-
-export class HeaderHome {
-
-    /**
-     * Internal Angualr Routes, External HREF, EVENT: event on parent component
-    */
-    mode: any;
-
-    /**
-     * Text for the Header
-     */
-    text: string;
-
-    /**
-     * Agency Logo for the Header
-     */
-    logo: string;
-
-    /**
-     * Navigation Route for Home image button
-     */
-    route: string;
-
-    /**
-    * Identifier for the item when search for selected
-    */
-    id: string;
-
-    /**
-     * Status of if the item is selected
-     */
-    selected?: boolean;
-}
-
-/**
- *
- */
-export class HeaderNavigationLink {
-
-    /**
-     * Internal Angualr Routes, External HREF, EVENT: event on parent component
-     */
-    mode: any;
-
+export interface UsaNavigationLink {
     /**
      * Text to be displayed in the link or button
      */
     text: string;
 
     /**
-     * Navigation Route
+     * Identifier to use for the item
      */
-    route: string;
+    id: string;
+
+    /**
+     * Status of of the item is selected
+     * Selected items have visual indicators that separate
+     * then from non-selected links
+     */
+    selected?: boolean;
+
+    /** 
+     * Defines route to navigate to on click. The route will be attached to an href attribute
+     * of an anchor tag. If you'd like to control navigation application side, please leave this value
+     * undefined
+     */
+    href?: string
+
+    /**
+     * Any additional data users might want to attach to this navigation item.
+     */
+    [key: string]: any;
+}
+
+export interface UsaHeaderPrimaryLink extends UsaNavigationLink {
 
     /**
      * List of child navigation items that will show when no route is provieded
      */
-    children?: HeaderNavigationLink[];
+    children?: UsaNavigationLink[];
 
     /**
-     * Identifier for the item when search for selected
+     * Relative only if link contains children and is a dropdown.
+     * Defines whether to display children links in a megamenu style,
+     * which expands width to take up full page width
      */
-    id: string;
-
-    /**
-     * Status of if the item is selected
-     */
-    selected?: boolean;
+    isMegamenu?: boolean;
 }
 
+export enum NavigationMode {
+    /** Use internal angular routing */
+    INTERNAL = 0,
 
-export class HeaderSecondaryLink {
+    /** Use href tag for navigation */
+    EXTERNAL = 1,
 
-    /**
-     * Internal Angualr Routes, External HREF, EVENT: event on parent component
-     */
-    mode: any;
-
-    /**
-     * Text to be displayed in the link
-     */
-    text: string;
-
-    /**
-     * Navigation Route
-     */
-    route: string;
-
-    /**
-     * image class
-     */
-    imageClass: string;
-
-    /**
-     * displays counter with image
-     */
-    hasCounter?: boolean;
-
-    /**
-     * Identifier for the item when search for selected
-     */
-    id: string;
-
-    /**
-     * Status of if the item is selected
-     */
-    selected?: boolean;
+    /** Do not perform routing */
+    NONE = 2
 }

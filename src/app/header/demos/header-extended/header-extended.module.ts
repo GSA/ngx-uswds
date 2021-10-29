@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderBasicComponent } from './header-basic.component';
+import { HeaderExtendedComponent } from './header-extended.component';
 import { UsaHeaderModule, UsaSearchModule } from 'uswds-components';
 
 
-
 @NgModule({
-  declarations: [HeaderBasicComponent],
+  declarations: [HeaderExtendedComponent],
   imports: [
     CommonModule,
     UsaHeaderModule,
     UsaSearchModule,
   ],
-  exports: [HeaderBasicComponent]
+  exports: [HeaderExtendedComponent]
 })
-export class HeaderBasicModule { }
+export class HeaderExtendedModule { }

@@ -1,183 +1,76 @@
-import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { HeaderModel, HeaderNavigationLink, HeaderSecondaryLink } from './header.model';
-
-
-@Directive({
-  selector: `[usaHeaderPrimaryContent]`
-})
-export class UsaHeaderPrimaryContent {}
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, ContentChild, ElementRef, EventEmitter,
+  HostListener, Input, OnInit, Output, TemplateRef, ViewChild
+} from '@angular/core';
+import { NavigationMode, UsaNavigationLink } from 'uswds-components';
+import { UsaHeaderPrimaryLinkTemplate, UsaHeaderSecondaryLinkTemplate } from './header-selectors';
+import { UsaHeaderPrimaryLink } from './header.model';
 
 @Component({
   selector: 'usa-header',
   templateUrl: './header.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsaHeaderComponent {
+export class UsaHeaderComponent implements OnInit {
+  @ContentChild(UsaHeaderPrimaryLinkTemplate) primaryLinkTemplate: TemplateRef<any>;
+  @ContentChild(UsaHeaderSecondaryLinkTemplate) secondaryLinkTemplate: TemplateRef<any>;
+
   @ViewChild('usaNavOpen') openNavBtn: ElementRef;
   @ViewChild('usaNavClose') closeNavBtn: ElementRef;
 
   mobileNavActive = false;
-  /**
-   * Navigation helper
-   */
-  navigationHelper = {
-    isLinkInternal: (model) => true,
-  };
 
+  /**
+   * Title to display in header. Can be a string or a template reference
+   */
   @Input() title: string | TemplateRef<any>;
 
+  /**
+   * Template to use for displaying menu button on mobile mode. By default,
+   * the text 'Menu' will be used
+   */
   @Input() menuButtonTemplate: TemplateRef<any>;
 
+  /**
+   * Aria label to use for over all navigation content
+   * @default 'Primary Navigation'
+   */
   @Input() navAriaLabel = 'Primary Navigation'
 
+  /**
+   * Whether the header should have secondary links or not.
+   * @default false
+   */
   @Input() extended = false;
 
   /**
-   * determines if the top banner is shown
+   * Primary navigation items to display for header
    */
-  @Input() showTopBanner = true;
+  @Input() primaryNavItems: UsaHeaderPrimaryLink[];
 
   /**
-   * Model used for the different display portions of the header
+   * Secondary navigation items to display for header. Please note
+   * that `extended` input must also be passed in as `true` for the
+   * secondary nav items to display
    */
-  @Input() model: HeaderModel;
-
-  @Input() topBannerDescription = '';
-
-  @Input() showHeaderLogo = false;
-
-  @Input() alertsTemplate: TemplateRef<any>;
+  @Input() secondaryNavItems: UsaNavigationLink[];
 
   /**
-   * event for event based
+   * event emitted whenever a navigation item is clicked.
+   * This only fires if navigation mode for the link event is NONE or undefined
    */
   @Output()
-  linkEvent = new EventEmitter<any>();
+  linkEvent = new EventEmitter<UsaNavigationLink>();
 
-  getTypeOfTitle(): 'string' | 'object' {
-    return typeof this.title === 'string' ? 'string' : 'object';
-  }
+  NavigationMode = NavigationMode;
 
-  /**
-   * Takes in a text string and removes all white space characters and returns the new string
-   * @param text
-   */
-  removeWhiteSpace(text: string) {
-    return text.replace(/ /g, '');
-  }
-  constructor() {
-   
-  }
-  /**
-   * seeif any secondary link has a counter
-   */
-  hasCounter(): boolean {
-    let hasCounter = false;
-    if (this.model) {
-      if (this.model.secondaryLinks) {
-        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {
-          if (item.hasCounter) {
-            hasCounter = true;
-          }
-        });
-      }
-    }
-    return hasCounter;
-  }
+  /** Reference of link whose dropdown menu is currently open */
+  selectedDropdownLink: UsaHeaderPrimaryLink;
 
-  /**
-   * Deselects previous seletion
-   * @param id
-   */
-  select(id: string) {
-    this.deselect();
-    const item = this.find(id);
-    if (item) {
-      item.selected = true;
-    }
-  }
-
-  /**
-   * Deselects all the items in the header model
-   */
-  deselect() {
-    if (this.model) {
-      if (this.model.home) {
-        this.model.home.selected = false;
-      }
-      if (this.model.navigationLinks) {
-        this.model.navigationLinks.forEach(function(
-          item: HeaderNavigationLink
-        ) {
-          item.selected = false;
-          if (item.children) {
-            item.children.forEach(function(child: HeaderNavigationLink) {
-              child.selected = false;
-            });
-          }
-        });
-      }
-      if (this.model.secondaryLinks) {
-        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {
-          item.selected = false;
-        });
-      }
-    }
-  }
-
-  /**
-   * Finds the navigation element by id in the header model
-   * @param id of the navigation item
-   */
-  find(id: string): any {
-    let toReturn = null;
-    if (this.model) {
-      if (this.model.home) {
-        if (this.model.home.id === id) {
-          toReturn = this.model.home;
-        }
-      }
-      toReturn = this.findNavigationLinks(id, toReturn);
-      if (this.model.secondaryLinks) {
-        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {
-          if (item.id === id) {
-            toReturn = item;
-          }
-        });
-      }
-    }
-    return toReturn;
-  }
-
-  /**
-   * Searchs the items in the navigation links
-   * @param id
-   */
-  private findNavigationLinks(id: string, toReturn: any): any {
-    if (this.model.navigationLinks) {
-      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {
-        if (item.id === id) {
-          toReturn = item;
-        }
-        if (item.children) {
-          item.children.forEach(function(child: HeaderNavigationLink) {
-            if (child.id === id) {
-              toReturn = child;
-            }
-          });
-        }
-      });
-    }
-    return toReturn;
-  }
-
-  /**
-   * Link clicked and emits the link data into an event
-   * @param link
-   */
-  linkClickEvent(link: any) {
-    this.linkEvent.emit(link);
-    return false;
-  }
+  /** Reference to currently selected navigation link */
+  selectedNavItem: UsaNavigationLink;
 
   // When the mobile nav is active, and the close box isn't visible,
   // we know the user's viewport has been resized to be larger.
@@ -192,22 +85,97 @@ export class UsaHeaderComponent {
     }
   }
 
+  @HostListener('document:click', ['$event'])
+  documentClick($event: any) {
+    this.selectedDropdownLink = null;
+  }
+
+  constructor(
+    public changeDetector: ChangeDetectorRef,
+  ) { }
+
+  ngOnInit() {
+
+    /** Look through primary and secondary nav and select the first selected nav item. 
+     * Toggle the rest off if they are selected */
+    this.selectInitialNavItem(this.primaryNavItems);
+    this.selectInitialNavItem(this.secondaryNavItems);
+  }
+
+  getTypeOfTitle(): 'string' | 'object' {
+    return typeof this.title === 'string' ? 'string' : 'object';
+  }
+
+  /**
+   * Takes in a text string and removes all white space characters and returns the new string
+   * @param text
+   */
+  removeWhiteSpace(text: string) {
+    return text.replace(/ /g, '');
+  }
+
+  /**
+   * Link clicked and emits the link data into an event
+   * @param link
+   */
+  linkClickEvent(link: UsaNavigationLink, parentNav?: UsaNavigationLink) {
+    const itemToSelect = parentNav ? parentNav : link;
+    this.selectNavItem(itemToSelect)
+    this.linkEvent.emit(link);
+  }
+
+  /**
+   * Public Interface - select a navigation item to mark as selected.
+   * @param item - The item to select. This item will be marked as selected, and
+   * any previously selected item will be un-selected. Note that only one nav item may
+   * be selected at a time
+   */
+  selectNavItem(item: UsaNavigationLink) {
+    if (this.selectedNavItem) {
+      this.selectedNavItem.selected = false;
+    }
+
+    this.selectedNavItem = item;
+    this.selectedNavItem.selected = true;
+    this.changeDetector.detectChanges();
+  }
+
+  dropdownLinkClicked(link: UsaHeaderPrimaryLink, $event: Event) {
+    // Opened dropdown link was clicked, close it
+    if (link === this.selectedDropdownLink) {
+      this.selectedDropdownLink = null;
+      return;
+    }
+
+    // Otherwise, set the newly clicked link as the new open dropdown
+    this.selectedDropdownLink = link;
+    $event.stopImmediatePropagation();
+  }
+
   openMobileNav() {
     this.mobileNavActive = true;
   }
 
   closeMobileNav() {
     this.mobileNavActive = false;
-    // The mobile nav was just deactivated, and focus was on the close
-    // button, which is no longer visible. We don't want the focus to
-    // disappear into the void, so focus on the menu button if it's
-    // visible (this may have been what the user was just focused on,
-    // if they triggered the mobile nav by mistake).
     this.openNavBtn.nativeElement.focus();
   }
 
-  // The mobile nav was just activated, so focus on the close button,
   navAnimationEnd() {
     this.closeNavBtn.nativeElement.focus();
   }
+
+  /** Used during component init - selects the initial nav item by looking through input nav items */
+  private selectInitialNavItem(navItemsList: UsaNavigationLink[]) {
+    if (!navItemsList) return;
+
+    navItemsList.forEach(item => {
+      if (this.selectedNavItem) {
+        item.selected = false;
+      } else if (item.selected) {
+        this.selectedNavItem = item;
+      }
+    });
+  }
+
 }

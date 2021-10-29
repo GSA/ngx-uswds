@@ -4,3 +4,5 @@ $theme-image-path: '~node_modules/uswds/src/img';
 $theme-font-path: '~node_modules/uswds/src/fonts';
 
 @import 'uswds';
+
+@import './app.styles.scss';
