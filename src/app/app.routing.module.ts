@@ -17,6 +17,7 @@ import { DatePickerModule, ROUTES as DATEPICKER_ROUTES } from "./datePicker/date
 import { CharacterCountModule, ROUTES as CHARACTER_COUNT_ROUTES } from "./character-count/character-count.module";
 import { SearchModule, ROUTES as SEARCH_ROUTES } from './search/search.module';
 import { HeaderModule, ROUTES as HEADER_ROUTES } from "./header/header.module";
+import { SideNavigationModule, ROUTES as SIDE_NAV_ROUTES } from "./side-navigation/side-navigation.module";
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
     children: TOOLTIP_ROUTES
   },
   {
+    path: 'side-navigation',
+    children: SIDE_NAV_ROUTES
+  },
+  {
     path: 'datepicker',
     children: DATEPICKER_ROUTES,
   },
@@ -84,7 +89,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     AccordionModule,
     ButtonGroupModule,
     CheckboxModule,
@@ -94,6 +99,7 @@ const routes: Routes = [
     ModalModule,
     TableModule,
     TooltipModule,
+    SideNavigationModule,
     DatePickerModule,
     CharacterCountModule,
     RadioModule,

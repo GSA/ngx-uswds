@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { USWDSSidenavComponent } from "./sidenav.component";
+import { UsaSidenavComponent } from "./sidenav.component";
 
 
 @NgModule({
@@ -8,10 +8,10 @@ import { USWDSSidenavComponent } from "./sidenav.component";
     CommonModule
   ],
   declarations: [
-    USWDSSidenavComponent
+    UsaSidenavComponent
   ],
   exports: [
-    USWDSSidenavComponent
+    UsaSidenavComponent
   ]
 })
-export class USWDSSidenavModule {}
+export class UsaSidenavModule {}

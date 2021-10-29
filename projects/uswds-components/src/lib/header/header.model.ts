@@ -43,14 +43,3 @@ export interface UsaHeaderPrimaryLink extends UsaNavigationLink {
      */
     isMegamenu?: boolean;
 }
-
-export enum NavigationMode {
-    /** Use internal angular routing */
-    INTERNAL = 0,
-
-    /** Use href tag for navigation */
-    EXTERNAL = 1,
-
-    /** Do not perform routing */
-    NONE = 2
-}
