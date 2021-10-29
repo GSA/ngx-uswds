@@ -12,6 +12,8 @@ import { HeaderExtendedComponent } from "./demos/header-extended/header-extended
 import { HeaderExtendedModule } from "./demos/header-extended/header-extended.module";
 import { HeaderPrimaryTemplateComponent } from "./demos/header-primary-template/header-primary-template.component";
 import { HeaderPrimaryTemplateModule } from "./demos/header-primary-template/header-primary-template.module";
+import { HeaderFooterComponent } from "./demos/header-footer/header-footer.component";
+import { HeaderFooterModule } from "./demos/header-footer/header-footer.module";
 
 
 declare var require: any;
@@ -49,6 +51,14 @@ const DEMOS = {
     module: require('!!raw-loader!./demos/header-extended-template/header-extended-template.module'),
     path: 'src/app/nav/demos/header-extended-template',
   },
+  footer: {
+    title: 'General Accessibility',
+    type: HeaderFooterComponent,
+    code: require('!!raw-loader!./demos/header-footer/header-footer.component'),
+    markup: require('!!raw-loader!./demos/header-footer/header-footer.component.html'),
+    module: require('!!raw-loader!./demos/header-footer/header-footer.module'),
+    path: 'src/app/nav/demos/header-footer',
+  },
 }
 
 export const ROUTES = [
@@ -79,6 +89,7 @@ export const ROUTES = [
     HeaderExtendedModule,
     HeaderPrimaryTemplateModule,
     HeaderExtendedTemplateModule,
+    HeaderFooterModule,
   ],
 })
 export class HeaderModule {
