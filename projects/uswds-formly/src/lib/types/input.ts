@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
-  selector: 'sds-formly-field-input',
+  selector: 'uswds-formly-field-input',
   template: `
     <input
       [ngClass]="{
@@ -11,7 +11,7 @@ import { FieldType } from '@ngx-formly/core';
       }"
       class="usa-input"
       [placeholder]="to.placeholder"
-      name="input"
+      [name]="name"
       [formlyAttributes]="field"
       [type]="to.inputType ? to.inputType : 'text'"
       [formControl]="formControl"
@@ -19,4 +19,8 @@ import { FieldType } from '@ngx-formly/core';
 
   `,
 })
-export class USWDSFormlyInputComponent extends FieldType { }
+export class USWDSFormlyInputComponent extends FieldType {
+  get name() {
+    return this.to.name || 'input';
+  }
+}
