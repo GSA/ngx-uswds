@@ -1,3 +1,4 @@
+
 <usa-app-header></usa-app-header>
 <div>
   <button class="usa-button" (click)="onNavigationChange('accordion')">Components</button>
@@ -6,13 +7,13 @@
 
 <div class="padding-1 grid-row">
   <div class="tablet:grid-col-2 mobile-lg: grid-col-12 margin-right-2 margin-bottom-2 margin-left-2 site-sidenav">
-    <uswds-sidenav [sidenavContent]="sidenavModel" (sidenavClicked)="onSidenavClick($event)">
-    </uswds-sidenav>
+    <usa-sidenav [sidenavContent]="sidenavModel" (sidenavClicked)="onSidenavClick($event)">
+    </usa-sidenav>
   </div>
 
   <div uswds-card class="tablet:grid-col-9 mobile-lg: grid-col-12">
     <uswds-card-header>
-      <h1 class="usa-card__heading ">{{selectedItem?.labelText}}</h1>
+      <h1 class="usa-card__heading">{{selectedItem?.labelText}}</h1>
     </uswds-card-header>
     <uswds-card-body class="padding-1">
       <router-outlet></router-outlet>
