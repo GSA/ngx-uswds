@@ -4,7 +4,7 @@ import { ThemeSwitcherService } from "./theme-switcher.service";
 @Component({
   selector: `usa-theme-switcher`,
   template: `
-    <select #select class="usa-select display-inline width-auto bg-primary-dark text-base-lightest" aria-label="Application Theme Switcher">
+    <select #select class="usa-select" aria-label="Application Theme Switcher">
       <option value="uswds">USWDS Styles</option>
       <option value="samStyles">Sam Styles</option>
     </select>
