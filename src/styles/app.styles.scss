@@ -1,0 +1,26 @@
+/** CSS for demo site here **/
+.site-sidenav {
+  border: 2px solid rgba(0,0,0,.1);
+  border-radius: .25rem;
+  height: fit-content;
+  box-shadow: 1px 1px 2px 2px rgba(57, 57, 59, 0.2);
+}
+
+.site-header {
+  .usa-nav-container {
+    max-width: none;
+  }
+
+  .usa-navbar {
+    padding: 0;
+    margin: 0;
+  }
+
+  .usa-nav__primary {
+    @include u-bg('primary-darker');
+  }
+
+  .usa-nav__link {
+    color: white !important;
+  }
+}

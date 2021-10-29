@@ -1,0 +1,58 @@
+<usa-header [title]="titleText">
+  <!-- Title can be passed in as template - Useful if you'd prefer some image / logo and/or add your own routing on click-->
+  <ng-template #titleText><span class="usa-logo__text">Ngx USWDS</span></ng-template>
+
+  <!-- Primary navigation links can also be passed through template for more control over html -->
+  <ul usaHeaderPrimaryLinks>
+
+    <!-- Define a submenu item through usaSubmenu and pass in defined template through content input-->
+    <li class="usa-nav__primary-item">
+      <button usaHeaderSubmenu [content]="submenuContent">Home</button>
+      <ng-template #submenuContent>
+        <ul class="text-accent-warm usa-list usa-list--unstyled">
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+        </ul>
+      </ng-template>
+    </li>
+
+    <li class="usa-nav__primary-item">
+      <!-- Define megamenu through isMegamenu input-->
+      <button usaHeaderSubmenu [content]="megamenuContent" [isMegamenu]="true">Search</button>
+      <ng-template #megamenuContent>
+        <div class="grid-row text-accent-warm">
+          <div class="grid-col-4">
+            <ul class="usa-list usa-list--unstyled">
+              <li>Item 1</li>
+              <li>Item 2</li>
+              <li>Item 3</li>
+            </ul>
+          </div>
+          <div class="grid-col-4">
+            <ul class="usa-list usa-list--unstyled">
+              <li>Item 4</li>
+              <li>Item 5</li>
+              <li>Item 6</li>
+            </ul>
+          </div>
+          <div class="grid-col-4">
+            <ul class="usa-list usa-list--unstyled">
+              <li>Item 7</li>
+              <li>Item 8</li>
+              <li>Item 9</li>
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+
+    <!-- Define simple link-->
+    <li class="usa-nav__primary-item"><a href="javascript:void(0)">DataBank</a></li>
+  </ul>
+
+  <!-- Define extra content in header besides nav link through usaHeaderPrimaryExtra -->
+  <div usaHeaderPrimaryExtra>
+    <usa-search [size]="'small'"></usa-search>
+  </div>
+</usa-header>

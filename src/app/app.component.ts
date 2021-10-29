@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ThemeSwitcherService } from './shared/theme-switcher/theme-switcher.service';
 import { NavigationMode, SidenavModel } from 'projects/uswds-components/src/public-api';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   title = 'usa-components';
@@ -82,6 +82,12 @@ export class AppComponent implements OnInit {
       href: 'search',
       id: 22,
       mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Header',
+      href: 'header',
+      id: 23,
+      mode: NavigationMode.INTERNAL
     }
   ];
 
@@ -90,6 +96,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private themeSwitcher: ThemeSwitcherService,
   ) { }
 
 
@@ -105,6 +112,8 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    this.themeSwitcher.setStyle('theme', 'uswds-styles.css');
   }
 
   onSidenavClick(sidenav: SidenavModel) {

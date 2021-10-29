@@ -1,0 +1,84 @@
+<div class="usa-overlay" [class.is-visible]="mobileNavActive" (click)="closeMobileNav()"></div>
+<header class="usa-header" [ngClass]="{'usa-header--extended': extended, 'usa-header--basic': !extended}">
+  <div class="usa-nav-container">
+    <div class="usa-navbar">
+      <div class="usa-logo">
+        <ng-container *ngIf="getTypeOfTitle() === 'object'; else titleText" [ngTemplateOutlet]="title"></ng-container>
+        <ng-template #titleText><em class="usa-logo__text">{{title}}</em></ng-template>
+      </div>
+      <button #usaNavOpen class="usa-menu-btn" (click)="openMobileNav()">
+        <ng-container *ngIf="menuButtonTemplate; else menu" [ngTemplateOutlet]="menuButtonTemplate"></ng-container>
+        <ng-template #menu>
+          Menu
+          <span class="usa-sr-only">Menu</span>
+        </ng-template>
+      </button>
+    </div>
+    <nav [attr.aria-label]="navAriaLabel" class="usa-nav" (keydown.esc)="closeMobileNav()"
+      (animationend)="navAnimationEnd()" [class.is-visible]="mobileNavActive">
+        <button #usaNavClose class="usa-nav__close" (click)="closeMobileNav()">
+          <span>Close</span>
+          <span class="usa-sr-only">Close</span>
+        </button>
+
+        <ul class="usa-nav__primary usa-accordion" *ngIf="primaryNavItems">
+          <li *ngFor="let link of primaryNavItems" class="usa-nav__primary-item">
+            <ng-container [ngTemplateOutlet]="link.children ? dropDownTemplate : linkTemplate"
+              [ngTemplateOutletContext]="{ $implicit: link, isPrimary: true }"></ng-container>
+          </li>
+        </ul>
+
+        <ng-content select="[usaHeaderPrimaryLinks]"></ng-content>
+        <ng-content select="[usaHeaderPrimaryExtra]"></ng-content>
+
+        <div *ngIf="extended" class="usa-nav__secondary">
+          <ul *ngIf="secondaryNavItems" class="usa-nav__secondary-links">
+            <li *ngFor="let link of secondaryNavItems" class="usa-nav__secondary-item">
+              <ng-container [ngTemplateOutlet]="linkTemplate" [ngTemplateOutletContext]="{ $implicit: link, isPrimary: false }"></ng-container>
+            </li>
+          </ul>
+          <ng-content select="[usaHeaderSecondaryLinks]"></ng-content>
+          <ng-content select="[usaHeaderSecondaryExtra]"></ng-content>
+        </div>
+    </nav>
+  </div>
+</header>
+
+<ng-template #linkTemplate let-link let-isPrimary="isPrimary" let-parentNav="parentNav">
+  <ng-container [ngTemplateOutlet]="
+    link.href ? linkHREFTemplate :
+    primaryLinkTemplate && isPrimary ? primaryLinkTemplate.templateRef :
+    secondaryLinkTemplate && !isPrimary ? secondaryLinkTemplate.templateRef :
+    linkEventTemplate"
+    [ngTemplateOutletContext]="{ $implicit: link, isPrimary: isPrimary, parentNav: parentNav }"></ng-container>
+</ng-template>
+
+<ng-template #dropDownTemplate let-link>
+  <button [attr.id]="link.id" class="usa-accordion__button usa-nav__link"
+    [ngClass]="{'usa-current': link.selected}"
+    [attr.aria-expanded]="link === selectedDropdownLink" 
+    [attr.aria-controls]="removeWhiteSpace(link.text) + '-section'" 
+    (click)="dropdownLinkClicked(link, $event)">
+    <span>{{ link.text }}</span>
+  </button>
+  <ul *ngIf="link === selectedDropdownLink" [attr.id]="removeWhiteSpace(link.text) + '-section'" class="usa-nav__submenu" 
+    [ngClass]="{'usa-megamenu': link.isMegamenu}">
+    <li *ngFor="let childLink of link.children" class="usa-nav__submenu-item">
+      <ng-container [ngTemplateOutlet]="linkTemplate"
+         [ngTemplateOutletContext]="{ $implicit: childLink, isPrimary: false, parentNav: link }">
+      </ng-container>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template #linkHREFTemplate let-link let-isPrimary>
+  <a [attr.id]="link.id"
+    [ngClass]="{'usa-nav__link': isPrimary, 'usa-current': link.selected}" 
+    [attr.href]="[link.href]">{{ link.text }}</a>
+</ng-template>
+
+<ng-template #linkEventTemplate let-link let-isPrimary="isPrimary" let-parentNav="parentNav">
+  <a [attr.id]="link.id"
+    [ngClass]="{'usa-nav__link': isPrimary, 'usa-current': link.selected}"
+    href="javascript:void(0)" (click)="linkClickEvent(link, parentNav)">{{ link.text }}</a>
+</ng-template>

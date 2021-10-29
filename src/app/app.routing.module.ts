@@ -16,7 +16,9 @@ import { FileInputModule, ROUTES as FILE_INPUT_ROUTES } from './file-input/file-
 import { DatePickerModule, ROUTES as DATEPICKER_ROUTES } from "./datePicker/datePicker.module";
 import { CharacterCountModule, ROUTES as CHARACTER_COUNT_ROUTES } from "./character-count/character-count.module";
 import { SearchModule, ROUTES as SEARCH_ROUTES } from './search/search.module';
+import { HeaderModule, ROUTES as HEADER_ROUTES } from "./header/header.module";
 import { SideNavigationModule, ROUTES as SIDE_NAV_ROUTES } from "./side-navigation/side-navigation.module";
+
 const routes: Routes = [
   {
     path: '',
@@ -79,6 +81,10 @@ const routes: Routes = [
     path: 'search',
     children: SEARCH_ROUTES,
   },
+  {
+    path: 'header',
+    children: HEADER_ROUTES,
+  },
 ]
 @NgModule({
   imports: [
@@ -98,6 +104,7 @@ const routes: Routes = [
     CharacterCountModule,
     RadioModule,
     SearchModule,
+    HeaderModule,
   ],
   exports: [
     RouterModule,
