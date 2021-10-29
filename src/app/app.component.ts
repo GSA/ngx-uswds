@@ -9,7 +9,8 @@ import { SidenavModel } from 'projects/uswds-components/src/public-api';
 })
 export class AppComponent implements OnInit {
   title = 'usa-components';
-  sidenavModel: SidenavModel[] = [
+  sidenavModel: SidenavModel[] = [];
+  componentModel = [
     {
       labelText: 'Accordion',
       href: 'accordion',
@@ -65,13 +66,15 @@ export class AppComponent implements OnInit {
       href: 'search',
       id: 22,
     },
-    {
-      labelText: 'Formly Input',
-      href: 'formly-input',
-      id: 22,
-    }
   ];
+  formlySidenavModel: SidenavModel[] = [
+    {
+      labelText: 'Input',
+      href: 'input',
+      id: 1
+    },
 
+  ];
   selectedItem: SidenavModel;
 
   constructor(
@@ -85,6 +88,8 @@ export class AppComponent implements OnInit {
       if (data instanceof NavigationEnd) {
         const url = this.router.url;
         const sideNavItem = url.substring(1, url.length).split('/')[0];
+        this.sidenavModel = sideNavItem == 'formly' ? this.formlySidenavModel : this.componentModel
+        console.log(sideNavItem)
         this.selectedItem = this.sidenavModel.find(model => model.href === sideNavItem);
         if (this.selectedItem) {
           this.selectedItem.selected = true;
@@ -94,6 +99,10 @@ export class AppComponent implements OnInit {
     })
   }
 
+  onNavigationChange(name: string) {
+    this.router.navigate([`/${name}`]);
+    this.sidenavModel = name == 'formly' ? this.formlySidenavModel : this.componentModel
+  }
   onSidenavClick(sidenav: SidenavModel) {
     this.selectedItem = sidenav;
     this.router.navigate([sidenav.href], { relativeTo: this.activatedRoute });
