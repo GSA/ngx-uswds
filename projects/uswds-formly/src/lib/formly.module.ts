@@ -26,4 +26,4 @@ import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
     ],
 
 })
-export class USWDSFormlyModule { }
+export class UsaFormlyModule { }

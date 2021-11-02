@@ -3,11 +3,11 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
-  selector: 'app-formly-input',
-  templateUrl: './input.component.html',
+  selector: 'app-formly-input-basic',
+  templateUrl: './input-basic.component.html',
 
 })
-export class FormlyInputComponent {
+export class FormlyBasicInputComponent {
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};

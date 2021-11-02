@@ -1,23 +1,58 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
-import { FormlyModule } from "@ngx-formly/core";
-import { USWDSFormlyModule } from "uswds-formly";
-import { FormlyInputComponent } from "./input.component";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DocumentationExamplesPage } from '../../shared/examples-page/examples.component';
+import {
+  DocumentationComponentsSharedModule,
+  DocumentationDemoList,
+} from '../../shared/index';
+import { FormlyBasicInputComponent } from './demos/basic/input-basic.component';
+import { DemoWrapperComponent } from '../../shared/demo-wrapper.component';
+import { FormlyBasicInputModule } from './demos/basic/input-basic.module';
 
+declare var require: any;
+
+const DEMOS = {
+  basic: {
+    title: 'Basic Input',
+    type: FormlyBasicInputComponent,
+    code: require('!!raw-loader!./demos/basic/input-basic.component'),
+    markup: require('!!raw-loader!./demos/basic/input-basic.component.html'),
+    module: require('!!raw-loader!./demos/basic/input-basic.module'),
+    path: 'src/app/formly/input/demos/basic',
+  },
+
+};
+
+export const ROUTES = [
+  { path: '', pathMatch: 'full', redirectTo: 'examples' },
+  {
+    path: '',
+    component: DemoWrapperComponent,
+    data: {
+      items: [
+        {
+          pkg: 'usa',
+          type: 'formly',
+          name: 'UsaFormlyModule',
+        },
+      ],
+    },
+    children: [
+      { path: 'examples', component: DocumentationExamplesPage },
+    ],
+  },
+];
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    FormlyModule.forRoot(),
-    USWDSFormlyModule
+    DocumentationComponentsSharedModule,
+    FormlyBasicInputModule,
+
   ],
-  declarations: [
-    FormlyInputComponent
-  ],
-  exports: [
-    FormlyInputComponent
-  ]
 })
-export class FormlyInputModule { }
+export class FormlyInputModule {
+  constructor(demoList: DocumentationDemoList) {
+    demoList.register('formly-input', DEMOS);
+  }
+}

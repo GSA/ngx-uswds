@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
   formlySidenavModel: SidenavModel[] = [
     {
       labelText: 'Formly Input',
-      href: 'input',
+      href: 'formly-input',
       id: 24,
       mode: NavigationMode.INTERNAL
     }
