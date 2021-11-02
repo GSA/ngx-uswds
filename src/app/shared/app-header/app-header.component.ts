@@ -25,7 +25,7 @@ export class UsaAppHeaderComponent {
     {
       text: 'Formly',
       id: 'formly',
-      route: 'formly-input',
+      route: 'formly',
     },
   ];
 

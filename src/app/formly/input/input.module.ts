@@ -53,6 +53,6 @@ export const ROUTES = [
 })
 export class FormlyInputModule {
   constructor(demoList: DocumentationDemoList) {
-    demoList.register('formly-input', DEMOS);
+    demoList.register('input', DEMOS);
   }
 }

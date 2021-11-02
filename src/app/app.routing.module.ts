@@ -88,8 +88,12 @@ const routes: Routes = [
     children: HEADER_ROUTES,
   },
   {
-    path: 'formly-input',
-    children: FORMLYINPUT_ROUTES,
+    path: 'formly',
+
+    children: [{
+      path: 'input',
+      children: FORMLYINPUT_ROUTES
+    }]
   }
 ]
 
