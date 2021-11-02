@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { Router } from "@angular/router";
 import { UsaHeaderPrimaryLink } from "uswds-components";
 
@@ -8,6 +8,8 @@ import { UsaHeaderPrimaryLink } from "uswds-components";
   templateUrl: './app-header.component.html',
 })
 export class UsaAppHeaderComponent {
+
+  @Output() tab = new EventEmitter<string>();
   navigationLinks: UsaHeaderPrimaryLink[] = [
     {
       text: 'Home',
@@ -18,20 +20,21 @@ export class UsaAppHeaderComponent {
     {
       text: 'Components',
       id: 'components',
+      route: 'accordion',
     },
     {
       text: 'Formly',
       id: 'formly',
+      route: 'input',
     },
   ];
 
   constructor(
     private router: Router,
-  ) {}
+  ) { }
 
   onLinkClicked(link: UsaHeaderPrimaryLink) {
-    if (link.id === 'home') {
-      this.router.navigate([link.route]);
-    }
+    this.tab.emit(link.id);
+    this.router.navigate([link.route]);
   }
 }

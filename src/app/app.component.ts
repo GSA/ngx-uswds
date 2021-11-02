@@ -9,8 +9,7 @@ import { NavigationMode, SidenavModel } from 'projects/uswds-components/src/publ
 })
 export class AppComponent implements OnInit {
   title = 'usa-components';
-  sidenavModel: SidenavModel[] = [];
-  componentModel = [
+  homeSidenavModel: SidenavModel[] = [
     {
       labelText: 'Accordion',
       href: 'accordion',
@@ -92,7 +91,19 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  formlySidenavModel: SidenavModel[] = [
+    {
+      labelText: 'Formly Input',
+      href: 'input',
+      id: 24,
+      mode: NavigationMode.INTERNAL
+    }
+  ];
+
+  sidenavModel: SidenavModel[];
+
   selectedItem: SidenavModel;
+  selectedTab: string;
 
   constructor(
     private router: Router,
@@ -106,9 +117,7 @@ export class AppComponent implements OnInit {
       if (data instanceof NavigationEnd) {
         const url = this.router.url;
         const sideNavItem = url.substring(1, url.length).split('/')[0];
-        // this.sidenavModel = sideNavItem == 'formly' ? this.formlySidenavModel : this.componentModel
-        console.log(sideNavItem)
-        this.selectedItem = this.sidenavModel.find(model => model.href === sideNavItem);
+        this.selectedItem = this.homeSidenavModel.find(model => model.href === sideNavItem);
         if (this.selectedItem) {
           this.selectedItem.selected = true;
           subscription.unsubscribe();
@@ -117,12 +126,15 @@ export class AppComponent implements OnInit {
     });
 
     this.themeSwitcher.setStyle('theme', 'uswds-styles.css');
+    this.sidenavModel = this.homeSidenavModel;
   }
 
-  onNavigationChange(name: string) {
-    this.router.navigate([`/${name}`]);
-    // this.sidenavModel = name == 'formly' ? this.formlySidenavModel : this.componentModel
+  tabSelected(event) {
+    this.selectedTab = event;
+    this.sidenavModel = this.selectedTab === 'formly' ? this.formlySidenavModel : this.homeSidenavModel;
+    this.onSidenavClick(this.sidenavModel[0]);
   }
+
   onSidenavClick(sidenav: SidenavModel) {
     this.selectedItem = sidenav;
     this.router.navigate([sidenav.href], { relativeTo: this.activatedRoute });
