@@ -116,10 +116,15 @@ export class AppComponent implements OnInit {
     const subscription = this.router.events.subscribe(data => {
       if (data instanceof NavigationEnd) {
         const url = this.router.url;
-        const sideNavItem = url.substring(1, url.length).split('/')[0];
-        console.log(url, sideNavItem)
-        this.sidenavModel = sideNavItem === 'formly' ? this.formlySidenavModel : this.homeSidenavModel;
-
+        const parentRoute = url.substring(1, url.length).split('/')[0];
+        let sideNavItem;
+        if (parentRoute === 'formly') {
+          sideNavItem = parentRoute + '/' + url.substring(1, url.length).split('/')[1];
+        } else {
+          sideNavItem = parentRoute;
+        }
+        console.log(sideNavItem);
+        this.sidenavModel = parentRoute === 'formly' ? this.formlySidenavModel : this.homeSidenavModel;
         this.selectedItem = this.sidenavModel.find(model => model.href === sideNavItem);
         if (this.selectedItem) {
           this.selectedItem.selected = true;
@@ -130,14 +135,18 @@ export class AppComponent implements OnInit {
     });
 
     this.themeSwitcher.setStyle('theme', 'uswds-styles.css');
-
-    // this.sidenavModel = this.homeSidenavModel;
   }
 
   tabSelected(event) {
     this.selectedTab = event;
     this.sidenavModel = this.selectedTab === 'formly' ? this.formlySidenavModel : this.homeSidenavModel;
+    this.sidenavModel.forEach(item => {
+      item.selected = false;
+    })
     this.selectedItem = this.selectedTab === 'formly' ? null : this.sidenavModel[0];
+    if (this.selectedItem) {
+      this.selectedItem.selected = true;
+    }
   }
 
   onSidenavClick(sidenav: SidenavModel) {
