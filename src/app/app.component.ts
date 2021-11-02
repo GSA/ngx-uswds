@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
 
   formlySidenavModel: SidenavModel[] = [
     {
-      labelText: 'Formly Input',
+      labelText: 'Input',
       href: 'formly/input',
       id: 24,
       mode: NavigationMode.INTERNAL
@@ -117,22 +117,27 @@ export class AppComponent implements OnInit {
       if (data instanceof NavigationEnd) {
         const url = this.router.url;
         const sideNavItem = url.substring(1, url.length).split('/')[0];
-        this.selectedItem = this.homeSidenavModel.find(model => model.href === sideNavItem);
+        console.log(url, sideNavItem)
+        this.sidenavModel = sideNavItem === 'formly' ? this.formlySidenavModel : this.homeSidenavModel;
+
+        this.selectedItem = this.sidenavModel.find(model => model.href === sideNavItem);
         if (this.selectedItem) {
           this.selectedItem.selected = true;
           subscription.unsubscribe();
         }
+
       }
     });
 
     this.themeSwitcher.setStyle('theme', 'uswds-styles.css');
-    this.sidenavModel = this.homeSidenavModel;
+
+    // this.sidenavModel = this.homeSidenavModel;
   }
 
   tabSelected(event) {
     this.selectedTab = event;
     this.sidenavModel = this.selectedTab === 'formly' ? this.formlySidenavModel : this.homeSidenavModel;
-    this.onSidenavClick(this.sidenavModel[0]);
+    this.selectedItem = this.selectedTab === 'formly' ? null : this.sidenavModel[0];
   }
 
   onSidenavClick(sidenav: SidenavModel) {

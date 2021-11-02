@@ -87,13 +87,20 @@ const routes: Routes = [
     path: 'header',
     children: HEADER_ROUTES,
   },
+  // {
+  //   path: 'formly',
+
+  //   children: [
+  //     {
+  //       path: 'input',
+  //       children: FORMLYINPUT_ROUTES
+  //     },
+
+  //   ]
+  // },
   {
     path: 'formly',
-
-    children: [{
-      path: 'input',
-      children: FORMLYINPUT_ROUTES
-    }]
+    loadChildren: () => import('./formly/formly.module').then(m => m.FormlyModule)
   }
 ]
 
