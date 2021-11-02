@@ -4,10 +4,10 @@ import {
   Component, ContentChild, ElementRef, EventEmitter,
   HostListener, Input, OnInit, Output, TemplateRef, ViewChild
 } from '@angular/core';
-import { NavigationMode, UsaNavigationLink } from 'uswds-components';
+import { UsaNavigationLink } from './header.model';
 import { UsaHeaderPrimaryLinkTemplate, UsaHeaderSecondaryLinkTemplate } from './header-selectors';
 import { UsaHeaderPrimaryLink } from './header.model';
-
+import { NavigationMode } from '../sidenav/sidenav.model';
 @Component({
   selector: 'usa-header',
   templateUrl: './header.component.html',
