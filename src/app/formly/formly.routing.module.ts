@@ -5,7 +5,6 @@ import { FormlyInputModule, ROUTES as FORMLYINPUT_ROUTES } from './input/input.m
 import { FormlyHomeModule, ROUTES as FORMLYHOME_ROUTES } from './home/home.module'
 
 const routes: Routes = [
-
     {
         path: '',
         redirectTo: 'home',
@@ -19,8 +18,6 @@ const routes: Routes = [
         path: 'input',
         children: FORMLYINPUT_ROUTES
     },
-
-
 ];
 @NgModule({
     imports: [

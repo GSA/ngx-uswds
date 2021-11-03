@@ -18,7 +18,6 @@ import { CharacterCountModule, ROUTES as CHARACTER_COUNT_ROUTES } from "./charac
 import { SearchModule, ROUTES as SEARCH_ROUTES } from './search/search.module';
 import { HeaderModule, ROUTES as HEADER_ROUTES } from "./header/header.module";
 import { SideNavigationModule, ROUTES as SIDE_NAV_ROUTES } from "./side-navigation/side-navigation.module";
-import { FormlyInputModule, ROUTES as FORMLYINPUT_ROUTES } from './formly/input/input.module'
 
 const routes: Routes = [
 
@@ -87,17 +86,6 @@ const routes: Routes = [
     path: 'header',
     children: HEADER_ROUTES,
   },
-  // {
-  //   path: 'formly',
-
-  //   children: [
-  //     {
-  //       path: 'input',
-  //       children: FORMLYINPUT_ROUTES
-  //     },
-
-  //   ]
-  // },
   {
     path: 'formly',
     loadChildren: () => import('./formly/formly.module').then(m => m.FormlyModule)
@@ -124,7 +112,6 @@ const routes: Routes = [
     RadioModule,
     SearchModule,
     HeaderModule,
-    FormlyInputModule
   ],
   exports: [
     RouterModule,

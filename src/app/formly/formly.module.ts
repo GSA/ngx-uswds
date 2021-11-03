@@ -3,15 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormlyRoutingModule } from './formly.routing.module';
 
 @NgModule({
-    declarations: [
-
-    ],
+    declarations: [],
     imports: [
-
         FormlyRoutingModule,
-
     ],
-
-
 })
 export class FormlyModule { }
