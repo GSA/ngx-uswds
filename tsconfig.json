@@ -22,7 +22,8 @@
       ],
       "uswds-formly": [
         "dist/uswds-formly/uswds-formly",
-        "dist/uswds-formly"
+        "dist/uswds-formly",
+        "projects/uswds-formly/src/public-api.ts",
       ]
     },
     "rootDir": "."

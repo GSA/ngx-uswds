@@ -12,7 +12,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MarkdownModule } from 'ngx-markdown';
 import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
-import { FormlyModule } from './formly/formly.module';
 
 @NgModule({
   declarations: [
@@ -22,11 +21,8 @@ import { FormlyModule } from './formly/formly.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    UsaSidenavModule,
-    USWDSCardModule,
     MarkdownModule.forRoot(),
     UsaAppHeaderModule,
-
   ],
   providers: [
     {

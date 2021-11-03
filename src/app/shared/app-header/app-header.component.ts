@@ -1,26 +1,27 @@
-import { Component, EventEmitter, Output } from "@angular/core";
-import { Router } from "@angular/router";
-import { UsaHeaderPrimaryLink } from "uswds-components";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
+import { UsaHeaderComponent, UsaHeaderPrimaryLink } from "uswds-components";
 
 
 @Component({
   selector: `usa-app-header`,
   templateUrl: './app-header.component.html',
 })
-export class UsaAppHeaderComponent {
+export class UsaAppHeaderComponent implements OnInit {
 
-  @Output() tab = new EventEmitter<string>();
+  @ViewChild(UsaHeaderComponent) usaHeader: UsaHeaderComponent;
+
   navigationLinks: UsaHeaderPrimaryLink[] = [
     {
       text: 'Home',
       id: 'home',
-      route: 'accordion',
+      route: 'home',
       selected: true,
     },
     {
       text: 'Components',
       id: 'components',
-      route: 'accordion',
+      route: 'components',
     },
     {
       text: 'Formly',
@@ -33,8 +34,23 @@ export class UsaAppHeaderComponent {
     private router: Router,
   ) { }
 
+
+  ngOnInit() {
+    const initRouteSubscription = this.router.events.subscribe(data => {
+      if (data instanceof NavigationEnd) {
+        const url = data.url.split('/')[1];
+        const selectedNavLink = this.navigationLinks.find(nav => nav.route === url);
+        if (selectedNavLink) {
+          this.usaHeader.selectNavItem(selectedNavLink);
+        } else {
+          this.usaHeader.selectNavItem(this.navigationLinks[0]);
+        }
+        initRouteSubscription.unsubscribe();
+      }
+    })
+  }
+
   onLinkClicked(link: UsaHeaderPrimaryLink) {
-    this.tab.emit(link.id);
     this.router.navigate([link.route]);
   }
 }
