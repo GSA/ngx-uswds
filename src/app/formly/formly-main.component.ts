@@ -38,7 +38,7 @@ export class FormlyMainComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit() {
     const selectedComponent = this.router.url.split('/')[2];
