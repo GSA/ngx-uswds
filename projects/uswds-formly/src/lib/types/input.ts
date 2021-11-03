@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
-  selector: 'uswds-formly-field-input',
   template: `
     <input
       [ngClass]="{
         'usa-input--disabled': to.disabled,
-        'usa-input--error': showError
+        'usa-input--error': showError,
+        'usa-input--success': formControl.dirty  && !formControl.invalid
       }"
       class="usa-input"
       [placeholder]="to.placeholder"
-      [name]="name"
+      [name]="to.name ? to.name : 'input'"
       [formlyAttributes]="field"
       [type]="to.inputType ? to.inputType : 'text'"
       [formControl]="formControl"
@@ -20,7 +20,4 @@ import { FieldType } from '@ngx-formly/core';
   `,
 })
 export class USWDSFormlyInputComponent extends FieldType {
-  get name() {
-    return this.to.name || 'input';
-  }
 }

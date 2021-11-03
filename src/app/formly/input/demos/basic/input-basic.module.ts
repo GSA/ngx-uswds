@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormlyModule } from "@ngx-formly/core";
-import { USWDSFormlyModule } from "uswds-formly";
+import { UsaFormlyModule } from "uswds-formly";
 import { FormlyBasicInputComponent } from "./input-basic.component";
 
 
@@ -11,7 +11,7 @@ import { FormlyBasicInputComponent } from "./input-basic.component";
     CommonModule,
     ReactiveFormsModule,
     FormlyModule.forRoot(),
-    USWDSFormlyModule
+    UsaFormlyModule
   ],
   declarations: [
     FormlyBasicInputComponent

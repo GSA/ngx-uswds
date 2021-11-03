@@ -5,19 +5,15 @@ import { FieldWrapper } from '@ngx-formly/core';
  * @param string [to.label] Text to be shown for the label
  * @param string [to.required] Makes the field required
  * @param string [to.description] Add a description below the label
- * @param string [to.hideLabel] Hide the label
- *
  */
 
 @Component({
-  selector: 'uswds-formly-wrapper-form-field',
   template: `
     <div class="usa-form-group">
       <label
         class="usa-label"
-        *ngIf="to.label && to.hideLabel !== true"
+        *ngIf="to.label"
         [attr.for]="id"
-        
       >
        {{ to.label }}
       </label>

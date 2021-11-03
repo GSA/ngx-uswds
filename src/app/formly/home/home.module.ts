@@ -13,12 +13,8 @@ declare var require: any;
 
 const DEMOS = {
   basic: {
-    title: 'Home',
+    title: 'Quick Start',
     type: FormlyHomeBasicComponent,
-    // code: require('!!raw-loader!./demos/basic/home-basic.component'),
-    // markup: require('!!raw-loader!./demos/basic/home-basic.component.html'),
-    //module: require('!!raw-loader!./demos/basic/home-basic.module'),
-    //path: 'src/app/formly/home/demos/basic',
   },
 
 };
