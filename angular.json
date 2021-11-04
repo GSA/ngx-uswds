@@ -176,6 +176,46 @@
           }
         }
       }
+    },
+    "uswds-formly": {
+      "projectType": "library",
+      "root": "projects/uswds-formly",
+      "sourceRoot": "projects/uswds-formly/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/uswds-formly/tsconfig.lib.json",
+            "project": "projects/uswds-formly/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/uswds-formly/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/uswds-formly/src/test.ts",
+            "tsConfig": "projects/uswds-formly/tsconfig.spec.json",
+            "karmaConfig": "projects/uswds-formly/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/uswds-formly/tsconfig.lib.json",
+              "projects/uswds-formly/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "usa-components"
 }

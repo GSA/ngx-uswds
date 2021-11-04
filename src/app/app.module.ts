@@ -21,8 +21,6 @@ import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    UsaSidenavModule,
-    USWDSCardModule,
     MarkdownModule.forRoot(),
     UsaAppHeaderModule,
   ],

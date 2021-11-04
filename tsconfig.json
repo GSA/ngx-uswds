@@ -19,6 +19,11 @@
     "paths": {
       "uswds-components": [
         "projects/uswds-components/src/public-api.ts"
+      ],
+      "uswds-formly": [
+        "dist/uswds-formly/uswds-formly",
+        "dist/uswds-formly",
+        "projects/uswds-formly/src/public-api.ts",
       ]
     },
     "rootDir": "."
