@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NavigationMode, SidenavModel } from "uswds-components";
+import { NavigationMode, SidenavModel } from "@gsa-sam/ngx-uswds";
 
 
 @Component({

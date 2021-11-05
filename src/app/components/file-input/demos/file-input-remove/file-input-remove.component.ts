@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TableDataSource, UsaFileInputComponent } from 'uswds-components';
+import { TableDataSource, UsaFileInputComponent } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-file-input-remove',
@@ -15,7 +15,7 @@ export class FileInputRemoveComponent {
   files: TableDataSource[] = [];
 
   onFilesChange($event: File[]) {
-    this.files = $event; 
+    this.files = $event;
   }
 
   removeFile($event: File) {

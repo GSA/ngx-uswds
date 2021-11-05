@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { UsaStepIndicatorModel } from "uswds-components";
+import { UsaStepIndicatorModel } from "@gsa-sam/ngx-uswds";
 
 @Component({
   templateUrl: `./step-indicator-basic.component.html`,
@@ -7,11 +7,11 @@ import { UsaStepIndicatorModel } from "uswds-components";
 })
 export class StepIndicatorBasicComponent {
   stepsDefault: UsaStepIndicatorModel[] = [
-    {label: 'Step 1'},
-    {label: 'Step 2'},
-    {label: 'Step 3'},
-    {label: 'Step 4'},
-    {label: 'Step 5'},
+    { label: 'Step 1' },
+    { label: 'Step 2' },
+    { label: 'Step 3' },
+    { label: 'Step 4' },
+    { label: 'Step 5' },
   ];
 
   currentStepDefault = 0;

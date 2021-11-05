@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { UsaTableModule } from "uswds-components";
+import { UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { RadioFooterComponent } from "./radio-footer.component";
 
 
@@ -16,4 +16,4 @@ import { RadioFooterComponent } from "./radio-footer.component";
     RadioFooterComponent
   ]
 })
-export class RadioFooterModule {}
+export class RadioFooterModule { }

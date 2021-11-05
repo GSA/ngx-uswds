@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { UsaCheckboxModule } from "uswds-components";
+import { UsaCheckboxModule } from "@gsa-sam/ngx-uswds";
 import { CheckboxBasicComponent } from "./checkbox-basic.component";
 
 
@@ -18,4 +18,4 @@ import { CheckboxBasicComponent } from "./checkbox-basic.component";
     CheckboxBasicComponent
   ]
 })
-export class CheckboxBasicModule {}
+export class CheckboxBasicModule { }

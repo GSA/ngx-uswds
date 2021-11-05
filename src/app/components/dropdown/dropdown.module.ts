@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { USWDSDropdownModule } from "uswds-components";
+import { USWDSDropdownModule } from "@gsa-sam/ngx-uswds";
 import { DropdownComponent } from "./dropdown.component";
 
 
@@ -16,4 +16,4 @@ import { DropdownComponent } from "./dropdown.component";
     DropdownComponent
   ]
 })
-export class DropdownModule {}
+export class DropdownModule { }

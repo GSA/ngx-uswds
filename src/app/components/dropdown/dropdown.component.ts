@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DropdownOptionsModel } from 'uswds-components';
+import { DropdownOptionsModel } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'app-dropdown',

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StepIndicatorFooterComponent } from './step-indicator-footer.component';
-import { UsaTableModule } from 'uswds-components';
+import { UsaTableModule } from '@gsa-sam/ngx-uswds';
 
 
 

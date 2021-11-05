@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatePickerValidationComponent } from './datePicker-validation.component';
-import { UsaDatePickerModule } from 'uswds-components';
+import { UsaDatePickerModule } from '@gsa-sam/ngx-uswds';
 import { FormsModule } from '@angular/forms';
 
 

@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { UsaAccordionModule } from "uswds-components";
+import { UsaAccordionModule } from "@gsa-sam/ngx-uswds";
 import { AccordionMultiSelectComponent } from "./accordion-multi-select.component";
 
 
@@ -16,4 +16,4 @@ import { AccordionMultiSelectComponent } from "./accordion-multi-select.componen
     AccordionMultiSelectComponent
   ]
 })
-export class AccordionMultiSelectModule {}
+export class AccordionMultiSelectModule { }

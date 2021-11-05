@@ -1,7 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UsaFileInputComponent } from 'uswds-components';
+import { UsaFileInputComponent } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-file-input-upload',
@@ -33,7 +33,7 @@ export class FileInputUploadComponent {
   uploadFilesSuccess(file: File) {
     return new Observable((observer) => {
       setTimeout(() => {
-        observer.next(new HttpResponse({status: 200}));
+        observer.next(new HttpResponse({ status: 200 }));
         observer.complete();
       }, 3000);
     });
@@ -47,7 +47,7 @@ export class FileInputUploadComponent {
   uploadFilesFail(file: File) {
     return new Observable((observer) => {
       setTimeout(() => {
-        observer.error(new HttpResponse({status: 400}));
+        observer.error(new HttpResponse({ status: 400 }));
         observer.complete();
       }, 3000);
     });

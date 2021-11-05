@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaModalService, UsaModalRef } from 'uswds-components';
+import { ModalDismissReasons, UsaModalService, UsaModalRef } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-modal-large',
@@ -11,10 +11,10 @@ export class ModalLargeComponent {
 
   modalRef: UsaModalRef;
 
-  constructor(private modalService: UsaModalService) {}
+  constructor(private modalService: UsaModalService) { }
 
   open(content) {
-    this.modalRef = this.modalService.open(content, {size: 'lg'})
+    this.modalRef = this.modalService.open(content, { size: 'lg' })
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

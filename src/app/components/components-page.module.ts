@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { UsaSidenavModule, USWDSCardModule } from "uswds-components";
+import { UsaSidenavModule, USWDSCardModule } from "@gsa-sam/ngx-uswds";
 import { ComponentsPageComponent } from "./components-page.component";
 import { ComponentsRoutingModule } from "./components-page.routing.module";
 
@@ -21,4 +21,4 @@ import { ComponentsRoutingModule } from "./components-page.routing.module";
     ComponentsRoutingModule,
   ]
 })
-export class ComponentsPageModule {}
+export class ComponentsPageModule { }

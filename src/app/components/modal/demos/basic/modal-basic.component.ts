@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaModalService, UsaModalRef } from 'uswds-components';
+import { ModalDismissReasons, UsaModalService, UsaModalRef } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-modal-basic',
@@ -11,11 +11,12 @@ export class ModalBasicComponent {
 
   modalRef: UsaModalRef;
 
-  constructor(private modalService: UsaModalService) {}
+  constructor(private modalService: UsaModalService) { }
 
   open(content) {
-    this.modalRef = this.modalService.open(content, 
-      { ariaLabelledBy: 'modal-1-heading',
+    this.modalRef = this.modalService.open(content,
+      {
+        ariaLabelledBy: 'modal-1-heading',
         id: 'modal-1',
       }
     );

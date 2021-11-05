@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacterCountBasicComponent } from './character-count-basic.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UsaCharacterCountModule } from 'uswds-components';
+import { UsaCharacterCountModule } from '@gsa-sam/ngx-uswds';
 
 
 

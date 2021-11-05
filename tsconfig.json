@@ -17,10 +17,10 @@
       "dom"
     ],
     "paths": {
-      "uswds-components": [
+      "@gsa-sam/ngx-uswds": [
         "projects/uswds-components/src/public-api.ts"
       ],
-      "uswds-formly": [
+      "@gsa-sam/uswds-formly": [
         "dist/uswds-formly/uswds-formly",
         "dist/uswds-formly",
         "projects/uswds-formly/src/public-api.ts",

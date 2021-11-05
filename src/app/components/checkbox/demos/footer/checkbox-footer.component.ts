@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { TableDataSource } from "uswds-components";
+import { TableDataSource } from "@gsa-sam/ngx-uswds";
 
 
 @Component({
@@ -14,23 +14,23 @@ export class CheckboxFooterComponent {
       description: 'Checkbox border radius for rounded corners.',
     },
     {
-      variable: '$theme-input-tile-background-color-selected', 
+      variable: '$theme-input-tile-background-color-selected',
       description: 'Tile background color when selected.'
     },
     {
-      variable: '$theme-input-tile-border-radius', 
+      variable: '$theme-input-tile-border-radius',
       description: 'Tile border radius for rounded corners.'
     },
     {
-      variable: '$theme-input-tile-border-width', 
+      variable: '$theme-input-tile-border-width',
       description: 'Tile border thickness.'
     },
     {
-      variable: '$theme-input-tile-border-color', 
+      variable: '$theme-input-tile-border-color',
       description: 'Tile border color.'
     },
     {
-      variable: '$theme-input-tile-border-color-selected', 
+      variable: '$theme-input-tile-border-color-selected',
       description: 'Tile border color when selected.'
     }
   ]

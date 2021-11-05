@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StepIndicatorComponent } from './step-indicator.component';
-import { UsaStepIndicatorModule, USWDSCardModule } from 'uswds-components';
+import { UsaStepIndicatorModule, USWDSCardModule } from '@gsa-sam/ngx-uswds';
 import { DocumentationExamplesPage } from '../../shared/examples-page/examples.component';
 import { DemoWrapperComponent } from '../../shared/demo-wrapper.component';
 import { DocumentationComponentsSharedModule, DocumentationDemoList } from '../../shared';
@@ -168,4 +168,4 @@ export class StepIndicatorModule {
   constructor(demoList: DocumentationDemoList) {
     demoList.register('step-indicator', DEMOS);
   }
- }
+}

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { UsaAccordionComponent } from 'uswds-components';
+import { UsaAccordionComponent } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-accordion-toggle',

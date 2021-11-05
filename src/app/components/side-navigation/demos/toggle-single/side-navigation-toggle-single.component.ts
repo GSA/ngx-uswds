@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavigationMode, SidenavModel, UsaSidenavComponent } from 'uswds-components';
+import { NavigationMode, SidenavModel, UsaSidenavComponent } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'app-side-navigation-toggle-single',

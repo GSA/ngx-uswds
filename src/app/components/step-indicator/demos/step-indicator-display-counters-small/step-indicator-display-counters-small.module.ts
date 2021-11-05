@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StepIndicatorDisplayCountersSmallComponent } from './step-indicator-display-counters-small.component';
-import { UsaStepIndicatorModule } from 'uswds-components';
+import { UsaStepIndicatorModule } from '@gsa-sam/ngx-uswds';
 
 
 

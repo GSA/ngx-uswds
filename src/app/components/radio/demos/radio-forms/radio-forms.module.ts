@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RadioFormsComponent } from './radio-forms.component';
-import { UsaRadioModule } from 'uswds-components';
+import { UsaRadioModule } from '@gsa-sam/ngx-uswds';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 

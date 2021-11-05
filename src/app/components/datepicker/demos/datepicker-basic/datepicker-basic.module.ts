@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatePickerBasicComponent } from './datePicker-basic.component';
-import { UsaDatePickerModule } from 'uswds-components';
+import { UsaDatePickerModule } from '@gsa-sam/ngx-uswds';
 
 @NgModule({
   declarations: [DatePickerBasicComponent],

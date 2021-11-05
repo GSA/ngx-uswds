@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { UsaFileInputComponent } from 'uswds-components';
+import { UsaFileInputComponent } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-file-input-multiple',

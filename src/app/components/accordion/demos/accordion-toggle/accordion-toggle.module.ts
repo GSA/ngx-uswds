@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccordionToggleComponent } from './accordion-toggle.component';
-import { UsaAccordionModule } from 'uswds-components';
+import { UsaAccordionModule } from '@gsa-sam/ngx-uswds';
 
 
 

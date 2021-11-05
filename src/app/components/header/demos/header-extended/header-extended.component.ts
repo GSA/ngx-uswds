@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationMode, UsaHeaderPrimaryLink, UsaNavigationLink } from 'uswds-components';
+import { NavigationMode, UsaHeaderPrimaryLink, UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-header-extended',

@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { USWDSButtonGroupModule } from "uswds-components";
+import { USWDSButtonGroupModule } from "@gsa-sam/ngx-uswds";
 import { ButtonGroupComponent } from "./button-group.component";
 
 
@@ -16,4 +16,4 @@ import { ButtonGroupComponent } from "./button-group.component";
     ButtonGroupComponent
   ]
 })
-export class ButtonGroupModule {}
+export class ButtonGroupModule { }

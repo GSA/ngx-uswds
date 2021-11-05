@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
+
+import { USWDSFormlyCheckboxComponent } from './types/checkbox';
 import { USWDSFormlyInputComponent } from './types/input';
 import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
 
 
 @NgModule({
-    declarations: [USWDSFormlyInputComponent, FormlyWrapperFormFieldComponent],
+    declarations: [USWDSFormlyInputComponent, USWDSFormlyCheckboxComponent, FormlyWrapperFormFieldComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -18,6 +20,11 @@ import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
                 {
                     name: 'input',
                     component: USWDSFormlyInputComponent,
+                    wrappers: ['form-field']
+                },
+                {
+                    name: 'checkbox',
+                    component: USWDSFormlyCheckboxComponent,
                     wrappers: ['form-field']
                 },
             ],

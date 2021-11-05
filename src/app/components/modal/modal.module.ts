@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsaModalModule, USWDSCardModule } from 'uswds-components';
+import { UsaModalModule, USWDSCardModule } from '@gsa-sam/ngx-uswds';
 import { DemoWrapperComponent } from '../../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../../shared/examples-page/examples.component';
 import { ModalBasicModule } from './demos/basic/modal-basic.module';
@@ -137,7 +137,7 @@ export const ROUTES = [
     FooterModule,
   ]
 })
-export class ModalModule { 
+export class ModalModule {
   constructor(demoList: DocumentationDemoList) {
     demoList.register('modal', DEMOS);
   }
