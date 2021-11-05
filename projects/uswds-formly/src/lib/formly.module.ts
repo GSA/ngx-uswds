@@ -3,16 +3,18 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 
-import { USWDSFormlyCheckboxComponent } from './types/checkbox';
+import { USWDSFormlySearchComponent } from './types/search';
 import { USWDSFormlyInputComponent } from './types/input';
 import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
+import { UsaSearchModule } from '@gsa-sam/ngx-uswds';
 
 
 @NgModule({
-    declarations: [USWDSFormlyInputComponent, USWDSFormlyCheckboxComponent, FormlyWrapperFormFieldComponent],
+    declarations: [USWDSFormlyInputComponent, USWDSFormlySearchComponent, FormlyWrapperFormFieldComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
+        UsaSearchModule,
         FormlyModule.forChild({
             validationMessages: [
                 { name: 'required', message: 'This field is required' },],
@@ -23,8 +25,8 @@ import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
                     wrappers: ['form-field']
                 },
                 {
-                    name: 'checkbox',
-                    component: USWDSFormlyCheckboxComponent,
+                    name: 'search',
+                    component: USWDSFormlySearchComponent,
                     wrappers: ['form-field']
                 },
             ],
