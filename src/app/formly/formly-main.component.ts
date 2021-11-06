@@ -30,7 +30,13 @@ export class FormlyMainComponent implements OnInit {
     {
       labelText: 'Input',
       href: 'input',
-      id: 24,
+      id: 1,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Search',
+      href: 'search',
+      id: 2,
       mode: NavigationMode.INTERNAL
     }
   ];
