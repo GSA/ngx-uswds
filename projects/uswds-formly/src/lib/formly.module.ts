@@ -6,15 +6,22 @@ import { FormlyModule } from '@ngx-formly/core';
 import { USWDSFormlySearchComponent } from './types/search';
 import { USWDSFormlyInputComponent } from './types/input';
 import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
-import { UsaSearchModule } from '@gsa-sam/ngx-uswds';
+import { UsaRadioModule, UsaSearchModule } from '@gsa-sam/ngx-uswds';
+import { USWDSFormlyRadioComponent } from './types/radio';
 
 
 @NgModule({
-    declarations: [USWDSFormlyInputComponent, USWDSFormlySearchComponent, FormlyWrapperFormFieldComponent],
+    declarations: [
+        USWDSFormlyInputComponent,
+        USWDSFormlySearchComponent,
+        FormlyWrapperFormFieldComponent,
+        USWDSFormlyRadioComponent
+    ],
     imports: [
         CommonModule,
         ReactiveFormsModule,
         UsaSearchModule,
+        UsaRadioModule,
         FormlyModule.forChild({
             validationMessages: [
                 { name: 'required', message: 'This field is required' },],
@@ -22,6 +29,11 @@ import { UsaSearchModule } from '@gsa-sam/ngx-uswds';
                 {
                     name: 'input',
                     component: USWDSFormlyInputComponent,
+                    wrappers: ['form-field']
+                },
+                {
+                    name: 'radio',
+                    component: USWDSFormlyRadioComponent,
                     wrappers: ['form-field']
                 },
                 {

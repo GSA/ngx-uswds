@@ -34,9 +34,15 @@ export class FormlyMainComponent implements OnInit {
       mode: NavigationMode.INTERNAL
     },
     {
+      labelText: 'radio',
+      href: 'radio',
+      id: 2,
+      mode: NavigationMode.INTERNAL
+    },
+    {
       labelText: 'Search',
       href: 'search',
-      id: 2,
+      id: 3,
       mode: NavigationMode.INTERNAL
     }
   ];
