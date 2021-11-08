@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderNavigationLink } from 'uswds';
-import { NavigationMode, UsaHeaderPrimaryLink } from 'uswds-components';
+import { NavigationMode, UsaHeaderPrimaryLink } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-header-basic',
@@ -35,12 +35,12 @@ export class HeaderPrimaryComponent {
     {
       text: 'Search',
       id: 'search',
-      
+
       isMegamenu: true, // Defining megamenu with children will display the submenu as a megamenu
       children: [
         {
           text: 'Item 1',
-          id: 'homeChild1',  
+          id: 'homeChild1',
           href: '/header/examples',
         },
         {

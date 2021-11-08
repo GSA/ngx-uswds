@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RadioBasicComponent } from './radio-basic.component';
-import { UsaRadioModule } from 'uswds-components';
+import { UsaRadioModule } from '@gsa-sam/ngx-uswds';
 
 
 

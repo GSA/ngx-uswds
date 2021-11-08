@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationMode, SidenavModel } from 'uswds-components';
+import { NavigationMode, SidenavModel } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'app-side-navigation-static',

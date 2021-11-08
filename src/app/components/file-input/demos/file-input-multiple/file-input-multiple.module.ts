@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileInputMultipleComponent } from './file-input-multiple.component';
-import { UsaFileInputModule } from 'uswds-components';
+import { UsaFileInputModule } from '@gsa-sam/ngx-uswds';
 
 
 

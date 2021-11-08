@@ -1,7 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { UsaHeaderModule, UsaHeaderPrimaryLink, UsaNavigationLink } from 'uswds-components';
+import { UsaHeaderModule, UsaHeaderPrimaryLink, UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 
 fdescribe('HeaderComponent', () => {
   let component: MockHeaderComponent;
@@ -9,10 +9,10 @@ fdescribe('HeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MockHeaderComponent ],
-      imports: [ UsaHeaderModule ]
+      declarations: [MockHeaderComponent],
+      imports: [UsaHeaderModule]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -83,12 +83,12 @@ fdescribe('HeaderComponent', () => {
     expect(megamenuQuery.length).toEqual(1);
   });
 
-  it ('Should not contain provided secondary items if extended input is false', () => {
+  it('Should not contain provided secondary items if extended input is false', () => {
     const secondaryNavItems = fixture.debugElement.queryAll(By.css('.usa-nav__secondary-item'));
     expect(secondaryNavItems.length).toEqual(0);
   });
 
-  it('Should contain secondary items if extended input is true',  () => {
+  it('Should contain secondary items if extended input is true', () => {
     component.extended = true;
     fixture.detectChanges();
     const secondaryNavItems = fixture.debugElement.queryAll(By.css('.usa-nav__secondary-item'));
@@ -104,7 +104,7 @@ fdescribe('HeaderComponent', () => {
 class MockHeaderComponent {
   public extended = false;
 
-  constructor (public elementRef: ElementRef) {}
+  constructor(public elementRef: ElementRef) { }
 
   primaryNav: UsaHeaderPrimaryLink[] = [
     {

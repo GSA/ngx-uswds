@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalForcedActionComponent } from './modal-forced-action.component';
-import { UsaModalModule } from 'uswds-components';
+import { UsaModalModule } from '@gsa-sam/ngx-uswds';
 
 @NgModule({
   declarations: [ModalForcedActionComponent],

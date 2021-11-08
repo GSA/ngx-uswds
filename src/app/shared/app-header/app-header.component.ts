@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { UsaHeaderComponent, UsaHeaderPrimaryLink } from "uswds-components";
+import { UsaHeaderComponent, UsaHeaderPrimaryLink } from "@gsa-sam/ngx-uswds";
 
 
 @Component({

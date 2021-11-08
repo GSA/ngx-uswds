@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UsaSearchModule } from 'uswds-components';
+import { UsaSearchModule } from '@gsa-sam/ngx-uswds';
 import { SearchOptionalComponent } from './search-optional.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 

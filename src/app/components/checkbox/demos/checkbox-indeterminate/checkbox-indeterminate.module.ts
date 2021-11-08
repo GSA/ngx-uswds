@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckboxIndeterminateComponent } from './checkbox-indeterminate.component';
-import { UsaCheckboxModule } from 'uswds-components';
+import { UsaCheckboxModule } from '@gsa-sam/ngx-uswds';
 
 
 

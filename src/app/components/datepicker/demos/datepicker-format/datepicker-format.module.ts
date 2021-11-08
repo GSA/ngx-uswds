@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DatepickerFormatComponent } from './datepicker-format.component';
-import { UsaDateFormats, UsaDatePickerModule, USA_DATE_FORMATS, USA_NATIVE_DATE_FORMATS } from 'uswds-components';
+import { UsaDateFormats, UsaDatePickerModule, USA_DATE_FORMATS, USA_NATIVE_DATE_FORMATS } from '@gsa-sam/ngx-uswds';
 
 
 @NgModule({

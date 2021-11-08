@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UsaAccordionChangeEvent } from 'uswds-components';
+import { UsaAccordionChangeEvent } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-prevent-toggle',

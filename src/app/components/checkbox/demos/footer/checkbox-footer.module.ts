@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { UsaCheckboxModule, UsaTableModule } from "uswds-components";
+import { UsaCheckboxModule, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { CheckboxFooterComponent } from "./checkbox-footer.component";
 
 
@@ -17,4 +17,4 @@ import { CheckboxFooterComponent } from "./checkbox-footer.component";
     CheckboxFooterComponent
   ]
 })
-export class CheckboxFooterModule {}
+export class CheckboxFooterModule { }

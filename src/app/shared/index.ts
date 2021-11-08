@@ -4,21 +4,21 @@ import { DocumentationWidgetDemoComponent } from './examples-page/demo.component
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DemoWrapperComponent } from './demo-wrapper.component';
-import { UsaAccordionModule, USWDSCardModule } from 'uswds-components';
+import { UsaAccordionModule, USWDSCardModule } from '@gsa-sam/ngx-uswds';
 import { HighlightModule } from 'ngx-highlightjs';
 
 export * from './demo-list';
 
 @NgModule({
-  imports: [ 
-    CommonModule, 
+  imports: [
+    CommonModule,
     RouterModule,
     USWDSCardModule,
     UsaAccordionModule,
     HighlightModule
   ],
   declarations: [
-    DocumentationExamplesPage, 
+    DocumentationExamplesPage,
     DocumentationWidgetDemoComponent,
     DemoWrapperComponent,
   ],

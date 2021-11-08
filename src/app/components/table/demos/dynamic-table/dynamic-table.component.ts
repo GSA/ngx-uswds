@@ -1,5 +1,5 @@
 import { Component, TrackByFunction } from '@angular/core';
-import { TableDataSource } from 'uswds-components';
+import { TableDataSource } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-dynamic-table',
@@ -15,31 +15,31 @@ export class DynamicTableComponent {
   displyedData: TableDataSource[] = [
     {
       id: 1,
-      title: 'Declaration of Independence', 
-      description: 'Statement adopted by the Continental Congress declaring independence from the British Empire.', 
+      title: 'Declaration of Independence',
+      description: 'Statement adopted by the Continental Congress declaring independence from the British Empire.',
       year: 1776
     },
     {
       id: 2,
-      title: 'Bill of Rights', 
-      description: 'The first ten amendments of the U.S. Constitution guaranteeing rights and freedoms.', 
+      title: 'Bill of Rights',
+      description: 'The first ten amendments of the U.S. Constitution guaranteeing rights and freedoms.',
       year: 1791
     },
     {
       id: 3,
-      title: 'Declaration of Sentiments', 
-      description: 'A document written during the Seneca Falls Convention outlining the rights that American women should be entitled to as citizens.', 
+      title: 'Declaration of Sentiments',
+      description: 'A document written during the Seneca Falls Convention outlining the rights that American women should be entitled to as citizens.',
       year: 1848
     },
     {
       id: 4,
-      title: 'Emancipation Proclamation', 
-      description: 'An executive order granting freedom to slaves in designated southern states.', 
+      title: 'Emancipation Proclamation',
+      description: 'An executive order granting freedom to slaves in designated southern states.',
       year: 1863
     },
   ];
 
-  trackByFn: TrackByFunction<TableDataSource> = (index: number, item: TableDataSource) =>  {
+  trackByFn: TrackByFunction<TableDataSource> = (index: number, item: TableDataSource) => {
     return item.id
   }
 

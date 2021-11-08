@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { UsaAccordionModule, USWDSCardModule} from "uswds-components";
+import { UsaAccordionModule, USWDSCardModule } from "@gsa-sam/ngx-uswds";
 import { AccordionComponent } from "./accordion-basic.component";
 
 @NgModule({
@@ -16,4 +16,4 @@ import { AccordionComponent } from "./accordion-basic.component";
     AccordionComponent
   ]
 })
-export class AccordionBasicModule {}
+export class AccordionBasicModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NavigationMode, SidenavModel } from "uswds-components";
+import { NavigationMode, SidenavModel } from "@gsa-sam/ngx-uswds";
 
 
 @Component({
@@ -30,7 +30,19 @@ export class FormlyMainComponent implements OnInit {
     {
       labelText: 'Input',
       href: 'input',
-      id: 24,
+      id: 1,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'radio',
+      href: 'radio',
+      id: 2,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Search',
+      href: 'search',
+      id: 3,
       mode: NavigationMode.INTERNAL
     }
   ];

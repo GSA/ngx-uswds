@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaModalService, UsaModalRef } from "uswds-components";
+import { ModalDismissReasons, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
 @Component({
   selector: 'usa-modal-forced-action',
@@ -10,10 +10,10 @@ export class ModalForcedActionComponent {
 
   modalRef: UsaModalRef;
 
-  constructor(private modalService: UsaModalService) {}
+  constructor(private modalService: UsaModalService) { }
 
   open(content) {
-    this.modalRef = this.modalService.open(content, 
+    this.modalRef = this.modalService.open(content,
       {
         showClose: false,
         backdrop: 'static',

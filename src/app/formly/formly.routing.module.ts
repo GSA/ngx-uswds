@@ -6,6 +6,9 @@ import { FormlyMainComponent } from "./formly-main.component";
 import { FormlyHomeBasicModule } from "./home/home-basic.module";
 import { FormlyHomeBasicComponent } from "./home/home-basic.component";
 
+import { FormlySearchModule, ROUTES as FORMLYSEARCH_ROUTES } from './search/search.module'
+import { FormlyRadioModule, ROUTES as FORMLYRADIO_ROUTES } from './radio/radio.module';
+
 const routes: Routes = [
     {
         path: '',
@@ -19,6 +22,14 @@ const routes: Routes = [
                 path: 'input',
                 children: FORMLYINPUT_ROUTES
             },
+            {
+                path: 'radio',
+                children: FORMLYRADIO_ROUTES
+            },
+            {
+                path: 'search',
+                children: FORMLYSEARCH_ROUTES
+            },
         ]
     },
 
@@ -28,6 +39,8 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forChild(routes),
         FormlyInputModule,
+        FormlyRadioModule,
+        FormlySearchModule,
         FormlyHomeBasicModule,
     ],
     exports: [

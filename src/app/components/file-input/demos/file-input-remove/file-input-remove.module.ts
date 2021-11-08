@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileInputRemoveComponent } from './file-input-remove.component';
-import { UsaFileInputModule, UsaTableModule } from 'uswds-components';
+import { UsaFileInputModule, UsaTableModule } from '@gsa-sam/ngx-uswds';
 
 
 

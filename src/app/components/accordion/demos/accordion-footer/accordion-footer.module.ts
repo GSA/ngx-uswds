@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccordionFooterComponent } from './accordion-footer.component';
-import { USWDSCardModule } from 'uswds-components';
+import { USWDSCardModule } from '@gsa-sam/ngx-uswds';
 
 
 

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StepIndicatorHeaderTopComponent } from './step-indicator-header-top.component';
-import { UsaStepIndicatorModule } from 'uswds-components';
+import { UsaStepIndicatorModule } from '@gsa-sam/ngx-uswds';
 
 
 

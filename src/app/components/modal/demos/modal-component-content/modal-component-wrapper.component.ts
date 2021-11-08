@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaActiveModal, UsaModalService, UsaModalRef } from "uswds-components";
+import { ModalDismissReasons, UsaActiveModal, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
 @Component({
   selector: 'usa-modal-component-wrapper',
@@ -11,7 +11,7 @@ export class ModalComponentWrapper {
 
   modalRef: UsaModalRef;
 
-  constructor(private modalService: UsaModalService) {}
+  constructor(private modalService: UsaModalService) { }
 
   open() {
     this.modalRef = this.modalService.open(ModalContent);
@@ -60,7 +60,7 @@ export class ModalComponentWrapper {
 })
 export class ModalContent {
 
-  constructor(public activeModal: UsaActiveModal) {}
+  constructor(public activeModal: UsaActiveModal) { }
 
   close(reason) {
     this.activeModal.close(reason);

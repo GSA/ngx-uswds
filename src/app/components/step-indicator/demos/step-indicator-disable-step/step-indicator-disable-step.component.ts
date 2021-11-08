@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UsaStepIndicatorModel } from 'uswds-components';
+import { UsaStepIndicatorModel } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-step-indicator-disable-step',
@@ -9,11 +9,11 @@ export class StepIndicatorDisableStepComponent {
 
   /** Disable Step Selection */
   stepsDisableSingleStep: UsaStepIndicatorModel[] = [
-    {label: 'Step 1'},
-    {label: 'Step 2'},
-    {label: 'Step 3'},
-    {label: 'Step 4'},
-    {label: 'Step 5', disabled: true},
+    { label: 'Step 1' },
+    { label: 'Step 2' },
+    { label: 'Step 3' },
+    { label: 'Step 4' },
+    { label: 'Step 5', disabled: true },
   ];
 
   currentStepDisableSingle = 0;

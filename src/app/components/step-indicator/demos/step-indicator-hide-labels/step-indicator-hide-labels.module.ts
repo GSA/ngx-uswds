@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StepIndicatorHideLabelsComponent } from './step-indicator-hide-labels.component';
-import { UsaStepIndicatorModule } from 'uswds-components';
+import { UsaStepIndicatorModule } from '@gsa-sam/ngx-uswds';
 
 
 

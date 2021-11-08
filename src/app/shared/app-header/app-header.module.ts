@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { UsaHeaderModule } from "uswds-components";
+import { UsaHeaderModule } from "@gsa-sam/ngx-uswds";
 import { ThemeSwitcherModule } from "../theme-switcher/theme-switcher.module";
 import { UsaAppHeaderComponent } from "./app-header.component";
 
@@ -20,4 +20,4 @@ import { UsaAppHeaderComponent } from "./app-header.component";
     UsaAppHeaderComponent,
   ]
 })
-export class UsaAppHeaderModule {}
+export class UsaAppHeaderModule { }

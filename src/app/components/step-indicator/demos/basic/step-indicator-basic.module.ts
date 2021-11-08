@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { UsaStepIndicatorModule } from "uswds-components";
+import { UsaStepIndicatorModule } from "@gsa-sam/ngx-uswds";
 import { StepIndicatorBasicComponent } from "./step-indicator-basic.component";
 
 
@@ -16,4 +16,4 @@ import { StepIndicatorBasicComponent } from "./step-indicator-basic.component";
     StepIndicatorBasicComponent
   ]
 })
-export class StepIndicatorBasicModule {}
+export class StepIndicatorBasicModule { }

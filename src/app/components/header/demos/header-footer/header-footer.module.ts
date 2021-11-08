@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderFooterComponent } from './header-footer.component';
-import { UsaTableModule } from 'uswds-components';
+import { UsaTableModule } from '@gsa-sam/ngx-uswds';
 
 
 

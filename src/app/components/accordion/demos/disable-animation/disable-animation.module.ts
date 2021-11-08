@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { UsaAccordionModule } from "uswds-components";
+import { UsaAccordionModule } from "@gsa-sam/ngx-uswds";
 import { AccordionDisableAnimation } from "./disable-animation.component";
 
 
@@ -16,4 +16,4 @@ import { AccordionDisableAnimation } from "./disable-animation.component";
     AccordionDisableAnimation
   ]
 })
-export class AccordionDisableAnimationModule {}
+export class AccordionDisableAnimationModule { }
