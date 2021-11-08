@@ -16,6 +16,13 @@
     </div>
     <nav [attr.aria-label]="navAriaLabel" class="usa-nav" (keydown.esc)="closeMobileNav()"
       (animationend)="navAnimationEnd()" [class.is-visible]="mobileNavActive">
+      <ng-container *ngIf="extended; else headerNavigationLinks">
+        <div class="usa-nav__inner">  
+          <ng-container [ngTemplateOutlet]="headerNavigationLinks"></ng-container>
+        </div>
+      </ng-container>
+
+      <ng-template #headerNavigationLinks>
         <button #usaNavClose class="usa-nav__close" (click)="closeMobileNav()">
           <span>Close</span>
           <span class="usa-sr-only">Close</span>
@@ -40,6 +47,7 @@
           <ng-content select="[usaHeaderSecondaryLinks]"></ng-content>
           <ng-content select="[usaHeaderSecondaryExtra]"></ng-content>
         </div>
+      </ng-template>
     </nav>
   </div>
 </header>
@@ -47,8 +55,8 @@
 <ng-template #linkTemplate let-link let-isPrimary="isPrimary" let-parentNav="parentNav">
   <ng-container [ngTemplateOutlet]="
     link.href ? linkHREFTemplate :
-    primaryLinkTemplate && isPrimary ? primaryLinkTemplate.templateRef :
-    secondaryLinkTemplate && !isPrimary ? secondaryLinkTemplate.templateRef :
+    primaryLinkTemplate && isPrimary === true ? primaryLinkTemplate.templateRef :
+    secondaryLinkTemplate && isPrimary === false ? secondaryLinkTemplate.templateRef :
     linkEventTemplate"
     [ngTemplateOutletContext]="{ $implicit: link, isPrimary: isPrimary, parentNav: parentNav }"></ng-container>
 </ng-template>
@@ -65,7 +73,7 @@
     [ngClass]="{'usa-megamenu': link.isMegamenu}">
     <li *ngFor="let childLink of link.children" class="usa-nav__submenu-item">
       <ng-container [ngTemplateOutlet]="linkTemplate"
-         [ngTemplateOutletContext]="{ $implicit: childLink, isPrimary: false, parentNav: link }">
+         [ngTemplateOutletContext]="{ $implicit: childLink, parentNav: link }">
       </ng-container>
     </li>
   </ul>
