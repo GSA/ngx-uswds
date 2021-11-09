@@ -7,6 +7,10 @@
 }
 
 .site-header {
+  .usa-header {
+    @include u-bg('primary-darker');
+  }
+
   .usa-nav-container {
     max-width: none;
   }
@@ -14,13 +18,20 @@
   .usa-navbar {
     padding: 0;
     margin: 0;
+    color: white
   }
 
-  .usa-nav__primary {
+  .usa-nav {
     @include u-bg('primary-darker');
   }
 
   .usa-nav__link {
     color: white !important;
+  }
+
+  .usa-nav__inner {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
