@@ -9,7 +9,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 
 @Component({
   template: `
-    <div class="usa-form-group">
+   <div class="usa-form-group" [class.usa-form-group--error]="showError">
       <label
         class="usa-label"
         *ngIf="to.label"
