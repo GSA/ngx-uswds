@@ -20,10 +20,13 @@ export class FormlyMultiCheckboxComponent {
         label: 'Label for Multi Checkbox',
         description: 'some description',
         required: true,
+        // selectAll: true,
+        selectAllLable: "Select All",
         options: [
           {
             key: 'vet',
-            value: 'Veteran Owned'
+            value: 'Veteran Owned',
+            checked: true
           },
           {
             key: 'women',
