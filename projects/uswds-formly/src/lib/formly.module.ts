@@ -10,7 +10,7 @@ import { USWDSFormlyDatePickerComponent } from './types/datepicker';
 import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
 import { UsaRadioModule, UsaSearchModule, UsaCheckboxModule, UsaDatePickerModule } from '@gsa-sam/ngx-uswds';
 import { USWDSFormlyMultiCheckboxComponent } from './types/multicheckbox';
-
+import { FormlySelectModule } from '@ngx-formly/core/select';
 import { USWDSFormlyRadioComponent } from './types/radio';
 
 
@@ -29,6 +29,7 @@ import { USWDSFormlyRadioComponent } from './types/radio';
         UsaRadioModule,
         UsaCheckboxModule,
         UsaDatePickerModule,
+        FormlySelectModule,
         FormlyModule.forChild({
             validationMessages: [
                 { name: 'required', message: 'This field is required' },],
