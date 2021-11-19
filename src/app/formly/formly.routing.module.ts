@@ -9,6 +9,7 @@ import { FormlyHomeBasicComponent } from "./home/home-basic.component";
 import { FormlySearchModule, ROUTES as FORMLYSEARCH_ROUTES } from './search/search.module';
 import { FormlyCheckboxModule, ROUTES as FORMLYCHECKBOX_ROUTES } from './checkbox/checkbox.module';
 import { FormlyRadioModule, ROUTES as FORMLYRADIO_ROUTES } from './radio/radio.module';
+import { FormlyDatePickerModule, ROUTES as FORMLYDATEPICKER_ROUTES } from "./datepicker/datepicker.module";
 
 const routes: Routes = [
     {
@@ -35,10 +36,10 @@ const routes: Routes = [
                 path: 'checkbox',
                 children: FORMLYCHECKBOX_ROUTES
             },
-            // {
-            //     path: 'datepicker',
-            //     children: FORMLYDATEPICKER_ROUTES
-            // },
+            {
+                path: 'datepicker',
+                children: FORMLYDATEPICKER_ROUTES
+            },
         ]
     },
 
@@ -51,7 +52,7 @@ const routes: Routes = [
         FormlyRadioModule,
         FormlySearchModule,
         FormlyCheckboxModule,
-        // FormlyDatePickerModule,
+        FormlyDatePickerModule,
         FormlyHomeBasicModule,
     ],
     exports: [

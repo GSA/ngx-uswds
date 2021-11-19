@@ -10,8 +10,9 @@ import { AbstractUswdsFormly } from '../uswds-formly';
   (change)="checkAll($event)">{{to.selectAllLable}}</usa-checkbox>
 
 <ul class="usa-list usa-list--unstyled">
-  <li *ngFor="let option of to.options" class="margin-left-3">
-    <usa-checkbox  [checked]="option.checked">{{option.value}}</usa-checkbox>
+  <li class="margin-left-3">
+ 
+    <usa-checkbox *ngFor="let item of checkOptions" [formControl]="item.control"  [checked]="item.checked">{{item.value}}</usa-checkbox>
   </li>
 </ul>
  `,
@@ -23,6 +24,13 @@ export class USWDSFormlyMultiCheckboxComponent extends AbstractUswdsFormly {
   constructor(_cdr: ChangeDetectorRef) {
     super();
     this.cdr = _cdr;
+  }
+  get checkOptions() {
+    const options = this.to.options;
+    options.forEach((option: any) => {
+      option.control = new FormControl(option.checked)
+    })
+    return options;
   }
   checkIndeterminate() { }
   checkAll(ev) { }

@@ -21,6 +21,7 @@ import { USWDSFormlyRadioComponent } from './types/radio';
         USWDSFormlyRadioComponent,
         USWDSFormlyCheckboxComponent,
         USWDSFormlyMultiCheckboxComponent,
+        USWDSFormlyDatePickerComponent,
         FormlyWrapperFormFieldComponent],
     imports: [
         CommonModule,
@@ -30,6 +31,7 @@ import { USWDSFormlyRadioComponent } from './types/radio';
         UsaCheckboxModule,
         UsaDatePickerModule,
         FormlySelectModule,
+        UsaDatePickerModule,
         FormlyModule.forChild({
             validationMessages: [
                 { name: 'required', message: 'This field is required' },],

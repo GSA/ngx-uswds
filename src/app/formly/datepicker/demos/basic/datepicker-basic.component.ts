@@ -16,8 +16,7 @@ export class FormlyBasicDatePickerComponent {
       key: 'datepicker',
       type: 'datepicker',
       templateOptions: {
-        placeholder: 'type here...',
-        label: 'Keyword Search',
+        label: 'Start date',
       },
     }
   ];
