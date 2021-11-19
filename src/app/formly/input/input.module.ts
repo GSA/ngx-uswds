@@ -8,6 +8,8 @@ import {
 import { FormlyBasicInputComponent } from './demos/basic/input-basic.component';
 import { DemoWrapperComponent } from '../../shared/demo-wrapper.component';
 import { FormlyBasicInputModule } from './demos/basic/input-basic.module';
+import { FormlyCharacterCountInputModule } from './demos/character-count/input-character-count.module';
+import { FormlyCharacterCountInputComponent } from './demos/character-count/input-character-count.component';
 
 declare var require: any;
 
@@ -19,6 +21,14 @@ const DEMOS = {
     markup: require('!!raw-loader!./demos/basic/input-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/input-basic.module'),
     path: 'src/app/formly/input/demos/basic',
+  },
+  characterCount: {
+    title: 'Character Count Input',
+    type: FormlyCharacterCountInputComponent,
+    code: require('!!raw-loader!./demos/character-count/input-character-count.component'),
+    markup: require('!!raw-loader!./demos/character-count/input-character-count.component.html'),
+    module: require('!!raw-loader!./demos/character-count/input-character-count.module'),
+    path: 'src/app/formly/input/demos/character-count',
   },
 
 };
@@ -48,6 +58,7 @@ export const ROUTES = [
     CommonModule,
     DocumentationComponentsSharedModule,
     FormlyBasicInputModule,
+    FormlyCharacterCountInputModule
 
   ],
 })
