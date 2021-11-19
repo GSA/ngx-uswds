@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
@@ -23,19 +23,10 @@ export class FormlyMultiCheckboxComponent {
         // selectAll: true,
         selectAllLable: "Select All",
         options: [
-          {
-            key: 'vet',
-            value: 'Veteran Owned',
-            checked: true
-          },
-          {
-            key: 'women',
-            value: 'Women Owned'
-          },
-          {
-            key: 'minority',
-            value: 'Minority Owned'
-          }
+          { name: 'Sojourner Truth', control: new FormControl(false) },
+          { name: 'Frederick Douglass', control: new FormControl(false) },
+          { name: 'Booker T. Washington', control: new FormControl(false) },
+          { name: 'George Washington Carver', control: new FormControl(true) },
         ]
       }
     }

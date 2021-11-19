@@ -11,8 +11,7 @@ import { AbstractUswdsFormly } from '../uswds-formly';
 
 <ul class="usa-list usa-list--unstyled">
   <li class="margin-left-3">
- 
-    <usa-checkbox *ngFor="let item of checkOptions" [formControl]="item.control"  [checked]="item.checked">{{item.value}}</usa-checkbox>
+    <usa-checkbox *ngFor="let item of to.options" [formControl]="item.control" >{{item.name}}</usa-checkbox>
   </li>
 </ul>
  `,
