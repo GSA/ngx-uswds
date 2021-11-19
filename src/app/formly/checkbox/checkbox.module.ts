@@ -8,7 +8,7 @@ import {
 import { FormlyBasicCheckboxComponent } from './demos/basic/checkbox-basic.component';
 import { DemoWrapperComponent } from '../../shared/demo-wrapper.component';
 import { FormlyBasicCheckboxModule } from './demos/basic/checkbox-basic.module';
-import { FormlyMultiCheckboxModule  } from './demos/multi-checkbox/multi-checkbox.module';
+import { FormlyMultiCheckboxModule } from './demos/multi-checkbox/multi-checkbox.module';
 import { FormlyMultiCheckboxComponent } from './demos/multi-checkbox/multi-checkbox.component';
 
 declare var require: any;
@@ -22,14 +22,14 @@ const DEMOS = {
     module: require('!!raw-loader!./demos/basic/checkbox-basic.module'),
     path: 'src/app/formly/checkbox/demos/basic',
   },
-  multi: {
-    title: 'Multiple Checkbox',
-    type: FormlyMultiCheckboxComponent,
-    code: require('!!raw-loader!./demos/multi-checkbox/multi-checkbox.component'),
-    markup: require('!!raw-loader!./demos/multi-checkbox/multi-checkbox.component.html'),
-    module: require('!!raw-loader!./demos/multi-checkbox/multi-checkbox.module'),
-    path: 'src/app/formly/checkbox/demos/multi-checkbox',
-  },
+  // multi: {
+  //   title: 'Multiple Checkbox',
+  //   type: FormlyMultiCheckboxComponent,
+  //   code: require('!!raw-loader!./demos/multi-checkbox/multi-checkbox.component'),
+  //   markup: require('!!raw-loader!./demos/multi-checkbox/multi-checkbox.component.html'),
+  //   module: require('!!raw-loader!./demos/multi-checkbox/multi-checkbox.module'),
+  //   path: 'src/app/formly/checkbox/demos/multi-checkbox',
+  // },
 
 };
 

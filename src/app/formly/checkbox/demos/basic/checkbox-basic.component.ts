@@ -14,7 +14,7 @@ export class FormlyBasicCheckboxComponent {
 
   fields: FormlyFieldConfig[] = [
     {
-      key: 'checkbox',
+      key: 'Status',
       type: 'checkbox',
       templateOptions: {
         label: 'Label for Checkbox',

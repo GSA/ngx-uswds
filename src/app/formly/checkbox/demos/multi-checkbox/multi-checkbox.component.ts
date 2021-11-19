@@ -20,13 +20,26 @@ export class FormlyMultiCheckboxComponent {
         label: 'Label for Multi Checkbox',
         description: 'some description',
         required: true,
-        // selectAll: true,
+
         selectAllLable: "Select All",
         options: [
-          { name: 'Sojourner Truth', control: new FormControl(false) },
-          { name: 'Frederick Douglass', control: new FormControl(false) },
-          { name: 'Booker T. Washington', control: new FormControl(false) },
-          { name: 'George Washington Carver', control: new FormControl(true) },
+          {
+            key: 'vet',
+            value: 'Veteran Owned',
+            checked: true,
+            control: new FormControl(true)
+          },
+          {
+            key: 'women',
+            value: 'Women Owned',
+            control: new FormControl(false)
+
+          },
+          {
+            key: 'minority',
+            value: 'Minority Owned',
+            control: new FormControl(false)
+          }
         ]
       }
     }
