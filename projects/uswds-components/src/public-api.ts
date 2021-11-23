@@ -88,3 +88,6 @@ export * from './lib/radio/radio-group.component';
 // Header
 export * from './lib/header/index';
 
+// Utility
+export * from './lib/util/navigation';
+

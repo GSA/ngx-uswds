@@ -15,18 +15,18 @@ export class UsaAppHeaderComponent implements OnInit {
     {
       text: 'Home',
       id: 'home',
-      route: 'home',
+      path: 'home',
       selected: true,
     },
     {
       text: 'Components',
       id: 'components',
-      route: 'components',
+      path: 'components',
     },
     {
       text: 'Formly',
       id: 'formly',
-      route: 'formly',
+      path: 'formly',
     },
   ];
 
@@ -39,7 +39,7 @@ export class UsaAppHeaderComponent implements OnInit {
     const initRouteSubscription = this.router.events.subscribe(data => {
       if (data instanceof NavigationEnd) {
         const url = data.url.split('/')[1];
-        const selectedNavLink = this.navigationLinks.find(nav => nav.route === url);
+        const selectedNavLink = this.navigationLinks.find(nav => nav.path === url);
         if (selectedNavLink) {
           this.usaHeader.selectNavItem(selectedNavLink);
         } else {
@@ -51,6 +51,6 @@ export class UsaAppHeaderComponent implements OnInit {
   }
 
   onLinkClicked(link: UsaHeaderPrimaryLink) {
-    this.router.navigate([link.route]);
+    this.router.navigate([link.path]);
   }
 }
