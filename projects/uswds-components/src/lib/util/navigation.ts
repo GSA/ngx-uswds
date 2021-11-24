@@ -75,4 +75,7 @@ export interface UsaNavigationLink<T = any> {
 
    /** Additional sub routes for the navigation link */
    children?: T[] & UsaNavigationLink[];
+
+   /** Any additional data to add into the model */
+   [key: string]: any;
 }
