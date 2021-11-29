@@ -69,10 +69,12 @@ export class USWDSFormlyMultiCheckboxComponent
   }
 
   checkAll(ev: boolean) {
-    this.allChecked = true;
 
+    this.allChecked = !this.allChecked;
     if (Array.isArray(this.field.templateOptions.options)) {
       this.formControl.setValue([]);
+
+      this.field.templateOptions.options.forEach(value => value.checked = ev);
       this.field.templateOptions.options.map((option) => {
         this.onChange(option.key, ev);
       });
