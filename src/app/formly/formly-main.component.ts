@@ -28,13 +28,25 @@ export class FormlyMainComponent implements OnInit {
 
   sidenavModel: SidenavModel[] = [
     {
+      labelText: 'Checkbox',
+      href: 'checkbox',
+      id: 4,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'DatePicker',
+      href: 'datepicker',
+      id: 5,
+      mode: NavigationMode.INTERNAL
+    },
+    {
       labelText: 'Input',
       href: 'input',
       id: 1,
       mode: NavigationMode.INTERNAL
     },
     {
-      labelText: 'radio',
+      labelText: 'Radio',
       href: 'radio',
       id: 2,
       mode: NavigationMode.INTERNAL
@@ -44,7 +56,9 @@ export class FormlyMainComponent implements OnInit {
       href: 'search',
       id: 3,
       mode: NavigationMode.INTERNAL
-    }
+    },
+
+
   ];
 
   constructor(
