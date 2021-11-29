@@ -80,7 +80,9 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
     /** Clean Up */
     this.valueSubscription.unsubscribe();
     this.element.nativeElement.removeEventListener('input', this.inputEventHandler);
-    this._inputResizeObserver.unobserve(this.element.nativeElement);
+    if (this._inputResizeObserver) {
+      this._inputResizeObserver.unobserve(this.element.nativeElement);
+    }
   }
 
   /** Gets reference to span element that will be used to display character counter text. If one does not exists, it will be created
@@ -99,7 +101,7 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
     messageElement.style.width = `${this.element.nativeElement.offsetWidth}px`;
     (this.element.nativeElement.parentElement as HTMLElement).insertBefore(messageElement, this.element.nativeElement.nextSibling);
     this._messageElement = messageElement;
-    
+
     return messageElement;
   }
 
@@ -151,7 +153,7 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
       const difference = Math.abs(maxLength - currentLength);
       const characters = `character${difference === 1 ? "" : "s"}`;
       const guidance = isOverLimit ? "over limit" : "left";
-  
+
       return `${difference} ${characters} ${guidance}`;
     }
   }
