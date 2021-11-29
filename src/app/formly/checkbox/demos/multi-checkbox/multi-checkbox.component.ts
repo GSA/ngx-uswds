@@ -19,14 +19,11 @@ export class FormlyMultiCheckboxComponent {
       templateOptions: {
         label: 'Label for Multi Checkbox',
         description: 'some description',
-        required: true,
-
         selectAllLable: "Select All",
         options: [
           {
             key: 'vet',
             value: 'Veteran Owned',
-            checked: true,
             control: new FormControl(true)
           },
           {

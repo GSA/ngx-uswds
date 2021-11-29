@@ -16,7 +16,7 @@ import { AbstractUswdsFormly } from '../uswds-formly';
 
 <ul class="usa-list usa-list--unstyled">
   <li class="margin-left-3">
-    <usa-checkbox *ngFor="let item of to.options" (change)="onChange(item.key, item.checked)" [(ngModel)]="item.checked" >{{item.value}}</usa-checkbox>
+    <usa-checkbox *ngFor="let item of to.options" [tile]="to.tile" (change)="onChange(item.key, item.checked)" [(ngModel)]="item.checked" >{{item.value}}</usa-checkbox>
   </li>
 </ul>
   `,
@@ -73,7 +73,6 @@ export class USWDSFormlyMultiCheckboxComponent
     this.allChecked = !this.allChecked;
     if (Array.isArray(this.field.templateOptions.options)) {
       this.formControl.setValue([]);
-
       this.field.templateOptions.options.forEach(value => value.checked = ev);
       this.field.templateOptions.options.map((option) => {
         this.onChange(option.key, ev);
