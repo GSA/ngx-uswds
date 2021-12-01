@@ -1,0 +1,18 @@
+<h3>Template Prefix</h3>
+<p>
+  In order to apply a prefix to an input element, supply the value to be displayed to the prefix input on input element.
+</p>
+<code>
+  &#60;input class="usa-input" [prefix]=prefix&#62;
+</code>
+<p>The supplied value can be a template reference.</p>
+<input class="usa-input" [prefix]=prefix>
+
+<ng-template #prefix>
+  <!-- TODO: Supply icon rather than text -->
+  <p>$</p>
+</ng-template>
+
+<p>The supplied value can also be a string.</p>
+
+<input class="usa-input" [prefix]="'$'">

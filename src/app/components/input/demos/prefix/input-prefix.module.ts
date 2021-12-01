@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { UsaAffixModule } from "@gsa-sam/ngx-uswds";
-import { InputBasicComponent } from "./input-basic.component";
+import { InputPrefixComponent } from "./input-prefix.component";
 
 
 @NgModule({
@@ -12,10 +12,10 @@ import { InputBasicComponent } from "./input-basic.component";
     UsaAffixModule
   ],
   declarations: [
-    InputBasicComponent
+    InputPrefixComponent
   ],
   exports: [
-    InputBasicComponent
+    InputPrefixComponent
   ]
 })
-export class InputBasicModule { }
+export class InputPrefixModule { }

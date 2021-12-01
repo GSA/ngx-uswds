@@ -3,18 +3,18 @@ import { NgModule } from "@angular/core";
 import { DocumentationComponentsSharedModule, DocumentationDemoList } from '../../shared';
 import { DemoWrapperComponent } from '../../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../../shared/examples-page/examples.component';
-import { InputBasicComponent } from './demos/basic/input-basic.component';
-import { InputBasicModule } from './demos/basic/input-basic.module';
+import { InputPrefixComponent } from './demos/prefix/input-prefix.component';
+import { InputPrefixModule } from './demos/prefix/input-prefix.module';
 declare var require: any;
 
 const DEMOS = {
   basic: {
-    title: 'Basic Input',
-    type: InputBasicComponent,
-    code: require('!!raw-loader!./demos/basic/input-basic.component'),
-    markup: require('!!raw-loader!./demos/basic/input-basic.component.html'),
-    module: require('!!raw-loader!./demos/basic/input-basic.module'),
-    path: 'src/app/input/demos/basic',
+    title: 'Input with prefix',
+    type: InputPrefixComponent,
+    code: require('!!raw-loader!./demos/prefix/input-prefix.component'),
+    markup: require('!!raw-loader!./demos/prefix/input-prefix.component.html'),
+    module: require('!!raw-loader!./demos/prefix/input-prefix.module'),
+    path: 'src/app/input/demos/prefix',
   },
 }
 
@@ -42,7 +42,7 @@ export const ROUTES = [
   imports: [
     CommonModule,
     DocumentationComponentsSharedModule,
-    InputBasicModule
+    InputPrefixModule
   ],
 })
 export class InputModule {
