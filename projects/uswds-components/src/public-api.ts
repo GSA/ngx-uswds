@@ -88,3 +88,5 @@ export * from './lib/radio/radio-group.component';
 // Header
 export * from './lib/header/index';
 
+export * from './lib/input/affix.module'
+export * from './lib/input/affix.directive'
