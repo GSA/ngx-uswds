@@ -16,6 +16,11 @@ export class UsaInputAffixDirective implements AfterViewInit {
 
   ngAfterViewInit(){
 
+    const parent = this.renderer.parentNode(this.el.nativeElement);
+
+    //Need next sibling to ensure generated usa-input-group is inserted into the same place on the page and input is expected to be
+    const nextSibling = this.renderer.nextSibling(this.el.nativeElement);
+
     let prefixElement, suffixElement;
     if(this.prefix){
       prefixElement = this.handleAffix(this.prefix, 'usa-input-prefix')
@@ -30,14 +35,15 @@ export class UsaInputAffixDirective implements AfterViewInit {
     // Apply input class in case only directive was applied
     this.renderer.addClass(this.el.nativeElement, 'usa-input')
 
-
-    const parent = this.renderer.parentNode(this.el.nativeElement);
-
-    this.renderer.appendChild(inputGroupDiv, prefixElement);
+    if(this.prefix){
+      this.renderer.appendChild(inputGroupDiv, prefixElement);
+    }
     this.renderer.appendChild(inputGroupDiv, this.el.nativeElement);
-    this.renderer.appendChild(inputGroupDiv, suffixElement);
+    if(this.suffix){
+      this.renderer.appendChild(inputGroupDiv, suffixElement);
+    }
 
-    this.renderer.appendChild(parent, inputGroupDiv);
+    this.renderer.insertBefore(parent, inputGroupDiv, nextSibling)
 
   }
 
