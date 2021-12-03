@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { UsaNavigationMode, SidenavModel } from "@gsa-sam/ngx-uswds";
+import { SidenavModel, UsaNavigationMode } from "@gsa-sam/ngx-uswds";
 
 
 @Component({
@@ -28,13 +28,25 @@ export class FormlyMainComponent implements OnInit {
 
   sidenavModel: SidenavModel[] = [
     {
+      text: 'Checkbox',
+      path: 'checkbox',
+      id: '4',
+      mode: UsaNavigationMode.INTERNAL
+    },
+    {
+      text: 'DatePicker',
+      path: 'datepicker',
+      id: '5',
+      mode: UsaNavigationMode.INTERNAL
+    },
+    {
       text: 'Input',
       path: 'input',
       id: '1',
       mode: UsaNavigationMode.INTERNAL
     },
     {
-      text: 'radio',
+      text: 'Radio',
       path: 'radio',
       id: '2',
       mode: UsaNavigationMode.INTERNAL
@@ -44,7 +56,8 @@ export class FormlyMainComponent implements OnInit {
       path: 'search',
       id: '3',
       mode: UsaNavigationMode.INTERNAL
-    }
+    },
+
   ];
 
   constructor(
