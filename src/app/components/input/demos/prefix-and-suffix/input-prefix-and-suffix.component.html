@@ -4,17 +4,20 @@
 </p>
 <p>The supplied value can be a template reference.</p>
 <code>
-  &#60;input class="usa-input" [prefix]=prefix&#62;
+  &#60;input class="usa-input" [prefix]=prefix [suffix]=suffix&#62;
 </code>
-<input class="usa-input" [prefix]=prefix>
+<input class="usa-input" [prefix]=prefix [suffix]=suffix>
 
 <ng-template #prefix>
   <img aria-hidden="true" focusable="false" src="assets/image/credit_card.svg">
 </ng-template>
+<ng-template #suffix>
+  <img aria-hidden="true" focusable="false" src="assets/image/close.svg" style="width: 2rem; height: 2rem;">
+</ng-template>
 
 <p>The supplied value can also be a string.</p>
 <code>
-  &#60;input class="usa-input" [prefix]="'$'"&#62;
+  &#60;input class="usa-input" [prefix]="'$'" [suffix]="'lbs.'"&#62;
 </code>
 
-<input class="usa-input" [prefix]="'$'">
+<input class="usa-input" [prefix]="'$'" [suffix]="'lbs.'">
