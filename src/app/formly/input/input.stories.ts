@@ -5,37 +5,37 @@ import { FormlyFieldConfig, FormlyModule } from "@ngx-formly/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UsaSearchModule } from "@gsa-sam/ngx-uswds";
 
+
 function getArgs(args) {
   return       { 
     model: args.model,
     fields: args.fields,
+    form: args.form,
+    options: args.options,
   }
 }
 
 
-const model: any = {search: ''};
+const model: any = {input: ''};
 
 const fields: FormlyFieldConfig[] = [
   {
-    key: 'search',
-    type: 'search',
+    key: 'input',
+    type: 'input',
     templateOptions: {
-      placeholder: 'Search',
-      label: 'Keyword Search',
-      ariaLabel: 'Search Input',
-      id: 'usa-search-demo',
-      size: 'small',
-      buttonText: 'Search',
-      name: 'search'
+      label: 'Formly Input',
+      description: 'Input field defined through formly',
+      required: true
     },
-  }];
-
+  }
+];
 
 const template = `
   <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
 `
+
 export default {
-  title: 'Formly/Search',
+  title: 'Formly/Input',
   decorators: [
     moduleMetadata({
       imports: [CommonModule, UsaFormlyModule, FormlyModule.forRoot(), ReactiveFormsModule, UsaSearchModule, FormsModule],
@@ -47,7 +47,7 @@ export default {
   },
 } as Meta;
 
-export const SearchBasic = (args) => ({
+export const InputBasic = (args) => ({
   template: template,
   props: getArgs(args),
 });

@@ -17972,6 +17972,84 @@
             "templateData": "<main class=\"padding-3\">\n  <div class=\"grid-container height-card text-center\">\n    <h2>Ngx USWDS - Home</h2>\n  </div>\n</main>\n"
         },
         {
+            "name": "InputSBWrapperComponent",
+            "id": "component-InputSBWrapperComponent-8282941b15f00ef121127f7408aae325a158eafb0369122db0083e310e5bcb8a41f3f16b19e3b4b28b146bff0614e24397b49074e164aeb5412a75055a6831bb",
+            "file": "src/app/formly/input/input.stories.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "input-sb-wrapper",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<formly-form [model]=\"model\" [fields]=\"fields\" [options]=\"options\" [form]=\"form\"></formly-form>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "fields",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 17,
+                    "type": "FormlyFieldConfig",
+                    "decorators": []
+                },
+                {
+                    "name": "form",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 19,
+                    "type": "any",
+                    "decorators": []
+                },
+                {
+                    "name": "model",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 18,
+                    "type": "any",
+                    "decorators": []
+                },
+                {
+                    "name": "options",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 20,
+                    "type": "FormlyFormOptions",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 22,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Meta, moduleMetadata } from \"@storybook/angular\";\nimport { CommonModule } from \"@angular/common\";\nimport { UsaFormlyModule } from \"@gsa-sam/uswds-formly\";\nimport { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from \"@ngx-formly/core\";\nimport { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from \"@angular/forms\";\nimport { UsaSearchModule } from \"@gsa-sam/ngx-uswds\";\nimport { Component, Input, OnInit } from \"@angular/core\";\n\n\n@Component({\n  selector: `input-sb-wrapper`,\n  template: `\n    <formly-form [model]=\"model\" [fields]=\"fields\" [options]=\"options\" [form]=\"form\"></formly-form>\n  `\n})\nclass InputSBWrapperComponent implements OnInit {\n  @Input() fields: FormlyFieldConfig;\n  @Input() model: any;\n  @Input() form: any;\n  @Input() options: FormlyFormOptions;\n\n  ngOnInit() {\n    if (!this.form) return;\n\n    const controlsRef = {...this.form};\n    this.form = new FormGroup({});\n    Object.keys(controlsRef).forEach(key => {\n      this.form.addControl(key, controlsRef[key]);\n    });\n\n    this.model = this.form.value;\n  }\n}\n\nfunction getArgs(args) {\n  return       { \n    model: args.model,\n    fields: args.fields,\n    form: args.form\n  }\n}\n\n\nconst model: any = {input: ''};\n\nconst fields: FormlyFieldConfig[] = [\n  {\n    key: 'input',\n    type: 'input',\n    templateOptions: {\n      label: 'Formly Input',\n      description: 'Input field defined through formly',\n      required: true\n    },\n  }\n];\n\n\nexport default {\n  title: 'Formly/Input',\n  component: InputSBWrapperComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [CommonModule, UsaFormlyModule, FormlyModule.forRoot(), ReactiveFormsModule, UsaSearchModule, FormsModule],\n    }),\n  ],\n  args: {\n    model,\n    fields,\n    form: {\n      'input': new FormControl('Formly Input')\n    }\n  },\n} as Meta;\n\nexport const SearchBasic = (args) => ({\n  props: getArgs(args),\n});\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "implements": [
+                "OnInit"
+            ]
+        },
+        {
             "name": "ModalBasicComponent",
             "id": "component-ModalBasicComponent-dd3be4710d74ebea56fa03f9f187d4dbcf18317cf474c5c63952769e731eeb2d993326930df7350b07edfa9e9261523fbcb45bfa7a4b6a515b27e8767e30bbec",
             "file": "src/app/components/modal/demos/basic/modal-basic.component.ts",
@@ -39529,11 +39607,31 @@
                 "name": "DEMOS",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/character-count/character-count.module.ts",
+                "file": "src/app/formly/input/input.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
-                "defaultValue": "{\n  basic: {\n    title: 'Basic Character Counter',\n    type: CharacterCountBasicComponent,\n    code: require('!!raw-loader!./demos/basic/character-count-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/character-count-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/character-count-basic.module'),\n    path: 'src/app/character-count/demos/basic',\n  },\n  footer: {\n    title: 'Character Counter Footer',\n    type: CharacterCountFooterComponent,\n    code: require('!!raw-loader!./demos/footer/character-count-footer.component'),\n    markup: require('!!raw-loader!./demos/footer/character-count-footer.component.html'),\n    module: require('!!raw-loader!./demos/footer/character-count-footer.module'),\n    path: 'src/app/character-count/demos/footer',\n  },\n}"
+                "defaultValue": "{\n  basic: {\n    title: 'Basic Input',\n    type: FormlyBasicInputComponent,\n    code: require('!!raw-loader!./demos/basic/input-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/input-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/input-basic.module'),\n    path: 'src/app/formly/input/demos/basic',\n  },\n\n}"
+            },
+            {
+                "name": "DEMOS",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/radio.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n    basic: {\n        title: 'Basic Radio',\n        type: FormlyBasicRadioComponent,\n        code: require('!!raw-loader!./demos/basic/radio-basic.component'),\n        markup: require('!!raw-loader!./demos/basic/radio-basic.component.html'),\n        module: require('!!raw-loader!./demos/basic/radio-basic.module'),\n        path: 'src/app/formly/radio/demos/basic',\n    },\n\n}"
+            },
+            {
+                "name": "DEMOS",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/search.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  basic: {\n    title: 'Basic Search',\n    type: FormlyBasicSearchComponent,\n    code: require('!!raw-loader!./demos/basic/search-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/search-basic.module'),\n    path: 'src/app/formly/search/demos/basic',\n  },\n\n}"
             },
             {
                 "name": "DEMOS",
@@ -39544,6 +39642,16 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  basic: {\n    title: 'Basic Checkbox',\n    type: CheckboxBasicComponent,\n    code: require('!!raw-loader!./demos/basic/checkbox-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/checkbox-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/checkbox-basic.module'),\n    path: 'src/app/checkbox/demos/basic',\n  },\n  forms: {\n    title: 'Checkbox Forms',\n    type: CheckboxFormsComponent,\n    code: require('!!raw-loader!./demos/checkbox-forms/checkbox-forms.component'),\n    markup: require('!!raw-loader!./demos/checkbox-forms/checkbox-forms.component.html'),\n    module: require('!!raw-loader!./demos/checkbox-forms/checkbox-forms.module'),\n    path: 'src/app/checkbox/demos/checkbox-forms',\n  },\n  indeterminate: {\n    title: 'Indeterminate Checkbox',\n    type: CheckboxIndeterminateComponent,\n    code: require('!!raw-loader!./demos/checkbox-indeterminate/checkbox-indeterminate.component'),\n    markup: require('!!raw-loader!./demos/checkbox-indeterminate/checkbox-indeterminate.component.html'),\n    module: require('!!raw-loader!./demos/checkbox-indeterminate/checkbox-indeterminate.module'),\n    path: 'src/app/checkbox/demos/checkbox-indeterminate',\n  },\n  footer: {\n    title: 'General Accessibility',\n    type: CheckboxFooterComponent,\n    code: require('!!raw-loader!./demos/footer/checkbox-footer.component'),\n    markup: require('!!raw-loader!./demos/footer/checkbox-footer.component.html'),\n    module: require('!!raw-loader!./demos/footer/checkbox-footer.module'),\n    path: 'src/app/checkbox/demos/footer',\n  }\n}"
+            },
+            {
+                "name": "DEMOS",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/character-count/character-count.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  basic: {\n    title: 'Basic Character Counter',\n    type: CharacterCountBasicComponent,\n    code: require('!!raw-loader!./demos/basic/character-count-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/character-count-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/character-count-basic.module'),\n    path: 'src/app/character-count/demos/basic',\n  },\n  footer: {\n    title: 'Character Counter Footer',\n    type: CharacterCountFooterComponent,\n    code: require('!!raw-loader!./demos/footer/character-count-footer.component'),\n    markup: require('!!raw-loader!./demos/footer/character-count-footer.component.html'),\n    module: require('!!raw-loader!./demos/footer/character-count-footer.module'),\n    path: 'src/app/character-count/demos/footer',\n  },\n}"
             },
             {
                 "name": "DEMOS",
@@ -39589,6 +39697,16 @@
                 "name": "DEMOS",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/search/search.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  basic: {\n    title: 'Basic search',\n    type: SearchBasicComponent,\n    code: require('!!raw-loader!./demos/basic/search-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/search-basic.module'),\n    path: 'src/app/search/demos/basic',\n  },\n  optional: {\n    title: 'Search Optional ',\n    type: SearchOptionalComponent,\n    code: require('!!raw-loader!./demos/optional/search-optional.component'),\n    markup: require('!!raw-loader!./demos/optional/search-optional.component.html'),\n    module: require('!!raw-loader!./demos/optional/search-optional.module'),\n    path: 'src/app/search/demos/optional',\n  },\n  customButtonText: {\n    title: 'Custom Button Text ',\n    type: SearchCustomButtonTextComponent,\n    code: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component'),\n    markup: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component.html'),\n    module: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.module'),\n    path: 'src/app/search/demos/custom-button-text',\n  },\n  onchange: {\n    title: 'Search text change event and OnBlur ',\n    type: SearchOnChangeComponent,\n    code: require('!!raw-loader!./demos/onchange/search-onchange.component'),\n    markup: require('!!raw-loader!./demos/onchange/search-onchange.component.html'),\n    module: require('!!raw-loader!./demos/onchange/search-onchange.module'),\n    path: 'src/app/search/demos/onchange',\n  },\n\n}"
+            },
+            {
+                "name": "DEMOS",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/radio/radio.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -39599,11 +39717,11 @@
                 "name": "DEMOS",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.module.ts",
+                "file": "src/app/components/tooltip/tooltip.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
-                "defaultValue": "{\n  basic: {\n    title: 'Basic search',\n    type: SearchBasicComponent,\n    code: require('!!raw-loader!./demos/basic/search-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/search-basic.module'),\n    path: 'src/app/search/demos/basic',\n  },\n  optional: {\n    title: 'Search Optional ',\n    type: SearchOptionalComponent,\n    code: require('!!raw-loader!./demos/optional/search-optional.component'),\n    markup: require('!!raw-loader!./demos/optional/search-optional.component.html'),\n    module: require('!!raw-loader!./demos/optional/search-optional.module'),\n    path: 'src/app/search/demos/optional',\n  },\n  customButtonText: {\n    title: 'Custom Button Text ',\n    type: SearchCustomButtonTextComponent,\n    code: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component'),\n    markup: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component.html'),\n    module: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.module'),\n    path: 'src/app/search/demos/custom-button-text',\n  },\n  onchange: {\n    title: 'Search text change event and OnBlur ',\n    type: SearchOnChangeComponent,\n    code: require('!!raw-loader!./demos/onchange/search-onchange.component'),\n    markup: require('!!raw-loader!./demos/onchange/search-onchange.component.html'),\n    module: require('!!raw-loader!./demos/onchange/search-onchange.module'),\n    path: 'src/app/search/demos/onchange',\n  },\n\n}"
+                "defaultValue": "{\n  basic: {\n    title: 'Basic Tooltip',\n    type: TooltipComponent,\n    code: require('!!raw-loader!./tooltip.component'),\n    markup: require('!!raw-loader!./tooltip.component.html'),\n    module: require('!!raw-loader!./tooltip.module'),\n    path: 'src/app/tooltip',\n  },\n}"
             },
             {
                 "name": "DEMOS",
@@ -39624,46 +39742,6 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  basic: {\n    title: 'Basic Table',\n    type: TableBasicComponent,\n    code: require('!!raw-loader!./demos/basic/table-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/table-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/table-basic.module'),\n    path: 'src/app/table/demos/basic',\n  },\n  multiHeader: {\n    title: 'Multiple Headers Table',\n    type: MultiHeaderComponent,\n    code: require('!!raw-loader!./demos/multi-header/multi-header.component'),\n    markup: require('!!raw-loader!./demos/multi-header/multi-header.component.html'),\n    module: require('!!raw-loader!./demos/multi-header/multi-header.module'),\n    path: 'src/app/table/demos/multi-header',\n  },\n  sortableTable: {\n    title: 'Sortable Table',\n    type: SortableTableComponent,\n    code: require('!!raw-loader!./demos/sortable-table/sortable-table.component'),\n    markup: require('!!raw-loader!./demos/sortable-table/sortable-table.component.html'),\n    module: require('!!raw-loader!./demos/sortable-table/sortable-table.module'),\n    path: 'src/app/table/demos/sortable-table',\n  },\n  dynamicTble: {\n    title: 'Dynamic Table',\n    type: DynamicTableComponent,\n    code: require('!!raw-loader!./demos/dynamic-table/dynamic-table.component'),\n    markup: require('!!raw-loader!./demos/dynamic-table/dynamic-table.component.html'),\n    module: require('!!raw-loader!./demos/dynamic-table/dynamic-table.module'),\n    path: 'src/app/table/demos/dynamic-table',\n  },\n  footer: {\n    title: '',\n    type: TableFooterComponent,\n    code: require('!!raw-loader!./demos/table-footer/table-footer.component'),\n    markup: require('!!raw-loader!./demos/table-footer/table-footer.component.html'),\n    module: require('!!raw-loader!./demos/table-footer/table-footer.module'),\n    path: 'src/app/table/demos/table-footer',\n  },\n}"
-            },
-            {
-                "name": "DEMOS",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/tooltip/tooltip.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  basic: {\n    title: 'Basic Tooltip',\n    type: TooltipComponent,\n    code: require('!!raw-loader!./tooltip.component'),\n    markup: require('!!raw-loader!./tooltip.component.html'),\n    module: require('!!raw-loader!./tooltip.module'),\n    path: 'src/app/tooltip',\n  },\n}"
-            },
-            {
-                "name": "DEMOS",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/input.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  basic: {\n    title: 'Basic Input',\n    type: FormlyBasicInputComponent,\n    code: require('!!raw-loader!./demos/basic/input-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/input-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/input-basic.module'),\n    path: 'src/app/formly/input/demos/basic',\n  },\n\n}"
-            },
-            {
-                "name": "DEMOS",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/radio.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n    basic: {\n        title: 'Basic Radio',\n        type: FormlyBasicRadioComponent,\n        code: require('!!raw-loader!./demos/basic/radio-basic.component'),\n        markup: require('!!raw-loader!./demos/basic/radio-basic.component.html'),\n        module: require('!!raw-loader!./demos/basic/radio-basic.module'),\n        path: 'src/app/formly/radio/demos/basic',\n    },\n\n}"
-            },
-            {
-                "name": "DEMOS",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/search.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  basic: {\n    title: 'Basic Search',\n    type: FormlyBasicSearchComponent,\n    code: require('!!raw-loader!./demos/basic/search-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/search-basic.module'),\n    path: 'src/app/formly/search/demos/basic',\n  },\n\n}"
             },
             {
                 "name": "environment",
@@ -39694,6 +39772,16 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  transitionTimerDelayMs: 5,\n}"
+            },
+            {
+                "name": "fields",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "FormlyFieldConfig[]",
+                "defaultValue": "[\n  {\n    key: 'input',\n    type: 'input',\n    templateOptions: {\n      label: 'Formly Input',\n      description: 'Input field defined through formly',\n      required: true\n    },\n  }\n]"
             },
             {
                 "name": "fields",
@@ -39731,6 +39819,16 @@
                 "name": "model",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/formly/input/input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any",
+                "defaultValue": "{input: ''}"
+            },
+            {
+                "name": "model",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/formly/search/search-formly.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -39761,16 +39859,6 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "number",
-                "defaultValue": "0"
-            },
-            {
-                "name": "nextId",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "projects/uswds-components/src/lib/modal/modal-window.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -39781,7 +39869,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
+                "file": "projects/uswds-components/src/lib/search/search.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -39791,7 +39879,17 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/search/search.component.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "number",
+                "defaultValue": "0"
+            },
+            {
+                "name": "nextId",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -39848,6 +39946,33 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/formly/input/input.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/radio.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/search.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -39857,7 +39982,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/character-count/character-count.module.ts",
+                "file": "src/app/components/checkbox/checkbox.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -39866,7 +39991,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.module.ts",
+                "file": "src/app/components/character-count/character-count.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -39920,6 +40045,15 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/search/search.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/radio/radio.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -39929,7 +40063,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.module.ts",
+                "file": "src/app/components/tooltip/tooltip.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -39962,42 +40096,6 @@
                 "type": "any"
             },
             {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/tooltip/tooltip.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/input.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/radio.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/search.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
                 "name": "ResizeObserver",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -40010,11 +40108,31 @@
                 "name": "ROUTES",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/character-count/character-count.module.ts",
+                "file": "src/app/formly/input/input.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "[]",
-                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaCharacterCountModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'formly',\n          name: 'UsaFormlyModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+            },
+            {
+                "name": "ROUTES",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/radio.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "[]",
+                "defaultValue": "[\n    { path: '', pathMatch: 'full', redirectTo: 'examples' },\n    {\n        path: '',\n        component: DemoWrapperComponent,\n        data: {\n            items: [\n                {\n                    pkg: 'usa',\n                    type: 'formly',\n                    name: 'UsaFormlyModule',\n                },\n            ],\n        },\n        children: [\n            { path: 'examples', component: DocumentationExamplesPage },\n        ],\n    },\n]"
+            },
+            {
+                "name": "ROUTES",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/search.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "[]",
+                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'formly',\n          name: 'UsaFormlyModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
             },
             {
                 "name": "ROUTES",
@@ -40025,6 +40143,16 @@
                 "deprecationMessage": "",
                 "type": "[]",
                 "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaCheckboxModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+            },
+            {
+                "name": "ROUTES",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/character-count/character-count.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "[]",
+                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaCharacterCountModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
             },
             {
                 "name": "ROUTES",
@@ -40070,6 +40198,16 @@
                 "name": "ROUTES",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/search/search.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "[]",
+                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaSearchModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+            },
+            {
+                "name": "ROUTES",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/radio/radio.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -40080,11 +40218,11 @@
                 "name": "ROUTES",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.module.ts",
+                "file": "src/app/components/tooltip/tooltip.module.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "[]",
-                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaSearchModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaTooltipModules',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
             },
             {
                 "name": "ROUTES",
@@ -40107,46 +40245,6 @@
                 "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaTableModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
             },
             {
-                "name": "ROUTES",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/tooltip/tooltip.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "[]",
-                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaTooltipModules',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
-            },
-            {
-                "name": "ROUTES",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/input.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "[]",
-                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'formly',\n          name: 'UsaFormlyModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
-            },
-            {
-                "name": "ROUTES",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/radio.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "[]",
-                "defaultValue": "[\n    { path: '', pathMatch: 'full', redirectTo: 'examples' },\n    {\n        path: '',\n        component: DemoWrapperComponent,\n        data: {\n            items: [\n                {\n                    pkg: 'usa',\n                    type: 'formly',\n                    name: 'UsaFormlyModule',\n                },\n            ],\n        },\n        children: [\n            { path: 'examples', component: DocumentationExamplesPage },\n        ],\n    },\n]"
-            },
-            {
-                "name": "ROUTES",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/search.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "[]",
-                "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'formly',\n          name: 'UsaFormlyModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
-            },
-            {
                 "name": "runningTransitions",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -40155,6 +40253,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "new Map<HTMLElement, UsaTransitionCtx<any>>()"
+            },
+            {
+                "name": "SearchBasic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  props: getArgs(args),\n})"
             },
             {
                 "name": "SearchBasic",
@@ -40200,21 +40308,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-template.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/search/search-formly.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "`\n  <formly-form [model]=\"model\" [fields]=\"fields\" [options]=\"options\" [form]=\"form\"></formly-form>\n`"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-template.html')"
             },
             {
                 "name": "uniqueId",
@@ -40904,7 +41012,7 @@
             },
             {
                 "name": "getArgs",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "file": "src/app/formly/input/input.stories.ts",
                 "ctype": "miscellaneous",
                 "subtype": "function",
                 "deprecated": false,
@@ -40933,6 +41041,34 @@
             {
                 "name": "getArgs",
                 "file": "src/app/formly/search/search-formly.stories.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "args",
+                        "type": "",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "args",
+                        "type": "",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "getArgs",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
                 "ctype": "miscellaneous",
                 "subtype": "function",
                 "deprecated": false,
@@ -43038,22 +43174,22 @@
                     "defaultValue": "7"
                 }
             ],
-            "src/app/components/character-count/character-count.module.ts": [
+            "src/app/formly/input/input.module.ts": [
                 {
                     "name": "DEMOS",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.module.ts",
+                    "file": "src/app/formly/input/input.module.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
-                    "defaultValue": "{\n  basic: {\n    title: 'Basic Character Counter',\n    type: CharacterCountBasicComponent,\n    code: require('!!raw-loader!./demos/basic/character-count-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/character-count-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/character-count-basic.module'),\n    path: 'src/app/character-count/demos/basic',\n  },\n  footer: {\n    title: 'Character Counter Footer',\n    type: CharacterCountFooterComponent,\n    code: require('!!raw-loader!./demos/footer/character-count-footer.component'),\n    markup: require('!!raw-loader!./demos/footer/character-count-footer.component.html'),\n    module: require('!!raw-loader!./demos/footer/character-count-footer.module'),\n    path: 'src/app/character-count/demos/footer',\n  },\n}"
+                    "defaultValue": "{\n  basic: {\n    title: 'Basic Input',\n    type: FormlyBasicInputComponent,\n    code: require('!!raw-loader!./demos/basic/input-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/input-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/input-basic.module'),\n    path: 'src/app/formly/input/demos/basic',\n  },\n\n}"
                 },
                 {
                     "name": "require",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.module.ts",
+                    "file": "src/app/formly/input/input.module.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "any"
@@ -43062,11 +43198,73 @@
                     "name": "ROUTES",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.module.ts",
+                    "file": "src/app/formly/input/input.module.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "[]",
-                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaCharacterCountModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'formly',\n          name: 'UsaFormlyModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+                }
+            ],
+            "src/app/formly/radio/radio.module.ts": [
+                {
+                    "name": "DEMOS",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/radio.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n    basic: {\n        title: 'Basic Radio',\n        type: FormlyBasicRadioComponent,\n        code: require('!!raw-loader!./demos/basic/radio-basic.component'),\n        markup: require('!!raw-loader!./demos/basic/radio-basic.component.html'),\n        module: require('!!raw-loader!./demos/basic/radio-basic.module'),\n        path: 'src/app/formly/radio/demos/basic',\n    },\n\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/radio.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any"
+                },
+                {
+                    "name": "ROUTES",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/radio.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "defaultValue": "[\n    { path: '', pathMatch: 'full', redirectTo: 'examples' },\n    {\n        path: '',\n        component: DemoWrapperComponent,\n        data: {\n            items: [\n                {\n                    pkg: 'usa',\n                    type: 'formly',\n                    name: 'UsaFormlyModule',\n                },\n            ],\n        },\n        children: [\n            { path: 'examples', component: DocumentationExamplesPage },\n        ],\n    },\n]"
+                }
+            ],
+            "src/app/formly/search/search.module.ts": [
+                {
+                    "name": "DEMOS",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/search.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  basic: {\n    title: 'Basic Search',\n    type: FormlyBasicSearchComponent,\n    code: require('!!raw-loader!./demos/basic/search-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/search-basic.module'),\n    path: 'src/app/formly/search/demos/basic',\n  },\n\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/search.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any"
+                },
+                {
+                    "name": "ROUTES",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/search.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'formly',\n          name: 'UsaFormlyModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
                 }
             ],
             "src/app/components/checkbox/checkbox.module.ts": [
@@ -43098,6 +43296,37 @@
                     "deprecationMessage": "",
                     "type": "[]",
                     "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaCheckboxModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+                }
+            ],
+            "src/app/components/character-count/character-count.module.ts": [
+                {
+                    "name": "DEMOS",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  basic: {\n    title: 'Basic Character Counter',\n    type: CharacterCountBasicComponent,\n    code: require('!!raw-loader!./demos/basic/character-count-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/character-count-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/character-count-basic.module'),\n    path: 'src/app/character-count/demos/basic',\n  },\n  footer: {\n    title: 'Character Counter Footer',\n    type: CharacterCountFooterComponent,\n    code: require('!!raw-loader!./demos/footer/character-count-footer.component'),\n    markup: require('!!raw-loader!./demos/footer/character-count-footer.component.html'),\n    module: require('!!raw-loader!./demos/footer/character-count-footer.module'),\n    path: 'src/app/character-count/demos/footer',\n  },\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any"
+                },
+                {
+                    "name": "ROUTES",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaCharacterCountModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
                 }
             ],
             "src/app/components/datepicker/datepicker.module.ts": [
@@ -43224,6 +43453,37 @@
                     "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaModalModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
                 }
             ],
+            "src/app/components/search/search.module.ts": [
+                {
+                    "name": "DEMOS",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  basic: {\n    title: 'Basic search',\n    type: SearchBasicComponent,\n    code: require('!!raw-loader!./demos/basic/search-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/search-basic.module'),\n    path: 'src/app/search/demos/basic',\n  },\n  optional: {\n    title: 'Search Optional ',\n    type: SearchOptionalComponent,\n    code: require('!!raw-loader!./demos/optional/search-optional.component'),\n    markup: require('!!raw-loader!./demos/optional/search-optional.component.html'),\n    module: require('!!raw-loader!./demos/optional/search-optional.module'),\n    path: 'src/app/search/demos/optional',\n  },\n  customButtonText: {\n    title: 'Custom Button Text ',\n    type: SearchCustomButtonTextComponent,\n    code: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component'),\n    markup: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component.html'),\n    module: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.module'),\n    path: 'src/app/search/demos/custom-button-text',\n  },\n  onchange: {\n    title: 'Search text change event and OnBlur ',\n    type: SearchOnChangeComponent,\n    code: require('!!raw-loader!./demos/onchange/search-onchange.component'),\n    markup: require('!!raw-loader!./demos/onchange/search-onchange.component.html'),\n    module: require('!!raw-loader!./demos/onchange/search-onchange.module'),\n    path: 'src/app/search/demos/onchange',\n  },\n\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any"
+                },
+                {
+                    "name": "ROUTES",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaSearchModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+                }
+            ],
             "src/app/components/radio/radio.module.ts": [
                 {
                     "name": "DEMOS",
@@ -43255,22 +43515,22 @@
                     "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaRadioModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
                 }
             ],
-            "src/app/components/search/search.module.ts": [
+            "src/app/components/tooltip/tooltip.module.ts": [
                 {
                     "name": "DEMOS",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/search/search.module.ts",
+                    "file": "src/app/components/tooltip/tooltip.module.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
-                    "defaultValue": "{\n  basic: {\n    title: 'Basic search',\n    type: SearchBasicComponent,\n    code: require('!!raw-loader!./demos/basic/search-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/search-basic.module'),\n    path: 'src/app/search/demos/basic',\n  },\n  optional: {\n    title: 'Search Optional ',\n    type: SearchOptionalComponent,\n    code: require('!!raw-loader!./demos/optional/search-optional.component'),\n    markup: require('!!raw-loader!./demos/optional/search-optional.component.html'),\n    module: require('!!raw-loader!./demos/optional/search-optional.module'),\n    path: 'src/app/search/demos/optional',\n  },\n  customButtonText: {\n    title: 'Custom Button Text ',\n    type: SearchCustomButtonTextComponent,\n    code: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component'),\n    markup: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component.html'),\n    module: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.module'),\n    path: 'src/app/search/demos/custom-button-text',\n  },\n  onchange: {\n    title: 'Search text change event and OnBlur ',\n    type: SearchOnChangeComponent,\n    code: require('!!raw-loader!./demos/onchange/search-onchange.component'),\n    markup: require('!!raw-loader!./demos/onchange/search-onchange.component.html'),\n    module: require('!!raw-loader!./demos/onchange/search-onchange.module'),\n    path: 'src/app/search/demos/onchange',\n  },\n\n}"
+                    "defaultValue": "{\n  basic: {\n    title: 'Basic Tooltip',\n    type: TooltipComponent,\n    code: require('!!raw-loader!./tooltip.component'),\n    markup: require('!!raw-loader!./tooltip.component.html'),\n    module: require('!!raw-loader!./tooltip.module'),\n    path: 'src/app/tooltip',\n  },\n}"
                 },
                 {
                     "name": "require",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/search/search.module.ts",
+                    "file": "src/app/components/tooltip/tooltip.module.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "any"
@@ -43279,11 +43539,11 @@
                     "name": "ROUTES",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/search/search.module.ts",
+                    "file": "src/app/components/tooltip/tooltip.module.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "[]",
-                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaSearchModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
+                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaTooltipModules',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
                 }
             ],
             "src/app/components/side-navigation/side-navigation.module.ts": [
@@ -43348,130 +43608,6 @@
                     "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaTableModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
                 }
             ],
-            "src/app/components/tooltip/tooltip.module.ts": [
-                {
-                    "name": "DEMOS",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/tooltip/tooltip.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  basic: {\n    title: 'Basic Tooltip',\n    type: TooltipComponent,\n    code: require('!!raw-loader!./tooltip.component'),\n    markup: require('!!raw-loader!./tooltip.component.html'),\n    module: require('!!raw-loader!./tooltip.module'),\n    path: 'src/app/tooltip',\n  },\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/tooltip/tooltip.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "any"
-                },
-                {
-                    "name": "ROUTES",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/tooltip/tooltip.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "[]",
-                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'components',\n          name: 'UsaTooltipModules',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
-                }
-            ],
-            "src/app/formly/input/input.module.ts": [
-                {
-                    "name": "DEMOS",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/input.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  basic: {\n    title: 'Basic Input',\n    type: FormlyBasicInputComponent,\n    code: require('!!raw-loader!./demos/basic/input-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/input-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/input-basic.module'),\n    path: 'src/app/formly/input/demos/basic',\n  },\n\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/input.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "any"
-                },
-                {
-                    "name": "ROUTES",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/input.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "[]",
-                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'formly',\n          name: 'UsaFormlyModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
-                }
-            ],
-            "src/app/formly/radio/radio.module.ts": [
-                {
-                    "name": "DEMOS",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/radio.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n    basic: {\n        title: 'Basic Radio',\n        type: FormlyBasicRadioComponent,\n        code: require('!!raw-loader!./demos/basic/radio-basic.component'),\n        markup: require('!!raw-loader!./demos/basic/radio-basic.component.html'),\n        module: require('!!raw-loader!./demos/basic/radio-basic.module'),\n        path: 'src/app/formly/radio/demos/basic',\n    },\n\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/radio.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "any"
-                },
-                {
-                    "name": "ROUTES",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/radio.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "[]",
-                    "defaultValue": "[\n    { path: '', pathMatch: 'full', redirectTo: 'examples' },\n    {\n        path: '',\n        component: DemoWrapperComponent,\n        data: {\n            items: [\n                {\n                    pkg: 'usa',\n                    type: 'formly',\n                    name: 'UsaFormlyModule',\n                },\n            ],\n        },\n        children: [\n            { path: 'examples', component: DocumentationExamplesPage },\n        ],\n    },\n]"
-                }
-            ],
-            "src/app/formly/search/search.module.ts": [
-                {
-                    "name": "DEMOS",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/search.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  basic: {\n    title: 'Basic Search',\n    type: FormlyBasicSearchComponent,\n    code: require('!!raw-loader!./demos/basic/search-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/search-basic.module'),\n    path: 'src/app/formly/search/demos/basic',\n  },\n\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/search.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "any"
-                },
-                {
-                    "name": "ROUTES",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/search.module.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "[]",
-                    "defaultValue": "[\n  { path: '', pathMatch: 'full', redirectTo: 'examples' },\n  {\n    path: '',\n    component: DemoWrapperComponent,\n    data: {\n      items: [\n        {\n          pkg: 'usa',\n          type: 'formly',\n          name: 'UsaFormlyModule',\n        },\n      ],\n    },\n    children: [\n      { path: 'examples', component: DocumentationExamplesPage },\n    ],\n  },\n]"
-                }
-            ],
             "src/environments/environment.prod.ts": [
                 {
                     "name": "environment",
@@ -43506,6 +43642,38 @@
                     "deprecationMessage": "",
                     "type": "object",
                     "defaultValue": "{\n  transitionTimerDelayMs: 5,\n}"
+                }
+            ],
+            "src/app/formly/input/input.stories.ts": [
+                {
+                    "name": "fields",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "FormlyFieldConfig[]",
+                    "defaultValue": "[\n  {\n    key: 'input',\n    type: 'input',\n    templateOptions: {\n      label: 'Formly Input',\n      description: 'Input field defined through formly',\n      required: true\n    },\n  }\n]"
+                },
+                {
+                    "name": "model",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "defaultValue": "{input: ''}"
+                },
+                {
+                    "name": "SearchBasic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  props: getArgs(args),\n})"
                 }
             ],
             "src/app/formly/search/search-formly.stories.ts": [
@@ -43621,18 +43789,6 @@
                     "type": ""
                 }
             ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                }
-            ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
                 {
                     "name": "nextId",
@@ -43645,24 +43801,36 @@
                     "defaultValue": "0"
                 }
             ],
-            "projects/uswds-components/src/lib/radio/radio.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                }
-            ],
             "projects/uswds-components/src/lib/search/search.component.ts": [
                 {
                     "name": "nextId",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-components/src/lib/search/search.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                }
+            ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                }
+            ],
+            "projects/uswds-components/src/lib/radio/radio.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "number",
@@ -45220,10 +45388,10 @@
                     ]
                 }
             ],
-            "src/app/components/step-indicator/step-indicator.stories.ts": [
+            "src/app/formly/input/input.stories.ts": [
                 {
                     "name": "getArgs",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "file": "src/app/formly/input/input.stories.ts",
                     "ctype": "miscellaneous",
                     "subtype": "function",
                     "deprecated": false,
@@ -45254,6 +45422,36 @@
                 {
                     "name": "getArgs",
                     "file": "src/app/formly/search/search-formly.stories.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "args",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "args",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "src/app/components/step-indicator/step-indicator.stories.ts": [
+                {
+                    "name": "getArgs",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
                     "ctype": "miscellaneous",
                     "subtype": "function",
                     "deprecated": false,
@@ -46405,7 +46603,7 @@
         ]
     },
     "coverage": {
-        "count": 22,
+        "count": 21,
         "status": "low",
         "files": [
             {
@@ -49201,6 +49399,55 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "ROUTES",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/formly/input/input.stories.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "InputSBWrapperComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/formly/input/input.stories.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "getArgs",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/formly/input/input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "fields",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/formly/input/input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "model",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/formly/input/input.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "SearchBasic",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
