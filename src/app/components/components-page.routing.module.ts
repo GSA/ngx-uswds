@@ -7,8 +7,6 @@ import { CheckboxModule, ROUTES as CHECKBOX_ROUTES } from ".//checkbox/checkbox.
 import { RadioModule, ROUTES as RADIO_ROUTES } from ".//radio/radio.module";
 import { DropdownComponent } from ".//dropdown/dropdown.component";
 import { DropdownModule } from ".//dropdown/dropdown.module";
-import { StepIndicatorModule, ROUTES as STEP_INDICATOR_ROUTES } from ".//step-indicator/step-indicator.module";
-import { AccordionModule, ROUTES as ACCORDION_ROUTES } from './/accordion/accordion.module';
 import { ModalModule, ROUTES as MODAL_ROUTES } from ".//modal/modal.module";
 import { TableModule, ROUTES as TABLE_ROUTES } from './/table/table.module';
 import { TooltipModule, ROUTES as TOOLTIP_ROUTES } from './/tooltip/tooltip.module';
@@ -32,10 +30,6 @@ const routes: Routes = [
         component: ComponentHome,
       },
       {
-        path: 'accordion',
-        children: ACCORDION_ROUTES
-      },
-      {
         path: 'button-group',
         component: ButtonGroupComponent
       },
@@ -50,10 +44,6 @@ const routes: Routes = [
       {
         path: 'file-input',
         children: FILE_INPUT_ROUTES,
-      },
-      {
-        path: 'step-indicator',
-        children: STEP_INDICATOR_ROUTES,
       },
       {
         path: 'modal',
@@ -99,12 +89,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    AccordionModule,
     ButtonGroupModule,
     CheckboxModule,
     DropdownModule,
     FileInputModule,
-    StepIndicatorModule,
     ModalModule,
     TableModule,
     TooltipModule,

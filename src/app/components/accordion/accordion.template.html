@@ -1,0 +1,80 @@
+<div class="margin-bottom-2">
+  <span class="display-block"><code>Tab / Shift + Tab</code> - Move focus to previous and next focusable item </span>
+  <span class="display-block"><code>Up and Down Arrow </code>- Move focus to previous and next accordion item in group</span>
+  <span class="display-block"><code>Enter / Space </code>- Open / close accordion</span>
+  <span class="display-block"><code>Home </code>- Move focus to first focusable accordion item</span>
+  <span class="display-block"><code>End </code>- Move focus to last focusable accordion item </span>
+</div>
+
+<usa-accordion 
+  [singleSelect]="singleSelect" 
+  [bordered]="bordered" 
+  [animation]="animation"
+  [headerLevel]="headerLevel"
+  [activeIds]="activeIds"
+  (panelChange)="onPanelChange($event)"
+  (shown)="shown($event)"
+  (hidden)="hidden($event)"
+>
+  
+  <usa-accordion-item header="Simple Text Header">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+
+  <usa-accordion-item>
+    <ng-template UsaAccordionHeader>
+      <b class="text-base">I am a <i>Template</i> Header</b>
+    </ng-template>
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+
+  <usa-accordion-item header="Disabled Header" [disabled]="true">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+</usa-accordion>
+
+<div class="height-15"></div>
+
+<h3 class="usa-card__heading">General Accessibility</h3>
+<p>
+  Each accordion header uses an element with <code>role="heading"</code>, with default heading level of 4. Users
+  may pass in the heading level through <code>[headerLevel]</code> property in <code>usa-accordion</code>. This level
+  will be applied to all accordion headers in that accordion group.
+</p>
+<p>
+  Each header also uses a button with <code>[aria-expanded]</code> property to indicate whether the panel is expanded or
+  collapsed.
+</p>
+<p>
+  If the header is multi-selectable, then <code>[aria-multiselectable]</code> attribute will be applied.
+</p>
+<p>
+  The accordion internally uses an incrementing id to ensure uniqueness between each accordion header's ids.
+  Users may pass in their own id
+</p>
+<p>
+  The accordion uses <code>display: none</code> style to hide collapsed accordions
+</p>
+
+<h3>Theming</h3>
+<code class="display-block">$theme-accordion-border-width</code>
+<code class="display-block">$theme-accordion-border-color</code>
+<code class="display-block">$theme-accordion-font-family</code>

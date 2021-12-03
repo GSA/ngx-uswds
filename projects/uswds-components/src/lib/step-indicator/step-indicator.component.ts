@@ -24,32 +24,32 @@ export class UsaStepIndicatorComponent implements OnChanges {
   /**
    * Hides labels on each step when set to true
    */
-  @Input() hideLabels: boolean;
+  @Input() hideLabels: boolean = false
 
   /**
    * Centers label with the step bar when set to true
    */
-  @Input() centerLabels: boolean;
+  @Input() centerLabels: boolean = false
 
   /**
    * Displays step counter
    */
-  @Input() displayCounters: boolean;
+  @Input() displayCounters: boolean = false
 
   /**
    * Shrinks size of displayed step counter
    */
-  @Input() smallCounters: boolean;
+  @Input() smallCounters: boolean = false
 
   /**
    * Whether to place the header above or below the step indicator
    */
-  @Input() headerPosition: 'top' | 'bottom';
+  @Input() headerPosition: 'top' | 'bottom' = 'bottom';
 
   /**
    * Disables the ability to navigate to steps by clicking on the step bar
    */
-  @Input() disableStepSelection;
+  @Input() disableStepSelection: boolean = false;
 
 
   @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;
@@ -62,7 +62,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
   /**
    * All possible steps
    */
-  @Input() steps: UsaStepIndicatorModel[];
+  @Input() steps: UsaStepIndicatorModel[] = [];
 
   @Output() currentStepChange = new EventEmitter<number>();
 

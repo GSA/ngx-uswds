@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { SearchComponent } from '@gsa-sam/ngx-uswds';
+import { UsaSearchComponent } from '@gsa-sam/ngx-uswds';
 import { AbstractUswdsFormly } from '../uswds-formly';
 
 @Component({
@@ -11,7 +11,7 @@ import { AbstractUswdsFormly } from '../uswds-formly';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class USWDSFormlySearchComponent extends AbstractUswdsFormly {
-  @ViewChild(SearchComponent, { static: true }) public template: SearchComponent;
+  @ViewChild(UsaSearchComponent, { static: true }) public template: UsaSearchComponent;
   constructor(_cdr: ChangeDetectorRef) {
     super();
     this.cdr = _cdr;
