@@ -47,7 +47,7 @@ let nextId = 0;
       </div>
 
       <button *ngIf="showClose" class="usa-button usa-modal__close" aria-label="Close this window" (click)="onCloseClicked()">
-        <img aria-hidden="true" focusable="false" src="assets/image/close.svg" style="width: 15px" class="margin-top-2 margin-right-2">
+        <img aria-hidden="true" focusable="false" src="assets/image/close.svg" class="margin-top-2 margin-right-2">
       </button>
     </div>
     `,
@@ -82,14 +82,14 @@ export class UsaModalWindow implements OnInit,
   _animationStateChanged = new Subject<void>();
 
   constructor(
-      @Inject(DOCUMENT) private _document: any, 
-      private _elRef: ElementRef<HTMLElement>, 
+      @Inject(DOCUMENT) private _document: any,
+      private _elRef: ElementRef<HTMLElement>,
       private _zone: NgZone,
     ) {}
 
   dismiss(reason): void { this.dismissEvent.emit(reason); }
 
-  ngOnInit() { 
+  ngOnInit() {
     this._elWithFocus = this._document.activeElement;
     this._state = this.animation ? 'slideEnter' : 'enter';
   }
