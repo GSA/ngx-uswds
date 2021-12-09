@@ -18,76 +18,81 @@ export class ComponentsPageComponent implements OnInit {
     {
       labelText: 'Character Count',
       href: 'character-count',
-      id: 20,
+      id: 10,
       mode: NavigationMode.INTERNAL
-
     },
     {
       labelText: 'Checkbox',
       href: 'checkbox',
-      id: 19,
+      id: 20,
       mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'Date Picker',
       href: 'datepicker',
-      id: 18,
+      id: 30,
       mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'File Input',
       href: 'file-input',
-      id: 10,
-      mode: NavigationMode.INTERNAL
-    },
-    {
-      labelText: 'Modal',
-      href: 'modal',
-      id: 15,
-      mode: NavigationMode.INTERNAL
-    },
-    {
-      labelText: 'Radio',
-      href: 'radio',
-      id: 21,
-      mode: NavigationMode.INTERNAL
-    },
-    {
-      labelText: 'Step Indicator',
-      href: 'step-indicator',
-      id: 14,
-      mode: NavigationMode.INTERNAL
-    },
-    {
-      labelText: 'Tooltip',
-      href: 'tooltip',
-      id: 16,
-      mode: NavigationMode.INTERNAL
-    },
-    {
-      labelText: 'Table',
-      href: 'table',
-      id: 17,
-      mode: NavigationMode.INTERNAL
-    },
-    {
-      labelText: 'Side Navigation',
-      href: 'side-navigation',
-      id: 18,
-      mode: NavigationMode.INTERNAL
-    },
-    {
-      labelText: 'Search',
-      href: 'search',
-      id: 22,
+      id: 40,
       mode: NavigationMode.INTERNAL
     },
     {
       labelText: 'Header',
       href: 'header',
-      id: 23,
+      id: 50,
       mode: NavigationMode.INTERNAL
-    }
+    },
+    {
+      labelText: 'Input',
+      href: 'input',
+      id: 60,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Modal',
+      href: 'modal',
+      id: 70,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Radio',
+      href: 'radio',
+      id: 80,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Search',
+      href: 'search',
+      id: 90,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Side Navigation',
+      href: 'side-navigation',
+      id: 100,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Step Indicator',
+      href: 'step-indicator',
+      id: 110,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Tooltip',
+      href: 'tooltip',
+      id: 120,
+      mode: NavigationMode.INTERNAL
+    },
+    {
+      labelText: 'Table',
+      href: 'table',
+      id: 130,
+      mode: NavigationMode.INTERNAL
+    },
   ];
 
   selectedItem: SidenavModel;
