@@ -48,7 +48,7 @@ export const ROUTES = [
         {
           pkg: 'usa',
           type: 'components',
-          name: 'UsaCheckboxModule',
+          name: 'UsaAffixModule',
         },
       ],
     },

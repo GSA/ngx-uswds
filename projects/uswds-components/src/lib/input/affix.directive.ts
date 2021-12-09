@@ -28,6 +28,10 @@ export class UsaInputAffixDirective implements AfterViewInit {
     if(this.suffix){
       suffixElement = this.handleAffix(this.suffix, 'usa-input-suffix')
     }
+    // Return early if neither prefix nor suffix provided
+    if(!this.prefix && !this.suffix){
+      return;
+    }
 
     const inputGroupDiv = document.createElement('div');
     this.renderer.addClass(inputGroupDiv,'usa-input-group')
