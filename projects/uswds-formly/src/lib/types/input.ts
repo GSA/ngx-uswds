@@ -3,7 +3,7 @@ import { FieldType } from '@ngx-formly/core';
 
 @Component({
   template: `
-  
+
     <input
       [ngClass]="{
         'usa-input--disabled': to.disabled,
@@ -17,8 +17,10 @@ import { FieldType } from '@ngx-formly/core';
       [formlyAttributes]="field"
       [type]="to.inputType ? to.inputType : 'text'"
       [formControl]="formControl"
+      [prefix]=to.prefix
+      [suffix]=to.suffix
     />
-    
+
   `,
 })
 export class USWDSFormlyInputComponent extends FieldType {
