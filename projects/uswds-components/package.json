@@ -6,7 +6,7 @@
     "url": "https://github.com/GSA/ngx-uswds.git"
   },
   "peerDependencies": {
-    "@angular/common": "^122.14",
+    "@angular/common": "^12.2.14",
     "@angular/core": "^12.2.14",
     "@angular/forms": "^12.2.14",
     "uswds": "^2.12.0"
