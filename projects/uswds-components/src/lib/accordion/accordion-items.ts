@@ -3,10 +3,15 @@ import {
   ContentChildren, 
   Directive, 
   EventEmitter, 
+  forwardRef, 
+  Inject, 
   Input, 
+  OnChanges, 
   Output, 
   QueryList, 
+  SimpleChanges, 
   TemplateRef } from "@angular/core";
+import { UsaAccordionComponent } from "./accordion.component";
 
 let nextId = 0;
 
@@ -55,7 +60,7 @@ export class UsaAccordionHeader {
  * A directive that wraps an individual accordion panel with title and collapsible content.
  */
 @Directive({ selector: 'usa-accordion-item' })
-export class UsaAccordionItem implements AfterContentChecked {
+export class UsaAccordionItem implements AfterContentChecked, OnChanges {
   /**
    *  If `true`, the panel is disabled an can't be toggled.
    */
@@ -68,7 +73,8 @@ export class UsaAccordionItem implements AfterContentChecked {
    */
   @Input() id = `usa-accordion-item-${nextId++}`;
 
-  isOpen = false;
+  /** Defines whether the accordion is in expanded or collapsed state */
+  @Input() expanded = false;
 
   /* A flag to specified that the transition panel classes have been initialized */
   initClassDone = false;
@@ -108,12 +114,25 @@ export class UsaAccordionItem implements AfterContentChecked {
    */
   @Output() hidden = new EventEmitter<void>();
 
-
   headerTpl: UsaAccordionHeader;
   contentTpl: UsaAccordionContent;
 
   @ContentChildren(UsaAccordionHeader, { descendants: false }) headerTpls: QueryList<UsaAccordionHeader>;
   @ContentChildren(UsaAccordionContent, { descendants: false }) contentTpls: QueryList<UsaAccordionContent>;
+
+  constructor(
+    @Inject(forwardRef(() => UsaAccordionComponent)) private usaAccordion: UsaAccordionComponent,
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.expanded || !this.usaAccordion || !this.usaAccordion.panels) return;
+
+    if (changes.expanded.currentValue) {
+      this.usaAccordion.expand(this.id);
+    } else {
+      this.usaAccordion.collapse(this.id);
+    }
+  }
 
   ngAfterContentChecked() {
     // We are using @ContentChildren instead of @ContentChild as in the Angular version being used
