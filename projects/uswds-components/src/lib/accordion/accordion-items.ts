@@ -125,7 +125,16 @@ export class UsaAccordionItem implements AfterContentChecked, OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.expanded || !this.usaAccordion || !this.usaAccordion.panels) return;
+    if (!changes.expanded || !this.usaAccordion) return;
+
+    if (!this.usaAccordion.panels) {
+
+      if (changes.expanded.currentValue) {
+        this.usaAccordion.activeIds.push(this.id)
+      }
+
+      return;
+    }
 
     if (changes.expanded.currentValue) {
       this.usaAccordion.expand(this.id);

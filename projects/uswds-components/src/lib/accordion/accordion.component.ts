@@ -39,7 +39,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
    * For subsequent changes use methods like `expand()`, `collapse()`, etc. and
    * the `(panelChange)` event.
    */
-  @Input() activeIds: string | readonly string[] = [];
+  @Input() activeIds: string[] = [];
 
   /**
    *  If `true`, only one panel could be opened at a time.
