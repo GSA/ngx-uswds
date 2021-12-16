@@ -1,4 +1,7 @@
-<div class="usa-overlay" [class.is-visible]="mobileNavActive" (click)="closeMobileNav()"></div>
+<div class="usa-overlay" 
+  [class.is-visible]="mobileNavActive || (displayOverlayOnMenuOpen && selectedDropdownLink != null)" 
+  (click)="mobileNavActive ? closeMobileNav() : ''">
+</div>
 <header class="usa-header" [ngClass]="{'usa-header--extended': extended, 'usa-header--basic': !extended}">
   <div class="usa-nav-container">
     <div class="usa-navbar">
@@ -54,7 +57,7 @@
 
 <ng-template #linkTemplate let-link let-isPrimary="isPrimary" let-parentNav="parentNav">
   <ng-container [ngTemplateOutlet]="
-    link.href ? linkHREFTemplate :
+    link.path ? linkHREFTemplate :
     primaryLinkTemplate && isPrimary === true ? primaryLinkTemplate.templateRef :
     secondaryLinkTemplate && isPrimary === false ? secondaryLinkTemplate.templateRef :
     linkEventTemplate"
@@ -82,7 +85,7 @@
 <ng-template #linkHREFTemplate let-link let-isPrimary>
   <a [attr.id]="link.id"
     [ngClass]="{'usa-nav__link': isPrimary, 'usa-current': link.selected}" 
-    [attr.href]="[link.href]">{{ link.text }}</a>
+    [attr.href]="[link.path]">{{ link.text }}</a>
 </ng-template>
 
 <ng-template #linkEventTemplate let-link let-isPrimary="isPrimary" let-parentNav="parentNav">
