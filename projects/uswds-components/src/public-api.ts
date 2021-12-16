@@ -91,3 +91,5 @@ export * from './lib/header/index';
 // Utility
 export * from './lib/util/navigation';
 
+export * from './lib/input/affix.module'
+export * from './lib/input/affix.directive'

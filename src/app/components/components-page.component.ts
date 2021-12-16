@@ -87,7 +87,13 @@ export class ComponentsPageComponent implements OnInit {
       path: 'header',
       id: '23',
       mode: UsaNavigationMode.INTERNAL
-    }
+    },
+    {
+      text: 'Input',
+      path: 'input',
+      id: '60',
+      mode: UsaNavigationMode.INTERNAL
+    },
   ];
 
   selectedItem: SidenavModel;
