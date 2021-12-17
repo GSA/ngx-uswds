@@ -158,7 +158,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
     // update panels open states
     this.panels.forEach(panel => { 
-      panel.expanded = !panel.disabled && this.activeIds.indexOf(panel.id) > -1; 
+      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1); 
     });
 
     // closeOthers updates
