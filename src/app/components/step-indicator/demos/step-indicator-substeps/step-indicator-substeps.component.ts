@@ -11,8 +11,8 @@ export class StepIndicatorSubstepsComponent {
 
   steps: UsaStepIndicatorModel[] = [
     { label: 'Step 1' },
-    { label: 'Step 2', segmentWidth: 30, completionPercent: 0},
-    { label: 'Step 3' },
+    { label: 'Step 2', segmentScale: 2, completionPercent: 0  },
+    {}, // Make last step simple empty step
   ];
 
   currentStep = 0;

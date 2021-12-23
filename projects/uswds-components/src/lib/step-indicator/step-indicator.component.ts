@@ -136,8 +136,18 @@ export class UsaStepIndicatorComponent implements OnChanges {
       return undefined;
     }
 
+    if (step.completionPercent % 25 === 0 || step.completionPercent % 33 === 0) {
+      return `fill-${step.completionPercent}`;
+    }
+
     const roundedStep = Math.round(step.completionPercent / 10) * 10;
     return `fill-${roundedStep}`
+  }
+
+  getSegmentScale(step: UsaStepIndicatorModel) {
+    if (step.segmentScale === undefined) return undefined;
+    const segmentPercentage = Math.max(0.5, Math.min(4, step.segmentScale)) * 100;
+    return `scale-percent-${segmentPercentage}`;
   }
 
   private _getAllStepListElements() {

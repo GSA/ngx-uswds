@@ -1,4 +1,11 @@
-<code class="display-block margin-bottom-2">[disableStepSelection]="true"</code>
+<p>
+  For each <code>UsaStepIndicatorModel</code>, you can define the properties <code>segmentScale</code>
+  and <code>completionPercent</code>. <code>segmentScale</code> defines the width of the segment
+  relative to other segments. Scale values can be <code>0.5, 1, 1.5, 2, 2.5, 3, 3.5, or 4</code>.
+  <code>completionPercent</code> defines partial completion of current step. By default, each step
+  is either 0% complete or 100% complete. However, if <code>completionPercent</code> is defined, the width of
+  the current step segment will be adjusted to visually indicate such completion.
+</p>
 <usa-step-indicator [steps]="steps" [(currentStep)]="currentStep" [displayCounters]="true"
   [disableStepSelection]="true">
   <h2 UsaStepHeader></h2>
