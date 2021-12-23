@@ -1,0 +1,11 @@
+@import "~uswds/src/stylesheets/packages/_required";
+
+@mixin gradient($color, $fill-percentage, $color-remaining) {
+  background: linear-gradient(to right, color($color) $fill-percentage, color($color-remaining) $fill-percentage);
+}
+
+@for $i from 0 through 10 {
+  .fill-#{$i * 10}.usa-step-indicator__segment--current:after {
+    @include gradient($theme-step-indicator-segment-color-current, $i * 10%,  $theme-step-indicator-segment-color-pending);
+  }
+}
