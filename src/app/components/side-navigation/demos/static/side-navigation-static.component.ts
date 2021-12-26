@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationMode, SidenavModel } from '@gsa-sam/ngx-uswds';
+import { UsaNavigationMode, SidenavModel } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'app-side-navigation-static',
@@ -11,65 +11,65 @@ export class SideNavigationStaticComponent {
 
   sidenavModel: SidenavModel[] = [
     {
-      mode: NavigationMode.EXTERNAL,
-      labelText: 'Accordion',
-      href: 'javascript:void(0)',
-      id: 1,
+      mode: UsaNavigationMode.EXTERNAL,
+      text: 'Accordion',
+      path: 'javascript:void(0)',
+      id: '1',
       children: [
         {
-          mode: NavigationMode.EXTERNAL,
-          labelText: 'Accordion - Child',
-          href: 'javascript:void(0)',
-          id: 100,
+          mode: UsaNavigationMode.EXTERNAL,
+          text: 'Accordion - Child',
+          path: 'javascript:void(0)',
+          id: '100',
           children: [
             {
-              mode: NavigationMode.EXTERNAL,
-              labelText: 'Accordion - Grandchild',
-              href: 'javascript:void(0)',
-              id: 1000
+              mode: UsaNavigationMode.EXTERNAL,
+              text: 'Accordion - Grandchild',
+              path: 'javascript:void(0)',
+              id: '1000'
             }
           ]
         }
       ]
     },
     {
-      mode: NavigationMode.INTERNAL,
-      labelText: 'File Input',
-      href: '/file-input',
-      id: 10,
+      mode: UsaNavigationMode.INTERNAL,
+      text: 'File Input',
+      path: '/file-input',
+      id: '10',
       queryParams: { index: 'opportunities' },
       children: [
         {
-          mode: NavigationMode.INTERNAL,
-          labelText: 'File Input - Child',
-          href: '/file-input-child',
-          id: 104
+          mode: UsaNavigationMode.INTERNAL,
+          text: 'File Input - Child',
+          path: '/file-input-child',
+          id: '104'
         },
       ]
     },
     {
-      mode: NavigationMode.LABEL,
-      labelText: 'Step Indicator',
-      href: 'step-indicator',
-      id: 14
+      mode: UsaNavigationMode.EVENT,
+      text: 'Step Indicator',
+      path: 'step-indicator',
+      id: '14'
     },
     {
-      mode: NavigationMode.LABEL,
-      labelText: 'Modal',
-      href: 'modal',
-      id: 15
+      mode: UsaNavigationMode.EVENT,
+      text: 'Modal',
+      path: 'modal',
+      id: '15'
     },
     {
-      mode: NavigationMode.LABEL,
-      labelText: 'Tooltip',
-      href: 'tooltip',
-      id: 16
+      mode: UsaNavigationMode.EVENT,
+      text: 'Tooltip',
+      path: 'tooltip',
+      id: '16'
     },
     {
-      mode: NavigationMode.LABEL,
-      labelText: 'Table',
-      href: 'table',
-      id: 17,
+      mode: UsaNavigationMode.EVENT,
+      text: 'Table',
+      path: 'table',
+      id: '17',
     }
   ];
 

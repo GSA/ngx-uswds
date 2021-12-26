@@ -4,10 +4,9 @@ import {
   Component, ContentChild, ElementRef, EventEmitter,
   HostListener, Input, OnInit, Output, TemplateRef, ViewChild
 } from '@angular/core';
-import { UsaNavigationLink } from './header.model';
 import { UsaHeaderPrimaryLinkTemplate, UsaHeaderSecondaryLinkTemplate } from './header-selectors';
 import { UsaHeaderPrimaryLink } from './header.model';
-import { NavigationMode } from '../sidenav/sidenav.model';
+import { UsaNavigationLink, UsaNavigationMode } from '../util/navigation';
 @Component({
   selector: 'usa-header',
   templateUrl: './header.component.html',
@@ -57,6 +56,12 @@ export class UsaHeaderComponent implements OnInit {
    */
   @Input() secondaryNavItems: UsaNavigationLink[];
 
+  /** 
+   * Defines whether or not to display dark overlay in background
+   * whenever submenu or megamenu is active
+   */
+  @Input() displayOverlayOnMenuOpen = false;
+
   /**
    * event emitted whenever a navigation item is clicked.
    * This only fires if navigation mode for the link event is NONE or undefined
@@ -64,7 +69,7 @@ export class UsaHeaderComponent implements OnInit {
   @Output()
   linkEvent = new EventEmitter<UsaNavigationLink>();
 
-  NavigationMode = NavigationMode;
+  NavigationMode = UsaNavigationMode;
 
   /** Reference of link whose dropdown menu is currently open */
   selectedDropdownLink: UsaHeaderPrimaryLink;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NavigationMode, SidenavModel } from "@gsa-sam/ngx-uswds";
+import { SidenavModel, UsaNavigationMode } from "@gsa-sam/ngx-uswds";
 
 
 @Component({
@@ -14,7 +14,7 @@ import { NavigationMode, SidenavModel } from "@gsa-sam/ngx-uswds";
 
       <div uswds-card class="tablet:grid-col-9 mobile-lg: grid-col-12">
         <uswds-card-header>
-          <h1 class="usa-card__heading">{{selectedItem?.labelText}}</h1>
+          <h1 class="usa-card__heading">{{selectedItem?.text}}</h1>
         </uswds-card-header>
         <uswds-card-body class="padding-1">
           <router-outlet></router-outlet>
@@ -28,36 +28,35 @@ export class FormlyMainComponent implements OnInit {
 
   sidenavModel: SidenavModel[] = [
     {
-      labelText: 'Checkbox',
-      href: 'checkbox',
-      id: 4,
-      mode: NavigationMode.INTERNAL
+      text: 'Checkbox',
+      path: 'checkbox',
+      id: '4',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'DatePicker',
-      href: 'datepicker',
-      id: 5,
-      mode: NavigationMode.INTERNAL
+      text: 'DatePicker',
+      path: 'datepicker',
+      id: '5',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Input',
-      href: 'input',
-      id: 1,
-      mode: NavigationMode.INTERNAL
+      text: 'Input',
+      path: 'input',
+      id: '1',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Radio',
-      href: 'radio',
-      id: 2,
-      mode: NavigationMode.INTERNAL
+      text: 'Radio',
+      path: 'radio',
+      id: '2',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Search',
-      href: 'search',
-      id: 3,
-      mode: NavigationMode.INTERNAL
+      text: 'Search',
+      path: 'search',
+      id: '3',
+      mode: UsaNavigationMode.INTERNAL
     },
-
 
   ];
 
@@ -68,7 +67,7 @@ export class FormlyMainComponent implements OnInit {
 
   ngOnInit() {
     const selectedComponent = this.router.url.split('/')[2];
-    const selectedNav = this.sidenavModel.find(nav => nav.href === selectedComponent);
+    const selectedNav = this.sidenavModel.find(nav => nav.path === selectedComponent);
     if (selectedNav) {
       selectedNav.selected = true;
     }
@@ -76,6 +75,6 @@ export class FormlyMainComponent implements OnInit {
 
   onSidenavClick(sidenav: SidenavModel) {
     this.selectedItem = sidenav;
-    this.router.navigate([sidenav.href], { relativeTo: this.activatedRoute });
+    this.router.navigate([sidenav.path], { relativeTo: this.activatedRoute });
   }
 }
