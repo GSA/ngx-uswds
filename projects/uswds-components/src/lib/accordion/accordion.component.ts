@@ -39,7 +39,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
    * For subsequent changes use methods like `expand()`, `collapse()`, etc. and
    * the `(panelChange)` event.
    */
-  @Input() activeIds: string | readonly string[] = [];
+  @Input() activeIds: string[] = [];
 
   /**
    *  If `true`, only one panel could be opened at a time.
@@ -158,7 +158,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
     // update panels open states
     this.panels.forEach(panel => { 
-      panel.expanded = !panel.disabled && this.activeIds.indexOf(panel.id) > -1; 
+      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1); 
     });
 
     // closeOthers updates
