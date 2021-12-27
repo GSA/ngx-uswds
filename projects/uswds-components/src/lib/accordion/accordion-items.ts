@@ -3,15 +3,10 @@ import {
   ContentChildren, 
   Directive, 
   EventEmitter, 
-  forwardRef, 
-  Inject, 
   Input, 
-  OnChanges, 
   Output, 
   QueryList, 
-  SimpleChanges, 
   TemplateRef } from "@angular/core";
-import { UsaAccordionComponent } from "./accordion.component";
 
 let nextId = 0;
 
@@ -60,7 +55,7 @@ export class UsaAccordionHeader {
  * A directive that wraps an individual accordion panel with title and collapsible content.
  */
 @Directive({ selector: 'usa-accordion-item' })
-export class UsaAccordionItem implements AfterContentChecked, OnChanges {
+export class UsaAccordionItem implements AfterContentChecked {
   /**
    *  If `true`, the panel is disabled an can't be toggled.
    */
@@ -120,19 +115,8 @@ export class UsaAccordionItem implements AfterContentChecked, OnChanges {
   @ContentChildren(UsaAccordionHeader, { descendants: false }) headerTpls: QueryList<UsaAccordionHeader>;
   @ContentChildren(UsaAccordionContent, { descendants: false }) contentTpls: QueryList<UsaAccordionContent>;
 
-  constructor(
-    @Inject(forwardRef(() => UsaAccordionComponent)) private usaAccordion: UsaAccordionComponent,
-  ) {}
+  constructor() {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes.expanded || !this.usaAccordion || !this.usaAccordion.panels) return;
-
-    if (changes.expanded.currentValue) {
-      this.usaAccordion.expand(this.id);
-    } else {
-      this.usaAccordion.collapse(this.id);
-    }
-  }
 
   ngAfterContentChecked() {
     // We are using @ContentChildren instead of @ContentChild as in the Angular version being used
