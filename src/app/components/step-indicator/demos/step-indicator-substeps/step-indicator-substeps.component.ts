@@ -20,5 +20,10 @@ export class StepIndicatorSubstepsComponent {
   changeSubstep(change: number) {
     const newCompletionPercent = this.steps[1].completionPercent + change
     this.steps[1].completionPercent = Math.max(0, Math.min(100, newCompletionPercent));
+
+    // Advance to step 3 if step 2 is at 100% completion
+    if (this.steps[1].completionPercent === 100) {
+      this.currentStep++;
+    }
   }
 }
