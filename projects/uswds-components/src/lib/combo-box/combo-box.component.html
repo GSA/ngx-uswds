@@ -1,7 +1,8 @@
 <div class="usa-combo-box" data-enhanced="true" [ngClass]="{'usa-combo-box--pristine': value?.length}">
   <input #comboBoxInput id="fruit" aria-owns="fruit--list" aria-autocomplete="list" aria-describedby="fruit--assistiveHint"
     aria-expanded="false" autocapitalize="off" autocomplete="off" class="usa-combo-box__input" type="text"
-    role="combobox" [attr.aria-activedescendant]="_focusedItem?.id" (focus)="onFocus()" [value]="value" [disabled]="_disabled">
+    role="combobox" [attr.aria-activedescendant]="_focusedItem?.id" (focus)="onFocus()" (input)="onValueChange($event.target.value)" 
+    [value]="value" [disabled]="_disabled">
   <span class="usa-combo-box__clear-input__wrapper" tabindex="-1">
     <button type="button" class="usa-combo-box__clear-input" aria-label="Clear the select contents" (click)="clearInput()">&nbsp;</button>
   </span>

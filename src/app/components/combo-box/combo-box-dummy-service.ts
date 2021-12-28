@@ -17,7 +17,8 @@ export class ComboBoxMockService {
   }
 
   query(searchText: string) {
-    const filteredData = this.mockdata.filter(data => data.name.indexOf(searchText) != -1 || data.id.indexOf(searchText) != -1);
+    const searchLower = searchText.toLowerCase();
+    const filteredData = this.mockdata.filter(data => data.name.toLowerCase().indexOf(searchLower) != -1);
     this.mockData$.next(filteredData);
   }
 }

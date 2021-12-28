@@ -14,7 +14,7 @@ let listId = 0;
   }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsaComboBoxComponent implements OnInit, ControlValueAccessor{
+export class UsaComboBoxComponent implements ControlValueAccessor{
 
   @ViewChild('comboBoxInput') comboBoxInput: ElementRef<HTMLInputElement>;
 
@@ -66,7 +66,8 @@ export class UsaComboBoxComponent implements OnInit, ControlValueAccessor{
     this._disabled = isDisabled;
   }
 
-  ngOnInit(): void {
+  onValueChange($event: string) {
+    this.updateValue($event);
   }
 
   selectItem(item: any) {
@@ -74,10 +75,11 @@ export class UsaComboBoxComponent implements OnInit, ControlValueAccessor{
     this._selectedItem = item;
     this.comboBoxInput.nativeElement.focus();
     this._displayDropdown = false;
+    this.updateValue(item[this.labelField]);
   }
 
   clearInput() {
-    this.value = '';
+    this.updateValue('');
     this.comboBoxInput?.nativeElement.focus();
   }
 
@@ -181,5 +183,10 @@ export class UsaComboBoxComponent implements OnInit, ControlValueAccessor{
         $event.preventDefault();
         break;
     }
+  }
+
+  private updateValue(value: string) {
+    this.value = value;
+    this._onChange(value);
   }
 }
