@@ -26,6 +26,10 @@ export * from './lib/card/card.module';
 export * from './lib/checkbox/checkbox.component';
 export * from './lib/checkbox/checkbox.module';
 
+// Combo Box
+export * from './lib/combo-box/combo-box.component';
+export * from './lib/combo-box/combo-box.module';
+
 // Dropdown
 export * from './lib/dropdown/dropdown-options.model';
 export * from './lib/dropdown/dropdown.component';

@@ -29,6 +29,12 @@ export class ComponentsPageComponent implements OnInit {
       mode: UsaNavigationMode.INTERNAL
     },
     {
+      text: 'Combo box',
+      path: 'combo-box',
+      id: '61',
+      mode: UsaNavigationMode.INTERNAL
+    },
+    {
       text: 'Date Picker',
       path: 'datepicker',
       id: '18',

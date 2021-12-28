@@ -1,0 +1,8 @@
+<usa-combobox 
+  [items]="mockdata$ | async" labelField="name" valueField="id" 
+  [ngModel]="searchValue" (ngModelChange)="onValueChange($event)">
+</usa-combobox>
+<p>
+  Value: {{searchValue}}
+</p>
+

@@ -1,0 +1,222 @@
+export const mockData = [
+  {
+    "id": "61ca459658f0a162aa6d11f7",
+    "isActive": true,
+    "age": 21,
+    "name": "Moon Beasley",
+    "gender": "male",
+    "company": "BIOLIVE",
+    "email": "moonbeasley@biolive.com",
+    "phone": "+1 (892) 572-3302",
+    "address": "627 Canton Court, Brenton, New York, 9054"
+  },
+  {
+    "id": "61ca459602b358e9e7d44615",
+    "isActive": false,
+    "age": 24,
+    "name": "Ashlee Mclean",
+    "gender": "female",
+    "company": "SPORTAN",
+    "email": "ashleemclean@sportan.com",
+    "phone": "+1 (859) 463-2791",
+    "address": "877 Hemlock Street, Lookingglass, Indiana, 5491"
+  },
+  {
+    "id": "61ca45961057b28aa545064b",
+    "isActive": true,
+    "age": 29,
+    "name": "Randolph Harding",
+    "gender": "male",
+    "company": "NETUR",
+    "email": "randolphharding@netur.com",
+    "phone": "+1 (923) 551-3957",
+    "address": "621 Melrose Street, Edgewater, Maine, 2797"
+  },
+  {
+    "id": "61ca4596fe9ef0970931e2cc",
+    "isActive": true,
+    "age": 39,
+    "name": "Freida Santiago",
+    "gender": "female",
+    "company": "MYOPIUM",
+    "email": "freidasantiago@myopium.com",
+    "phone": "+1 (882) 443-2868",
+    "address": "395 Lott Avenue, Hachita, Washington, 5364"
+  },
+  {
+    "id": "61ca459692a1f9b897732309",
+    "isActive": true,
+    "age": 36,
+    "name": "Kate Clemons",
+    "gender": "female",
+    "company": "PLEXIA",
+    "email": "kateclemons@plexia.com",
+    "phone": "+1 (919) 411-3855",
+    "address": "444 Burnett Street, Boykin, North Carolina, 6709"
+  },
+  {
+    "id": "61ca45969e2ed2ad6686ad7b",
+    "isActive": true,
+    "age": 20,
+    "name": "Twila Graves",
+    "gender": "female",
+    "company": "HALAP",
+    "email": "twilagraves@halap.com",
+    "phone": "+1 (944) 407-3299",
+    "address": "800 Thatford Avenue, Dante, Utah, 8880"
+  },
+  {
+    "id": "61ca4596a2201be6ba549d00",
+    "isActive": false,
+    "age": 25,
+    "name": "Mara Whitehead",
+    "gender": "female",
+    "company": "AUTOGRATE",
+    "email": "marawhitehead@autograte.com",
+    "phone": "+1 (864) 594-3263",
+    "address": "160 Jewel Street, Hillsboro, Michigan, 1999"
+  },
+  {
+    "id": "61ca45963e14965cabec9cae",
+    "isActive": false,
+    "age": 33,
+    "name": "Hutchinson Hatfield",
+    "gender": "male",
+    "company": "FREAKIN",
+    "email": "hutchinsonhatfield@freakin.com",
+    "phone": "+1 (816) 584-3584",
+    "address": "329 Croton Loop, Skyland, Missouri, 7858"
+  },
+  {
+    "id": "61ca45963acfbbe823e4e9c3",
+    "isActive": false,
+    "age": 24,
+    "name": "Lynette Torres",
+    "gender": "female",
+    "company": "BOLAX",
+    "email": "lynettetorres@bolax.com",
+    "phone": "+1 (844) 454-2467",
+    "address": "836 Glenwood Road, Alafaya, Arizona, 5232"
+  },
+  {
+    "id": "61ca45960e9ef92e3178f26d",
+    "isActive": true,
+    "age": 24,
+    "name": "Jamie Oneill",
+    "gender": "female",
+    "company": "DRAGBOT",
+    "email": "jamieoneill@dragbot.com",
+    "phone": "+1 (843) 578-2649",
+    "address": "774 Turner Place, Sardis, Nebraska, 8683"
+  },
+  {
+    "id": "61ca4596f8fd0b2b07a526e2",
+    "isActive": true,
+    "age": 31,
+    "name": "Stacie Mosley",
+    "gender": "female",
+    "company": "ATOMICA",
+    "email": "staciemosley@atomica.com",
+    "phone": "+1 (971) 500-3794",
+    "address": "101 Taaffe Place, Elbert, South Carolina, 9936"
+  },
+  {
+    "id": "61ca4596dc6ea4791881386e",
+    "isActive": false,
+    "age": 40,
+    "name": "Nguyen Mcknight",
+    "gender": "male",
+    "company": "QUILCH",
+    "email": "nguyenmcknight@quilch.com",
+    "phone": "+1 (917) 433-3785",
+    "address": "468 Bouck Court, Avalon, North Dakota, 7718"
+  },
+  {
+    "id": "61ca459618d711a6d469a855",
+    "isActive": true,
+    "age": 32,
+    "name": "Rush Perez",
+    "gender": "male",
+    "company": "BITENDREX",
+    "email": "rushperez@bitendrex.com",
+    "phone": "+1 (900) 596-3019",
+    "address": "721 Newport Street, Blanco, Virginia, 4841"
+  },
+  {
+    "id": "61ca4596fecbb0ca3ad7337b",
+    "isActive": true,
+    "age": 40,
+    "name": "Annmarie Dennis",
+    "gender": "female",
+    "company": "SENMAO",
+    "email": "annmariedennis@senmao.com",
+    "phone": "+1 (821) 595-3149",
+    "address": "804 Hornell Loop, Hasty, South Dakota, 6832"
+  },
+  {
+    "id": "61ca45960e5d1a2f8b61401e",
+    "isActive": true,
+    "age": 26,
+    "name": "Robertson Stephens",
+    "gender": "male",
+    "company": "ZAYA",
+    "email": "robertsonstephens@zaya.com",
+    "phone": "+1 (961) 441-3909",
+    "address": "905 Dwight Street, Manitou, Federated States Of Micronesia, 4357"
+  },
+  {
+    "id": "61ca45965f1c81d1f3542a97",
+    "isActive": false,
+    "age": 40,
+    "name": "Walker Lucas",
+    "gender": "male",
+    "company": "PROSELY",
+    "email": "walkerlucas@prosely.com",
+    "phone": "+1 (886) 448-3156",
+    "address": "547 Bartlett Place, Kaka, Iowa, 4400"
+  },
+  {
+    "id": "61ca45967c2f2e7a42b3a1de",
+    "isActive": true,
+    "age": 34,
+    "name": "Elliott Day",
+    "gender": "male",
+    "company": "FANFARE",
+    "email": "elliottday@fanfare.com",
+    "phone": "+1 (839) 557-3887",
+    "address": "812 Paerdegat Avenue, Camas, Kentucky, 6601"
+  },
+  {
+    "id": "61ca459651ab02c015758619",
+    "isActive": false,
+    "age": 33,
+    "name": "Terrell Rivers",
+    "gender": "male",
+    "company": "KINETICA",
+    "email": "terrellrivers@kinetica.com",
+    "phone": "+1 (989) 410-3084",
+    "address": "587 Ridge Court, Chautauqua, Louisiana, 5843"
+  },
+  {
+    "id": "61ca459609484bfc7b83c70b",
+    "isActive": false,
+    "age": 27,
+    "name": "Mejia Bean",
+    "gender": "male",
+    "company": "SCHOOLIO",
+    "email": "mejiabean@schoolio.com",
+    "phone": "+1 (953) 508-3606",
+    "address": "602 Greenpoint Avenue, Cherokee, Marshall Islands, 5244"
+  },
+  {
+    "id": "61ca45961946e7405100e452",
+    "isActive": true,
+    "age": 30,
+    "name": "Gentry Foreman",
+    "gender": "male",
+    "company": "MEDCOM",
+    "email": "gentryforeman@medcom.com",
+    "phone": "+1 (929) 413-3126",
+    "address": "330 Varick Avenue, Frank, District Of Columbia, 9042"
+  }
+];
