@@ -27,6 +27,8 @@ import { StepIndicatorDisableAllStepsComponent } from './demos/step-indicator-di
 import { StepIndicatorDisableAllStepsModule } from './demos/step-indicator-disable-all-steps/step-indicator-disable-all-steps.module';
 import { StepIndicatorFooterComponent } from './demos/step-indicator-footer/step-indicator-footer.component';
 import { StepIndicatorFooterModule } from './demos/step-indicator-footer/step-indicator-footer.module';
+import { StepIndicatorSubstepsComponent } from './demos/step-indicator-substeps/step-indicator-substeps.component';
+import { StepIndicatorSubstepsModule } from './demos/step-indicator-substeps/step-indicator-substeps.module';
 
 declare var require: any;
 
@@ -111,6 +113,14 @@ const DEMOS = {
     module: require('!!raw-loader!./demos/step-indicator-disable-all-steps/step-indicator-disable-all-steps.module'),
     path: 'src/app/step-indicator/demos/step-indicator-disable-all-steps',
   },
+  substeps: {
+    title: 'Step Indicator - Substeps',
+    type: StepIndicatorSubstepsComponent,
+    code: require('!!raw-loader!./demos/step-indicator-substeps/step-indicator-substeps.component'),
+    markup: require('!!raw-loader!./demos/step-indicator-substeps/step-indicator-substeps.component.html'),
+    module: require('!!raw-loader!./demos/step-indicator-substeps/step-indicator-substeps.module'),
+    path: 'src/app/step-indicator/demos/step-indicator-substeps',
+  },
   footer: {
     title: 'General Accessibility',
     type: StepIndicatorFooterComponent,
@@ -158,6 +168,7 @@ export const ROUTES = [
     StepIndicatorDisableStepModule,
     StepIndicatorCustomHeaderModule,
     StepIndicatorDisableAllStepsModule,
+    StepIndicatorSubstepsModule,
     StepIndicatorFooterModule,
   ],
   exports: [

@@ -1,0 +1,36 @@
+<p>
+  For each <code>UsaStepIndicatorModel</code>, you can define the properties <code>segmentScale</code>
+  and <code>completionPercent</code>. <code>segmentScale</code> defines the width of the segment
+  relative to other segments. Scale values can be <code>0.5, 1, 1.5, 2, 2.5, 3, 3.5, or 4</code>.
+  <code>completionPercent</code> defines partial completion of current step. By default, each step
+  is either 0% complete or 100% complete. However, if <code>completionPercent</code> is defined, the width of
+  the current step segment will be adjusted to visually indicate such completion.
+</p>
+<usa-step-indicator [steps]="steps" [(currentStep)]="currentStep" [displayCounters]="true"
+  [disableStepSelection]="true">
+  <h2 UsaStepHeader></h2>
+</usa-step-indicator>
+
+<!-- Add substeps for step 2-->
+<div *ngIf="currentStep === 1" class="height-card">
+  <button class="usa-button usa-button--unstyled margin-right-2" (click)="changeSubstep(-25)">Prev Substep</button>
+  <button class="usa-button usa-button--unstyled" (click)="changeSubstep(25)">Next Substep</button>
+</div>
+
+<ul class="usa-button-group">
+  <li class="usa-button-group__item">
+    <button class="usa-button usa-button--outline"
+      (click)="currentStep = currentStep - 1;"
+      [disabled]="currentStep === 0">
+      Back
+    </button>
+  </li>
+  <li class="usa-button-group__item">
+    <button class="usa-button" (click)="currentStep = currentStep + 1"
+      [disabled]="currentStep === steps.length - 1">
+      Next
+    </button>
+  </li>
+</ul>
+<i>*Development Note: The Back and Next buttons are NOT part of the step indicator and should be implemented
+  separately</i>
