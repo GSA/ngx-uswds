@@ -18,17 +18,17 @@ export class HeaderPrimaryComponent {
         {
           text: 'Item 1',
           id: 'homeChild1',
-          path: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 2',
           id: 'homeChild2',
-          path: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 3',
           id: 'homeChild3',
-          path: '/header/examples',
+          path: 'components/header/examples',
         }
       ],
     },
@@ -41,17 +41,17 @@ export class HeaderPrimaryComponent {
         {
           text: 'Item 1',
           id: 'homeChild1',
-          path: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 2',
           id: 'homeChild2',
-          path: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 3',
           id: 'homeChild3',
-          path: '/header/examples',
+          path: 'components/header/examples',
         },
       ],
     },

@@ -25,7 +25,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/datePicker-basic/datepicker-basic.component'),
     markup: require('!!raw-loader!./demos/datepicker-basic/datepicker-basic.component.html'),
     module: require('!!raw-loader!./demos/datepicker-basic/datepicker-basic.module'),
-    path: 'src/app/datepicker/demos/datepicker-basic',
+    path: 'src/app/components/datepicker/demos/datepicker-basic',
   },
   validations: {
     title: 'Date Picker Min/Max Validation',
@@ -33,7 +33,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/datepicker-validation/datepicker-validation.component'),
     markup: require('!!raw-loader!./demos/datepicker-validation/datepicker-validation.component.html'),
     module: require('!!raw-loader!./demos/datepicker-validation/datepicker-validation.module'),
-    path: 'src/app/datepicker/demos/datepicker-validation',
+    path: 'src/app/components/datepicker/demos/datepicker-validation',
   },
   filter: {
     title: 'Date Picker Filter - Weekdays Only',
@@ -41,7 +41,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/datepicker-filter/datepicker-filter.component'),
     markup: require('!!raw-loader!./demos/datepicker-filter/datepicker-filter.component.html'),
     module: require('!!raw-loader!./demos/datepicker-filter/datepicker-filter.module'),
-    path: 'src/app/datepicker/demos/datepicker-filter',
+    path: 'src/app/components/datepicker/demos/datepicker-filter',
   },
   disabled: {
     title: 'Date Picker Disabled',
@@ -49,7 +49,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/datepicker-disabled/datepicker-disabled.component'),
     markup: require('!!raw-loader!./demos/datepicker-disabled/datepicker-disabled.component.html'),
     module: require('!!raw-loader!./demos/datepicker-disabled/datepicker-disabled.module'),
-    path: 'src/app/datepicker/demos/datepicker-disabled',
+    path: 'src/app/components/datepicker/demos/datepicker-disabled',
   },
   format: {
     title: 'Date Picker Custom Format',
@@ -57,7 +57,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/datepicker-format/datepicker-format.component'),
     markup: require('!!raw-loader!./demos/datepicker-format/datepicker-format.component.html'),
     module: require('!!raw-loader!./demos/datepicker-format/datepicker-format.module'),
-    path: 'src/app/datepicker/demos/datepicker-format',
+    path: 'src/app/components/datepicker/demos/datepicker-format',
   },
   footer: {
     title: 'General Accessibility',
@@ -65,7 +65,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/datepicker-footer/datepicker-footer.component'),
     markup: require('!!raw-loader!./demos/datepicker-footer/datepicker-footer.component.html'),
     module: require('!!raw-loader!./demos/datepicker-footer/datepicker-footer.module'),
-    path: 'src/app/datepicker/demos/datepicker-footer',
+    path: 'src/app/components/datepicker/demos/datepicker-footer',
   },
 };
 

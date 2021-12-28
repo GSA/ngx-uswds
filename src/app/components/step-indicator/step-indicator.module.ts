@@ -39,7 +39,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/step-indicator-basic.component'),
     markup: require('!!raw-loader!./demos/basic/step-indicator-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/step-indicator-basic.module'),
-    path: 'src/app/step-indicator/demos/basic',
+    path: 'src/app/components/step-indicator/demos/basic',
   },
   hideLabels: {
     title: 'Step Indicator - Hide Labels',
@@ -47,7 +47,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-hide-labels/step-indicator-hide-labels.component'),
     markup: require('!!raw-loader!./demos/step-indicator-hide-labels/step-indicator-hide-labels.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-hide-labels/step-indicator-hide-labels.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-hide-labels',
+    path: 'src/app/components/step-indicator/demos/step-indicator-hide-labels',
   },
   centerLabels: {
     title: 'Step Indicator - Center Labels',
@@ -55,7 +55,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-center-labels/step-indicator-center-labels.component'),
     markup: require('!!raw-loader!./demos/step-indicator-center-labels/step-indicator-center-labels.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-center-labels/step-indicator-center-labels.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-center-labels',
+    path: 'src/app/components/step-indicator/demos/step-indicator-center-labels',
   },
   displayCounters: {
     title: 'Step Indicator - Display Counters',
@@ -63,7 +63,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-display-counters/step-indicator-display-counters.component'),
     markup: require('!!raw-loader!./demos/step-indicator-display-counters/step-indicator-display-counters.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-display-counters/step-indicator-display-counters.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-display-counters',
+    path: 'src/app/components/step-indicator/demos/step-indicator-display-counters',
   },
   displayCountersSmall: {
     title: 'Step Indicator - Display Small Counters',
@@ -71,7 +71,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-display-counters-small/step-indicator-display-counters-small.component'),
     markup: require('!!raw-loader!./demos/step-indicator-display-counters-small/step-indicator-display-counters-small.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-display-counters-small/step-indicator-display-counters-small.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-display-counters-small',
+    path: 'src/app/components/step-indicator/demos/step-indicator-display-counters-small',
   },
   centerCounters: {
     title: 'Step Indicator - Center Counters',
@@ -79,7 +79,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-center-counters/step-indicator-center-counters.component'),
     markup: require('!!raw-loader!./demos/step-indicator-center-counters/step-indicator-center-counters.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-center-counters/step-indicator-center-counters.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-center-counters',
+    path: 'src/app/components/step-indicator/demos/step-indicator-center-counters',
   },
   headerTop: {
     title: 'Step Indicator - Top Header',
@@ -87,7 +87,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-header-top/step-indicator-header-top.component'),
     markup: require('!!raw-loader!./demos/step-indicator-header-top/step-indicator-header-top.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-header-top/step-indicator-header-top.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-header-top',
+    path: 'src/app/components/step-indicator/demos/step-indicator-header-top',
   },
   disableStep: {
     title: 'Step Indicator - Disable Single Step',
@@ -95,7 +95,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-disable-step/step-indicator-disable-step.component'),
     markup: require('!!raw-loader!./demos/step-indicator-disable-step/step-indicator-disable-step.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-disable-step/step-indicator-disable-step.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-disable-step',
+    path: 'src/app/components/step-indicator/demos/step-indicator-disable-step',
   },
   customHeader: {
     title: 'Step Indicator - Custom Template Header',
@@ -103,7 +103,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-custom-header/step-indicator-custom-header.component'),
     markup: require('!!raw-loader!./demos/step-indicator-custom-header/step-indicator-custom-header.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-custom-header/step-indicator-custom-header.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-custom-header',
+    path: 'src/app/components/step-indicator/demos/step-indicator-custom-header',
   },
   disableStepSelection: {
     title: 'Step Indicator - Disable Step Selection',
@@ -111,7 +111,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-disable-all-steps/step-indicator-disable-all-steps.component'),
     markup: require('!!raw-loader!./demos/step-indicator-disable-all-steps/step-indicator-disable-all-steps.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-disable-all-steps/step-indicator-disable-all-steps.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-disable-all-steps',
+    path: 'src/app/components/step-indicator/demos/step-indicator-disable-all-steps',
   },
   substeps: {
     title: 'Step Indicator - Substeps',
@@ -119,7 +119,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-substeps/step-indicator-substeps.component'),
     markup: require('!!raw-loader!./demos/step-indicator-substeps/step-indicator-substeps.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-substeps/step-indicator-substeps.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-substeps',
+    path: 'src/app/components/step-indicator/demos/step-indicator-substeps',
   },
   footer: {
     title: 'General Accessibility',
@@ -127,7 +127,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/step-indicator-footer/step-indicator-footer.component'),
     markup: require('!!raw-loader!./demos/step-indicator-footer/step-indicator-footer.component.html'),
     module: require('!!raw-loader!./demos/step-indicator-footer/step-indicator-footer.module'),
-    path: 'src/app/step-indicator/demos/step-indicator-footer',
+    path: 'src/app/components/step-indicator/demos/step-indicator-footer',
   }
 }
 

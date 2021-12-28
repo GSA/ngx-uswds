@@ -12,7 +12,7 @@ export class HeaderExtendedComponent {
       text: 'Secondary Link',
       id: 'request',
       selected: true,
-      path: '/header/examples'
+      path: 'components/header/examples'
     },
     {
       text: 'Custom Template Link',
@@ -29,17 +29,17 @@ export class HeaderExtendedComponent {
         {
           text: 'Item 1',
           id: 'homeChild1',
-          path: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 2',
           id: 'homeChild2',
-          path: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 3',
           id: 'homeChild3',
-          path: '/header/examples',
+          path: 'components/header/examples',
         }
       ],
     },

@@ -21,7 +21,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/static/side-navigation-static.component'),
     markup: require('!!raw-loader!./demos/static/side-navigation-static.component.html'),
     module: require('!!raw-loader!./demos/static/side-navigation-static.module'),
-    path: 'src/app/side-navigation/demos/static',
+    path: 'src/app/components/side-navigation/demos/static',
   },
   toggleSingle: {
     title: 'Toggleable Side Nav - Single',
@@ -29,7 +29,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.component'),
     markup: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.component.html'),
     module: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.module'),
-    path: 'src/app/side-navigation/demos/toggle-multi',
+    path: 'src/app/components/side-navigation/demos/toggle-multi',
   },
   toggleMulti: {
     title: 'Toggleable Side Nav - Multiple',
@@ -37,7 +37,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.component'),
     markup: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.component.html'),
     module: require('!!raw-loader!./demos/toggle-multi/side-navigation-toggle-multi.module'),
-    path: 'src/app/side-navigation/demos/toggle-multi',
+    path: 'src/app/components/side-navigation/demos/toggle-multi',
   }
 };
 

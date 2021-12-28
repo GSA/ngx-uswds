@@ -23,7 +23,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/file-input-basic/file-input-basic.component'),
     markup: require('!!raw-loader!./demos/file-input-basic/file-input-basic.component.html'),
     module: require('!!raw-loader!./demos/file-input-basic/file-input-basic.module'),
-    path: 'src/app/file-input/demos/file-input-basic',
+    path: 'src/app/components/file-input/demos/file-input-basic',
   },
   multiple: {
     title: 'Multiple File Input',
@@ -31,7 +31,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/file-input-multiple/file-input-multiple.component'),
     markup: require('!!raw-loader!./demos/file-input-multiple/file-input-multiple.component.html'),
     module: require('!!raw-loader!./demos/file-input-multiple/file-input-multiple.module'),
-    path: 'src/app/file-input/demos/file-input-multiple',
+    path: 'src/app/components/file-input/demos/file-input-multiple',
   },
   serverLoad: {
     title: 'Upload to Server',
@@ -39,7 +39,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/file-input-upload/file-input-upload.component'),
     markup: require('!!raw-loader!./demos/file-input-upload/file-input-upload.component.html'),
     module: require('!!raw-loader!./demos/file-input-upload/file-input-upload.module'),
-    path: 'src/app/file-input/demos/file-input-upload',
+    path: 'src/app/components/file-input/demos/file-input-upload',
   },
   acceptType: {
     title: 'Accept PDF and CSV Only',
@@ -47,7 +47,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/file-input-type/file-input-type.component'),
     markup: require('!!raw-loader!./demos/file-input-type/file-input-type.component.html'),
     module: require('!!raw-loader!./demos/file-input-type/file-input-type.module'),
-    path: 'src/app/file-input/demos/file-input-type',
+    path: 'src/app/components/file-input/demos/file-input-type',
   },
   removeFile: {
     title: 'Remove Files',
@@ -55,7 +55,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/file-input-remove/file-input-remove.component'),
     markup: require('!!raw-loader!./demos/file-input-remove/file-input-remove.component.html'),
     module: require('!!raw-loader!./demos/file-input-remove/file-input-remove.module'),
-    path: 'src/app/file-input/demos/file-input-remove',
+    path: 'src/app/components/file-input/demos/file-input-remove',
   },
 };
 

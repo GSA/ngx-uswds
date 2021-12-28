@@ -28,7 +28,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/table-basic.component'),
     markup: require('!!raw-loader!./demos/basic/table-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/table-basic.module'),
-    path: 'src/app/table/demos/basic',
+    path: 'src/app/components/table/demos/basic',
   },
   multiHeader: {
     title: 'Multiple Headers Table',
@@ -36,7 +36,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/multi-header/multi-header.component'),
     markup: require('!!raw-loader!./demos/multi-header/multi-header.component.html'),
     module: require('!!raw-loader!./demos/multi-header/multi-header.module'),
-    path: 'src/app/table/demos/multi-header',
+    path: 'src/app/components/table/demos/multi-header',
   },
   sortableTable: {
     title: 'Sortable Table',
@@ -44,7 +44,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/sortable-table/sortable-table.component'),
     markup: require('!!raw-loader!./demos/sortable-table/sortable-table.component.html'),
     module: require('!!raw-loader!./demos/sortable-table/sortable-table.module'),
-    path: 'src/app/table/demos/sortable-table',
+    path: 'src/app/components/table/demos/sortable-table',
   },
   dynamicTble: {
     title: 'Dynamic Table',
@@ -52,7 +52,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/dynamic-table/dynamic-table.component'),
     markup: require('!!raw-loader!./demos/dynamic-table/dynamic-table.component.html'),
     module: require('!!raw-loader!./demos/dynamic-table/dynamic-table.module'),
-    path: 'src/app/table/demos/dynamic-table',
+    path: 'src/app/components/table/demos/dynamic-table',
   },
   footer: {
     title: '',
@@ -60,7 +60,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/table-footer/table-footer.component'),
     markup: require('!!raw-loader!./demos/table-footer/table-footer.component.html'),
     module: require('!!raw-loader!./demos/table-footer/table-footer.module'),
-    path: 'src/app/table/demos/table-footer',
+    path: 'src/app/components/table/demos/table-footer',
   },
 };
 

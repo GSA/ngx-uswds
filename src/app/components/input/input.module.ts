@@ -20,7 +20,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/input-basic.component'),
     markup: require('!!raw-loader!./demos/basic/input-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/input-basic.module'),
-    path: 'src/app/input/demos/basic',
+    path: 'src/app/components/input/demos/basic',
   },
   prefix: {
     title: 'Input with prefix',
@@ -28,7 +28,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/prefix/input-prefix.component'),
     markup: require('!!raw-loader!./demos/prefix/input-prefix.component.html'),
     module: require('!!raw-loader!./demos/prefix/input-prefix.module'),
-    path: 'src/app/input/demos/prefix',
+    path: 'src/app/components/input/demos/prefix',
   },
   suffix: {
     title: 'Input with suffix',
@@ -36,7 +36,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/suffix/input-suffix.component'),
     markup: require('!!raw-loader!./demos/suffix/input-suffix.component.html'),
     module: require('!!raw-loader!./demos/suffix/input-suffix.module'),
-    path: 'src/app/input/demos/suffix',
+    path: 'src/app/components/input/demos/suffix',
   },
   prefixAndSuffix: {
     title: 'Input with prefix and suffix',
@@ -44,7 +44,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/prefix-and-suffix/input-prefix-and-suffix.component'),
     markup: require('!!raw-loader!./demos/prefix-and-suffix/input-prefix-and-suffix.component.html'),
     module: require('!!raw-loader!./demos/prefix-and-suffix/input-prefix-and-suffix.module'),
-    path: 'src/app/input/demos/prefix-and-suffix',
+    path: 'src/app/components/input/demos/prefix-and-suffix',
   },
 }
 
