@@ -13,4 +13,4 @@ import { USWDSDropdownComponent } from "./dropdown.component";
     USWDSDropdownComponent
   ]
 })
-export class USWDSDropdownModule {}
+export class UsaDropdownModule { }

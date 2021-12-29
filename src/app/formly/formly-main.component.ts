@@ -40,6 +40,12 @@ export class FormlyMainComponent implements OnInit {
       mode: UsaNavigationMode.INTERNAL
     },
     {
+      text: 'Dropdown',
+      path: 'dropdown',
+      id: '6',
+      mode: UsaNavigationMode.INTERNAL
+    },
+    {
       text: 'Input',
       path: 'input',
       id: '1',

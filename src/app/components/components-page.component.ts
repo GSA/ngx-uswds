@@ -35,6 +35,12 @@ export class ComponentsPageComponent implements OnInit {
       mode: UsaNavigationMode.INTERNAL
     },
     {
+      text: 'Dropdown',
+      path: 'dropdown',
+      id: '24',
+      mode: UsaNavigationMode.INTERNAL
+    },
+    {
       text: 'File Input',
       path: 'file-input',
       id: '10',
