@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
+import { UsaComboboxDropdown } from './combo-box-dropdown.component';
+import { UsaComboBoxItemTemplate } from './combo-box-selectors';
 
-let listId = 0;
-
+let comboBoxId = 0;
+let listBoxId = 0;
 @Component({
   selector: 'usa-combobox',
   templateUrl: './combo-box.component.html',
@@ -17,24 +19,26 @@ let listId = 0;
 export class UsaComboBoxComponent implements ControlValueAccessor{
 
   @ViewChild('comboBoxInput') comboBoxInput: ElementRef<HTMLInputElement>;
+  @ViewChild(UsaComboboxDropdown) comboBoxDropdown: UsaComboboxDropdown;
 
   @Input() items: any[];
-  @Input() id = `usa-combo-box__list-${listId++}`;
+  @Input() id = `usa-combo-box-${comboBoxId++}`;
+  @Input() listId = `usa-combo-box__list-${listBoxId++}`;
   @Input() labelField: string;
   @Input() valueField: string;
   @Input() trackByFn: Function;
   @Input() value: string = '';
+  @Input() readonly: boolean = undefined;
 
 
   @Output('change') changeEvent = new EventEmitter();
+
+  @ContentChild(UsaComboBoxItemTemplate) itemTemplate: UsaComboBoxItemTemplate;
 
   private _onChange = (_: any) => { };
   private _onTouched = () => { };
 
   _displayDropdown = false;
-  _focusedItem: {item: any, index: number, id: string, itemHtml: HTMLDataListElement} = null;
-  _selectedItem: any;
-  _selectedItemHtml: HTMLDataListElement;
   _disabled: boolean;
 
   @HostListener('document:click', ['$event'])
@@ -72,7 +76,6 @@ export class UsaComboBoxComponent implements ControlValueAccessor{
 
   selectItem(item: any) {
     this.value = item[this.labelField];
-    this._selectedItem = item;
     this.comboBoxInput.nativeElement.focus();
     this._displayDropdown = false;
     this.updateValue(item[this.labelField]);
@@ -85,101 +88,45 @@ export class UsaComboBoxComponent implements ControlValueAccessor{
 
   onFocus() {
     this._displayDropdown = true;
+    this._onTouched();
   }
 
-  onOptionHover(item: any, index: number, id: string, itemHtml: HTMLDataListElement) {
-    this._focusedItem = {
-      item,
-      index,
-      id,
-      itemHtml
-    };
-
-    itemHtml.focus();
+  /**
+   * Move focus to combo box input and close dropdown
+   */
+  focusInput() {
+    this.comboBoxInput.nativeElement.focus();
+    this._displayDropdown = false;
   }
 
-  trackByOption = (_: number, item: any) => {
-    if (this.trackByFn) {
-        return this.trackByFn(item.value);
-    }
-
-    return item;
-  };
-
-  onKeyDown($event: KeyboardEvent) {
+  /**
+   * Handles keypress on combobox input field
+   * @param $event 
+   * @returns 
+   */
+  onInputKeyDown($event: KeyboardEvent) {
     const keyPressed = $event.key || $event.keyCode;
 
     switch(keyPressed) {
       case Key.ArrowDown:
       case MicrosfotKeys.ArrowDown:
       case KeyCode.ArrowDown:
-        if (this._focusedItem.index === this.items.length - 1) return;
-        const nextSibling = this._focusedItem.itemHtml.nextElementSibling as HTMLDataListElement;
+        if (!this._displayDropdown) {
+          this._displayDropdown = true;
+          return;
+        }
 
-        this._focusedItem = {
-          item: this.items[this._focusedItem.index + 1],
-          index: this._focusedItem.index + 1,
-          id: nextSibling.id,
-          itemHtml: nextSibling
-        };
+        if (this.comboBoxDropdown) {
+          this.comboBoxDropdown.focusFirstElement();
+        }
 
-        nextSibling.focus();
         $event.preventDefault();
         break;
 
       case Key.ArrowUp:
       case MicrosfotKeys.ArrowUp:
       case KeyCode.ArrowUp:
-        if (this._focusedItem.index === 0) return;
-        const previousSibling = this._focusedItem.itemHtml.previousElementSibling as HTMLDataListElement;
-        this._focusedItem = {
-          item: this.items[this._focusedItem.index - 1],
-          index: this._focusedItem.index - 1,
-          id: previousSibling.id,
-          itemHtml: previousSibling
-        };
-
-        previousSibling.focus();
-        $event.preventDefault();
-        break;
-
-      case Key.Home:
-      case MicrosfotKeys.Home:
-      case KeyCode.Home:
-        const firstElementId = `#${this.id}-0`;
-        const firstItem = this.el.nativeElement.querySelector(firstElementId);
-        this._focusedItem = {
-          item: this.items[0],
-          index: 0,
-          id: firstElementId,
-          itemHtml: firstItem
-        };
-
-        firstItem.focus();
-        $event.preventDefault();
-        break;
-
-      case Key.End:
-      case MicrosfotKeys.End:
-      case KeyCode.End:
-        const lastIndex = this.items.length - 1;
-        const lastElementId = `#${this.id}-${lastIndex}`;
-        const lastElement = this.el.nativeElement.querySelector(lastElementId);
-        this._focusedItem = {
-          item: this.items[lastIndex],
-          index: lastIndex,
-          id: lastElementId,
-          itemHtml: lastElement
-        };
-
-        lastElement.focus();
-        $event.preventDefault();
-        break;
-      
-      case Key.Enter:
-      case MicrosfotKeys.Enter:
-      case KeyCode.Enter:
-        this.selectItem(this._focusedItem.item);
+        this._displayDropdown = false;
         $event.preventDefault();
         break;
     }

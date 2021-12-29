@@ -1,8 +1,10 @@
 <div class="usa-combo-box" data-enhanced="true" [ngClass]="{'usa-combo-box--pristine': value?.length}">
-  <input #comboBoxInput id="fruit" aria-owns="fruit--list" aria-autocomplete="list" aria-describedby="fruit--assistiveHint"
-    aria-expanded="false" autocapitalize="off" autocomplete="off" class="usa-combo-box__input" type="text"
-    role="combobox" [attr.aria-activedescendant]="_focusedItem?.id" (focus)="onFocus()" (input)="onValueChange($event.target.value)" 
-    [value]="value" [disabled]="_disabled">
+  <input #comboBoxInput 
+    [attr.id]="id" [attr.aria-owns]="listId" aria-autocomplete="list" [attr.aria-describedby]="id + '--assistiveHint'"
+    [attr.aria-expanded]="_displayDropdown" autocapitalize="off" autocomplete="off" class="usa-combo-box__input" type="text"
+    role="combobox" [attr.aria-activedescendant]="comboBoxDropdown?._focusedItem?.id" 
+    (focus)="onFocus()" (input)="onValueChange($event.target.value)" (keydown)="onInputKeyDown($event)"
+    [value]="value" [disabled]="_disabled" [attr.readonly]="readonly === true ? true : undefined">
   <span class="usa-combo-box__clear-input__wrapper" tabindex="-1">
     <button type="button" class="usa-combo-box__clear-input" aria-label="Clear the select contents" (click)="clearInput()">&nbsp;</button>
   </span>
@@ -12,24 +14,23 @@
       aria-label="Toggle the dropdown list">&nbsp;</button>
   </span>
 
-  <usa-combo-box-dropdown>
-    <ul *ngIf="_displayDropdown" tabindex="-1" [attr.id]="id" class="usa-combo-box__list" role="listbox" aria-labelledby="fruit-label">
-      <li *ngFor="let item of items; index as i; trackBy: trackByOption" #htmlItem
-        class="usa-combo-box__list-option" [attr.tabindex]="_focusedItem?.item === item ? 0 : -1"
-        [attr.aria-setsize]="items.length" [attr.aria-posinset]="i" aria-selected="false" 
-        role="option" value="{{item[valueField]}}"
-        [attr.id]="id + '-' + i"
-        [ngClass]="{'usa-combo-box__list-option--focused': _focusedItem?.item === item}"
-        (click)="selectItem(item)"
-        (keydown)="onKeyDown($event)" 
-        (mouseover)="onOptionHover(item, i, id + '-' + i, htmlItem)">
-        {{item[labelField]}}
-      </li>
-    </ul>
-    <div class="usa-combo-box__status usa-sr-only" role="status"></div>
-    <span id="fruit--assistiveHint" class="usa-sr-only">
-      When autocomplete results are available use up and down arrows to review and enter to select.
-      Touch device users, explore by touch or with swipe gestures.
-    </span>
+  <usa-combo-box-dropdown *ngIf="_displayDropdown"
+    [items]="items"
+    [customItemTemplate]="itemTemplate"
+    [listId]="listId"
+    [trackByFn]="trackByFn"
+    (selected)="selectItem($event)"
+    (focusInput)="focusInput()"
+  >
   </usa-combo-box-dropdown>
+
+  <div class="usa-combo-box__status usa-sr-only" role="status"></div>
+  <span [attr.id]="id + '--assistiveHint'" class="usa-sr-only">
+    When autocomplete results are available use up and down arrows to review and enter to select.
+    Touch device users, explore by touch or with swipe gestures.
+  </span>
 </div>
+
+<ng-template #defaultOptionTemplate let-item>
+  {{item[labelField]}}
+</ng-template>
