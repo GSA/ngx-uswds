@@ -3,18 +3,18 @@ import { DropdownOptionsModel } from './dropdown-options.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'uswds-dropdown',
+  selector: 'usa-dropdown',
   templateUrl: './dropdown.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => USWDSDropdownComponent),
+      useExisting: forwardRef(() => UsaDropdownComponent),
       multi: true,
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class USWDSDropdownComponent implements ControlValueAccessor {
+export class UsaDropdownComponent implements ControlValueAccessor {
 
   /** Id of dropdown field */
   @Input() id: string;
