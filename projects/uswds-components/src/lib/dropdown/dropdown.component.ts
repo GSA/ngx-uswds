@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { DropdownOptionsModel } from './dropdown-options.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -16,6 +16,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class UsaDropdownComponent implements ControlValueAccessor {
 
+  model: DropdownOptionsModel;
+
   /** Id of dropdown field */
   @Input() id: string;
 
@@ -32,13 +34,15 @@ export class UsaDropdownComponent implements ControlValueAccessor {
   private onChange = (v: any) => { };
   private onTouched = () => { };
 
+  constructor(public cdr: ChangeDetectorRef) { }
+
   onOptionSelected($event) {
     const options: HTMLOptionsCollection = $event.target.options;
     const selectedOption = options.item(options.selectedIndex);
-    const dropdownOption: DropdownOptionsModel = { label: selectedOption.label, value: selectedOption.value };
+    this.model = { label: selectedOption.label, value: selectedOption.value };
 
-    this.onChange(dropdownOption);
-    this.optionChange.emit(dropdownOption);
+    this.onChange(this.model);
+    this.optionChange.emit(this.model);
   }
 
   registerOnChange(fn: any): void {
@@ -48,6 +52,8 @@ export class UsaDropdownComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  writeValue(value): void {
+  writeValue(value: any): void {
+    this.model = value;
+    this.cdr.markForCheck();
   }
 }
