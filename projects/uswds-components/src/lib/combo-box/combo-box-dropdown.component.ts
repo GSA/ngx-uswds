@@ -1,65 +1,76 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { 
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, 
+  Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, 
+  Output, Renderer2, SimpleChanges, ViewChild } from "@angular/core";
 import { UsaComboBoxItemTemplate } from "./combo-box-selectors";
 import { Key, KeyCode, MicrosfotKeys } from "../util/key";
 
 @Component({
   selector: `usa-combo-box-dropdown`,
-  templateUrl: './combo-box-dropdown.component.html'
+  templateUrl: './combo-box-dropdown.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {provide: Window, useValue: window}
+  ]
 })
-export class UsaComboboxDropdown {
+export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges {
 
   @ViewChild('dropdownListbox') dropdownListBox: ElementRef<HTMLUListElement>;
 
   @Input() items: any[];
   @Input() customItemTemplate: UsaComboBoxItemTemplate;
   @Input() listId: string;
-  @Input() trackByFn: Function;
   @Input() virtualScroll = true;
+  @Input() direction: 'top' | 'bottom';
 
   @Output() selected = new EventEmitter<any>();
   @Output() focusInput = new EventEmitter();
   @Output() scrollEnd = new EventEmitter();
 
   _focusedItem: any;
+  _displayTop: boolean;
+
+  _eventListeners: (()=>void)[] = [];
 
   constructor(
-    private el: ElementRef
+    private windowRef: Window,
+    private cdr: ChangeDetectorRef,
+    private renderer: Renderer2,
   ) { }
 
+  trackByFn(index: number) {
+    return index;
+  }
+  
+  ngAfterViewInit() {
+    this.setDropdownDirection();
+    this.bindEventsOutsideAngular();
+  }
+
+  ngOnDestroy() {
+    this._eventListeners.forEach(listener => listener());
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.items) {
+      return;
+    }
+    
+    /** 
+     * New list of items is provided. Remove listeners to old item list, and attach listeners
+     * to the new items
+     */
+    this._eventListeners.forEach(unlistener => unlistener());
+    this.cdr.detectChanges();
+    this.bindEventsOutsideAngular();
+    this._focusedItem = undefined;
+  }
+
   selectItem(item) {
+    if (item.disabled) return;
+
     this.selected.emit(item);
   }
-
-  onOptionHover(item: any, index: number, id: string, itemHtml: HTMLDataListElement) {
-    this._focusedItem = {
-      item,
-      index,
-      id,
-      itemHtml
-    };
-
-    itemHtml.focus();
-  }
-
-  onScroll() {
-    if (!this.virtualScroll || !this.dropdownListBox) return;
-
-    const dropdownElement = this.dropdownListBox.nativeElement;
-    const currentScrolledAmount = dropdownElement.offsetHeight + dropdownElement.scrollTop;
-    const totalScrollAmount = dropdownElement.scrollHeight;
-
-    if (currentScrolledAmount >= totalScrollAmount) {
-      this.scrollEnd.emit();
-    }
-  }
-
-  trackByOption = (_: number, item: any) => {
-    if (this.trackByFn) {
-        return this.trackByFn(item.value);
-    }
-
-    return item;
-  };
 
   /**
  * Handles keypress on combobox dropdown items
@@ -75,15 +86,7 @@ export class UsaComboboxDropdown {
       case KeyCode.ArrowDown:
         if (this._focusedItem.index === this.items.length - 1) return;
         const nextSibling = this._focusedItem.itemHtml.nextElementSibling as HTMLDataListElement;
-
-        this._focusedItem = {
-          item: this.items[this._focusedItem.index + 1],
-          index: this._focusedItem.index + 1,
-          id: nextSibling.id,
-          itemHtml: nextSibling
-        };
-
-        nextSibling.focus();
+        this.updateFocusedItem(this._focusedItem.index + 1, nextSibling);
         $event.preventDefault();
         break;
 
@@ -96,14 +99,7 @@ export class UsaComboboxDropdown {
         }
 
         const previousSibling = this._focusedItem.itemHtml.previousElementSibling as HTMLDataListElement;
-        this._focusedItem = {
-          item: this.items[this._focusedItem.index - 1],
-          index: this._focusedItem.index - 1,
-          id: previousSibling.id,
-          itemHtml: previousSibling
-        };
-
-        previousSibling.focus();
+        this.updateFocusedItem(this._focusedItem.index - 1, previousSibling);
         $event.preventDefault();
         break;
 
@@ -134,29 +130,87 @@ export class UsaComboboxDropdown {
   * Focus on first element of combo-box dropdown
   */
   focusFirstElement() {
-    const firstElementId = `#${this.listId}-0`;
-    const firstItem = this.el.nativeElement.querySelector(firstElementId);
-    this._focusedItem = {
-      item: this.items[0],
-      index: 0,
-      id: firstElementId,
-      itemHtml: firstItem
-    };
-
-    firstItem.focus();
+    const firstElement = this.dropdownListBox.nativeElement.firstElementChild as HTMLDataListElement;
+    this.updateFocusedItem(0, firstElement);
+    this.cdr.detectChanges();
   }
 
   focusLastElement() {
     const lastIndex = this.items.length - 1;
-    const lastElementId = `#${this.listId}-${lastIndex}`;
-    const lastElement = this.el.nativeElement.querySelector(lastElementId);
+    const lastElement = this.dropdownListBox.nativeElement.lastElementChild as HTMLDataListElement;
+    this.updateFocusedItem(lastIndex, lastElement);
+    this.cdr.detectChanges();
+  }
+
+  private bindEventsOutsideAngular() {
+    this.bindMouseOverListeners();
+    this.bindScrollListener();
+  }
+
+  /**
+   * Attaches mouseover event to each list element in the dropdown. Since the mouseover
+   * event fires quite often, we run these events outside of angular's zone to prevent 
+   * excess change detection across the entire each time it fires.
+   */
+  private bindMouseOverListeners() {
+    const children = Array.from(this.dropdownListBox.nativeElement.children);
+    children.forEach((child: HTMLDataListElement, index: number) => {
+      const listener = this.renderer.listen(child, 'mouseover', () => {
+        if (this._focusedItem?.itemHtml === child) return;
+        this.updateFocusedItem(index, child);
+        this.cdr.detectChanges();
+      });
+
+      this._eventListeners.push(listener)
+    });
+  }
+
+  private bindScrollListener() {
+    if (!this.virtualScroll) return;
+
+    const dropdownElement = this.dropdownListBox.nativeElement;
+    const scrollListener = this.renderer.listen(dropdownElement, 'scroll', () => {
+      const currentScrolledAmount = dropdownElement.offsetHeight + dropdownElement.scrollTop;
+      const totalScrollAmount = dropdownElement.scrollHeight;
+      if (currentScrolledAmount >= totalScrollAmount) {
+        this.scrollEnd.emit();
+      }
+    })
+  
+    this._eventListeners.push(scrollListener);
+  }
+
+  private setDropdownDirection() {
+    const dropdownRect = this.dropdownListBox.nativeElement.getClientRects().item(0);
+    /** 
+    * If there isn't enough room to display dropdown above the input, then simply display dropdown
+    * below regardless of space
+    */
+    if (this.direction === 'bottom' || dropdownRect.height > dropdownRect.top) return;
+
+
+    const dropdownY = dropdownRect.height + dropdownRect.top;
+
+    /**
+     * If there is no space to display dropdown below the input, then display dropdown above the input
+     */
+    if (this.direction === 'top' || dropdownY >= this.windowRef.innerHeight) {
+      this.dropdownListBox.nativeElement.style.bottom = '100%';
+      this.dropdownListBox.nativeElement.style.borderBottomWidth = '0';
+      this.dropdownListBox.nativeElement.style.borderTop = '1px solid';
+    }
+  }
+
+  private updateFocusedItem(index: number, itemHtml: HTMLDataListElement) {
+    const item = this.items[index];
+    const id = `${this.listId}-${index}`;
+
     this._focusedItem = {
-      item: this.items[lastIndex],
-      index: lastIndex,
-      id: lastElementId,
-      itemHtml: lastElement
+      item,
+      index,
+      itemHtml
     };
 
-    lastElement.focus();
+    itemHtml.focus();
   }
 }

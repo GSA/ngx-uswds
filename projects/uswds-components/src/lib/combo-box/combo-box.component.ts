@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 import { UsaComboboxDropdown } from './combo-box-dropdown.component';
@@ -16,7 +16,7 @@ let listBoxId = 0;
   }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsaComboBoxComponent implements ControlValueAccessor{
+export class UsaComboBoxComponent implements ControlValueAccessor {
 
   @ViewChild('comboBoxInput') comboBoxInput: ElementRef<HTMLInputElement>;
   @ViewChild(UsaComboboxDropdown) comboBoxDropdown: UsaComboboxDropdown;
@@ -26,7 +26,6 @@ export class UsaComboBoxComponent implements ControlValueAccessor{
   @Input() listId = `usa-combo-box__list-${listBoxId++}`;
   @Input() labelField: string;
   @Input() valueField: string;
-  @Input() trackByFn: Function;
   @Input() value: string = '';
   @Input() readonly: boolean = undefined;
   @Input() virtualScroll = true

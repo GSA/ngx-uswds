@@ -16,10 +16,10 @@
   </span>
 
   <usa-combo-box-dropdown *ngIf="_displayDropdown"
+    #comboBoxDropdown
     [items]="items"
     [customItemTemplate]="itemTemplate"
     [listId]="listId"
-    [trackByFn]="trackByFn"
     [virtualScroll]="virtualScroll"
     (selected)="selectItem($event)"
     (focusInput)="focusInput()"

@@ -8,7 +8,8 @@ export const mockData = [
     "company": "BIZMATIC",
     "email": "trinaware@bizmatic.com",
     "phone": "+1 (882) 459-2143",
-    "address": "468 Wakeman Place, Hoehne, Maryland, 8165"
+    "address": "468 Wakeman Place, Hoehne, Maryland, 8165",
+    "disabled": true
   },
   {
     "id": "61cb64c3706370acaebe646e",
