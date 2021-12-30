@@ -29,9 +29,10 @@ export class UsaComboBoxComponent implements ControlValueAccessor{
   @Input() trackByFn: Function;
   @Input() value: string = '';
   @Input() readonly: boolean = undefined;
-
+  @Input() virtualScroll = true
 
   @Output('change') changeEvent = new EventEmitter();
+  @Output() scrollEnd = new EventEmitter();
 
   @ContentChild(UsaComboBoxItemTemplate) itemTemplate: UsaComboBoxItemTemplate;
 
@@ -89,6 +90,10 @@ export class UsaComboBoxComponent implements ControlValueAccessor{
   onFocus() {
     this._displayDropdown = true;
     this._onTouched();
+  }
+
+  onScrollEnd() {
+    this.scrollEnd.emit();
   }
 
   /**

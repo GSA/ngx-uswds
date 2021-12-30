@@ -5,6 +5,7 @@
     role="combobox" [attr.aria-activedescendant]="comboBoxDropdown?._focusedItem?.id" 
     (focus)="onFocus()" (input)="onValueChange($event.target.value)" (keydown)="onInputKeyDown($event)"
     [value]="value" [disabled]="_disabled" [attr.readonly]="readonly === true ? true : undefined">
+
   <span class="usa-combo-box__clear-input__wrapper" tabindex="-1">
     <button type="button" class="usa-combo-box__clear-input" aria-label="Clear the select contents" (click)="clearInput()">&nbsp;</button>
   </span>
@@ -19,8 +20,10 @@
     [customItemTemplate]="itemTemplate"
     [listId]="listId"
     [trackByFn]="trackByFn"
+    [virtualScroll]="virtualScroll"
     (selected)="selectItem($event)"
     (focusInput)="focusInput()"
+    (scrollEnd)="onScrollEnd()"
   >
   </usa-combo-box-dropdown>
 
@@ -30,7 +33,3 @@
     Touch device users, explore by touch or with swipe gestures.
   </span>
 </div>
-
-<ng-template #defaultOptionTemplate let-item>
-  {{item[labelField]}}
-</ng-template>

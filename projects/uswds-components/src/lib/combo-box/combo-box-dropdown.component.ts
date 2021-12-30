@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { UsaComboBoxItemTemplate } from "./combo-box-selectors";
 import { Key, KeyCode, MicrosfotKeys } from "../util/key";
 
@@ -7,13 +7,18 @@ import { Key, KeyCode, MicrosfotKeys } from "../util/key";
   templateUrl: './combo-box-dropdown.component.html'
 })
 export class UsaComboboxDropdown {
+
+  @ViewChild('dropdownListbox') dropdownListBox: ElementRef<HTMLUListElement>;
+
   @Input() items: any[];
   @Input() customItemTemplate: UsaComboBoxItemTemplate;
   @Input() listId: string;
   @Input() trackByFn: Function;
+  @Input() virtualScroll = true;
 
   @Output() selected = new EventEmitter<any>();
   @Output() focusInput = new EventEmitter();
+  @Output() scrollEnd = new EventEmitter();
 
   _focusedItem: any;
 
@@ -34,6 +39,18 @@ export class UsaComboboxDropdown {
     };
 
     itemHtml.focus();
+  }
+
+  onScroll() {
+    if (!this.virtualScroll || !this.dropdownListBox) return;
+
+    const dropdownElement = this.dropdownListBox.nativeElement;
+    const currentScrolledAmount = dropdownElement.offsetHeight + dropdownElement.scrollTop;
+    const totalScrollAmount = dropdownElement.scrollHeight;
+
+    if (currentScrolledAmount >= totalScrollAmount) {
+      this.scrollEnd.emit();
+    }
   }
 
   trackByOption = (_: number, item: any) => {
