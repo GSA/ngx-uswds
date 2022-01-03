@@ -8,10 +8,11 @@ import { USWDSFormlyCheckboxComponent } from './types/checkbox';
 import { USWDSFormlyDatePickerComponent } from './types/datepicker';
 
 import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
-import { UsaRadioModule, UsaSearchModule, UsaCheckboxModule, UsaDatePickerModule, UsaCharacterCountModule, UsaAffixModule } from '@gsa-sam/ngx-uswds';
+import { UsaRadioModule, UsaSearchModule, UsaCheckboxModule, UsaDatePickerModule, UsaCharacterCountModule, UsaAffixModule, UsaRangeSliderModule } from '@gsa-sam/ngx-uswds';
 import { USWDSFormlyMultiCheckboxComponent } from './types/multicheckbox';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 import { USWDSFormlyRadioComponent } from './types/radio';
+import { USWDSFormlyRangeSliderComponent } from './types/range-slider';
 
 
 @NgModule({
@@ -22,7 +23,9 @@ import { USWDSFormlyRadioComponent } from './types/radio';
         USWDSFormlyCheckboxComponent,
         USWDSFormlyMultiCheckboxComponent,
         USWDSFormlyDatePickerComponent,
-        FormlyWrapperFormFieldComponent],
+        FormlyWrapperFormFieldComponent,
+        USWDSFormlyRangeSliderComponent
+      ],
     imports: [
         CommonModule,
         FormsModule,
@@ -35,6 +38,7 @@ import { USWDSFormlyRadioComponent } from './types/radio';
         FormlySelectModule,
         UsaDatePickerModule,
         UsaAffixModule,
+        UsaRangeSliderModule,
         FormlyModule.forChild({
             validationMessages: [
                 { name: 'required', message: 'This field is required' },],
@@ -69,6 +73,12 @@ import { USWDSFormlyRadioComponent } from './types/radio';
                     component: USWDSFormlyDatePickerComponent,
                     wrappers: ['form-field']
                 },
+                {
+                    name: 'range-slider',
+                    component: USWDSFormlyRangeSliderComponent,
+                    wrappers: ['form-field']
+                },
+
             ],
             wrappers: [{ name: 'form-field', component: FormlyWrapperFormFieldComponent }]
         }),

@@ -94,6 +94,12 @@ export class ComponentsPageComponent implements OnInit {
       id: '60',
       mode: UsaNavigationMode.INTERNAL
     },
+    {
+      text: 'Range Slider',
+      path: 'range-slider',
+      id: '60',
+      mode: UsaNavigationMode.INTERNAL
+    },
   ];
 
   selectedItem: SidenavModel;
