@@ -21,18 +21,43 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   @ViewChild('comboBoxInput') comboBoxInput: ElementRef<HTMLInputElement>;
   @ViewChild(UsaComboboxDropdown) comboBoxDropdown: UsaComboboxDropdown;
 
+  /** List of items to display in dropdown */
   @Input() items: any[];
+
+  /** ID to use for html input. One will be auto generated if not provided */
   @Input() id = `usa-combo-box-${comboBoxId++}`;
+
+  /** Id to use for html list box. One will be auto generated if not provided */
   @Input() listId = `usa-combo-box__list-${listBoxId++}`;
+
+  /** Defines which property of each item to display to the user */
   @Input() labelField: string;
+
+  /** Defines which property to consider as internal value for each item */
   @Input() valueField: string;
+
+  /** Currently present value in the combo box's input field */
   @Input() value: string = '';
+
+  /** Whether the input field can be written to or not */
   @Input() readonly: boolean = undefined;
+
+  /** 
+   * Toggles whether or not to emit scrollEnd event when a user scrolls to the
+   * bottom of the current item list
+   */
   @Input() virtualScroll = true
 
   @Output('change') changeEvent = new EventEmitter();
+
+  /** 
+   * Emitted when a user scrolls to the bottom of the current item list.
+   * This event signals clients to fetch additional data to append to current items
+   * list if additional data exists.
+   */
   @Output() scrollEnd = new EventEmitter();
 
+  /** Custom template to use for rendering each item in items list */
   @ContentChild(UsaComboBoxItemTemplate) itemTemplate: UsaComboBoxItemTemplate;
 
   private _onChange = (_: any) => { };

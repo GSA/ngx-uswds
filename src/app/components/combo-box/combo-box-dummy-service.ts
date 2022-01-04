@@ -10,14 +10,15 @@ import { mockData } from "./combo-box-dummy-data";
 export class ComboBoxMockService {
 
   private mockdata = mockData;
+  readonly itemsPerPage = 20;
 
-  mockData$ = new BehaviorSubject(mockData.slice(0, 20));
+  mockData$ = new BehaviorSubject(mockData.slice(0, this.itemsPerPage));
 
   get() {
     return this.mockData$.asObservable();
   }
 
-  query(searchText: string, itemsLength = 20) {
+  query(searchText: string, itemsLength = this.itemsPerPage) {
     const searchLower = searchText.toLowerCase();
     let filteredData = this.mockdata.filter(data => data.name.toLowerCase().indexOf(searchLower) != -1);
     if (filteredData.length > itemsLength) {
@@ -28,6 +29,6 @@ export class ComboBoxMockService {
   }
 
   fetchAdditionalData(searchText: string, page: number) {
-    this.query(searchText, page * 20);
+    this.query(searchText, page * this.itemsPerPage);
   }
 }

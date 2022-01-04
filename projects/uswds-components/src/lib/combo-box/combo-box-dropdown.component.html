@@ -1,5 +1,5 @@
 <ul #dropdownListbox [attr.id]="listId" class="usa-combo-box__list" role="listbox"
-  aria-labelledby="fruit-label">
+  [attr.aria-labelledby]="ariaLabelledBy">
 
   <li *ngFor="let item of items; index as i; trackBy: trackByFn" #htmlItem class="usa-combo-box__list-option"
     [attr.tabindex]="_focusedItem?.item === item ? 0 : -1" [attr.aria-setsize]="items.length" [attr.aria-posinset]="i"

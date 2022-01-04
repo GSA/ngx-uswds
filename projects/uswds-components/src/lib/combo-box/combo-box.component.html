@@ -18,6 +18,8 @@
   <usa-combo-box-dropdown *ngIf="_displayDropdown"
     #comboBoxDropdown
     [items]="items"
+    [labelField]="labelField"
+    [valueField]="valueField"
     [customItemTemplate]="itemTemplate"
     [listId]="listId"
     [virtualScroll]="virtualScroll"

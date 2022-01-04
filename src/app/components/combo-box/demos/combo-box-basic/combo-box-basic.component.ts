@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { mockData } from '../../combo-box-dummy-data';
 import { ComboBoxMockService } from '../../combo-box-dummy-service';
 
 @Component({
@@ -8,7 +7,6 @@ import { ComboBoxMockService } from '../../combo-box-dummy-service';
   templateUrl: './combo-box-basic.component.html',
 })
 export class ComboBoxBasicComponent implements OnInit {
-  _mockData = mockData;
 
   mockdata$: Observable<any>;
 
@@ -30,7 +28,7 @@ export class ComboBoxBasicComponent implements OnInit {
     if (!this.searchValue || !this.searchValue.length) {
       this._paginationAmount = 1;
     }
-    
+
     this.mockService.query($event);
   }
 

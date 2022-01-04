@@ -1,9 +1,10 @@
 import { 
   AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, 
-  Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, 
+  Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnDestroy, 
   Output, Renderer2, SimpleChanges, ViewChild } from "@angular/core";
 import { UsaComboBoxItemTemplate } from "./combo-box-selectors";
-import { Key, KeyCode, MicrosfotKeys } from "../util/key";
+import { isArrowDown, isArrowUp, isEnd, isEnter, isHome, isPageDown, isPageUp } from "../util/key";
+import { DOCUMENT } from "@angular/common";
 
 @Component({
   selector: `usa-combo-box-dropdown`,
@@ -17,34 +18,76 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
 
   @ViewChild('dropdownListbox') dropdownListBox: ElementRef<HTMLUListElement>;
 
+  /** List of items to display in dropdown */
   @Input() items: any[];
+
+  @Input() labelField: string;
+  @Input() valueFiend: string;
+
+  /** Provided custom template for displaying each item. 
+   * If none provided, then the label property of each item will be shown */
   @Input() customItemTemplate: UsaComboBoxItemTemplate;
+
+  /**
+   * HTML id value to attach to container element
+   */
   @Input() listId: string;
+
+  /**
+   * If virtualScroll is enabled, a scrollEnd event
+   * will be fired when user scrolls to last item in the list,
+   * allowing clients to load in more data
+   */
   @Input() virtualScroll = true;
+
+  /**
+   * Direction to display the dropdown box
+   */
   @Input() direction: 'top' | 'bottom';
 
+  /** Id of label for listbox */
+  @Input() ariaLabelledBy: string;
+
+  /**
+   * Emitted when a value is selected from the dropdown list
+   */
   @Output() selected = new EventEmitter<any>();
+
+  /**
+   * Emitted when the user presses the up arrow key and focus
+   * is on first item in dropdown list. This indicates to the client
+   * that the dropdown list should close and focus should move
+   * back to the combo box input field
+   */
   @Output() focusInput = new EventEmitter();
+
+  /**
+   * Emitted when user has scrolled to the end of the dropdown list.
+   * This event only fires if virtual scroll is enabled
+   */
   @Output() scrollEnd = new EventEmitter();
 
-  _focusedItem: any;
-  _displayTop: boolean;
+  // Reference to currently focused item
+  _focusedItem: {item: any, index: number, itemHtml: HTMLDataListElement};
 
+  /** List of functions to call to un-bind events registered through renderer.listen call */
   _eventListeners: (()=>void)[] = [];
 
   constructor(
+    private el: ElementRef,
     private windowRef: Window,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
+    @Inject(DOCUMENT) private document,
   ) { }
 
   trackByFn(index: number) {
     return index;
   }
-  
+
   ngAfterViewInit() {
     this.setDropdownDirection();
-    this.bindEventsOutsideAngular();
+    this.registerEventHandlers();
   }
 
   ngOnDestroy() {
@@ -61,9 +104,9 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
      * to the new items
      */
     this._eventListeners.forEach(unlistener => unlistener());
+    this._eventListeners = [];
     this.cdr.detectChanges();
-    this.bindEventsOutsideAngular();
-    this._focusedItem = undefined;
+    this.registerEventHandlers();
   }
 
   selectItem(item) {
@@ -78,22 +121,16 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
  * @returns 
  */
   onKeyDown($event: KeyboardEvent) {
-    const keyPressed = $event.key || $event.keyCode;
-
-    switch (keyPressed) {
-      case Key.ArrowDown:
-      case MicrosfotKeys.ArrowDown:
-      case KeyCode.ArrowDown:
-        if (this._focusedItem.index === this.items.length - 1) return;
+    switch (true) {
+      case isArrowDown($event):
+        if (this._focusedItem?.index === this.items.length - 1) return;
         const nextSibling = this._focusedItem.itemHtml.nextElementSibling as HTMLDataListElement;
         this.updateFocusedItem(this._focusedItem.index + 1, nextSibling);
         $event.preventDefault();
         break;
 
-      case Key.ArrowUp:
-      case MicrosfotKeys.ArrowUp:
-      case KeyCode.ArrowUp:
-        if (this._focusedItem.index === 0) {
+      case isArrowUp($event):
+        if (this._focusedItem?.index === 0) {
           this.focusInput.emit();
           return;
         }
@@ -102,24 +139,37 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
         this.updateFocusedItem(this._focusedItem.index - 1, previousSibling);
         $event.preventDefault();
         break;
+      
+      case isPageUp($event):
+      case isPageDown($event):
+        const dropdownNativeElement = this.dropdownListBox.nativeElement;
 
-      case Key.Home:
-      case MicrosfotKeys.Home:
-      case KeyCode.Home:
+        if (!dropdownNativeElement.firstElementChild || !dropdownNativeElement.firstElementChild.clientHeight) {
+          return;
+        }
+
+        const numItemsToScrollPast = Math.ceil(dropdownNativeElement.clientHeight / dropdownNativeElement.firstElementChild.clientHeight);
+        let newIndex = Math.min(this._focusedItem.index + numItemsToScrollPast, this.items.length - 1);
+        if (isPageUp($event)) {
+          newIndex = Math.max(this._focusedItem.index - numItemsToScrollPast, 0)
+        }
+
+        const newFocusedElement = this.el.nativeElement.querySelector(`#${this.listId}-${newIndex}`);
+        this.updateFocusedItem(newIndex, newFocusedElement);
+        $event.preventDefault();
+        break;
+
+      case isHome($event):
         this.focusFirstElement();
         $event.preventDefault();
         break;
 
-      case Key.End:
-      case MicrosfotKeys.End:
-      case KeyCode.End:
+      case isEnd($event):
         this.focusLastElement();
         $event.preventDefault();
         break;
 
-      case Key.Enter:
-      case MicrosfotKeys.Enter:
-      case KeyCode.Enter:
+      case isEnter($event):
         this.selectItem(this._focusedItem.item);
         $event.preventDefault();
         break;
@@ -142,21 +192,25 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
     this.cdr.detectChanges();
   }
 
-  private bindEventsOutsideAngular() {
+  private registerEventHandlers() {
     this.bindMouseOverListeners();
     this.bindScrollListener();
   }
 
   /**
    * Attaches mouseover event to each list element in the dropdown. Since the mouseover
-   * event fires quite often, we run these events outside of angular's zone to prevent 
-   * excess change detection across the entire each time it fires.
+   * event fires quite often, we attach it this way in the ts rather than through HTML
+   * This coupled with changeDetectionStrategy of OnPush minimizes the amount
+   * of necessary change detection triggers
    */
   private bindMouseOverListeners() {
     const children = Array.from(this.dropdownListBox.nativeElement.children);
     children.forEach((child: HTMLDataListElement, index: number) => {
       const listener = this.renderer.listen(child, 'mouseover', () => {
-        if (this._focusedItem?.itemHtml === child) return;
+        if (this.document.activeElement === child) {
+          return;
+        }
+
         this.updateFocusedItem(index, child);
         this.cdr.detectChanges();
       });
@@ -165,6 +219,14 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
     });
   }
 
+  /**
+   * Adds scroll event binding if virtual scrolling is enabled.
+   * This event listens for whether the user has scrolled to the last
+   * item in the list or not. If so, it will fire an event
+   * indicating that the user has scrolled to the end and more data
+   * should be fetched
+   * @returns 
+   */
   private bindScrollListener() {
     if (!this.virtualScroll) return;
 
@@ -203,7 +265,6 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
 
   private updateFocusedItem(index: number, itemHtml: HTMLDataListElement) {
     const item = this.items[index];
-    const id = `${this.listId}-${index}`;
 
     this._focusedItem = {
       item,
