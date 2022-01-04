@@ -1,5 +1,6 @@
+<label for="basicComboBox" class="usa-sr-only">Basic Combo Box</label>
 <usa-combobox 
-  [items]="mockdata$ | async" labelField="name" valueField="id" 
+  [items]="mockdata$ | async" labelField="name" valueField="id" id="basicComboBox"
   [ngModel]="searchValue" (ngModelChange)="onValueChange($event)" (scrollEnd)="onScrollEnd()">
 
   <div *usa-combo-box-item-template="let item">

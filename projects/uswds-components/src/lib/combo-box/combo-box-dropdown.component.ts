@@ -22,7 +22,7 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
   @Input() items: any[];
 
   @Input() labelField: string;
-  @Input() valueFiend: string;
+  @Input() valueField: string;
 
   /** Provided custom template for displaying each item. 
    * If none provided, then the label property of each item will be shown */
