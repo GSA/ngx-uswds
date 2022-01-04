@@ -93,3 +93,6 @@ export * from './lib/util/navigation';
 
 export * from './lib/input/affix.module'
 export * from './lib/input/affix.directive'
+
+export * from './lib/range-slider/range-slider.component'
+export * from './lib/range-slider/range-slider.module'

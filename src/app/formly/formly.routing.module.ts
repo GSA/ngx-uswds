@@ -10,6 +10,7 @@ import { FormlySearchModule, ROUTES as FORMLYSEARCH_ROUTES } from './search/sear
 import { FormlyCheckboxModule, ROUTES as FORMLYCHECKBOX_ROUTES } from './checkbox/checkbox.module';
 import { FormlyRadioModule, ROUTES as FORMLYRADIO_ROUTES } from './radio/radio.module';
 import { FormlyDatePickerModule, ROUTES as FORMLYDATEPICKER_ROUTES } from "./datepicker/datepicker.module";
+import { FormlyRangeSliderModule, ROUTES as FORMLY_RANGE_SLIDER_ROUTES } from "./range-slider/range-slider.module";
 
 const routes: Routes = [
     {
@@ -40,6 +41,10 @@ const routes: Routes = [
                 path: 'datepicker',
                 children: FORMLYDATEPICKER_ROUTES
             },
+            {
+              path: 'range-slider',
+              children: FORMLY_RANGE_SLIDER_ROUTES
+            }
         ]
     },
 
@@ -54,6 +59,7 @@ const routes: Routes = [
         FormlyCheckboxModule,
         FormlyDatePickerModule,
         FormlyHomeBasicModule,
+        FormlyRangeSliderModule
     ],
     exports: [
         RouterModule,

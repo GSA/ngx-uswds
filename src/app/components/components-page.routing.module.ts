@@ -22,6 +22,7 @@ import { SideNavigationModule, ROUTES as SIDE_NAV_ROUTES } from ".//side-navigat
 import { ComponentHomeModule } from "./home/home.module";
 import { ComponentsPageComponent } from "./components-page.component";
 import { ComponentHome } from "./home/home.component";
+import { RangeSliderModule, ROUTES as RANGE_SLIDER_ROUTES} from './range-slider/range-slider.module'
 
 const routes: Routes = [
   {
@@ -96,6 +97,10 @@ const routes: Routes = [
         path: 'input',
         children: INPUT_ROUTES,
       },
+      {
+        path: 'range-slider',
+        children: RANGE_SLIDER_ROUTES,
+      },
     ]
   },
 ];
@@ -120,7 +125,8 @@ const routes: Routes = [
     SearchModule,
     HeaderModule,
     ComponentHomeModule,
-    InputModule
+    InputModule,
+    RangeSliderModule
   ],
   exports: [
     RouterModule,

@@ -57,6 +57,12 @@ export class FormlyMainComponent implements OnInit {
       id: '3',
       mode: UsaNavigationMode.INTERNAL
     },
+    {
+      text: 'Range Slider',
+      path: 'range-slider',
+      id: '6',
+      mode: UsaNavigationMode.INTERNAL
+    },
 
   ];
 

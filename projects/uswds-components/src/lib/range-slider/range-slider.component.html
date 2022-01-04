@@ -1,0 +1,15 @@
+<label class="usa-label" for="usa-range">Range slider</label>
+<input
+  id={{id}}
+  class="usa-range"
+  type="range"
+  min={{min}}
+  max={{max}}
+  step={{step}}
+  [attr.value]=sliderValue
+  [attr.aria-valuemin]=min
+  [attr.aria-valuemax]=max
+  [attr.aria-valuenow]=sliderValue
+  role="slider"
+  (change)=sliderChange($event)
+/>
