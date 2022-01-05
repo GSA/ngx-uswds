@@ -1,4 +1,5 @@
-<usa-header #header [primaryNavItems]="navigationLinks" (linkEvent)="onLinkClicked($event)" [title]="'Ngx USWDS'">
+<usa-header #header [primaryNavItems]="navigationLinks"  [displayOverlayOnMenuOpen]="true"
+    (linkEvent)="onLinkClicked($event)" [title]="'Ngx USWDS'">
     <!-- Define extra content in header besides nav link through usaHeaderPrimaryExtra -->
     <usa-search usaHeaderPrimaryExtra [size]="'small'"></usa-search>
 

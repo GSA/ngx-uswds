@@ -13,22 +13,18 @@
 
   .usa-nav__inner {
     max-width: none;
-    padding-left: 0rem;
-    padding-right: 0rem;
+    @include u-bg('primary-darker');
   }
 
   .usa-navbar {
-    padding: 0;
     margin: 0;
-  }
-
-  .usa-nav__primary {
-    @include u-bg('primary-darker');
-    margin-right: 0rem;
-    padding-right: 0rem;
   }
 
   .usa-nav__link {
     color: white !important;
+  }
+
+  .usa-nav__secondary {
+    bottom: 4rem;
   }
 }

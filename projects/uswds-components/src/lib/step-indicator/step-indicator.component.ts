@@ -17,7 +17,8 @@ let stepIndicatorId = 0;
     '[class.usa-step-indicator--counters]': 'displayCounters && !smallCounters',
     '[class.usa-step-indicator--counters-sm]': 'smallCounters',
 
-  }
+  },
+  styleUrls: ['./step-indicator.component.scss'],
 })
 export class UsaStepIndicatorComponent implements OnChanges {
 
@@ -128,6 +129,25 @@ export class UsaStepIndicatorComponent implements OnChanges {
         event.preventDefault();
         break;
       }
+  }
+
+  getFillPercentage(step: UsaStepIndicatorModel) {
+    if (step.completionPercent === undefined || step != this.steps[this.currentStep]) {
+      return undefined;
+    }
+
+    if (step.completionPercent % 25 === 0 || step.completionPercent % 33 === 0) {
+      return `fill-${step.completionPercent}`;
+    }
+
+    const roundedStep = Math.round(step.completionPercent / 10) * 10;
+    return `fill-${roundedStep}`
+  }
+
+  getSegmentScale(step: UsaStepIndicatorModel) {
+    if (step.segmentScale === undefined) return undefined;
+    const segmentPercentage = Math.max(0.5, Math.min(4, step.segmentScale)) * 100;
+    return `scale-percent-${segmentPercentage}`;
   }
 
   private _getAllStepListElements() {

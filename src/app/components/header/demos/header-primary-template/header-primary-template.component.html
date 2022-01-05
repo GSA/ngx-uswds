@@ -9,10 +9,10 @@
     <li class="usa-nav__primary-item">
       <button usaHeaderSubmenu [content]="submenuContent">Home</button>
       <ng-template #submenuContent>
-        <ul class="text-accent-warm usa-list usa-list--unstyled">
-          <li>Item 1</li>
-          <li>Item 2</li>
-          <li>Item 3</li>
+        <ul class="usa-list usa-list--unstyled">
+          <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 1</a></li>
+          <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 2</a></li>
+          <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 3</a></li>
         </ul>
       </ng-template>
     </li>
@@ -21,26 +21,26 @@
       <!-- Define megamenu through isMegamenu input-->
       <button usaHeaderSubmenu [content]="megamenuContent" [isMegamenu]="true">Search</button>
       <ng-template #megamenuContent>
-        <div class="grid-row text-accent-warm">
+        <div class="grid-row">
           <div class="grid-col-4">
             <ul class="usa-list usa-list--unstyled">
-              <li>Item 1</li>
-              <li>Item 2</li>
-              <li>Item 3</li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 1</a></li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 2</a></li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 3</a></li>
             </ul>
           </div>
           <div class="grid-col-4">
             <ul class="usa-list usa-list--unstyled">
-              <li>Item 4</li>
-              <li>Item 5</li>
-              <li>Item 6</li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 4</a></li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 5</a></li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 6</a></li>
             </ul>
           </div>
           <div class="grid-col-4">
             <ul class="usa-list usa-list--unstyled">
-              <li>Item 7</li>
-              <li>Item 8</li>
-              <li>Item 9</li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 7</a></li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 8</a></li>
+              <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 9</a></li>
             </ul>
           </div>
         </div>

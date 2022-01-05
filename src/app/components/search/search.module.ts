@@ -21,7 +21,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/search-basic.component'),
     markup: require('!!raw-loader!./demos/basic/search-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/search-basic.module'),
-    path: 'src/app/search/demos/basic',
+    path: 'src/app/components/search/demos/basic',
   },
   optional: {
     title: 'Search Optional ',
@@ -29,7 +29,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/optional/search-optional.component'),
     markup: require('!!raw-loader!./demos/optional/search-optional.component.html'),
     module: require('!!raw-loader!./demos/optional/search-optional.module'),
-    path: 'src/app/search/demos/optional',
+    path: 'src/app/components/search/demos/optional',
   },
   customButtonText: {
     title: 'Custom Button Text ',
@@ -37,7 +37,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component'),
     markup: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.component.html'),
     module: require('!!raw-loader!./demos/custom-button-text/search-custom-button-text.module'),
-    path: 'src/app/search/demos/custom-button-text',
+    path: 'src/app/components/search/demos/custom-button-text',
   },
   onchange: {
     title: 'Search text change event and OnBlur ',
@@ -45,7 +45,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/onchange/search-onchange.component'),
     markup: require('!!raw-loader!./demos/onchange/search-onchange.component.html'),
     module: require('!!raw-loader!./demos/onchange/search-onchange.module'),
-    path: 'src/app/search/demos/onchange',
+    path: 'src/app/components/search/demos/onchange',
   },
 
 }

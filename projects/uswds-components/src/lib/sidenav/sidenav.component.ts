@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NavigationMode, SidenavModel } from './sidenav.model';
+import { UsaNavigationMode } from '../util/navigation';
+import { SidenavModel } from './sidenav.model';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { NavigationMode, SidenavModel } from './sidenav.model';
 })
 export class UsaSidenavComponent implements OnInit {
 
-  NavigationMode = NavigationMode;
+  NavigationMode = UsaNavigationMode;
 
   @Input() sidenavContent: SidenavModel[];
 
@@ -44,7 +45,7 @@ export class UsaSidenavComponent implements OnInit {
     // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label
     if (this.expandType) {
       this.sidenavContent.map(link => {
-        if (link.mode !== NavigationMode.LABEL) {
+        if (link.mode !== UsaNavigationMode.LABEL) {
           // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration
           link.collapsed = link.collapsed === undefined ? true : link.collapsed;
         }
@@ -87,7 +88,7 @@ export class UsaSidenavComponent implements OnInit {
    * @returns true if either link is not a label, or it is a label and label collapse is enabled
    */
   private canCollapseLabel(link: SidenavModel): boolean {
-    return link.mode === NavigationMode.LABEL ? this.enableLabelCollapse : true;
+    return link.mode === UsaNavigationMode.LABEL ? this.enableLabelCollapse : true;
   }
 
   private toggleBasedOnSelected(links: SidenavModel[]): void {
@@ -192,7 +193,7 @@ export class UsaSidenavComponent implements OnInit {
    * @param item - Link to use when building url
    */
   urlBuilder(item: SidenavModel): string {
-    let url = item.href;
+    let url = item.path;
     const queryParams = this.queryStringBuilder(item);
     if (queryParams) {
       if (url.indexOf('?') === -1) {

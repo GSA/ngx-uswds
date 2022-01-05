@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NavigationMode, SidenavModel } from "@gsa-sam/ngx-uswds";
+import { UsaNavigationMode, SidenavModel } from "@gsa-sam/ngx-uswds";
 
 
 @Component({
@@ -10,84 +10,90 @@ import { NavigationMode, SidenavModel } from "@gsa-sam/ngx-uswds";
 export class ComponentsPageComponent implements OnInit {
   sidenavModel: SidenavModel[] = [
     {
-      labelText: 'Accordion',
-      href: 'accordion',
-      id: 1,
-      mode: NavigationMode.INTERNAL
+      text: 'Accordion',
+      path: 'accordion',
+      id: '1',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Character Count',
-      href: 'character-count',
-      id: 20,
-      mode: NavigationMode.INTERNAL
+      text: 'Character Count',
+      path: 'character-count',
+      id: '20',
+      mode: UsaNavigationMode.INTERNAL
 
     },
     {
-      labelText: 'Checkbox',
-      href: 'checkbox',
-      id: 19,
-      mode: NavigationMode.INTERNAL
+      text: 'Checkbox',
+      path: 'checkbox',
+      id: '19',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Date Picker',
-      href: 'datepicker',
-      id: 18,
-      mode: NavigationMode.INTERNAL
+      text: 'Date Picker',
+      path: 'datepicker',
+      id: '18',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'File Input',
-      href: 'file-input',
-      id: 10,
-      mode: NavigationMode.INTERNAL
+      text: 'File Input',
+      path: 'file-input',
+      id: '10',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Modal',
-      href: 'modal',
-      id: 15,
-      mode: NavigationMode.INTERNAL
+      text: 'Modal',
+      path: 'modal',
+      id: '15',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Radio',
-      href: 'radio',
-      id: 21,
-      mode: NavigationMode.INTERNAL
+      text: 'Radio',
+      path: 'radio',
+      id: '21',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Step Indicator',
-      href: 'step-indicator',
-      id: 14,
-      mode: NavigationMode.INTERNAL
+      text: 'Step Indicator',
+      path: 'step-indicator',
+      id: '14',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Tooltip',
-      href: 'tooltip',
-      id: 16,
-      mode: NavigationMode.INTERNAL
+      text: 'Tooltip',
+      path: 'tooltip',
+      id: '16',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Table',
-      href: 'table',
-      id: 17,
-      mode: NavigationMode.INTERNAL
+      text: 'Table',
+      path: 'table',
+      id: '17',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Side Navigation',
-      href: 'side-navigation',
-      id: 18,
-      mode: NavigationMode.INTERNAL
+      text: 'Side Navigation',
+      path: 'side-navigation',
+      id: '18',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Search',
-      href: 'search',
-      id: 22,
-      mode: NavigationMode.INTERNAL
+      text: 'Search',
+      path: 'search',
+      id: '22',
+      mode: UsaNavigationMode.INTERNAL
     },
     {
-      labelText: 'Header',
-      href: 'header',
-      id: 23,
-      mode: NavigationMode.INTERNAL
-    }
+      text: 'Header',
+      path: 'header',
+      id: '23',
+      mode: UsaNavigationMode.INTERNAL
+    },
+    {
+      text: 'Input',
+      path: 'input',
+      id: '60',
+      mode: UsaNavigationMode.INTERNAL
+    },
   ];
 
   selectedItem: SidenavModel;
@@ -99,15 +105,14 @@ export class ComponentsPageComponent implements OnInit {
 
   ngOnInit() {
     const selectedComponent = this.router.url.split('/')[2];
-    const selectedNav = this.sidenavModel.find(nav => nav.href === selectedComponent);
+    const selectedNav = this.sidenavModel.find(nav => nav.path === selectedComponent);
     if (selectedNav) {
       selectedNav.selected = true;
     }
-    console.log(this.router.url);
   }
 
   onSidenavClick(sidenav: SidenavModel) {
     this.selectedItem = sidenav;
-    this.router.navigate([sidenav.href], { relativeTo: this.activatedRoute });
+    this.router.navigate([sidenav.path], { relativeTo: this.activatedRoute });
   }
 }

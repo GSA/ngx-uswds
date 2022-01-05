@@ -18,7 +18,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/character-count-basic.component'),
     markup: require('!!raw-loader!./demos/basic/character-count-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/character-count-basic.module'),
-    path: 'src/app/character-count/demos/basic',
+    path: 'src/app/components/character-count/demos/basic',
   },
   footer: {
     title: 'Character Counter Footer',
@@ -26,7 +26,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/footer/character-count-footer.component'),
     markup: require('!!raw-loader!./demos/footer/character-count-footer.component.html'),
     module: require('!!raw-loader!./demos/footer/character-count-footer.module'),
-    path: 'src/app/character-count/demos/footer',
+    path: 'src/app/components/character-count/demos/footer',
   },
 };
 

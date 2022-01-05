@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationMode, UsaHeaderPrimaryLink, UsaNavigationLink } from '@gsa-sam/ngx-uswds';
+import { UsaHeaderPrimaryLink, UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-header-extended',
@@ -12,7 +12,7 @@ export class HeaderExtendedComponent {
       text: 'Secondary Link',
       id: 'request',
       selected: true,
-      href: '/header/examples'
+      path: 'components/header/examples'
     },
     {
       text: 'Custom Template Link',
@@ -29,17 +29,17 @@ export class HeaderExtendedComponent {
         {
           text: 'Item 1',
           id: 'homeChild1',
-          href: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 2',
           id: 'homeChild2',
-          href: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 3',
           id: 'homeChild3',
-          href: '/header/examples',
+          path: 'components/header/examples',
         }
       ],
     },
@@ -51,17 +51,17 @@ export class HeaderExtendedComponent {
         {
           text: 'Item 1',
           id: 'homeChild1',  
-          href: '/header/examples',
+          path: '/header/examples',
         },
         {
           text: 'Item 2',
           id: 'homeChild2',
-          href: '/header/examples',
+          path: '/header/examples',
         },
         {
           text: 'Item 3',
           id: 'homeChild3',
-          href: '/header/examples',
+          path: '/header/examples',
         },
       ],
     },

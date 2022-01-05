@@ -4,6 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ButtonGroupComponent } from ".//button-group/button-group.component";
 import { ButtonGroupModule } from ".//button-group/button-group.module";
 import { CheckboxModule, ROUTES as CHECKBOX_ROUTES } from ".//checkbox/checkbox.module";
+import { InputModule, ROUTES as INPUT_ROUTES } from ".//input/input.module";
 import { RadioModule, ROUTES as RADIO_ROUTES } from ".//radio/radio.module";
 import { DropdownComponent } from ".//dropdown/dropdown.component";
 import { DropdownModule } from ".//dropdown/dropdown.module";
@@ -80,7 +81,11 @@ const routes: Routes = [
       {
         path: 'header',
         children: HEADER_ROUTES,
-      }
+      },
+      {
+        path: 'input',
+        children: INPUT_ROUTES,
+      },
     ]
   },
 ];
@@ -103,6 +108,7 @@ const routes: Routes = [
     SearchModule,
     HeaderModule,
     ComponentHomeModule,
+    InputModule
   ],
   exports: [
     RouterModule,

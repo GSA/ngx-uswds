@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavigationMode, SidenavModel, UsaSidenavComponent } from '@gsa-sam/ngx-uswds';
+import { UsaNavigationMode, SidenavModel, UsaSidenavComponent } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'app-side-navigation-toggle-single',
@@ -14,76 +14,76 @@ export class SideNavigationToggleSingleComponent {
 
   sidenavModel: SidenavModel[] = [
     {
-      labelText: 'Accordion',
-      href: 'accordion',
-      id: 1,
-      mode: NavigationMode.LABEL,
+      text: 'Accordion',
+      path: 'accordion',
+      id: '1',
+      mode: UsaNavigationMode.EVENT,
       children: [
         {
-          labelText: 'Accordion - Child',
-          href: 'accordian-child',
-          id: 100,
-          mode: NavigationMode.INTERNAL,
+          text: 'Accordion - Child',
+          path: 'accordian-child',
+          id: '100',
+          mode: UsaNavigationMode.INTERNAL,
           children: [
             {
-              labelText: 'Accordion - Grandchild',
-              href: 'accordian-grandchild',
-              id: 1000,
-              mode: NavigationMode.INTERNAL,
+              text: 'Accordion - Grandchild',
+              path: 'accordian-grandchild',
+              id: '1000',
+              mode: UsaNavigationMode.INTERNAL,
             }
           ]
         },
         {
-          labelText: 'Accordion - Child 2',
-          href: 'accordian-child-2',
-          id: 200,
-          mode: NavigationMode.INTERNAL,
+          text: 'Accordion - Child 2',
+          path: 'accordian-child-2',
+          id: '200',
+          mode: UsaNavigationMode.INTERNAL,
         },
         {
-          labelText: 'Accordion - Child 3',
-          href: 'accordian-child-3',
-          id: 300,
-          mode: NavigationMode.INTERNAL,
+          text: 'Accordion - Child 3',
+          path: 'accordian-child-3',
+          id: '300',
+          mode: UsaNavigationMode.INTERNAL,
         }
       ]
     },
     {
-      labelText: 'File Input',
-      href: 'file-input',
-      id: 10,
-      mode: NavigationMode.LABEL,
+      text: 'File Input',
+      path: 'file-input',
+      id: '10',
+      mode: UsaNavigationMode.EVENT,
       children: [
         {
-          labelText: 'File Input - Child',
-          href: 'file-input-child',
-          id: 104,
-          mode: NavigationMode.INTERNAL,
+          text: 'File Input - Child',
+          path: 'file-input-child',
+          id: '104',
+          mode: UsaNavigationMode.INTERNAL,
         },
       ]
     },
     {
-      labelText: 'Step Indicator',
-      href: 'step-indicator',
-      id: 14,
-      mode: NavigationMode.INTERNAL,
+      text: 'Step Indicator',
+      path: 'step-indicator',
+      id: '14',
+      mode: UsaNavigationMode.INTERNAL,
     },
     {
-      labelText: 'Modal',
-      href: 'modal',
-      id: 15,
-      mode: NavigationMode.INTERNAL,
+      text: 'Modal',
+      path: 'modal',
+      id: '15',
+      mode: UsaNavigationMode.INTERNAL,
     },
     {
-      labelText: 'Tooltip',
-      href: 'tooltip',
-      id: 16,
-      mode: NavigationMode.INTERNAL,
+      text: 'Tooltip',
+      path: 'tooltip',
+      id: '16',
+      mode: UsaNavigationMode.INTERNAL,
     },
     {
-      labelText: 'Table',
-      href: 'table',
-      id: 17,
-      mode: NavigationMode.INTERNAL,
+      text: 'Table',
+      path: 'table',
+      id: '17',
+      mode: UsaNavigationMode.INTERNAL,
     }
   ];
 

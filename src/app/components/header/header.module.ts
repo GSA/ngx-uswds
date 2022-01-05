@@ -25,7 +25,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/header-primary/header-primary.component'),
     markup: require('!!raw-loader!./demos/header-primary/header-primary.component.html'),
     module: require('!!raw-loader!./demos/header-primary/header-primary.module'),
-    path: 'src/app/nav/demos/header-primary',
+    path: 'src/app/components/header/demos/header-primary',
   },
   megamenu: {
     title: 'Primary Navigation Template Header',
@@ -33,7 +33,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/header-primary-template/header-primary-template.component'),
     markup: require('!!raw-loader!./demos/header-primary-template/header-primary-template.component.html'),
     module: require('!!raw-loader!./demos/header-primary-template/header-primary-template.module'),
-    path: 'src/app/nav/demos/header-primary-template',
+    path: 'src/app/components/header/demos/header-primary-template',
   },
   extended: {
     title: 'Extended Header',
@@ -41,7 +41,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/header-extended/header-extended.component'),
     markup: require('!!raw-loader!./demos/header-extended/header-extended.component.html'),
     module: require('!!raw-loader!./demos/header-extended/header-extended.module'),
-    path: 'src/app/nav/demos/header-extended',
+    path: 'src/app/components/header/demos/header-extended',
   },
   extendedTemplate: {
     title: 'Extended Template Header',
@@ -49,7 +49,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/header-extended-template/header-extended-template.component'),
     markup: require('!!raw-loader!./demos/header-extended-template/header-extended-template.component.html'),
     module: require('!!raw-loader!./demos/header-extended-template/header-extended-template.module'),
-    path: 'src/app/nav/demos/header-extended-template',
+    path: 'src/app/components/header/demos/header-extended-template',
   },
   footer: {
     title: 'General Accessibility',
@@ -57,7 +57,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/header-footer/header-footer.component'),
     markup: require('!!raw-loader!./demos/header-footer/header-footer.component.html'),
     module: require('!!raw-loader!./demos/header-footer/header-footer.module'),
-    path: 'src/app/nav/demos/header-footer',
+    path: 'src/app/components/header/demos/header-footer',
   },
 }
 

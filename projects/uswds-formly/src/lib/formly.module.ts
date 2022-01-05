@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
-
 import { USWDSFormlySearchComponent } from './types/search';
 import { USWDSFormlyInputComponent } from './types/input';
+import { USWDSFormlyCheckboxComponent } from './types/checkbox';
+import { USWDSFormlyDatePickerComponent } from './types/datepicker';
+
 import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
-import { UsaRadioModule, UsaSearchModule } from '@gsa-sam/ngx-uswds';
+import { UsaRadioModule, UsaSearchModule, UsaCheckboxModule, UsaDatePickerModule, UsaCharacterCountModule, UsaAffixModule } from '@gsa-sam/ngx-uswds';
+import { USWDSFormlyMultiCheckboxComponent } from './types/multicheckbox';
+import { FormlySelectModule } from '@ngx-formly/core/select';
 import { USWDSFormlyRadioComponent } from './types/radio';
 
 
@@ -14,14 +18,23 @@ import { USWDSFormlyRadioComponent } from './types/radio';
     declarations: [
         USWDSFormlyInputComponent,
         USWDSFormlySearchComponent,
-        FormlyWrapperFormFieldComponent,
-        USWDSFormlyRadioComponent
-    ],
+        USWDSFormlyRadioComponent,
+        USWDSFormlyCheckboxComponent,
+        USWDSFormlyMultiCheckboxComponent,
+        USWDSFormlyDatePickerComponent,
+        FormlyWrapperFormFieldComponent],
     imports: [
         CommonModule,
+        FormsModule,
         ReactiveFormsModule,
         UsaSearchModule,
         UsaRadioModule,
+        UsaCheckboxModule,
+        UsaDatePickerModule,
+        UsaCharacterCountModule,
+        FormlySelectModule,
+        UsaDatePickerModule,
+        UsaAffixModule,
         FormlyModule.forChild({
             validationMessages: [
                 { name: 'required', message: 'This field is required' },],
@@ -39,6 +52,21 @@ import { USWDSFormlyRadioComponent } from './types/radio';
                 {
                     name: 'search',
                     component: USWDSFormlySearchComponent,
+                    wrappers: ['form-field']
+                },
+                {
+                    name: 'checkbox',
+                    component: USWDSFormlyCheckboxComponent,
+                    wrappers: ['form-field']
+                },
+                {
+                    name: 'multicheckbox',
+                    component: USWDSFormlyMultiCheckboxComponent,
+                    wrappers: ['form-field']
+                },
+                {
+                    name: 'datepicker',
+                    component: USWDSFormlyDatePickerComponent,
                     wrappers: ['form-field']
                 },
             ],

@@ -15,7 +15,7 @@ const DEMOS = {
     code: require('!!raw-loader!./tooltip.component'),
     markup: require('!!raw-loader!./tooltip.component.html'),
     module: require('!!raw-loader!./tooltip.module'),
-    path: 'src/app/tooltip',
+    path: 'src/app/components/tooltip',
   },
 }
 
