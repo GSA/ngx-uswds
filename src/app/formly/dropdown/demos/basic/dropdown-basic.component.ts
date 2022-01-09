@@ -17,7 +17,7 @@ export class FormlyBasicDropdownComponent {
       type: 'dropdown',
       templateOptions: {
         label: 'Dropdown',
-        hideLabel: true,
+
         options: [
           {
             label: 'Option A',
