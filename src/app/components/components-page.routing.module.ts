@@ -19,6 +19,7 @@ import { CharacterCountModule, ROUTES as CHARACTER_COUNT_ROUTES } from ".//chara
 import { SearchModule, ROUTES as SEARCH_ROUTES } from './/search/search.module';
 import { HeaderModule, ROUTES as HEADER_ROUTES } from './header/header.module';
 import { SideNavigationModule, ROUTES as SIDE_NAV_ROUTES } from ".//side-navigation/side-navigation.module";
+import { ComboboxModule, ROUTES as COMBO_BOX_ROUTES } from "./combo-box/combo-box.module";
 import { ComponentHomeModule } from "./home/home.module";
 import { ComponentsPageComponent } from "./components-page.component";
 import { ComponentHome } from "./home/home.component";
@@ -43,6 +44,10 @@ const routes: Routes = [
       {
         path: 'checkbox',
         children: CHECKBOX_ROUTES,
+      },
+      {
+        path: 'combo-box',
+        children: COMBO_BOX_ROUTES,
       },
       {
         path: 'dropdown',
@@ -120,7 +125,8 @@ const routes: Routes = [
     SearchModule,
     HeaderModule,
     ComponentHomeModule,
-    InputModule
+    InputModule,
+    ComboboxModule,
   ],
   exports: [
     RouterModule,
