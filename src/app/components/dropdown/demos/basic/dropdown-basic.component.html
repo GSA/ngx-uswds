@@ -1,0 +1,5 @@
+<usa-dropdown [id]="'dropdown1'" [label]="'Dropdown'" [options]="dropdownOptions"
+  (optionChange)="onOptionChange($event)">
+</usa-dropdown>
+
+{{selectedOption | json}}

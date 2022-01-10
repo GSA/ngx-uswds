@@ -12,7 +12,7 @@ import { FieldWrapper } from '@ngx-formly/core';
    <div class="usa-form-group" [class.usa-form-group--error]="showError">
       <label
         class="usa-label"
-        *ngIf="to.label"
+        *ngIf="to.label && !to.hideLabel"
         [attr.for]="id"
       >
        {{ to.label }}

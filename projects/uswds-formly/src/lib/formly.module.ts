@@ -8,10 +8,11 @@ import { USWDSFormlyCheckboxComponent } from './types/checkbox';
 import { USWDSFormlyDatePickerComponent } from './types/datepicker';
 
 import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
-import { UsaRadioModule, UsaSearchModule, UsaCheckboxModule, UsaDatePickerModule, UsaCharacterCountModule, UsaAffixModule } from '@gsa-sam/ngx-uswds';
+import { UsaRadioModule, UsaSearchModule, UsaCheckboxModule, UsaDatePickerModule, UsaCharacterCountModule, UsaAffixModule, UsaDropdownModule } from '@gsa-sam/ngx-uswds';
 import { USWDSFormlyMultiCheckboxComponent } from './types/multicheckbox';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 import { USWDSFormlyRadioComponent } from './types/radio';
+import { USWDSFormlyDropdownComponent } from './types/dropdown';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { USWDSFormlyRadioComponent } from './types/radio';
         USWDSFormlyInputComponent,
         USWDSFormlySearchComponent,
         USWDSFormlyRadioComponent,
+        USWDSFormlyDropdownComponent,
         USWDSFormlyCheckboxComponent,
         USWDSFormlyMultiCheckboxComponent,
         USWDSFormlyDatePickerComponent,
@@ -31,6 +33,7 @@ import { USWDSFormlyRadioComponent } from './types/radio';
         UsaRadioModule,
         UsaCheckboxModule,
         UsaDatePickerModule,
+        UsaDropdownModule,
         UsaCharacterCountModule,
         FormlySelectModule,
         UsaDatePickerModule,
@@ -67,6 +70,11 @@ import { USWDSFormlyRadioComponent } from './types/radio';
                 {
                     name: 'datepicker',
                     component: USWDSFormlyDatePickerComponent,
+                    wrappers: ['form-field']
+                },
+                {
+                    name: 'dropdown',
+                    component: USWDSFormlyDropdownComponent,
                     wrappers: ['form-field']
                 },
             ],

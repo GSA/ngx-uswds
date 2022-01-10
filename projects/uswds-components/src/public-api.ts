@@ -26,6 +26,12 @@ export * from './lib/card/card.module';
 export * from './lib/checkbox/checkbox.component';
 export * from './lib/checkbox/checkbox.module';
 
+// Combo Box
+export * from './lib/combo-box/combo-box.component';
+export * from './lib/combo-box/combo-box-selectors';
+export * from './lib/combo-box/combo-box-dropdown.component';
+export * from './lib/combo-box/combo-box.module';
+
 // Dropdown
 export * from './lib/dropdown/dropdown-options.model';
 export * from './lib/dropdown/dropdown.component';
@@ -69,6 +75,11 @@ export * from './lib/table/table-sort.component';
 export * from './lib/table/table.component';
 export * from './lib/table/table.module';
 
+//TextArea
+export * from './lib/textarea/textarea.component';
+export * from './lib/textarea/textarea.module';
+
+
 // Tooltip
 export * from './lib/tooltip/tooltip.directive';
 export * from './lib/tooltip/tooltip.module';
@@ -93,7 +104,3 @@ export * from './lib/util/navigation';
 
 export * from './lib/input/affix.module'
 export * from './lib/input/affix.directive'
-
-//TextArea
-export * from './lib/textarea/textarea.component';
-export * from './lib/textarea/textarea.module';
