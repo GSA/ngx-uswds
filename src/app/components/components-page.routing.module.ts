@@ -6,8 +6,6 @@ import { ButtonGroupModule } from ".//button-group/button-group.module";
 import { CheckboxModule, ROUTES as CHECKBOX_ROUTES } from ".//checkbox/checkbox.module";
 import { InputModule, ROUTES as INPUT_ROUTES } from ".//input/input.module";
 import { RadioModule, ROUTES as RADIO_ROUTES } from ".//radio/radio.module";
-import { DropdownComponent } from ".//dropdown/dropdown.component";
-import { DropdownModule } from ".//dropdown/dropdown.module";
 import { StepIndicatorModule, ROUTES as STEP_INDICATOR_ROUTES } from ".//step-indicator/step-indicator.module";
 import { AccordionModule, ROUTES as ACCORDION_ROUTES } from './/accordion/accordion.module';
 import { ModalModule, ROUTES as MODAL_ROUTES } from ".//modal/modal.module";
@@ -23,6 +21,7 @@ import { ComboboxModule, ROUTES as COMBO_BOX_ROUTES } from "./combo-box/combo-bo
 import { ComponentHomeModule } from "./home/home.module";
 import { ComponentsPageComponent } from "./components-page.component";
 import { ComponentHome } from "./home/home.component";
+import { DropdownModule, ROUTES as DROPDOWN_ROUTES } from './/dropdown/dropdown.module';
 
 const routes: Routes = [
   {
@@ -51,7 +50,7 @@ const routes: Routes = [
       },
       {
         path: 'dropdown',
-        component: DropdownComponent
+        children: DROPDOWN_ROUTES,
       },
       {
         path: 'file-input',

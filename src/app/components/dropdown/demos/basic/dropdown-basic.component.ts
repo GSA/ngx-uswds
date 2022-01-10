@@ -3,10 +3,9 @@ import { DropdownOptionsModel } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'app-dropdown',
-  templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss']
+  templateUrl: './dropdown-basic.component.html',
 })
-export class DropdownComponent {
+export class DropdownBasicComponent {
 
   dropdownOptions: DropdownOptionsModel[] = [
     {
