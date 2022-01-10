@@ -93,3 +93,7 @@ export * from './lib/util/navigation';
 
 export * from './lib/input/affix.module'
 export * from './lib/input/affix.directive'
+
+//TextArea
+export * from './lib/textarea/textarea.component';
+export * from './lib/textarea/textarea.module';

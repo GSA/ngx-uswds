@@ -1,7 +1,5 @@
  <section [attr.aria-label]="ariaLabel">
    <form class="usa-textarea" role="textarea">
-
-     <label for="formControlInput">Character Counter for elements with Form Control</label>
      <textarea class="usa-textarea" type="textarea" (blur)="focusChange($event)" #textarea [attr.id]="id"
        [maxLength]="maxLength" [rows]="rowHeight"></textarea>
 
