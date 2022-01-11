@@ -8,11 +8,12 @@ import { USWDSFormlyCheckboxComponent } from './types/checkbox';
 import { USWDSFormlyDatePickerComponent } from './types/datepicker';
 
 import { FormlyWrapperFormFieldComponent } from './wrappers/form-field.wrapper';
-import { UsaRadioModule, UsaSearchModule, UsaCheckboxModule, UsaDatePickerModule, UsaCharacterCountModule, UsaAffixModule, UsaDropdownModule } from '@gsa-sam/ngx-uswds';
+import { UsaRadioModule, UsaSearchModule, UsaCheckboxModule, UsaDatePickerModule, UsaCharacterCountModule, UsaAffixModule, UsaDropdownModule, UsaTextareaModule } from '@gsa-sam/ngx-uswds';
 import { USWDSFormlyMultiCheckboxComponent } from './types/multicheckbox';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 import { USWDSFormlyRadioComponent } from './types/radio';
 import { USWDSFormlyDropdownComponent } from './types/dropdown';
+import { USWDSFormlyTextAreaComponent } from './types/textarea';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { USWDSFormlyDropdownComponent } from './types/dropdown';
         USWDSFormlyRadioComponent,
         USWDSFormlyDropdownComponent,
         USWDSFormlyCheckboxComponent,
+        USWDSFormlyTextAreaComponent,
         USWDSFormlyMultiCheckboxComponent,
         USWDSFormlyDatePickerComponent,
         FormlyWrapperFormFieldComponent],
@@ -31,6 +33,7 @@ import { USWDSFormlyDropdownComponent } from './types/dropdown';
         ReactiveFormsModule,
         UsaSearchModule,
         UsaRadioModule,
+        UsaTextareaModule,
         UsaCheckboxModule,
         UsaDatePickerModule,
         UsaDropdownModule,
@@ -75,6 +78,11 @@ import { USWDSFormlyDropdownComponent } from './types/dropdown';
                 {
                     name: 'dropdown',
                     component: USWDSFormlyDropdownComponent,
+                    wrappers: ['form-field']
+                },
+                {
+                    name: 'textarea',
+                    component: USWDSFormlyTextAreaComponent,
                     wrappers: ['form-field']
                 },
             ],

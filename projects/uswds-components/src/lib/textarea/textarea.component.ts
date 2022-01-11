@@ -10,13 +10,13 @@ let nextId = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TextareaComponent),
+      useExisting: forwardRef(() => UsaTextareaComponent),
       multi: true,
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextareaComponent implements ControlValueAccessor {
+export class UsaTextareaComponent implements ControlValueAccessor {
 
   model: string = '';
 
