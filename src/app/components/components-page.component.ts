@@ -83,6 +83,12 @@ export class ComponentsPageComponent implements OnInit {
       mode: UsaNavigationMode.INTERNAL
     },
     {
+      text: 'TextArea',
+      path: 'textarea',
+      id: '25',
+      mode: UsaNavigationMode.INTERNAL
+    },
+    {
       text: 'Side Navigation',
       path: 'side-navigation',
       id: '18',

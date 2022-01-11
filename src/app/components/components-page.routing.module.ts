@@ -22,6 +22,7 @@ import { ComponentHomeModule } from "./home/home.module";
 import { ComponentsPageComponent } from "./components-page.component";
 import { ComponentHome } from "./home/home.component";
 import { DropdownModule, ROUTES as DROPDOWN_ROUTES } from './/dropdown/dropdown.module';
+import { TextareaModule, ROUTES as TEXTAREA_ROUTES } from './/textarea/textarea.module';
 
 const routes: Routes = [
   {
@@ -100,6 +101,10 @@ const routes: Routes = [
         path: 'input',
         children: INPUT_ROUTES,
       },
+      {
+        path: 'textarea',
+        children: TEXTAREA_ROUTES,
+      },
     ]
   },
 ];
@@ -111,6 +116,7 @@ const routes: Routes = [
     AccordionModule,
     ButtonGroupModule,
     CheckboxModule,
+    TextareaModule,
     DropdownModule,
     FileInputModule,
     StepIndicatorModule,

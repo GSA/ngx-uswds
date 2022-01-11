@@ -11,6 +11,7 @@ import { FormlyCheckboxModule, ROUTES as FORMLYCHECKBOX_ROUTES } from './checkbo
 import { FormlyRadioModule, ROUTES as FORMLYRADIO_ROUTES } from './radio/radio.module';
 import { FormlyDatePickerModule, ROUTES as FORMLYDATEPICKER_ROUTES } from "./datepicker/datepicker.module";
 import { FormlyDropdownModule, ROUTES as FORMLYDROPDOWN_ROUTES } from "./dropdown/dropdown.module";
+import { FormlyTextareaModule, ROUTES as FORMLYTEXTAREA_ROUTES } from "./textarea/textarea.module";
 
 const routes: Routes = [
     {
@@ -45,6 +46,10 @@ const routes: Routes = [
                 path: 'dropdown',
                 children: FORMLYDROPDOWN_ROUTES
             },
+            {
+                path: 'textarea',
+                children: FORMLYTEXTAREA_ROUTES
+            },
         ]
     },
 
@@ -59,6 +64,7 @@ const routes: Routes = [
         FormlyCheckboxModule,
         FormlyDatePickerModule,
         FormlyDropdownModule,
+        FormlyTextareaModule,
         FormlyHomeBasicModule,
     ],
     exports: [
