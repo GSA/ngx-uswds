@@ -46,6 +46,12 @@ export class FormlyMainComponent implements OnInit {
       mode: UsaNavigationMode.INTERNAL
     },
     {
+      text: 'TextArea',
+      path: 'textarea',
+      id: '7',
+      mode: UsaNavigationMode.INTERNAL
+    },
+    {
       text: 'Input',
       path: 'input',
       id: '1',
