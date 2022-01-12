@@ -1,4 +1,13 @@
- <textarea class="usa-textarea" type="textarea" (blur)="focusChange($event)" #textarea [attr.id]="id"
-   [attr.placeholder]="placeholder" [attr.title]="title" [maxLength]="maxLength" [disabled]="disabled"
-   [rows]="rowHeight" [usaCharacterCount]="characterCount" [value]="model" (input)="onValueChange($event)"
-   (keydown)="onKeydown($event)"></textarea>
+<uswds-label-wrapper [label]="label" [name]="name" [description]="description" [errorMessage]="errorMessage"
+  [required]="required || requiredFlag">
+
+
+
+  <textarea class="usa-textarea" type="textarea" (blur)="focusChange($event)" #textarea [attr.id]="id"
+    [attr.placeholder]="placeholder" [attr.title]="title" [maxLength]="maxLength" [disabled]="disabled"
+    [rows]="rowHeight" [usaCharacterCount]="characterCount" [value]="model" (input)="onValueChange($event)"
+    (keydown)="onKeydown($event)"></textarea>
+
+
+
+</uswds-label-wrapper>

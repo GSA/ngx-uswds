@@ -1,0 +1,19 @@
+<div #labelDiv [class.usa-input-error]="!!errorMessage">
+
+  <label *ngIf="!!label" [attr.for]="name" class="usa-label" [class.usa-input-error-label]="errorMessage">
+    {{ label || '' }}
+    <span *ngIf="required || requiredFlag">
+      (Required)
+    </span>
+    <ng-content select="[label-right]"></ng-content>
+  </label>
+  <small *ngIf="description" [attr.id]="this.name + '-description'" class="form-text text-muted"
+    [innerHTML]="description"></small>
+
+  <div *ngIf="!!errorMessage" class="usa-error-message" [style.display]="'block'" [attr.id]="errorElId">
+    {{errorMessage}}
+  </div>
+
+  <ng-content></ng-content>
+
+</div>

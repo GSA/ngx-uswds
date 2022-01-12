@@ -1,5 +1,6 @@
-<label class="usa-label" for="basicInput">Text Area label</label>
-<usa-textarea [rowHeight]="6" [maxLength]="100" id="basicInput" (onBlur)="updateValue($event)"></usa-textarea>
+<!-- <label class="usa-label" for="basicInput">Text Area label</label> -->
+<usa-textarea [rowHeight]="6" [label]="'Text Area label'" [description]="'Textarea description'" [maxLength]="100"
+  id="basicInput" [required]="true" (onBlur)="updateValue($event)"></usa-textarea>
 
 
 <p>{{value}}</p>

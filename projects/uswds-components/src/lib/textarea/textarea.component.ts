@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Key } from '../util/key';
 
@@ -17,47 +25,46 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsaTextareaComponent implements ControlValueAccessor {
-
   model: string = '';
 
-  private _onChange = (_: any) => { };
-  private _onTouched = () => { };
+  private _onChange = (_: any) => {};
+  private _onTouched = () => {};
   /**
-    * Sets the ariaLabel attribute
-    */
-  @Input() ariaLabel = 'Textarea component'
+   * Sets the ariaLabel attribute
+   */
+  @Input() ariaLabel = 'Textarea component';
   /**
-  * Sets the rowHeight
-  */
+   * Sets the rowHeight
+   */
   @Input() rowHeight: number;
   /**
-  * Sets the maxLength attribute
-  */
+   * Sets the maxLength attribute
+   */
   @Input() maxLength: number;
   /**
-  * Sets the id attribute
-  */
+   * Sets the id attribute
+   */
   @Input() id = `usa-textarea-${nextId++}`;
   /**
-  * Sets the placeholder attribute
-  */
+   * Sets the placeholder attribute
+   */
   @Input() placeholder = '';
   /**
-  * Sets the name attribute
-  */
-  @Input() name = "textarea";
+   * Sets the name attribute
+   */
+  @Input() name = 'textarea';
   /**
    * Sets the characterCount attribute
    */
   @Input() characterCount: number;
   /**
- * Optional assistance text to be set when placeholder attribute is used
- */
-  @Input() title: string
+   * Optional assistance text to be set when placeholder attribute is used
+   */
+  @Input() title: string;
 
   /**
- * Sets the disabled attribute
- */
+   * Sets the disabled attribute
+   */
   @Input() disabled: boolean;
 
   /**
@@ -65,10 +72,34 @@ export class UsaTextareaComponent implements ControlValueAccessor {
    */
   @Output() onBlur: EventEmitter<string> = new EventEmitter(null);
 
-  constructor(public cdr: ChangeDetectorRef) { }
+  /**
+  * Sets the required attribute
+
+  */
+  @Input() required: boolean; // deprecated
+  /**
+   * Sets the required attribute
+   */
+  @Input() requiredFlag: boolean;
+
+  /**
+   * Sets the label text
+   */
+  @Input() label: string;
+
+  /**
+   * Sets the helpful description text
+   */
+  @Input() description: string;
+  /**
+   * Sets the general error message
+   */
+  @Input() errorMessage: string;
+
+  constructor(public cdr: ChangeDetectorRef) {}
 
   focusChange(event) {
-    this.onBlur.emit(event.target.value)
+    this.onBlur.emit(event.target.value);
   }
 
   onValueChange(event) {
@@ -113,4 +144,3 @@ export class UsaTextareaComponent implements ControlValueAccessor {
     this._onTouched = fn;
   }
 }
-

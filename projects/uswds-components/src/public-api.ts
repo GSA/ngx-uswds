@@ -104,3 +104,6 @@ export * from './lib/util/navigation';
 
 export * from './lib/input/affix.module'
 export * from './lib/input/affix.directive'
+
+export * from './lib/label-wrapper/label-wrapper.component';
+export * from './lib/label-wrapper/label-wrapper.module';
