@@ -22,15 +22,47 @@ export class UsaTextareaComponent implements ControlValueAccessor {
 
   private _onChange = (_: any) => { };
   private _onTouched = () => { };
-
+  /**
+    * Sets the ariaLabel attribute
+    */
   @Input() ariaLabel = 'Textarea component'
+  /**
+  * Sets the rowHeight
+  */
   @Input() rowHeight: number;
+  /**
+  * Sets the maxLength attribute
+  */
   @Input() maxLength: number;
+  /**
+  * Sets the id attribute
+  */
   @Input() id = `usa-textarea-${nextId++}`;
+  /**
+  * Sets the placeholder attribute
+  */
   @Input() placeholder = '';
+  /**
+  * Sets the name attribute
+  */
   @Input() name = "textarea";
-  @Input() characterCount;
+  /**
+   * Sets the characterCount attribute
+   */
+  @Input() characterCount: number;
+  /**
+ * Optional assistance text to be set when placeholder attribute is used
+ */
+  @Input() title: string
 
+  /**
+ * Sets the disabled attribute
+ */
+  @Input() disabled: boolean;
+
+  /**
+   * Emits focus event
+   */
   @Output() onBlur: EventEmitter<string> = new EventEmitter(null);
 
   constructor(public cdr: ChangeDetectorRef) { }

@@ -1,3 +1,4 @@
  <textarea class="usa-textarea" type="textarea" (blur)="focusChange($event)" #textarea [attr.id]="id"
-   [maxLength]="maxLength" [rows]="rowHeight" [usaCharacterCount]="characterCount" [value]="model"
-   (input)="onValueChange($event)" (keydown)="onKeydown($event)"></textarea>
+   [attr.placeholder]="placeholder" [attr.title]="title" [maxLength]="maxLength" [disabled]="disabled"
+   [rows]="rowHeight" [usaCharacterCount]="characterCount" [value]="model" (input)="onValueChange($event)"
+   (keydown)="onKeydown($event)"></textarea>
