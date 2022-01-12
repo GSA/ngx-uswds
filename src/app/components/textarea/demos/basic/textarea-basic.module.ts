@@ -1,13 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { UsaTextareaModule } from "@gsa-sam/ngx-uswds";
 import { TextareaBasicComponent } from "./textarea-basic.component";
 
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    UsaTextareaModule
   ],
   declarations: [
     TextareaBasicComponent

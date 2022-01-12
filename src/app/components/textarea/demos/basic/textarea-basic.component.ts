@@ -4,4 +4,17 @@ import { Component } from '@angular/core';
   selector: 'usa-textarea-basic',
   templateUrl: './textarea-basic.component.html',
 })
-export class TextareaBasicComponent { }
+export class TextareaBasicComponent {
+
+  constructor() { }
+  value: string;
+  textareaModel = "Hello"
+  ngOnInit(): void {
+  }
+
+  updateValue(event) {
+    this.value = event;
+  }
+}
+
+

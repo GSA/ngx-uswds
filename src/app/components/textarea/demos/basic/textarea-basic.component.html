@@ -1,39 +1,13 @@
-<label class="usa-label" for="input-type-text">Text input label</label>
-<input
-  class="usa-input"
-  id="input-type-text"
-  name="input-type-text"
-  type="text"
-/>
+<label class="usa-label" for="basicInput">Text Area label</label>
+<usa-textarea [rowHeight]="6" [maxLength]="100" id="basicInput" (onBlur)="updateValue($event)"></usa-textarea>
 
-<label class="usa-label" for="input-focus">Text input focused</label>
-<input
-  class="usa-input usa-focus"
-  id="input-focus"
-  name="input-focus"
-  type="text"
-/>
 
-<div class="usa-form-group usa-form-group--error">
-  <label class="usa-label usa-label--error" for="input-error"
-    >Text input error</label
-  >
-  <span class="usa-error-message" id="input-error-message"
-    >Helpful error message</span
-  >
-  <input
-    class="usa-input usa-input--error"
-    id="input-error"
-    name="input-error"
-    type="text"
-    aria-describedby="input-error-message"
-  />
-</div>
+<p>{{value}}</p>
 
-<label class="usa-label" for="input-success">Text input success</label>
-<input
-  class="usa-input usa-input--success"
-  id="input-success"
-  name="input-success"
-  type="text"
-/>
+<label class="usa-label" for="textareaCharacterCount">Textarea with Character Counter</label>
+<usa-textarea [rowHeight]="6" [maxLength]="100" id="textareaCharacterCount" [characterCount]="50"></usa-textarea>
+
+<label class="usa-label" for="textareaModel">Textarea with ngModel</label>
+<usa-textarea [rowHeight]="6" [maxLength]="100" id="textareaModel" [(ngModel)]="textareaModel"></usa-textarea>
+
+{{textareaModel}}

@@ -1,6 +1,3 @@
- <section [attr.aria-label]="ariaLabel">
-   <form class="usa-textarea" role="textarea">
-     <textarea class="usa-textarea" type="textarea" (blur)="focusChange($event)" #textarea [attr.id]="id"
-       [maxLength]="maxLength" [rows]="rowHeight"></textarea>
-   </form>
- </section>
+ <textarea class="usa-textarea" type="textarea" (blur)="focusChange($event)" #textarea [attr.id]="id"
+   [maxLength]="maxLength" [rows]="rowHeight" [usaCharacterCount]="characterCount" [value]="model"
+   (input)="onValueChange($event)" (keydown)="onKeydown($event)"></textarea>

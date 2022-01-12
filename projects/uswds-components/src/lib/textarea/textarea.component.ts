@@ -29,6 +29,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   @Input() id = `usa-textarea-${nextId++}`;
   @Input() placeholder = '';
   @Input() name = "textarea";
+  @Input() characterCount;
 
   @Output() onBlur: EventEmitter<string> = new EventEmitter(null);
 
@@ -36,6 +37,19 @@ export class UsaTextareaComponent implements ControlValueAccessor {
 
   focusChange(event) {
     this.onBlur.emit(event.target.value)
+  }
+
+  onValueChange(event) {
+    this.model = event.target.value;
+    this.updateModel();
+  }
+
+  onKeydown(event): void {
+    if (event.code == Key.Enter) {
+      this.model = event.target.value;
+      this.updateModel();
+      event.preventDefault();
+    }
   }
 
   // Helper method that gets a new instance of the model and notifies ControlValueAccessor that we have a new model for this FormControl (our custom component)
