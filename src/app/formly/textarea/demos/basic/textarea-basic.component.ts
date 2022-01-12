@@ -21,7 +21,9 @@ export class FormlyTextareaBasicComponent {
         label: 'TextArea',
         placeholder: 'type here',
         rowHeight: 4,
-        maxLength: 100
+        maxLength: 100,
+        required: true
+
       }
     }
   ]
