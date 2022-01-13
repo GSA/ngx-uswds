@@ -1,14 +1,19 @@
-<!-- <label class="usa-label" for="basicInput">Text Area label</label> -->
-<usa-textarea [rowHeight]="6" [label]="'Text Area label'" [description]="'Textarea description'" [maxLength]="100"
+<usa-textarea [rowHeight]="6" [label]="'Text Area label'" [description]="'Textarea description'" [maxlength]="100"
   id="basicInput" [required]="true" (onBlur)="updateValue($event)"></usa-textarea>
 
 
 <p>{{value}}</p>
 
-<label class="usa-label" for="textareaCharacterCount">Textarea with Character Counter</label>
-<usa-textarea [rowHeight]="6" [maxLength]="100" id="textareaCharacterCount" [characterCount]="50"></usa-textarea>
+
+<usa-textarea [label]="'Textarea with Character Counter'" [rowHeight]="6" [maxlength]="100" id="textareaCharacterCount"
+  [characterCount]="50"></usa-textarea>
 
 <label class="usa-label" for="textareaModel">Textarea with ngModel</label>
-<usa-textarea [rowHeight]="6" [maxLength]="100" id="textareaModel" [(ngModel)]="textareaModel"></usa-textarea>
+<usa-textarea [rowHeight]="6" [maxlength]="100" id="textareaModel" [(ngModel)]="textareaModel"></usa-textarea>
+
 
 {{textareaModel}}
+
+
+<label class="usa-label" for="textareaModel">Textarea with formcontrol</label>
+<usa-textarea [rowHeight]="6" [maxlength]="100" id="textareaModel" [formControl]="formControl"></usa-textarea>

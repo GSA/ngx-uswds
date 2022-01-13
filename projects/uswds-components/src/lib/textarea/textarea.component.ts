@@ -5,9 +5,18 @@ import {
   EventEmitter,
   forwardRef,
   Input,
+  Optional,
   Output,
+  ViewChild,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import {
+  NG_VALUE_ACCESSOR,
+  ControlValueAccessor,
+  FormControl,
+  Validators,
+  NgControl,
+} from '@angular/forms';
+import { LabelWrapper } from '../label-wrapper/label-wrapper.component';
 import { Key } from '../util/key';
 
 let nextId = 0;
@@ -40,7 +49,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   /**
    * Sets the maxLength attribute
    */
-  @Input() maxLength: number;
+  @Input() maxlength: number;
   /**
    * Sets the id attribute
    */
@@ -73,6 +82,11 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   @Output() onBlur: EventEmitter<string> = new EventEmitter(null);
 
   /**
+   * deprecated, emits value change events
+   */
+  @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
+
+  /**
   * Sets the required attribute
 
   */
@@ -96,9 +110,47 @@ export class UsaTextareaComponent implements ControlValueAccessor {
    */
   @Input() errorMessage: string;
 
+  /**
+   * sets the form control to update label messages
+   */
+  @Input() control: FormControl;
+
+  @ViewChild(LabelWrapper, { static: true }) wrapper: LabelWrapper;
+
   constructor(public cdr: ChangeDetectorRef) {}
 
+  ngOnInit() {
+    if (this.control) {
+      console.log('inside');
+      const validators: any[] = [];
+
+      if (this.control.validator) {
+        validators.push(this.control.validator);
+      }
+
+      if (this.required || this.requiredFlag) {
+        validators.push(Validators.required);
+      }
+
+      if (this.maxlength) {
+        validators.push(Validators.maxLength(this.maxlength));
+      }
+
+      this.control.setValidators(validators);
+    }
+  }
+  onInputChange(value) {
+    this._onTouched();
+    this.model = value;
+    this._onChange(value);
+    this.valueChange.emit(value);
+    console.log('war');
+    this.wrapper.formatErrors(this.control);
+  }
+
   focusChange(event) {
+    this.model = event.target.value;
+    this.updateModel();
     this.onBlur.emit(event.target.value);
   }
 
