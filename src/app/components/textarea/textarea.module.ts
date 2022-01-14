@@ -1,10 +1,15 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { DocumentationComponentsSharedModule, DocumentationDemoList } from '../../shared';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import {
+  DocumentationComponentsSharedModule,
+  DocumentationDemoList,
+} from '../../shared';
 import { DemoWrapperComponent } from '../../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../../shared/examples-page/examples.component';
 import { TextareaBasicComponent } from './demos/basic/textarea-basic.component';
-import { TextareaBasicModule } from "./demos/basic/textarea-basic.module";
+import { TextareaBasicModule } from './demos/basic/textarea-basic.module';
+import { TextareaWrapperComponent } from './demos/wrapper/textarea-wrapper.component';
+import { TextareaWrapperModule } from './demos/wrapper/textarea-wrapper.module';
 
 declare var require: any;
 
@@ -17,8 +22,15 @@ const DEMOS = {
     module: require('!!raw-loader!./demos/basic/textarea-basic.module'),
     path: 'src/app/components/textarea/demos/basic',
   },
-
-}
+  wrapper: {
+    title: 'Textarea with wrapper',
+    type: TextareaWrapperComponent,
+    code: require('!!raw-loader!./demos/wrapper/textarea-wrapper.component'),
+    markup: require('!!raw-loader!./demos/wrapper/textarea-wrapper.component.html'),
+    module: require('!!raw-loader!./demos/wrapper/textarea-wrapper.module'),
+    path: 'src/app/components/textarea/demos/wrapper',
+  },
+};
 
 export const ROUTES = [
   { path: '', pathMatch: 'full', redirectTo: 'examples' },
@@ -34,9 +46,7 @@ export const ROUTES = [
         },
       ],
     },
-    children: [
-      { path: 'examples', component: DocumentationExamplesPage },
-    ],
+    children: [{ path: 'examples', component: DocumentationExamplesPage }],
   },
 ];
 
@@ -44,7 +54,8 @@ export const ROUTES = [
   imports: [
     CommonModule,
     DocumentationComponentsSharedModule,
-    TextareaBasicModule
+    TextareaBasicModule,
+    TextareaWrapperModule,
   ],
 })
 export class TextareaModule {
