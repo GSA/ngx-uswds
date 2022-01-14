@@ -1,6 +1,6 @@
 <textarea [ngClass]="{'usa-input--error': showError, 'usa-input--success': !showError && control && control.valid}"
   [(ngModel)]="model" type="textarea" class="usa-textarea" [attr.id]="name" [attr.placeholder]="placeholder" #textarea
-  [attr.title]="title" [rows]="rowheight" [minlength]="minlength" [attr.maxlength]="maxlength ? maxlength : 524288"
+  [attr.title]="title" [rows]="rowHeight" [minlength]="minlength" [attr.maxlength]="maxlength ? maxlength : 524288"
   [disabled]="disabled" (ngModelChange)="onInputChange($event)" (focus)="focusChange($event)"
   (blur)="focusChange($event)" (input)="onValueChange($event)" (keydown)="onKeydown($event)"
   [ngModelOptions]="{standalone: true}">

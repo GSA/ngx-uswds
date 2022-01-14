@@ -12,7 +12,7 @@ export class TextareaWrapperComponent {
   textareaModel = '';
   description = `description test with link <a href="./">Goto Home</a>`;
   formControl = new FormControl('test');
-  @ViewChild(LabelWrapper, { static: true }) wrapperref: LabelWrapper;
+  @ViewChild(LabelWrapper, { static: true }) wrappeRref: LabelWrapper;
   ngOnInit(): void {}
 
   updateValue(event) {

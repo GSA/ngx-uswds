@@ -1,12 +1,10 @@
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
   Optional,
   Output,
   Self,
-  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { LabelWrapper } from '../label-wrapper/label-wrapper.component';
@@ -28,9 +26,9 @@ export class UsaTextareaComponent implements ControlValueAccessor {
    */
   @Input() ariaLabel = 'Textarea component';
   /**
-   * Sets the rowheight
+   * Sets the rowHeight
    */
-  @Input() rowheight: number;
+  @Input() rowHeight: number;
   /**
    * Sets the maxLength attribute
    */
@@ -100,9 +98,9 @@ export class UsaTextareaComponent implements ControlValueAccessor {
 
   @Input() hasWrapper = false;
 
-  // @ViewChild(LabelWrapper, { static: true }) wrapperref: LabelWrapper;
+  // @ViewChild(LabelWrapper, { static: true }) wrappeRref: LabelWrapper;
 
-  @Input() wrapperref: LabelWrapper;
+  @Input() wrappeRref: LabelWrapper;
 
   constructor(@Self() @Optional() public control: NgControl) {
     this.control && (this.control.valueAccessor = this);
@@ -138,7 +136,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   // Helper method that gets a new instance of the model and notifies ControlValueAccessor that we have a new model for this FormControl (our custom component)
   updateModel() {
     this._onChange(this.model);
-    if (this.wrapperref) this.wrapperref.formatErrors(this.control);
+    if (this.wrappeRref) this.wrappeRref.formatErrors(this.control);
   }
 
   // ControlValueAccessor (and Formly) is trying to update the value of the FormControl (our custom component) programatically
