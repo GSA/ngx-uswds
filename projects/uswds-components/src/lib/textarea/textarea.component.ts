@@ -28,9 +28,9 @@ export class UsaTextareaComponent implements ControlValueAccessor {
    */
   @Input() ariaLabel = 'Textarea component';
   /**
-   * Sets the rowHeight
+   * Sets the rowheight
    */
-  @Input() rowHeight: number;
+  @Input() rowheight: number;
   /**
    * Sets the maxLength attribute
    */
@@ -53,10 +53,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
    * Sets the name attribute
    */
   @Input() name = 'textarea';
-  /**
-   * Sets the characterCount attribute
-   */
-  @Input() characterCount: number;
+
   /**
    * Optional assistance text to be set when placeholder attribute is used
    */
@@ -103,15 +100,11 @@ export class UsaTextareaComponent implements ControlValueAccessor {
 
   @Input() hasWrapper = false;
 
-  // @ViewChild(LabelWrapper, { static: true }) wrapperRef: LabelWrapper;
+  // @ViewChild(LabelWrapper, { static: true }) wrapperref: LabelWrapper;
 
-  @Input() wrapperRef: LabelWrapper;
-  private errorMessages = new Map<string, () => string>();
+  @Input() wrapperref: LabelWrapper;
 
-  constructor(
-    public cdr: ChangeDetectorRef,
-    @Self() @Optional() public control: NgControl
-  ) {
+  constructor(@Self() @Optional() public control: NgControl) {
     this.control && (this.control.valueAccessor = this);
   }
 
@@ -145,7 +138,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   // Helper method that gets a new instance of the model and notifies ControlValueAccessor that we have a new model for this FormControl (our custom component)
   updateModel() {
     this._onChange(this.model);
-    if (this.wrapperRef) this.wrapperRef.formatErrors(this.control);
+    if (this.wrapperref) this.wrapperref.formatErrors(this.control);
   }
 
   // ControlValueAccessor (and Formly) is trying to update the value of the FormControl (our custom component) programatically

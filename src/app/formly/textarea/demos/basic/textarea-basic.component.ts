@@ -5,8 +5,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 @Component({
   selector: 'app-formly-textarea-basic',
   templateUrl: './textarea-basic.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class FormlyTextareaBasicComponent {
   form = new FormGroup({});
@@ -20,12 +19,8 @@ export class FormlyTextareaBasicComponent {
       templateOptions: {
         label: 'TextArea',
         placeholder: 'type here',
-        rowHeight: 4,
         maxLength: 100,
-        required: true
-
-      }
-    }
-  ]
+      },
+    },
+  ];
 }
-
