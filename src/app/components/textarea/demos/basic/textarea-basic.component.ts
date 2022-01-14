@@ -9,6 +9,7 @@ export class TextareaBasicComponent {
   constructor() {}
   value: string;
   textareaModel = '';
+  description = `description test with link <a href="./">Goto Home</a>`;
   formControl = new FormControl('test');
   ngOnInit(): void {}
 
