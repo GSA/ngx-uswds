@@ -93,7 +93,7 @@ import { USWDSFormlyTextAreaComponent } from './types/textarea';
         {
           name: 'textarea',
           component: USWDSFormlyTextAreaComponent,
-          // wrappers: ['form-field'],
+          wrappers: ['form-field'],
         },
       ],
       wrappers: [
