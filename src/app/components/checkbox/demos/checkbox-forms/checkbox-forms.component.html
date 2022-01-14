@@ -1,8 +1,0 @@
-<legend class="usa-legend">Select any historical figure</legend>
-<usa-checkbox *ngFor="let item of basicFormsModels" [(ngModel)]="item.checked">{{item.name}}</usa-checkbox>
-
-<div class="margin-top-5"></div>
-
-<legend class="usa-legend">Select any historical figure</legend>
-<usa-checkbox *ngFor="let item of reactiveFormControls" [formControl]="item.control" [tile]="true">{{item.name}}</usa-checkbox>
-
