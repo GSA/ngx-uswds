@@ -4,7 +4,7 @@
 /dist
 /tmp
 /out-tsc
-.documentation.json
+documentation.json
 # Only exists if Bazel was run
 /bazel-out
 
