@@ -32,18 +32,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              {
-                "input": "src/styles/uswds-styles.scss",
-                "inject": false,
-                "bundleName": "uswds-styles"
-              },
-              {
-                "input": "src/styles/sam.scss",
-                "inject": false,
-                "bundleName": "sam-styles"
-              }
-            ],
+            "styles": [],
             "scripts": []
           },
           "configurations": {
