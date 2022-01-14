@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 export class TextareaBasicComponent {
   constructor() {}
   value: string;
-  textareaModel = 'Hello';
+  textareaModel = '';
   formControl = new FormControl('test');
   ngOnInit(): void {}
 

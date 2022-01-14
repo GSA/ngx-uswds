@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { NgControl } from '@angular/forms';
 
 @Component({
   selector: 'uswds-label-wrapper',
@@ -47,7 +47,7 @@ export class LabelWrapper {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  public formatErrors(control: AbstractControl) {
+  public formatErrors(control: NgControl) {
     if (!control) {
       return;
     }
@@ -76,8 +76,6 @@ export class LabelWrapper {
         const errorObject = control.errors[k];
         this.setInvalidErrors(k, errorObject);
       }
-
-      // this.errorMessage = 'Invalid';
     } else if (!control.errors) {
       this.errorMessage = '';
     }
@@ -88,10 +86,14 @@ export class LabelWrapper {
   }
 
   private setInvalidErrors(error, errorObject) {
+    const actualLength = errorObject.actualLength;
+    const requiredLength = errorObject.requiredLength;
+
     switch (error) {
+      case 'minlength':
+        this.errorMessage = `The number of characters should not be less than ${requiredLength}`;
+        return;
       case 'maxlength':
-        const actualLength = errorObject.actualLength;
-        const requiredLength = errorObject.requiredLength;
         this.errorMessage =
           actualLength +
           ' characters input but max length is ' +

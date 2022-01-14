@@ -1,16 +1,10 @@
 <uswds-label-wrapper [label]="label" [name]="name" [description]="description" [errorMessage]="errorMessage"
   [required]="required || requiredFlag">
-
-
-  <textarea [ngModel]="model" type="textarea" class="usa-textarea" [attr.id]="name" [attr.placeholder]="placeholder"
-    #textarea [attr.title]="title" [rows]="rowHeight" [attr.maxlength]="maxlength ? maxlength : 524288"
+  <textarea [ngClass]="{'usa-input--error': showError, 'usa-input--success': !showError && control.valid}"
+    [(ngModel)]="model" type="textarea" class="usa-textarea" [attr.id]="name" [attr.placeholder]="placeholder" #textarea
+    [attr.title]="title" [rows]="rowHeight" [minlength]="minlength" [attr.maxlength]="maxlength ? maxlength : 524288"
     [disabled]="disabled" (ngModelChange)="onInputChange($event)" (focus)="focusChange($event)"
     (blur)="focusChange($event)" [usaCharacterCount]="characterCount" (input)="onValueChange($event)"
-    (keydown)="onKeydown($event)">
-</textarea>
-
-  <!-- <textarea class="usa-textarea" type="textarea" (blur)="focusChange($event)" #textarea [attr.id]="id"
-    [attr.placeholder]="placeholder" [attr.title]="title" [maxLength]="maxlength" [disabled]="disabled"
-    [rows]="rowHeight" [usaCharacterCount]="characterCount" [value]="model" (input)="onValueChange($event)"
-    (keydown)="onKeydown($event)"></textarea> -->
+    (keydown)="onKeydown($event)" [ngModelOptions]="{standalone: true}">
+  </textarea>
 </uswds-label-wrapper>

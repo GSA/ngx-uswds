@@ -7,6 +7,7 @@ import {
   Input,
   Optional,
   Output,
+  Self,
   ViewChild,
 } from '@angular/core';
 import {
@@ -24,14 +25,14 @@ let nextId = 0;
 @Component({
   selector: 'usa-textarea',
   templateUrl: './textarea.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => UsaTextareaComponent),
-      multi: true,
-    },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // providers: [
+  //   {
+  //     provide: NG_VALUE_ACCESSOR,
+  //     useExisting: forwardRef(() => UsaTextareaComponent),
+  //     multi: true,
+  //   },
+  // ],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsaTextareaComponent implements ControlValueAccessor {
   model: string = '';
@@ -50,6 +51,12 @@ export class UsaTextareaComponent implements ControlValueAccessor {
    * Sets the maxLength attribute
    */
   @Input() maxlength: number;
+
+  /**
+   * Sets the maxLength attribute
+   */
+  @Input() minlength: number;
+
   /**
    * Sets the id attribute
    */
@@ -110,48 +117,35 @@ export class UsaTextareaComponent implements ControlValueAccessor {
    */
   @Input() errorMessage: string;
 
+  @Input() isValidateOnBlur = false;
+
   /**
    * sets the form control to update label messages
    */
-  @Input() control: FormControl;
+  // @Input() control: FormControl;
 
   @ViewChild(LabelWrapper, { static: true }) wrapper: LabelWrapper;
+  private errorMessages = new Map<string, () => string>();
 
-  constructor(public cdr: ChangeDetectorRef) {}
-
-  ngOnInit() {
-    if (this.control) {
-      console.log('inside');
-      const validators: any[] = [];
-
-      if (this.control.validator) {
-        validators.push(this.control.validator);
-      }
-
-      if (this.required || this.requiredFlag) {
-        validators.push(Validators.required);
-      }
-
-      if (this.maxlength) {
-        validators.push(Validators.maxLength(this.maxlength));
-      }
-
-      this.control.setValidators(validators);
-    }
+  constructor(
+    public cdr: ChangeDetectorRef,
+    @Self() @Optional() public control: NgControl
+  ) {
+    this.control && (this.control.valueAccessor = this);
   }
+
   onInputChange(value) {
     this._onTouched();
     this.model = value;
     this._onChange(value);
     this.valueChange.emit(value);
-    console.log('war');
-    this.wrapper.formatErrors(this.control);
   }
 
   focusChange(event) {
     this.model = event.target.value;
     this.updateModel();
-    this.onBlur.emit(event.target.value);
+    this.onBlur.emit(this.model);
+    this._onTouched();
   }
 
   onValueChange(event) {
@@ -170,20 +164,14 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   // Helper method that gets a new instance of the model and notifies ControlValueAccessor that we have a new model for this FormControl (our custom component)
   updateModel() {
     this._onChange(this.model);
+    this.wrapper.formatErrors(this.control);
   }
 
   // ControlValueAccessor (and Formly) is trying to update the value of the FormControl (our custom component) programatically
   // If there is a value we will just overwrite items
   // If there is no value we reset the items array to be empty
   writeValue(value: any) {
-    if (value) {
-      this.model = value;
-
-      this.cdr.markForCheck();
-    } else {
-      this.model = '';
-      this.cdr.markForCheck();
-    }
+    this.model = value;
   }
 
   // ControlValueAccessor hook that lets us call this._onChange(var) to let the form know our variable has changed (in this case model)
@@ -194,5 +182,24 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   // ControlValueAccessor hook (not used)
   registerOnTouched(fn: any) {
     this._onTouched = fn;
+  }
+
+  // Set disable state
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  // Check for invalid
+  public get invalid(): boolean {
+    return this.control ? this.control.invalid : false;
+  }
+
+  // To apply the error/success class for the textarea
+  public get showError(): boolean {
+    if (!this.control) {
+      return false;
+    }
+    const { dirty, touched } = this.control;
+    return this.invalid ? dirty || touched : false;
   }
 }
