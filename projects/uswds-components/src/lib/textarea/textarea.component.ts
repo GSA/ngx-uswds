@@ -7,7 +7,7 @@ import {
   Self,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { LabelWrapper } from '../label-wrapper/label-wrapper.component';
+import { LabelWrapper } from '../form-field/form-field.component';
 import { Key } from '../util/key';
 
 let nextId = 0;

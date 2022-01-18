@@ -2,8 +2,8 @@ import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Component({
-  selector: 'uswds-label-wrapper',
-  templateUrl: 'label-wrapper.template.html',
+  selector: 'uswds-form-field',
+  templateUrl: 'form-field.component.html',
 })
 export class LabelWrapper {
   /**
