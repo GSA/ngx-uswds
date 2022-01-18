@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { LabelWrapper } from '@gsa-sam/ngx-uswds';
+import { FormFieldComponent } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-textarea-wrapper',
@@ -12,7 +12,8 @@ export class TextareaWrapperComponent {
   textareaModel = '';
   description = `description test with link <a href="./">Goto Home</a>`;
   formControl = new FormControl('test');
-  @ViewChild(LabelWrapper, { static: true }) wrappeRref: LabelWrapper;
+  @ViewChild(FormFieldComponent, { static: true })
+  wrappeRref: FormFieldComponent;
   ngOnInit(): void {}
 
   updateValue(event) {

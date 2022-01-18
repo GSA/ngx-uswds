@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   UsaCharacterCountModule,
   UsaTextareaModule,
-  USWDSLabelWrapperModule,
+  USWDSFormFieldModule,
 } from '@gsa-sam/ngx-uswds';
 import { TextareaBasicComponent } from './textarea-basic.component';
 
@@ -14,7 +14,7 @@ import { TextareaBasicComponent } from './textarea-basic.component';
     FormsModule,
     ReactiveFormsModule,
     UsaTextareaModule,
-    USWDSLabelWrapperModule,
+    USWDSFormFieldModule,
     UsaCharacterCountModule,
   ],
   declarations: [TextareaBasicComponent],

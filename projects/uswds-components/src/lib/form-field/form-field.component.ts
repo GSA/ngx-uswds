@@ -5,7 +5,7 @@ import { NgControl } from '@angular/forms';
   selector: 'uswds-form-field',
   templateUrl: 'form-field.component.html',
 })
-export class LabelWrapper {
+export class FormFieldComponent {
   /**
    * sets the label text
    */

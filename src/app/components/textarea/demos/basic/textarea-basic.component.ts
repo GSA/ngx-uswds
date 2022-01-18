@@ -1,6 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { LabelWrapper } from '@gsa-sam/ngx-uswds';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'usa-textarea-basic',

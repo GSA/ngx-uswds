@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LabelWrapper } from './form-field.component';
+import { FormFieldComponent } from './form-field.component';
 
 @NgModule({
-  declarations: [LabelWrapper],
-  exports: [LabelWrapper],
+  declarations: [FormFieldComponent],
+  exports: [FormFieldComponent],
   imports: [CommonModule],
 })
-export class USWDSLabelWrapperModule {}
+export class USWDSFormFieldModule {}

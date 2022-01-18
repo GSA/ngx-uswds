@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UsaTextareaModule, USWDSLabelWrapperModule } from '@gsa-sam/ngx-uswds';
+import { UsaTextareaModule, USWDSFormFieldModule } from '@gsa-sam/ngx-uswds';
 import { TextareaWrapperComponent } from './textarea-wrapper.component';
 
 @NgModule({
@@ -10,7 +10,7 @@ import { TextareaWrapperComponent } from './textarea-wrapper.component';
     FormsModule,
     ReactiveFormsModule,
     UsaTextareaModule,
-    USWDSLabelWrapperModule,
+    USWDSFormFieldModule,
   ],
   declarations: [TextareaWrapperComponent],
   exports: [TextareaWrapperComponent],

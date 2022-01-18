@@ -7,7 +7,7 @@ import {
   Self,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { LabelWrapper } from '../form-field/form-field.component';
+import { FormFieldComponent } from '../form-field/form-field.component';
 import { Key } from '../util/key';
 
 let nextId = 0;
@@ -98,9 +98,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
 
   @Input() hasWrapper = false;
 
-  // @ViewChild(LabelWrapper, { static: true }) wrappeRref: LabelWrapper;
-
-  @Input() wrappeRref: LabelWrapper;
+  @Input() wrappeRref: FormFieldComponent;
 
   constructor(@Self() @Optional() public control: NgControl) {
     this.control && (this.control.valueAccessor = this);
