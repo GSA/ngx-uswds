@@ -21,7 +21,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/checkbox-basic.component'),
     markup: require('!!raw-loader!./demos/basic/checkbox-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/checkbox-basic.module'),
-    path: 'src/app/checkbox/demos/basic',
+    path: 'src/app/components/checkbox/demos/basic',
   },
   forms: {
     title: 'Checkbox Forms',
@@ -29,7 +29,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/checkbox-forms/checkbox-forms.component'),
     markup: require('!!raw-loader!./demos/checkbox-forms/checkbox-forms.component.html'),
     module: require('!!raw-loader!./demos/checkbox-forms/checkbox-forms.module'),
-    path: 'src/app/checkbox/demos/checkbox-forms',
+    path: 'src/app/components/checkbox/demos/checkbox-forms',
   },
   indeterminate: {
     title: 'Indeterminate Checkbox',
@@ -37,7 +37,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/checkbox-indeterminate/checkbox-indeterminate.component'),
     markup: require('!!raw-loader!./demos/checkbox-indeterminate/checkbox-indeterminate.component.html'),
     module: require('!!raw-loader!./demos/checkbox-indeterminate/checkbox-indeterminate.module'),
-    path: 'src/app/checkbox/demos/checkbox-indeterminate',
+    path: 'src/app/components/checkbox/demos/checkbox-indeterminate',
   },
   footer: {
     title: 'General Accessibility',
@@ -45,7 +45,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/footer/checkbox-footer.component'),
     markup: require('!!raw-loader!./demos/footer/checkbox-footer.component.html'),
     module: require('!!raw-loader!./demos/footer/checkbox-footer.module'),
-    path: 'src/app/checkbox/demos/footer',
+    path: 'src/app/components/checkbox/demos/footer',
   }
 }
 

@@ -10,7 +10,7 @@
     </div>
     <section #panelContent id="{{panel.id}}" class="usa-accordion__content overflow-hidden"
       [@.disabled]="!animation"
-      [@bodyExpansion]="panel.isOpen ? 'expanded' : 'collapsed'"
+      [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'"
       (@bodyExpansion.start)="onBodyExpansionStart($event, panelContent)"
       (@bodyExpansion.done)="onBodyExpansionEnd($event, panelContent)"
       [attr.aria-labelledby]="panel.id + '-header'">

@@ -6,8 +6,6 @@ import { ButtonGroupModule } from ".//button-group/button-group.module";
 import { CheckboxModule, ROUTES as CHECKBOX_ROUTES } from ".//checkbox/checkbox.module";
 import { InputModule, ROUTES as INPUT_ROUTES } from ".//input/input.module";
 import { RadioModule, ROUTES as RADIO_ROUTES } from ".//radio/radio.module";
-import { DropdownComponent } from ".//dropdown/dropdown.component";
-import { DropdownModule } from ".//dropdown/dropdown.module";
 import { StepIndicatorModule, ROUTES as STEP_INDICATOR_ROUTES } from ".//step-indicator/step-indicator.module";
 import { AccordionModule, ROUTES as ACCORDION_ROUTES } from './/accordion/accordion.module';
 import { ModalModule, ROUTES as MODAL_ROUTES } from ".//modal/modal.module";
@@ -19,9 +17,11 @@ import { CharacterCountModule, ROUTES as CHARACTER_COUNT_ROUTES } from ".//chara
 import { SearchModule, ROUTES as SEARCH_ROUTES } from './/search/search.module';
 import { HeaderModule, ROUTES as HEADER_ROUTES } from './header/header.module';
 import { SideNavigationModule, ROUTES as SIDE_NAV_ROUTES } from ".//side-navigation/side-navigation.module";
+import { ComboboxModule, ROUTES as COMBO_BOX_ROUTES } from "./combo-box/combo-box.module";
 import { ComponentHomeModule } from "./home/home.module";
 import { ComponentsPageComponent } from "./components-page.component";
 import { ComponentHome } from "./home/home.component";
+import { DropdownModule, ROUTES as DROPDOWN_ROUTES } from './/dropdown/dropdown.module';
 
 const routes: Routes = [
   {
@@ -45,8 +45,12 @@ const routes: Routes = [
         children: CHECKBOX_ROUTES,
       },
       {
+        path: 'combo-box',
+        children: COMBO_BOX_ROUTES,
+      },
+      {
         path: 'dropdown',
-        component: DropdownComponent
+        children: DROPDOWN_ROUTES,
       },
       {
         path: 'file-input',
@@ -120,7 +124,8 @@ const routes: Routes = [
     SearchModule,
     HeaderModule,
     ComponentHomeModule,
-    InputModule
+    InputModule,
+    ComboboxModule,
   ],
   exports: [
     RouterModule,

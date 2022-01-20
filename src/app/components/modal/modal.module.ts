@@ -33,7 +33,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/modal-basic.component'),
     markup: require('!!raw-loader!./demos/basic/modal-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/modal-basic.module'),
-    path: 'src/app/modal/demos/basic',
+    path: 'src/app/components/modal/demos/basic',
   },
   modalLarge: {
     title: 'Modal Large',
@@ -41,7 +41,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/modal-large/modal-large.component'),
     markup: require('!!raw-loader!./demos/modal-large/modal-large.component.html'),
     module: require('!!raw-loader!./demos/modal-large/modal-large.module'),
-    path: 'src/app/modal/demos/modal-large',
+    path: 'src/app/components/modal/demos/modal-large',
   },
   disableAnimation: {
     title: 'Modal Disable Animation',
@@ -49,7 +49,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/disable-animation/disable-animation.component'),
     markup: require('!!raw-loader!./demos/disable-animation/disable-animation.component.html'),
     module: require('!!raw-loader!./demos/disable-animation/disable-animation.module'),
-    path: 'src/app/modal/demos/disable-animation',
+    path: 'src/app/components/modal/demos/disable-animation',
   },
   forcedAction: {
     title: 'Modal Force User Action',
@@ -57,7 +57,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/modal-forced-action/modal-forced-action.component'),
     markup: require('!!raw-loader!./demos/modal-forced-action/modal-forced-action.component.html'),
     module: require('!!raw-loader!./demos/modal-forced-action/modal-forced-action.module'),
-    path: 'src/app/modal/demos/modal-forced-action',
+    path: 'src/app/components/modal/demos/modal-forced-action',
   },
   componentContent: {
     title: 'Use Component Reference for Modal',
@@ -65,7 +65,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/modal-component-content/modal-component-wrapper.component'),
     markup: require('!!raw-loader!./demos/modal-component-content/modal-component-wrapper.component.html'),
     module: require('!!raw-loader!./demos/modal-component-content/modal-component-wrapper.module'),
-    path: 'src/app/modal/demos/modal-component-content',
+    path: 'src/app/components/modal/demos/modal-component-content',
   },
   customFocus: {
     title: 'Modal Set Initial Focus Element on Open',
@@ -73,7 +73,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/modal-custom-focus/modal-custom-focus.component'),
     markup: require('!!raw-loader!./demos/modal-custom-focus/modal-custom-focus.component.html'),
     module: require('!!raw-loader!./demos/modal-custom-focus/modal-custom-focus.module'),
-    path: 'src/app/modal/demos/modal-custom-focus',
+    path: 'src/app/components/modal/demos/modal-custom-focus',
   },
   modalStacked: {
     title: 'Modal Stacked',
@@ -81,7 +81,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/modal-stacked/modal-stacked.component'),
     markup: require('!!raw-loader!./demos/modal-stacked/modal-stacked.component.html'),
     module: require('!!raw-loader!./demos/modal-stacked/modal-stacked.module'),
-    path: 'src/app/modal/demos/modal-stacked',
+    path: 'src/app/components/modal/demos/modal-stacked',
   },
   modalScrollable: {
     title: 'Modal Scrollable',
@@ -89,7 +89,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/modal-scrollable-content/modal-scrollable-content.component'),
     markup: require('!!raw-loader!./demos/modal-scrollable-content/modal-scrollable-content.component.html'),
     module: require('!!raw-loader!./demos/modal-scrollable-content/modal-scrollable-content.module'),
-    path: 'src/app/modal/demos/modal-scrollable-content',
+    path: 'src/app/components/modal/demos/modal-scrollable-content',
   },
   modalFooter: {
     title: '',
@@ -97,7 +97,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/footer/footer.component'),
     markup: require('!!raw-loader!./demos/footer/footer.component.html'),
     module: require('!!raw-loader!./demos/footer/footer.module'),
-    path: 'src/app/modal/demos/footer',
+    path: 'src/app/components/modal/demos/footer',
   }
 };
 

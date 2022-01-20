@@ -26,6 +26,12 @@ export * from './lib/card/card.module';
 export * from './lib/checkbox/checkbox.component';
 export * from './lib/checkbox/checkbox.module';
 
+// Combo Box
+export * from './lib/combo-box/combo-box.component';
+export * from './lib/combo-box/combo-box-selectors';
+export * from './lib/combo-box/combo-box-dropdown.component';
+export * from './lib/combo-box/combo-box.module';
+
 // Dropdown
 export * from './lib/dropdown/dropdown-options.model';
 export * from './lib/dropdown/dropdown.component';
@@ -87,6 +93,9 @@ export * from './lib/radio/radio-group.component';
 
 // Header
 export * from './lib/header/index';
+
+// Utility
+export * from './lib/util/navigation';
 
 export * from './lib/input/affix.module'
 export * from './lib/input/affix.directive'

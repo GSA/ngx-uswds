@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderNavigationLink } from 'uswds';
-import { NavigationMode, UsaHeaderPrimaryLink } from '@gsa-sam/ngx-uswds';
+import { UsaHeaderPrimaryLink } from '@gsa-sam/ngx-uswds';
 
 @Component({
   selector: 'usa-header-basic',
@@ -18,17 +18,17 @@ export class HeaderPrimaryComponent {
         {
           text: 'Item 1',
           id: 'homeChild1',
-          href: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 2',
           id: 'homeChild2',
-          href: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 3',
           id: 'homeChild3',
-          href: '/header/examples',
+          path: 'components/header/examples',
         }
       ],
     },
@@ -41,17 +41,17 @@ export class HeaderPrimaryComponent {
         {
           text: 'Item 1',
           id: 'homeChild1',
-          href: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 2',
           id: 'homeChild2',
-          href: '/header/examples',
+          path: 'components/header/examples',
         },
         {
           text: 'Item 3',
           id: 'homeChild3',
-          href: '/header/examples',
+          path: 'components/header/examples',
         },
       ],
     },

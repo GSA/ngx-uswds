@@ -9,7 +9,7 @@
       role="tab"
       [attr.tabindex]="0"
       [attr.aria-disabled]="step.disabled || disableStepSelection ? true : undefined"
-      class="usa-step-indicator__segment"
+      class="usa-step-indicator__segment {{getFillPercentage(step)}} {{getSegmentScale(step)}}"
       [attr.id]="id + '-' + i"
       (click)="onStepClicked(i, step)"
       (keyup.enter)="onStepClicked(i, step)"
@@ -17,6 +17,7 @@
       [ngClass]="{
         'usa-step-indicator__segment--complete': i < currentStep,
         'usa-step-indicator__segment--current': i === currentStep,
+        'usa-step-indicator__segment--no-counter': displayCounters && !step.label,
         'cursor-pointer': !step.disabled && !disableStepSelection
       }"
       [attr.aria-current]="i == currentStep ? true : undefined"

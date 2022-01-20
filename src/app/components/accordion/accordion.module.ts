@@ -28,7 +28,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/accordion-basic.component'),
     markup: require('!!raw-loader!./demos/basic/accordion-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/accordion-basic.module'),
-    path: 'src/app/accordion/demos/basic',
+    path: 'src/app/components/accordion/demos/basic',
   },
   multiSelect: {
     title: 'Accordion Multi Select & Bordered',
@@ -36,7 +36,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/multi-select/accordion-multi-select.component'),
     markup: require('!!raw-loader!./demos/multi-select/accordion-multi-select.component.html'),
     module: require('!!raw-loader!./demos/multi-select/accordion-multi-select.module'),
-    path: 'src/app/accordion/demos/multi-select',
+    path: 'src/app/components/accordion/demos/multi-select',
   },
   disableAnimation: {
     title: 'Accordion Disable Animation',
@@ -44,7 +44,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/disable-animation/disable-animation.component'),
     markup: require('!!raw-loader!./demos/disable-animation/disable-animation.component.html'),
     module: require('!!raw-loader!./demos/disable-animation/disable-animation.module'),
-    path: 'src/app/accordion/demos/disable-animation',
+    path: 'src/app/components/accordion/demos/disable-animation',
   },
   toggleExternally: {
     title: 'Accordion External Toggle',
@@ -52,7 +52,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/accordion-toggle/accordion-toggle.component'),
     markup: require('!!raw-loader!./demos/accordion-toggle/accordion-toggle.component.html'),
     module: require('!!raw-loader!./demos/accordion-toggle/accordion-toggle.module'),
-    path: 'src/app/accordion/demos/accordion-toggle',
+    path: 'src/app/components/accordion/demos/accordion-toggle',
   },
   preventToggle: {
     title: 'Accordion Prevent Panel Toggle',
@@ -60,7 +60,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/prevent-toggle/prevent-toggle.component'),
     markup: require('!!raw-loader!./demos/prevent-toggle/prevent-toggle.component.html'),
     module: require('!!raw-loader!./demos/prevent-toggle/prevent-toggle.module'),
-    path: 'src/app/accordion/demos/prevent-toggle',
+    path: 'src/app/components/accordion/demos/prevent-toggle',
   },
   footer: {
     title: '',

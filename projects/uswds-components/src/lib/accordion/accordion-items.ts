@@ -68,7 +68,8 @@ export class UsaAccordionItem implements AfterContentChecked {
    */
   @Input() id = `usa-accordion-item-${nextId++}`;
 
-  isOpen = false;
+  /** Defines whether the accordion is in expanded or collapsed state */
+  @Input() expanded = false;
 
   /* A flag to specified that the transition panel classes have been initialized */
   initClassDone = false;
@@ -108,12 +109,14 @@ export class UsaAccordionItem implements AfterContentChecked {
    */
   @Output() hidden = new EventEmitter<void>();
 
-
   headerTpl: UsaAccordionHeader;
   contentTpl: UsaAccordionContent;
 
   @ContentChildren(UsaAccordionHeader, { descendants: false }) headerTpls: QueryList<UsaAccordionHeader>;
   @ContentChildren(UsaAccordionContent, { descendants: false }) contentTpls: QueryList<UsaAccordionContent>;
+
+  constructor() {}
+
 
   ngAfterContentChecked() {
     // We are using @ContentChildren instead of @ContentChild as in the Angular version being used

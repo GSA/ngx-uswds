@@ -39,7 +39,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
    * For subsequent changes use methods like `expand()`, `collapse()`, etc. and
    * the `(panelChange)` event.
    */
-  @Input() activeIds: string | readonly string[] = [];
+  @Input() activeIds: string[] = [];
 
   /**
    *  If `true`, only one panel could be opened at a time.
@@ -141,13 +141,13 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   toggle(panelId: string) {
     const panel = this._findPanelById(panelId);
     if (panel) {
-      this._changeOpenState(panel, !panel.isOpen);
+      this._changeOpenState(panel, !panel.expanded);
     }
   }
 
   /** Gets the expanded state string. */
   _getExpandedState(panel: UsaAccordionItem) {
-    return panel.isOpen ? 'expanded' : 'collapsed';
+    return panel.expanded ? 'expanded' : 'collapsed';
   }
 
   ngAfterContentChecked() {
@@ -157,7 +157,9 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     }
 
     // update panels open states
-    this.panels.forEach(panel => { panel.isOpen = !panel.disabled && this.activeIds.indexOf(panel.id) > -1; });
+    this.panels.forEach(panel => { 
+      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1); 
+    });
 
     // closeOthers updates
     if (this.activeIds.length > 1 && this.singleSelect) {
@@ -231,14 +233,14 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   }
 
   private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {
-    if (panel != null && !panel.disabled && panel.isOpen !== nextState) {
+    if (panel != null && !panel.disabled) {
       let defaultPrevented = false;
 
       this.panelChange.emit(
           {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});
 
       if (!defaultPrevented) {
-        panel.isOpen = nextState;
+        panel.expanded = nextState;
 
         if (nextState && this.singleSelect) {
           this._closeOthers(panel.id);
@@ -250,8 +252,8 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
   private _closeOthers(panelId: string) {
     this.panels.forEach(panel => {
-      if (panel.id !== panelId && panel.isOpen) {
-        panel.isOpen = false;
+      if (panel.id !== panelId && panel.expanded) {
+        panel.expanded = false;
       }
     });
   }
@@ -259,7 +261,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }
 
   private _updateActiveIds() {
-    this.activeIds = this.panels.filter(panel => panel.isOpen && !panel.disabled).map(panel => panel.id);
+    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);
   }
 
   private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {

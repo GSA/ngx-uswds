@@ -19,7 +19,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/basic/radio-basic.component'),
     markup: require('!!raw-loader!./demos/basic/radio-basic.component.html'),
     module: require('!!raw-loader!./demos/basic/radio-basic.module'),
-    path: 'src/app/radio/demos/basic',
+    path: 'src/app/components/radio/demos/basic',
   },
   forms: {
     title: 'Radio with Angular Forms',
@@ -27,7 +27,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/radio-forms/radio-forms.component'),
     markup: require('!!raw-loader!./demos/radio-forms/radio-forms.component.html'),
     module: require('!!raw-loader!./demos/radio-forms/radio-forms.module'),
-    path: 'src/app/radio/demos/radio-forms',
+    path: 'src/app/components/radio/demos/radio-forms',
   },
   footer: {
     title: 'General Accessibility',
@@ -35,7 +35,7 @@ const DEMOS = {
     code: require('!!raw-loader!./demos/footer/radio-footer.component'),
     markup: require('!!raw-loader!./demos/footer/radio-footer.component.html'),
     module: require('!!raw-loader!./demos/footer/radio-footer.module'),
-    path: 'src/app/radio/demos/footer',
+    path: 'src/app/components/radio/demos/footer',
   },
 }
 
