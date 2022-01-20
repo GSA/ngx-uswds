@@ -1,6 +1,6 @@
 {
   "name": "usa-components",
-  "version": "12.0.0-beta.5",
+  "version": "12.0.0-beta.6",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -17,7 +17,6 @@
     "@angular/compiler": "~12.2.14",
     "@angular/core": "~12.2.14",
     "@angular/forms": "~12.2.14",
-    "@angular/material": "~10.2.0",
     "@angular/platform-browser": "~12.2.14",
     "@angular/platform-browser-dynamic": "~12.2.14",
     "@angular/router": "~12.2.14",
@@ -43,7 +42,7 @@
     "angular-cli-github-pages": "0.2.0",
     "codelyzer": "^6.0.0",
     "css-loader": "^6.5.1",
-    "jasmine-core": "~3.6.0",
+    "jasmine-core": "^3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.3.4",
     "karma-chrome-launcher": "~3.1.0",

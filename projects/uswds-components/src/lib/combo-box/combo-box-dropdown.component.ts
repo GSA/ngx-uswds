@@ -10,9 +10,6 @@ import { DOCUMENT } from "@angular/common";
   selector: `usa-combo-box-dropdown`,
   templateUrl: './combo-box-dropdown.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {provide: Window, useValue: window}
-  ]
 })
 export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges {
 
@@ -73,13 +70,17 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
   /** List of functions to call to un-bind events registered through renderer.listen call */
   _eventListeners: (()=>void)[] = [];
 
+  private windowRef: Window;
+
   constructor(
     private el: ElementRef,
-    private windowRef: Window,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document,
-  ) { }
+
+  ) { 
+    this.windowRef = this.document.defaultView;
+  }
 
   trackByFn(index: number) {
     return index;

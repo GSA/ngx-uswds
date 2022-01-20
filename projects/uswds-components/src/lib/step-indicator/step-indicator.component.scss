@@ -1,4 +1,4 @@
-@import "~uswds/src/stylesheets/packages/_required";
+@import "node_modules/uswds/src/stylesheets/packages/required";
 
 /** Define styles for scaling segment width */
 @for $i from 1 through 8 {
