@@ -106,11 +106,21 @@ import { Meta } from '@storybook/addon-docs';
   
 `}</style>
 
-# Welcome to Storybook
+# NgxUSWDS
+This project takes components in uswds and implements them through angular.
+Original USWDS components can be found here - https://designsystem.digital.gov/components  
+Current progress / documentation of this project can be found here - https://gsa.github.io/ngx-uswds 
 
-Storybook helps you build UI components in isolation from your app's business logic, data, and context.
-That makes it easy to develop hard-to-reach states. Save these UI states as **stories** to revisit during development, testing, or QA.
 
-Browse example stories now by navigating to them in the sidebar.
-View their code in the `src/stories` directory to learn how they work.
-We recommend building UIs with a [**component-driven**](https://componentdriven.org) process starting with atomic components and ending with pages.
+# Installation
+Run `npm install @gsa-sam/ngx-uswds` in order to add the npm package into your Angular application.
+Once installed and added to your `node_modules` directory, you can start importing desired uswds component 
+modules into your application module.
+
+# Storybook
+Run `npm run start` to launch the storybook documentation locally. The storybook application will be served through
+`localhost:4200`
+
+# Development
+Run `npm run develop` to start a development build of the application. This will build the application through
+angular's cli tools and allow you to test existing or new components
