@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Component({
-  selector: 'uswds-form-field',
+  selector: 'usa-form-field',
   templateUrl: 'form-field.component.html',
 })
 export class FormFieldComponent {
@@ -11,9 +11,9 @@ export class FormFieldComponent {
    */
   @Input() public label: string;
   /**
-   * sets the name attribute value
+   * sets the id attribute value
    */
-  @Input() public name: string;
+  @Input() public id: string;
   /**
    * sets the description text
    */

@@ -1,13 +1,11 @@
 <div #labelDiv [class.usa-form-group--error]="!!errorMessage" class="usa-form-group ">
-  <label *ngIf="!!label" [attr.for]="name" class="usa-label" [class.usa-input-error-label]="errorMessage">
+  <label *ngIf="!!label" [attr.for]="id" class="usa-label" [class.usa-input-error-label]="errorMessage">
     {{ label || '' }}
     <span *ngIf="required || requiredFlag">
       (Required)
     </span>
-    <ng-content select="[label-right]"></ng-content>
   </label>
-  <small *ngIf="description" [attr.id]="this.name + '-description'" class="form-text text-muted"
-    [innerHTML]="description"></small>
+  <small *ngIf="description" [attr.id]="this.id" class="form-text text-muted" [innerHTML]="description"></small>
   <div *ngIf="!!errorMessage" class="usa-error-message" [style.display]="'block'" [attr.id]="errorElId">
     {{errorMessage}}
   </div>
