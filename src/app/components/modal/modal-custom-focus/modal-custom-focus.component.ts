@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
 @Component({
-  selector: 'usa-modal-scrollable-content',
-  templateUrl: './modal-scrollable-content.component.html',
+  selector: 'modal-custom-focus',
+  templateUrl: './modal-custom-focus.component.html',
 })
-export class ModalScrollableContentComponent {
+export class ModalCustomFocusComponent {
 
   closeResult = '';
 
@@ -14,7 +14,7 @@ export class ModalScrollableContentComponent {
   constructor(private modalService: UsaModalService) { }
 
   open(content) {
-    this.modalRef = this.modalService.open(content);
+    this.modalRef = this.modalService.open(content)
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

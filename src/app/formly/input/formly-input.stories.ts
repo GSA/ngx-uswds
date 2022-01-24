@@ -4,7 +4,7 @@ import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicInputModule } from "./input-basic/input-basic.module";
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Input',
@@ -29,6 +29,10 @@ export default {
   }
 } as Meta;
 
+declare var require;
+
+const template = require('!!raw-loader!./input-basic/input-basic.component.html');
+
 const FormControlTemplate: Story<FormlyForm> = (args: any) => {
 
   const form = new FormGroup({});
@@ -44,10 +48,7 @@ const FormControlTemplate: Story<FormlyForm> = (args: any) => {
   ];
 
   return {
-    template: `
-      <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-      {{model |json}}
-    `,
+    template: template.default,
     props: {
       form,
       model,
@@ -59,45 +60,6 @@ const FormControlTemplate: Story<FormlyForm> = (args: any) => {
 
 export const Basic = FormControlTemplate.bind({});
 
-declare var require;
-
-const componentTs = require('!!raw-loader!./input-basic/input-basic.component.ts');
-const template = require('!!raw-loader!./input-basic/input-basic.component.html');
-const moduleTs = require('!!raw-loader!./input-basic/input-basic.module.ts');
-
-const sandboxConfig = {
-  files: {
-    'input-basic.component.ts': componentTs.default,
-    'input-basic.component.html': template.default,
-    'input-basic.module.ts': moduleTs.default,
-  },
-  moduleName: 'FormlyBasicInputModule',
-  selector: 'formly-input-basic'
-};
-
-
 Basic.parameters = {
-  preview: [
-    {
-      tab: "input-basic.component.ts",
-      template: componentTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-    {
-        tab: "input-basic.component.html",
-        template: template.default,
-        language: "html",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-    {
-      tab: "input-basic.module.ts",
-      template: moduleTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-  ],
+  preview: generateConfig('formly/input/input-basic', 'FormlyBasicInputModule', 'formly-input-basic')
 }

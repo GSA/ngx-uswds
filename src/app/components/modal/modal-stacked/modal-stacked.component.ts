@@ -2,24 +2,39 @@ import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaActiveModal, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
 @Component({
-  selector: 'usa-modal-component-wrapper',
-  templateUrl: './modal-component-wrapper.component.html',
+  selector: 'modal-stacked',
+  templateUrl: './modal-stacked.component.html',
 })
-export class ModalComponentWrapper {
+export class ModalStackedComponent {
 
   closeResult = '';
+  closeBResult = '';
 
   modalRef: UsaModalRef;
+  modalBRef: UsaModalRef;
 
   constructor(private modalService: UsaModalService) { }
 
-  open() {
-    this.modalRef = this.modalService.open(ModalContent);
+  open(content) {
+    this.modalRef = this.modalService.open(content)
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  openModalB() {
+    this.modalBRef = this.modalService.open(ModalStackedBComponent);
+    this.modalBRef.result.then((result) => {
+      this.closeBResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeBResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  close(reason) {
+    this.modalRef.close(reason);
   }
 
   private getDismissReason(reason: any): string {
@@ -36,15 +51,14 @@ export class ModalComponentWrapper {
   }
 }
 
-
 @Component({
-  selector: `usa-modal-content`,
+  selector: `usa-modal-stacked-b`,
   template: `
-    <h2 class="usa-modal__heading" id="modal-5-heading">
+    <h2 class="usa-modal__heading" id="modal-8-heading">
       Are you sure you want to continue?
     </h2>
     <div class="usa-prose">
-      <p id="modal-5-description">You have unsaved changes that will be lost.</p>
+      <p id="modal-8-description">You have unsaved changes that will be lost.</p>
     </div>
     <div class="usa-modal__footer">
       <ul class="usa-button-group">
@@ -56,11 +70,11 @@ export class ModalComponentWrapper {
         </li>
       </ul>
     </div>
-  `,
+  `
 })
-export class ModalContent {
+export class ModalStackedBComponent {
 
-  constructor(public activeModal: UsaActiveModal) { }
+  constructor(private activeModal: UsaActiveModal) { }
 
   close(reason) {
     this.activeModal.close(reason);

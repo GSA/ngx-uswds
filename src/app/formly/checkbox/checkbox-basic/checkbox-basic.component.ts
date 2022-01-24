@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
-  selector: 'app-formly-checkbox-basic',
+  selector: 'formly-checkbox-basic',
   templateUrl: './checkbox-basic.component.html',
 
 })

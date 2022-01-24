@@ -2,27 +2,16 @@ import { Meta, moduleMetadata, Story } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { UsaCheckboxComponent,  UsaCheckboxModule, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
 import { CheckboxIndeterminateComponent } from "./checkbox-indeterminate/checkbox-indeterminate.component";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
 
 declare var require;
 
 
 const basicTemplate = require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html');
-const basicTs = require('!!raw-loader!./checkbox-basic/checkbox-basic.component.ts');
-const basicModule = require('!!raw-loader!./checkbox-basic/checkbox-basic.module.ts')
 
 const footer = require('!!raw-loader!./checkbox-footer.component.html');
 
-const sandboxConfig = {
-  files: {
-    'checkbox-basic.component.ts': basicTs.default,
-    'checkbox-basic.module.ts': basicModule.default,
-    'checkbox-basic.component.html': basicTemplate.default
-  },
-  moduleName: 'CheckboxBasicModule',
-  selector: 'checkbox-basic'
-};
 
 export default {
   title: 'Components/Checkbox',
@@ -37,31 +26,6 @@ export default {
     tile: false,
     disabled: false,
     checked: false,
-  },
-  parameters: {
-    preview: [
-      {
-        tab: "checkbox-basic.component.ts",
-        template: basicTs.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-          tab: "checkbox-template.html",
-          template: basicTemplate.default,
-          language: "html",
-          copy: true,
-          codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-        tab: "checkbox-basic.module.ts",
-        template: basicModule.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-    ],
   }
 } as Meta;
 
@@ -70,6 +34,10 @@ export const Basic = (args) => ({
   template: basicTemplate.default,
   props: args,
 });
+
+Basic.parameters = {
+  preview: generateConfig('components/checkbox/checkbox-basic', 'CheckboxBasicModule', 'checkbox-basic'),
+}
 
 
 const FormControlTemplate: Story<UsaCheckboxComponent> = (args: any) => {
@@ -97,6 +65,9 @@ export const FormControlCheckbox = FormControlTemplate.bind({});
 export const Indeterminate = () => ({
   template: `<checkbox-indeterminate></checkbox-indeterminate>`
 });
+Indeterminate.parameters = {
+  preview: generateConfig('components/checkbox/checkbox-indeterminate', 'CheckboxIndeterminateModule', 'checkbox-indeterminate')
+}
 
 export const Footer = () => ({
   template: footer.default,

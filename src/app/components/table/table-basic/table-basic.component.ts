@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { TableDataSource } from '@gsa-sam/ngx-uswds';
 
 @Component({
@@ -6,8 +6,8 @@ import { TableDataSource } from '@gsa-sam/ngx-uswds';
   templateUrl: './table-basic.component.html',
 })
 export class TableBasicComponent {
-  @Input() displayedColumns = ['title', 'description', 'year'];
-  @Input() displayedData: TableDataSource[] = [
+  displayedColumns = ['title', 'description', 'year'];
+  displayedData: TableDataSource[] = [
     {
       description: 'Statement adopted by the Continental Congress declaring independence from the British Empire.',
       title: 'Declaration of Independence',
@@ -30,10 +30,10 @@ export class TableBasicComponent {
     },
   ];
 
-  @Input() striped: boolean = false;
-  @Input() borderless: boolean = true;
-  @Input() compact: boolean = false;
-  @Input() scrollable: boolean = false;
-  @Input() stacked: boolean = false;
-  @Input() stackedHeader: boolean = false;
+  striped: boolean = false;
+  borderless: boolean = true;
+  compact: boolean = false;
+  scrollable: boolean = false;
+  stacked: boolean = false;
+  stackedHeader: boolean = false;
 }

@@ -4,24 +4,12 @@ import { UsaRadioComponent, UsaRadioGroupComponent, UsaRadioGroupLabel, UsaRadio
 import {  ReactiveFormsModule } from '@angular/forms';
 import { action } from "@storybook/addon-actions";
 import { RadioFormsModule } from "./radio-forms/radio-forms.module";
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
 
 declare var require;
 
 const basicTemplate = require('!!raw-loader!./radio-basic/radio-basic.component.html');
-const basicTs = require('!!raw-loader!./radio-basic/radio-basic.component.ts');
-const basicModule = require('!!raw-loader!./radio-basic/radio-basic.module.ts')
 const footer = require('!!raw-loader!./radio-footer.component.html');
-
-const sandboxConfig = {
-  files: {
-    'radio-basic.component.ts': basicTs.default,
-    'radio-basic.module.ts': basicModule.default,
-    'radio-basic.component.html': basicTemplate.default
-  },
-  moduleName: 'RadioBasicModule',
-  selector: 'radio-basic'
-};
 
 const actionsData = {
   radioChange: action('Radio Change'),
@@ -46,34 +34,8 @@ export default {
     checked: false,
     name: 'basicRadio',
     ariaLabelledBy: 'basicRadioLabel',
-  },
-  parameters: {
-    preview: [
-      {
-        tab: "radio-basic.component.ts",
-        template: basicTs.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-          tab: "radio-template.html",
-          template: basicTemplate.default,
-          language: "html",
-          copy: true,
-          codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-        tab: "radio-basic.module.ts",
-        template: basicModule.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-    ],
   }
 } as Meta;
-
 
 
 export const Basic = (args) => ({
@@ -83,10 +45,17 @@ export const Basic = (args) => ({
     onRadioChange: actionsData.radioChange,
   },
 });
+Basic.parameters = {
+  preview: generateConfig('components/radio/radio-basic', 'RadioBasicModule', 'radio-basic')
+};
+
 
 export const RadioForms = () => ({
   template: `<radio-forms></radio-forms>`
 });
+RadioForms.parameters = {
+  preview: generateConfig('components/radio/radio-forms', 'RadioFormsModule', 'radio-forms')
+};
 
 export const Footer = () => ({
   template: footer.default,

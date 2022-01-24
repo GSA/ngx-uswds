@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaModalService, UsaModalRef } from '@gsa-sam/ngx-uswds';
+import { ModalDismissReasons, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
 @Component({
-  selector: 'usa-modal-large',
-  templateUrl: './modal-large.component.html',
+  selector: 'modal-scrollable-content',
+  templateUrl: './modal-scrollable-content.component.html',
 })
-export class ModalLargeComponent {
+export class ModalScrollableContentComponent {
 
   closeResult = '';
 
@@ -14,7 +14,7 @@ export class ModalLargeComponent {
   constructor(private modalService: UsaModalService) { }
 
   open(content) {
-    this.modalRef = this.modalService.open(content, { size: 'lg' })
+    this.modalRef = this.modalService.open(content);
     this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

@@ -75,7 +75,7 @@ export class SideNavigationBasicComponent {
   @Input() enableLabelCollapse: boolean = false;
   @Input() autoCollapseLabels: boolean = false;
   @Input() selectFirstLabelChild: boolean = true;
-  @Input() sideNavClicked: Function = ($event) => {
+  @Input() sidenavClicked: Function = ($event) => {
     console.log($event);
   }
 }

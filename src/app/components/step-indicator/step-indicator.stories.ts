@@ -5,26 +5,15 @@ import {
   UsaTableModule } from '@gsa-sam/ngx-uswds';
 import { CommonModule } from "@angular/common";
 import { StepIndicatorSubstepsModule } from "./step-indicator-substeps/step-indicator-substeps.module";
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
 
 declare var require: any;
 
 const template = require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html');
-const basicTs = require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.ts');
-const basicModule = require('!!raw-loader!./step-indicator-basic/step-indicator-basic.module.ts')
 
 const customHeader = require('!!raw-loader!./step-indicator-custom-header.html');
 const footer = require('!!raw-loader!./step-indicator-footer.template.html');
 
-const sandboxConfig = {
-  files: {
-    'step-indicator-basic.component.ts': basicTs.default,
-    'step-indicator-basic.module.ts': basicModule.default,
-    'step-indicator-basic.component.html': template.default
-  },
-  moduleName: 'StepIndicatorBasicModule',
-  selector: 'step-indicator-basic'
-};
 
 const steps: UsaStepIndicatorModel[] = [
   { label: 'Step 1' },
@@ -34,7 +23,7 @@ const steps: UsaStepIndicatorModel[] = [
   { label: 'Step 5' },
 ];
 
-let currentStep= 0;
+let currentStep = 0;
 
 
 
@@ -56,31 +45,6 @@ export default {
     disableStepSelection: false,
     steps: steps,
     currentStep: currentStep,
-  },
-  parameters: {
-    preview: [
-      {
-        tab: "step-indicator-basic.component.ts",
-        template: basicTs.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-          tab: "step-indicator-template.html",
-          template: template.default,
-          language: "html",
-          copy: true,
-          codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-        tab: "step-indicator-basic.module.ts",
-        template: basicModule.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-    ],
   }
 } as Meta;
 
@@ -89,6 +53,9 @@ export const Basic = (args) => ({
   template: template.default,
   props: args,
 });
+Basic.parameters = {
+  preview: generateConfig('components/step-indicator/step-indicator-basic', 'StepIndicatorBasicModule', 'step-indicator-basic')
+}
 
 export const CustomHeader = (args) => ({
   template: customHeader.default,
@@ -98,6 +65,9 @@ export const CustomHeader = (args) => ({
 export const Substeps = () => ({
   template: `<step-indicator-substeps></step-indicator-substeps>`
 })
+Substeps.parameters = {
+  preview: generateConfig('components/step-indicator/step-indicator-substeps', 'StepIndicatorSubstepsModule', 'step-indicator-substeps'),
+}
 
 
 /** -------------------- Footer Table Data -------------------- */

@@ -5,6 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FileInputTableModule } from "./file-input-table/file-input-table.module";
 import { FileInputUploadModule } from "./file-input-upload/file-input-upload.module";
 import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
+import { of } from "rxjs";
+import { action } from "@storybook/addon-actions";
+import { delay } from "rxjs/operators";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
 
 
 const template = require('!!raw-loader!./file-input-basic/file-input-basic.component.html');
@@ -38,61 +42,53 @@ export default {
     }),
   ],
   args: {
-    displayFileInfo: true,
     multiple: false,
+    acceptFileType: '.pdf,.csv',
+    id: 'file-input-basic',
+    hint: undefined,
+    disabled: false,
+    selectedFiles: [],
     clearFilesOnAdd: false,
+    displayFileInfo: true,
   },
   argTypes: {
     hint: {type: 'string'},
   },
-  parameters: {
-    preview: [
-      {
-        tab: "file-input-basic.component.ts",
-        template: basicTs.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-          tab: "file-input-template.html",
-          template: template.default,
-          language: "html",
-          copy: true,
-          codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-        tab: "file-input-basic.module.ts",
-        template: basicModule.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-    ],
-  }
 } as Meta;
 
-const basicTemplate = (args) => ({
-  template: `<usa-file-input [id]="${args.id}" 
-    [displayFileInfo]="${args.displayFileInfo}" 
-    [multiple]="${args.multiple}"
-    [clearFilesOnAdd]="${args.clearFilesOnAdd}"
-    [disabled]="${args.disabled}"
-    [acceptFileType]="${args.acceptFileType}"
-    [hint]="${args.hint}"
-    [selectedFiles]="${args.selectedFiles}"
-    [uploadRequest]="${args.uploadRequest}"
-  >
-    </usa-file-input>`,
+export const Basic = (args) => ({
+  template: template.default,
+  props: {
+    multiple: args.multiple,
+    acceptFileType: args.acceptFileType,
+    id: args.id,
+    hint: args.hint,
+    disabled: args.disabled,
+    selectedFiles: args.selectedFiles,
+    clearFilesOnAdd: args.clearFilesOnAdd,
+    displayFileInfo: args.displayFileInfo,
+    uploadRequest: (file) => {
+      // Consider upload as success after 3 second mocked delay
+      return of(true).pipe(delay(3000));
+    },
+  }
 });
 
-export const Basic = basicTemplate.bind({});
+Basic.parameters = {
+  preview: generateConfig('components/file-input/file-input-basic', 'FileInputBasicModule', 'file-input-basic')
+}
 
 
 export const InputWithTable = () => ({
   template: '<file-input-table></file-input-table>',
 });
+InputWithTable.parameters = {
+  preview: generateConfig('components/file-input/file-input-table', 'FileInputTableModule', 'file-input-table')
+}
 
 export const ServerUpload = () => ({
   template: '<file-input-upload></file-input-upload>'
 })
+ServerUpload.parameters = {
+  preview: generateConfig('components/file-input/file-input-upload', 'FileInputUploadModule', 'file-input-upload')
+}

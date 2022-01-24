@@ -4,8 +4,8 @@ import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicSearchModule } from "./search-basic/search-basic.module";
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
 import { UsaSearchComponent } from "@gsa-sam/ngx-uswds";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Search',
@@ -33,6 +33,12 @@ export default {
   },
 } as Meta;
 
+declare var require;
+
+const componentTs = require('!!raw-loader!./search-basic/search-basic.component.ts');
+const template = require('!!raw-loader!./search-basic/search-basic.component.html');
+const moduleTs = require('!!raw-loader!./search-basic/search-basic.module.ts');
+
 const FormControlTemplate: Story<UsaSearchComponent> = (args: any) => {
 
   const form = new FormGroup({});
@@ -48,10 +54,7 @@ const FormControlTemplate: Story<UsaSearchComponent> = (args: any) => {
   ];
 
   return {
-    template: `
-      <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-      {{model |json}}
-    `,
+    template: template.default,
     props: {
       form,
       model,
@@ -62,12 +65,6 @@ const FormControlTemplate: Story<UsaSearchComponent> = (args: any) => {
 };
 
 export const Basic = FormControlTemplate.bind({});
-
-declare var require;
-
-const componentTs = require('!!raw-loader!./search-basic/search-basic.component.ts');
-const template = require('!!raw-loader!./search-basic/search-basic.component.html');
-const moduleTs = require('!!raw-loader!./search-basic/search-basic.module.ts');
 
 const sandboxConfig = {
   files: {
@@ -81,27 +78,5 @@ const sandboxConfig = {
 
 
 Basic.parameters = {
-  preview: [
-    {
-      tab: "search-basic.component.ts",
-      template: componentTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-    {
-        tab: "search-basic.component.html",
-        template: template.default,
-        language: "html",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-    {
-      tab: "search-basic.module.ts",
-      template: moduleTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-  ],
+  preview: generateConfig('formly/search/search-basic', 'FormlyBasicSearchModule', 'formly-search-basic')
 }

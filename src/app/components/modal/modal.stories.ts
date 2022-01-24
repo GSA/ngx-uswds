@@ -1,26 +1,17 @@
 import { Meta, moduleMetadata } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { ModalDismissReasons, UsaModalConfig, UsaModalModule, UsaModalRef, UsaModalService } from "@gsa-sam/ngx-uswds";
-import { ReactiveFormsModule } from '@angular/forms';
 import { ModalBasicModule } from "./modal-basic/modal-basic.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { ModalComponentWrapperModule } from "./modal-component-wrapper/modal-component-wrapper.module";
+import { ModalCustomFocusModule } from "./modal-custom-focus/modal-custom-focus.module";
+import { ModalForcedActionModule } from "./modal-forced-action/modal-forced-action.module";
+import { ModalScrollableContentModule } from "./modal-scrollable-content/modal-scrollable-content.module";
+import { ModalStackedModule } from "./modal-stacked/modal-stacked.module";
 
-const basicTemplate = require('!!raw-loader!./modal-basic/modal-basic.component.html');
-const basicTs = require('!!raw-loader!./modal-basic/modal-basic.component.ts');
-const basicModule = require('!!raw-loader!./modal-basic/modal-basic.module.ts')
 
 const footer = require('!!raw-loader!./footer.template.html');
-
-const sandboxConfig = {
-  files: {
-    'modal-basic.component.ts': basicTs.default,
-    'modal-basic.module.ts': basicModule.default,
-    'modal-basic.component.html': basicTemplate.default
-  },
-  moduleName: 'ModalBasicModule',
-  selector: 'modal-basic'
-};
 
 export default {
   title: 'Components/Modal',
@@ -32,34 +23,19 @@ export default {
   ],
   decorators: [
     moduleMetadata({
-      imports: [CommonModule, UsaModalModule, ReactiveFormsModule, ModalBasicModule, BrowserAnimationsModule],
+      imports: [
+        BrowserAnimationsModule,
+        CommonModule, 
+        UsaModalModule, 
+        ModalBasicModule, 
+        ModalComponentWrapperModule,
+        ModalCustomFocusModule,
+        ModalForcedActionModule,
+        ModalScrollableContentModule,
+        ModalStackedModule
+      ],
     }),
   ],
-  parameters: {
-    preview: [
-      {
-        tab: "modal-basic.component.ts",
-        template: basicTs.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-          tab: "modal-template.html",
-          template: basicTemplate.default,
-          language: "html",
-          copy: true,
-          codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-      {
-        tab: "modal-basic.module.ts",
-        template: basicModule.default,
-        language: "ts",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-      },
-    ],
-  }
 } as Meta;
 
 
@@ -78,6 +54,53 @@ export const Basic = (args) => ({
     [beforeDismiss]="${args.beforeDismiss}"
   ></modal-basic>`,
 });
+
+Basic.parameters = {
+  preview: generateConfig('components/modal/modal-basic', 'ModalBasicModule', 'modal-basic')
+}
+
+
+export const ComponentContent = () => ({
+  template: `<modal-component-wrapper></modal-component-wrapper>`
+});
+
+ComponentContent.parameters = {
+  preview: generateConfig('components/modal/modal-component-wrapper', 'ModalComponentWrapperModule', 'modal-component-wrapper')
+}
+
+export const CustomFocus = () => ({
+  template: `<modal-custom-focus></modal-custom-focus>`
+})
+
+CustomFocus.parameters = {
+  preview: generateConfig('components/modal/modal-custom-focus', 'ModalCustomFocusModule', 'modal-custom-focus')
+};
+
+
+export const ForcedAction = () => ({
+  template: `<modal-forced-action></modal-forced-action>`,
+});
+
+ForcedAction.parameters = {
+  preview: generateConfig('components/modal/modal-forced-action', 'ModalForcedAction', 'modal-forced-action')
+}
+
+
+export const ModalScrollable = () => ({
+  template: `<modal-scrollable-content></modal-scrollable-content>`,
+});
+
+ModalScrollable.parameters = {
+  preview: generateConfig('components/modal/modal-scrollable-content', 'ModalScrollableContentModule', 'modal-scrollable-content')
+}
+
+export const ModalStacked = () => ({
+  template: `<modal-stacked></modal-stacked>`,
+});
+
+ModalStacked.parameters = {
+  preview: generateConfig('components/modal/modal-stacked', 'ModalStackedModule', 'modal-stacked')
+}
 
 export const Footer = () => ({
   template: footer.default

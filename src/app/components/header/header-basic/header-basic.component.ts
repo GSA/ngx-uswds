@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { UsaHeaderPrimaryLink, UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 import { primaryNavItems, secondaryNavItems } from '../header-data';
 
@@ -8,19 +8,19 @@ import { primaryNavItems, secondaryNavItems } from '../header-data';
 })
 export class HeaderBasicComponent {
 
-  @Input() secondaryNavItems: UsaNavigationLink[] = secondaryNavItems;
+  secondaryNavItems: UsaNavigationLink[] = secondaryNavItems;
 
-  @Input() primaryNavItems: UsaHeaderPrimaryLink[] = primaryNavItems;
+  primaryNavItems: UsaHeaderPrimaryLink[] = primaryNavItems;
 
-  @Input() extended = true;
+  extended = true;
 
-  @Input() displayOverlayOnMenuOpen = false;
+  displayOverlayOnMenuOpen = false;
 
-  @Input() title = 'Ngx USWDS'
+  title = 'Ngx USWDS'
 
-  @Input() navAriaLabel = 'Demo Navigation';
+  navAriaLabel = 'Demo Navigation';
 
-  @Input() linkEvent = ($event) => {
+  linkEvent = ($event) => {
     console.log($event);
   }
 

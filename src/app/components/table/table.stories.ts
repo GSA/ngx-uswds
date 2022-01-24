@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { UsaTableComponent, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { Meta, moduleMetadata } from "@storybook/angular";
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
 import { DynamicTableModule } from "./dynamic-table/dynamic-table.module";
 import { MultiHeaderModule } from "./multi-header/multi-header.module";
 import { SortableTableModule } from "./sortable-table/sortable-table.module";
@@ -26,6 +26,12 @@ export default {
     }),
   ],
   args: {
+    striped: false,
+    borderless: true,
+    compact: false,
+    scrollable: false,
+    stacked: false,
+    stackedHeader: false,
     displayedColumns: basicColumns,
     displayedData: basicData,
   }
@@ -33,198 +39,47 @@ export default {
 } as Meta;
 
 
-const componentTs = require('!!raw-loader!./table-basic/table-basic.component.ts');
 const template = require('!!raw-loader!./table-basic/table-basic.component.html');
-const moduleTs = require('!!raw-loader!./table-basic/table-basic.module.ts');
-
-const sandboxConfig = {
-  files: {
-    'table-basic.component.ts': componentTs.default,
-    'table-basic.component.html': template.default,
-    'table-basic.module.ts': moduleTs.default,
-  },
-  moduleName: 'TableBasicModule',
-  selector: 'table-basic'
-};
-
 
 export const Basic = (args) => ({
-  template: `
-  <table-basic
-    [displayedColumns]="displayedColumns"
-    [displayedData]="displayedData" 
-    [borderless]="borderless" 
-    [striped]="striped"
-    [compact]="compact"
-    [scrollable]="scrollable"
-    [stacked]="stacked"
-    [stackedHeader]="stackedHeader">
-  </table-basic>`,
+  template: template.default,
   props: args
 });
 
 Basic.parameters = {
-  preview: [
-    {
-      tab: "table-basic.component.ts",
-      template: componentTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-    {
-        tab: "table-basic.component.html",
-        template: template.default,
-        language: "html",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-    {
-      tab: "table-basic.module.ts",
-      template: moduleTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-  ],
+  preview: generateConfig('components/table/table-basic', 'TableBasicModule', 'table-basic')
 };
 
 
 /** -------------------------- Multi Header ---------------------------- */
-const multiHeadercomponentTs = require('!!raw-loader!./multi-header/multi-header.component.ts');
-const multiHeaderTemplate = require('!!raw-loader!./multi-header/multi-header.component.html');
-const multiHeaderModuleTs = require('!!raw-loader!./multi-header/multi-header.module.ts');
-
-const multiHeaderSandboxConfig = {
-  files: {
-    'multi-header.component.ts': multiHeadercomponentTs.default,
-    'multi-header.component.html': multiHeaderTemplate.default,
-    'multi-header.module.ts': multiHeaderModuleTs.default,
-  },
-  moduleName: 'MultiHeaderModule',
-  selector: 'table-multi-header'
-};
-
 export const MultiHeader = () => ({
   template: '<table-multi-header></table-multi-header>',
 });
 
 MultiHeader.parameters = {
-  preview: [
-    {
-      tab: "table-basic.component.ts",
-      template: multiHeadercomponentTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(multiHeaderSandboxConfig.files, multiHeaderSandboxConfig.moduleName, multiHeaderSandboxConfig.selector),
-    },
-    {
-        tab: "table-basic.component.html",
-        template: multiHeaderTemplate.default,
-        language: "html",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(multiHeaderSandboxConfig.files, multiHeaderSandboxConfig.moduleName, multiHeaderSandboxConfig.selector),
-    },
-    {
-      tab: "table-basic.module.ts",
-      template: multiHeaderModuleTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(multiHeaderSandboxConfig.files, multiHeaderSandboxConfig.moduleName, multiHeaderSandboxConfig.selector),
-    },
-  ],
+  preview: generateConfig('components/table/multi-header', 'MultiHeaderModule', 'table-multi-header')
 };
 
 
 /** ------------ Sortable Table ------------------ */
-const sortableComponentTs = require('!!raw-loader!./sortable-table/sortable-table.component.ts');
-const sortableTemplate = require('!!raw-loader!./sortable-table/sortable-table.component.html');
-const sortableModuleTs = require('!!raw-loader!./sortable-table/sortable-table.module.ts');
-
-const sortableSandboxConfig = {
-  files: {
-    'sortable-table.component.ts': sortableComponentTs.default,
-    'sortable-table.component.html': sortableTemplate.default,
-    'sortable-table.module.ts': sortableModuleTs.default,
-  },
-  moduleName: 'SortableTableModule',
-  selector: 'sortable-table'
-};
-
 export const Sortable = () => ({
   template: '<sortable-table></sortable-table>',
 });
 
 Sortable.parameters = {
-  preview: [
-    {
-      tab: "sortable-table.component.ts",
-      template: sortableComponentTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sortableSandboxConfig.files, sortableSandboxConfig.moduleName, sortableSandboxConfig.selector),
-    },
-    {
-        tab: "sortable-table.component.html",
-        template: sortableTemplate.default,
-        language: "html",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sortableSandboxConfig.files, sortableSandboxConfig.moduleName, sortableSandboxConfig.selector),
-    },
-    {
-      tab: "sortable-table.module.ts",
-      template: sortableModuleTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sortableSandboxConfig.files, sortableSandboxConfig.moduleName, sortableSandboxConfig.selector),
-    },
-  ],
+  preview: generateConfig('components/table/sortable-table', 'SortableTableModule', 'sortable-table')
 };
+
 
 /**-------------- Dynamic Table -------------------------------- */
-const dynamicComponentTs = require('!!raw-loader!./dynamic-table/dynamic-table.component.ts');
-const dynamicTemplate = require('!!raw-loader!./dynamic-table/dynamic-table.component.html');
-const dynamicModuleTs = require('!!raw-loader!./dynamic-table/dynamic-table.module.ts');
-
-const dynamicSandboxConfig = {
-  files: {
-    'dynamic-table.component.ts': dynamicComponentTs.default,
-    'dynamic-table.component.html': dynamicTemplate.default,
-    'dynamic-table.module.ts': dynamicModuleTs.default,
-  },
-  moduleName: 'DynamicTableModule',
-  selector: 'dynamic-table'
-};
-
 export const DynamicTable = () => ({
   template: '<dynamic-table></dynamic-table>',
 });
 
 DynamicTable.parameters = {
-  preview: [
-    {
-      tab: "dynamic-table.component.ts",
-      template: dynamicComponentTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(dynamicSandboxConfig.files, dynamicSandboxConfig.moduleName, dynamicSandboxConfig.selector),
-    },
-    {
-        tab: "dynamic-table.component.html",
-        template: dynamicTemplate.default,
-        language: "html",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(dynamicSandboxConfig.files, dynamicSandboxConfig.moduleName, dynamicSandboxConfig.selector),
-    },
-    {
-      tab: "dynamic-table.module.ts",
-      template: dynamicModuleTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(dynamicSandboxConfig.files, dynamicSandboxConfig.moduleName, dynamicSandboxConfig.selector),
-    },
-  ],
+  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'table-dynamic')
 };
+
 
 const footer = require('!!raw-loader!./table-footer.template.html');
 

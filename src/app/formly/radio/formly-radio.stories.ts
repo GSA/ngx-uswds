@@ -4,7 +4,7 @@ import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicRadioModule } from "./radio-basic/radio-basic.module";
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
+import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Radio',
@@ -40,6 +40,11 @@ export default {
   },
 } as Meta;
 
+
+declare var require;
+
+const template = require('!!raw-loader!./radio-basic/radio-basic.component.html');
+
 const FormControlTemplate: Story<FormlyForm> = (args: any) => {
 
   const form = new FormGroup({});
@@ -55,10 +60,7 @@ const FormControlTemplate: Story<FormlyForm> = (args: any) => {
   ];
 
   return {
-    template: `
-      <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-      {{model |json}}
-    `,
+    template: template.default,
     props: {
       form,
       model,
@@ -70,45 +72,6 @@ const FormControlTemplate: Story<FormlyForm> = (args: any) => {
 
 export const Basic = FormControlTemplate.bind({});
 
-declare var require;
-
-const componentTs = require('!!raw-loader!./radio-basic/radio-basic.component.ts');
-const template = require('!!raw-loader!./radio-basic/radio-basic.component.html');
-const moduleTs = require('!!raw-loader!./radio-basic/radio-basic.module.ts');
-
-const sandboxConfig = {
-  files: {
-    'radio-basic.component.ts': componentTs.default,
-    'radio-basic.component.html': template.default,
-    'radio-basic.module.ts': moduleTs.default,
-  },
-  moduleName: 'FormlyBasicRadioModule',
-  selector: 'formly-radio-basic'
-};
-
-
 Basic.parameters = {
-  preview: [
-    {
-      tab: "radio-basic.component.ts",
-      template: componentTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-    {
-        tab: "radio-basic.component.html",
-        template: template.default,
-        language: "html",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-    {
-      tab: "radio-basic.module.ts",
-      template: moduleTs.default,
-      language: "ts",
-      copy: true,
-      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
-    },
-  ],
+  preview: generateConfig('formly/radio/radio-basic', 'FormlyBasicRadioModule', 'formly-radio-basic')
 }

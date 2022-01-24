@@ -1,9 +1,8 @@
 import { Component } from "@angular/core";
 
-
 @Component({
   selector: 'checkbox-indeterminate',
-  templateUrl: './checkbox-indeterminate.template.html'
+  templateUrl: './checkbox-indeterminate.component.html'
 })
 export class CheckboxIndeterminateComponent {
   allChecked =  false;

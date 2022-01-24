@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from "@angular/core";
+import { Component, TemplateRef } from "@angular/core";
 import { Observable } from "rxjs";
 
 @Component({
@@ -6,21 +6,21 @@ import { Observable } from "rxjs";
   templateUrl: './file-input-basic.component.html'
 })
 export class FileInputBasicComponent {
-  @Input() multiple = false;
+  multiple = false;
 
-  @Input() acceptFileType: string = '';
+  acceptFileType: string = '';
 
-  @Input() id: string;
+  id: string;
 
-  @Input() hint: string | TemplateRef<any>;
+  hint: string | TemplateRef<any>;
 
-  @Input() disabled: boolean;
+  disabled: boolean;
 
-  @Input() selectedFiles: File[] = [];
+  selectedFiles: File[] = [];
 
-  @Input() clearFilesOnAdd: boolean;
+  clearFilesOnAdd: boolean;
 
-  @Input() displayFileInfo: boolean = true;
+  displayFileInfo: boolean = true;
 
-  @Input() uploadRequest: (file: File) => Observable<any>;
+  uploadRequest: (file: File) => Observable<any>;
 }

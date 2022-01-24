@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
 @Component({
-  selector: 'usa-modal-forced-action',
+  selector: 'modal-forced-action',
   templateUrl: './modal-forced-action.component.html'
 })
 export class ModalForcedActionComponent {
@@ -16,7 +16,7 @@ export class ModalForcedActionComponent {
     this.modalRef = this.modalService.open(content,
       {
         showClose: false,
-        backdrop: 'static',
+        backdrop: false,
         keyboard: false,
       }
     );
