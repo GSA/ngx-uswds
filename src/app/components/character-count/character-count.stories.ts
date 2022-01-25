@@ -31,7 +31,7 @@ const basicTemplate = (args) => ({
 
 export const Basic = basicTemplate.bind({});
 Basic.parameters = {
-  preview: generateConfig('components/character-count/character-count-basic', 'CharacterCountBasicModule', 'character-count-basuc')
+  preview: generateConfig('components/character-count/character-count-basic', 'CharacterCountBasicModule', 'character-count-basic')
 }
 
 const FormControlTemplate: Story<UsaCharacterCountDirective> = (args: any) => {

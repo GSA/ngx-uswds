@@ -29,7 +29,7 @@
     </li>
   </ol>
 
-  <div *ngIf="!headerPosition || headerPosition === 'bottom'" class="usa-step-indicator__header">
+  <div *ngIf="headerPosition === 'bottom'" class="usa-step-indicator__header">
     <ng-container *ngTemplateOutlet="headerTemplate" ></ng-container>
   </div>
 </div>
