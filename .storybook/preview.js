@@ -1,11 +1,10 @@
 import { setCompodocJson } from "@storybook/addon-docs/angular";
 import docJson from "../documentation.json";
 
-import SAM from '!!style-loader?injectType=lazyStyleTag!css-loader!sass-loader!../src/styles/sam.scss'
-import USWDS from '!!style-loader?injectType=lazyStyleTag!css-loader!sass-loader!../src/styles/uswds-styles.scss'
+import SAM from '!!style-loader?{injectType: "lazyStyleTag", attributes:{id: "ngx-uswds-theme"}}!css-loader!sass-loader!../src/styles/sam.scss'
+import USWDS from '!!style-loader?{injectType: "lazyStyleTag", attributes:{id: "ngx-uswds-theme"}}!css-loader!sass-loader!../src/styles/uswds-styles.scss'
 
 import cssVariablesTheme from '@etchteam/storybook-addon-css-variables-theme'
-
 
 setCompodocJson(docJson);
 
