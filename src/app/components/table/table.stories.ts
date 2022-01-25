@@ -93,6 +93,8 @@ export const Overview = () => ({
     ]
   }
 });
+Overview.parameters = {options: {showPanel: false}};
+
 
 const template = require('!!raw-loader!./table-basic/table-basic.component.html');
 

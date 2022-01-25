@@ -39,6 +39,7 @@ export const Overview = () => ({
   template: footerTemplate.default,
   props: {},
 });
+Overview.parameters = {options: {showPanel: false}};
 
 export const Basic = (args) => ({
   template: accordionTemplate.default,

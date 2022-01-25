@@ -41,6 +41,8 @@ export default {
 export const Overview = () => ({
   template: footer.default
 })
+Overview.parameters = {options: {showPanel: false}};
+
 
 export const Basic = (args) => ({
   template: `

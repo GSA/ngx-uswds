@@ -23,6 +23,7 @@ export default {
 export const Overview = (args) => ({
   template: characterCountFooter.default
 });
+Overview.parameters = {options: {showPanel: false}};
 
 const basicTemplate = (args) => ({
   template: `<character-count-basic [characterCount]="${args.usaCharacterCount}"></character-count-basic>`

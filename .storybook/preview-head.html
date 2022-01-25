@@ -13,6 +13,12 @@
 
   function addStyle() {
     var styles = document.head.getElementsByTagName('style');
+
+    /** 
+     * This makes an assumption that the theme style will 
+     * be the last style tag in preview frame's head, and will fail if
+     * that assumption is false
+    **/
     var themeStyle = styles[styles.length - 1].innerHTML;
     var styleEl = document.createElement('style');
     styleEl.id = 'customTheme'
@@ -40,5 +46,4 @@
       }
     }
   });
-
 </script>

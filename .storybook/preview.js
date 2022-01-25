@@ -27,5 +27,8 @@ export const parameters = {
       SAM,
       USWDS,
     }
+  },
+  options: { 
+    showPanel: true 
   }
 }

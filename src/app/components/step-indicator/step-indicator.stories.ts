@@ -121,6 +121,8 @@ export const Overview = () => ({
       ]
   }
 });
+Overview.parameters = {options: {showPanel: false}};
+
 
 export const Basic = (args) => ({
   template: template.default,

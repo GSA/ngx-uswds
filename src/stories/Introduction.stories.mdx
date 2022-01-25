@@ -1,126 +1,17 @@
-import { Meta } from '@storybook/addon-docs';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
 
-<Meta title="Introduction" />
+export const intro = require('!!raw-loader!./introduction.template.html')
 
-<style>{`
-  .subheading {
-    --mediumdark: '#999999';
-    font-weight: 900;
-    font-size: 13px;
-    color: #999;
-    letter-spacing: 6px;
-    line-height: 24px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    margin-top: 40px;
-  }
+export const hideAddons = {options: {showPanel: false}}
 
-  .link-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    row-gap: 10px;
-  }
+<Meta title="Introduction"/>
 
-  @media (min-width: 620px) {
-    .link-list {
-      row-gap: 20px;
-      column-gap: 20px;
-      grid-template-columns: 1fr 1fr;
-    }
-  }
+export const Template = (args) => ({ 
+  template: intro.default
+});
 
-  @media all and (-ms-high-contrast:none) {
-  .link-list {
-      display: -ms-grid;
-      -ms-grid-columns: 1fr 1fr;
-      -ms-grid-rows: 1fr 1fr;
-    }
-  }
-
-  .link-item {
-    display: block;
-    padding: 20px 30px 20px 15px;
-    border: 1px solid #00000010;
-    border-radius: 5px;
-    transition: background 150ms ease-out, border 150ms ease-out, transform 150ms ease-out;
-    color: #333333;
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .link-item:hover {
-    border-color: #1EA7FD50;
-    transform: translate3d(0, -3px, 0);
-    box-shadow: rgba(0, 0, 0, 0.08) 0 3px 10px 0;
-  }
-
-  .link-item:active {
-    border-color: #1EA7FD;
-    transform: translate3d(0, 0, 0);
-  }
-
-  .link-item strong {
-    font-weight: 700;
-    display: block;
-    margin-bottom: 2px;
-  }
-  
-  .link-item img {
-    height: 40px;
-    width: 40px;
-    margin-right: 15px;
-    flex: none;
-  }
-
-  .link-item span {
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .tip {
-    display: inline-block;
-    border-radius: 1em;
-    font-size: 11px;
-    line-height: 12px;
-    font-weight: 700;
-    background: #E7FDD8;
-    color: #66BF3C;
-    padding: 4px 12px;
-    margin-right: 10px;
-    vertical-align: top;
-  }
-
-  .tip-wrapper {
-    font-size: 13px;
-    line-height: 20px;
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
-
-  .tip-wrapper code {
-    font-size: 12px;
-    display: inline-block;
-  }
-
-  
-`}</style>
-
-# NgxUSWDS
-This project takes components in uswds and implements them through angular.
-Original USWDS components can be found here - https://designsystem.digital.gov/components  
-Current progress / documentation of this project can be found here - https://gsa.github.io/ngx-uswds 
-
-
-# Installation
-Run `npm install @gsa-sam/ngx-uswds` in order to add the npm package into your Angular application.
-Once installed and added to your `node_modules` directory, you can start importing desired uswds component 
-modules into your application module.
-
-# Storybook
-Run `npm run start` to launch the storybook documentation locally. The storybook application will be served through
-`localhost:4200`
-
-# Development
-Run `npm run develop` to start a development build of the application. This will build the application through
-angular's cli tools and allow you to test existing or new components
+<Canvas>
+  <Story name="Overview" parameters={hideAddons}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
