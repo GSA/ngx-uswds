@@ -35,6 +35,10 @@ export default {
   }
 } as Meta;
 
+export const Overview = () => ({
+  template: footerTemplate.default,
+  props: {},
+});
 
 export const Basic = (args) => ({
   template: accordionTemplate.default,
@@ -53,9 +57,3 @@ export const Basic = (args) => ({
 Basic.parameters = {
   preview: generateConfig('components/accordion/accordion-basic', 'AccordionBasicModule', 'accordion-basic')
 }
-
-export const Footer = () => ({
-  template: footerTemplate.default,
-  props: {},
-});
-

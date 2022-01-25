@@ -29,6 +29,38 @@ export default {
   }
 } as Meta;
 
+export const Overview = () => ({
+  template: footer.default,
+  props: {
+    columnHeaders: ['variable', 'description'],
+    dataRows: [
+      {
+        variable: ' $theme-checkbox-border-radius',
+        description: 'Checkbox border radius for rounded corners.',
+      },
+      {
+        variable: '$theme-input-tile-background-color-selected',
+        description: 'Tile background color when selected.'
+      },
+      {
+        variable: '$theme-input-tile-border-radius',
+        description: 'Tile border radius for rounded corners.'
+      },
+      {
+        variable: '$theme-input-tile-border-width',
+        description: 'Tile border thickness.'
+      },
+      {
+        variable: '$theme-input-tile-border-color',
+        description: 'Tile border color.'
+      },
+      {
+        variable: '$theme-input-tile-border-color-selected',
+        description: 'Tile border color when selected.'
+      }
+    ]
+  },
+});
 
 export const Basic = (args) => ({
   template: basicTemplate.default,
@@ -68,36 +100,3 @@ export const Indeterminate = () => ({
 Indeterminate.parameters = {
   preview: generateConfig('components/checkbox/checkbox-indeterminate', 'CheckboxIndeterminateModule', 'checkbox-indeterminate')
 }
-
-export const Footer = () => ({
-  template: footer.default,
-  props: {
-    columnHeaders: ['variable', 'description'],
-    dataRows: [
-      {
-        variable: ' $theme-checkbox-border-radius',
-        description: 'Checkbox border radius for rounded corners.',
-      },
-      {
-        variable: '$theme-input-tile-background-color-selected',
-        description: 'Tile background color when selected.'
-      },
-      {
-        variable: '$theme-input-tile-border-radius',
-        description: 'Tile border radius for rounded corners.'
-      },
-      {
-        variable: '$theme-input-tile-border-width',
-        description: 'Tile border thickness.'
-      },
-      {
-        variable: '$theme-input-tile-border-color',
-        description: 'Tile border color.'
-      },
-      {
-        variable: '$theme-input-tile-border-color-selected',
-        description: 'Tile border color when selected.'
-      }
-    ]
-  },
-});

@@ -38,6 +38,9 @@ export default {
   ],
 } as Meta;
 
+export const Overview = () => ({
+  template: footer.default
+})
 
 export const Basic = (args) => ({
   template: `
@@ -101,8 +104,3 @@ export const ModalStacked = () => ({
 ModalStacked.parameters = {
   preview: generateConfig('components/modal/modal-stacked', 'ModalStackedModule', 'modal-stacked')
 }
-
-export const Footer = () => ({
-  template: footer.default
-})
-

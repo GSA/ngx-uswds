@@ -37,27 +37,7 @@ export default {
   }
 } as Meta;
 
-
-export const Basic = (args) => ({
-  template: basicTemplate.default,
-  props: {
-    ...args,
-    onRadioChange: actionsData.radioChange,
-  },
-});
-Basic.parameters = {
-  preview: generateConfig('components/radio/radio-basic', 'RadioBasicModule', 'radio-basic')
-};
-
-
-export const RadioForms = () => ({
-  template: `<radio-forms></radio-forms>`
-});
-RadioForms.parameters = {
-  preview: generateConfig('components/radio/radio-forms', 'RadioFormsModule', 'radio-forms')
-};
-
-export const Footer = () => ({
+export const Overview = () => ({
   template: footer.default,
   props: {
     columnHeaders: ['variable', 'description'],
@@ -85,3 +65,22 @@ export const Footer = () => ({
     ]
   }
 });
+
+export const Basic = (args) => ({
+  template: basicTemplate.default,
+  props: {
+    ...args,
+    onRadioChange: actionsData.radioChange,
+  },
+});
+Basic.parameters = {
+  preview: generateConfig('components/radio/radio-basic', 'RadioBasicModule', 'radio-basic')
+};
+
+
+export const RadioForms = () => ({
+  template: `<radio-forms></radio-forms>`
+});
+RadioForms.parameters = {
+  preview: generateConfig('components/radio/radio-forms', 'RadioFormsModule', 'radio-forms')
+};

@@ -39,51 +39,9 @@ export default {
 } as Meta;
 
 
-const template = require('!!raw-loader!./table-basic/table-basic.component.html');
-
-export const Basic = (args) => ({
-  template: template.default,
-  props: args
-});
-
-Basic.parameters = {
-  preview: generateConfig('components/table/table-basic', 'TableBasicModule', 'table-basic')
-};
-
-
-/** -------------------------- Multi Header ---------------------------- */
-export const MultiHeader = () => ({
-  template: '<table-multi-header></table-multi-header>',
-});
-
-MultiHeader.parameters = {
-  preview: generateConfig('components/table/multi-header', 'MultiHeaderModule', 'table-multi-header')
-};
-
-
-/** ------------ Sortable Table ------------------ */
-export const Sortable = () => ({
-  template: '<sortable-table></sortable-table>',
-});
-
-Sortable.parameters = {
-  preview: generateConfig('components/table/sortable-table', 'SortableTableModule', 'sortable-table')
-};
-
-
-/**-------------- Dynamic Table -------------------------------- */
-export const DynamicTable = () => ({
-  template: '<dynamic-table></dynamic-table>',
-});
-
-DynamicTable.parameters = {
-  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'table-dynamic')
-};
-
-
 const footer = require('!!raw-loader!./table-footer.template.html');
 
-export const Footer = () => ({
+export const Overview = () => ({
   template: footer.default,
   props: {
     columnHeaders: ['variable', 'description'],
@@ -135,3 +93,44 @@ export const Footer = () => ({
     ]
   }
 });
+
+const template = require('!!raw-loader!./table-basic/table-basic.component.html');
+
+export const Basic = (args) => ({
+  template: template.default,
+  props: args
+});
+
+Basic.parameters = {
+  preview: generateConfig('components/table/table-basic', 'TableBasicModule', 'table-basic')
+};
+
+
+/** -------------------------- Multi Header ---------------------------- */
+export const MultiHeader = () => ({
+  template: '<table-multi-header></table-multi-header>',
+});
+
+MultiHeader.parameters = {
+  preview: generateConfig('components/table/multi-header', 'MultiHeaderModule', 'table-multi-header')
+};
+
+
+/** ------------ Sortable Table ------------------ */
+export const Sortable = () => ({
+  template: '<sortable-table></sortable-table>',
+});
+
+Sortable.parameters = {
+  preview: generateConfig('components/table/sortable-table', 'SortableTableModule', 'sortable-table')
+};
+
+
+/**-------------- Dynamic Table -------------------------------- */
+export const DynamicTable = () => ({
+  template: '<dynamic-table></dynamic-table>',
+});
+
+DynamicTable.parameters = {
+  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'table-dynamic')
+};

@@ -48,30 +48,8 @@ export default {
   }
 } as Meta;
 
-
-export const Basic = (args) => ({
-  template: template.default,
-  props: args,
-});
-Basic.parameters = {
-  preview: generateConfig('components/step-indicator/step-indicator-basic', 'StepIndicatorBasicModule', 'step-indicator-basic')
-}
-
-export const CustomHeader = (args) => ({
-  template: customHeader.default,
-  props: args,
-});
-
-export const Substeps = () => ({
-  template: `<step-indicator-substeps></step-indicator-substeps>`
-})
-Substeps.parameters = {
-  preview: generateConfig('components/step-indicator/step-indicator-substeps', 'StepIndicatorSubstepsModule', 'step-indicator-substeps'),
-}
-
-
-/** -------------------- Footer Table Data -------------------- */
-export const Footer = () => ({
+/** -------------------- Overview Notes -------------------- */
+export const Overview = () => ({
   template: footer.default,
   props: {
     columnHeaders: ['variable', 'description'],
@@ -143,3 +121,24 @@ export const Footer = () => ({
       ]
   }
 });
+
+export const Basic = (args) => ({
+  template: template.default,
+  props: args,
+});
+Basic.parameters = {
+  preview: generateConfig('components/step-indicator/step-indicator-basic', 'StepIndicatorBasicModule', 'step-indicator-basic')
+}
+
+export const CustomHeader = (args) => ({
+  template: customHeader.default,
+  props: args,
+});
+
+export const Substeps = () => ({
+  template: `<step-indicator-substeps></step-indicator-substeps>`
+})
+Substeps.parameters = {
+  preview: generateConfig('components/step-indicator/step-indicator-substeps', 'StepIndicatorSubstepsModule', 'step-indicator-substeps'),
+}
+

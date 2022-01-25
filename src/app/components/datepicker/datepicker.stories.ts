@@ -48,6 +48,9 @@ export default {
   ],
 } as Meta;
 
+export const Overview = () => ({
+  template: footer.default,
+});
 
 export const DatePickerBasic = () => ({
   template: template.default,
@@ -96,8 +99,3 @@ export const DatepickerDisabled = () => ({
 DatepickerDisabled.parameters = {
   preview: generateConfig('components/datepicker/datepicker-disabled', 'DatepickerDisabledModule', 'datepicker-disabled')
 }
-
-
-export const Footer = () => ({
-  template: footer.default,
-});

@@ -60,6 +60,32 @@ export default {
   },
 } as Meta;
 
+/**------------------------- Overview Notes ---------------------------*/
+export const Overview = () => ({
+  template: footer.default,
+  props: {
+    columnHeaders: ['variable', 'description'],
+    dataRows: [
+      {
+        variable: '$theme-header-font-family ',
+        description: 'Font family of the header.',
+      },
+      {
+        variable: '$theme-header-logo-text-width',
+        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'
+      },
+      {
+        variable: '$theme-header-max-width',
+        description: 'Maximum width of the header.'
+      },
+      {
+        variable: '$theme-header-min-width',
+        description: 'Breakpoint at which the non-mobile header is shown.'
+      },
+    ]
+  }
+});
+
 export const Basic = (args) => ({
   template: template.default,
   props: {
@@ -94,29 +120,3 @@ export const HeaderTemplates = headerTemplate.bind({});
 HeaderTemplates.parameters = {
   preview: generateConfig('components/header/header-extended-template', 'HeaderExtendedTemplateModule', 'header-extended-template')
 }
-
-/**------------------------- Footer Notes ---------------------------*/
-export const Footer = () => ({
-  template: footer.default,
-  props: {
-    columnHeaders: ['variable', 'description'],
-    dataRows: [
-      {
-        variable: '$theme-header-font-family ',
-        description: 'Font family of the header.',
-      },
-      {
-        variable: '$theme-header-logo-text-width',
-        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'
-      },
-      {
-        variable: '$theme-header-max-width',
-        description: 'Maximum width of the header.'
-      },
-      {
-        variable: '$theme-header-min-width',
-        description: 'Breakpoint at which the non-mobile header is shown.'
-      },
-    ]
-  }
-});

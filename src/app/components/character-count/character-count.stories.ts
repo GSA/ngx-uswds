@@ -20,6 +20,10 @@ export default {
   },
 } as Meta;
 
+export const Overview = (args) => ({
+  template: characterCountFooter.default
+});
+
 const basicTemplate = (args) => ({
   template: `<character-count-basic [characterCount]="${args.usaCharacterCount}"></character-count-basic>`
 })
@@ -46,9 +50,3 @@ const FormControlTemplate: Story<UsaCharacterCountDirective> = (args: any) => {
 };
 
 export const FormControlCounter = FormControlTemplate.bind({});
-
-export const Footer = (args) => ({
-  template: characterCountFooter.default
-});
-
-
