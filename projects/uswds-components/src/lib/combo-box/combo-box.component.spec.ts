@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { USWDSDropdownComponent } from './dropdown.component';
+import { UsaComboBoxComponent } from './combo-box.component';
 
-describe('DropdownComponent', () => {
-  let component: USWDSDropdownComponent;
-  let fixture: ComponentFixture<USWDSDropdownComponent>;
+describe('ComboboxComponent', () => {
+  let component: UsaComboBoxComponent;
+  let fixture: ComponentFixture<UsaComboBoxComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ USWDSDropdownComponent ]
+      declarations: [ UsaComboBoxComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(USWDSDropdownComponent);
+    fixture = TestBed.createComponent(UsaComboBoxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
