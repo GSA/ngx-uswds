@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UsaComboboxList, UsaComboBoxItemTemplate } from '../combo-box-list/combo-box-list.component';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
-import { UsaComboboxDropdown } from './combo-box-dropdown.component';
-import { UsaComboBoxItemTemplate } from './combo-box-selectors';
 
 let comboBoxId = 0;
 let listBoxId = 0;
@@ -19,7 +18,7 @@ let listBoxId = 0;
 export class UsaComboBoxComponent implements ControlValueAccessor {
 
   @ViewChild('comboBoxInput') comboBoxInput: ElementRef<HTMLInputElement>;
-  @ViewChild(UsaComboboxDropdown) comboBoxDropdown: UsaComboboxDropdown;
+  @ViewChild(UsaComboboxList) comboBoxDropdown: UsaComboboxList;
 
   /** List of items to display in dropdown */
   @Input() items: any[];
@@ -46,7 +45,12 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
    * Toggles whether or not to emit scrollEnd event when a user scrolls to the
    * bottom of the current item list
    */
-  @Input() virtualScroll = true
+  @Input() virtualScroll = true;
+
+  /** Additional class to apply on wrapper div */
+  @Input() wrapperClass: string;
+
+  @Input() disabled: boolean = false;
 
   @Output('change') changeEvent = new EventEmitter();
 
@@ -64,7 +68,6 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   private _onTouched = () => { };
 
   _displayDropdown = false;
-  _disabled: boolean;
 
   @HostListener('document:click', ['$event'])
   onDocumentClick($event) {
@@ -76,7 +79,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   }
 
   constructor(
-    private el: ElementRef,
+    public el: ElementRef,
   ) { }
 
   writeValue(obj: any): void {
@@ -92,7 +95,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    this._disabled = isDisabled;
+    this.disabled = isDisabled;
   }
 
   onValueChange($event: string) {
@@ -100,10 +103,9 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   }
 
   selectItem(item: any) {
-    this.value = item[this.labelField];
     this.comboBoxInput.nativeElement.focus();
     this._displayDropdown = false;
-    this.updateValue(item[this.labelField]);
+    this.updateValue(item);
   }
 
   clearInput() {
@@ -161,8 +163,13 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
     }
   }
 
-  private updateValue(value: string) {
-    this.value = value;
+  private updateValue(value: any) {
+    if (typeof value === 'object') {
+      this.value = value[this.labelField];
+    } else {
+      this.value = value;
+    }
+
     this._onChange(value);
   }
 }

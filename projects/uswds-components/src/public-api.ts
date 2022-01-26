@@ -28,9 +28,11 @@ export * from './lib/checkbox/checkbox.module';
 
 // Combo Box
 export * from './lib/combo-box/combo-box.component';
-export * from './lib/combo-box/combo-box-selectors';
-export * from './lib/combo-box/combo-box-dropdown.component';
 export * from './lib/combo-box/combo-box.module';
+
+// Combo Box List
+export * from './lib/combo-box-list/combo-box-list.module';
+export * from './lib/combo-box-list/combo-box-list.component';
 
 // Dropdown
 export * from './lib/dropdown/dropdown-options.model';
@@ -93,6 +95,10 @@ export * from './lib/radio/radio-group.component';
 
 // Header
 export * from './lib/header/index';
+
+// Time Picker
+export * from './lib/time-picker/time-picker.component';
+export * from './lib/time-picker/time-picker.module';
 
 // Utility
 export * from './lib/util/navigation';

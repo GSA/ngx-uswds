@@ -1,25 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsaComboBoxComponent } from './combo-box.component';
-import { UsaComboboxDropdown } from './combo-box-dropdown.component';
-import { HoverClassModule } from '../util/hover-class';
-import { UsaComboBoxItemTemplate } from './combo-box-selectors';
-
+import { UsaComboBoxListModule } from '../combo-box-list/combo-box-list.module';
 
 @NgModule({
   declarations: [
     UsaComboBoxComponent,
-    UsaComboBoxItemTemplate,
-    UsaComboboxDropdown
   ],
   imports: [
     CommonModule,
-    HoverClassModule,
+    UsaComboBoxListModule
   ],
   exports: [
     UsaComboBoxComponent,
-    UsaComboboxDropdown,
-    UsaComboBoxItemTemplate
   ]
 })
 export class UsaComboboxModule { }

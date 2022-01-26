@@ -1,20 +1,27 @@
 import { 
   AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, 
-  Component, ElementRef, EventEmitter, Inject, Input, OnChanges, OnDestroy, 
-  Output, Renderer2, SimpleChanges, ViewChild } from "@angular/core";
-import { UsaComboBoxItemTemplate } from "./combo-box-selectors";
+  Component, Directive, ElementRef, EventEmitter, Inject, Input, OnChanges, OnDestroy, 
+  Output, Renderer2, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
 import { isArrowDown, isArrowUp, isEnd, isEnter, isHome, isPageDown, isPageUp } from "../util/key";
 import { DOCUMENT } from "@angular/common";
 
+
+@Directive({
+  selector: `[usa-combo-box-item-template]`
+})
+export class UsaComboBoxItemTemplate {
+  constructor(public templateRef: TemplateRef<any>) {}
+}
+
 @Component({
-  selector: `usa-combo-box-dropdown`,
-  templateUrl: './combo-box-dropdown.component.html',
+  selector: `usa-combo-box-list`,
+  templateUrl: './combo-box-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {provide: Window, useValue: window}
   ]
 })
-export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges {
+export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
 
   @ViewChild('dropdownListbox') dropdownListBox: ElementRef<HTMLUListElement>;
 
@@ -190,6 +197,18 @@ export class UsaComboboxDropdown implements AfterViewInit, OnDestroy, OnChanges 
     const lastElement = this.dropdownListBox.nativeElement.lastElementChild as HTMLDataListElement;
     this.updateFocusedItem(lastIndex, lastElement);
     this.cdr.detectChanges();
+  }
+
+  /** 
+   * Used by default template for rendering display value. If each item is
+   * an object, get its given value property, otherwise, simply display the item
+   */
+  getRenderValue(item: any) {
+    if (typeof item === 'object') {
+      return item[this.labelField];
+    }
+
+    return item;
   }
 
   private registerEventHandlers() {
