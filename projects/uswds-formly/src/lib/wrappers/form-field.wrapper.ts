@@ -9,15 +9,20 @@ import { FieldWrapper } from '@ngx-formly/core';
 
 @Component({
   template: `
-   <div class="usa-form-group" [class.usa-form-group--error]="showError">
+    <div class="usa-form-group" [class.usa-form-group--error]="showError">
       <label
         class="usa-label"
         *ngIf="to.label && !to.hideLabel"
         [attr.for]="id"
       >
-       {{ to.label }}
+        {{ to.label }}
       </label>
-      <small *ngIf="to.description" class="form-text text-muted" [innerHTML]="to.description"></small>
+      <div
+        *ngIf="to.description"
+        class="usa-label--description text-muted"
+        [innerHTML]="to.description"
+      ></div>
+
       <div
         *ngIf="showError"
         class="usa-error-message"
