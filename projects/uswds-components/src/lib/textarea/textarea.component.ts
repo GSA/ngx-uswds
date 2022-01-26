@@ -96,9 +96,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
    */
   @Input() errorMessage: string;
 
-  @Input() hasWrapper = false;
-
-  @Input() wrappeRref: FormFieldComponent;
+  @Input() wrapperRef: FormFieldComponent;
 
   constructor(@Self() @Optional() public control: NgControl) {
     this.control && (this.control.valueAccessor = this);
@@ -134,7 +132,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   // Helper method that gets a new instance of the model and notifies ControlValueAccessor that we have a new model for this FormControl (our custom component)
   updateModel() {
     this._onChange(this.model);
-    if (this.wrappeRref) this.wrappeRref.formatErrors(this.control);
+    if (this.wrapperRef) this.wrapperRef.formatErrors(this.control);
   }
 
   // ControlValueAccessor (and Formly) is trying to update the value of the FormControl (our custom component) programatically

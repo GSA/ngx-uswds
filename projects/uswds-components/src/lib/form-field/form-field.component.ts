@@ -52,7 +52,7 @@ export class FormFieldComponent {
       return;
     }
 
-    if (control.pristine) {
+    if (control.pristine || !control.errors) {
       this.errorMessage = '';
       return;
     }
@@ -61,23 +61,16 @@ export class FormFieldComponent {
       for (const k in control.errors) {
         const errorObject = control.errors[k];
 
-        if (errorObject.message) {
-          if (
-            Object.prototype.toString.call(errorObject.message) ===
-            '[object String]'
-          ) {
-            this.errorMessage = errorObject.message;
-            return;
-          }
+        // to check if it's not null & is object
+        if (
+          errorObject.message !== null &&
+          typeof errorObject.message === 'object'
+        ) {
+          this.errorMessage = errorObject.message;
+          return;
         }
-      }
-
-      for (const k in control.errors) {
-        const errorObject = control.errors[k];
         this.setInvalidErrors(k, errorObject);
       }
-    } else if (!control.errors) {
-      this.errorMessage = '';
     }
   }
 
