@@ -98,8 +98,6 @@ export class FormFieldComponent {
       case 'isNotBeforeToday':
         this.errorMessage = 'Date must not be before today';
         return;
-      default:
-        return (this.errorMessage = 'Invalid');
     }
   }
 }

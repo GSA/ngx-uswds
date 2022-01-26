@@ -63,19 +63,18 @@ export class UsaTextareaComponent implements ControlValueAccessor {
   @Input() disabled: boolean;
 
   /**
-   * Emits focus event
+   * Emits focus/blur  event
    */
   @Output() onBlur: EventEmitter<string> = new EventEmitter(null);
 
   /**
-   * deprecated, emits value change events
+   *  emits the new value when the model value changes.
    */
   @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
-  * Sets the required attribute
-
-  */
+   * Sets the required attribute
+   */
   @Input() required: boolean; // deprecated
   /**
    * Sets the required attribute

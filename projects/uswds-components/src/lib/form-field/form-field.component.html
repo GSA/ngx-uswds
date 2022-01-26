@@ -5,7 +5,8 @@
       (Required)
     </span>
   </label>
-  <small *ngIf="description" [attr.id]="this.id" class="form-text text-muted" [innerHTML]="description"></small>
+  <div *ngIf="description" [attr.id]="id" class="usa-label--description form-text text-muted" [innerHTML]="description">
+  </div>
   <div *ngIf="!!errorMessage" class="usa-error-message" [style.display]="'block'" [attr.id]="errorElId">
     {{errorMessage}}
   </div>
