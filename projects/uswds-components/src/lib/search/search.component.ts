@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Key } from '../util/key';
 
 let nextId = 0;
@@ -10,13 +10,13 @@ let nextId = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SearchComponent),
+      useExisting: forwardRef(() => UsaSearchComponent),
       multi: true,
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent {
+export class UsaSearchComponent {
 
   model: string = '';
 
@@ -25,7 +25,7 @@ export class SearchComponent {
 
   @Input() ariaLabel = 'search component'
   @Input() id = `usa-search-${nextId++}`;
-  @Input() size: 'big' | 'small';
+  @Input() size: 'big' | 'small' | null;
   @Input() buttonText = 'Search';
   @Input() placeholder = '';
   @Input() name = "search";

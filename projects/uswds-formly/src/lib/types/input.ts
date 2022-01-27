@@ -23,5 +23,4 @@ import { FieldType } from '@ngx-formly/core';
 
   `,
 })
-export class USWDSFormlyInputComponent extends FieldType {
-}
+export class USWDSFormlyInputComponent extends FieldType {}

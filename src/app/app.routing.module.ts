@@ -1,7 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AppComponent } from "./app.component";
+import { HomeComponent } from "./home/home.component";
+import { HomeModule } from "./home/home.module";
 
 const routes: Routes = [
   {
@@ -11,22 +12,15 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    component: HomeComponent,
   },
-  {
-    path: 'components',
-    loadChildren: () => import('./components/components-page.module').then(m => m.ComponentsPageModule),
-  },
-  {
-    path: 'formly',
-    loadChildren: () => import('./formly/formly.module').then(m => m.FormlyModule)
-  }
 ]
 
 
 @NgModule({
   imports: [
     CommonModule,
+    HomeModule,
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
   ],
   exports: [

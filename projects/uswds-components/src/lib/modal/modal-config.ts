@@ -26,13 +26,13 @@ export interface UsaModalOptions {
   ariaDescribedBy?: string;
 
   /**
-   * If `true`, the backdrop element will be created for a given modal.
+   * If `true`, the modal will close on backdrop click.
    *
-   * Alternatively, specify `'static'` for a backdrop which doesn't close the modal on click.
+   * A value of false indicates the modal will remain open on backdrop click
    *
    * Default value is `true`.
    */
-  backdrop?: boolean | 'static';
+  backdrop?: boolean;
 
   /**
    * Callback right before the modal will be dismissed.
@@ -93,7 +93,7 @@ export interface UsaModalOptions {
 export class UsaModalConfig implements Required<UsaModalOptions> {
   ariaLabelledBy: string;
   ariaDescribedBy: string;
-  backdrop: boolean | 'static' = true;
+  backdrop: boolean = true;
   beforeDismiss: () => boolean | Promise<boolean>;
   injector: Injector;
   keyboard = true;

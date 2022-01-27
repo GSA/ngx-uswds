@@ -1,0 +1,56 @@
+<h3 class="usa-card__heading">General Accessibility</h3>
+<p>
+  Each accordion header uses an element with <code>role="heading"</code>, with default heading level of 4. Users
+  may pass in the heading level through <code>[headerLevel]</code> property in <code>usa-accordion</code>. This level
+  will be applied to all accordion headers in that accordion group.
+</p>
+<p>
+  Each header also uses a button with <code>[aria-expanded]</code> property to indicate whether the panel is expanded or
+  collapsed.
+</p>
+<p>
+  If the header is multi-selectable, then <code>[aria-multiselectable]</code> attribute will be applied.
+</p>
+<p>
+  The accordion internally uses an incrementing id to ensure uniqueness between each accordion header's ids.
+  Users may pass in their own id
+</p>
+<p>
+  The accordion uses <code>display: none</code> style to hide collapsed accordions
+</p>
+
+<h3>Keyboard Interaction</h3>
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><kbd>Tab / Shift + Tab</kbd></th>
+      <td>Move focus to previous and next focusable item</td>
+    </tr>
+    <tr>
+      <th><kbd>Enter/Space</kbd></th>
+      <td>Open / close accordion</td>
+    </tr>
+    <tr>
+      <th><kbd>Up arrow / Down arrow</kbd></th>
+      <td>
+        Move focus to previous and next accordion item in group
+      </td>
+    </tr>
+    <tr>
+      <th><kbd>Home / End</kbd></th>
+      <td>Move focus to first / last focusable accordion item in group
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Theming</h3>
+<code class="display-block">$theme-accordion-border-width</code>
+<code class="display-block">$theme-accordion-border-color</code>
+<code class="display-block">$theme-accordion-font-family</code>

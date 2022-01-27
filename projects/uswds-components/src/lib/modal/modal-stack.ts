@@ -69,8 +69,7 @@ export class UsaModalStack {
     const contentRef =
         this._getContentRef(moduleCFR, options.injector || contentInjector, content, activeModal);
 
-    let backdropCmptRef: ComponentRef<UsaModalWrapper> | undefined =
-        options.backdrop !== false ? this._attachBackdrop(moduleCFR, containerEl) : undefined;
+    let backdropCmptRef: ComponentRef<UsaModalWrapper> = this._attachBackdrop(moduleCFR, containerEl);
 
     const overlayRef: HTMLDivElement = backdropCmptRef.instance._el.nativeElement.querySelector('.usa-modal-overlay');
 

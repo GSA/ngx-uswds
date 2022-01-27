@@ -1,0 +1,53 @@
+<!-- 
+  Script for updating css on theme change. The preview addon only updates
+  styles in preview section's iframe. This script copies over the currently
+  applied theme to main html anytime theme is changed for preview section
+  through the theme selector
+-->
+<script>
+
+  /** 
+   * Storybook looks at angular.json's style files, adds those styles to main.css file,
+   * and applies it in preview frame's head. The styles in angular.json is meant solely for
+   * develop puropse (npm run develop), and we do not want it for storybook. Hence, removing it
+   * on load **/
+  function removeMainCss() {
+    var mainCss = document.head.querySelector('link[href="main.css"');
+    document.head.removeChild(mainCss);
+  }
+
+  function deleteStyle() {
+    var style = window.parent.document.head.querySelector('style#customTheme')
+    window.parent.document.head.removeChild(style);
+  }
+
+  function addStyle() {
+    var themeStyle = document.head.querySelector('style#ngx-uswds-theme');
+    var styleEl = document.createElement('style');
+    styleEl.id = 'customTheme'
+    styleEl.innerHTML = themeStyle.innerHTML;
+    window.parent.document.head.appendChild(styleEl);
+  }
+
+  function listenForThemesChange() {
+    const select = window.parent.document.body.querySelector('.os-content select');
+    select.addEventListener('change', (event) => {
+      setTimeout(() => {
+        deleteStyle();
+        addStyle();
+      })
+    });
+  }
+
+  window.addEventListener("load", function(){
+    removeMainCss();
+    addStyle();
+    listenForThemesChange();
+    var contents = window.parent.document.getElementsByClassName('os-content');
+    for (let i = 0; i < contents.length; i++) {
+      if (i > 0) {
+        contents[i].classList.add('bg-primary-darker')
+      }
+    }
+  });
+</script>

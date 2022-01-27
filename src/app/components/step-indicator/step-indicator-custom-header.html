@@ -1,0 +1,11 @@
+<usa-step-indicator [steps]="steps" [(currentStep)]="currentStep" 
+  [hideLabels]="hideLabels" [centerLabels]="centerLabels" 
+  [displayCounters]="displayCounters" [smallCounters]="smallCounters"
+  [headerPosition]="headerPosition" [disableStepSelection]="disableStepSelection"
+>
+    <h2 UsaStepHeader [template]="headerTemplate">
+      <ng-template #headerTemplate>
+        Custom Header {{steps[currentStep]?.label}}
+      </ng-template>
+    </h2>
+</usa-step-indicator>

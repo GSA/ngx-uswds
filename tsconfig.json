@@ -8,6 +8,7 @@
     "emitDecoratorMetadata": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es5",
