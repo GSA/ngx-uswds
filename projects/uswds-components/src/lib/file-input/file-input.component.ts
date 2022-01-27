@@ -34,7 +34,7 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
   @Input() multiple = false;
 
-  @Input() acceptFileType: string;
+  @Input() acceptFileType: string = '';
 
   @Input() id: string;
 

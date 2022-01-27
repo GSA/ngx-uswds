@@ -1,0 +1,17 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+
+export const intro = require('!!raw-loader!./introduction.template.html')
+
+export const hideAddons = {options: {showPanel: false}}
+
+<Meta title="Introduction"/>
+
+export const Template = (args) => ({ 
+  template: intro.default
+});
+
+<Canvas>
+  <Story name="Overview" parameters={hideAddons}>
+    {Template.bind({})}
+  </Story>
+</Canvas>

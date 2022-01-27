@@ -71,7 +71,7 @@ export class UsaAccordionItem implements AfterContentChecked {
   /** Defines whether the accordion is in expanded or collapsed state */
   @Input() expanded = false;
 
-  /* A flag to specified that the transition panel classes have been initialized */
+  /** A flag to specified that the transition panel classes have been initialized */
   initClassDone = false;
 
   /**
@@ -109,7 +109,11 @@ export class UsaAccordionItem implements AfterContentChecked {
    */
   @Output() hidden = new EventEmitter<void>();
 
+
+  /** Provided template for Accordion header */
   headerTpl: UsaAccordionHeader;
+
+  /** Provided template for Accordion content */
   contentTpl: UsaAccordionContent;
 
   @ContentChildren(UsaAccordionHeader, { descendants: false }) headerTpls: QueryList<UsaAccordionHeader>;

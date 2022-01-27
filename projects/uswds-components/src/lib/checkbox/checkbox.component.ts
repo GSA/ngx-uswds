@@ -34,7 +34,7 @@ export class UsaCheckboxComponent implements ControlValueAccessor {
 
   @Input('aria-label') ariaLabel: string = '';
 
-  @Input('aria-labelledby') ariaLabelledby: string | null = null;
+  @Input('aria-labelledby') ariaLabelledby: string;
 
   @Input('aria-describedby') ariaDescribedby: string;
 
@@ -43,7 +43,7 @@ export class UsaCheckboxComponent implements ControlValueAccessor {
   @Input() required: boolean = false;
 
   /** Name value will be applied to the input element if present */
-  @Input() name: string | null = null;
+  @Input() name: string;
 
   @Input()
   get indeterminate() { return this._indeterminate};

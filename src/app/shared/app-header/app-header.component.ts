@@ -18,16 +18,6 @@ export class UsaAppHeaderComponent implements OnInit {
       path: 'home',
       selected: true,
     },
-    {
-      text: 'Components',
-      id: 'components',
-      path: 'components',
-    },
-    {
-      text: 'Formly',
-      id: 'formly',
-      path: 'formly',
-    },
   ];
 
   constructor(

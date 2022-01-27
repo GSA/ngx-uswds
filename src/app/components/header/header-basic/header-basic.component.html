@@ -1,0 +1,18 @@
+<usa-header #header 
+  [title]="title"
+  [navAriaLabel]="navAriaLabel"
+  [secondaryNavItems]="secondaryNavItems"
+  [primaryNavItems]="primaryNavItems"
+  [extended]="extended"
+  [displayOverlayOnMenuOpen]="displayOverlayOnMenuOpen"
+  (linkEvent)="linkEvent($event)">
+
+  <!-- Add extra content after the secondary navigation link if needed -->
+  <usa-search usaHeaderSecondaryExtra [size]="'small'"></usa-search>
+  
+  <!-- Define your own template for seconday navigation link through this directive -->
+  <ng-template usaHeaderSecondaryLinkTemplate let-link>
+    <div href="javascript:void" class="text-secondary display-inline-block cursor-pointer">{{link.text}}</div>
+  </ng-template>
+</usa-header>
+

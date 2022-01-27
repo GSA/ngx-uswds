@@ -1,9 +1,0 @@
-<code class="display-block margin-bottom-2">[template]="TemplateRef" for UsaStepHeader</code>
-
-<usa-step-indicator [steps]="stepsCustomHeader" [(currentStep)]="currentStepCustomHeader">
-  <h2 UsaStepHeader [template]="headerTemplate">
-    <ng-template #headerTemplate>
-      Custom Header {{stepsCustomHeader[currentStepCustomHeader]?.label}}
-    </ng-template>
-  </h2>
-</usa-step-indicator>

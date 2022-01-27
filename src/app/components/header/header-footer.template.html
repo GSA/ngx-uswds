@@ -1,0 +1,32 @@
+<h3 class="usa-card__heading">General Accessibility</h3>
+<p>
+  The submenu buttons contain <code>aria-expanded</code> attributes that toggles between 
+  <code>true</code> and <code>false</code> depending on the submenu is open or closed
+</p>
+<p>
+  The overall header is wrapped inside a <code>header</code> tag, and the navigation items are
+  wrapped inside <code>nav</code> element
+</p>
+<p>
+  The default links when a template is not provided are build with <code>a</code> tags, allowing
+  users to tab through the header
+</p>
+<p>
+  When the menu opens in mobile mode, focus automatically moves to the opened menu's close button,
+  and then moves back to the menu button on close
+</p>
+
+<h3>Theming</h3>
+<usa-table [displayedData]="dataRows" borderless="true">
+  <ng-container usaColumnDef="variable">
+    <th usa-table-header *usaTableHeaderDef style="width: 40%;">Variable</th>
+    <td usa-table-data *usaTableDataDef="let theme" data-label="Theme"  style="width: 40%;"><code>{{theme.variable}}</code></td>
+  </ng-container>
+  <ng-container usaColumnDef="description">
+    <th usa-table-header *usaTableHeaderDef>Description</th>
+    <td usa-table-data *usaTableDataDef="let theme" data-label="Description">{{theme.description}}</td>
+  </ng-container>
+
+  <tr *usaHeaderRowDef="columnHeaders"></tr>
+  <tr *usaDataRowDef="let row; columns: columnHeaders;"></tr>
+</usa-table>
