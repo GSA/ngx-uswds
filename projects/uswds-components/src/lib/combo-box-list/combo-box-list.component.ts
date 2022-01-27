@@ -2,7 +2,7 @@ import {
   AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, 
   Component, Directive, ElementRef, EventEmitter, Inject, Input, OnChanges, OnDestroy, 
   Output, Renderer2, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
-import { isArrowDown, isArrowUp, isEnd, isEnter, isHome, isPageDown, isPageUp } from "../util/key";
+import { isArrowDown, isArrowUp, isEnd, isEnter, isHome, isPageDown, isPageUp, isTab } from "../util/key";
 import { DOCUMENT } from "@angular/common";
 
 
@@ -55,6 +55,8 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
   /** Id of label for listbox */
   @Input() ariaLabelledBy: string;
 
+  @Input() selectedItem: any;
+
   /**
    * Emitted when a value is selected from the dropdown list
    */
@@ -77,6 +79,14 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
   // Reference to currently focused item
   _focusedItem: {item: any, index: number, itemHtml: HTMLDataListElement};
 
+  /** 
+   * Referenced to currently highlighted item. Highlighted items have a dark
+   * border around to draw attention to it, but do not necessarily have focus.
+   * This can occur if focus is on input and the highlighted item is the item
+   * that best matches input query.
+  */
+  _highlightedItem: {item: any, index: number, itemHtml: HTMLDataListElement};
+
   /** List of functions to call to un-bind events registered through renderer.listen call */
   _eventListeners: (()=>void)[] = [];
 
@@ -95,6 +105,11 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
   ngAfterViewInit() {
     this.setDropdownDirection();
     this.registerEventHandlers();
+
+    if (this.selectedItem) {
+      const index = this.items.findIndex(item => item === this.selectedItem);
+      this.highlightItem(index);
+    }
   }
 
   ngOnDestroy() {
@@ -120,6 +135,10 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     if (item.disabled) return;
 
     this.selected.emit(item);
+  }
+
+  onFocus(item: any, index: number, itemHtml: HTMLDataListElement) {
+    this._focusedItem = {item, index, itemHtml};
   }
 
   /**
@@ -177,6 +196,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
         break;
 
       case isEnter($event):
+      case isTab($event):
         this.selectItem(this._focusedItem.item);
         $event.preventDefault();
         break;
@@ -199,6 +219,14 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     this.cdr.detectChanges();
   }
 
+  focusHighlightedElement() {
+    if (!this._highlightedItem) {
+      this.focusFirstElement();
+    } else {
+      this.updateFocusedItem(this._highlightedItem.index, this._highlightedItem.itemHtml);
+    }
+  }
+
   /** 
    * Used by default template for rendering display value. If each item is
    * an object, get its given value property, otherwise, simply display the item
@@ -209,6 +237,22 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     }
 
     return item;
+  }
+
+  /**
+   * Public interface that allows components to highlight an item in dropdown
+   * without moving focus to it. This simply adds a visible border to the item
+   * and moves it to visible area of the dropdown
+   */
+  highlightItem(index: number) {
+    if (index < 0 || index >= this.items.length) return;
+
+    const itemId = `${this.listId}-${index}`;
+    const itemHtml: HTMLDataListElement = this.el.nativeElement.querySelector(`#${itemId}`);
+
+    this._highlightedItem = {item: this.items[index], index, itemHtml};
+    itemHtml.scrollIntoView({block: 'end'});
+    this.cdr.detectChanges();
   }
 
   private registerEventHandlers() {
@@ -285,11 +329,9 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
   private updateFocusedItem(index: number, itemHtml: HTMLDataListElement) {
     const item = this.items[index];
 
-    this._focusedItem = {
-      item,
-      index,
-      itemHtml
-    };
+    this._focusedItem = { item, index, itemHtml };
+
+    this._highlightedItem = { item, index, itemHtml };
 
     itemHtml.focus();
   }

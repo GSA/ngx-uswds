@@ -3,7 +3,8 @@
     [attr.id]="id" [attr.aria-owns]="listId" aria-autocomplete="list" [attr.aria-describedby]="id + '--assistiveHint'"
     [attr.aria-expanded]="_displayDropdown" autocapitalize="off" autocomplete="off" class="usa-combo-box__input" type="text"
     role="combobox" [attr.aria-activedescendant]="comboBoxDropdown?._focusedItem?.id" 
-    (focus)="onFocus()" (input)="onValueChange($event.target.value)" (keydown)="onInputKeyDown($event)"
+    (focus)="onFocus()" (input)="onValueChange($event.target.value)" (keydown)="onInputKeyDown($event)" 
+    (click)="disabled ? '' : _displayDropdown = true"
     [value]="value" [disabled]="disabled" [attr.readonly]="readonly === true ? true : undefined">
 
   <span class="usa-combo-box__clear-input__wrapper" tabindex="-1">
@@ -23,6 +24,7 @@
     [customItemTemplate]="itemTemplate"
     [listId]="listId"
     [virtualScroll]="virtualScroll"
+    [selectedItem]="_selectedItem"
     (selected)="selectItem($event)"
     (focusInput)="focusInput()"
     (scrollEnd)="onScrollEnd()"

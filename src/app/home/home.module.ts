@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { HomeComponent } from "./home.component";
 import { RouterModule, Routes } from '@angular/router';
 import { UsaTimePickerModule } from "@gsa-sam/ngx-uswds";
+import { ReactiveFormsModule } from "@angular/forms";
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     UsaTimePickerModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     HomeComponent
