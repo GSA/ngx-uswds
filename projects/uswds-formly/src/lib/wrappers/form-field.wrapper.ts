@@ -19,7 +19,7 @@ import { FieldWrapper } from '@ngx-formly/core';
       </label>
       <div
         *ngIf="to.description"
-        class="usa-label--description text-muted"
+        class="usa-hint"
         [innerHTML]="to.description"
       ></div>
 
