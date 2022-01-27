@@ -97,7 +97,7 @@ export * from './lib/radio/radio-group.component';
 export * from './lib/header/index';
 
 // Time Picker
-export * from './lib/time-picker/time-picker.component';
+export * from './lib/time-picker/time-picker';
 export * from './lib/time-picker/time-picker.module';
 
 // Utility

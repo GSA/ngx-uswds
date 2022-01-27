@@ -66,11 +66,17 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
     this.initializeDropdownItems();
 
     const subscription = this.hostComboBox.changeEvent.subscribe(((value) => {
+      if (!this.hostComboBox.comboBoxDropdown) return;
+
       const mappedItems = this.hostComboBox.items.map(item => item[this.LABEL_FIELD]);
-      const index = this.filterBy ? this.filterBy(value, mappedItems) : this.filterTime(value, mappedItems);
-      if (this.hostComboBox.comboBoxDropdown) {
-        this.hostComboBox.comboBoxDropdown.highlightItem(index);
+      let index = -1;
+      if (this.filterBy) {
+        index = this.filterBy(value, mappedItems);
+      } else {
+        index = this.defaultFilter(value, mappedItems);
       }
+
+      this.hostComboBox.comboBoxDropdown.highlightItem(index);
     }).bind(this));
 
     this._inputChangeSubscription.add(subscription);
@@ -173,7 +179,14 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
     return minutes;
   };
 
-  filterTime(input: string, values: string[]) {
+  /**
+   * Default filter search if one is not provided. Used to find
+   * time within dropdown values that best matches user input
+   * @param input - user input
+   * @param values - list of values to search
+   * @returns - index in values list if match is found, -1 otherwise
+   */
+  defaultFilter(input: string, values: string[]) {
     if (!input || !input.length) return -1;
     return values.findIndex(value => value.includes(input));
   }

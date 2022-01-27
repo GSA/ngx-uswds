@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { UsaComboboxModule } from "../combo-box/combo-box.module";
-import { UsaTimePicker } from "./time-picker.component";
+import { UsaTimePicker } from "./time-picker";
 
 @NgModule({
   imports: [CommonModule, UsaComboboxModule],
