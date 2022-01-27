@@ -47,9 +47,6 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
    */
   @Input() virtualScroll = true;
 
-  /** Additional class to apply on wrapper div */
-  @Input() wrapperClass: string;
-
   @Input() disabled: boolean = false;
 
   /** Emitted with a value change occurs in user input */

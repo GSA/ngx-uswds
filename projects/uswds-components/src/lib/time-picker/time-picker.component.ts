@@ -1,4 +1,5 @@
-import { Directive, Input, OnInit } from "@angular/core";
+import { Directive, Input, OnChanges, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 import { UsaComboBoxComponent } from "../combo-box/combo-box.component";
 
 
@@ -6,7 +7,7 @@ import { UsaComboBoxComponent } from "../combo-box/combo-box.component";
   selector: '[usa-time-picker]',
   exportAs: 'usaTimePicker'
 })
-export class UsaTimePicker implements OnInit {
+export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
 
   readonly MAX_TIME = 60 * 24 - 1;
   readonly MIN_TIME = 0;
@@ -45,29 +46,48 @@ export class UsaTimePicker implements OnInit {
    */
   @Input() filterBy: (input: string, values: string[]) => number;
 
+  _inputChangeSubscription: Subscription;
+
   constructor(
     private hostComboBox: UsaComboBoxComponent,
-  ) {}
+  ) {
+    this._inputChangeSubscription = new Subscription();
+  }
+
+  ngOnChanges() {
+    if (!this.hostComboBox) return;
+
+    this.initializeDropdownItems();
+  }
 
   ngOnInit() {
     const wrapperDiv: HTMLDivElement = this.hostComboBox.el.nativeElement.querySelector('.usa-combo-box');
     wrapperDiv.classList.add('usa-time-picker');
+    this.initializeDropdownItems();
 
-    this.hostComboBox.items = this.genetateItems();
-    this.hostComboBox.labelField = this.LABEL_FIELD;
-    this.hostComboBox.valueField = this.VALUE_FIELD;
-
-    if (!this.filterBy) {
-      this.filterBy = this.filterTime;
-    }
-
-    const mappedItems = this.hostComboBox.items.map(item => item[this.LABEL_FIELD]);
-    this.hostComboBox.changeEvent.subscribe((value) => {
-      const index = this.filterBy(value, mappedItems);
+    const subscription = this.hostComboBox.changeEvent.subscribe(((value) => {
+      const mappedItems = this.hostComboBox.items.map(item => item[this.LABEL_FIELD]);
+      const index = this.filterBy ? this.filterBy(value, mappedItems) : this.filterTime(value, mappedItems);
       if (this.hostComboBox.comboBoxDropdown) {
         this.hostComboBox.comboBoxDropdown.highlightItem(index);
       }
-    });
+    }).bind(this));
+
+    this._inputChangeSubscription.add(subscription);
+  }
+
+  ngOnDestroy() {
+    this._inputChangeSubscription.unsubscribe();
+  }
+
+  /**
+   * Initializes dropdown values for timepixker as well as filter function
+   * to use
+   */
+  private initializeDropdownItems() {
+    this.hostComboBox.items = this.genetateItems();
+    this.hostComboBox.labelField = this.LABEL_FIELD;
+    this.hostComboBox.valueField = this.VALUE_FIELD;
   }
 
   /**

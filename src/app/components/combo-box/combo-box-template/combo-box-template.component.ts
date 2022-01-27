@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ComboBoxMockService } from '../../combo-box-dummy-service';
+import { Component } from "@angular/core";
+import { Observable } from "rxjs";
+import { ComboBoxMockService } from "../combo-box-dummy-service";
+
 
 @Component({
-  selector: 'usa-combo-box-basic',
-  templateUrl: './combo-box-basic.component.html',
+  selector: `combo-box-template`,
+  templateUrl: './combo-box-template.component.html',
+  providers: [ComboBoxMockService],
 })
-export class ComboBoxBasicComponent implements OnInit {
+export class ComboBoxTemplateComponent {
 
   mockdata$: Observable<any>;
 
@@ -36,5 +38,4 @@ export class ComboBoxBasicComponent implements OnInit {
     this._paginationAmount++;
     this.mockService.fetchAdditionalData(this.searchValue, this._paginationAmount);
   }
-
 }
