@@ -1,0 +1,67 @@
+<usa-header [title]="headerTitle" [extended]="true">
+  <ng-template #headerTitle><span class="usa-logo__text">Ngx USWDS</span></ng-template>
+
+  <!-- Define custom template for primary links-->
+ <!-- Primary navigation links can also be passed through template for more control over html -->
+ <ul usaHeaderPrimaryLinks>
+
+  <!-- Define a submenu item through usaSubmenu and pass in defined template through content input-->
+  <li class="usa-nav__primary-item">
+    <button usaHeaderSubmenu [content]="submenuContent">Home</button>
+    <ng-template #submenuContent>
+      <ul class="usa-list usa-list--unstyled">
+        <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 1</a></li>
+        <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 2</a></li>
+        <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 3</a></li>
+      </ul>
+    </ng-template>
+  </li>
+
+  <li class="usa-nav__primary-item">
+    <!-- Define megamenu through isMegamenu input-->
+    <button usaHeaderSubmenu [content]="megamenuContent" [isMegamenu]="true">Search</button>
+    <ng-template #megamenuContent>
+      <div class="grid-row">
+        <div class="grid-col-4">
+          <ul class="usa-list usa-list--unstyled">
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 1</a></li>
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 2</a></li>
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 3</a></li>
+          </ul>
+        </div>
+        <div class="grid-col-4">
+          <ul class="usa-list usa-list--unstyled">
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 4</a></li>
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 5</a></li>
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 6</a></li>
+          </ul>
+        </div>
+        <div class="grid-col-4">
+          <ul class="usa-list usa-list--unstyled">
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 7</a></li>
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 8</a></li>
+            <li class="usa-nav__submenu-item"><a href="javascript:void(0)">Item 9</a></li>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <!-- Define simple link-->
+  <li class="usa-nav__primary-item"><a href="javascript:void(0)">DataBank</a></li>
+</ul>
+
+  <!-- Define custom template for secondary links-->
+  <ul usaHeaderSecondaryLinks>
+    <li class="usa-nav__secondary-item">
+      <a href="javascript:void(0)">Secondary Link</a>
+    </li>
+    <li class="usa-nav__secondary-item">
+      <a href="javascript:void(0)">Another Secondary Link</a>
+    </li>
+  </ul>
+
+  <!-- Add extra content after the secondary links -->
+  <usa-search usaHeaderSecondaryExtra [size]="'small'"></usa-search>
+  
+</usa-header>

@@ -4,10 +4,4 @@ import { FormControl } from "@angular/forms";
   selector: `app-home`,
   templateUrl: './home.component.html'
 })
-export class HomeComponent {
-  formControl = new FormControl('');
-
-  onSelection() {
-    console.log(this.formControl.value);
-  }
-}
+export class HomeComponent {}

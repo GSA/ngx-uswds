@@ -27,7 +27,7 @@ export class UsaTooltipDirective implements AfterViewInit {
   readonly TRIANGLE_SIZE = 5;
 
   @Input()
-  position: string = 'top';
+  position: 'top' | 'bottom' | 'left' | 'right' = 'top';
 
   /**
    * Value to be displayed in tooltip

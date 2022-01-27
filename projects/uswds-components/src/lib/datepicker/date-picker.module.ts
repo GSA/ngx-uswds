@@ -50,6 +50,9 @@ import { UsaDatePickerButtonIcon } from './date-picker-button';
     UsaDatePickerContent,
     UsaDatePicker,
     UsaDatePickerWrapper,
+  ],
+  entryComponents: [
+    UsaDatePickerContent,
   ]
 })
 export class UsaDatePickerModule {}

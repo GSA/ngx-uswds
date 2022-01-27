@@ -1,0 +1,44 @@
+<usa-accordion 
+  [singleSelect]="singleSelect" 
+  [bordered]="bordered" 
+  [animation]="animation"
+  [headerLevel]="headerLevel"
+  [activeIds]="activeIds"
+  (panelChange)="onPanelChange($event)"
+  (shown)="shown($event)"
+  (hidden)="hidden($event)"
+>
+  
+  <usa-accordion-item header="Simple Text Header">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+
+  <usa-accordion-item>
+    <ng-template UsaAccordionHeader>
+      <b class="text-base">I am a <i>Template</i> Header</b>
+    </ng-template>
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+
+  <usa-accordion-item header="Disabled Header" [disabled]="true">
+    <ng-template UsaAccordionContent>
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry 
+      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor 
+      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, 
+      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda 
+      shoreditch et.
+    </ng-template>
+  </usa-accordion-item>
+</usa-accordion>
