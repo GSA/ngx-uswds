@@ -22,7 +22,6 @@ import { FieldWrapper } from '@ngx-formly/core';
         class="usa-hint"
         [innerHTML]="to.description"
       ></div>
-
       <div
         *ngIf="showError"
         class="usa-error-message"
