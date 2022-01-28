@@ -28,21 +28,13 @@ export default {
     }),
   ],
   args: {
-    // placeholder: 'Search',
-    // label: 'Keyword Search',
-    // ariaLabel: 'Search Input',
-    // id: 'usa-search-demo',
-    // size: 'small',
-    // buttonText: 'Search',
-    // name: 'search',
+    label: 'Basic Formly Textarea',
   },
 } as Meta;
 
 declare var require;
 
-const componentTs = require('!!raw-loader!./textarea-basic/textarea-basic.component.ts');
 const template = require('!!raw-loader!./textarea-basic/textarea-basic.component.html');
-const moduleTs = require('!!raw-loader!./textarea-basic/textarea-basic.module.ts');
 
 const FormControlTemplate: Story<UsaTextareaComponent> = (args: any) => {
   const form = new FormGroup({});
@@ -69,16 +61,6 @@ const FormControlTemplate: Story<UsaTextareaComponent> = (args: any) => {
 };
 
 export const Basic = FormControlTemplate.bind({});
-
-const sandboxConfig = {
-  files: {
-    'textarea-basic.component.ts': componentTs.default,
-    'textarea-basic.component.html': template.default,
-    'textarea-basic.module.ts': moduleTs.default,
-  },
-  moduleName: 'FormlyBasicTextareaModule',
-  selector: 'formly-textarea-basic',
-};
 
 Basic.parameters = {
   preview: generateConfig(
