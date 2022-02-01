@@ -8,6 +8,7 @@ import { BreadcrumbCustomTemplateModule } from "./breadcrumb-custom-template/bre
 declare var require: any;
 
 const breadcrumbTemplate = require('!!raw-loader!./breadcrumb-basic/breadcrumb-basic.component.html');
+const overview = require('!!raw-loader!./overview-template.html');
 
 const actionsData = {
   onSelection: action('Breadcrumb Selected'),
@@ -53,11 +54,11 @@ export default {
   }
 } as Meta;
 
-// export const Overview = () => ({
-//   template: footerTemplate.default,
-//   props: {},
-// });
-// Overview.parameters = {options: {showPanel: false}};
+export const Overview = () => ({
+  template: overview.default,
+  props: {},
+});
+Overview.parameters = {options: {showPanel: false}};
 
 export const Basic = (args) => ({
   template: breadcrumbTemplate.default,

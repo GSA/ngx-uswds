@@ -4,8 +4,6 @@ import { UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 @Component({
   selector: 'breadcrumb-custom-template',
   templateUrl: './breadcrumb-custom-template.component.html',
-  styles: [
-  ]
 })
 export class BreadcrumbCustomTemplateComponent {
 

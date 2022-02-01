@@ -1,4 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, Directive, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, 
+  ContentChild, Directive, EventEmitter, Input, OnChanges, OnInit, 
+  Output, SimpleChanges, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 
 
@@ -13,7 +15,7 @@ import { UsaNavigationLink } from '@gsa-sam/ngx-uswds';
   selector: `[usaBreadcrumbLinkTemplate]`
 })
 export class UsaBreadcrumbLinkTemplate {
-  constructor(public templateRef: TemplateRef<any>) {}
+  constructor(public templateRef: TemplateRef<any>) { }
 }
 
 @Component({
@@ -21,6 +23,7 @@ export class UsaBreadcrumbLinkTemplate {
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./breadcrumb.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UsaBreadcrumbComponent implements OnInit, OnChanges {
 
