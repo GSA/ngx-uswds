@@ -77,6 +77,10 @@ export * from './lib/table/table-sort.component';
 export * from './lib/table/table.component';
 export * from './lib/table/table.module';
 
+//TextArea
+export * from './lib/textarea/textarea.component';
+export * from './lib/textarea/textarea.module';
+
 // Tooltip
 export * from './lib/tooltip/tooltip.directive';
 export * from './lib/tooltip/tooltip.module';
@@ -103,5 +107,8 @@ export * from './lib/time-picker/time-picker.module';
 // Utility
 export * from './lib/util/navigation';
 
-export * from './lib/input/affix.module'
-export * from './lib/input/affix.directive'
+export * from './lib/input/affix.module';
+export * from './lib/input/affix.directive';
+
+export * from './lib/form-field/form-field.component';
+export * from './lib/form-field/form-field.module';

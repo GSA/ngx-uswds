@@ -1,0 +1,10 @@
+<label class="usa-label" for="basicInput">Basic Textarea</label>
+
+<usa-textarea [rowHeight]="6" [label]="'Text Area label'" [description]="description" [maxlength]="100" id="basicInput"
+  [required]="true" (onBlur)="updateValue($event)"></usa-textarea>
+
+<p>{{value}}</p>
+
+<label class="usa-label" for="textareacharactercount">Textarea with Character Count</label>
+
+<usa-textarea [rowHeight]="6" [maxlength]="100" id="textareacharactercount" [usaCharacterCount]="50"></usa-textarea>

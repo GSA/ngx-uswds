@@ -1,0 +1,8 @@
+<usa-form-field [label]="'Wrapper Test'" [description]="description" [required]="true ">
+
+  <usa-textarea [wrappeRref]="wrappeRref" [label]="'Textarea with ngModel'" [required]="true" [minlength]="3"
+    [rowHeight]="2" [maxlength]="10" id="textareaModel" [(ngModel)]="textareaModel">
+  </usa-textarea>
+</usa-form-field>
+
+{{textareaModel}}
