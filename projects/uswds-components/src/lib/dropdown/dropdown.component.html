@@ -1,3 +1,3 @@
-<select class="usa-select" [attr.name]="id" [attr.id]="id" (change)="onOptionSelected($event)" [disabled]="disabled">
+<select class="usa-select" [attr.name]="name" [attr.id]="id" (change)="onOptionSelected($event)" [disabled]="disabled">
   <option *ngFor="let option of options" [value]="option.value" [disabled]="option.disabled">{{option.label}}</option>
 </select>
