@@ -6,6 +6,7 @@ let rangeSliderId = 0;
 @Component({
   selector: 'usa-range-slider',
   templateUrl: './range-slider.component.html',
+  styleUrls: ['./range-slider.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -21,6 +22,13 @@ export class UsaRangeSliderComponent implements OnInit, ControlValueAccessor {
   @Input() step: number;
   @Input() startingValue: number;
   @Input() id: string = `usa-range-${rangeSliderId++}`
+
+  /**
+   * Changes how slider outputs current value
+   * change - outputs when user releases mouse drag
+   * input - output as user drags
+   */
+  @Input() updateOn: 'change' | 'input' = 'change';
 
   sliderValue: number;
 
@@ -48,7 +56,16 @@ export class UsaRangeSliderComponent implements OnInit, ControlValueAccessor {
   }
 
   sliderChange($event){
-    this.writeValue($event.target.value)
-    this.onChange($event.target.value)
+    if(this.updateOn === 'change'){
+      this.writeValue($event.target.value)
+      this.onChange($event.target.value)
+    }
+  }
+
+  sliderInput($event){
+    if(this.updateOn === 'input'){
+      this.writeValue($event.target.value)
+      this.onChange($event.target.value)
+    }
   }
 }
