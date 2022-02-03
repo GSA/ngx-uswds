@@ -1,11 +1,9 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  UsaHeaderModule,
-  UsaHeaderPrimaryLink,
-  UsaNavigationLink,
-} from '@gsa-sam/ngx-uswds';
+import { UsaNavigationLink } from '../util/navigation';
+import { UsaHeaderPrimaryLink } from './header.model';
+import { UsaHeaderModule } from './header.module';
 
 fdescribe('HeaderComponent', () => {
   let component: MockHeaderComponent;
