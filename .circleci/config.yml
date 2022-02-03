@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm run test:components
+      # - run: npm run test:components
       - run: npm run build
       - store_artifacts:
           path: coverage
