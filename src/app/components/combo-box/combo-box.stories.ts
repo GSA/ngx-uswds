@@ -2,7 +2,7 @@ import { Meta, moduleMetadata, Story } from "@storybook/angular";
 import { UsaComboBoxComponent, UsaComboboxList, UsaComboboxModule } from "@gsa-sam/ngx-uswds";
 import { ComboBoxBasicModule } from "./combo-box-basic/combo-box-basic.module";
 import { ComboBoxBasicComponent } from "./combo-box-basic/combo-box-basic.component";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 import { ComboBoxTemplateModule } from "./combo-box-template/combo-box-template.module";
 
 export default {

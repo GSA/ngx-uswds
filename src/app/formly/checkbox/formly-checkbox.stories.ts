@@ -5,7 +5,7 @@ import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicCheckboxModule } from "./checkbox-basic/checkbox-basic.module";
 import { FormlyMultiCheckboxModule } from "./multi-checkbox/multi-checkbox.module";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 declare var require;
 

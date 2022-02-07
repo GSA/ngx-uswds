@@ -1,6 +1,6 @@
 import { Meta, moduleMetadata } from "@storybook/angular";
 import { UsaTimePicker, UsaTimePickerModule } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Components/TimePicker',
