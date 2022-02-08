@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-var getDirName = require('path').dirname;
+const getDirName = require('path').dirname;
 
 const pathToUsaIcons = '../../node_modules/uswds/dist/img/usa-icons';
 
