@@ -12,6 +12,7 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run test:components
+      - run: npm run test:formly
       - run: npm run build:components
       - run: npm run build:formly
       - store_artifacts:
