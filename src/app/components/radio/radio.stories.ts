@@ -4,12 +4,12 @@ import { UsaRadioComponent, UsaRadioGroupComponent, UsaRadioGroupLabel, UsaRadio
 import {  ReactiveFormsModule } from '@angular/forms';
 import { action } from "@storybook/addon-actions";
 import { RadioFormsModule } from "./radio-forms/radio-forms.module";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 declare var require;
 
 const basicTemplate = require('!!raw-loader!./radio-basic/radio-basic.component.html');
-const footer = require('!!raw-loader!./radio-footer.component.html');
+const footer = require('!!raw-loader!./radio-overview.html');
 
 const actionsData = {
   radioChange: action('Radio Change'),

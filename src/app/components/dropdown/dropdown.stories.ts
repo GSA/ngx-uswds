@@ -2,7 +2,7 @@ import { Meta, moduleMetadata } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { UsaDropdownComponent, UsaDropdownModule } from "@gsa-sam/ngx-uswds";
 import {  ReactiveFormsModule } from '@angular/forms';
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 import { DropdownFormsModule } from "./dropdown-forms/dropdown-forms.module";
 
 declare var require;

@@ -3,13 +3,13 @@ import { UsaAccordionComponent, UsaAccordionItem, UsaAccordionModule } from '@gs
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { action } from '@storybook/addon-actions';
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 declare var require: any;
 
 const accordionTemplate = require('!!raw-loader!./accordion-basic/accordion-basic.component.html');
 
-const footerTemplate = require('!!raw-loader!./accordion.footer.html')
+const footerTemplate = require('!!raw-loader!./accordion-overview.html')
 
 const actionsData = {
   panelChange: action('Panel Change'),

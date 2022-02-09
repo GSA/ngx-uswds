@@ -6,7 +6,7 @@ import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicDatepickerModule } from "./datepicker-basic/datepicker-basic.module";
 import { UsaDatePickerInput, UsaSearchComponent } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Datepicker',

@@ -3,9 +3,9 @@ import { CommonModule } from "@angular/common";
 import { UsaCharacterCountDirective, UsaCharacterCountModule } from "@gsa-sam/ngx-uswds";
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CharacterCountBasic } from "./character-count-basic/character-count-basic.component";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
-const characterCountFooter = require('!!raw-loader!./character-count-footer.component.html');
+const characterCountFooter = require('!!raw-loader!./character-count-overview.html');
 
 export default {
   title: 'Components/CharacterCount',
