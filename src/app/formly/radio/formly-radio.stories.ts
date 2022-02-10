@@ -4,7 +4,7 @@ import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicRadioModule } from "./radio-basic/radio-basic.module";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Radio',
@@ -38,6 +38,7 @@ export default {
       },
     ]
   },
+  githubLink: generateGithubLink('formly/radio/radio-basic')
 } as Meta;
 
 
@@ -73,5 +74,6 @@ const FormControlTemplate: Story<FormlyForm> = (args: any) => {
 export const Basic = FormControlTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig('formly/radio/radio-basic', 'FormlyBasicRadioModule', 'formly-radio-basic')
+  preview: generateConfig('formly/radio/radio-basic', 'FormlyBasicRadioModule', 'formly-radio-basic'),
+  githubLink: generateGithubLink('formly/radio/radio-basic')
 }

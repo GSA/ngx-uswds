@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { UsaTooltipDirective, UsaTooltipModule } from "@gsa-sam/ngx-uswds";
 import { ReactiveFormsModule } from '@angular/forms';
 import { TooltipBasicModule } from "./tooltip-basic/tooltip-basic.module";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 
 export default {
   title: 'Components/Tooltip',
@@ -20,6 +20,9 @@ export default {
   },
   argTypes: {
     title: {type: 'string'}
+  },
+  parameters: {
+    githubLink: generateGithubLink('components/tooltip')
   }
 } as Meta;
 
@@ -32,7 +35,8 @@ const basicTemplate = (args) => ({
 export const Basic = basicTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig('components/tooltip/tooltip-basic', 'TooltipBasicModule', 'tooltip-basic')
+  preview: generateConfig('components/tooltip/tooltip-basic', 'TooltipBasicModule', 'tooltip-basic'),
+  githubLink: generateGithubLink('components/tooltip/tooltip-basic')
 }
 
 

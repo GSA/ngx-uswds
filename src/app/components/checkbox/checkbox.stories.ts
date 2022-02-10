@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { UsaCheckboxComponent,  UsaCheckboxModule, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxIndeterminateComponent } from "./checkbox-indeterminate/checkbox-indeterminate.component";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 
 declare var require;
 
@@ -26,6 +26,9 @@ export default {
     tile: false,
     disabled: false,
     checked: false,
+  },
+  parameters: {
+    githubLink: generateGithubLink('components/checkbox')
   }
 } as Meta;
 
@@ -70,6 +73,7 @@ export const Basic = (args) => ({
 
 Basic.parameters = {
   preview: generateConfig('components/checkbox/checkbox-basic', 'CheckboxBasicModule', 'checkbox-basic'),
+  githubLink: generateGithubLink('components/checkbox/checkbox-basic')
 }
 
 
@@ -99,5 +103,6 @@ export const Indeterminate = () => ({
   template: `<checkbox-indeterminate></checkbox-indeterminate>`
 });
 Indeterminate.parameters = {
-  preview: generateConfig('components/checkbox/checkbox-indeterminate', 'CheckboxIndeterminateModule', 'checkbox-indeterminate')
+  preview: generateConfig('components/checkbox/checkbox-indeterminate', 'CheckboxIndeterminateModule', 'checkbox-indeterminate'),
+  githubLink: generateGithubLink('components/checkbox/checkbox-indeterminate')
 }

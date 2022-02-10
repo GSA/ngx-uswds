@@ -2,7 +2,7 @@ import { Meta, moduleMetadata } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { UsaDropdownComponent, UsaDropdownModule } from "@gsa-sam/ngx-uswds";
 import {  ReactiveFormsModule } from '@angular/forms';
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 import { DropdownFormsModule } from "./dropdown-forms/dropdown-forms.module";
 
 declare var require;
@@ -46,6 +46,9 @@ export default {
         value: 'value5'
       }
     ]
+  },
+  preview: {
+    githubLink: generateGithubLink('components/dropdown')
   }
 } as Meta;
 
@@ -55,7 +58,8 @@ export const Basic = (args) => ({
   props: args,
 });
 Basic.parameters = {
-  preview: generateConfig('components/dropdown/dropdown-basic', 'DropdownBasicModule', 'dropdown-basic')
+  preview: generateConfig('components/dropdown/dropdown-basic', 'DropdownBasicModule', 'dropdown-basic'),
+  githubLink: generateGithubLink('components/dropdown/dropdown-basic')
 };
 
 
@@ -63,5 +67,6 @@ export const DropdownForms = () => ({
   template: `<dropdown-forms></dropdown-forms>`
 });
 DropdownForms.parameters = {
-  preview: generateConfig('components/dropdown/dropdown-forms', 'DropdownFormsModule', 'dropdown-forms')
+  preview: generateConfig('components/dropdown/dropdown-forms', 'DropdownFormsModule', 'dropdown-forms'),
+  githubLink: generateGithubLink('components/dropdown/dropdown-forms'),
 };

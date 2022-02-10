@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { ModalDismissReasons, UsaModalConfig, UsaModalModule, UsaModalRef, UsaModalService } from "@gsa-sam/ngx-uswds";
 import { ModalBasicModule } from "./modal-basic/modal-basic.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 import { ModalComponentWrapperModule } from "./modal-component-wrapper/modal-component-wrapper.module";
 import { ModalCustomFocusModule } from "./modal-custom-focus/modal-custom-focus.module";
 import { ModalForcedActionModule } from "./modal-forced-action/modal-forced-action.module";
@@ -36,6 +36,9 @@ export default {
       ],
     }),
   ],
+  parameters: {
+    githubLink: generateGithubLink('components/modal'),
+  }
 } as Meta;
 
 export const Overview = () => ({
@@ -61,7 +64,8 @@ export const Basic = (args) => ({
 });
 
 Basic.parameters = {
-  preview: generateConfig('components/modal/modal-basic', 'ModalBasicModule', 'modal-basic')
+  preview: generateConfig('components/modal/modal-basic', 'ModalBasicModule', 'modal-basic'),
+  githubLink: generateGithubLink('components/modal/modal-basic'),
 }
 
 
@@ -70,7 +74,8 @@ export const ComponentContent = () => ({
 });
 
 ComponentContent.parameters = {
-  preview: generateConfig('components/modal/modal-component-wrapper', 'ModalComponentWrapperModule', 'modal-component-wrapper')
+  preview: generateConfig('components/modal/modal-component-wrapper', 'ModalComponentWrapperModule', 'modal-component-wrapper'),
+  githubLink: generateGithubLink('components/modal/modal-component-wrapper')
 }
 
 export const CustomFocus = () => ({
@@ -78,7 +83,8 @@ export const CustomFocus = () => ({
 })
 
 CustomFocus.parameters = {
-  preview: generateConfig('components/modal/modal-custom-focus', 'ModalCustomFocusModule', 'modal-custom-focus')
+  preview: generateConfig('components/modal/modal-custom-focus', 'ModalCustomFocusModule', 'modal-custom-focus'),
+  githubLink: generateGithubLink('components/modal/modal-custom-focus')
 };
 
 
@@ -87,7 +93,8 @@ export const ForcedAction = () => ({
 });
 
 ForcedAction.parameters = {
-  preview: generateConfig('components/modal/modal-forced-action', 'ModalForcedAction', 'modal-forced-action')
+  preview: generateConfig('components/modal/modal-forced-action', 'ModalForcedAction', 'modal-forced-action'),
+  githubLink: generateGithubLink('components/modal/modal-forced-action')
 }
 
 
@@ -96,7 +103,8 @@ export const ModalScrollable = () => ({
 });
 
 ModalScrollable.parameters = {
-  preview: generateConfig('components/modal/modal-scrollable-content', 'ModalScrollableContentModule', 'modal-scrollable-content')
+  preview: generateConfig('components/modal/modal-scrollable-content', 'ModalScrollableContentModule', 'modal-scrollable-content'),
+  githubLink: generateGithubLink('components/modal/modal-scrollable-content')
 }
 
 export const ModalStacked = () => ({
@@ -104,5 +112,6 @@ export const ModalStacked = () => ({
 });
 
 ModalStacked.parameters = {
-  preview: generateConfig('components/modal/modal-stacked', 'ModalStackedModule', 'modal-stacked')
+  preview: generateConfig('components/modal/modal-stacked', 'ModalStackedModule', 'modal-stacked'),
+  githubLink: generateGithubLink('components/modal/modal-stacked'),
 }

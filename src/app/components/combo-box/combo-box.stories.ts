@@ -2,7 +2,7 @@ import { Meta, moduleMetadata, Story } from "@storybook/angular";
 import { UsaComboBoxComponent, UsaComboboxList, UsaComboboxModule } from "@gsa-sam/ngx-uswds";
 import { ComboBoxBasicModule } from "./combo-box-basic/combo-box-basic.module";
 import { ComboBoxBasicComponent } from "./combo-box-basic/combo-box-basic.component";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 import { ComboBoxTemplateModule } from "./combo-box-template/combo-box-template.module";
 
 export default {
@@ -16,6 +16,9 @@ export default {
       imports: [UsaComboboxModule, ComboBoxBasicModule, ComboBoxTemplateModule],
     }),
   ],
+  parameters: {
+    githubLink: generateGithubLink('components/combo-box')
+  }
 } as Meta;
 
 const mockService = require('!!raw-loader!./combo-box-dummy-service.ts');
@@ -36,7 +39,8 @@ Basic.parameters = {
       language: 'ts',
       copy: true,
     },
-  ]
+  ],
+  githubLink: generateGithubLink('components/combo-box/combo-box-basic'),
 };
 
 export const CustomTemplate = (args) => ({
@@ -59,6 +63,7 @@ CustomTemplate.parameters = {
       copy: true,
     },
   ],
+  githubLink: generateGithubLink('components/combo-box/combo-box-template'),
   options: { 
     showPanel: false 
   }

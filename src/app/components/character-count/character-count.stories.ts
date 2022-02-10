@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { UsaCharacterCountDirective, UsaCharacterCountModule } from "@gsa-sam/ngx-uswds";
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CharacterCountBasic } from "./character-count-basic/character-count-basic.component";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 
 const characterCountFooter = require('!!raw-loader!./character-count-footer.component.html');
 
@@ -18,6 +18,9 @@ export default {
   args: {
     usaCharacterCount: 25,
   },
+  parameters: {
+    githubLink: generateGithubLink('components/character-count')
+  }
 } as Meta;
 
 export const Overview = (args) => ({
@@ -31,7 +34,8 @@ const basicTemplate = (args) => ({
 
 export const Basic = basicTemplate.bind({});
 Basic.parameters = {
-  preview: generateConfig('components/character-count/character-count-basic', 'CharacterCountBasicModule', 'character-count-basic')
+  preview: generateConfig('components/character-count/character-count-basic', 'CharacterCountBasicModule', 'character-count-basic'),
+  githubLink: generateGithubLink('components/character-count/character-count-basic')
 }
 
 const FormControlTemplate: Story<UsaCharacterCountDirective> = (args: any) => {

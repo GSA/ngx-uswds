@@ -4,7 +4,7 @@ import { UsaRadioComponent, UsaRadioGroupComponent, UsaRadioGroupLabel, UsaRadio
 import {  ReactiveFormsModule } from '@angular/forms';
 import { action } from "@storybook/addon-actions";
 import { RadioFormsModule } from "./radio-forms/radio-forms.module";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 
 declare var require;
 
@@ -34,6 +34,9 @@ export default {
     checked: false,
     name: 'basicRadio',
     ariaLabelledBy: 'basicRadioLabel',
+  },
+  parameters: {
+    githubLink: generateGithubLink('components/radio'),
   }
 } as Meta;
 
@@ -76,7 +79,8 @@ export const Basic = (args) => ({
   },
 });
 Basic.parameters = {
-  preview: generateConfig('components/radio/radio-basic', 'RadioBasicModule', 'radio-basic')
+  preview: generateConfig('components/radio/radio-basic', 'RadioBasicModule', 'radio-basic'),
+  githubLink: generateGithubLink('components/radio/radio-basic')
 };
 
 
@@ -84,5 +88,6 @@ export const RadioForms = () => ({
   template: `<radio-forms></radio-forms>`
 });
 RadioForms.parameters = {
-  preview: generateConfig('components/radio/radio-forms', 'RadioFormsModule', 'radio-forms')
+  preview: generateConfig('components/radio/radio-forms', 'RadioFormsModule', 'radio-forms'),
+  githubLink: generateGithubLink('components/radio/radio-forms'),
 };

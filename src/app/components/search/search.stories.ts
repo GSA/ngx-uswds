@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { UsaSearchComponent, UsaSearchModule } from "@gsa-sam/ngx-uswds";
 import { FormsModule } from '@angular/forms';
 import { action } from "@storybook/addon-actions";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 
 declare var require;
 const template = require('!!raw-loader!./search-basic/search-basic.component.html');
@@ -24,6 +24,9 @@ export default {
   args: {
     buttonText: 'Search',
     size: 'big',
+  },
+  parameters: {
+    githubLink: generateGithubLink('components/search')
   }
 } as Meta;
 
@@ -43,5 +46,6 @@ export const Basic = (args) => ({
 });
 
 Basic.parameters = {
-  preview: generateConfig('components/search/search-basic', 'SearchBasicModule', 'search-basic')
+  preview: generateConfig('components/search/search-basic', 'SearchBasicModule', 'search-basic'),
+  githubLink: generateGithubLink('components/search/search-basic')
 }

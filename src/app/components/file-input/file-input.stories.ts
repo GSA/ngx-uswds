@@ -8,7 +8,7 @@ import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies
 import { of } from "rxjs";
 import { action } from "@storybook/addon-actions";
 import { delay } from "rxjs/operators";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 
 
 const template = require('!!raw-loader!./file-input-basic/file-input-basic.component.html');
@@ -54,6 +54,9 @@ export default {
   argTypes: {
     hint: {type: 'string'},
   },
+  parameters: {
+    githubLink: generateGithubLink('components/file-input'),
+  }
 } as Meta;
 
 export const Basic = (args) => ({
@@ -75,7 +78,8 @@ export const Basic = (args) => ({
 });
 
 Basic.parameters = {
-  preview: generateConfig('components/file-input/file-input-basic', 'FileInputBasicModule', 'file-input-basic')
+  preview: generateConfig('components/file-input/file-input-basic', 'FileInputBasicModule', 'file-input-basic'),
+  githubLink: generateGithubLink('components/file-input/file-input-basic'),
 }
 
 
@@ -83,12 +87,14 @@ export const InputWithTable = () => ({
   template: '<file-input-table></file-input-table>',
 });
 InputWithTable.parameters = {
-  preview: generateConfig('components/file-input/file-input-table', 'FileInputTableModule', 'file-input-table')
+  preview: generateConfig('components/file-input/file-input-table', 'FileInputTableModule', 'file-input-table'),
+  githubLink: generateGithubLink('components/file-input/file-input-table')
 }
 
 export const ServerUpload = () => ({
   template: '<file-input-upload></file-input-upload>'
 })
 ServerUpload.parameters = {
-  preview: generateConfig('components/file-input/file-input-upload', 'FileInputUploadModule', 'file-input-upload')
+  preview: generateConfig('components/file-input/file-input-upload', 'FileInputUploadModule', 'file-input-upload'),
+  githubLink: generateGithubLink('components/file-input/file-input-upload')
 }

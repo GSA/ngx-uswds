@@ -4,7 +4,7 @@ import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicInputModule } from "./input-basic/input-basic.module";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Input',
@@ -26,6 +26,9 @@ export default {
     characterCount: {type: 'number'},
     prefix: {type: 'string'},
     suffix: {type: 'string'},
+  },
+  parameters: {
+    githubLink: generateGithubLink('formly/input/input-basic')
   }
 } as Meta;
 
@@ -61,5 +64,6 @@ const FormControlTemplate: Story<FormlyForm> = (args: any) => {
 export const Basic = FormControlTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig('formly/input/input-basic', 'FormlyBasicInputModule', 'formly-input-basic')
+  preview: generateConfig('formly/input/input-basic', 'FormlyBasicInputModule', 'formly-input-basic'),
+  githubLink: generateGithubLink('formly/input/input-basic')
 }

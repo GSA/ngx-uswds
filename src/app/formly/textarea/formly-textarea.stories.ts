@@ -8,7 +8,7 @@ import {
 } from '@ngx-formly/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { generateConfig } from 'src/app/shared/sandbox/sandbox-utils';
+import { generateConfig, generateGithubLink } from 'src/app/shared/sandbox/sandbox-utils';
 import { FormlyBasicTextareaModule } from './textarea-basic/textarea-basic.module';
 import { UsaTextareaComponent } from '@gsa-sam/ngx-uswds';
 
@@ -30,6 +30,9 @@ export default {
   args: {
     label: 'Basic Formly Textarea',
   },
+  parameters: {
+    githubLink: generateGithubLink('formly/textarea')
+  }
 } as Meta;
 
 declare var require;
@@ -68,4 +71,5 @@ Basic.parameters = {
     'FormlyBasicTextareaModule',
     'formly-textarea-basic'
   ),
+  githubLink: generateGithubLink('formly/textarea/textarea-basic')
 };
