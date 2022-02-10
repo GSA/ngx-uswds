@@ -32,10 +32,14 @@
   function listenForThemesChange() {
     const select = window.parent.document.body.querySelector('.os-content select');
     select.addEventListener('change', (event) => {
+      const val = event.target.value;
       setTimeout(() => {
+        // A bit strange, but something in between the set timeout can occasionally revert the value,
+        // so we set it back to the correct one
+        event.target.value = val;
         deleteStyle();
         addStyle();
-      })
+      });
     });
   }
 
@@ -43,11 +47,9 @@
     removeMainCss();
     addStyle();
     listenForThemesChange();
-    var contents = window.parent.document.getElementsByClassName('os-content');
+    var contents = window.parent.document.querySelectorAll('div[role="main"] .os-content');
     for (let i = 0; i < contents.length; i++) {
-      if (i > 0) {
-        contents[i].classList.add('bg-primary-darker')
-      }
+      contents[i].classList.add('bg-primary-darker')
     }
   });
 </script>

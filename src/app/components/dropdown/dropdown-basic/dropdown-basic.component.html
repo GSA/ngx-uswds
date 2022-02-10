@@ -1,0 +1,6 @@
+<label for="dropdown1">Basic Dropdown</label>
+<usa-dropdown [id]="'dropdown1'" [name]="name" [options]="options"
+  (optionChange)="onOptionChange($event)">
+</usa-dropdown>
+
+{{selectedOption | json}}

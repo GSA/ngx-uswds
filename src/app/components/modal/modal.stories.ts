@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { ModalDismissReasons, UsaModalConfig, UsaModalModule, UsaModalRef, UsaModalService } from "@gsa-sam/ngx-uswds";
 import { ModalBasicModule } from "./modal-basic/modal-basic.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 import { ModalComponentWrapperModule } from "./modal-component-wrapper/modal-component-wrapper.module";
 import { ModalCustomFocusModule } from "./modal-custom-focus/modal-custom-focus.module";
 import { ModalForcedActionModule } from "./modal-forced-action/modal-forced-action.module";
@@ -11,7 +11,7 @@ import { ModalScrollableContentModule } from "./modal-scrollable-content/modal-s
 import { ModalStackedModule } from "./modal-stacked/modal-stacked.module";
 
 
-const footer = require('!!raw-loader!./footer.template.html');
+const footer = require('!!raw-loader!./modal-overview.html');
 
 export default {
   title: 'Components/Modal',

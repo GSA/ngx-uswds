@@ -88,7 +88,7 @@ export function isEnter(event: KeyboardEvent) {
 }
 
 export function isTab(event: KeyboardEvent) {
-  return event.key === Key.Tab || event.key === MicrosfotKeys.Tab || event.keyCode === KeyCode.Tab;
+  return !hasModifierKey(event) && (event.key === Key.Tab || event.key === MicrosfotKeys.Tab || event.keyCode === KeyCode.Tab);
 }
 
 export function isSpace(event: KeyboardEvent) {

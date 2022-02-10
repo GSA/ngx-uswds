@@ -3,14 +3,14 @@ import { CommonModule } from "@angular/common";
 import { UsaCheckboxComponent,  UsaCheckboxModule, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxIndeterminateComponent } from "./checkbox-indeterminate/checkbox-indeterminate.component";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 declare var require;
 
 
 const basicTemplate = require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html');
 
-const footer = require('!!raw-loader!./checkbox-footer.component.html');
+const footer = require('!!raw-loader!./checkbox-overview.html');
 
 
 export default {

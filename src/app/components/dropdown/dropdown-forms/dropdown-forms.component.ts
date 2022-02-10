@@ -1,11 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { DropdownOptionsModel } from '@gsa-sam/ngx-uswds';
 
 @Component({
-  selector: 'app-dropdown',
-  templateUrl: './dropdown-basic.component.html',
+  selector: 'dropdown-forms',
+  templateUrl: './dropdown-forms.component.html',
 })
-export class DropdownBasicComponent {
+export class DropdownFormsComponent {
+
+  templateModel: any;
+
+  reactiveFormControl = new FormControl();
 
   dropdownOptions: DropdownOptionsModel[] = [
     {
@@ -33,11 +38,5 @@ export class DropdownBasicComponent {
       value: 'value5'
     }
   ]
-
-  selectedOption: DropdownOptionsModel;
-
-  onOptionChange($event) {
-    this.selectedOption = $event;
-  }
 
 }
