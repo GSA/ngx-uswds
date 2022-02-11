@@ -10,6 +10,7 @@ import { generateConfig } from "src/sandbox/sandbox-utils";
 
 
 const template = require('!!raw-loader!./file-input-basic/file-input-basic.component.html');
+const overview = require('!!raw-loader!./file-input-overview.html');
 
 export default {
   title: 'Components/FileInput',
@@ -40,6 +41,13 @@ export default {
     hint: {type: 'string'},
   },
 } as Meta;
+
+export const Overview = () => ({
+  template: overview.default
+});
+Overview.parameters = {
+  options: {showPanel: false}
+};
 
 export const Basic = (args) => ({
   template: template.default,

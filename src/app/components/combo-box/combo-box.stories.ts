@@ -20,11 +20,20 @@ export default {
 
 const mockService = require('!!raw-loader!./combo-box-dummy-service.ts');
 const dummyData = require('!!raw-loader!./combo-box-dummy-data.ts');
+const overview = require('!!raw-loader!./combo-box-overview.html');
+
+export const Overview = () => ({
+  template: overview.default,
+});
+Overview.parameters = {
+  options: {showPanel: false}
+}
 
 const basicTemplate: Story<ComboBoxBasicComponent> = (args: ComboBoxBasicComponent) => ({
   component: ComboBoxBasicComponent,
   props: args,
 });
+
 
 export const Basic = basicTemplate.bind({});
 Basic.parameters = {

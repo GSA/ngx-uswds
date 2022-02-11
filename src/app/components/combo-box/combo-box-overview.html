@@ -1,0 +1,71 @@
+<h3 class="usa-card__heading">General Accessibility</h3>
+<p>
+  The combobox input contains <code>role="combobox"</code>, with <code>aria-expanded</code> attribute that defines whether
+  the list box is open or not. This is paired with <code>aria-owns</code> property to allow accessibility tools awareness
+  of textbox to listbox matches
+</p>
+<p>
+  The combobox also has <code>aria-autocomplete="list"</code> to indicate that the autocomplete behavior of 
+  the text input is to both show an inline completion string and suggest a list of possible values in a popup
+</p>
+<p>
+  The combobox internally uses an incrementing id for both the textbox and the listbox in order to ensure
+  there is no overlap in id between multiple combobox in the same page. Users map pass in their own id
+</p>
+
+<h3>Keyboard Interaction</h3>
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><kbd>Down Arrow</kbd></th>
+      <td>
+        <ul>
+          <li>If focus is on textbox, focus first item in listbox</li>
+          <li>If focus is on list box, focus next item in listbox</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <th><kbd>Up Arrow</kbd></th>
+      <td>
+        <ul>
+          <li>If focus is on textbox, close the listbox</li>
+          <li>
+            If focus is on list box: 
+            <ul>
+              <li>If focus is on first item, focus on textbox and close listbox</li>
+              <li>If focus is not on first item, focus on previous item in listbox </li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <th><kbd>Tab</kbd></th>
+      <td>
+        <ul>
+          <li>Selects focused item if focus is on listbox</li>
+          <li>Moves to next focusable element if focus is on textbox</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <th><kbd>Enter</kbd></th>
+      <td>Selects focused item if focus is on listbox </td>
+    </tr>
+    <tr>
+      <th><kbd>Home / End</kbd></th>
+      <td>Move focus to first / last item if focus is on listbox
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Theming</h3>
+<code class="display-block">This component has no variants</code>

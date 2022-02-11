@@ -17,6 +17,8 @@ export interface UploadedFile {
   imageId: string, 
   file: File
 }
+
+let fileInputId = 0;
 @Component({
   selector: 'usa-file-input',
   templateUrl: './file-input.component.html',
@@ -36,7 +38,9 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
   @Input() acceptFileType: string = '';
 
-  @Input() id: string;
+  @Input() id: string = `usa-file-input-${fileInputId++}`;
+
+  @Input() name: string;
 
   @Input() hint: string | TemplateRef<any>;
 

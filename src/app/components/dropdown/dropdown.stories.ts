@@ -8,6 +8,7 @@ import { DropdownFormsModule } from "./dropdown-forms/dropdown-forms.module";
 declare var require;
 
 const basicTemplate = require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html');
+const overview = require('!!raw-loader!./dropdown-overview.html');
 
 export default {
   title: 'Components/Dropdown',
@@ -49,6 +50,12 @@ export default {
   }
 } as Meta;
 
+export const Overview = () => ({
+  template: overview.default,
+});
+Overview.parameters = {
+  options: {showPanel: false}
+};
 
 export const Basic = (args) => ({
   template: basicTemplate.default,
