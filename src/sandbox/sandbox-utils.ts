@@ -52,3 +52,7 @@ export function generateConfig(filePath: string, moduleName: string, selector: s
 
   return preview;
 }
+
+export function generateGithubLink(filePath) {
+  return `https://github.com/GSA/ngx-uswds/tree/main/src/app/${filePath}`;
+}

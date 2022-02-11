@@ -6,7 +6,7 @@ import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UsaDatePickerInput, UsaDropdownComponent } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Dropdown',
@@ -58,6 +58,9 @@ export default {
   argTypes: {
     max: {type: 'string'},
     min: {type: 'string'},
+  },
+  parameters: {
+    githubLink: generateGithubLink('formly/dropdown')
   }
 } as Meta;
 
@@ -93,5 +96,6 @@ export const Basic = FormControlTemplate.bind({});
 declare var require;
 
 Basic.parameters = {
-  preview: generateConfig('formly/dropdown/dropdown-basic', 'FormlyBasicDropdownModule', 'formly-dropdown-basic')
+  preview: generateConfig('formly/dropdown/dropdown-basic', 'FormlyBasicDropdownModule', 'formly-dropdown-basic'),
+  githubLink: generateGithubLink('formly/dropdown/dropdown-basic'),
 }

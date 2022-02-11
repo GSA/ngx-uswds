@@ -14,7 +14,7 @@ import { primaryNavItems, secondaryNavItems } from "./header-data";
 import { action } from "@storybook/addon-actions";
 import { HeaderExtendedTemplateModule } from "./header-extended-template/header-extended-template.module";
 import { HeaderBasicModule } from "./header-basic/header-basic.module";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 declare var require: any;
 
@@ -58,6 +58,9 @@ export default {
   argTypes: {
     title: { type: 'string' }
   },
+  parameters: {
+    githubLink: generateGithubLink('components/header')
+  }
 } as Meta;
 
 /**------------------------- Overview Notes ---------------------------*/
@@ -109,8 +112,8 @@ Basic.parameters = {
       language: "ts",
       copy: true,
     },
-  ]
-
+  ],
+  githubLink: generateGithubLink('components/header/header-basic'),
 }
 
 /**----------------------------- Template Driven Header ------------------------------ */
@@ -120,5 +123,6 @@ const headerTemplate = (args) => ({
 
 export const HeaderTemplates = headerTemplate.bind({});
 HeaderTemplates.parameters = {
-  preview: generateConfig('components/header/header-extended-template', 'HeaderExtendedTemplateModule', 'header-extended-template')
+  preview: generateConfig('components/header/header-extended-template', 'HeaderExtendedTemplateModule', 'header-extended-template'),
+  githubLink: generateGithubLink('components/header/header-extended-template')
 }

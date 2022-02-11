@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { UsaTableComponent, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { Meta, moduleMetadata } from "@storybook/angular";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 import { DynamicTableModule } from "./dynamic-table/dynamic-table.module";
 import { MultiHeaderModule } from "./multi-header/multi-header.module";
 import { SortableTableModule } from "./sortable-table/sortable-table.module";
@@ -34,6 +34,9 @@ export default {
     stackedHeader: false,
     displayedColumns: basicColumns,
     displayedData: basicData,
+  },
+  parameters: {
+    githubLink: generateGithubLink('components/table')
   }
   
 } as Meta;
@@ -104,7 +107,8 @@ export const Basic = (args) => ({
 });
 
 Basic.parameters = {
-  preview: generateConfig('components/table/table-basic', 'TableBasicModule', 'table-basic')
+  preview: generateConfig('components/table/table-basic', 'TableBasicModule', 'table-basic'),
+  githubLink: generateGithubLink('components/table/table-basic')
 };
 
 
@@ -114,7 +118,8 @@ export const MultiHeader = () => ({
 });
 
 MultiHeader.parameters = {
-  preview: generateConfig('components/table/multi-header', 'MultiHeaderModule', 'table-multi-header')
+  preview: generateConfig('components/table/multi-header', 'MultiHeaderModule', 'table-multi-header'),
+  githubLink: generateGithubLink('components/table/multi-header')
 };
 
 
@@ -124,7 +129,8 @@ export const Sortable = () => ({
 });
 
 Sortable.parameters = {
-  preview: generateConfig('components/table/sortable-table', 'SortableTableModule', 'sortable-table')
+  preview: generateConfig('components/table/sortable-table', 'SortableTableModule', 'sortable-table'),
+  githubLink: generateGithubLink('components/table/sortable-table')
 };
 
 
@@ -134,5 +140,6 @@ export const DynamicTable = () => ({
 });
 
 DynamicTable.parameters = {
-  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'table-dynamic')
+  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'table-dynamic'),
+  githubLink: generateGithubLink('components/table/dynamic-table')
 };

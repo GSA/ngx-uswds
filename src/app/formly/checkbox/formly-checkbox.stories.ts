@@ -5,7 +5,7 @@ import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicCheckboxModule } from "./checkbox-basic/checkbox-basic.module";
 import { FormlyMultiCheckboxModule } from "./multi-checkbox/multi-checkbox.module";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 declare var require;
 
@@ -28,6 +28,7 @@ export default {
     label: 'Label for Checkbox',
     description: 'Description for Checkbox',
   },
+  githubLink: generateGithubLink('formly/checkbox')
 } as Meta;
 
 
@@ -63,7 +64,8 @@ const FormControlTemplate: Story<FormlyForm> = (args: any) => {
 export const Basic = FormControlTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig('formly/checkbox/checkbox-basic', 'FormlyBasicCheckboxModule', 'formly-checkbox-basic')
+  preview: generateConfig('formly/checkbox/checkbox-basic', 'FormlyBasicCheckboxModule', 'formly-checkbox-basic'),
+  githubLink: generateGithubLink('formly/checkbox/checkbox-basic')
 }
 
 
@@ -73,5 +75,6 @@ export const MultiCheckbox = () => ({
 })
 
 MultiCheckbox.parameters = {
-  preview: generateConfig('formly/checkbox/multi-checkbox', 'FormlyMultiCheckboxModule', 'formly-multi-checkbox')
+  preview: generateConfig('formly/checkbox/multi-checkbox', 'FormlyMultiCheckboxModule', 'formly-multi-checkbox'),
+  githubLink: generateGithubLink('formly/checkbox/multi-checkbox')
 }

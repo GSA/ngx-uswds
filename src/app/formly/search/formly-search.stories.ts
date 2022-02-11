@@ -5,7 +5,7 @@ import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicSearchModule } from "./search-basic/search-basic.module";
 import { UsaSearchComponent } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Search',
@@ -31,6 +31,9 @@ export default {
       buttonText: 'Search',
       name: 'search'
   },
+  parameters: {
+    githubLink: generateGithubLink('formly/search')
+  }
 } as Meta;
 
 declare var require;
@@ -65,5 +68,6 @@ const FormControlTemplate: Story<UsaSearchComponent> = (args: any) => {
 export const Basic = FormControlTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig('formly/search/search-basic', 'FormlyBasicSearchModule', 'formly-search-basic')
+  preview: generateConfig('formly/search/search-basic', 'FormlyBasicSearchModule', 'formly-search-basic'),
+  githubLink: generateGithubLink('formly/search/search-basic'),
 }

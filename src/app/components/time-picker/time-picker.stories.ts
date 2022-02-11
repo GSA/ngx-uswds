@@ -1,6 +1,6 @@
 import { Meta, moduleMetadata } from "@storybook/angular";
 import { UsaTimePicker, UsaTimePickerModule } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Components/TimePicker',
@@ -18,6 +18,9 @@ export default {
   argTypes: {
     minTime: {type: 'string'},
     maxTime: {type: 'string'},
+  },
+  parameters: {
+    githubLink: generateGithubLink('components/time-picker')
   }
 } as Meta;
 
@@ -34,5 +37,6 @@ export const Basic = (args) => ({
 });
 
 Basic.parameters = {
-  preview: generateConfig('components/time-picker/time-picker-basic', 'TimePickerBasicModule', 'time-picker-basic')
+  preview: generateConfig('components/time-picker/time-picker-basic', 'TimePickerBasicModule', 'time-picker-basic'),
+  githubLink: generateGithubLink('components/time-picker/time-picker-basic')
 };

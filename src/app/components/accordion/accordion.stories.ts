@@ -3,7 +3,7 @@ import { UsaAccordionComponent, UsaAccordionItem, UsaAccordionModule } from '@gs
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { action } from '@storybook/addon-actions';
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 declare var require: any;
 
@@ -16,7 +16,6 @@ const actionsData = {
   shown: action('Shown'),
   hidden: action('Hidden'),
 };
-
 
 export default {
   title: 'Components/Accordion',
@@ -32,6 +31,9 @@ export default {
     bordered: false,
     animation: true,
     headerLevel: 4,
+  },
+  parameters: {
+    githubLink: generateGithubLink('components/accordion')
   }
 } as Meta;
 
@@ -39,7 +41,9 @@ export const Overview = () => ({
   template: footerTemplate.default,
   props: {},
 });
-Overview.parameters = {options: {showPanel: false}};
+Overview.parameters = {
+  options: {showPanel: false}
+};
 
 export const Basic = (args) => ({
   template: accordionTemplate.default,
@@ -56,5 +60,6 @@ export const Basic = (args) => ({
 });
 
 Basic.parameters = {
-  preview: generateConfig('components/accordion/accordion-basic', 'AccordionBasicModule', 'accordion-basic')
+  preview: generateConfig('components/accordion/accordion-basic', 'AccordionBasicModule', 'accordion-basic'),
+  githubLink: generateGithubLink('components/accordion/accordion-basic')
 }

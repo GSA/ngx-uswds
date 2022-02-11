@@ -6,7 +6,7 @@ import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicDatepickerModule } from "./datepicker-basic/datepicker-basic.module";
 import { UsaDatePickerInput, UsaSearchComponent } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Datepicker',
@@ -31,6 +31,9 @@ export default {
   argTypes: {
     max: {type: 'string'},
     min: {type: 'string'},
+  },
+  parameters: {
+    githubLink: generateGithubLink('formly/datepicker/datepicker-basic'),
   }
 } as Meta;
 
@@ -66,5 +69,6 @@ export const Basic = FormControlTemplate.bind({});
 declare var require;
 
 Basic.parameters = {
-  preview: generateConfig('formly/datepicker/datepicker-basic', 'FormlyBasicDatepickerModule', 'formly-datepicker-basic')
+  preview: generateConfig('formly/datepicker/datepicker-basic', 'FormlyBasicDatepickerModule', 'formly-datepicker-basic'),
+  githubLink: generateGithubLink('formly/datepicker/datepicker-basic')
 }

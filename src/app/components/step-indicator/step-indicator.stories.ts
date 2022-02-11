@@ -5,7 +5,7 @@ import {
   UsaTableModule } from '@gsa-sam/ngx-uswds';
 import { CommonModule } from "@angular/common";
 import { StepIndicatorSubstepsModule } from "./step-indicator-substeps/step-indicator-substeps.module";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 declare var require: any;
 
@@ -45,6 +45,9 @@ export default {
     disableStepSelection: false,
     steps: steps,
     currentStep: currentStep,
+  },
+  parameters: {
+    githubLink: generateGithubLink('components/step-indicator')
   }
 } as Meta;
 
@@ -129,7 +132,8 @@ export const Basic = (args) => ({
   props: args,
 });
 Basic.parameters = {
-  preview: generateConfig('components/step-indicator/step-indicator-basic', 'StepIndicatorBasicModule', 'step-indicator-basic')
+  preview: generateConfig('components/step-indicator/step-indicator-basic', 'StepIndicatorBasicModule', 'step-indicator-basic'),
+  githubLink: generateGithubLink('components/step-indicator/step-indicator-basic')
 }
 
 export const CustomHeader = (args) => ({
@@ -142,5 +146,6 @@ export const Substeps = () => ({
 })
 Substeps.parameters = {
   preview: generateConfig('components/step-indicator/step-indicator-substeps', 'StepIndicatorSubstepsModule', 'step-indicator-substeps'),
+  githubLink: generateGithubLink('components/step-indicator/step-indicator-substeps')
 }
 

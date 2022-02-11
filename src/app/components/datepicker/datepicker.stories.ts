@@ -9,7 +9,7 @@ import { DatepickerDisabledModule } from "./datepicker-disabled/datepicker-disab
 import { DatepickerFilterModule } from "./datepicker-filter/datepicker-filter.module";
 import { DatepickerFormatModule } from "./datepicker-format/datepicker-format.module";
 import { DatepickerValidationModule } from "./datepicker-validation/datepicker-validation.module";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 declare var require: any;
 
@@ -46,6 +46,9 @@ export default {
       declarations: [ DatepickerBasicComponent ],
     }),
   ],
+  parameters: {
+    githubLink: generateGithubLink('components/datepicker')
+  }
 } as Meta;
 
 export const Overview = () => ({
@@ -63,7 +66,8 @@ export const DatePickerBasic = () => ({
 });
 
 DatePickerBasic.parameters = {
-  preview: generateConfig('components/datepicker/datepicker-basic', 'DatepickerBasicModule', 'datepicker-basic')
+  preview: generateConfig('components/datepicker/datepicker-basic', 'DatepickerBasicModule', 'datepicker-basic'),
+  githubLink: generateGithubLink('components/datepicker/datepicker-basic')
 }
 
 
@@ -72,7 +76,8 @@ export const DatepickerFilter = () => ({
 });
 
 DatepickerFilter.parameters = {
-  preview: generateConfig('components/datepicker/datepicker-filter', 'DatepickerFilterModule', 'datepicker-filter')
+  preview: generateConfig('components/datepicker/datepicker-filter', 'DatepickerFilterModule', 'datepicker-filter'),
+  githubLink: generateGithubLink('components/datepicker/datepicker-filter')
 }
 
 
@@ -81,7 +86,8 @@ export const DatepickerFormat = () => ({
 });
 
 DatepickerFormat.parameters = {
-  preview: generateConfig('components/datepicker/datepicker-format', 'DatepickerFormatModule', 'datepicker-format')
+  preview: generateConfig('components/datepicker/datepicker-format', 'DatepickerFormatModule', 'datepicker-format'),
+  githubLink: generateGithubLink('components/datepicker/datepicker-format')
 }
 
 
@@ -90,7 +96,8 @@ export const DatepickerValidation = () => ({
 });
 
 DatepickerValidation.parameters = {
-  preview: generateConfig('components/datepicker/datepicker-validation', 'DatepickerValidationModule', 'datepicker-validation')
+  preview: generateConfig('components/datepicker/datepicker-validation', 'DatepickerValidationModule', 'datepicker-validation'),
+  githubLink: generateGithubLink('components/datepicker/datepicker-validation')
 }
 
 
@@ -99,5 +106,6 @@ export const DatepickerDisabled = () => ({
 });
 
 DatepickerDisabled.parameters = {
-  preview: generateConfig('components/datepicker/datepicker-disabled', 'DatepickerDisabledModule', 'datepicker-disabled')
+  preview: generateConfig('components/datepicker/datepicker-disabled', 'DatepickerDisabledModule', 'datepicker-disabled'),
+  githubLink: generateGithubLink('components/datepicker/datepicker-disabled')
 }
