@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { UsaSearchComponent, UsaSearchModule } from "@gsa-sam/ngx-uswds";
 import { FormsModule } from '@angular/forms';
 import { action } from "@storybook/addon-actions";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 declare var require;
 const template = require('!!raw-loader!./search-basic/search-basic.component.html');

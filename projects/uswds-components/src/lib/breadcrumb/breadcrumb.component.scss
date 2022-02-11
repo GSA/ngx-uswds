@@ -1,0 +1,18 @@
+/** 
+ USWDS uses mask css property for rendering navigate next image in-betweek breadcrumbs.
+ Chrome does not fully support mask property, can can fail to render.
+ Override USWDS's mask to instead use background image
+*/
+li.usa-breadcrumb__list-item:not(:last-child)::after {
+  background: url('~uswds/src/img/usa-icons/navigate_next.svg') no-repeat center/contain;
+}
+
+.usa-breadcrumb__list-item  {
+  &:nth-last-child(2) {
+    .usa-breadcrumb__link {
+      &::before {
+        background: url('~uswds/src/img/usa-icons/arrow_back.svg') no-repeat center/contain;
+      }
+    }
+  }
+}

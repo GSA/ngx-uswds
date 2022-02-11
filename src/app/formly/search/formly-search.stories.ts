@@ -5,7 +5,7 @@ import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicSearchModule } from "./search-basic/search-basic.module";
 import { UsaSearchComponent } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Search',
@@ -35,9 +35,7 @@ export default {
 
 declare var require;
 
-const componentTs = require('!!raw-loader!./search-basic/search-basic.component.ts');
 const template = require('!!raw-loader!./search-basic/search-basic.component.html');
-const moduleTs = require('!!raw-loader!./search-basic/search-basic.module.ts');
 
 const FormControlTemplate: Story<UsaSearchComponent> = (args: any) => {
 
@@ -65,17 +63,6 @@ const FormControlTemplate: Story<UsaSearchComponent> = (args: any) => {
 };
 
 export const Basic = FormControlTemplate.bind({});
-
-const sandboxConfig = {
-  files: {
-    'search-basic.component.ts': componentTs.default,
-    'search-basic.component.html': template.default,
-    'search-basic.module.ts': moduleTs.default,
-  },
-  moduleName: 'FormlyBasicSearchModule',
-  selector: 'formly-search-basic'
-};
-
 
 Basic.parameters = {
   preview: generateConfig('formly/search/search-basic', 'FormlyBasicSearchModule', 'formly-search-basic')

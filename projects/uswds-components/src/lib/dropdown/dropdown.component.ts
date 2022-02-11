@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, fo
 import { DropdownOptionsModel } from './dropdown-options.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+let dropdownId = 0;
 @Component({
   selector: 'usa-dropdown',
   templateUrl: './dropdown.component.html',
@@ -19,10 +20,10 @@ export class UsaDropdownComponent implements ControlValueAccessor {
   model: DropdownOptionsModel;
 
   /** Id of dropdown field */
-  @Input() id: string;
+  @Input() id: string = `usa-dropdown-${dropdownId++}`;
 
-  /** Label string for dropdown input */
-  @Input() label: string;
+  /** HTML name attribute for dropdown */
+  @Input() name: string;
 
   /** List of selectable options */
   @Input() options: DropdownOptionsModel[];

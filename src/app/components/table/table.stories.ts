@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { UsaTableComponent, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { Meta, moduleMetadata } from "@storybook/angular";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 import { DynamicTableModule } from "./dynamic-table/dynamic-table.module";
 import { MultiHeaderModule } from "./multi-header/multi-header.module";
 import { SortableTableModule } from "./sortable-table/sortable-table.module";
@@ -39,7 +39,7 @@ export default {
 } as Meta;
 
 
-const footer = require('!!raw-loader!./table-footer.template.html');
+const footer = require('!!raw-loader!./table-overview.html');
 
 export const Overview = () => ({
   template: footer.default,
