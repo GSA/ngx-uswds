@@ -29,8 +29,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run ng -- deploy --name="cwolf10" --email="cameron.wolf@gsa.gov" --dir=storybook-static
+          ng add angular-cli-ghpages
+          # npm run ng -- deploy --name="cwolf10" --email="cameron.wolf@gsa.gov" --dir=storybook-static --base-href=/GSA/ngx-uswds/
       # - run: npx angular-cli-ghpages --dir=storybook-static
+          # ng deploy --base-href=/GSA/ngx-uswds/
         # env:
         #   GITHUB_TOKEN:
         #     ${{secrets.COMMIT_REPO_TOKEN}}
