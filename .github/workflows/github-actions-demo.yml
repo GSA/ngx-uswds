@@ -13,6 +13,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
+      - name: Add identity
+        run: git config user.email "cameron.wolf@gsa.gov"
+        run: git config user.name "Cameron"
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
@@ -25,7 +28,7 @@ jobs:
       # - run:
       - run: touch storybook-static/.nojekyll
       - run: npx angular-cli-ghpages --dir=storybook-static --no-silent
-        env:
-          GITHUB_TOKEN:
-            ${{secrets.COMMIT_REPO_TOKEN}}
+        # env:
+        #   GITHUB_TOKEN:
+        #     ${{secrets.COMMIT_REPO_TOKEN}}
       # - run:
