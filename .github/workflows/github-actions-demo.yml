@@ -1,41 +1,23 @@
-name: GitHub Actions Demo
+name: Deploy to Github Pages
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Build-And-Deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      # - run: git remote add github "https://$cwolf10:${{secrets.COMMIT_REPO_TOKEN}}@github.com/${{ github.repository }}.git"
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-      - run: npm i
-      # - run: npm run ghpages
-      - run: npm run build-storybook
-      # - run:
-      - run: touch storybook-static/.nojekyll
+      - name: Install Node Packages
+        run: npm i
+      - name: Build Storybook Assets
+        run: npm run build-storybook
+      - name: Add .nojekyll file to allow for node_modules to be included in bundle
+        run: touch storybook-static/.nojekyll
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: storybook-static # The folder the action should deploy.
-
-        # ng add angular-cli-ghpages
-        #npm run ng -- deploy --name="cwolf10" --email="cameron.wolf@gsa.gov" --dir=storybook-static --base-href=/GSA/ngx-uswds/
-      # - run: npx angular-cli-ghpages --dir=storybook-static
-          # ng deploy --base-href=/GSA/ngx-uswds/
-        # env:
-        #   GITHUB_TOKEN:
-        #     ${{secrets.COMMIT_REPO_TOKEN}}
-      # - run:
+          branch: gh-pages
+          folder: storybook-static
