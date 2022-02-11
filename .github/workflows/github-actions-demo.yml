@@ -20,7 +20,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      # - run: npm i
+      - run: npm i
       # - run: npm run ghpages
       - run: npm run build-storybook
       # - run:
@@ -29,7 +29,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm install
           npm run ng -- deploy --name="cwolf10" --email="cameron.wolf@gsa.gov" --dir=storybook-static
       # - run: npx angular-cli-ghpages --dir=storybook-static
         # env:
