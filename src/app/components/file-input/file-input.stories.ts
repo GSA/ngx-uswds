@@ -4,27 +4,12 @@ import { UsaFileInputComponent, UsaFileInputModule, UsaTableModule } from "@gsa-
 import { ReactiveFormsModule } from '@angular/forms';
 import { FileInputTableModule } from "./file-input-table/file-input-table.module";
 import { FileInputUploadModule } from "./file-input-upload/file-input-upload.module";
-import { ANGULAR_CODESANDBOX } from "src/app/shared/sandbox/angular-dependencies";
 import { of } from "rxjs";
-import { action } from "@storybook/addon-actions";
 import { delay } from "rxjs/operators";
-import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 
 const template = require('!!raw-loader!./file-input-basic/file-input-basic.component.html');
-const basicTs = require('!!raw-loader!./file-input-basic/file-input-basic.component.ts');
-const basicModule = require('!!raw-loader!./file-input-basic/file-input-basic.module.ts')
-
-
-const sandboxConfig = {
-  files: {
-    'file-input-basic.component.ts': basicTs.default,
-    'file-input-basic.component.html': template.default,
-    'file-input-basic.module.ts': basicModule.default,
-  },
-  moduleName: 'FileInputBasicModule',
-  selector: 'file-input-basic'
-};
 
 export default {
   title: 'Components/FileInput',

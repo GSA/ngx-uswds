@@ -4,7 +4,7 @@ import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyBasicRadioModule } from "./radio-basic/radio-basic.module";
-import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Formly/Radio',

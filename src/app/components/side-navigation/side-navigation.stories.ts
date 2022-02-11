@@ -4,7 +4,7 @@ import { UsaSidenavComponent, UsaSidenavModule } from "@gsa-sam/ngx-uswds";
 import { FormsModule } from '@angular/forms';
 import { action } from "@storybook/addon-actions";
 import { sidenavModel } from "./side-navigation.data";
-import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 const actionsData = {
   sidenavClicked: action('Text Change'),

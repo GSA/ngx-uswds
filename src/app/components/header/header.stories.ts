@@ -14,14 +14,14 @@ import { primaryNavItems, secondaryNavItems } from "./header-data";
 import { action } from "@storybook/addon-actions";
 import { HeaderExtendedTemplateModule } from "./header-extended-template/header-extended-template.module";
 import { HeaderBasicModule } from "./header-basic/header-basic.module";
-import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 declare var require: any;
 
 const template = require('!!raw-loader!./header-basic/header-basic.component.html');
 const headerData = require('!!raw-loader!./header-data.ts');
 
-const footer = require('!!raw-loader!./header-footer.template.html');
+const footer = require('!!raw-loader!./header-overview.html');
 
 const actionsData = {
   linkEvent: action('Link Event'),

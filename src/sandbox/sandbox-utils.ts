@@ -11,9 +11,9 @@ export function generateConfig(filePath: string, moduleName: string, selector: s
   const templateFileName = `${fileName}.component.html`;
   const moduleFileName = `${fileName}.module.ts`;
 
-  const component = require(`!!raw-loader!../../${filePath}/${tsFileName}`);
-  const template = require(`!!raw-loader!../../${filePath}/${templateFileName}`);
-  const module = require(`!!raw-loader!../../${filePath}/${moduleFileName}`);
+  const component = require(`!!raw-loader!src/app/${filePath}/${tsFileName}`);
+  const template = require(`!!raw-loader!src/app/${filePath}/${templateFileName}`);
+  const module = require(`!!raw-loader!src/app/${filePath}/${moduleFileName}`);
 
   const files = {};
   files[tsFileName] = component.default,

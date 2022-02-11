@@ -1,7 +1,7 @@
 import { Meta, moduleMetadata } from "@storybook/angular";
 import { UsaInputAffixDirective } from "@gsa-sam/ngx-uswds";
 import { InputBasicModule } from "./input-basic/input-basic.module";
-import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Components/Input',

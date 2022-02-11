@@ -9,13 +9,13 @@ import { DatepickerDisabledModule } from "./datepicker-disabled/datepicker-disab
 import { DatepickerFilterModule } from "./datepicker-filter/datepicker-filter.module";
 import { DatepickerFormatModule } from "./datepicker-format/datepicker-format.module";
 import { DatepickerValidationModule } from "./datepicker-validation/datepicker-validation.module";
-import { generateConfig, generateGithubLink } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig, generateGithubLink } from "src/sandbox/sandbox-utils";
 
 declare var require: any;
 
 const template = require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html');
 
-const footer = require('!!raw-loader!./datepicker-footer.component.html');
+const footer = require('!!raw-loader!./datepicker-overview.html');
 
 
 const actionsData = {

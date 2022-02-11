@@ -1,0 +1,48 @@
+<ng-container [ngSwitch]="link.mode">
+  <ng-container *ngSwitchCase="NavigationMode.EXTERNAL">
+    <ng-container [ngTemplateOutlet]="sideNavExternalLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="NavigationMode.INTERNAL">
+    <ng-container [ngTemplateOutlet]="sideNavInternalLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="NavigationMode.EVENT">
+    <ng-container [ngTemplateOutlet]="sideNavEventLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="NavigationMode.LABEL">
+    <ng-container [ngTemplateOutlet]="sideNavEventLabelTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <ng-container [ngTemplateOutlet]="sideNavEventLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #sideNavInternalLinkTemplate let-link>
+  <a [attr.class]="link.selected ? class + ' ' + currentClass : class" [routerLink]="[link.path]" 
+    (click)="linkClicked.emit(link)" [queryParams]="link.queryParams" 
+    [queryParamsHandling]="link.queryParamsHandling" href="javascript:void(0)">
+    <span>{{link.text}}</span>
+  </a>
+</ng-template>
+
+<ng-template #sideNavExternalLinkTemplate let-link>
+  <a [attr.class]="link.selected ? class + ' ' + currentClass : class"[attr.href]="urlBuilder(link)"
+    (click)="linkClicked.emit(link)">
+    <span>{{link.text}}</span>
+  </a>
+</ng-template>
+
+<ng-template #sideNavEventLinkTemplate let-link>
+  <a [attr.class]="link.selected ? class + ' ' + currentClass : class" (click)="linkClicked.emit(link)" 
+    href="javascript:void(0)">
+    <span>{{link.text}}</span>
+  </a>
+</ng-template>
+
+<ng-template #sideNavEventLabelTemplate let-link>
+  <span>{{link.text}}</span>
+</ng-template>
