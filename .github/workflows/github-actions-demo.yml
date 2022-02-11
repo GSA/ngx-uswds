@@ -25,4 +25,7 @@ jobs:
       # - run:
       - run: touch storybook-static/.nojekyll
       - run: npx angular-cli-ghpages --dir=storybook-static --no-silent
+        env:
+          GITHUB_TOKEN:
+            ${{secrets.COMMIT_REPO_TOKEN}}
       # - run:
