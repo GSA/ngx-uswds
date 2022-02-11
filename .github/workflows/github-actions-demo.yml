@@ -26,11 +26,11 @@ jobs:
       # - run:
       - run: touch storybook-static/.nojekyll
       - name: Prepare and deploy
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        npm install
-        npm run ng -- deploy --name="cwolf10" --email="cameron.wolf@gsa.gov" --dir=storybook-static
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install
+          npm run ng -- deploy --name="cwolf10" --email="cameron.wolf@gsa.gov" --dir=storybook-static
       # - run: npx angular-cli-ghpages --dir=storybook-static
         # env:
         #   GITHUB_TOKEN:
