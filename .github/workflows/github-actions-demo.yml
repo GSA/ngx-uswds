@@ -21,7 +21,7 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: npm i
       # - run: npm run ghpages
-      - run: npm run docs:json && build-storybook
+      - run: npm run build-storybook
       # - run:
       - run: touch storybook-static/.nojekyll
       - run: npx angular-cli-ghpages --dir=storybook-static
