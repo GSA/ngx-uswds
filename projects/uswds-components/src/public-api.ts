@@ -13,6 +13,10 @@ export * from './lib/button-group/button-group.component';
 export * from './lib/button-group/button-group-item.component';
 export * from './lib/button-group/button-group.module';
 
+// Breadcrumb
+export * from './lib/breadcrumb/breadcrumb.component';
+export * from './lib/breadcrumb/breadcrumb.module';
+
 // Card
 export * from './lib/card/card-body.component';
 export * from './lib/card/card-footer.component';

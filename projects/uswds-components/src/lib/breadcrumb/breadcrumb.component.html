@@ -1,0 +1,21 @@
+<nav *ngIf="_showBreadcrumbs" class="usa-breadcrumb" aria-label="Breadcrumbs" [ngClass]="{'usa-breadcrumb--wrap': wrap}">
+  <ol class="usa-breadcrumb__list">
+    <li *ngFor="let breadcrumb of _displayedCrumbs" class="usa-breadcrumb__list-item">
+        <ng-container *ngIf="breadcrumbLinkTemplate; else defaultLinkTemplate" [ngTemplateOutlet]="breadcrumbLinkTemplate.templateRef"
+          [ngTemplateOutletContext]="{$implicit: breadcrumb}"
+        ></ng-container>
+        
+        <ng-template #defaultLinkTemplate>
+          <usa-link-template 
+            [link]="breadcrumb" 
+            [currentClass]="''" 
+            [class]="'usa-breadcrumb__link'"
+            (linkClicked)="updateSelectedBreadcrumb($event)">
+          </usa-link-template>
+        </ng-template>
+    </li>
+    <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
+      <span>{{_selectedBreadcrumb.text}}</span>
+    </li>
+  </ol>
+</nav>

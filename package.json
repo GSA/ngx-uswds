@@ -3,7 +3,7 @@
   "version": "0.0.18",
   "scripts": {
     "ng": "ng",
-    "start": "npm run docs:json && start-storybook -p 4200",
+    "start": "npm run sandbox-icons && npm run docs:json && start-storybook -p 4200",
     "develop": "ng serve --port 4200",
     "build": "npm run build:components && npm run build:formly",
     "test": "npm run test:components && npm run test:formly",
@@ -15,7 +15,8 @@
     "test:formly": "ng test uswds-formly --watch=false --code-coverage --no-progress",
     "ghpages": "npm run build-storybook && touch storybook-static/.nojekyll && npx angular-cli-ghpages --dir=storybook-static",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
-    "storybook": "npm run docs:json && start-storybook -p 6006",
+    "sandbox-icons": "node src/sandbox/generate-icons.js",
+    "storybook": "npm run sandbox-icons && npm run docs:json && start-storybook -p 6006",
     "build-storybook": "npm run docs:json && build-storybook"
   },
   "browser": {

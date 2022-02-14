@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { UsaTooltipDirective, UsaTooltipModule } from "@gsa-sam/ngx-uswds";
 import { ReactiveFormsModule } from '@angular/forms';
 import { TooltipBasicModule } from "./tooltip-basic/tooltip-basic.module";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 export default {
   title: 'Components/Tooltip',

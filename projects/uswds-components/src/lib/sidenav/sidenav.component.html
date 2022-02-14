@@ -6,28 +6,7 @@
 </ul>
 
 <ng-template #sideNavLinkTemplate let-link>
-  <ng-container [ngSwitch]="link.mode">
-    <ng-container *ngSwitchCase="NavigationMode.EXTERNAL">
-      <ng-container [ngTemplateOutlet]="sideNavExternalLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
-      </ng-container>
-    </ng-container>
-    <ng-container *ngSwitchCase="NavigationMode.INTERNAL">
-      <ng-container [ngTemplateOutlet]="sideNavInternalLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
-      </ng-container>
-    </ng-container>
-    <ng-container *ngSwitchCase="NavigationMode.EVENT">
-      <ng-container [ngTemplateOutlet]="sideNavEventLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
-      </ng-container>
-    </ng-container>
-    <ng-container *ngSwitchCase="NavigationMode.LABEL">
-      <ng-container [ngTemplateOutlet]="sideNavEventLabelTemplate" [ngTemplateOutletContext]="{$implicit:link}">
-      </ng-container>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-      <ng-container [ngTemplateOutlet]="sideNavEventLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
-      </ng-container>
-    </ng-container>
-  </ng-container>
+  <usa-link-template [link]="link" (linkClicked)="onSidenavItemClicked($event)"></usa-link-template>
   <div *ngIf="!expandType || (expandType && !link.collapsed)">
     <ul class="usa-sidenav__sublist">
       <li *ngFor="let link of link.children" class="sidenav__item">
@@ -36,28 +15,4 @@
       </li>
     </ul>
   </div>
-</ng-template>
-
-<ng-template #sideNavInternalLinkTemplate let-link>
-  <a [ngClass]="{'usa-current': link.selected}" [routerLink]="[link.path]" (click)="onSidenavItemClicked(link)"
-    [queryParams]="link.queryParams" [queryParamsHandling]="link.queryParamsHandling" href="javascript:void(0)">
-    <span>{{link.text}}</span>
-  </a>
-</ng-template>
-
-<ng-template #sideNavExternalLinkTemplate let-link>
-  <a [ngClass]="{'usa-current': link.selected}" [attr.href]="urlBuilder(link)"
-    (click)="onSidenavItemClicked(link)">
-    <span>{{link.text}}</span>
-  </a>
-</ng-template>
-
-<ng-template #sideNavEventLinkTemplate let-link>
-  <a [ngClass]="{'usa-current': link.selected}" (click)="onSidenavItemClicked(link)" href="javascript:void(0)">
-    <span>{{link.text}}</span>
-  </a>
-</ng-template>
-
-<ng-template #sideNavEventLabelTemplate let-link>
-  <span>{{link.text}}</span>
 </ng-template>

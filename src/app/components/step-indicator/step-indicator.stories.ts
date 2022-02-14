@@ -5,14 +5,14 @@ import {
   UsaTableModule } from '@gsa-sam/ngx-uswds';
 import { CommonModule } from "@angular/common";
 import { StepIndicatorSubstepsModule } from "./step-indicator-substeps/step-indicator-substeps.module";
-import { generateConfig } from "src/app/shared/sandbox/sandbox-utils";
+import { generateConfig } from "src/sandbox/sandbox-utils";
 
 declare var require: any;
 
 const template = require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html');
 
 const customHeader = require('!!raw-loader!./step-indicator-custom-header.html');
-const footer = require('!!raw-loader!./step-indicator-footer.template.html');
+const footer = require('!!raw-loader!./step-indicator-overview.html');
 
 
 const steps: UsaStepIndicatorModel[] = [
