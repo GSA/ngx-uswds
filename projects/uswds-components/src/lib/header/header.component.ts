@@ -1,10 +1,21 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ContentChild, ElementRef, EventEmitter,
-  HostListener, Input, OnInit, Output, TemplateRef, ViewChild
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
-import { UsaHeaderPrimaryLinkTemplate, UsaHeaderSecondaryLinkTemplate } from './header-selectors';
+import {
+  UsaHeaderPrimaryLinkTemplate,
+  UsaHeaderSecondaryLinkTemplate,
+} from './header-selectors';
 import { UsaHeaderPrimaryLink } from './header.model';
 import { UsaNavigationLink, UsaNavigationMode } from '../util/navigation';
 @Component({
@@ -13,8 +24,10 @@ import { UsaNavigationLink, UsaNavigationMode } from '../util/navigation';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsaHeaderComponent implements OnInit {
-  @ContentChild(UsaHeaderPrimaryLinkTemplate) primaryLinkTemplate: TemplateRef<any>;
-  @ContentChild(UsaHeaderSecondaryLinkTemplate) secondaryLinkTemplate: TemplateRef<any>;
+  @ContentChild(UsaHeaderPrimaryLinkTemplate)
+  primaryLinkTemplate: TemplateRef<any>;
+  @ContentChild(UsaHeaderSecondaryLinkTemplate)
+  secondaryLinkTemplate: TemplateRef<any>;
 
   @ViewChild('usaNavOpen') openNavBtn: ElementRef;
   @ViewChild('usaNavClose') closeNavBtn: ElementRef;
@@ -36,7 +49,7 @@ export class UsaHeaderComponent implements OnInit {
    * Aria label to use for over all navigation content
    * @default 'Primary Navigation'
    */
-  @Input() navAriaLabel = 'Primary Navigation'
+  @Input() navAriaLabel = 'Primary Navigation';
 
   /**
    * Whether the header should have secondary links or not.
@@ -56,7 +69,7 @@ export class UsaHeaderComponent implements OnInit {
    */
   @Input() secondaryNavItems: UsaNavigationLink[];
 
-  /** 
+  /**
    * Defines whether or not to display dark overlay in background
    * whenever submenu or megamenu is active
    */
@@ -95,13 +108,10 @@ export class UsaHeaderComponent implements OnInit {
     this.selectedDropdownLink = null;
   }
 
-  constructor(
-    public changeDetector: ChangeDetectorRef,
-  ) { }
+  constructor(public changeDetector: ChangeDetectorRef) {}
 
   ngOnInit() {
-
-    /** Look through primary and secondary nav and select the first selected nav item. 
+    /** Look through primary and secondary nav and select the first selected nav item.
      * Toggle the rest off if they are selected */
     this.selectInitialNavItem(this.primaryNavItems);
     this.selectInitialNavItem(this.secondaryNavItems);
@@ -125,7 +135,7 @@ export class UsaHeaderComponent implements OnInit {
    */
   linkClickEvent(link: UsaNavigationLink, parentNav?: UsaNavigationLink) {
     const itemToSelect = parentNav ? parentNav : link;
-    this.selectNavItem(itemToSelect)
+    this.selectNavItem(itemToSelect);
     this.linkEvent.emit(link);
   }
 
@@ -154,7 +164,7 @@ export class UsaHeaderComponent implements OnInit {
 
     // Otherwise, set the newly clicked link as the new open dropdown
     this.selectedDropdownLink = link;
-    $event.stopImmediatePropagation();
+    $event?.stopImmediatePropagation();
   }
 
   openMobileNav() {
@@ -174,7 +184,7 @@ export class UsaHeaderComponent implements OnInit {
   private selectInitialNavItem(navItemsList: UsaNavigationLink[]) {
     if (!navItemsList) return;
 
-    navItemsList.forEach(item => {
+    navItemsList.forEach((item) => {
       if (this.selectedNavItem) {
         item.selected = false;
       } else if (item.selected) {
@@ -182,5 +192,4 @@ export class UsaHeaderComponent implements OnInit {
       }
     });
   }
-
 }

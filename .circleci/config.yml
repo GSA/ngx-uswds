@@ -1,0 +1,19 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    working_directory: ~/project/sam-design-system
+    docker:
+      - image: circleci/node:10.14.0-browsers
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test:components
+      - run: npm run build:components
+      - run: npm run build:formly
+      - store_artifacts:
+          path: coverage
+          destination: code-coverage
