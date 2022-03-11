@@ -6,6 +6,7 @@ import { SidenavModel } from './sidenav.model';
 @Component({
   selector: `usa-sidenav`,
   templateUrl: `sidenav.component.html`,
+  styleUrls: ['./sidenav.component.scss']
 })
 export class UsaSidenavComponent implements OnInit {
 
