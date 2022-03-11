@@ -70,7 +70,6 @@ export class UsaSidenavComponent implements OnInit {
 
     this.deselectSideNav(this.sidenavContent);
     this.selectSideNav(item, this.sidenavContent);
-    this.deactivateChild(this.sidenavContent);
     if (item.children && this.canCollapseLabel(item)) {
       item.collapsed = !item.collapsed;
       this.toggleBasedOnSelected(item.children);
@@ -134,24 +133,6 @@ export class UsaSidenavComponent implements OnInit {
       }
     }
     return false;
-  }
-
-  /**
-   * If selected item is a grandchild link, the child link needs to not be active per uswds.
-   * If selected link is a child link, child link needs to remain selected.
-   * @param allNavItems
-   */
-  private deactivateChild(allNavItems: SidenavModel[]): void {
-    const topLevelLink = allNavItems.find(item => item.selected);
-    if (topLevelLink.children) {
-      const selectedChildLink = topLevelLink.children.find(item => item.selected);
-      if (selectedChildLink?.children) {
-        const selectedGrandchildLink = selectedChildLink.children.find(item => item.selected);
-        if (selectedGrandchildLink) {
-          selectedChildLink.selected = false;
-        }
-      }
-    }
   }
 
   /**
