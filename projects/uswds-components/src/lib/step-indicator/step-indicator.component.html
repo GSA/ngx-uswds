@@ -1,28 +1,24 @@
 <div class="usa-step-indicator" aria-label="progress">
 
+  <div class="usa-sr-only">Step {{ currentStep + 1 }} out of
+    {{ steps.length }} ,
+    {{ steps[currentStep].label }}</div>
   <div *ngIf="headerPosition === 'top'" class="usa-step-indicator__header">
-    <ng-container *ngTemplateOutlet="headerTemplate" ></ng-container>
+    <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
   </div>
 
   <ol class="usa-step-indicator__segments" role="tablist" [attr.id]="id">
-    <li *ngFor="let step of steps; index as i"
-      role="tab"
-      [attr.tabindex]="0"
+    <li *ngFor="let step of steps; index as i" role="tab" [attr.tabindex]="0"
       [attr.aria-disabled]="step.disabled || disableStepSelection ? true : undefined"
-      class="usa-step-indicator__segment {{getFillPercentage(step)}} {{getSegmentScale(step)}}"
-      [attr.id]="id + '-' + i"
-      (click)="onStepClicked(i, step)"
-      (keyup.enter)="onStepClicked(i, step)"
-      (keydown)="onKeyDown($event, i)"
+      class="usa-step-indicator__segment {{getFillPercentage(step)}} {{getSegmentScale(step)}}" [attr.id]="id + '-' + i"
+      (click)="onStepClicked(i, step)" (keyup.enter)="onStepClicked(i, step)" (keydown)="onKeyDown($event, i)"
       [ngClass]="{
         'usa-step-indicator__segment--complete': i < currentStep,
         'usa-step-indicator__segment--current': i === currentStep,
         'usa-step-indicator__segment--no-counter': displayCounters && !step.label,
         'cursor-pointer': !step.disabled && !disableStepSelection
-      }"
-      [attr.aria-current]="i == currentStep ? true : undefined"
-      [attr.aria-selected]="i == currentStep ? true : undefined"
-      >
+      }" [attr.aria-current]="i == currentStep ? true : undefined"
+      [attr.aria-selected]="i == currentStep ? true : undefined">
       <span class="usa-step-indicator__segment-label">{{step.label}}
         <span class="usa-sr-only">{{i < currentStep ? 'completed' : i > currentStep ? 'not completed' : ''}}</span>
       </span>
@@ -30,7 +26,7 @@
   </ol>
 
   <div *ngIf="headerPosition === 'bottom'" class="usa-step-indicator__header">
-    <ng-container *ngTemplateOutlet="headerTemplate" ></ng-container>
+    <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
   </div>
 </div>
 
