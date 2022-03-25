@@ -1,7 +1,9 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { UsaHeaderModule, UsaHeaderPrimaryLink, UsaNavigationLink } from '@gsa-sam/ngx-uswds';
+import { UsaNavigationLink } from '../util/navigation';
+import { UsaHeaderPrimaryLink } from './header.model';
+import { UsaHeaderModule } from './header.module';
 
 fdescribe('HeaderComponent', () => {
   let component: MockHeaderComponent;
@@ -10,9 +12,8 @@ fdescribe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MockHeaderComponent],
-      imports: [UsaHeaderModule]
-    })
-      .compileComponents();
+      imports: [UsaHeaderModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -26,18 +27,23 @@ fdescribe('HeaderComponent', () => {
   });
 
   it('Should have four primary nav items', () => {
-    const allNavLinks = fixture.debugElement.queryAll(By.css('.usa-nav__link'))
+    const allNavLinks = fixture.debugElement.queryAll(By.css('.usa-nav__link'));
     expect(allNavLinks.length).toEqual(4);
   });
 
   it('Should have one primary nav with href defined', () => {
     const allNavLinks = fixture.debugElement.queryAll(By.css('.usa-nav__link'));
-    const primaryNavWithHref = allNavLinks.filter(node => node.attributes['href'] && node.attributes['href'].includes('item'));
-    expect(primaryNavWithHref.length).toEqual(1);
+    const primaryNavWithHref = allNavLinks.filter(
+      (node) =>
+        node.attributes['href'] && node.attributes['href'].includes('item')
+    );
+    expect(primaryNavWithHref.length).toEqual(0);
   });
 
   it('Should have two primary links that are menu buttons', () => {
-    const dropdownLinks = fixture.debugElement.queryAll(By.css('.usa-accordion__button'));
+    const dropdownLinks = fixture.debugElement.queryAll(
+      By.css('.usa-accordion__button')
+    );
     expect(dropdownLinks.length).toEqual(2);
   });
 
@@ -50,10 +56,14 @@ fdescribe('HeaderComponent', () => {
     dropdownLink = fixture.debugElement.query(By.css('#item3'));
     expect(dropdownLink.attributes['aria-expanded']).toEqual('true');
 
-    const subMenuQuery = fixture.debugElement.queryAll(By.css('.usa-nav__submenu'));
+    const subMenuQuery = fixture.debugElement.queryAll(
+      By.css('.usa-nav__submenu')
+    );
     expect(subMenuQuery.length).toEqual(1);
 
-    const megamenuQuery = fixture.debugElement.queryAll(By.css('.usa-megamenu'));
+    const megamenuQuery = fixture.debugElement.queryAll(
+      By.css('.usa-megamenu')
+    );
     expect(megamenuQuery.length).toEqual(0);
   });
 
@@ -75,42 +85,54 @@ fdescribe('HeaderComponent', () => {
     expect(initialDropdownLink.attributes['aria-expanded']).toEqual('false');
 
     // Should only have one submenu, the newly clicked dropdown link
-    const subMenuQuery = fixture.debugElement.queryAll(By.css('.usa-nav__submenu'));
+    const subMenuQuery = fixture.debugElement.queryAll(
+      By.css('.usa-nav__submenu')
+    );
     expect(subMenuQuery.length).toEqual(1);
 
     // Which should also be a megamenu
-    const megamenuQuery = fixture.debugElement.queryAll(By.css('.usa-megamenu'));
+    const megamenuQuery = fixture.debugElement.queryAll(
+      By.css('.usa-megamenu')
+    );
     expect(megamenuQuery.length).toEqual(1);
   });
 
   it('Should not contain provided secondary items if extended input is false', () => {
-    const secondaryNavItems = fixture.debugElement.queryAll(By.css('.usa-nav__secondary-item'));
+    const secondaryNavItems = fixture.debugElement.queryAll(
+      By.css('.usa-nav__secondary-item')
+    );
     expect(secondaryNavItems.length).toEqual(0);
   });
 
   it('Should contain secondary items if extended input is true', () => {
     component.extended = true;
     fixture.detectChanges();
-    const secondaryNavItems = fixture.debugElement.queryAll(By.css('.usa-nav__secondary-item'));
+    const secondaryNavItems = fixture.debugElement.queryAll(
+      By.css('.usa-nav__secondary-item')
+    );
     expect(secondaryNavItems.length).toEqual(2);
   });
 });
 
 @Component({
   template: `
-    <usa-header [extended]="extended" [primaryNavItems]="primaryNav" [secondaryNavItems]="secondaryNav"></usa-header>
-  `
+    <usa-header
+      [extended]="extended"
+      [primaryNavItems]="primaryNav"
+      [secondaryNavItems]="secondaryNav"
+    ></usa-header>
+  `,
 })
 class MockHeaderComponent {
   public extended = false;
 
-  constructor(public elementRef: ElementRef) { }
+  constructor(public elementRef: ElementRef) {}
 
   primaryNav: UsaHeaderPrimaryLink[] = [
     {
       text: 'Item 1',
       id: 'item1',
-      href: '/item1'
+      href: '/item1',
     },
     {
       text: 'Item 2',
@@ -122,13 +144,13 @@ class MockHeaderComponent {
       children: [
         {
           text: 'item3Child1',
-          id: 'item3Child1'
+          id: 'item3Child1',
         },
         {
           text: 'item3Child2',
-          id: 'item3Child2'
-        }
-      ]
+          id: 'item3Child2',
+        },
+      ],
     },
     {
       text: 'Item 4',
@@ -137,24 +159,24 @@ class MockHeaderComponent {
       children: [
         {
           text: 'item4Child1',
-          id: 'item4Child1'
+          id: 'item4Child1',
         },
         {
           text: 'item4Child2',
-          id: 'item4Child2'
-        }
-      ]
-    }
+          id: 'item4Child2',
+        },
+      ],
+    },
   ];
 
   secondaryNav: UsaNavigationLink[] = [
     {
       text: 'Secondary Item 1',
-      id: 'secondaryItem1'
+      id: 'secondaryItem1',
     },
     {
       text: 'Secondary Item 2',
-      id: 'secondaryItem2'
-    }
-  ]
+      id: 'secondaryItem2',
+    },
+  ];
 }

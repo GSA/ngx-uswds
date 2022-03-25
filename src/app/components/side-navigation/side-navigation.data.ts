@@ -18,7 +18,31 @@ export const sidenavModel: SidenavModel[] = [
             mode: UsaNavigationMode.EXTERNAL,
             text: 'Accordion - Grandchild',
             path: 'javascript:void(0)',
-            id: '1000'
+            id: '1000',
+            children: [
+              {
+                mode: UsaNavigationMode.EXTERNAL,
+                text: 'Accordion - Great-Grandchild',
+                path: 'javascript:void(0)',
+                id: '10000',
+                children: [
+                  {
+                    mode: UsaNavigationMode.EXTERNAL,
+                    text: 'Accordion - Great-Great-Grandchild',
+                    path: 'javascript:void(0)',
+                    id: '100000',
+                    children: [
+                      {
+                        mode: UsaNavigationMode.EXTERNAL,
+                        text: 'Accordion - Great-Great-Great-Grandchild',
+                        path: 'javascript:void(0)',
+                        id: '1000000'
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

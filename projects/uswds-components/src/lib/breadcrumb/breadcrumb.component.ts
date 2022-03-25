@@ -1,8 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, 
-  ContentChild, Directive, EventEmitter, Input, OnChanges, OnInit, 
-  Output, SimpleChanges, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { UsaNavigationLink } from '@gsa-sam/ngx-uswds';
-
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChild,
+  Directive,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewEncapsulation,
+} from '@angular/core';
+import { UsaNavigationLink } from '../util/navigation';
 
 /**
  * Selector for custom link template for displaying breadcrumbs.
@@ -12,10 +23,10 @@ import { UsaNavigationLink } from '@gsa-sam/ngx-uswds';
  * </usa-breadcrumbs>
  */
 @Directive({
-  selector: `[usaBreadcrumbLinkTemplate]`
+  selector: `[usaBreadcrumbLinkTemplate]`,
 })
 export class UsaBreadcrumbLinkTemplate {
-  constructor(public templateRef: TemplateRef<any>) { }
+  constructor(public templateRef: TemplateRef<any>) {}
 }
 
 @Component({
@@ -26,8 +37,8 @@ export class UsaBreadcrumbLinkTemplate {
   encapsulation: ViewEncapsulation.None,
 })
 export class UsaBreadcrumbComponent implements OnInit, OnChanges {
-
-  @ContentChild(UsaBreadcrumbLinkTemplate) breadcrumbLinkTemplate: UsaBreadcrumbLinkTemplate;
+  @ContentChild(UsaBreadcrumbLinkTemplate)
+  breadcrumbLinkTemplate: UsaBreadcrumbLinkTemplate;
 
   /**
    * Toggles whether to wrap breadcrumb trail into new line on responsive
@@ -37,7 +48,7 @@ export class UsaBreadcrumbComponent implements OnInit, OnChanges {
    */
   @Input() wrap: boolean = false;
 
-  /** 
+  /**
    * Hides breadcrumbs when there is only one item to show for
    * breadcrumb trail. This occurs whenever the user is on the root
    * level page of the breadcrumb trail
@@ -58,8 +69,8 @@ export class UsaBreadcrumbComponent implements OnInit, OnChanges {
      * For public component usage if parents ever want to programatically
      * invoke change detection on component
      */
-    public cdr: ChangeDetectorRef,
-  ) { }
+    public cdr: ChangeDetectorRef
+  ) {}
 
   /**
    * Initialize internal data within the component
@@ -84,7 +95,7 @@ export class UsaBreadcrumbComponent implements OnInit, OnChanges {
   /**
    * Called whenever we need to update selected breadcrum to
    * another item. Normally occurs if user clicks on the breadcrum
-   * @param breadcrumb 
+   * @param breadcrumb
    */
   updateSelectedBreadcrumb(breadcrumb: UsaNavigationLink) {
     this._selectedBreadcrumb.selected = false;
@@ -103,7 +114,9 @@ export class UsaBreadcrumbComponent implements OnInit, OnChanges {
       return;
     }
 
-    let truncateIndex = this.items.findIndex(breadcrumb => breadcrumb.selected);
+    let truncateIndex = this.items.findIndex(
+      (breadcrumb) => breadcrumb.selected
+    );
 
     if (truncateIndex < 0) {
       truncateIndex = this.items.length - 1;
@@ -119,7 +132,5 @@ export class UsaBreadcrumbComponent implements OnInit, OnChanges {
     }
 
     this._displayedCrumbs = this.items.slice(0, truncateIndex);
-
   }
-
 }
