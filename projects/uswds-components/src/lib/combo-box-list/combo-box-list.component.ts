@@ -39,7 +39,6 @@ export class UsaComboBoxItemTemplate {
   selector: `usa-combo-box-list`,
   templateUrl: './combo-box-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: Window, useValue: window }],
 })
 export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
   @ViewChild('dropdownListbox') dropdownListBox: ElementRef<HTMLUListElement>;
@@ -111,7 +110,6 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
 
   constructor(
     private el: ElementRef,
-    private windowRef: any,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document
@@ -368,7 +366,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     /**
      * If there is no space to display dropdown below the input, then display dropdown above the input
      */
-    if (this.direction === 'top' || dropdownY >= this.windowRef.innerHeight) {
+    if (this.direction === 'top' || dropdownY >= window.innerHeight) {
       this.dropdownListBox.nativeElement.style.bottom = '100%';
       this.dropdownListBox.nativeElement.style.borderBottomWidth = '0';
       this.dropdownListBox.nativeElement.style.borderTop = '1px solid';
