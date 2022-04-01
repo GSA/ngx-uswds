@@ -32,12 +32,12 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
   /**
    * Invoked when the model has been changed
    */
-  onChange: (_: any) => void = (_: any) => { };
+  onChange: (_: any) => void;
 
   /**
   * Invoked when the model has been touched
   */
-  onTouched: () => void = () => { };
+  onTouched: () => void;
 
   @ContentChildren(UsaRadioComponent) radioComponents: QueryList<UsaRadioComponent>;
 
@@ -100,7 +100,13 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
    */
   @Output() change = new EventEmitter<{target: HTMLInputElement, value: string}>();
 
-  _subscriptions = new Subscription();
+  _subscriptions: Subscription;
+
+  constructor() {
+    this.onChange = (_:any) => {};
+    this.onTouched = () => {};
+    this._subscriptions = new Subscription();
+  }
 
   ngAfterContentInit() {
     this.radioComponents.forEach(radio => {
@@ -115,7 +121,9 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
   }
 
   ngOnDestroy() {
-    this._subscriptions.unsubscribe();
+    if (this._subscriptions) {
+      this._subscriptions.unsubscribe();
+    }
   }
 
   writeValue(value: string): void {
@@ -140,15 +148,18 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
   }
 
   _subscribeToRadioChange(radio: UsaRadioComponent) {
-    const changeSubscription = radio.change.subscribe((change: {target: HTMLInputElement, value: string}) => {
+    const changeSubscription = radio.change.subscribe(((change: {target: HTMLInputElement, value: string}) => {
       this.radioComponents.forEach(component => {
         component.checked = component === radio;
         component.cdr.markForCheck();
       });
 
-      this.onChange(change.value);
+      if (this.onChange && typeof(this.onChange) === 'function') {
+        this.onChange(change.value);
+      }
+
       this.change.emit(change);
-    });
+    }).bind(this));
     this._subscriptions.add(changeSubscription);
   }
 }

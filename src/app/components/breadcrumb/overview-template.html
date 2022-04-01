@@ -1,0 +1,67 @@
+<h3 class="usa-card__heading">General Accessibility</h3>
+<p>
+  The breadcrumb component is wrapped around the <code>nav</code> element. This allows assistive tools to identify
+  breadcrumbs as a navigational element on the page
+</p>
+<p>
+  The breadcrumbs are displayed using ordered list and list items element. This allows screen readers to enumarate
+  the items in the breadcrumbs as user cycles through them
+</p>
+<p>
+  The <code>nav</code> wrapper contains <code>aria-label="Breadcrumbs"</code>, and the current breadcrumb will have <code>aria-current="page"</code>
+</p>
+
+<h3>Theming</h3>
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><code>$theme-breadcrumb-background-color</code> </th>
+      <td>The background color of the complete breadcrumb bar. Default uses body background color set in $theme-body-background-color.</td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-font-family</code></th>
+      <td>The family of the breadcrumb text.</td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-font-size</code> </th>
+      <td>The size of the breadcrumb text.</td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-gap</code></th>
+      <td>The space between indicator icons and text.</td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-link-color</code> </th>
+      <td>
+          The color of breadcrumb link. Add the link color and the system will generate the hover state. 
+          Default uses the default link settings calculated from your background color.
+      </td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-min-width</code></th>
+      <td>The width at which the breadcrumb displays the full breadcrumb list.</td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-padding-bottom</code></th>
+      <td>Padding under the breadcrumb.</td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-padding-top</code></th>
+      <td>Padding above the breadcrumb.</td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-padding-x</code></th>
+      <td>Padding to the right and left of the breadcrumb.</td>
+    </tr>
+    <tr>
+      <th><code>$theme-breadcrumb-separator-color</code></th>
+      <td>Color of the breadcrumb separator. This value needs AA contrast against the background.</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,33 +1,35 @@
-<div class="usa-combo-box" data-enhanced="true" [ngClass]="{'usa-combo-box--pristine': value?.length}">
+<div class="usa-combo-box" [ngClass]="{'usa-combo-box--pristine': value?.length}">
   <input #comboBoxInput 
     [attr.id]="id" [attr.aria-owns]="listId" aria-autocomplete="list" [attr.aria-describedby]="id + '--assistiveHint'"
     [attr.aria-expanded]="_displayDropdown" autocapitalize="off" autocomplete="off" class="usa-combo-box__input" type="text"
     role="combobox" [attr.aria-activedescendant]="comboBoxDropdown?._focusedItem?.id" 
-    (focus)="onFocus()" (input)="onValueChange($event.target.value)" (keydown)="onInputKeyDown($event)"
-    [value]="value" [disabled]="_disabled" [attr.readonly]="readonly === true ? true : undefined">
+    (focus)="onFocus()" (input)="onValueChange($event.target.value)" (keydown)="onInputKeyDown($event)" 
+    (click)="disabled ? '' : _displayDropdown = true"
+    [value]="value" [disabled]="disabled" [attr.readonly]="readonly === true ? true : undefined">
 
   <span class="usa-combo-box__clear-input__wrapper" tabindex="-1">
     <button type="button" class="usa-combo-box__clear-input" aria-label="Clear the select contents" (click)="clearInput()">&nbsp;</button>
   </span>
   <span class="usa-combo-box__input-button-separator">&nbsp;</span>
   <span class="usa-combo-box__toggle-list__wrapper" tabindex="-1">
-    <button type="button" (click)="_displayDropdown = !_displayDropdown" tabindex="-1" class="usa-combo-box__toggle-list"
+    <button type="button" (click)="disabled ? '' : _displayDropdown = !_displayDropdown" tabindex="-1" class="usa-combo-box__toggle-list"
       aria-label="Toggle the dropdown list">&nbsp;</button>
   </span>
 
-  <usa-combo-box-dropdown *ngIf="_displayDropdown"
-    #comboBoxDropdown
+  <usa-combo-box-list *ngIf="_displayDropdown"
+    #comboBoxList
     [items]="items"
     [labelField]="labelField"
     [valueField]="valueField"
     [customItemTemplate]="itemTemplate"
     [listId]="listId"
     [virtualScroll]="virtualScroll"
+    [selectedItem]="_selectedItem"
     (selected)="selectItem($event)"
     (focusInput)="focusInput()"
     (scrollEnd)="onScrollEnd()"
   >
-  </usa-combo-box-dropdown>
+  </usa-combo-box-list>
 
   <div class="usa-combo-box__status usa-sr-only" role="status"></div>
   <span [attr.id]="id + '--assistiveHint'" class="usa-sr-only">

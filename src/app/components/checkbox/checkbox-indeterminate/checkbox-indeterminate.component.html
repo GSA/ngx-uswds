@@ -1,0 +1,12 @@
+<em>*Please note that USWDS does not support styles for indeterminate checkbox state.
+  However, it is possible to add custom styling to visually show a checkbox in determinate state.
+  You can switch the theme to sam-styles, which does support indeterminate state for example
+</em>
+<usa-checkbox [checked]="allChecked" [indeterminate]="checkIndeterminate()" 
+  (change)="checkAll($event)">Indeterminate</usa-checkbox>
+
+<ul class="usa-list usa-list--unstyled">
+  <li *ngFor="let value of values" class="margin-left-3">
+    <usa-checkbox (change)="onChange($event, value)" [checked]="value.checked">{{value.name}}</usa-checkbox>
+  </li>
+</ul>

@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UsaComboboxList, UsaComboBoxItemTemplate } from '../combo-box-list/combo-box-list.component';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
-import { UsaComboboxDropdown } from './combo-box-dropdown.component';
-import { UsaComboBoxItemTemplate } from './combo-box-selectors';
 
 let comboBoxId = 0;
 let listBoxId = 0;
@@ -19,7 +18,7 @@ let listBoxId = 0;
 export class UsaComboBoxComponent implements ControlValueAccessor {
 
   @ViewChild('comboBoxInput') comboBoxInput: ElementRef<HTMLInputElement>;
-  @ViewChild(UsaComboboxDropdown) comboBoxDropdown: UsaComboboxDropdown;
+  @ViewChild(UsaComboboxList) comboBoxDropdown: UsaComboboxList;
 
   /** List of items to display in dropdown */
   @Input() items: any[];
@@ -46,9 +45,15 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
    * Toggles whether or not to emit scrollEnd event when a user scrolls to the
    * bottom of the current item list
    */
-  @Input() virtualScroll = true
+  @Input() virtualScroll = true;
 
+  @Input() disabled: boolean = false;
+
+  /** Emitted with a value change occurs in user input */
   @Output('change') changeEvent = new EventEmitter();
+
+  /** Emitted when an item is selected */
+  @Output() selected = new EventEmitter<any>();
 
   /** 
    * Emitted when a user scrolls to the bottom of the current item list.
@@ -64,7 +69,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   private _onTouched = () => { };
 
   _displayDropdown = false;
-  _disabled: boolean;
+  _selectedItem: any;
 
   @HostListener('document:click', ['$event'])
   onDocumentClick($event) {
@@ -73,10 +78,16 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
     }
 
     this._displayDropdown = false;
+    if (this._selectedItem) {
+      this.updateValue(this._selectedItem);
+    } else {
+      this.updateValue('');
+    }
   }
 
   constructor(
-    private el: ElementRef,
+    public el: ElementRef,
+    public cdr: ChangeDetectorRef,
   ) { }
 
   writeValue(obj: any): void {
@@ -92,27 +103,32 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    this._disabled = isDisabled;
+    this.disabled = isDisabled;
   }
 
   onValueChange($event: string) {
     this.updateValue($event);
+    this._displayDropdown = true;
   }
 
   selectItem(item: any) {
-    this.value = item[this.labelField];
     this.comboBoxInput.nativeElement.focus();
     this._displayDropdown = false;
-    this.updateValue(item[this.labelField]);
+
+    if (this._selectedItem === item) return;
+
+    this._selectedItem = item;
+    this.updateValue(item);
+    this.selected.emit();
   }
 
   clearInput() {
     this.updateValue('');
+    this._selectedItem = undefined;
     this.comboBoxInput?.nativeElement.focus();
   }
 
   onFocus() {
-    this._displayDropdown = true;
     this._onTouched();
   }
 
@@ -142,11 +158,11 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
       case KeyCode.ArrowDown:
         if (!this._displayDropdown) {
           this._displayDropdown = true;
-          return;
+          this.cdr.detectChanges();
         }
-
+        
         if (this.comboBoxDropdown) {
-          this.comboBoxDropdown.focusFirstElement();
+          this.comboBoxDropdown.focusHighlightedElement();
         }
 
         $event.preventDefault();
@@ -161,8 +177,16 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
     }
   }
 
-  private updateValue(value: string) {
-    this.value = value;
-    this._onChange(value);
+  private updateValue(value: any) {
+    if (this.value === value || this.value === value[this.labelField]) return;
+
+    if (typeof value === 'object') {
+      this.value = value[this.labelField];
+    } else {
+      this.value = value;
+    }
+
+    this._onChange(this.value);
+    this.changeEvent.emit(this.value);
   }
 }

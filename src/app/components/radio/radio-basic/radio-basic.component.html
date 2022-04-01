@@ -1,0 +1,7 @@
+<usa-radio-group [name]="name" (change)="onRadioChange($event)" [ariaLabelledBy]="ariaLabelledBy">
+  <h4 id="{{ariaLabelledBy}}" usaRadioGroupLabel>Historical Figures</h4>
+  <usa-radio [id]="'historical-truth'" value="sojourner-truth" [checked]="checked" [tile]="tile">Sojourner Truth</usa-radio>
+  <usa-radio [id]="'historical-douglass'" value="frederick-douglass" [tile]="tile">Frederick Douglass</usa-radio>
+  <usa-radio [id]="'historical-washington'" value="booker-t-washington" [tile]="tile">Booker T. Washington</usa-radio>
+  <usa-radio [disabled]="disabled" [id]="'historical-carver'" value="george-washington-carver" [tile]="tile">George Washington Carver</usa-radio>
+</usa-radio-group>

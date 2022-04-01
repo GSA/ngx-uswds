@@ -13,6 +13,10 @@ export * from './lib/button-group/button-group.component';
 export * from './lib/button-group/button-group-item.component';
 export * from './lib/button-group/button-group.module';
 
+// Breadcrumb
+export * from './lib/breadcrumb/breadcrumb.component';
+export * from './lib/breadcrumb/breadcrumb.module';
+
 // Card
 export * from './lib/card/card-body.component';
 export * from './lib/card/card-footer.component';
@@ -28,9 +32,11 @@ export * from './lib/checkbox/checkbox.module';
 
 // Combo Box
 export * from './lib/combo-box/combo-box.component';
-export * from './lib/combo-box/combo-box-selectors';
-export * from './lib/combo-box/combo-box-dropdown.component';
 export * from './lib/combo-box/combo-box.module';
+
+// Combo Box List
+export * from './lib/combo-box-list/combo-box-list.module';
+export * from './lib/combo-box-list/combo-box-list.component';
 
 // Dropdown
 export * from './lib/dropdown/dropdown-options.model';
@@ -75,6 +81,10 @@ export * from './lib/table/table-sort.component';
 export * from './lib/table/table.component';
 export * from './lib/table/table.module';
 
+//TextArea
+export * from './lib/textarea/textarea.component';
+export * from './lib/textarea/textarea.module';
+
 // Tooltip
 export * from './lib/tooltip/tooltip.directive';
 export * from './lib/tooltip/tooltip.module';
@@ -94,8 +104,15 @@ export * from './lib/radio/radio-group.component';
 // Header
 export * from './lib/header/index';
 
+// Time Picker
+export * from './lib/time-picker/time-picker';
+export * from './lib/time-picker/time-picker.module';
+
 // Utility
 export * from './lib/util/navigation';
 
-export * from './lib/input/affix.module'
-export * from './lib/input/affix.directive'
+export * from './lib/input/affix.module';
+export * from './lib/input/affix.directive';
+
+export * from './lib/form-field/form-field.component';
+export * from './lib/form-field/form-field.module';
