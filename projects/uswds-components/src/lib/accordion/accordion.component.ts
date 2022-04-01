@@ -19,7 +19,6 @@ import { UsaExpansionAnimations } from './accordion-animations';
     'class': 'usa-accordion',
     '[class.usa-accordion--bordered]': 'bordered',
     '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',
-    'role': 'tablist',
   },
 })
 export class UsaAccordionComponent implements AfterContentChecked  {
@@ -28,10 +27,9 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
   /**
    * If `true`, accordion will be animated.
-   *
-   * @since 8.0.0
+   * @default true
    */
-  @Input() animation;
+  @Input() animation: boolean = true;
 
   /**
    * An array or comma separated strings of panel ids that should be opened **initially**.
@@ -59,7 +57,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   /**
    * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.
    */
-  @Input() headerLevel: 2 | 3 | 4 | 5 | 6;
+  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;
 
   /**
    * Event emitted right before the panel toggle happens.
@@ -68,8 +66,6 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
   /**
    * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.
-   *
-   * @since 8.0.0
    */
   @Output() shown = new EventEmitter<string>();
 
@@ -217,10 +213,10 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {
     if (event.fromState !== 'void') {
       if (event.toState === 'expanded') {
-        this.shown.emit();
+        this.shown.emit(panel.id);
       } else if (event.toState === 'collapsed') {
         this._renderer.setStyle(panel, 'display', 'none');
-        this.hidden.emit();
+        this.hidden.emit(panel.id);
       }
     }
   }

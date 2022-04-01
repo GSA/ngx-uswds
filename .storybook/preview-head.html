@@ -1,0 +1,44 @@
+<!--
+  Script for updating css on theme change. The preview addon only updates
+  styles in preview section's iframe. This script copies over the currently
+  applied theme to main html anytime theme is changed for preview section
+  through the theme selector
+-->
+<script>
+
+  function deleteStyle() {
+    var style = window.parent.document.head.querySelector('style#customTheme')
+    window.parent.document.head.removeChild(style);
+  }
+
+  function addStyle() {
+    var themeStyle = document.head.querySelector('style#ngx-uswds-theme');
+    var styleEl = document.createElement('style');
+    styleEl.id = 'customTheme'
+    styleEl.innerHTML = themeStyle.innerHTML;
+    window.parent.document.head.appendChild(styleEl);
+  }
+
+  function listenForThemesChange() {
+    const select = window.parent.document.body.querySelector('.os-content select');
+    select.addEventListener('change', (event) => {
+      const val = event.target.value;
+      setTimeout(() => {
+        // A bit strange, but something in between the set timeout can occasionally revert the value,
+        // so we set it back to the correct one
+        event.target.value = val;
+        deleteStyle();
+        addStyle();
+      });
+    });
+  }
+
+  window.addEventListener("load", function(){
+    addStyle();
+    listenForThemesChange();
+    var contents = window.parent.document.querySelectorAll('div[role="main"] .os-content');
+    for (let i = 0; i < contents.length; i++) {
+      contents[i].classList.add('bg-primary-darker')
+    }
+  });
+</script>

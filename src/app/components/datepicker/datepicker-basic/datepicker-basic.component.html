@@ -1,0 +1,9 @@
+
+<label class="usa-label" id="basicDatePickerLabel'" for="basicDatePicker">Basic Date Picker</label>
+<div class="usa-hint">mm/dd/yyyy</div>
+<usa-date-picker-wrapper>
+  <input [usaDatePicker]="picker" [id]="'basicDatePicker'">
+  <usa-date-picker-button [for]="picker"></usa-date-picker-button>
+  <usa-date-picker #picker (opened)="calendarOpen()" (closed)="calendarClosed()">
+  </usa-date-picker>
+</usa-date-picker-wrapper>
