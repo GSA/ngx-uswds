@@ -15,7 +15,8 @@ import { UsaFilePreviewDirective } from "./file-preview.directive";
     UsaFilePreviewDirective,
   ],
   exports: [
-    UsaFileInputComponent
+    UsaFileInputComponent,
+    UsaFilePreviewDirective
   ],
   providers: [
     FileInputConfig
