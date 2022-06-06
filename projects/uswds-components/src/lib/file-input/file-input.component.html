@@ -26,7 +26,7 @@
     <div class="usa-file-input__box"></div>
     <div *ngIf="ERROR_STATE === true" class="usa-file-input__accepted-files-message">This is not a valid file type.
     </div>
-    <input [attr.id]="id" class="usa-file-input__input" type="file" [attr.name]="id" [attr.files]="selectedFiles"
+    <input #fileInputEl [attr.id]="id" class="usa-file-input__input" type="file" [attr.name]="id" [attr.files]="selectedFiles"
       [attr.aria-describedby]="id + '-hint'" [attr.accept]="acceptFileType"
       [attr.multiple]="multiple ? multiple : undefined" [disabled]="disabled" (dragover)="onDragOver()"
       (dragleave)="onDragLeave()" (drop)="onFileDrop()" (change)="onNewFilesUpload($event)">

@@ -89,6 +89,7 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
   onNewFilesUpload($event) {
     const newFiles: File[] = Array.from($event.target.files);
+    this.fileInputElement.nativeElement.value = null;
     
     if (newFiles.length === 0) {
       return;
