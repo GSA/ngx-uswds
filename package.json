@@ -1,6 +1,6 @@
 {
   "name": "usa-components",
-  "version": "11.0.2",
+  "version": "11.0.3",
   "scripts": {
     "ng": "ng",
     "start": "npm run sandbox-icons && npm run docs:json && start-storybook -p 4200",
