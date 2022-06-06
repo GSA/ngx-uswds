@@ -89,6 +89,7 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
   onNewFilesUpload($event) {
     const newFiles: File[] = Array.from($event.target.files);
+    this.fileInputElement.nativeElement.value = null;
     
     if (newFiles.length === 0) {
       return;
@@ -204,14 +205,14 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
   private validateFileType(files: File[]) {
     if (!this.acceptFileType) {
-      return true;;
+      return true;
     }
 
     const acceptedFiles = this.acceptFileType.split(',');
 
     for(let i = 0; i < files.length; i++) {
       const isValidFileType = acceptedFiles.some(acceptedFileType => {
-        const endsWithFileType = new RegExp(acceptedFileType + '$').test(files[i].name);
+        const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);
         return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\*/g, ""))
       });
 

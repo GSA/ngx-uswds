@@ -108,8 +108,6 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
   /** List of functions to call to un-bind events registered through renderer.listen call */
   _eventListeners: (() => void)[] = [];
 
-  private windowRef: Window;
-
   constructor(
     private el: ElementRef,
     private cdr: ChangeDetectorRef,

@@ -5,7 +5,6 @@
   through the theme selector
 -->
 <script>
-
   function deleteStyle() {
     var style = window.parent.document.head.querySelector('style#customTheme')
     window.parent.document.head.removeChild(style);
@@ -33,7 +32,7 @@
     });
   }
 
-  window.addEventListener("load", function(){
+  window.addEventListener("load", function () {
     addStyle();
     listenForThemesChange();
     var contents = window.parent.document.querySelectorAll('div[role="main"] .os-content');
@@ -41,4 +40,5 @@
       contents[i].classList.add('bg-primary-darker')
     }
   });
+
 </script>

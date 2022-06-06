@@ -7,7 +7,7 @@ li.usa-breadcrumb__list-item:not(:last-child)::after {
   background: url('../../../../../node_modules/uswds/src/img/usa-icons/navigate_next.svg') no-repeat center/contain;
 }
 
-.usa-breadcrumb__list-item  {
+.usa-breadcrumb__list-item {
   &:nth-last-child(2) {
     .usa-breadcrumb__link {
       &::before {
