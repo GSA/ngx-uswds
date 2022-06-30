@@ -4,7 +4,8 @@ import { UsaNavigationLink, UsaNavigationMode } from "../../util/navigation";
 
 @Component({
   selector: `usa-link-template`,
-  templateUrl: './link-template.component.html'
+  templateUrl: './link-template.component.html',
+  styleUrls: ['./link-template.components.scss']
 })
 export class UsaLinkTemplateComponent {
 
@@ -19,8 +20,8 @@ export class UsaLinkTemplateComponent {
    */
   @Input() class: string = '';
 
-  /** 
-   * Class to apply for selected item. 
+  /**
+   * Class to apply for selected item.
    * Use empty string to not apply any class for selected item
    * @default 'usa-current'
    * */
