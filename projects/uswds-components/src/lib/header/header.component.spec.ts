@@ -5,7 +5,7 @@ import { UsaNavigationLink } from '../util/navigation';
 import { UsaHeaderPrimaryLink } from './header.model';
 import { UsaHeaderModule } from './header.module';
 
-fdescribe('HeaderComponent', () => {
+describe('HeaderComponent', () => {
   let component: MockHeaderComponent;
   let fixture: ComponentFixture<MockHeaderComponent>;
 
