@@ -15,7 +15,7 @@
           <span class="usa-file-input__choose">Change file</span>
         </ng-template>
       </div>
-      <div class="usa-file-input__preview" aria-hidden="true"
+      <div class="usa-file-input__preview"
         *ngFor="let inputFile of inputFiles; trackBy:trackLoadedFilesBy">
         <img usaFilePreview [attr.id]="inputFile.imageId" [file]="inputFile.file" [uploadRequest]="uploadRequest" (uploadError)="onUploadError($event)"
           class="usa-file-input__preview-image " />
@@ -34,7 +34,7 @@
 </div>
 
 <ng-template #selectFiles>
-  <div class="usa-file-input__instructions" aria-hidden="true">
+  <div class="usa-file-input__instructions">
     <span class="usa-file-input__drag-text">Drag file here or </span>
     <span class="usa-file-input__choose">choose from folder</span>
   </div>
