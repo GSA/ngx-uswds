@@ -11,5 +11,8 @@ module.exports = {
     "@storybook/addon-actions",
     "storybook-addon-preview/register"
   ],
-  "framework": "@storybook/angular"
+  "framework": "@storybook/angular",
+  "core": {
+    "builder": "@storybook/builder-webpack5"
+  }
 }
