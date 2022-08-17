@@ -36,4 +36,9 @@ export class TableBasicComponent {
   scrollable: boolean = false;
   stacked: boolean = false;
   stackedHeader: boolean = false;
+  highlightRowOnHover: boolean = false;
+
+  rowClicked(data){
+    console.log('data', data)
+  }
 }

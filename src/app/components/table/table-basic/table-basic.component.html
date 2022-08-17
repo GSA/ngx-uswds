@@ -6,6 +6,8 @@
   [scrollable]="scrollable"
   [stacked]="stacked"
   [stackedHeader]="stackedHeader"
+  [highlightRowOnHover]="highlightRowOnHover"
+  (rowClicked)="rowClicked($event)"
 >
   <caption>
     Borderless table: A borderless table can be useful when you want the information to feel more a part of the text it accompanies and extends.
