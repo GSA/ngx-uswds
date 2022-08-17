@@ -3,4 +3,10 @@ $theme-font-path: '~node_modules/uswds/src/fonts';
 
 @import 'node_modules/uswds';
 
+tr.usa-table__row--hovered {
+  td {
+    background-color: blue;
+    cursor: pointer;
+  }
+}
 @import './app.styles.scss';
