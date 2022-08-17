@@ -6,6 +6,7 @@ import { DynamicTableModule } from "./dynamic-table/dynamic-table.module";
 import { MultiHeaderModule } from "./multi-header/multi-header.module";
 import { SortableTableModule } from "./sortable-table/sortable-table.module";
 import { TableBasicModule } from "./table-basic/table-basic.module";
+import { TableRowHoverModule } from "./table-row-hover/table-row-hover.module";
 import { basicColumns, basicData } from "./table-static-data";
 
 declare var require: any;
@@ -22,6 +23,7 @@ export default {
         MultiHeaderModule,
         SortableTableModule,
         DynamicTableModule,
+        TableRowHoverModule,
       ],
     }),
   ],
@@ -134,5 +136,14 @@ export const DynamicTable = () => ({
 });
 
 DynamicTable.parameters = {
-  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'table-dynamic')
+  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'dynamic-table')
+};
+
+
+export const RowHover = () => ({
+  template: '<usa-table-row-hover></usa-table-row-hover>',
+});
+
+RowHover.parameters = {
+  preview: generateConfig('components/table/table-row-hover', 'TableRowHoverModule', 'usa-table-row-hover')
 };

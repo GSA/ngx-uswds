@@ -1,0 +1,20 @@
+<usa-table *ngIf="displayedData" [displayedData]="displayedData" [highlightRowOnHover]="true">
+  <caption>
+    Highlights row when user hovers over it.
+  </caption>
+  <ng-container usaColumnDef="title">
+    <th usa-table-header *usaTableHeaderDef>Document Title</th>
+    <td usa-table-data *usaTableDataDef="let document" data-label="Document Title">{{document.title}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="description">
+    <th usa-table-header *usaTableHeaderDef>Description</th>
+    <td usa-table-data *usaTableDataDef="let document" data-label="Description">{{document.description}}</td>
+  </ng-container>
+  <ng-container usaColumnDef="year">
+    <th usa-table-header *usaTableHeaderDef>Year</th>
+    <td usa-table-data *usaTableDataDef="let document" data-label="Year">{{document.year}}</td>
+  </ng-container>
+
+  <tr *usaHeaderRowDef="displayedColumns"></tr>
+  <tr *usaDataRowDef="let row; columns: displayedColumns;"></tr>
+</usa-table>
