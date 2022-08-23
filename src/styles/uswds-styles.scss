@@ -5,8 +5,9 @@ $theme-font-path: '~node_modules/uswds/src/fonts';
 
 tr.usa-table__row--hovered {
   td {
-    background-color: blue;
+    @include u-bg('accent-cool-lighter',  !important);
     cursor: pointer;
   }
 }
+
 @import './app.styles.scss';

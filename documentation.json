@@ -45096,21 +45096,21 @@
                 "name": "actionsData",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  radioChange: action('Radio Change'),\n}"
-            },
-            {
-                "name": "actionsData",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
+            },
+            {
+                "name": "actionsData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  radioChange: action('Radio Change'),\n}"
             },
             {
                 "name": "actionsData",
@@ -45186,76 +45186,6 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45286,21 +45216,21 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
             },
             {
                 "name": "Basic",
@@ -45356,21 +45286,21 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -45423,6 +45353,76 @@
                 "defaultValue": "basicTemplate.bind({})"
             },
             {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/formly-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
                 "name": "basicColumns",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -45456,21 +45456,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<ComboBoxBasicComponent>",
                 "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45778,21 +45778,21 @@
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  production: false\n}"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/environments/environment.prod.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  production: true\n}"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  production: false\n}"
             },
             {
                 "name": "environment",
@@ -45928,6 +45928,26 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/character-count/character-count.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaCharacterCountDirective>",
+                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaCheckboxComponent>",
+                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45968,16 +45988,6 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<FormlyForm>",
-                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/search/formly-search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45998,21 +46008,11 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/character-count/character-count.stories.ts",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<UsaCharacterCountDirective>",
-                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaCheckboxComponent>",
-                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
+                "type": "Story<FormlyForm>",
+                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
             },
             {
                 "name": "headerData",
@@ -46186,7 +46186,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46196,7 +46196,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46455,69 +46455,6 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46572,7 +46509,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
+                "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46581,7 +46518,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
+                "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46612,6 +46549,69 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/formly-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
             },
             {
                 "name": "ResizeObserver",
@@ -46738,76 +46738,6 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46873,6 +46803,76 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/formly-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
             },
             {
                 "name": "uniqueId",
@@ -50172,6 +50172,47 @@
                     "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
                 }
             ],
+            "src/app/components/search/search.stories.ts": [
+                {
+                    "name": "actionsData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
+                },
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+                }
+            ],
             "src/app/components/radio/radio.stories.ts": [
                 {
                     "name": "actionsData",
@@ -50241,47 +50282,6 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
-                }
-            ],
-            "src/app/components/search/search.stories.ts": [
-                {
-                    "name": "actionsData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
-                },
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
                 }
             ],
             "src/app/components/side-navigation/side-navigation.stories.ts": [
@@ -50459,305 +50459,6 @@
                     "description": "<p>Animations used by SdsDialog.</p>\n"
                 }
             ],
-            "src/app/formly/checkbox/formly-checkbox.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "MultiCheckbox",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<formly-multi-checkbox></formly-multi-checkbox>`\n})",
-                    "rawdescription": "------------ MultiCheckbox -------------------",
-                    "description": "<p>------------ MultiCheckbox -------------------</p>\n"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-                }
-            ],
-            "src/app/formly/datepicker/datepicker.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaSearchComponent>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-                }
-            ],
-            "src/app/formly/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaDropdownComponent>",
-                    "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                }
-            ],
-            "src/app/formly/input/formly-input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
-                }
-            ],
-            "src/app/formly/radio/formly-radio.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
-                }
-            ],
-            "src/app/formly/search/formly-search.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaSearchComponent>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-                }
-            ],
-            "src/app/formly/textarea/formly-textarea.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaTextareaComponent>",
-                    "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
-                }
-            ],
             "src/app/components/character-count/character-count.stories.ts": [
                 {
                     "name": "Basic",
@@ -50818,6 +50519,58 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
+                }
+            ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
             "src/app/components/checkbox/checkbox.stories.ts": [
@@ -50899,58 +50652,6 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
-                }
-            ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
-                },
-                {
-                    "name": "dummyData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
-                },
-                {
-                    "name": "mockService",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
             "src/app/components/dropdown/dropdown.stories.ts": [
@@ -51277,6 +50978,305 @@
                     "defaultValue": "(args) => ({\n  template: `<tooltip-basic [position]=\"'${args.position}'\" [title]=\"'${args.title}'\">Tooltip</tooltip-basic>`,\n})"
                 }
             ],
+            "src/app/formly/checkbox/formly-checkbox.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "MultiCheckbox",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<formly-multi-checkbox></formly-multi-checkbox>`\n})",
+                    "rawdescription": "------------ MultiCheckbox -------------------",
+                    "description": "<p>------------ MultiCheckbox -------------------</p>\n"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+                }
+            ],
+            "src/app/formly/datepicker/datepicker.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaSearchComponent>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+                }
+            ],
+            "src/app/formly/dropdown/dropdown.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaDropdownComponent>",
+                    "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+                }
+            ],
+            "src/app/formly/input/formly-input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
+                }
+            ],
+            "src/app/formly/search/formly-search.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaSearchComponent>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+                }
+            ],
+            "src/app/formly/textarea/formly-textarea.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaTextareaComponent>",
+                    "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+                }
+            ],
+            "src/app/formly/radio/formly-radio.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
+                }
+            ],
             "src/app/components/table/table-static-data.ts": [
                 {
                     "name": "basicColumns",
@@ -51451,18 +51451,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "src/environments/environment.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  production: false\n}"
-                }
-            ],
             "src/environments/environment.prod.ts": [
                 {
                     "name": "environment",
@@ -51473,6 +51461,18 @@
                     "deprecationMessage": "",
                     "type": "object",
                     "defaultValue": "{\n  production: true\n}"
+                }
+            ],
+            "src/environments/environment.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  production: false\n}"
                 }
             ],
             "projects/uswds-components/src/lib/environment.ts": [
@@ -51549,18 +51549,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                }
-            ],
             "projects/uswds-components/src/lib/character-count/character-count.directive.ts": [
                 {
                     "name": "nextId",
@@ -51580,6 +51568,18 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
+                }
+            ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
