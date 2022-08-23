@@ -3,11 +3,4 @@ $theme-font-path: '~node_modules/uswds/src/fonts';
 
 @import 'node_modules/uswds';
 
-tr.usa-table__row--hovered {
-  td {
-    @include u-bg('accent-cool-lighter',  !important);
-    cursor: pointer;
-  }
-}
-
 @import './app.styles.scss';

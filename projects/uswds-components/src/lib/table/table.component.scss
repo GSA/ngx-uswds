@@ -1,0 +1,8 @@
+::ng-deep {
+  tr.usa-table__row--hovered {
+    td {
+      background-color: #e1f3f8 !important;
+      cursor: pointer;
+    }
+  }
+}
