@@ -347,11 +347,28 @@
         event.target.value = val;
         deleteStyle();
         addStyle();
-      });
+      }, 500);
     });
   }
 
+  /*
+  Removing uswds & sam styles being inserted by default
+  */
+  function removeInsertedStyles() {
+    const styles = document.head.querySelectorAll('style');
+    styles.forEach(style => {
+      if (
+        (style.innerText.includes('/*! uswds @version */') || style.innerText.includes('SDS THEME')) &&
+        style.id === ''
+      ) {
+        document.head.removeChild(style);
+      }
+    })
+
+  }
+
   window.addEventListener("load", function () {
+    removeInsertedStyles();
     addStyle();
     listenForThemesChange();
     var contents = window.parent.document.querySelectorAll('div[role="main"] .os-content');
@@ -379,4 +396,4 @@
           
       
           
-            window['STORIES'] = [{"titlePrefix":"","directory":"./src","files":"**/*.stories.mdx","importPathMatcher":"^\\.[\\\\/](?:src(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.stories\\.mdx)$"},{"titlePrefix":"","directory":"./src","files":"**/*.stories.@(js|jsx|ts|tsx)","importPathMatcher":"^\\.[\\\\/](?:src(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.stories\\.(js|jsx|ts|tsx))$"}];</script><script src="runtime~main.42ff4d9a.iframe.bundle.js"></script><script src="141.3e38dc91.iframe.bundle.js"></script><script src="main.f498babf.iframe.bundle.js"></script></body></html>
+            window['STORIES'] = [{"titlePrefix":"","directory":"./src","files":"**/*.stories.mdx","importPathMatcher":"^\\.[\\\\/](?:src(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.stories\\.mdx)$"},{"titlePrefix":"","directory":"./src","files":"**/*.stories.@(js|jsx|ts|tsx)","importPathMatcher":"^\\.[\\\\/](?:src(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.stories\\.(js|jsx|ts|tsx))$"}];</script><script src="runtime~main.42ff4d9a.iframe.bundle.js"></script><script src="141.7d574499.iframe.bundle.js"></script><script src="main.c34c0232.iframe.bundle.js"></script></body></html>
