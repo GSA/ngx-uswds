@@ -114,6 +114,11 @@ export class UsaTableComponent
   @Input() serverSideSort: boolean;
 
   /**
+   * Highlight row which is currently being hovered by cursor
+   */
+  @Input() highlightRowOnHover: boolean;
+
+  /**
    * Emitted whenever a column's sort button is clicked. Emits columns name and
    * sort state (ascending/descending) value
    */
@@ -121,6 +126,9 @@ export class UsaTableComponent
     column: string;
     sortState: 'ascending' | 'descending';
   }>();
+
+  @Output()
+  rowClicked = new EventEmitter<number>();
 
   /**
    * The column definitions provided by the user that contain what the header, data, and footer

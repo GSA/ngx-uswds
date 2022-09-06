@@ -36,7 +36,7 @@
 
 <!-- Table Data Template -->
 <ng-template #dataTmpl let-data="data" let-index="index" >
-  <tr>
+  <tr [usaHighlightOnHover]="highlightRowOnHover" (click)="rowClicked.emit(data)">
     <th *ngIf="data.rowHeader" scope="row">{{data.rowHeader}}</th>
     <ng-container 
       *ngFor="let header of _tableDataDefs.usaDataRowDefColumns"

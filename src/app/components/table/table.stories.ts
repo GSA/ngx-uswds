@@ -6,9 +6,15 @@ import { DynamicTableModule } from "./dynamic-table/dynamic-table.module";
 import { MultiHeaderModule } from "./multi-header/multi-header.module";
 import { SortableTableModule } from "./sortable-table/sortable-table.module";
 import { TableBasicModule } from "./table-basic/table-basic.module";
+import { TableRowHoverModule } from "./table-row-hover/table-row-hover.module";
 import { basicColumns, basicData } from "./table-static-data";
+import { action } from '@storybook/addon-actions';
 
 declare var require: any;
+
+const actionsData = {
+  rowClicked: action('Row Clicked'),
+};
 
 export default {
   title: 'Components/Table',
@@ -22,6 +28,7 @@ export default {
         MultiHeaderModule,
         SortableTableModule,
         DynamicTableModule,
+        TableRowHoverModule,
       ],
     }),
   ],
@@ -32,6 +39,7 @@ export default {
     scrollable: false,
     stacked: false,
     stackedHeader: false,
+    highlightRowOnHover: false,
     displayedColumns: basicColumns,
     displayedData: basicData,
   }
@@ -100,7 +108,10 @@ const template = require('!!raw-loader!./table-basic/table-basic.component.html'
 
 export const Basic = (args) => ({
   template: template.default,
-  props: args
+  props: {
+    rowClicked: actionsData.rowClicked,
+    ...args,
+  }
 });
 
 Basic.parameters = {
@@ -134,5 +145,14 @@ export const DynamicTable = () => ({
 });
 
 DynamicTable.parameters = {
-  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'table-dynamic')
+  preview: generateConfig('components/table/dynamic-table', 'DynamicTableModule', 'dynamic-table')
+};
+
+
+export const RowHover = () => ({
+  template: '<usa-table-row-hover></usa-table-row-hover>',
+});
+
+RowHover.parameters = {
+  preview: generateConfig('components/table/table-row-hover', 'TableRowHoverModule', 'usa-table-row-hover')
 };
