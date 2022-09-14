@@ -1,6 +1,6 @@
 import { Meta, moduleMetadata } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
-import { UsaFileInputComponent, UsaFileInputModule, UsaTableModule } from "@gsa-sam/ngx-uswds";
+import { FileError, UsaFileInputComponent, UsaFileInputModule, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { ReactiveFormsModule } from '@angular/forms';
 import { FileInputTableModule } from "./file-input-table/file-input-table.module";
 import { FileInputUploadModule } from "./file-input-upload/file-input-upload.module";
@@ -8,8 +8,15 @@ import { of } from "rxjs";
 import { delay } from "rxjs/operators";
 import { generateConfig } from "src/sandbox/sandbox-utils";
 
-
+const fileSize = 1000000;
 const template = require('!!raw-loader!./file-input-basic/file-input-basic.component.html');
+const validateFileSize = (files: File[]): File[] => {
+  return files.filter((file) => file.size > fileSize);
+};
+
+const fileSizeErrorMessage = (files: File[]): string[] => {
+  return files.map(file => `${file.name} is larger than ${fileSize} bytes. Total file size: ${file.size} bytes`)
+};
 
 export default {
   title: 'Components/FileInput',
@@ -28,7 +35,7 @@ export default {
   ],
   args: {
     multiple: false,
-    acceptFileType: '.pdf,.csv',
+    acceptFileType: '.pdf3,.csv',
     id: 'file-input-basic',
     hint: undefined,
     disabled: false,
@@ -52,10 +59,18 @@ export const Basic = (args) => ({
     selectedFiles: args.selectedFiles,
     clearFilesOnAdd: args.clearFilesOnAdd,
     displayFileInfo: args.displayFileInfo,
+    fileSizeValidator: {
+      validation: validateFileSize,
+      errorMessage: fileSizeErrorMessage,
+      thisValue: {maxSize: fileSize}
+    },
     uploadRequest: (file) => {
       // Consider upload as success after 3 second mocked delay
       return of(true).pipe(delay(3000));
     },
+    invalidFile: (errors: FileError) => {
+      console.log(errors.errorMessages)
+    }
   }
 });
 

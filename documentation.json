@@ -451,12 +451,12 @@
         },
         {
             "name": "UploadedFile",
-            "id": "interface-UploadedFile-f8eb6a860b009c3ad547a8cde998203e828be7513fc6d73128a5e72d196719668fd419b086999c9942876bc9593ba588f4352da867b8b2f8e887ecc7fe47570c",
+            "id": "interface-UploadedFile-90419bb5b033c62e483d7b5c6d9d8a2a10dcf151c9244b3f49045867c0a2bd06e23a6c3509a5e225e0a4b3f2bb8f3f0692482fb16ed6f2c9dcc1f151a6c48bf5",
             "file": "projects/uswds-components/src/lib/file-input/file-input.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { \n  Component, \n  ElementRef, \n  Input, \n  TemplateRef, \n  ViewChild, \n  forwardRef,\n  Output,\n  EventEmitter, \n} from '@angular/core';\nimport { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';\nimport { Observable } from 'rxjs';\nimport { FileInputConfig } from './file-input.config';\n\nexport interface UploadedFile {\n  isLoading?: boolean, \n  imageId: string, \n  file: File\n}\n@Component({\n  selector: 'usa-file-input',\n  templateUrl: './file-input.component.html',\n  providers: [\n    {\n      provide: NG_VALUE_ACCESSOR,\n      useExisting: forwardRef(() => UsaFileInputComponent),\n      multi: true,\n    },\n  ],\n})\nexport class UsaFileInputComponent implements ControlValueAccessor {\n\n  @ViewChild('fileInputEl') fileInputElement: ElementRef;\n\n  @Input() multiple = false;\n\n  @Input() acceptFileType: string = '';\n\n  @Input() id: string;\n\n  @Input() hint: string | TemplateRef<any>;\n\n  @Input() disabled: boolean;\n\n  @Input() selectedFiles: File[] = [];\n\n  @Input() clearFilesOnAdd: boolean;\n\n  @Input() displayFileInfo: boolean;\n\n  @Input() uploadRequest: (file: File) => Observable<any>;\n\n  @Output() selectedFilesChange = new EventEmitter<File[]>();\n\n  @Output() uploadError = new EventEmitter<File>();\n\n  DRAG_OVER_STATE = false;\n  ERROR_STATE = false;\n\n  inputFiles: UploadedFile[] = [];\n\n  // Save the callbacks, make sure to have a default so your app\n  // doesn't crash when one isn't (yet) registered\n  private onChange = (v: any) => {};\n  private onTouched = () => {};\n\n\n  constructor(\n    private fileInputConfig: FileInputConfig,\n  ) { \n    this.multiple = this.fileInputConfig.multiple;\n    this.acceptFileType = this.fileInputConfig.acceptFileType;\n    this.clearFilesOnAdd = this.fileInputConfig.clearFilesOnAdd;\n    this.displayFileInfo = this.fileInputConfig.displayFileInfo;\n    this.uploadRequest = this.fileInputConfig.uploadRequest;\n  }\n\n  onDragLeave() {\n    this.DRAG_OVER_STATE = false;\n  }\n\n  onDragOver() {\n    this.DRAG_OVER_STATE = true;\n  }\n\n  onFileDrop() {\n    this.DRAG_OVER_STATE = false;\n  }\n\n  onNewFilesUpload($event) {\n    const newFiles: File[] = Array.from($event.target.files);\n    this.fileInputElement.nativeElement.value = null;\n    \n    if (newFiles.length === 0) {\n      return;\n    }\n\n    // Validate new files match expected types\n    let areValidFiles = this.validateFileType(newFiles);\n\n    if (areValidFiles) {\n      this.ERROR_STATE = false;\n    } else {\n      this.ERROR_STATE = true;\n      this.selectedFiles = [];\n      this.inputFiles = [];\n      return;\n    }\n    \n    // Clear current files OR append to existing based on user config\n    if (!this.multiple || this.clearFilesOnAdd) {\n      this.inputFiles = [];\n      this.selectedFiles = newFiles;\n    } else {\n      this.selectedFiles = this.selectedFiles.concat(newFiles);\n    }\n\n    // Read file data and add laoding / preview states\n    newFiles.forEach(file => {\n      const imageId = this.getImageId(file, this.inputFiles);\n      const inputFile = {\n        isLoading: true, imageId, file\n      };\n      this.inputFiles.push(inputFile);\n    });\n\n    this.selectedFilesChange.emit(this.selectedFiles);\n\n    // Notify Angular to update its model\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  removeFile(file: File) {\n    const index = this.selectedFiles.indexOf(file);\n    let inputFileIndex = -1;\n    this.inputFiles.forEach((inputFile, index) => {\n      if (inputFile.file === file) {\n        inputFileIndex = index;\n      }\n    });\n\n    if (index === -1 || inputFileIndex === -1) {\n      return;\n    }\n\n    this.selectedFiles.splice(index, 1);\n    this.selectedFilesChange.emit(this.selectedFiles);\n    this.writeValue(this.selectedFiles);\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  clearFiles() {\n    this.selectedFiles = [];\n    this.selectedFilesChange.emit(this.selectedFiles);\n    this.writeValue(this.selectedFiles);\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  onUploadError(file: File) {\n    this.uploadError.emit(file);\n  }\n\n  trackLoadedFilesBy(index: number, item: UploadedFile) {\n    return item.imageId;\n  }\n\n  registerOnChange(fn: any): void {\n    this.onChange = fn;\n  }\n  registerOnTouched(fn: any): void {\n    this.onTouched = fn;\n  }\n\n  writeValue(files: File[]): void {\n    if (this.disabled || !files) {\n      return;\n    }\n    let areValidFiles = this.validateFileType(files);\n\n    if (areValidFiles) {\n      this.ERROR_STATE = false;\n    } else {\n      this.ERROR_STATE = true;\n      return;\n    }\n\n    this.inputFiles = [];\n    this.selectedFiles = files;\n    // Read file data and add laoding / preview states\n    files.forEach(file => {\n      const imageId = this.getImageId(file, this.inputFiles);\n      const inputFile = {\n        isLoading: true, imageId, file\n      };\n      this.inputFiles.push(inputFile);\n    });\n  }\n\n  setDisabledState(isDisabled: boolean) {\n    this.disabled = isDisabled;\n  }\n\n  private validateFileType(files: File[]) {\n    if (!this.acceptFileType) {\n      return true;\n    }\n\n    const acceptedFiles = this.acceptFileType.split(',');\n\n    for(let i = 0; i < files.length; i++) {\n      const isValidFileType = acceptedFiles.some(acceptedFileType => {\n        const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);\n        return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\\*/g, \"\"))\n      });\n\n      if (!isValidFileType) {\n        return false;\n      }\n    }\n\n    return true;\n  }\n\n\n\n  /**\n   * Given a file and list of pre-uploaded files, generates and returns an id for the file.\n   * If file already exists in pre-uploaded files list, then the id will simply be appended with\n   * a counter to ensure uniqueness\n   * @param file - File to generate id for\n   * @param preExistingFiles - List of files that are uploaded and already have an id\n   * @returns An id for the image\n   */\n  private getImageId(file: File, preUploadedFiles: UploadedFile[]) {\n    let imageId = this._makeSafeForID(file.name);\n\n    imageId = `a${imageId}`;\n    let numExisting = 0;\n    preUploadedFiles.forEach(file => {\n      if (file.imageId === imageId) {\n        numExisting++;\n      }\n    });\n\n    if (numExisting > 0) {\n      imageId = `${imageId}${numExisting}`;\n    }\n    return imageId;\n  }\n\n  /**\n   * Creates an ID name for each file that strips all invalid characters.\n   * @param {string} name - name of the file added to file input\n   * @returns {string} same characters as the name with invalid chars removed\n   */\n  private _makeSafeForID(name: string) {\n    return name.replace(/[^a-z0-9]/g, function replaceName(s) {\n      const c = s.charCodeAt(0);\n      if (c === 32) return \"-\";\n      if (c >= 65 && c <= 90) return `img_${s.toLowerCase()}`;\n      return `__000${(c.toString(16)).slice(-4)}`;\n    });\n  }\n}\n",
+            "sourceCode": "import { \n  Component, \n  ElementRef, \n  Input, \n  TemplateRef, \n  ViewChild, \n  forwardRef,\n  Output,\n  EventEmitter, \n} from '@angular/core';\nimport { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';\nimport { Observable } from 'rxjs';\nimport { FileInputConfig } from './file-input.config';\n\nexport interface UploadedFile {\n  isLoading?: boolean, \n  imageId: string, \n  file: File\n}\n@Component({\n  selector: 'usa-file-input',\n  templateUrl: './file-input.component.html',\n  providers: [\n    {\n      provide: NG_VALUE_ACCESSOR,\n      useExisting: forwardRef(() => UsaFileInputComponent),\n      multi: true,\n    },\n  ],\n})\nexport class UsaFileInputComponent implements ControlValueAccessor {\n\n  @ViewChild('fileInputEl') fileInputElement: ElementRef;\n\n  @Input() multiple = false;\n\n  @Input() acceptFileType: string = '.pdf';\n\n  @Input() id: string;\n\n  @Input() hint: string | TemplateRef<any>;\n\n  @Input() disabled: boolean;\n\n  @Input() selectedFiles: File[] = [];\n\n  @Input() clearFilesOnAdd: boolean;\n\n  @Input() displayFileInfo: boolean;\n\n  @Input() uploadRequest: (file: File) => Observable<any>;\n\n  /**\n   * Validators which will prevent a file from being added to the formControl if it fails any validator added to this input\n   */\n  @Input() uploadStopValidators: Array<{\n    validation: (files: File[]) => File[]\n    errorMessage: string | ((files: File[]) => string),\n    thisValue: any\n  }>\n\n  @Output() selectedFilesChange = new EventEmitter<File[]>();\n\n  @Output() uploadError = new EventEmitter<File>();\n\n  DRAG_OVER_STATE = false;\n  ERROR_STATE = false;\n  ERROR_MESSAGE = '';\n\n  inputFiles: UploadedFile[] = [];\n\n  // Save the callbacks, make sure to have a default so your app\n  // doesn't crash when one isn't (yet) registered\n  private onChange = (v: any) => {};\n  private onTouched = () => {};\n\n\n  constructor(\n    private fileInputConfig: FileInputConfig,\n  ) { \n    this.multiple = this.fileInputConfig.multiple;\n    this.acceptFileType = this.fileInputConfig.acceptFileType;\n    this.clearFilesOnAdd = this.fileInputConfig.clearFilesOnAdd;\n    this.displayFileInfo = this.fileInputConfig.displayFileInfo;\n    this.uploadRequest = this.fileInputConfig.uploadRequest;\n  }\n\n  onDragLeave() {\n    this.DRAG_OVER_STATE = false;\n  }\n\n  onDragOver() {\n    this.DRAG_OVER_STATE = true;\n  }\n\n  onFileDrop() {\n    this.DRAG_OVER_STATE = false;\n  }\n\n  onNewFilesUpload($event) {\n    const newFiles: File[] = Array.from($event.target.files);\n    let invalidFiles: File[] = [];\n    let validFiles: File[] = [];\n    this.fileInputElement.nativeElement.value = null;\n    \n    if (newFiles.length === 0) {\n      return;\n    }\n\n    const fileType = {\n      validation: this.validateFileTypeRArray,\n      errorMessage: (files: File[]):string => files?.map(file => `${file.name} is wrong`).join(',') ?? '',\n      thisValue: {acceptFileType: this.acceptFileType}\n    };\n    this.uploadStopValidators = [fileType];\n    let errors = '';\n    this.uploadStopValidators.forEach(val => {\n      invalidFiles = val.validation.call(val.thisValue, newFiles);\n      const errorMessages = val.errorMessage instanceof Function ? val.errorMessage.call(val.thisValue, invalidFiles) : val.errorMessage;\n      errors = errors.concat(errorMessages);\n    });\n    validFiles = newFiles.filter(file => !invalidFiles?.includes(file));\n    if(errors.length > 0){\n      this.ERROR_STATE = true;\n      this.ERROR_MESSAGE = errors;\n      this.selectedFiles = [];\n      this.inputFiles = [];\n      return;\n    }else {\n      this.ERROR_STATE = false;\n    }\n\n    // Validate new files match expected types\n    // let areValidFiles = this.validateFileType(newFiles);\n\n    // if (areValidFiles) {\n    //   this.ERROR_STATE = false;\n    // } else {\n    //   this.ERROR_STATE = true;\n    //   this.selectedFiles = [];\n    //   this.inputFiles = [];\n    //   return;\n    // }\n    \n    // Clear current files OR append to existing based on user config\n    if (!this.multiple || this.clearFilesOnAdd) {\n      this.inputFiles = [];\n      this.selectedFiles = validFiles;\n    } else {\n      this.selectedFiles = this.selectedFiles.concat(validFiles);\n    }\n\n    // Read file data and add laoding / preview states\n    validFiles.forEach(file => {\n      const imageId = this.getImageId(file, this.inputFiles);\n      const inputFile = {\n        isLoading: true, imageId, file\n      };\n      this.inputFiles.push(inputFile);\n    });\n\n    this.selectedFilesChange.emit(this.selectedFiles);\n\n    // Notify Angular to update its model\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  removeFile(file: File) {\n    const index = this.selectedFiles.indexOf(file);\n    let inputFileIndex = -1;\n    this.inputFiles.forEach((inputFile, index) => {\n      if (inputFile.file === file) {\n        inputFileIndex = index;\n      }\n    });\n\n    if (index === -1 || inputFileIndex === -1) {\n      return;\n    }\n\n    this.selectedFiles.splice(index, 1);\n    this.selectedFilesChange.emit(this.selectedFiles);\n    this.writeValue(this.selectedFiles);\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  clearFiles() {\n    this.selectedFiles = [];\n    this.selectedFilesChange.emit(this.selectedFiles);\n    this.writeValue(this.selectedFiles);\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  onUploadError(file: File) {\n    this.uploadError.emit(file);\n  }\n\n  trackLoadedFilesBy(index: number, item: UploadedFile) {\n    return item.imageId;\n  }\n\n  registerOnChange(fn: any): void {\n    this.onChange = fn;\n  }\n  registerOnTouched(fn: any): void {\n    this.onTouched = fn;\n  }\n\n  writeValue(files: File[]): void {\n    if (this.disabled || !files) {\n      return;\n    }\n    let areValidFiles = this.validateFileType(files);\n\n    if (areValidFiles) {\n      this.ERROR_STATE = false;\n    } else {\n      this.ERROR_STATE = true;\n      return;\n    }\n\n    this.inputFiles = [];\n    this.selectedFiles = files;\n    // Read file data and add laoding / preview states\n    files.forEach(file => {\n      const imageId = this.getImageId(file, this.inputFiles);\n      const inputFile = {\n        isLoading: true, imageId, file\n      };\n      this.inputFiles.push(inputFile);\n    });\n  }\n\n  setDisabledState(isDisabled: boolean) {\n    this.disabled = isDisabled;\n  }\n\n  private validateFileType(files: File[]) {\n    if (!this.acceptFileType) {\n      return true;\n    }\n\n    const acceptedFiles = this.acceptFileType.split(',');\n\n    for(let i = 0; i < files.length; i++) {\n      const isValidFileType = acceptedFiles.some(acceptedFileType => {\n        const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);\n        return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\\*/g, \"\"))\n      });\n\n      if (!isValidFileType) {\n        return false;\n      }\n    }\n\n    return true;\n  }\n  private validateFileTypeRArray(files: File[]): File[] {\n    if (!this.acceptFileType) {\n      return;\n    }\n\n    const acceptedFiles = this.acceptFileType.split(',');\n\n    const invalidFiles = [];\n    for(let i = 0; i < files.length; i++) {\n      acceptedFiles.some(acceptedFileType => {\n        const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);\n        if(true || !(endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\\*/g, \"\")))){\n          invalidFiles.push(files[i])\n        }\n      });\n    }\n    return invalidFiles;\n  }\n\n\n\n  /**\n   * Given a file and list of pre-uploaded files, generates and returns an id for the file.\n   * If file already exists in pre-uploaded files list, then the id will simply be appended with\n   * a counter to ensure uniqueness\n   * @param file - File to generate id for\n   * @param preExistingFiles - List of files that are uploaded and already have an id\n   * @returns An id for the image\n   */\n  private getImageId(file: File, preUploadedFiles: UploadedFile[]) {\n    let imageId = this._makeSafeForID(file.name);\n\n    imageId = `a${imageId}`;\n    let numExisting = 0;\n    preUploadedFiles.forEach(file => {\n      if (file.imageId === imageId) {\n        numExisting++;\n      }\n    });\n\n    if (numExisting > 0) {\n      imageId = `${imageId}${numExisting}`;\n    }\n    return imageId;\n  }\n\n  /**\n   * Creates an ID name for each file that strips all invalid characters.\n   * @param {string} name - name of the file added to file input\n   * @returns {string} same characters as the name with invalid chars removed\n   */\n  private _makeSafeForID(name: string) {\n    return name.replace(/[^a-z0-9]/g, function replaceName(s) {\n      const c = s.charCodeAt(0);\n      if (c === 32) return \"-\";\n      if (c >= 65 && c <= 90) return `img_${s.toLowerCase()}`;\n      return `__000${(c.toString(16)).slice(-4)}`;\n    });\n  }\n}\n",
             "properties": [
                 {
                     "name": "file",
@@ -20456,7 +20456,7 @@
         },
         {
             "name": "HomeComponent",
-            "id": "component-HomeComponent-55c54d0fd3d508ef3a230bd9f81f07387da3599903a8ea95e59e1b1a390521482b4ad9a2afdba36b30b10d13759433499c194badfab5ebbcccbc1587e89acce3",
+            "id": "component-HomeComponent-abd268e75578e1c9da86dd488912f7eb9e33bab497b6ffae3cd7b2edde3efaafc8988485aeee966e669b0cf671346770a13dc97521bea2897810b8fafdebccf7",
             "file": "src/app/home/home.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -20472,7 +20472,93 @@
             "viewProviders": [],
             "inputsClass": [],
             "outputsClass": [],
-            "propertiesClass": [],
+            "propertiesClass": [
+                {
+                    "name": "acceptFileType",
+                    "defaultValue": "'pdf'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "clearFilesOnAdd",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 20
+                },
+                {
+                    "name": "disabled",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                },
+                {
+                    "name": "displayFileInfo",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 22
+                },
+                {
+                    "name": "hint",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | TemplateRef<any>",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                },
+                {
+                    "name": "multiple",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "selectedFiles",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "File[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "uploadRequest",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "function",
+                    "optional": false,
+                    "description": "",
+                    "line": 24
+                }
+            ],
             "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
@@ -20481,11 +20567,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from \"@angular/core\";\n@Component({\n  selector: `app-home`,\n  templateUrl: './home.component.html'\n})\nexport class HomeComponent {}",
+            "sourceCode": "import { Component, TemplateRef } from '@angular/core';\nimport { Observable } from 'rxjs';\n@Component({\n  selector: `app-home`,\n  templateUrl: './home.component.html',\n})\nexport class HomeComponent {\n  multiple = true;\n\n  acceptFileType: string = 'pdf';\n\n  id: string;\n\n  hint: string | TemplateRef<any>;\n\n  disabled: boolean;\n\n  selectedFiles: File[] = [];\n\n  clearFilesOnAdd: boolean;\n\n  displayFileInfo: boolean = true;\n\n  uploadRequest: (file: File) => Observable<any>;\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "templateData": "<main class=\"padding-3\">\n  <div class=\"grid-container height-card text-center\">\n    <h2>Ngx USWDS - Home</h2>\n  </div>\n  <div class=\"grid-container\">\n    <p class=\"text-center\">Use this space for testing new components</p>\n  </div>\n</main>\n"
+            "templateData": "<main class=\"padding-3\">\n  <div class=\"grid-container height-card text-center\">\n    <h2>Ngx USWDS - Home</h2>\n  </div>\n  <div class=\"grid-container\">\n    <p class=\"text-center\">Use this space for testing new components</p>\n  </div>\n  <div>\n    <usa-file-input \n  [id]=\"id\" \n  [displayFileInfo]=\"displayFileInfo\" \n  [multiple]=\"multiple\"\n  [clearFilesOnAdd]=\"clearFilesOnAdd\"\n  [disabled]=\"disabled\"\n  [acceptFileType]=\"acceptFileType\"\n  [hint]=\"hint\"\n  [selectedFiles]=\"selectedFiles\"\n  [uploadRequest]=\"uploadRequest\">\n</usa-file-input>\n  </div>\n</main>\n"
         },
         {
             "name": "InputBasicComponent",
@@ -30431,7 +30517,7 @@
         },
         {
             "name": "UsaFileInputComponent",
-            "id": "component-UsaFileInputComponent-f8eb6a860b009c3ad547a8cde998203e828be7513fc6d73128a5e72d196719668fd419b086999c9942876bc9593ba588f4352da867b8b2f8e887ecc7fe47570c",
+            "id": "component-UsaFileInputComponent-90419bb5b033c62e483d7b5c6d9d8a2a10dcf151c9244b3f49045867c0a2bd06e23a6c3509a5e225e0a4b3f2bb8f3f0692482fb16ed6f2c9dcc1f151a6c48bf5",
             "file": "projects/uswds-components/src/lib/file-input/file-input.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -30453,7 +30539,7 @@
             "inputsClass": [
                 {
                     "name": "acceptFileType",
-                    "defaultValue": "''",
+                    "defaultValue": "'.pdf'",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 37,
@@ -30525,6 +30611,16 @@
                     "line": 51,
                     "type": "function",
                     "decorators": []
+                },
+                {
+                    "name": "uploadStopValidators",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nValidators which will prevent a file from being added to the formControl if it fails any validator added to this input\n",
+                    "description": "<p>Validators which will prevent a file from being added to the formControl if it fails any validator added to this input</p>\n",
+                    "line": 56,
+                    "type": "Array<literal type>",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -30533,7 +30629,7 @@
                     "defaultValue": "new EventEmitter<File[]>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 53,
+                    "line": 62,
                     "type": "EventEmitter"
                 },
                 {
@@ -30541,7 +30637,7 @@
                     "defaultValue": "new EventEmitter<File>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 55,
+                    "line": 64,
                     "type": "EventEmitter"
                 }
             ],
@@ -30554,7 +30650,17 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 57
+                    "line": 66
+                },
+                {
+                    "name": "ERROR_MESSAGE",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 68
                 },
                 {
                     "name": "ERROR_STATE",
@@ -30564,7 +30670,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 58
+                    "line": 67
                 },
                 {
                     "name": "fileInputElement",
@@ -30589,7 +30695,7 @@
                     "type": "UploadedFile[]",
                     "optional": false,
                     "description": "",
-                    "line": 60
+                    "line": 70
                 },
                 {
                     "name": "onChange",
@@ -30599,7 +30705,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 64,
+                    "line": 74,
                     "modifierKind": [
                         121
                     ]
@@ -30612,7 +30718,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 65,
+                    "line": 75,
                     "modifierKind": [
                         121
                     ]
@@ -30632,7 +30738,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 259,
+                    "line": 312,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCreates an ID name for each file that strips all invalid characters.\n",
@@ -30643,8 +30749,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 6398,
-                                "end": 6402,
+                                "pos": 8305,
+                                "end": 8309,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -30655,8 +30761,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 6383,
-                                "end": 6388,
+                                "pos": 8290,
+                                "end": 8295,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -30665,15 +30771,15 @@
                             },
                             "comment": "<ul>\n<li>name of the file added to file input</li>\n</ul>\n",
                             "typeExpression": {
-                                "pos": 6389,
-                                "end": 6397,
+                                "pos": 8296,
+                                "end": 8304,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
                                 "kind": 307,
                                 "type": {
-                                    "pos": 6390,
-                                    "end": 6396,
+                                    "pos": 8297,
+                                    "end": 8303,
                                     "flags": 4194304,
                                     "modifierFlagsCache": 0,
                                     "transformFlags": 1,
@@ -30683,8 +30789,8 @@
                         },
                         {
                             "tagName": {
-                                "pos": 6448,
-                                "end": 6455,
+                                "pos": 8355,
+                                "end": 8362,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -30702,7 +30808,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 154,
+                    "line": 189,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -30725,7 +30831,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 237,
+                    "line": 290,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nGiven a file and list of pre-uploaded files, generates and returns an id for the file.\nIf file already exists in pre-uploaded files list, then the id will simply be appended with\na counter to ensure uniqueness\n",
@@ -30736,8 +30842,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 5747,
-                                "end": 5751,
+                                "pos": 7654,
+                                "end": 7658,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -30748,8 +30854,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 5741,
-                                "end": 5746,
+                                "pos": 7648,
+                                "end": 7653,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -30769,8 +30875,8 @@
                         },
                         {
                             "tagName": {
-                                "pos": 5870,
-                                "end": 5877,
+                                "pos": 7777,
+                                "end": 7784,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -30787,7 +30893,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 78,
+                    "line": 88,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -30797,7 +30903,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 82,
+                    "line": 92,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -30807,7 +30913,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 86,
+                    "line": 96,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -30824,7 +30930,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 90,
+                    "line": 100,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -30852,7 +30958,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 162,
+                    "line": 197,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -30880,7 +30986,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 170,
+                    "line": 205,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -30908,7 +31014,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 173,
+                    "line": 208,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -30936,7 +31042,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 134,
+                    "line": 169,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -30964,7 +31070,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 202,
+                    "line": 237,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -30998,7 +31104,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 166,
+                    "line": 201,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -31035,7 +31141,38 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 206,
+                    "line": 241,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        121
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "files",
+                            "type": "File[]",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "validateFileTypeRArray",
+                    "args": [
+                        {
+                            "name": "files",
+                            "type": "File[]",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "File[]",
+                    "typeParameters": [],
+                    "line": 261,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -31066,7 +31203,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 177,
+                    "line": 212,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -31089,7 +31226,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { \n  Component, \n  ElementRef, \n  Input, \n  TemplateRef, \n  ViewChild, \n  forwardRef,\n  Output,\n  EventEmitter, \n} from '@angular/core';\nimport { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';\nimport { Observable } from 'rxjs';\nimport { FileInputConfig } from './file-input.config';\n\nexport interface UploadedFile {\n  isLoading?: boolean, \n  imageId: string, \n  file: File\n}\n@Component({\n  selector: 'usa-file-input',\n  templateUrl: './file-input.component.html',\n  providers: [\n    {\n      provide: NG_VALUE_ACCESSOR,\n      useExisting: forwardRef(() => UsaFileInputComponent),\n      multi: true,\n    },\n  ],\n})\nexport class UsaFileInputComponent implements ControlValueAccessor {\n\n  @ViewChild('fileInputEl') fileInputElement: ElementRef;\n\n  @Input() multiple = false;\n\n  @Input() acceptFileType: string = '';\n\n  @Input() id: string;\n\n  @Input() hint: string | TemplateRef<any>;\n\n  @Input() disabled: boolean;\n\n  @Input() selectedFiles: File[] = [];\n\n  @Input() clearFilesOnAdd: boolean;\n\n  @Input() displayFileInfo: boolean;\n\n  @Input() uploadRequest: (file: File) => Observable<any>;\n\n  @Output() selectedFilesChange = new EventEmitter<File[]>();\n\n  @Output() uploadError = new EventEmitter<File>();\n\n  DRAG_OVER_STATE = false;\n  ERROR_STATE = false;\n\n  inputFiles: UploadedFile[] = [];\n\n  // Save the callbacks, make sure to have a default so your app\n  // doesn't crash when one isn't (yet) registered\n  private onChange = (v: any) => {};\n  private onTouched = () => {};\n\n\n  constructor(\n    private fileInputConfig: FileInputConfig,\n  ) { \n    this.multiple = this.fileInputConfig.multiple;\n    this.acceptFileType = this.fileInputConfig.acceptFileType;\n    this.clearFilesOnAdd = this.fileInputConfig.clearFilesOnAdd;\n    this.displayFileInfo = this.fileInputConfig.displayFileInfo;\n    this.uploadRequest = this.fileInputConfig.uploadRequest;\n  }\n\n  onDragLeave() {\n    this.DRAG_OVER_STATE = false;\n  }\n\n  onDragOver() {\n    this.DRAG_OVER_STATE = true;\n  }\n\n  onFileDrop() {\n    this.DRAG_OVER_STATE = false;\n  }\n\n  onNewFilesUpload($event) {\n    const newFiles: File[] = Array.from($event.target.files);\n    this.fileInputElement.nativeElement.value = null;\n    \n    if (newFiles.length === 0) {\n      return;\n    }\n\n    // Validate new files match expected types\n    let areValidFiles = this.validateFileType(newFiles);\n\n    if (areValidFiles) {\n      this.ERROR_STATE = false;\n    } else {\n      this.ERROR_STATE = true;\n      this.selectedFiles = [];\n      this.inputFiles = [];\n      return;\n    }\n    \n    // Clear current files OR append to existing based on user config\n    if (!this.multiple || this.clearFilesOnAdd) {\n      this.inputFiles = [];\n      this.selectedFiles = newFiles;\n    } else {\n      this.selectedFiles = this.selectedFiles.concat(newFiles);\n    }\n\n    // Read file data and add laoding / preview states\n    newFiles.forEach(file => {\n      const imageId = this.getImageId(file, this.inputFiles);\n      const inputFile = {\n        isLoading: true, imageId, file\n      };\n      this.inputFiles.push(inputFile);\n    });\n\n    this.selectedFilesChange.emit(this.selectedFiles);\n\n    // Notify Angular to update its model\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  removeFile(file: File) {\n    const index = this.selectedFiles.indexOf(file);\n    let inputFileIndex = -1;\n    this.inputFiles.forEach((inputFile, index) => {\n      if (inputFile.file === file) {\n        inputFileIndex = index;\n      }\n    });\n\n    if (index === -1 || inputFileIndex === -1) {\n      return;\n    }\n\n    this.selectedFiles.splice(index, 1);\n    this.selectedFilesChange.emit(this.selectedFiles);\n    this.writeValue(this.selectedFiles);\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  clearFiles() {\n    this.selectedFiles = [];\n    this.selectedFilesChange.emit(this.selectedFiles);\n    this.writeValue(this.selectedFiles);\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  onUploadError(file: File) {\n    this.uploadError.emit(file);\n  }\n\n  trackLoadedFilesBy(index: number, item: UploadedFile) {\n    return item.imageId;\n  }\n\n  registerOnChange(fn: any): void {\n    this.onChange = fn;\n  }\n  registerOnTouched(fn: any): void {\n    this.onTouched = fn;\n  }\n\n  writeValue(files: File[]): void {\n    if (this.disabled || !files) {\n      return;\n    }\n    let areValidFiles = this.validateFileType(files);\n\n    if (areValidFiles) {\n      this.ERROR_STATE = false;\n    } else {\n      this.ERROR_STATE = true;\n      return;\n    }\n\n    this.inputFiles = [];\n    this.selectedFiles = files;\n    // Read file data and add laoding / preview states\n    files.forEach(file => {\n      const imageId = this.getImageId(file, this.inputFiles);\n      const inputFile = {\n        isLoading: true, imageId, file\n      };\n      this.inputFiles.push(inputFile);\n    });\n  }\n\n  setDisabledState(isDisabled: boolean) {\n    this.disabled = isDisabled;\n  }\n\n  private validateFileType(files: File[]) {\n    if (!this.acceptFileType) {\n      return true;\n    }\n\n    const acceptedFiles = this.acceptFileType.split(',');\n\n    for(let i = 0; i < files.length; i++) {\n      const isValidFileType = acceptedFiles.some(acceptedFileType => {\n        const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);\n        return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\\*/g, \"\"))\n      });\n\n      if (!isValidFileType) {\n        return false;\n      }\n    }\n\n    return true;\n  }\n\n\n\n  /**\n   * Given a file and list of pre-uploaded files, generates and returns an id for the file.\n   * If file already exists in pre-uploaded files list, then the id will simply be appended with\n   * a counter to ensure uniqueness\n   * @param file - File to generate id for\n   * @param preExistingFiles - List of files that are uploaded and already have an id\n   * @returns An id for the image\n   */\n  private getImageId(file: File, preUploadedFiles: UploadedFile[]) {\n    let imageId = this._makeSafeForID(file.name);\n\n    imageId = `a${imageId}`;\n    let numExisting = 0;\n    preUploadedFiles.forEach(file => {\n      if (file.imageId === imageId) {\n        numExisting++;\n      }\n    });\n\n    if (numExisting > 0) {\n      imageId = `${imageId}${numExisting}`;\n    }\n    return imageId;\n  }\n\n  /**\n   * Creates an ID name for each file that strips all invalid characters.\n   * @param {string} name - name of the file added to file input\n   * @returns {string} same characters as the name with invalid chars removed\n   */\n  private _makeSafeForID(name: string) {\n    return name.replace(/[^a-z0-9]/g, function replaceName(s) {\n      const c = s.charCodeAt(0);\n      if (c === 32) return \"-\";\n      if (c >= 65 && c <= 90) return `img_${s.toLowerCase()}`;\n      return `__000${(c.toString(16)).slice(-4)}`;\n    });\n  }\n}\n",
+            "sourceCode": "import { \n  Component, \n  ElementRef, \n  Input, \n  TemplateRef, \n  ViewChild, \n  forwardRef,\n  Output,\n  EventEmitter, \n} from '@angular/core';\nimport { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';\nimport { Observable } from 'rxjs';\nimport { FileInputConfig } from './file-input.config';\n\nexport interface UploadedFile {\n  isLoading?: boolean, \n  imageId: string, \n  file: File\n}\n@Component({\n  selector: 'usa-file-input',\n  templateUrl: './file-input.component.html',\n  providers: [\n    {\n      provide: NG_VALUE_ACCESSOR,\n      useExisting: forwardRef(() => UsaFileInputComponent),\n      multi: true,\n    },\n  ],\n})\nexport class UsaFileInputComponent implements ControlValueAccessor {\n\n  @ViewChild('fileInputEl') fileInputElement: ElementRef;\n\n  @Input() multiple = false;\n\n  @Input() acceptFileType: string = '.pdf';\n\n  @Input() id: string;\n\n  @Input() hint: string | TemplateRef<any>;\n\n  @Input() disabled: boolean;\n\n  @Input() selectedFiles: File[] = [];\n\n  @Input() clearFilesOnAdd: boolean;\n\n  @Input() displayFileInfo: boolean;\n\n  @Input() uploadRequest: (file: File) => Observable<any>;\n\n  /**\n   * Validators which will prevent a file from being added to the formControl if it fails any validator added to this input\n   */\n  @Input() uploadStopValidators: Array<{\n    validation: (files: File[]) => File[]\n    errorMessage: string | ((files: File[]) => string),\n    thisValue: any\n  }>\n\n  @Output() selectedFilesChange = new EventEmitter<File[]>();\n\n  @Output() uploadError = new EventEmitter<File>();\n\n  DRAG_OVER_STATE = false;\n  ERROR_STATE = false;\n  ERROR_MESSAGE = '';\n\n  inputFiles: UploadedFile[] = [];\n\n  // Save the callbacks, make sure to have a default so your app\n  // doesn't crash when one isn't (yet) registered\n  private onChange = (v: any) => {};\n  private onTouched = () => {};\n\n\n  constructor(\n    private fileInputConfig: FileInputConfig,\n  ) { \n    this.multiple = this.fileInputConfig.multiple;\n    this.acceptFileType = this.fileInputConfig.acceptFileType;\n    this.clearFilesOnAdd = this.fileInputConfig.clearFilesOnAdd;\n    this.displayFileInfo = this.fileInputConfig.displayFileInfo;\n    this.uploadRequest = this.fileInputConfig.uploadRequest;\n  }\n\n  onDragLeave() {\n    this.DRAG_OVER_STATE = false;\n  }\n\n  onDragOver() {\n    this.DRAG_OVER_STATE = true;\n  }\n\n  onFileDrop() {\n    this.DRAG_OVER_STATE = false;\n  }\n\n  onNewFilesUpload($event) {\n    const newFiles: File[] = Array.from($event.target.files);\n    let invalidFiles: File[] = [];\n    let validFiles: File[] = [];\n    this.fileInputElement.nativeElement.value = null;\n    \n    if (newFiles.length === 0) {\n      return;\n    }\n\n    const fileType = {\n      validation: this.validateFileTypeRArray,\n      errorMessage: (files: File[]):string => files?.map(file => `${file.name} is wrong`).join(',') ?? '',\n      thisValue: {acceptFileType: this.acceptFileType}\n    };\n    this.uploadStopValidators = [fileType];\n    let errors = '';\n    this.uploadStopValidators.forEach(val => {\n      invalidFiles = val.validation.call(val.thisValue, newFiles);\n      const errorMessages = val.errorMessage instanceof Function ? val.errorMessage.call(val.thisValue, invalidFiles) : val.errorMessage;\n      errors = errors.concat(errorMessages);\n    });\n    validFiles = newFiles.filter(file => !invalidFiles?.includes(file));\n    if(errors.length > 0){\n      this.ERROR_STATE = true;\n      this.ERROR_MESSAGE = errors;\n      this.selectedFiles = [];\n      this.inputFiles = [];\n      return;\n    }else {\n      this.ERROR_STATE = false;\n    }\n\n    // Validate new files match expected types\n    // let areValidFiles = this.validateFileType(newFiles);\n\n    // if (areValidFiles) {\n    //   this.ERROR_STATE = false;\n    // } else {\n    //   this.ERROR_STATE = true;\n    //   this.selectedFiles = [];\n    //   this.inputFiles = [];\n    //   return;\n    // }\n    \n    // Clear current files OR append to existing based on user config\n    if (!this.multiple || this.clearFilesOnAdd) {\n      this.inputFiles = [];\n      this.selectedFiles = validFiles;\n    } else {\n      this.selectedFiles = this.selectedFiles.concat(validFiles);\n    }\n\n    // Read file data and add laoding / preview states\n    validFiles.forEach(file => {\n      const imageId = this.getImageId(file, this.inputFiles);\n      const inputFile = {\n        isLoading: true, imageId, file\n      };\n      this.inputFiles.push(inputFile);\n    });\n\n    this.selectedFilesChange.emit(this.selectedFiles);\n\n    // Notify Angular to update its model\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  removeFile(file: File) {\n    const index = this.selectedFiles.indexOf(file);\n    let inputFileIndex = -1;\n    this.inputFiles.forEach((inputFile, index) => {\n      if (inputFile.file === file) {\n        inputFileIndex = index;\n      }\n    });\n\n    if (index === -1 || inputFileIndex === -1) {\n      return;\n    }\n\n    this.selectedFiles.splice(index, 1);\n    this.selectedFilesChange.emit(this.selectedFiles);\n    this.writeValue(this.selectedFiles);\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  clearFiles() {\n    this.selectedFiles = [];\n    this.selectedFilesChange.emit(this.selectedFiles);\n    this.writeValue(this.selectedFiles);\n    this.onChange(this.selectedFiles);\n    this.onTouched();\n  }\n\n  onUploadError(file: File) {\n    this.uploadError.emit(file);\n  }\n\n  trackLoadedFilesBy(index: number, item: UploadedFile) {\n    return item.imageId;\n  }\n\n  registerOnChange(fn: any): void {\n    this.onChange = fn;\n  }\n  registerOnTouched(fn: any): void {\n    this.onTouched = fn;\n  }\n\n  writeValue(files: File[]): void {\n    if (this.disabled || !files) {\n      return;\n    }\n    let areValidFiles = this.validateFileType(files);\n\n    if (areValidFiles) {\n      this.ERROR_STATE = false;\n    } else {\n      this.ERROR_STATE = true;\n      return;\n    }\n\n    this.inputFiles = [];\n    this.selectedFiles = files;\n    // Read file data and add laoding / preview states\n    files.forEach(file => {\n      const imageId = this.getImageId(file, this.inputFiles);\n      const inputFile = {\n        isLoading: true, imageId, file\n      };\n      this.inputFiles.push(inputFile);\n    });\n  }\n\n  setDisabledState(isDisabled: boolean) {\n    this.disabled = isDisabled;\n  }\n\n  private validateFileType(files: File[]) {\n    if (!this.acceptFileType) {\n      return true;\n    }\n\n    const acceptedFiles = this.acceptFileType.split(',');\n\n    for(let i = 0; i < files.length; i++) {\n      const isValidFileType = acceptedFiles.some(acceptedFileType => {\n        const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);\n        return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\\*/g, \"\"))\n      });\n\n      if (!isValidFileType) {\n        return false;\n      }\n    }\n\n    return true;\n  }\n  private validateFileTypeRArray(files: File[]): File[] {\n    if (!this.acceptFileType) {\n      return;\n    }\n\n    const acceptedFiles = this.acceptFileType.split(',');\n\n    const invalidFiles = [];\n    for(let i = 0; i < files.length; i++) {\n      acceptedFiles.some(acceptedFileType => {\n        const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);\n        if(true || !(endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\\*/g, \"\")))){\n          invalidFiles.push(files[i])\n        }\n      });\n    }\n    return invalidFiles;\n  }\n\n\n\n  /**\n   * Given a file and list of pre-uploaded files, generates and returns an id for the file.\n   * If file already exists in pre-uploaded files list, then the id will simply be appended with\n   * a counter to ensure uniqueness\n   * @param file - File to generate id for\n   * @param preExistingFiles - List of files that are uploaded and already have an id\n   * @returns An id for the image\n   */\n  private getImageId(file: File, preUploadedFiles: UploadedFile[]) {\n    let imageId = this._makeSafeForID(file.name);\n\n    imageId = `a${imageId}`;\n    let numExisting = 0;\n    preUploadedFiles.forEach(file => {\n      if (file.imageId === imageId) {\n        numExisting++;\n      }\n    });\n\n    if (numExisting > 0) {\n      imageId = `${imageId}${numExisting}`;\n    }\n    return imageId;\n  }\n\n  /**\n   * Creates an ID name for each file that strips all invalid characters.\n   * @param {string} name - name of the file added to file input\n   * @returns {string} same characters as the name with invalid chars removed\n   */\n  private _makeSafeForID(name: string) {\n    return name.replace(/[^a-z0-9]/g, function replaceName(s) {\n      const c = s.charCodeAt(0);\n      if (c === 32) return \"-\";\n      if (c >= 65 && c <= 90) return `img_${s.toLowerCase()}`;\n      return `__000${(c.toString(16)).slice(-4)}`;\n    });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -31106,7 +31243,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 65,
+                "line": 75,
                 "jsdoctags": [
                     {
                         "name": "fileInputConfig",
@@ -31122,7 +31259,7 @@
             "implements": [
                 "ControlValueAccessor"
             ],
-            "templateData": "<span class=\"usa-hint\" [attr.id]=\"id + '-hint'\">{{hint}}</span>\n<div class=\"usa-file-input grid-row\">\n  <div class=\"usa-file-input__target\" [ngClass]=\"{\n      'usa-file-input--drag': DRAG_OVER_STATE,\n      'has-invalid-file': ERROR_STATE\n    }\">\n    <ng-container *ngIf=\"displayFileInfo && (inputFiles && inputFiles.length); else selectFiles\">\n      <div class=\"usa-file-input__preview-heading\">\n        <ng-container *ngIf=\"inputFiles.length > 1; else singleFileSelected\">\n          {{inputFiles.length}} files selected\n          <span class=\"usa-file-input__choose\">Change files</span>\n        </ng-container>\n        <ng-template #singleFileSelected>\n          Selected file\n          <span class=\"usa-file-input__choose\">Change file</span>\n        </ng-template>\n      </div>\n      <div class=\"usa-file-input__preview\"\n        *ngFor=\"let inputFile of inputFiles; trackBy:trackLoadedFilesBy\">\n        <img usaFilePreview [attr.id]=\"inputFile.imageId\" [file]=\"inputFile.file\" [uploadRequest]=\"uploadRequest\" (uploadError)=\"onUploadError($event)\"\n          class=\"usa-file-input__preview-image \" />\n        {{inputFile.file.name}}\n      </div>\n    </ng-container>\n\n    <div class=\"usa-file-input__box\"></div>\n    <div *ngIf=\"ERROR_STATE === true\" class=\"usa-file-input__accepted-files-message\">This is not a valid file type.\n    </div>\n    <input #fileInputEl [attr.id]=\"id\" class=\"usa-file-input__input\" type=\"file\" [attr.name]=\"id\" [attr.files]=\"selectedFiles\"\n      [attr.aria-describedby]=\"id + '-hint'\" [attr.accept]=\"acceptFileType\"\n      [attr.multiple]=\"multiple ? multiple : undefined\" [disabled]=\"disabled\" (dragover)=\"onDragOver()\"\n      (dragleave)=\"onDragLeave()\" (drop)=\"onFileDrop()\" (change)=\"onNewFilesUpload($event)\">\n  </div>\n</div>\n\n<ng-template #selectFiles>\n  <div class=\"usa-file-input__instructions\">\n    <span class=\"usa-file-input__drag-text\">Drag file here or </span>\n    <span class=\"usa-file-input__choose\">choose from folder</span>\n  </div>\n</ng-template>\n"
+            "templateData": "<span class=\"usa-hint\" [attr.id]=\"id + '-hint'\">{{hint}}</span>\n<div class=\"usa-file-input grid-row\">\n  <div class=\"usa-file-input__target\" [ngClass]=\"{\n      'usa-file-input--drag': DRAG_OVER_STATE,\n      'has-invalid-file': ERROR_STATE\n    }\">\n    <ng-container *ngIf=\"displayFileInfo && (inputFiles && inputFiles.length); else selectFiles\">\n      <div class=\"usa-file-input__preview-heading\">\n        <ng-container *ngIf=\"inputFiles.length > 1; else singleFileSelected\">\n          {{inputFiles.length}} files selected\n          <span class=\"usa-file-input__choose\">Change files</span>\n        </ng-container>\n        <ng-template #singleFileSelected>\n          Selected file\n          <span class=\"usa-file-input__choose\">Change file</span>\n        </ng-template>\n      </div>\n      <div class=\"usa-file-input__preview\"\n        *ngFor=\"let inputFile of inputFiles; trackBy:trackLoadedFilesBy\">\n        <img usaFilePreview [attr.id]=\"inputFile.imageId\" [file]=\"inputFile.file\" [uploadRequest]=\"uploadRequest\" (uploadError)=\"onUploadError($event)\"\n          class=\"usa-file-input__preview-image \" />\n        {{inputFile.file.name}}\n      </div>\n    </ng-container>\n\n    <div class=\"usa-file-input__box\"></div>\n    <!-- <div *ngIf=\"ERROR_STATE === true\" class=\"usa-file-input__accepted-files-message\">This is not a valid file type. -->\n    <div *ngIf=\"ERROR_STATE === true\" class=\"usa-file-input__accepted-files-message\">{{ERROR_MESSAGE}}</div>\n    <input #fileInputEl [attr.id]=\"id\" class=\"usa-file-input__input\" type=\"file\" [attr.name]=\"id\" [attr.files]=\"selectedFiles\"\n      [attr.aria-describedby]=\"id + '-hint'\" [attr.accept]=\"acceptFileType\"\n      [attr.multiple]=\"multiple ? multiple : undefined\" [disabled]=\"disabled\" (dragover)=\"onDragOver()\"\n      (dragleave)=\"onDragLeave()\" (drop)=\"onFileDrop()\" (change)=\"onNewFilesUpload($event)\">\n  </div>\n</div>\n\n<ng-template #selectFiles>\n  <div class=\"usa-file-input__instructions\">\n    <span class=\"usa-file-input__drag-text\">Drag file here or </span>\n    <span class=\"usa-file-input__choose\">choose from folder</span>\n  </div>\n</ng-template>\n"
         },
         {
             "name": "UsaHeaderComponent",
@@ -37852,7 +37989,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "tr.usa-table__row--hovered {\n  td {\n    background-color: #e1f3f8;\n    cursor: pointer;\n  }\n}\n\ntable {\n  color: red;\n}\n",
+                    "data": "::ng-deep {\n  tr.usa-table__row--hovered {\n    td {\n      background-color: #e1f3f8 !important;\n      cursor: pointer;\n    }\n  }\n}\n",
                     "styleUrl": "./table.component.scss"
                 }
             ],
@@ -42325,13 +42462,13 @@
         },
         {
             "name": "HomeModule",
-            "id": "module-HomeModule-1687f8a2a741f660f0493ac102147f17fc9153a80c445aacf98dba29efa31dacb4972642516ffecc09138427e0fb0be965992666569facc7fcd6b9143c01dbde",
+            "id": "module-HomeModule-60ca1fed62298001055d1c77be73e33aa4d713431c8bf4a3b01d50ab030cc99d109d509ecd11f7665f0d82992ded70939488961eddd9287905ec3b9f81caf2db",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/home/home.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { HomeComponent } from \"./home.component\";\nimport { RouterModule, Routes } from '@angular/router';\n\nconst routes: Routes = [\n  {\n    path: '',\n    component: HomeComponent\n  }\n]\n\n@NgModule({\n  imports: [\n    CommonModule,\n    RouterModule.forChild(routes),\n  ],\n  declarations: [\n    HomeComponent\n  ],\n  exports: [\n    HomeComponent,\n    RouterModule,\n  ]\n})\nexport class HomeModule {}\n",
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { HomeComponent } from \"./home.component\";\nimport { RouterModule, Routes } from '@angular/router';\nimport { UsaFileInputModule } from '@gsa-sam/ngx-uswds';\n\nconst routes: Routes = [\n  {\n    path: '',\n    component: HomeComponent\n  }\n]\n\n@NgModule({\n  imports: [\n    CommonModule,\n    RouterModule.forChild(routes),\n    UsaFileInputModule\n  ],\n  declarations: [\n    HomeComponent\n  ],\n  exports: [\n    HomeComponent,\n    RouterModule,\n  ]\n})\nexport class HomeModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -42347,7 +42484,11 @@
                 },
                 {
                     "type": "imports",
-                    "elements": []
+                    "elements": [
+                        {
+                            "name": "UsaFileInputModule"
+                        }
+                    ]
                 },
                 {
                     "type": "exports",
@@ -45186,6 +45327,76 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/formly-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45226,6 +45437,16 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45251,16 +45472,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
             },
             {
                 "name": "Basic",
@@ -45353,76 +45564,6 @@
                 "defaultValue": "basicTemplate.bind({})"
             },
             {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
                 "name": "basicColumns",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -45466,21 +45607,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<ComboBoxBasicComponent>",
                 "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45928,41 +46069,11 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/character-count/character-count.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaCharacterCountDirective>",
-                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaCheckboxComponent>",
-                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<FormlyForm>",
                 "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaSearchComponent>",
-                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
             },
             {
                 "name": "FormControlTemplate",
@@ -45978,11 +46089,11 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<FormlyForm>",
-                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                "type": "Story<UsaSearchComponent>",
+                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
             },
             {
                 "name": "FormControlTemplate",
@@ -45998,11 +46109,11 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
+                "file": "src/app/formly/input/formly-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<UsaSearchComponent>",
-                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                "type": "Story<FormlyForm>",
+                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
             },
             {
                 "name": "FormControlTemplate",
@@ -46013,6 +46124,36 @@
                 "deprecationMessage": "",
                 "type": "Story<UsaTextareaComponent>",
                 "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaSearchComponent>",
+                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/character-count/character-count.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaCharacterCountDirective>",
+                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaCheckboxComponent>",
+                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
             },
             {
                 "name": "headerData",
@@ -46455,6 +46596,69 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/formly-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46549,69 +46753,6 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
             },
             {
                 "name": "ResizeObserver",
@@ -46738,6 +46879,76 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/formly-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46803,76 +47014,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
             },
             {
                 "name": "uniqueId",
@@ -50459,6 +50600,305 @@
                     "description": "<p>Animations used by SdsDialog.</p>\n"
                 }
             ],
+            "src/app/formly/checkbox/formly-checkbox.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "MultiCheckbox",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<formly-multi-checkbox></formly-multi-checkbox>`\n})",
+                    "rawdescription": "------------ MultiCheckbox -------------------",
+                    "description": "<p>------------ MultiCheckbox -------------------</p>\n"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+                }
+            ],
+            "src/app/formly/dropdown/dropdown.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaDropdownComponent>",
+                    "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+                }
+            ],
+            "src/app/formly/datepicker/datepicker.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaSearchComponent>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+                }
+            ],
+            "src/app/formly/radio/formly-radio.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
+                }
+            ],
+            "src/app/formly/input/formly-input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
+                }
+            ],
+            "src/app/formly/textarea/formly-textarea.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaTextareaComponent>",
+                    "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+                }
+            ],
+            "src/app/formly/search/formly-search.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaSearchComponent>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+                }
+            ],
             "src/app/components/character-count/character-count.stories.ts": [
                 {
                     "name": "Basic",
@@ -50602,6 +51042,58 @@
                     "type": ""
                 }
             ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                }
+            ],
             "src/app/components/dropdown/dropdown.stories.ts": [
                 {
                     "name": "Basic",
@@ -50683,58 +51175,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-                }
-            ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
-                },
-                {
-                    "name": "dummyData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
-                },
-                {
-                    "name": "mockService",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
             "src/app/components/input/input.stories.ts": [
@@ -50976,305 +51416,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "(args) => ({\n  template: `<tooltip-basic [position]=\"'${args.position}'\" [title]=\"'${args.title}'\">Tooltip</tooltip-basic>`,\n})"
-                }
-            ],
-            "src/app/formly/checkbox/formly-checkbox.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "MultiCheckbox",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<formly-multi-checkbox></formly-multi-checkbox>`\n})",
-                    "rawdescription": "------------ MultiCheckbox -------------------",
-                    "description": "<p>------------ MultiCheckbox -------------------</p>\n"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-                }
-            ],
-            "src/app/formly/datepicker/datepicker.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaSearchComponent>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-                }
-            ],
-            "src/app/formly/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaDropdownComponent>",
-                    "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                }
-            ],
-            "src/app/formly/input/formly-input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
-                }
-            ],
-            "src/app/formly/radio/formly-radio.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
-                }
-            ],
-            "src/app/formly/search/formly-search.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaSearchComponent>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-                }
-            ],
-            "src/app/formly/textarea/formly-textarea.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaTextareaComponent>",
-                    "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
                 }
             ],
             "src/app/components/table/table-static-data.ts": [
@@ -55557,8 +55698,8 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "UsaFileInputComponent",
-                "coveragePercent": 5,
-                "coverageCount": "2/34",
+                "coveragePercent": 8,
+                "coverageCount": "3/37",
                 "status": "low"
             },
             {
@@ -58655,7 +58796,7 @@
                 "linktype": "component",
                 "name": "HomeComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/1",
+                "coverageCount": "0/10",
                 "status": "low"
             },
             {

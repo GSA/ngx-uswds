@@ -5,7 +5,9 @@
   [multiple]="multiple" 
   [clearFilesOnAdd]="clearFilesOnAdd"
   [displayFileInfo]="displayFileInfo"
+  [acceptFileType]="acceptFileType"
   (selectedFilesChange)="files = $event"
+  (invalidFilesAdded)=invalidFile($event)
 >
 </usa-file-input>
 

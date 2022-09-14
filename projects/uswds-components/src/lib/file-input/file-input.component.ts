@@ -17,6 +17,16 @@ export interface UploadedFile {
   imageId: string, 
   file: File
 }
+
+export interface FileValidator{
+  validation: (files: File[]) => File[];
+  errorMessage: string[] | ((files: File[]) => string[]);
+  thisValue?: any;
+}
+export interface FileError{
+  invalidFiles: File[];
+  errorMessages: string[];
+}
 @Component({
   selector: 'usa-file-input',
   templateUrl: './file-input.component.html',
@@ -48,14 +58,24 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
   @Input() displayFileInfo: boolean;
 
+  @Input() showErrorInInput: boolean = true;
+
   @Input() uploadRequest: (file: File) => Observable<any>;
+
+  /**
+   * Validators which will prevent a file from being added to the formControl if it fails any validator added to this input
+   */
+  @Input() uploadStopValidators: Array<FileValidator> = [];
 
   @Output() selectedFilesChange = new EventEmitter<File[]>();
 
   @Output() uploadError = new EventEmitter<File>();
 
+  @Output() invalidFilesAdded = new EventEmitter<FileError>();
+
   DRAG_OVER_STATE = false;
   ERROR_STATE = false;
+  ERROR_MESSAGE = '';
 
   inputFiles: UploadedFile[] = [];
 
@@ -89,34 +109,67 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
   onNewFilesUpload($event) {
     const newFiles: File[] = Array.from($event.target.files);
+    let invalidFiles: File[] = [];
+    let validFiles: File[] = [];
     this.fileInputElement.nativeElement.value = null;
     
     if (newFiles.length === 0) {
       return;
     }
 
-    // Validate new files match expected types
-    let areValidFiles = this.validateFileType(newFiles);
-
-    if (areValidFiles) {
-      this.ERROR_STATE = false;
-    } else {
-      this.ERROR_STATE = true;
+    const fileType: FileValidator = {
+      validation: this.validateFileTypeRArray,
+      errorMessage: (files: File[]):string[] => files?.map(file => `${file.name} is the wrong file type`) ?? [],
+      thisValue: {acceptFileType: this.acceptFileType}
+    };
+    const allValidators = this.uploadStopValidators.concat([fileType])
+    let errorMessages = [];
+    allValidators.forEach(val => {
+      const failedCurrentValidation: File[] = val.validation.call(val.thisValue, newFiles);
+      const currentErrorMessages = val.errorMessage instanceof Function ? val.errorMessage.call(val.thisValue, failedCurrentValidation) : val.errorMessage;
+      errorMessages = errorMessages.concat(currentErrorMessages);
+      invalidFiles = invalidFiles.concat(failedCurrentValidation);// TODO: Create concat if not present so that the same file is not uploaded multiple times
+    });
+    validFiles = newFiles.filter(file => !invalidFiles?.includes(file));
+    if(errorMessages.length > 0){
+      if(this.showErrorInInput){
+        this.ERROR_STATE = true;
+        this.ERROR_MESSAGE = errorMessages.join(',');
+      }
+      this.invalidFilesAdded.emit({invalidFiles, errorMessages});
       this.selectedFiles = [];
       this.inputFiles = [];
+      // return;
+    }else {
+      this.ERROR_STATE = false;
+    }
+
+    // Validate new files match expected types
+    // let areValidFiles = this.validateFileType(newFiles);
+
+    // if (areValidFiles) {
+    //   this.ERROR_STATE = false;
+    // } else {
+    //   this.ERROR_STATE = true;
+    //   this.selectedFiles = [];
+    //   this.inputFiles = [];
+    //   return;
+    // }
+
+    if(validFiles.length === 0){
       return;
     }
     
     // Clear current files OR append to existing based on user config
     if (!this.multiple || this.clearFilesOnAdd) {
       this.inputFiles = [];
-      this.selectedFiles = newFiles;
+      this.selectedFiles = validFiles;
     } else {
-      this.selectedFiles = this.selectedFiles.concat(newFiles);
+      this.selectedFiles = this.selectedFiles.concat(validFiles);
     }
 
     // Read file data and add laoding / preview states
-    newFiles.forEach(file => {
+    validFiles.forEach(file => {
       const imageId = this.getImageId(file, this.inputFiles);
       const inputFile = {
         isLoading: true, imageId, file
@@ -222,6 +275,25 @@ export class UsaFileInputComponent implements ControlValueAccessor {
     }
 
     return true;
+  }
+  private validateFileTypeRArray(files: File[]): File[] {
+    if (!this.acceptFileType) {
+      return;
+    }
+
+    const acceptedFiles = this.acceptFileType.split(',');
+
+    const invalidFiles = [];
+    for(let i = 0; i < files.length; i++) {
+      const isFileValid = acceptedFiles.some(acceptedFileType => {
+        const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);
+        return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\*/g, ""))
+      });
+      if(!isFileValid){
+        invalidFiles.push(files[i])
+      }
+    }
+    return invalidFiles;
   }
 
 

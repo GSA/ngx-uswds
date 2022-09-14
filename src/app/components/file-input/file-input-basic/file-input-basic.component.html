@@ -7,5 +7,8 @@
   [acceptFileType]="acceptFileType"
   [hint]="hint"
   [selectedFiles]="selectedFiles"
-  [uploadRequest]="uploadRequest">
+  [uploadRequest]="uploadRequest"
+  [showErrorInInput]=showError
+  [uploadStopValidators]=[fileSizeValidator]
+  (invalidFilesAdded)=invalidFile($event)>
 </usa-file-input>
