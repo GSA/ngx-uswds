@@ -13,7 +13,7 @@ export class UsaInputAffixDirective implements AfterViewInit {
     private renderer: Renderer2,
     private viewContainer: ViewContainerRef) {
   }
-
+ 
   ngAfterViewInit(){
 
     const parent = this.renderer.parentNode(this.el.nativeElement);

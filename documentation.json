@@ -15542,12 +15542,12 @@
         },
         {
             "name": "UsaInputAffixDirective",
-            "id": "directive-UsaInputAffixDirective-036cae93e1eb1b2d7115dfec1b9f2f12a1ef8e1d051703091114ece4acfb296a3c9818abbbb98bbeb492e3e8bc091f55a967e854e6f20dda2fcddad8d60dc78f",
+            "id": "directive-UsaInputAffixDirective-9eabcf3cb87ce7ee58c2a4adc6fd21ccd28e15e189f46d667e6f90dfe616143e098f6d9d06ff2b7ede50a37f4aa9ea0c926aea0418125d8787cb2914bc715a43",
             "file": "projects/uswds-components/src/lib/input/affix.directive.ts",
             "type": "directive",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { AfterViewInit, Directive, ElementRef, Input, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';\n\n@Directive({\n  selector: 'input[prefix], input[suffix]'\n})\nexport class UsaInputAffixDirective implements AfterViewInit {\n\n  @Input() prefix: TemplateRef<any> | string;\n  @Input() suffix: TemplateRef<any> | string;\n\n  constructor(\n    private el: ElementRef,\n    private renderer: Renderer2,\n    private viewContainer: ViewContainerRef) {\n  }\n\n  ngAfterViewInit(){\n\n    const parent = this.renderer.parentNode(this.el.nativeElement);\n\n    //Need next sibling to ensure generated usa-input-group is inserted into the same place on the page and input is expected to be\n    const nextSibling = this.renderer.nextSibling(this.el.nativeElement);\n\n    let prefixElement, suffixElement;\n    if(this.prefix){\n      prefixElement = this.handleAffix(this.prefix, 'usa-input-prefix')\n    }\n    if(this.suffix){\n      suffixElement = this.handleAffix(this.suffix, 'usa-input-suffix')\n    }\n    // Return early if neither prefix nor suffix provided\n    if(!this.prefix && !this.suffix){\n      return;\n    }\n\n    const inputGroupDiv = document.createElement('div');\n    this.renderer.addClass(inputGroupDiv,'usa-input-group')\n\n    // Apply input class in case only directive was applied\n    this.renderer.addClass(this.el.nativeElement, 'usa-input')\n\n    if(this.prefix){\n      this.renderer.appendChild(inputGroupDiv, prefixElement);\n    }\n    this.renderer.appendChild(inputGroupDiv, this.el.nativeElement);\n    if(this.suffix){\n      this.renderer.appendChild(inputGroupDiv, suffixElement);\n    }\n\n    this.renderer.insertBefore(parent, inputGroupDiv, nextSibling)\n\n  }\n\n  /**\n   *\n   * @param affix Template or string to be displayed as prefix or suffix.\n   * @param affixClass USWDS class to apply to element\n   */\n  handleAffix(affix: TemplateRef<any> | string, affixClass: string){\n    let affixView, affixElement;\n    if(affix instanceof TemplateRef){\n      affixView = this.viewContainer.createEmbeddedView(affix);\n      affixElement = affixView.rootNodes[0];\n    }\n\n    // If text passed into template, need to wrap in element for USWDS CSS to kick in.\n    if(affixView?.rootNodes[0].nodeName === '#text'){\n      const div = document.createElement('div');\n      this.renderer.appendChild(div, affixElement);\n      affixElement = div;\n    // If string passed in, insert into element for CSS to apply to\n    } else if(typeof affix === 'string'){\n      const div = document.createElement('div');\n      div.innerText = affix;\n      affixElement = div;\n    }\n    this.renderer.addClass(affixElement, affixClass)\n    return affixElement;\n  }\n\n\n\n}\n",
+            "sourceCode": "import { AfterViewInit, Directive, ElementRef, Input, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';\n\n@Directive({\n  selector: 'input[prefix], input[suffix]'\n})\nexport class UsaInputAffixDirective implements AfterViewInit {\n\n  @Input() prefix: TemplateRef<any> | string;\n  @Input() suffix: TemplateRef<any> | string;\n\n  constructor(\n    private el: ElementRef,\n    private renderer: Renderer2,\n    private viewContainer: ViewContainerRef) {\n  }\n \n  ngAfterViewInit(){\n\n    const parent = this.renderer.parentNode(this.el.nativeElement);\n\n    //Need next sibling to ensure generated usa-input-group is inserted into the same place on the page and input is expected to be\n    const nextSibling = this.renderer.nextSibling(this.el.nativeElement);\n\n    let prefixElement, suffixElement;\n    if(this.prefix){\n      prefixElement = this.handleAffix(this.prefix, 'usa-input-prefix')\n    }\n    if(this.suffix){\n      suffixElement = this.handleAffix(this.suffix, 'usa-input-suffix')\n    }\n    // Return early if neither prefix nor suffix provided\n    if(!this.prefix && !this.suffix){\n      return;\n    }\n\n    const inputGroupDiv = document.createElement('div');\n    this.renderer.addClass(inputGroupDiv,'usa-input-group')\n\n    // Apply input class in case only directive was applied\n    this.renderer.addClass(this.el.nativeElement, 'usa-input')\n\n    if(this.prefix){\n      this.renderer.appendChild(inputGroupDiv, prefixElement);\n    }\n    this.renderer.appendChild(inputGroupDiv, this.el.nativeElement);\n    if(this.suffix){\n      this.renderer.appendChild(inputGroupDiv, suffixElement);\n    }\n\n    this.renderer.insertBefore(parent, inputGroupDiv, nextSibling)\n\n  }\n\n  /**\n   *\n   * @param affix Template or string to be displayed as prefix or suffix.\n   * @param affixClass USWDS class to apply to element\n   */\n  handleAffix(affix: TemplateRef<any> | string, affixClass: string){\n    let affixView, affixElement;\n    if(affix instanceof TemplateRef){\n      affixView = this.viewContainer.createEmbeddedView(affix);\n      affixElement = affixView.rootNodes[0];\n    }\n\n    // If text passed into template, need to wrap in element for USWDS CSS to kick in.\n    if(affixView?.rootNodes[0].nodeName === '#text'){\n      const div = document.createElement('div');\n      this.renderer.appendChild(div, affixElement);\n      affixElement = div;\n    // If string passed in, insert into element for CSS to apply to\n    } else if(typeof affix === 'string'){\n      const div = document.createElement('div');\n      div.innerText = affix;\n      affixElement = div;\n    }\n    this.renderer.addClass(affixElement, affixClass)\n    return affixElement;\n  }\n\n\n\n}\n",
             "selector": "input[prefix], input[suffix]",
             "providers": [],
             "inputsClass": [
@@ -15602,8 +15602,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1703,
-                                "end": 1708,
+                                "pos": 1704,
+                                "end": 1709,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -15614,8 +15614,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1697,
-                                "end": 1702,
+                                "pos": 1698,
+                                "end": 1703,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -15626,8 +15626,8 @@
                         },
                         {
                             "name": {
-                                "pos": 1777,
-                                "end": 1787,
+                                "pos": 1778,
+                                "end": 1788,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -15638,8 +15638,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1771,
-                                "end": 1776,
+                                "pos": 1772,
+                                "end": 1777,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -19818,7 +19818,7 @@
         },
         {
             "name": "FormlyBasicInputComponent",
-            "id": "component-FormlyBasicInputComponent-48c93a8643497cc492b2feb571c18676d5fb6370f165bcc903d3dab73b5a14b26b70368385095a68301134296a1c2912f5ffec121eb5e48d954e8faf79fab061",
+            "id": "component-FormlyBasicInputComponent-aae48c6019196e61f233d4efda6bbe274344836090b810b5b166be6f2cbeab391dd524d8f02159149ab8d0cae9753dc10998ed82997826e68ccb6e1ca1ba7712",
             "file": "src/app/formly/input/input-basic/input-basic.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -19901,7 +19901,7 @@
             "propertiesClass": [
                 {
                     "name": "fields",
-                    "defaultValue": "[\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: {\n        placeholder: this.placeholder,\n        label: this.label,\n        description: this.description,\n        required: this.required,\n        characterCount: this.characterCount,\n        prefix: this.prefix,\n        suffix: this.suffix,\n      },\n    },]",
+                    "defaultValue": "[\n    {\n      key: 'search', \n      type: 'input',\n      templateOptions: {\n        placeholder: this.placeholder,\n        label: this.label,\n        description: this.description,\n        required: this.required,\n        characterCount: this.characterCount,\n        prefix: this.prefix,\n        suffix: this.suffix,\n      },\n    },]",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "FormlyFieldConfig[]",
@@ -19948,7 +19948,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { FormGroup } from '@angular/forms';\nimport { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';\n\n@Component({\n  templateUrl: './input-basic.component.html',\n  selector: `formly-input-basic`,\n})\nexport class FormlyBasicInputComponent {\n  @Input() characterCount: number = undefined;\n  @Input() prefix: string = undefined;\n  @Input() suffix: string = undefined;\n  @Input() placeholder = 'Type Here...';\n  @Input() label = 'Keyword Search';\n  @Input() description = `For more information on how to use our keyword search, visit our <a href=\"#\"> help guide </a>`;\n  @Input() required = false\n\n  form = new FormGroup({});\n  model: any = {};\n  options: FormlyFormOptions = {};\n\n  fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: {\n        placeholder: this.placeholder,\n        label: this.label,\n        description: this.description,\n        required: this.required,\n        characterCount: this.characterCount,\n        prefix: this.prefix,\n        suffix: this.suffix,\n      },\n    },];\n\n}\n",
+            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { FormGroup } from '@angular/forms';\nimport { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';\n\n@Component({\n  templateUrl: './input-basic.component.html',\n  selector: `formly-input-basic`,\n})\nexport class FormlyBasicInputComponent {\n  @Input() characterCount: number = undefined;\n  @Input() prefix: string = undefined;\n  @Input() suffix: string = undefined;\n  @Input() placeholder = 'Type Here...';\n  @Input() label = 'Keyword Search';\n  @Input() description = `For more information on how to use our keyword search, visit our <a href=\"#\"> help guide </a>`;\n  @Input() required = false\n\n  form = new FormGroup({});\n  model: any = {};\n  options: FormlyFormOptions = {};\n\n  fields: FormlyFieldConfig[] = [\n    {\n      key: 'search', \n      type: 'input',\n      templateOptions: {\n        placeholder: this.placeholder,\n        label: this.label,\n        description: this.description,\n        required: this.required,\n        characterCount: this.characterCount,\n        prefix: this.prefix,\n        suffix: this.suffix,\n      },\n    },];\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -22161,7 +22161,7 @@
         },
         {
             "name": "SideNavigationBasicComponent",
-            "id": "component-SideNavigationBasicComponent-0f79f3bc08edb1fecb367bd2d013ac3f4f8d1c69474ab54f0e0843c341b79b66196a56c5ab872d66ccabfd3332786c1ac1fc8718898f38a2dc0ffb8332950638",
+            "id": "component-SideNavigationBasicComponent-d21f4b3e07d4bbbf9306b6c8d8427d3b80853bb65c20af686ca60e6df9a10eaf506804564c276634423dcdc86580e392db302686c9663b87b1a3bc6e5e007961",
             "file": "src/app/components/side-navigation/side-navigation-basic/side-navigation-basic.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -22223,7 +22223,7 @@
                 },
                 {
                     "name": "sidenavContent",
-                    "defaultValue": "[\n    {\n      mode: UsaNavigationMode.EXTERNAL,\n      text: 'Accordion',\n      path: 'javascript:void(0)',\n      id: '1',\n      children: [\n        {\n          mode: UsaNavigationMode.EXTERNAL,\n          text: 'Accordion - Child',\n          path: 'javascript:void(0)',\n          id: '100',\n          children: [\n            {\n              mode: UsaNavigationMode.EXTERNAL,\n              text: 'Accordion - Grandchild',\n              path: 'javascript:void(0)',\n              id: '1000'\n            }\n          ]\n        }\n      ]\n    },\n    {\n      mode: UsaNavigationMode.INTERNAL,\n      text: 'File Input',\n      path: '/file-input',\n      id: '10',\n      queryParams: { index: 'opportunities' },\n      children: [\n        {\n          mode: UsaNavigationMode.INTERNAL,\n          text: 'File Input - Child',\n          path: '/file-input-child',\n          id: '104'\n        },\n      ]\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Step Indicator',\n      path: 'step-indicator',\n      id: '14'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Modal',\n      path: 'modal',\n      id: '15'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Tooltip',\n      path: 'tooltip',\n      id: '16'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Table',\n      path: 'table',\n      id: '17',\n    }\n  ]",
+                    "defaultValue": "[\n    {\n      mode: UsaNavigationMode.EXTERNAL,\n      text: 'Accordion',\n      path: '#',\n      id: '1',\n      children: [\n        {\n          mode: UsaNavigationMode.EXTERNAL,\n          text: 'Accordion - Child',\n          path: '#',\n          id: '100',\n          children: [\n            {\n              mode: UsaNavigationMode.EXTERNAL,\n              text: 'Accordion - Grandchild',\n              path: '#',\n              id: '1000'\n            }\n          ]\n        }\n      ]\n    },\n    {\n      mode: UsaNavigationMode.INTERNAL,\n      text: 'File Input',\n      path: '/file-input',\n      id: '10',\n      queryParams: { index: 'opportunities' },\n      children: [\n        {\n          mode: UsaNavigationMode.INTERNAL,\n          text: 'File Input - Child',\n          path: '/file-input-child',\n          id: '104'\n        },\n      ]\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Step Indicator',\n      path: 'step-indicator',\n      id: '14'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Modal',\n      path: 'modal',\n      id: '15'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Tooltip',\n      path: 'tooltip',\n      id: '16'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Table',\n      path: 'table',\n      id: '17',\n    }\n  ]",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 10,
@@ -22241,7 +22241,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { UsaNavigationMode, SidenavModel } from '@gsa-sam/ngx-uswds';\n\n@Component({\n  selector: 'side-navigation-basic',\n  templateUrl: './side-navigation-basic.component.html'\n})\nexport class SideNavigationBasicComponent {\n\n  @Input() sidenavContent: SidenavModel[] = [\n    {\n      mode: UsaNavigationMode.EXTERNAL,\n      text: 'Accordion',\n      path: 'javascript:void(0)',\n      id: '1',\n      children: [\n        {\n          mode: UsaNavigationMode.EXTERNAL,\n          text: 'Accordion - Child',\n          path: 'javascript:void(0)',\n          id: '100',\n          children: [\n            {\n              mode: UsaNavigationMode.EXTERNAL,\n              text: 'Accordion - Grandchild',\n              path: 'javascript:void(0)',\n              id: '1000'\n            }\n          ]\n        }\n      ]\n    },\n    {\n      mode: UsaNavigationMode.INTERNAL,\n      text: 'File Input',\n      path: '/file-input',\n      id: '10',\n      queryParams: { index: 'opportunities' },\n      children: [\n        {\n          mode: UsaNavigationMode.INTERNAL,\n          text: 'File Input - Child',\n          path: '/file-input-child',\n          id: '104'\n        },\n      ]\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Step Indicator',\n      path: 'step-indicator',\n      id: '14'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Modal',\n      path: 'modal',\n      id: '15'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Tooltip',\n      path: 'tooltip',\n      id: '16'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Table',\n      path: 'table',\n      id: '17',\n    }\n  ];\n\n  @Input() expandType: 'single' | 'multiple' = 'single';\n  @Input() enableLabelCollapse: boolean = false;\n  @Input() autoCollapseLabels: boolean = false;\n  @Input() selectFirstLabelChild: boolean = true;\n  @Input() sidenavClicked: Function = ($event) => {\n    console.log($event);\n  }\n}\n",
+            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { UsaNavigationMode, SidenavModel } from '@gsa-sam/ngx-uswds';\n\n@Component({\n  selector: 'side-navigation-basic',\n  templateUrl: './side-navigation-basic.component.html'\n})\nexport class SideNavigationBasicComponent {\n\n  @Input() sidenavContent: SidenavModel[] = [\n    {\n      mode: UsaNavigationMode.EXTERNAL,\n      text: 'Accordion',\n      path: '#',\n      id: '1',\n      children: [\n        {\n          mode: UsaNavigationMode.EXTERNAL,\n          text: 'Accordion - Child',\n          path: '#',\n          id: '100',\n          children: [\n            {\n              mode: UsaNavigationMode.EXTERNAL,\n              text: 'Accordion - Grandchild',\n              path: '#',\n              id: '1000'\n            }\n          ]\n        }\n      ]\n    },\n    {\n      mode: UsaNavigationMode.INTERNAL,\n      text: 'File Input',\n      path: '/file-input',\n      id: '10',\n      queryParams: { index: 'opportunities' },\n      children: [\n        {\n          mode: UsaNavigationMode.INTERNAL,\n          text: 'File Input - Child',\n          path: '/file-input-child',\n          id: '104'\n        },\n      ]\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Step Indicator',\n      path: 'step-indicator',\n      id: '14'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Modal',\n      path: 'modal',\n      id: '15'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Tooltip',\n      path: 'tooltip',\n      id: '16'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Table',\n      path: 'table',\n      id: '17',\n    }\n  ];\n\n  @Input() expandType: 'single' | 'multiple' = 'single';\n  @Input() enableLabelCollapse: boolean = false;\n  @Input() autoCollapseLabels: boolean = false;\n  @Input() selectFirstLabelChild: boolean = true;\n  @Input() sidenavClicked: Function = ($event) => {\n    console.log($event);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -37852,7 +37852,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "tr.usa-table__row--hovered {\n  td {\n    background-color: #e1f3f8;\n    cursor: pointer;\n  }\n}\n\ntable {\n  color: red;\n}\n",
+                    "data": "::ng-deep {\n  tr.usa-table__row--hovered {\n    td {\n      background-color: #e1f3f8 !important;\n      cursor: pointer;\n    }\n  }\n}\n",
                     "styleUrl": "./table.component.scss"
                 }
             ],
@@ -45216,17 +45216,17 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+                "defaultValue": "basicTemplate.bind({})"
             },
             {
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45246,21 +45246,21 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
             },
             {
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "file": "src/app/components/header/header.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "basicTemplate.bind({})"
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -45316,21 +45316,21 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    rowClicked: actionsData.rowClicked,\n    ...args,\n  }\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: args,\n})"
             },
             {
                 "name": "Basic",
@@ -45456,6 +45456,16 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<ComboBoxBasicComponent>",
+                "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45471,16 +45481,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<ComboBoxBasicComponent>",
-                "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
             },
             {
                 "name": "basicTemplate",
@@ -45868,21 +45868,21 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./step-indicator-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./table-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./step-indicator-overview.html')"
             },
             {
                 "name": "footerTemplate",
@@ -46358,6 +46358,16 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-table-border-color',\n        description: 'Defines a border color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-text-color',\n        description: 'Defines a text color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-header-background-color',\n        description: 'Defines a background color for header cells.'\n      },\n      {\n        variable: '$theme-table-header-text-color ',\n        description: 'Defines a text color for header cells. A value of default uses either the default text or reverse text color depending on the header background color.'\n      },\n      {\n        variable: '$theme-table-stripe-background-color',\n        description: 'Defines a background color for alternating horizontal stripes in the striped table variant.'\n      },\n      {\n        variable: '$theme-table-stripe-text-color',\n        description: 'Defines a text color for alternating horizontal stripes in the striped table variant. A value of default uses either the default text or reverse text color depending on the stripe background color.'\n      },\n      {\n        variable: '$theme-table-sorted-header-background-color',\n        description: 'Defines a background color for the sorted column header'\n      },\n      {\n        variable: '$theme-table-sorted-background-color',\n        description: 'Defines a background color for the cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-stripe-background-color',\n        description: 'Defines a background color for the alternating horizontal stripes applied to cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-icon-color',\n        description: 'Defines a fill color for the activated sort button in a sortable column header. A value of default uses either the default text or reverse text color depending on the sorted column header background color.'\n      },\n      {\n        variable: '$theme-table-unsorted-icon-color',\n        description: 'Defines a fill color for the unactivated sort button in a sortable column header'\n      },\n    ]\n  }\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/step-indicator/step-indicator.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46365,16 +46375,6 @@
                 "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n        {\n          variable: '$step-indicator-background-color',\n          description: 'Background color of the component and the gaps around the counters',\n        },\n        {\n          variable: '$theme-step-indicator-counter-gap',\n          description: 'Gap between the counter and the segment'\n        },\n        {\n          variable: '$theme-step-indicator-counter-border-width',\n          description: 'Size of the border around the pending steps'\n        },\n        {\n          variable: '$theme-step-indicator-font-family',\n          description: 'Font family of the labels and counter numbers'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-family',\n          description: 'Font family of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-color',\n          description: 'Color of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size',\n          description: 'Font size of the heading on screens of $theme-step-indicator-min-width and larger'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size-small',\n          description: 'Font size of the heading on screens smaller than $theme-step-indicator-min-width'\n        },\n        {\n          variable: '$theme-step-indicator-label-font-size',\n          description: 'Font size of segment labels'\n        },\n        {\n          variable: '$theme-step-indicator-min-width',\n          description: 'Width at which the component displays large-width features'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-pending',\n          description: 'Color of pending step segments. Use a grade of 20 more than $step-indicator-background-color'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-complete',\n          description: 'Color of complete step segments. Use a grade at least 60.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-current',\n          description: 'Color of the current step segments. Use a grade at least 20 more than $theme-step-indicator-segment-color-complete.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-gap',\n          description: 'Gap between step segments'\n        },\n        {\n          variable: '$theme-step-indicator-segment-height',\n          description: 'Height of the step segment. Note that the mobile segment height is always 1 unit.'\n        },\n        {\n          variable: '$theme-step-indicator-text-pending-color',\n          description: 'The text color of pending steps. Use a gray grade of 60 more than the $step-indicator-background-color.'\n        },\n      ]\n  }\n})",
                 "rawdescription": "-------------------- Overview Notes --------------------",
                 "description": "<p>-------------------- Overview Notes --------------------</p>\n"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-table-border-color',\n        description: 'Defines a border color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-text-color',\n        description: 'Defines a text color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-header-background-color',\n        description: 'Defines a background color for header cells.'\n      },\n      {\n        variable: '$theme-table-header-text-color ',\n        description: 'Defines a text color for header cells. A value of default uses either the default text or reverse text color depending on the header background color.'\n      },\n      {\n        variable: '$theme-table-stripe-background-color',\n        description: 'Defines a background color for alternating horizontal stripes in the striped table variant.'\n      },\n      {\n        variable: '$theme-table-stripe-text-color',\n        description: 'Defines a text color for alternating horizontal stripes in the striped table variant. A value of default uses either the default text or reverse text color depending on the stripe background color.'\n      },\n      {\n        variable: '$theme-table-sorted-header-background-color',\n        description: 'Defines a background color for the sorted column header'\n      },\n      {\n        variable: '$theme-table-sorted-background-color',\n        description: 'Defines a background color for the cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-stripe-background-color',\n        description: 'Defines a background color for the alternating horizontal stripes applied to cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-icon-color',\n        description: 'Defines a fill color for the activated sort button in a sortable column header. A value of default uses either the default text or reverse text color depending on the sorted column header background color.'\n      },\n      {\n        variable: '$theme-table-unsorted-icon-color',\n        description: 'Defines a fill color for the unactivated sort button in a sortable column header'\n      },\n    ]\n  }\n})"
             },
             {
                 "name": "polyfill",
@@ -46527,7 +46527,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -46536,7 +46536,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -46788,21 +46788,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
             },
             {
                 "name": "template",
@@ -50521,6 +50521,58 @@
                     "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
                 }
             ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                }
+            ],
             "src/app/components/checkbox/checkbox.stories.ts": [
                 {
                     "name": "Basic",
@@ -50602,47 +50654,6 @@
                     "type": ""
                 }
             ],
-            "src/app/components/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                },
-                {
-                    "name": "DropdownForms",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                }
-            ],
             "src/app/components/file-input/file-input.stories.ts": [
                 {
                     "name": "Basic",
@@ -50685,56 +50696,45 @@
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
                 }
             ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
+            "src/app/components/dropdown/dropdown.stories.ts": [
                 {
                     "name": "Basic",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
                 },
                 {
                     "name": "basicTemplate",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
                 },
                 {
-                    "name": "dummyData",
+                    "name": "DropdownForms",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
                 },
                 {
-                    "name": "mockService",
+                    "name": "require",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                    "type": ""
                 }
             ],
             "src/app/components/input/input.stories.ts": [

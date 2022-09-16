@@ -11,19 +11,19 @@ export class SideNavigationBasicComponent {
     {
       mode: UsaNavigationMode.EXTERNAL,
       text: 'Accordion',
-      path: 'javascript:void(0)',
+      path: '/',
       id: '1',
       children: [
         {
           mode: UsaNavigationMode.EXTERNAL,
           text: 'Accordion - Child',
-          path: 'javascript:void(0)',
+          path: '/',
           id: '100',
           children: [
             {
               mode: UsaNavigationMode.EXTERNAL,
               text: 'Accordion - Grandchild',
-              path: 'javascript:void(0)',
+              path: '/',
               id: '1000'
             }
           ]

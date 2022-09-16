@@ -21,7 +21,7 @@ export class FormlyBasicInputComponent {
 
   fields: FormlyFieldConfig[] = [
     {
-      key: 'search',
+      key: 'search', 
       type: 'input',
       templateOptions: {
         placeholder: this.placeholder,
