@@ -22765,7 +22765,7 @@
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "templateData": "<usa-table *ngIf=\"displayedData\"\n  [displayedData]=\"displayedData\" \n  [borderless]=\"borderless\" \n  [striped]=\"striped\"\n  [compact]=\"compact\"\n  [scrollable]=\"scrollable\"\n  [stacked]=\"stacked\"\n  [stackedHeader]=\"stackedHeader\"\n  [highlightRowOnHover]=\"highlightRowOnHover\"\n  (rowClicked)=\"rowClicked($event)\"\n>\n  <caption>\n    Borderless table: A borderless table can be useful when you want the information to feel more a part of the text it accompanies and extends.\n  </caption>\n  <ng-container usaColumnDef=\"title\">\n    <th usa-table-header *usaTableHeaderDef>Document Title</th>\n    <td usa-table-data  *usaTableDataDef=\"let document\" data-label=\"Document Title\">{{document.title}}</td>\n  </ng-container>\n  <ng-container usaColumnDef=\"description\">\n    <th usa-table-header *usaTableHeaderDef>Description</th>\n    <td usa-table-data  *usaTableDataDef=\"let document\" data-label=\"Description\">{{document.description}}</td>\n  </ng-container>\n  <ng-container usaColumnDef=\"year\">\n    <th usa-table-header *usaTableHeaderDef>Year</th>\n    <td usa-table-data  *usaTableDataDef=\"let document\" data-label=\"Year\">{{document.year}}</td>\n  </ng-container>\n\n  <tr *usaHeaderRowDef=\"displayedColumns\"></tr>\n  <tr *usaDataRowDef=\"let row; columns: displayedColumns;\"></tr>\n</usa-table>\n"
+            "templateData": "<usa-table *ngIf=\"displayedData\"\n  [displayedData]=\"displayedData\" \n  [borderless]=\"borderless\" \n  [striped]=\"striped\"\n  [compact]=\"compact\" \n  [scrollable]=\"scrollable\"\n  [stacked]=\"stacked\"\n  [stackedHeader]=\"stackedHeader\"\n  [highlightRowOnHover]=\"highlightRowOnHover\"\n  (rowClicked)=\"rowClicked($event)\"\n>\n  <caption>\n    Borderless table: A borderless table can be useful when you want the information to feel more a part of the text it accompanies and extends.\n  </caption>\n  <ng-container usaColumnDef=\"title\">\n    <th usa-table-header *usaTableHeaderDef>Document Title</th>\n    <td usa-table-data  *usaTableDataDef=\"let document\" data-label=\"Document Title\">{{document.title}}</td>\n  </ng-container>\n  <ng-container usaColumnDef=\"description\">\n    <th usa-table-header *usaTableHeaderDef>Description</th>\n    <td usa-table-data  *usaTableDataDef=\"let document\" data-label=\"Description\">{{document.description}}</td>\n  </ng-container>\n  <ng-container usaColumnDef=\"year\">\n    <th usa-table-header *usaTableHeaderDef>Year</th>\n    <td usa-table-data  *usaTableDataDef=\"let document\" data-label=\"Year\">{{document.year}}</td>\n  </ng-container>\n\n  <tr *usaHeaderRowDef=\"displayedColumns\"></tr>\n  <tr *usaDataRowDef=\"let row; columns: displayedColumns;\"></tr>\n</usa-table>\n"
         },
         {
             "name": "TableRowHoverComponent",
@@ -37852,7 +37852,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "tr.usa-table__row--hovered {\n  td {\n    background-color: #e1f3f8;\n    cursor: pointer;\n  }\n}\n\ntable {\n  color: red;\n}\n",
+                    "data": "::ng-deep {\n  tr.usa-table__row--hovered {\n    td {\n      background-color: #e1f3f8 !important;\n      cursor: pointer;\n    }\n  }\n}\n",
                     "styleUrl": "./table.component.scss"
                 }
             ],
@@ -37903,7 +37903,7 @@
                 "OnChanges",
                 "AfterContentChecked"
             ],
-            "templateData": "<div [ngClass]=\"{'usa-table-container--scrollable': scrollable}\">\n  <table role=\"table\" class=\"usa-table\" \n    [ngClass]=\"{\n      'usa-table--borderless': borderless, \n      'usa-table--striped': striped, \n      'usa-table--compact': compact,\n      'usa-table--stacked': stacked,\n      'usa-table--stacked-header': stackedHeader\n    }\">\n    <ng-content select=\"caption\"></ng-content>\n    <thead>\n      <ng-container *ngFor=\"let headerRowDef of _headerRowDefs\"\n        [ngTemplateOutlet]=\"headerTmpl\" [ngTemplateOutletContext]=\"{tableHeaders: headerRowDef.usaHeaderRowDef}\"></ng-container>\n    </thead>\n    <tbody>\n      <ng-container *ngFor=\"let data of displayedData; index as i; trackBy: trackBy ? trackBy : undefined\" \n        [ngTemplateOutlet]=\"dataTmpl\" [ngTemplateOutletContext]=\"{data: data, index: i}\"> </ng-container>\n    </tbody>\n  </table>\n</div>\n\n<div class=\"usa-sr-only usa-table__announcement-region\" aria-live=\"polite\">\n  {{_ariaLiveSortMessage}}\n</div>\n\n\n<!-- Table Header Template-->\n<ng-template #headerTmpl let-tableHeaders=\"tableHeaders\">\n  <tr>\n    <ng-container *ngFor=\"let header of tableHeaders\">\n      <ng-container [ngTemplateOutlet]=\"_columnHeaderMap?.get(header)?.tableHeaderTemplate?.templateRef\"></ng-container>\n    </ng-container>\n  </tr>\n</ng-template>\n\n\n<!-- Table Data Template -->\n<ng-template #dataTmpl let-data=\"data\" let-index=\"index\" >\n  <tr [usaHighlightOnHover]=\"highlightRowOnHover\" (click)=\"rowClicked.emit(data)\">\n    <th *ngIf=\"data.rowHeader\" scope=\"row\">{{data.rowHeader}}</th>\n    <ng-container \n      *ngFor=\"let header of _tableDataDefs.usaDataRowDefColumns\"\n      [ngTemplateOutlet]=\"_columnDataMap.get(header)\"\n      [ngTemplateOutletContext]=\"{\n        $implicit: data, \n        index: index\n      }\">\n    </ng-container>\n  </tr>\n</ng-template>\n\n\n"
+            "templateData": "<div [ngClass]=\"{'usa-table-container--scrollable': scrollable}\">\n  <table role=\"table\" class=\"usa-table full-width\" \n    [ngClass]=\"{\n      'usa-table--borderless': borderless, \n      'usa-table--striped': striped, \n      'usa-table--compact': compact,\n      'usa-table--stacked': stacked,\n      'usa-table--stacked-header': stackedHeader\n    }\">\n    <ng-content select=\"caption\"></ng-content>\n    <thead>\n      <ng-container *ngFor=\"let headerRowDef of _headerRowDefs\"\n        [ngTemplateOutlet]=\"headerTmpl\" [ngTemplateOutletContext]=\"{tableHeaders: headerRowDef.usaHeaderRowDef}\"></ng-container>\n    </thead>\n    <tbody>\n      <ng-container *ngFor=\"let data of displayedData; index as i; trackBy: trackBy ? trackBy : undefined\" \n        [ngTemplateOutlet]=\"dataTmpl\" [ngTemplateOutletContext]=\"{data: data, index: i}\"> </ng-container>\n    </tbody>\n  </table>\n</div>\n\n<div class=\"usa-sr-only usa-table__announcement-region\" aria-live=\"polite\">\n  {{_ariaLiveSortMessage}}\n</div>\n\n\n<!-- Table Header Template-->\n<ng-template #headerTmpl let-tableHeaders=\"tableHeaders\">\n  <tr>\n    <ng-container *ngFor=\"let header of tableHeaders\">\n      <ng-container [ngTemplateOutlet]=\"_columnHeaderMap?.get(header)?.tableHeaderTemplate?.templateRef\"></ng-container>\n    </ng-container>\n  </tr>\n</ng-template>\n\n\n<!-- Table Data Template -->\n<ng-template #dataTmpl let-data=\"data\" let-index=\"index\" >\n  <tr [usaHighlightOnHover]=\"highlightRowOnHover\" (click)=\"rowClicked.emit(data)\">\n    <th *ngIf=\"data.rowHeader\" scope=\"row\">{{data.rowHeader}}</th>\n    <ng-container \n      *ngFor=\"let header of _tableDataDefs.usaDataRowDefColumns\"\n      [ngTemplateOutlet]=\"_columnDataMap.get(header)\"\n      [ngTemplateOutletContext]=\"{\n        $implicit: data, \n        index: index\n      }\">\n    </ng-container>\n  </tr>\n</ng-template>\n\n\n"
         },
         {
             "name": "UsaTextareaComponent",
@@ -45226,6 +45226,16 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45251,16 +45261,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
             },
             {
                 "name": "Basic",
@@ -45396,7 +45396,7 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "file": "src/app/formly/search/formly-search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45406,7 +45406,7 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45466,21 +45466,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<ComboBoxBasicComponent>",
                 "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45988,21 +45988,21 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<FormlyForm>",
-                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/search/formly-search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<UsaSearchComponent>",
                 "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<FormlyForm>",
+                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
             },
             {
                 "name": "FormControlTemplate",
@@ -46590,7 +46590,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "file": "src/app/formly/search/formly-search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46599,7 +46599,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46848,21 +46848,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/search/formly-search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
             },
             {
                 "name": "template",
@@ -50602,6 +50602,58 @@
                     "type": ""
                 }
             ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                }
+            ],
             "src/app/components/dropdown/dropdown.stories.ts": [
                 {
                     "name": "Basic",
@@ -50683,58 +50735,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-                }
-            ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
-                },
-                {
-                    "name": "dummyData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
-                },
-                {
-                    "name": "mockService",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
             "src/app/components/input/input.stories.ts": [
@@ -51154,47 +51154,6 @@
                     "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
                 }
             ],
-            "src/app/formly/radio/formly-radio.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
-                }
-            ],
             "src/app/formly/search/formly-search.stories.ts": [
                 {
                     "name": "Basic",
@@ -51234,6 +51193,47 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+                }
+            ],
+            "src/app/formly/radio/formly-radio.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
                 }
             ],
             "src/app/formly/textarea/formly-textarea.stories.ts": [
