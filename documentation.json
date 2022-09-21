@@ -45216,6 +45216,16 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45231,16 +45241,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "basicTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
             },
             {
                 "name": "Basic",
@@ -45266,6 +45266,16 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/input/input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45281,16 +45291,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
             },
             {
                 "name": "Basic",
@@ -45456,6 +45456,16 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45471,16 +45481,6 @@
                 "deprecationMessage": "",
                 "type": "Story<ComboBoxBasicComponent>",
                 "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45566,7 +45566,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45576,7 +45576,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45848,21 +45848,21 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./radio-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/modal/modal.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./modal-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./radio-overview.html')"
             },
             {
                 "name": "footer",
@@ -46186,7 +46186,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46196,7 +46196,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46338,21 +46338,21 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  }\n})"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/modal/modal.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "() => ({\n  template: footer.default\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  }\n})"
             },
             {
                 "name": "Overview",
@@ -46437,7 +46437,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46446,7 +46446,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46473,6 +46473,15 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46486,15 +46495,6 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
             },
             {
                 "name": "require",
@@ -46738,21 +46738,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/file-input/file-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
             },
             {
                 "name": "template",
@@ -50521,6 +50521,47 @@
                     "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
                 }
             ],
+            "src/app/components/dropdown/dropdown.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+                },
+                {
+                    "name": "DropdownForms",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                }
+            ],
             "src/app/components/checkbox/checkbox.stories.ts": [
                 {
                     "name": "Basic",
@@ -50654,47 +50695,6 @@
                     "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
-            "src/app/components/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                },
-                {
-                    "name": "DropdownForms",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                }
-            ],
             "src/app/components/file-input/file-input.stories.ts": [
                 {
                     "name": "Basic",
@@ -50735,18 +50735,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-                }
-            ],
-            "src/app/components/input/input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/input/input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
                 }
             ],
             "src/app/components/modal/modal.stories.ts": [
@@ -50829,6 +50817,18 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "() => ({\n  template: footer.default\n})"
+                }
+            ],
+            "src/app/components/input/input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/input/input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
                 }
             ],
             "src/app/components/step-indicator/step-indicator.stories.ts": [
@@ -51342,27 +51342,6 @@
                     "type": "literal type"
                 }
             ],
-            "projects/uswds-formly/src/test.ts": [
-                {
-                    "name": "context",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-formly/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-formly/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "literal type"
-                }
-            ],
             "projects/uswds-components/src/test.ts": [
                 {
                     "name": "context",
@@ -51379,6 +51358,27 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-components/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type"
+                }
+            ],
+            "projects/uswds-formly/src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-formly/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-formly/src/test.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "literal type"
@@ -51549,6 +51549,18 @@
                     "defaultValue": "0"
                 }
             ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                }
+            ],
             "projects/uswds-components/src/lib/character-count/character-count.directive.ts": [
                 {
                     "name": "nextId",
@@ -51568,18 +51580,6 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
-                }
-            ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [

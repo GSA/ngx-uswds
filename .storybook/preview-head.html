@@ -19,7 +19,7 @@
   }
 
   function listenForThemesChange() {
-    const select = window.parent.document.body.querySelector('.os-content div[title="Theme"]');
+    const select = window.parent.document.body.querySelector('.os-content select');
     select.addEventListener('change', (event) => {
       const val = event.target.value;
       setTimeout(() => {
