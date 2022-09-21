@@ -4,6 +4,7 @@
     "types": [
       "node"
     ],
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "../src/test.ts",
@@ -13,9 +14,11 @@
   ],
   "include": [
     "../src/app/*",
+    "../src/app/**/*",
     "../projects/**/*"
   ],
   "files": [
-    "./typings.d.ts"
+    "./typings.d.ts",
+    "../src/polyfills.ts"
   ]
 }

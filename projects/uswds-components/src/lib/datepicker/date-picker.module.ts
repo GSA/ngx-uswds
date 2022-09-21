@@ -18,41 +18,38 @@ import { UsaDatePickerButtonIcon } from './date-picker-button';
 
 
 @NgModule({
-  declarations: [
-    UsaDatePickerInput,
-    UsaDatePickerButton,
-    UsaCalendar,
-    UsaCalendarHeader,
-    UsaCalendarBody,
-    UsaMonthView,
-    UsaYearView,
-    UsaMultiYearView,
-    UsaCalendarBody,
-    UsaDatePickerContent,
-    UsaDatePicker,
-    UsaDatePickerWrapper,
-    UsaDatePickerButtonIcon,
-  ],
-  imports: [
-    CommonModule,
-    HoverClassModule,
-  ],
-  providers: [
-    {provide: DateAdapter, useClass: NativeDateAdapter},
-    {provide: USA_DATE_FORMATS, useValue: USA_NATIVE_DATE_FORMATS}
-  ],
-  exports: [
-    UsaDatePickerInput,
-    UsaDatePickerButton,
-    UsaCalendar,
-    UsaCalendarHeader,
-    UsaCalendarBody,
-    UsaDatePickerContent,
-    UsaDatePicker,
-    UsaDatePickerWrapper,
-  ],
-  entryComponents: [
-    UsaDatePickerContent,
-  ]
+    declarations: [
+        UsaDatePickerInput,
+        UsaDatePickerButton,
+        UsaCalendar,
+        UsaCalendarHeader,
+        UsaCalendarBody,
+        UsaMonthView,
+        UsaYearView,
+        UsaMultiYearView,
+        UsaCalendarBody,
+        UsaDatePickerContent,
+        UsaDatePicker,
+        UsaDatePickerWrapper,
+        UsaDatePickerButtonIcon,
+    ],
+    imports: [
+        CommonModule,
+        HoverClassModule,
+    ],
+    providers: [
+        { provide: DateAdapter, useClass: NativeDateAdapter },
+        { provide: USA_DATE_FORMATS, useValue: USA_NATIVE_DATE_FORMATS }
+    ],
+    exports: [
+        UsaDatePickerInput,
+        UsaDatePickerButton,
+        UsaCalendar,
+        UsaCalendarHeader,
+        UsaCalendarBody,
+        UsaDatePickerContent,
+        UsaDatePicker,
+        UsaDatePickerWrapper,
+    ]
 })
 export class UsaDatePickerModule {}

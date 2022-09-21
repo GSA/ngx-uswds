@@ -37852,7 +37852,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "tr.usa-table__row--hovered {\n  td {\n    background-color: #e1f3f8;\n    cursor: pointer;\n  }\n}\n\ntable {\n  color: red;\n}\n",
+                    "data": "::ng-deep {\n  tr.usa-table__row--hovered {\n    td {\n      background-color: #e1f3f8 !important;\n      cursor: pointer;\n    }\n  }\n}\n",
                     "styleUrl": "./table.component.scss"
                 }
             ],
@@ -43931,13 +43931,13 @@
         },
         {
             "name": "UsaDatePickerModule",
-            "id": "module-UsaDatePickerModule-f38b0895b8d587b50d1d7f32ab9453afb9f2536a8ae00679c3567622bceee30f78c8966c25b4a89aecae4747293e123b16608cd4d98b499fb7153ca98230ea90",
+            "id": "module-UsaDatePickerModule-247a1959b6748d307d0f1c5759bb1bd583484ccf328d1235de3f21830d96084d655e1943febbe53890c88bbbf04dc9ba6586a3e8609319025edd35626c02134f",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/datepicker/date-picker.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaCalendar, UsaCalendarHeader } from \"./calendar/calendar\";\nimport { UsaCalendarBody } from \"./calendar/calendar-body\";\nimport { UsaMonthView } from \"./calendar/month-view\";\nimport { UsaMultiYearView } from \"./calendar/multi-year-view\";\nimport { UsaYearView } from \"./calendar/year-view\";\nimport { UsaDatePicker, UsaDatePickerWrapper } from \"./date-picker\";\nimport { UsaDatePickerContent } from \"./date-picker-base\";\nimport { UsaDatePickerInput } from \"./date-picker-input\";\nimport { UsaDatePickerButton } from \"./date-picker-button\";\nimport { DateAdapter } from \"./dateadapter/date-adapter\";\nimport { NativeDateAdapter } from \"./dateadapter/native-date-adapter\";\nimport { USA_DATE_FORMATS } from \"./dateadapter/date-formats\";\nimport { USA_NATIVE_DATE_FORMATS } from \"./dateadapter/native-date-formats\";\nimport { HoverClassModule } from \"../util/hover-class\";\nimport { UsaDatePickerButtonIcon } from './date-picker-button';\n\n\n@NgModule({\n  declarations: [\n    UsaDatePickerInput,\n    UsaDatePickerButton,\n    UsaCalendar,\n    UsaCalendarHeader,\n    UsaCalendarBody,\n    UsaMonthView,\n    UsaYearView,\n    UsaMultiYearView,\n    UsaCalendarBody,\n    UsaDatePickerContent,\n    UsaDatePicker,\n    UsaDatePickerWrapper,\n    UsaDatePickerButtonIcon,\n  ],\n  imports: [\n    CommonModule,\n    HoverClassModule,\n  ],\n  providers: [\n    {provide: DateAdapter, useClass: NativeDateAdapter},\n    {provide: USA_DATE_FORMATS, useValue: USA_NATIVE_DATE_FORMATS}\n  ],\n  exports: [\n    UsaDatePickerInput,\n    UsaDatePickerButton,\n    UsaCalendar,\n    UsaCalendarHeader,\n    UsaCalendarBody,\n    UsaDatePickerContent,\n    UsaDatePicker,\n    UsaDatePickerWrapper,\n  ],\n  entryComponents: [\n    UsaDatePickerContent,\n  ]\n})\nexport class UsaDatePickerModule {}",
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaCalendar, UsaCalendarHeader } from \"./calendar/calendar\";\nimport { UsaCalendarBody } from \"./calendar/calendar-body\";\nimport { UsaMonthView } from \"./calendar/month-view\";\nimport { UsaMultiYearView } from \"./calendar/multi-year-view\";\nimport { UsaYearView } from \"./calendar/year-view\";\nimport { UsaDatePicker, UsaDatePickerWrapper } from \"./date-picker\";\nimport { UsaDatePickerContent } from \"./date-picker-base\";\nimport { UsaDatePickerInput } from \"./date-picker-input\";\nimport { UsaDatePickerButton } from \"./date-picker-button\";\nimport { DateAdapter } from \"./dateadapter/date-adapter\";\nimport { NativeDateAdapter } from \"./dateadapter/native-date-adapter\";\nimport { USA_DATE_FORMATS } from \"./dateadapter/date-formats\";\nimport { USA_NATIVE_DATE_FORMATS } from \"./dateadapter/native-date-formats\";\nimport { HoverClassModule } from \"../util/hover-class\";\nimport { UsaDatePickerButtonIcon } from './date-picker-button';\n\n\n@NgModule({\n    declarations: [\n        UsaDatePickerInput,\n        UsaDatePickerButton,\n        UsaCalendar,\n        UsaCalendarHeader,\n        UsaCalendarBody,\n        UsaMonthView,\n        UsaYearView,\n        UsaMultiYearView,\n        UsaCalendarBody,\n        UsaDatePickerContent,\n        UsaDatePicker,\n        UsaDatePickerWrapper,\n        UsaDatePickerButtonIcon,\n    ],\n    imports: [\n        CommonModule,\n        HoverClassModule,\n    ],\n    providers: [\n        { provide: DateAdapter, useClass: NativeDateAdapter },\n        { provide: USA_DATE_FORMATS, useValue: USA_NATIVE_DATE_FORMATS }\n    ],\n    exports: [\n        UsaDatePickerInput,\n        UsaDatePickerButton,\n        UsaCalendar,\n        UsaCalendarHeader,\n        UsaCalendarBody,\n        UsaDatePickerContent,\n        UsaDatePicker,\n        UsaDatePickerWrapper,\n    ]\n})\nexport class UsaDatePickerModule {}",
             "children": [
                 {
                     "type": "providers",
@@ -44356,13 +44356,13 @@
         },
         {
             "name": "UsaModalModule",
-            "id": "module-UsaModalModule-bcaa60e558241c28923c38c5e7224733d7f0c9c59c6ebf638c588385ddbb4e2767e34f38fd473e62612e3cdbc74ce6bb719cd8957a008794ba5a194fc6166040",
+            "id": "module-UsaModalModule-ba8c88cbc9bfe792d4230b14c56968ec0a87d99db154084a682289bc53e0da39a2be5b6217c0ca86a17a827864821e9a461963064c393a4c0e3f430d6449ca68",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/modal/modal.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport {NgModule} from '@angular/core';\n\nimport {UsaModalWrapper} from './modal-wrapper';\nimport {UsaModalWindow} from './modal-window';\n@NgModule({\n  imports: [\n    CommonModule,\n  ],\n  declarations: [UsaModalWrapper, UsaModalWindow],\n  entryComponents: [UsaModalWrapper, UsaModalWindow],\n  exports: [\n    UsaModalWrapper,\n    UsaModalWindow,\n  ]\n})\nexport class UsaModalModule {}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport {NgModule} from '@angular/core';\n\nimport {UsaModalWrapper} from './modal-wrapper';\nimport {UsaModalWindow} from './modal-window';\n@NgModule({\n    imports: [\n        CommonModule,\n    ],\n    declarations: [UsaModalWrapper, UsaModalWindow],\n    exports: [\n        UsaModalWrapper,\n        UsaModalWindow,\n    ]\n})\nexport class UsaModalModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -45226,6 +45226,16 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45256,16 +45266,6 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/input/input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45276,21 +45276,21 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
             },
             {
                 "name": "Basic",
@@ -45466,21 +45466,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<ComboBoxBasicComponent>",
                 "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45566,7 +45566,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45576,7 +45576,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45848,21 +45848,21 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./modal-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./radio-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./modal-overview.html')"
             },
             {
                 "name": "footer",
@@ -46338,21 +46338,21 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default\n})"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  }\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default\n})"
             },
             {
                 "name": "Overview",
@@ -46437,7 +46437,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46446,7 +46446,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -50602,6 +50602,58 @@
                     "type": ""
                 }
             ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                }
+            ],
             "src/app/components/dropdown/dropdown.stories.ts": [
                 {
                     "name": "Basic",
@@ -50683,58 +50735,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-                }
-            ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
-                },
-                {
-                    "name": "dummyData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
-                },
-                {
-                    "name": "mockService",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
             "src/app/components/input/input.stories.ts": [
@@ -51342,27 +51342,6 @@
                     "type": "literal type"
                 }
             ],
-            "projects/uswds-components/src/test.ts": [
-                {
-                    "name": "context",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "literal type"
-                }
-            ],
             "projects/uswds-formly/src/test.ts": [
                 {
                     "name": "context",
@@ -51379,6 +51358,27 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-formly/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type"
+                }
+            ],
+            "projects/uswds-components/src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/test.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "literal type"
