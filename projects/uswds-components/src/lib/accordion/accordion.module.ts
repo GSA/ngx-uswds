@@ -5,8 +5,7 @@ import {
   UsaAccordionHeader, 
   UsaAccordionItem
 } from "./accordion-items";
-import { UsaAccordionToggle } from "./accordion-toggle.directive";
-import { UsaAccordionComponent } from "./accordion.component";
+import { UsaAccordionComponent, UsaAccordionToggle } from "./accordion.component";
 
 @NgModule({
   imports: [

@@ -8,11 +8,8 @@ import {
   Optional,
   Output,
   ViewChild,
-  ViewEncapsulation,
   OnDestroy,
   isDevMode,
-  Inject,
-  forwardRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -20,7 +17,6 @@ import { KeyCode } from '../../util/key';
 import { DateAdapter } from '../dateadapter/date-adapter';
 import { DateRange } from '../date-selection-model';
 import { createMissingDateImplError } from '../date-picker-errors';
-import { UsaCalendar } from './calendar';
 import { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';
 
 export const yearsPerPage = 12;
