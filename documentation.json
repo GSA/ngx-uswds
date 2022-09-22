@@ -10441,12 +10441,12 @@
         },
         {
             "name": "UsaAccordionToggle",
-            "id": "directive-UsaAccordionToggle-ef4049df00d5ce7b4d6097b38b118b9ab3dd46923e3612eb8b9860ee1368469cc4c31d5b9bb81a586988128229d0f755f2296342564c0ce825fafb8ef95c6c1d",
-            "file": "projects/uswds-components/src/lib/accordion/accordion-toggle.directive.ts",
+            "id": "directive-UsaAccordionToggle-230473329dcbe0ef51bb4d502cb5f59e69ce24375c1e3df69052014913c7bc6c15f27eeb933d9551538cf574b4c8bea4a02e1339fa4ce6cbb11a521f77db5bc6",
+            "file": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
             "type": "directive",
-            "description": "<p>A directive to put on a button that toggles panel opening and closing.</p>\n<p>Due to circular dependency issue, this toggle button is on a separate file</p>\n",
-            "rawdescription": "\n\nA directive to put on a button that toggles panel opening and closing.\n\nDue to circular dependency issue, this toggle button is on a separate file\n",
-            "sourceCode": "import { Directive, Host, Input, Optional } from \"@angular/core\";\nimport { UsaAccordionItem } from \"./accordion-items\";\nimport { UsaAccordionComponent } from \"./accordion.component\";\n\n/**\n * A directive to put on a button that toggles panel opening and closing.\n * \n * Due to circular dependency issue, this toggle button is on a separate file\n */\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { \n  Component, ContentChildren, \n  Input, QueryList, ElementRef, AfterContentChecked, \n  EventEmitter, Output, Renderer2, Optional, Host, Directive \n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n  host: {\n    'class': 'usa-accordion',\n    '[class.usa-accordion--bordered]': 'bordered',\n    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',\n  },\n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig, \n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n\n    // update panels open states\n    this.panels.forEach(panel => { \n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1); \n    });\n\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n",
             "selector": "button[UsaAccordionToggle]",
             "providers": [],
             "inputsClass": [
@@ -10454,7 +10454,7 @@
                     "name": "UsaAccordionToggle",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 28,
+                    "line": 31,
                     "type": "UsaAccordionItem",
                     "decorators": []
                 }
@@ -10472,7 +10472,7 @@
                     "type": "UsaAccordionComponent",
                     "optional": false,
                     "description": "",
-                    "line": 34,
+                    "line": 37,
                     "modifierKind": [
                         123
                     ]
@@ -10484,7 +10484,7 @@
                     "type": "UsaAccordionItem | string",
                     "optional": false,
                     "description": "",
-                    "line": 25,
+                    "line": 28,
                     "modifierKind": [
                         124
                     ]
@@ -10496,7 +10496,7 @@
                     "type": "UsaAccordionItem",
                     "optional": false,
                     "description": "",
-                    "line": 34,
+                    "line": 37,
                     "decorators": [
                         {
                             "name": "Optional",
@@ -10532,7 +10532,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 32,
+                "line": 35,
                 "jsdoctags": [
                     {
                         "name": "accordion",
@@ -10571,7 +10571,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 28,
+                        "line": 31,
                         "jsdoctags": [
                             {
                                 "name": "panel",
@@ -23295,7 +23295,7 @@
         },
         {
             "name": "UsaAccordionComponent",
-            "id": "component-UsaAccordionComponent-db43dbcf3cea2fd14e23288288786fa5360fe3efee19045b3ca86620260eb3274ad4cc613ab5b27b7ff15b9f09061c0cfc4fa6b22efbfbb37db91847fbb5760d",
+            "id": "component-UsaAccordionComponent-230473329dcbe0ef51bb4d502cb5f59e69ce24375c1e3df69052014913c7bc6c15f27eeb933d9551538cf574b4c8bea4a02e1339fa4ce6cbb11a521f77db5bc6",
             "file": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -23319,7 +23319,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nAn array or comma separated strings of panel ids that should be opened **initially**.\n\nFor subsequent changes use methods like `expand()`, `collapse()`, etc. and\nthe `(panelChange)` event.\n",
                     "description": "<p>An array or comma separated strings of panel ids that should be opened <strong>initially</strong>.</p>\n<p>For subsequent changes use methods like <code>expand()</code>, <code>collapse()</code>, etc. and\nthe <code>(panelChange)</code> event.</p>\n",
-                    "line": 40,
+                    "line": 67,
                     "type": "string[]",
                     "decorators": []
                 },
@@ -23330,15 +23330,15 @@
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "pos": 1077,
-                            "end": 1094,
+                            "pos": 1939,
+                            "end": 1956,
                             "flags": 4227072,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 325,
                             "tagName": {
-                                "pos": 1078,
-                                "end": 1085,
+                                "pos": 1940,
+                                "end": 1947,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -23351,7 +23351,7 @@
                     ],
                     "rawdescription": "\n\nIf `true`, accordion will be animated.\n",
                     "description": "<p>If <code>true</code>, accordion will be animated.</p>\n",
-                    "line": 32,
+                    "line": 59,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -23361,7 +23361,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nType of panels.\n\nBootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n`'secondary'`, `'light'` and `'dark'`.\n",
                     "description": "<p>Type of panels.</p>\n<p>Bootstrap provides styles for the following types: <code>&#39;success&#39;</code>, <code>&#39;info&#39;</code>, <code>&#39;warning&#39;</code>, <code>&#39;danger&#39;</code>, <code>&#39;primary&#39;</code>,\n<code>&#39;secondary&#39;</code>, <code>&#39;light&#39;</code> and <code>&#39;dark&#39;</code>.</p>\n",
-                    "line": 55,
+                    "line": 82,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -23372,7 +23372,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nHeading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n",
                     "description": "<p>Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.</p>\n",
-                    "line": 60,
+                    "line": 87,
                     "type": "\"2\" | \"3\" | \"4\" | \"5\" | \"6\"",
                     "decorators": []
                 },
@@ -23382,7 +23382,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\n If `true`, only one panel could be opened at a time.\n\n Opening a new panel will close others.\n",
                     "description": "<p> If <code>true</code>, only one panel could be opened at a time.</p>\n<p> Opening a new panel will close others.</p>\n",
-                    "line": 47,
+                    "line": 74,
                     "type": "boolean",
                     "decorators": []
                 }
@@ -23397,15 +23397,15 @@
                     "description": "<p>An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\nThe payload is the panel id.</p>\n",
                     "jsdoctags": [
                         {
-                            "pos": 2424,
-                            "end": 2440,
+                            "pos": 3286,
+                            "end": 3302,
                             "flags": 4227072,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 325,
                             "tagName": {
-                                "pos": 2425,
-                                "end": 2430,
+                                "pos": 3287,
+                                "end": 3292,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -23415,7 +23415,7 @@
                             "comment": "<p>8.0.0</p>\n"
                         }
                     ],
-                    "line": 78,
+                    "line": 105,
                     "type": "EventEmitter"
                 },
                 {
@@ -23425,7 +23425,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nEvent emitted right before the panel toggle happens.\n",
                     "description": "<p>Event emitted right before the panel toggle happens.</p>\n",
-                    "line": 65,
+                    "line": 92,
                     "type": "EventEmitter"
                 },
                 {
@@ -23435,7 +23435,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nAn event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n",
                     "description": "<p>An event emitted when the expanding animation is finished on the panel. The payload is the panel id.</p>\n",
-                    "line": 70,
+                    "line": 97,
                     "type": "EventEmitter"
                 }
             ],
@@ -23447,7 +23447,7 @@
                     "type": "QueryList<UsaAccordionItem>",
                     "optional": false,
                     "description": "",
-                    "line": 26,
+                    "line": 53,
                     "decorators": [
                         {
                             "name": "ContentChildren",
@@ -23476,7 +23476,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 231,
+                    "line": 258,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23516,7 +23516,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 249,
+                    "line": 276,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23547,7 +23547,7 @@
                     "optional": false,
                     "returnType": "UsaAccordionItem | null",
                     "typeParameters": [],
-                    "line": 257,
+                    "line": 284,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23578,7 +23578,7 @@
                     "optional": false,
                     "returnType": "\"expanded\" | \"collapsed\"",
                     "typeParameters": [],
-                    "line": 145,
+                    "line": 172,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nGets the expanded state string.",
@@ -23614,7 +23614,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 224,
+                    "line": 251,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23654,7 +23654,7 @@
                     "optional": false,
                     "returnType": "HTMLElement | null",
                     "typeParameters": [],
-                    "line": 263,
+                    "line": 290,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23678,7 +23678,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 259,
+                    "line": 286,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23698,7 +23698,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 123,
+                    "line": 150,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCollapses a panel with the given id.\n\nHas no effect if the panel is already collapsed or disabled.\n",
@@ -23721,7 +23721,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 128,
+                    "line": 155,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCollapses all opened panels.\n",
@@ -23740,7 +23740,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 101,
+                    "line": 128,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nExpands a panel with a given id.\n\nHas no effect if the panel is already expanded or disabled.\n",
@@ -23763,7 +23763,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 108,
+                    "line": 135,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nExpands all panels, if `[closeOthers]` is `false`.\n\nIf `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n",
@@ -23782,7 +23782,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 94,
+                    "line": 121,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nChecks if a panel with a given id is expanded.\n",
@@ -23805,7 +23805,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 149,
+                    "line": 176,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -23828,7 +23828,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 213,
+                    "line": 240,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -23871,7 +23871,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 207,
+                    "line": 234,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -23914,7 +23914,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 167,
+                    "line": 194,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -23951,7 +23951,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 137,
+                    "line": 164,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nToggles a panel with the given id.\n\nHas no effect if the panel is disabled.\n",
@@ -23976,7 +23976,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { \n  Component, ContentChildren, \n  Input, QueryList, ElementRef, AfterContentChecked, \n  EventEmitter, Output, Renderer2 \n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n  host: {\n    'class': 'usa-accordion',\n    '[class.usa-accordion--bordered]': 'bordered',\n    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',\n  },\n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig, \n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n\n    // update panels open states\n    this.panels.forEach(panel => { \n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1); \n    });\n\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n",
+            "sourceCode": "import { \n  Component, ContentChildren, \n  Input, QueryList, ElementRef, AfterContentChecked, \n  EventEmitter, Output, Renderer2, Optional, Host, Directive \n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n  host: {\n    'class': 'usa-accordion',\n    '[class.usa-accordion--bordered]': 'bordered',\n    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',\n  },\n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig, \n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n\n    // update panels open states\n    this.panels.forEach(panel => { \n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1); \n    });\n\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -24005,7 +24005,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 78,
+                "line": 105,
                 "jsdoctags": [
                     {
                         "name": "config",
@@ -34048,7 +34048,7 @@
         },
         {
             "name": "UsaMultiYearView",
-            "id": "component-UsaMultiYearView-3f1d3b4ef8bc49f52e3d0a5b3eed894142675d844f6c58749db79f11b00e751164167a1616f9bef2c0739d49b53b01390e1d4975322d74cba14b9e534e03c7a0",
+            "id": "component-UsaMultiYearView-0258a5041fd16e79e9d4c2db420c50dae8f73581ffa07b60a63ad570e6830f8405d408365819e2b06e4176ab084fbd79ee9467491932f2a5a45daea9ec2ec934",
             "file": "projects/uswds-components/src/lib/datepicker/calendar/multi-year-view.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -34071,7 +34071,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nThe date to display in this multi-year view (everything other than the year is ignored).",
                     "description": "<p>The date to display in this multi-year view (everything other than the year is ignored).</p>\n",
-                    "line": 48,
+                    "line": 44,
                     "type": "D",
                     "decorators": []
                 },
@@ -34081,7 +34081,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nFunction that can be used to add custom CSS classes to date cells.",
                     "description": "<p>Function that can be used to add custom CSS classes to date cells.</p>\n",
-                    "line": 99,
+                    "line": 95,
                     "type": "UsaCalendarCellClassFunction<D>",
                     "decorators": []
                 },
@@ -34091,7 +34091,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nA function used to filter which dates are selectable.",
                     "description": "<p>A function used to filter which dates are selectable.</p>\n",
-                    "line": 96,
+                    "line": 92,
                     "type": "function",
                     "decorators": []
                 },
@@ -34101,7 +34101,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nThe maximum selectable date.",
                     "description": "<p>The maximum selectable date.</p>\n",
-                    "line": 89,
+                    "line": 85,
                     "type": "D | null",
                     "decorators": []
                 },
@@ -34111,7 +34111,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nThe minimum selectable date.",
                     "description": "<p>The minimum selectable date.</p>\n",
-                    "line": 81,
+                    "line": 77,
                     "type": "D | null",
                     "decorators": []
                 },
@@ -34121,7 +34121,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nThe currently selected date.",
                     "description": "<p>The currently selected date.</p>\n",
-                    "line": 66,
+                    "line": 62,
                     "type": "DateRange<D> | D | null",
                     "decorators": []
                 }
@@ -34134,7 +34134,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nEmits when any date is activated.",
                     "description": "<p>Emits when any date is activated.</p>\n",
-                    "line": 108,
+                    "line": 104,
                     "type": "EventEmitter<D>"
                 },
                 {
@@ -34144,7 +34144,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nEmits when a new year is selected.",
                     "description": "<p>Emits when a new year is selected.</p>\n",
-                    "line": 102,
+                    "line": 98,
                     "type": "EventEmitter<D>"
                 },
                 {
@@ -34154,7 +34154,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nEmits the selected year. This doesn't imply a change on the selected date",
                     "description": "<p>Emits the selected year. This doesn&#39;t imply a change on the selected date</p>\n",
-                    "line": 105,
+                    "line": 101,
                     "type": "EventEmitter<D>"
                 }
             ],
@@ -34166,7 +34166,7 @@
                     "type": "D",
                     "optional": false,
                     "description": "",
-                    "line": 62,
+                    "line": 58,
                     "modifierKind": [
                         121
                     ]
@@ -34178,7 +34178,7 @@
                     "type": "DateAdapter<D>",
                     "optional": false,
                     "description": "",
-                    "line": 124,
+                    "line": 120,
                     "decorators": [
                         {
                             "name": "Optional",
@@ -34196,7 +34196,7 @@
                     "type": "D | null",
                     "optional": false,
                     "description": "",
-                    "line": 93,
+                    "line": 89,
                     "modifierKind": [
                         121
                     ]
@@ -34208,7 +34208,7 @@
                     "type": "D | null",
                     "optional": false,
                     "description": "",
-                    "line": 85,
+                    "line": 81,
                     "modifierKind": [
                         121
                     ]
@@ -34221,7 +34221,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 41,
+                    "line": 37,
                     "modifierKind": [
                         121
                     ]
@@ -34233,7 +34233,7 @@
                     "type": "DateRange<D> | D | null",
                     "optional": false,
                     "description": "",
-                    "line": 76,
+                    "line": 72,
                     "modifierKind": [
                         121
                     ]
@@ -34245,7 +34245,7 @@
                     "type": "number | null",
                     "optional": false,
                     "description": "<p>The year of the selected date. Null if the selected date is null.</p>\n",
-                    "line": 120,
+                    "line": 116,
                     "rawdescription": "\nThe year of the selected date. Null if the selected date is null."
                 },
                 {
@@ -34255,7 +34255,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "<p>Flag used to filter out space/enter keyup events that originated outside of the view.</p>\n",
-                    "line": 44,
+                    "line": 40,
                     "rawdescription": "\nFlag used to filter out space/enter keyup events that originated outside of the view.",
                     "modifierKind": [
                         121
@@ -34268,7 +34268,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "<p>The year that today falls on.</p>\n",
-                    "line": 117,
+                    "line": 113,
                     "rawdescription": "\nThe year that today falls on."
                 },
                 {
@@ -34278,7 +34278,7 @@
                     "type": "UsaCalendarBody",
                     "optional": false,
                     "description": "<p>The body of calendar table</p>\n",
-                    "line": 111,
+                    "line": 107,
                     "rawdescription": "\nThe body of calendar table",
                     "decorators": [
                         {
@@ -34294,7 +34294,7 @@
                     "type": "UsaCalendarCell[][]",
                     "optional": false,
                     "description": "<p>Grid of calendar cells representing the currently displayed years.</p>\n",
-                    "line": 114,
+                    "line": 110,
                     "rawdescription": "\nGrid of calendar cells representing the currently displayed years."
                 }
             ],
@@ -34312,7 +34312,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 265,
+                    "line": 261,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nCreates an UsaCalendarCell for the given year.",
@@ -34338,7 +34338,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 260,
+                    "line": 256,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nFocuses the active cell after the microtask queue is empty.",
@@ -34350,7 +34350,7 @@
                     "optional": false,
                     "returnType": "number",
                     "typeParameters": [],
-                    "line": 255,
+                    "line": 251,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -34367,7 +34367,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 189,
+                    "line": 185,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nHandles keydown events on the calendar body when calendar is in multi-year view.",
@@ -34397,7 +34397,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 245,
+                    "line": 241,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nHandles keyup events on the calendar body when calendar is in multi-year view.",
@@ -34420,7 +34420,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 144,
+                    "line": 140,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nInitializes this multi-year view.",
@@ -34439,7 +34439,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 301,
+                    "line": 297,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nSets the currently-highlighted year based on a model value.",
@@ -34472,7 +34472,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 274,
+                    "line": 270,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nWhether the given year is enabled.",
@@ -34505,7 +34505,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 178,
+                    "line": 174,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nHandles when a new year is selected.",
@@ -34528,7 +34528,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 169,
+                    "line": 165,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -34538,7 +34538,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 173,
+                    "line": 169,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -34548,7 +34548,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 133,
+                    "line": 129,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -34558,7 +34558,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 139,
+                    "line": 135,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -34570,7 +34570,7 @@
             "description": "<p>An internal component used to display a year selector in the datePicker.</p>\n",
             "rawdescription": "\n\nAn internal component used to display a year selector in the datePicker.\n",
             "type": "component",
-            "sourceCode": "import {\n  AfterContentInit,\n  ChangeDetectionStrategy,\n  ChangeDetectorRef,\n  Component,\n  EventEmitter,\n  Input,\n  Optional,\n  Output,\n  ViewChild,\n  ViewEncapsulation,\n  OnDestroy,\n  isDevMode,\n  Inject,\n  forwardRef,\n} from '@angular/core';\nimport { Subscription } from 'rxjs';\nimport { startWith } from 'rxjs/operators';\nimport { KeyCode } from '../../util/key';\nimport { DateAdapter } from '../dateadapter/date-adapter';\nimport { DateRange } from '../date-selection-model';\nimport { createMissingDateImplError } from '../date-picker-errors';\nimport { UsaCalendar } from './calendar';\nimport { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';\n\nexport const yearsPerPage = 12;\n\nexport const yearsPerRow = 4;\n\n/**\n * An internal component used to display a year selector in the datePicker.\n * @docs-private\n */\n@Component({\n  selector: 'usa-multi-year-view',\n  templateUrl: './multi-year-view.html',\n  exportAs: 'usaMultiYearView',\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {\n  private _rerenderSubscription = Subscription.EMPTY;\n\n  /** Flag used to filter out space/enter keyup events that originated outside of the view. */\n  private _selectionKeyPressed: boolean;\n\n  /** The date to display in this multi-year view (everything other than the year is ignored). */\n  @Input()\n  get activeDate(): D { return this._activeDate; }\n  set activeDate(value: D) {\n    let oldActiveDate = this._activeDate;\n    const validDate =\n      this._dateAdapter.getValidDateOrNull(\n        this._dateAdapter.deserialize(value)\n      ) || this._dateAdapter.today();\n    this._activeDate = this._dateAdapter.clampDate(validDate, this.minDate, this.maxDate);\n\n    if (!isSameMultiYearView(\n      this._dateAdapter, oldActiveDate, this._activeDate, this.minDate, this.maxDate)) {\n      this._init();\n    }\n  }\n  private _activeDate: D;\n\n  /** The currently selected date. */\n  @Input()\n  get selected(): DateRange<D> | D | null { return this._selected; }\n  set selected(value: DateRange<D> | D | null) {\n    if (value instanceof DateRange) {\n      this._selected = value;\n    } else {\n      this._selected = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n    }\n\n    this._setSelectedYear(value);\n  }\n  private _selected: DateRange<D> | D | null;\n\n\n  /** The minimum selectable date. */\n  @Input()\n  get minDate(): D | null { return this._minDate; }\n  set minDate(value: D | null) {\n    this._minDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n  }\n  private _minDate: D | null;\n\n  /** The maximum selectable date. */\n  @Input()\n  get maxDate(): D | null { return this._maxDate; }\n  set maxDate(value: D | null) {\n    this._maxDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n  }\n  private _maxDate: D | null;\n\n  /** A function used to filter which dates are selectable. */\n  @Input() dateFilter: (date: D) => boolean;\n\n  /** Function that can be used to add custom CSS classes to date cells. */\n  @Input() dateClass: UsaCalendarCellClassFunction<D>;\n\n  /** Emits when a new year is selected. */\n  @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();\n\n  /** Emits the selected year. This doesn't imply a change on the selected date */\n  @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();\n\n  /** Emits when any date is activated. */\n  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();\n\n  /** The body of calendar table */\n  @ViewChild(UsaCalendarBody) _usaCalendarBody: UsaCalendarBody;\n\n  /** Grid of calendar cells representing the currently displayed years. */\n  _years: UsaCalendarCell[][];\n\n  /** The year that today falls on. */\n  _todayYear: number;\n\n  /** The year of the selected date. Null if the selected date is null. */\n  _selectedYear: number | null;\n\n  constructor(\n    private _changeDetectorRef: ChangeDetectorRef,\n    @Optional() public _dateAdapter: DateAdapter<D>,\n  ) {\n    if (!this._dateAdapter && isDevMode()) {\n      throw createMissingDateImplError('DateAdapter');\n    }\n\n    this._activeDate = this._dateAdapter.today();\n  }\n\n  ngAfterContentInit() {\n    this._rerenderSubscription = this._dateAdapter.localeChanges\n      .pipe(startWith(null))\n      .subscribe(() => this._init());\n  }\n\n  ngOnDestroy() {\n    this._rerenderSubscription.unsubscribe();\n  }\n\n  /** Initializes this multi-year view. */\n  _init() {\n    this._todayYear = this._dateAdapter.getYear(this._dateAdapter.today());\n\n    // We want a range years such that we maximize the number of\n    // enabled dates visible at once. This prevents issues where the minimum year\n    // is the last item of a page OR the maximum year is the first item of a page.\n\n    // The offset from the active year to the \"slot\" for the starting year is the\n    // *actual* first rendered year in the multi-year view.\n    const activeYear = this._dateAdapter.getYear(this._activeDate);\n    const minYearOfPage = activeYear - getActiveOffset(\n      this._dateAdapter, this.activeDate, this.minDate, this.maxDate);\n\n    this._years = [];\n    for (let i = 0, row: number[] = []; i < yearsPerPage; i++) {\n      row.push(minYearOfPage + i);\n      if (row.length == yearsPerRow) {\n        this._years.push(row.map(year => this._createCellForYear(year)));\n        row = [];\n      }\n    }\n    this._changeDetectorRef.markForCheck();\n  }\n\n  // TODO\n  getNextYears() {\n    this.activeDate = this._dateAdapter.addCalendarYears(this.activeDate, yearsPerPage);\n  }\n\n  getPreviousYears() {\n    this.activeDate = this._dateAdapter.addCalendarYears(this.activeDate, -yearsPerPage);\n  }\n\n  /** Handles when a new year is selected. */\n  _yearSelected(event: UsaCalendarUserEvent<number>) {\n    const year = event.value;\n    this.yearSelected.emit(this._dateAdapter.createDate(year, 0, 1));\n    let month = this._dateAdapter.getMonth(this.activeDate);\n    let daysInMonth =\n      this._dateAdapter.getNumDaysInMonth(this._dateAdapter.createDate(year, month, 1));\n    this.selectedChange.emit(this._dateAdapter.createDate(year, month,\n      Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));\n  }\n\n  /** Handles keydown events on the calendar body when calendar is in multi-year view. */\n  _handleCalendarBodyKeydown(event: KeyboardEvent): void {\n    const oldActiveDate = this._activeDate;\n    switch (event.keyCode) {\n      case KeyCode.ArrowLeft:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -1);\n        break;\n      case KeyCode.ArrowRight:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, 1);\n        break;\n      case KeyCode.ArrowUp:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -yearsPerRow);\n        break;\n      case KeyCode.ArrowDown:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, yearsPerRow);\n        break;\n      case KeyCode.Home:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate,\n          -getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate));\n        break;\n      case KeyCode.End:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate,\n          yearsPerPage - getActiveOffset(\n            this._dateAdapter, this.activeDate, this.minDate, this.maxDate) - 1);\n        break;\n      case KeyCode.PageUp:\n        this.activeDate =\n          this._dateAdapter.addCalendarYears(\n            this._activeDate, event.altKey ? -yearsPerPage * 10 : -yearsPerPage);\n        break;\n      case KeyCode.PageDown:\n        this.activeDate =\n          this._dateAdapter.addCalendarYears(\n            this._activeDate, event.altKey ? yearsPerPage * 10 : yearsPerPage);\n        break;\n      case KeyCode.Enter:\n      case KeyCode.Space:\n        // Note that we only prevent the default action here while the selection happens in\n        // `keyup` below. We can't do the selection here, because it can cause the calendar to\n        // reopen if focus is restored immediately. We also can't call `preventDefault` on `keyup`\n        // because it's too late (see #23305).\n        this._selectionKeyPressed = true;\n        break;\n      default:\n        // Don't prevent default or focus active cell on keys that we don't explicitly handle.\n        return;\n    }\n    if (this._dateAdapter.compareDate(oldActiveDate, this.activeDate)) {\n      this.activeDateChange.emit(this.activeDate);\n    }\n\n    this._focusActiveCell();\n    // Prevent unexpected default actions such as form submission.\n    event.preventDefault();\n  }\n\n  /** Handles keyup events on the calendar body when calendar is in multi-year view. */\n  _handleCalendarBodyKeyup(event: KeyboardEvent): void {\n    if (event.keyCode === KeyCode.Space || event.keyCode === KeyCode.Enter) {\n      if (this._selectionKeyPressed) {\n        this._yearSelected({ value: this._dateAdapter.getYear(this._activeDate), event });\n      }\n\n      this._selectionKeyPressed = false;\n    }\n  }\n\n  _getActiveCell(): number {\n    return getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate);\n  }\n\n  /** Focuses the active cell after the microtask queue is empty. */\n  _focusActiveCell() {\n    this._usaCalendarBody._focusActiveCell();\n  }\n\n  /** Creates an UsaCalendarCell for the given year. */\n  private _createCellForYear(year: number) {\n    const date = this._dateAdapter.createDate(year, 0, 1);\n    const yearName = this._dateAdapter.getYearName(date);\n    const cellClasses = this.dateClass ? this.dateClass(date, 'multi-year') : undefined;\n\n    return new UsaCalendarCell(year, yearName, yearName, this._shouldEnableYear(year), cellClasses);\n  }\n\n  /** Whether the given year is enabled. */\n  private _shouldEnableYear(year: number) {\n    // disable if the year is greater than maxDate lower than minDate\n    if (year === undefined || year === null ||\n      (this.maxDate && year > this._dateAdapter.getYear(this.maxDate)) ||\n      (this.minDate && year < this._dateAdapter.getYear(this.minDate))) {\n      return false;\n    }\n\n    // enable if it reaches here and there's no filter defined\n    if (!this.dateFilter) {\n      return true;\n    }\n\n    const firstOfYear = this._dateAdapter.createDate(year, 0, 1);\n\n    // If any date in the year is enabled count the year as enabled.\n    for (let date = firstOfYear; this._dateAdapter.getYear(date) == year;\n      date = this._dateAdapter.addCalendarDays(date, 1)) {\n      if (this.dateFilter(date)) {\n        return true;\n      }\n    }\n\n    return false;\n  }\n\n  /** Sets the currently-highlighted year based on a model value. */\n  private _setSelectedYear(value: DateRange<D> | D | null) {\n    this._selectedYear = null;\n\n    if (value instanceof DateRange) {\n      const displayValue = value.start || value.end;\n\n      if (displayValue) {\n        this._selectedYear = this._dateAdapter.getYear(displayValue);\n      }\n    } else if (value) {\n      this._selectedYear = this._dateAdapter.getYear(value);\n    }\n  }\n}\n\nexport function isSameMultiYearView<D>(\n  dateAdapter: DateAdapter<D>, date1: D, date2: D, minDate: D | null, maxDate: D | null): boolean {\n  const year1 = dateAdapter.getYear(date1);\n  const year2 = dateAdapter.getYear(date2);\n  const startingYear = getStartingYear(dateAdapter, minDate, maxDate);\n  return Math.floor((year1 - startingYear) / yearsPerPage) ===\n    Math.floor((year2 - startingYear) / yearsPerPage);\n}\n\n/**\n * When the multi-year view is first opened, the active year will be in view.\n * So we compute how many years are between the active year and the *slot* where our\n * \"startingYear\" will render when paged into view.\n */\nexport function getActiveOffset<D>(\n  dateAdapter: DateAdapter<D>, activeDate: D, minDate: D | null, maxDate: D | null): number {\n  const activeYear = dateAdapter.getYear(activeDate);\n  return euclideanModulo((activeYear - getStartingYear(dateAdapter, minDate, maxDate)),\n    yearsPerPage);\n}\n\n/**\n * We pick a \"starting\" year such that either the maximum year would be at the end\n * or the minimum year would be at the beginning of a page.\n */\nfunction getStartingYear<D>(\n  dateAdapter: DateAdapter<D>, minDate: D | null, maxDate: D | null): number {\n  let startingYear = 0;\n  if (maxDate) {\n    const maxYear = dateAdapter.getYear(maxDate);\n    startingYear = maxYear - yearsPerPage + 1;\n  } else if (minDate) {\n    startingYear = dateAdapter.getYear(minDate);\n  }\n  return startingYear;\n}\n\n/** Gets remainder that is non-negative, even if first number is negative */\nfunction euclideanModulo(a: number, b: number): number {\n  return (a % b + b) % b;\n}\n",
+            "sourceCode": "import {\n  AfterContentInit,\n  ChangeDetectionStrategy,\n  ChangeDetectorRef,\n  Component,\n  EventEmitter,\n  Input,\n  Optional,\n  Output,\n  ViewChild,\n  OnDestroy,\n  isDevMode,\n} from '@angular/core';\nimport { Subscription } from 'rxjs';\nimport { startWith } from 'rxjs/operators';\nimport { KeyCode } from '../../util/key';\nimport { DateAdapter } from '../dateadapter/date-adapter';\nimport { DateRange } from '../date-selection-model';\nimport { createMissingDateImplError } from '../date-picker-errors';\nimport { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';\n\nexport const yearsPerPage = 12;\n\nexport const yearsPerRow = 4;\n\n/**\n * An internal component used to display a year selector in the datePicker.\n * @docs-private\n */\n@Component({\n  selector: 'usa-multi-year-view',\n  templateUrl: './multi-year-view.html',\n  exportAs: 'usaMultiYearView',\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {\n  private _rerenderSubscription = Subscription.EMPTY;\n\n  /** Flag used to filter out space/enter keyup events that originated outside of the view. */\n  private _selectionKeyPressed: boolean;\n\n  /** The date to display in this multi-year view (everything other than the year is ignored). */\n  @Input()\n  get activeDate(): D { return this._activeDate; }\n  set activeDate(value: D) {\n    let oldActiveDate = this._activeDate;\n    const validDate =\n      this._dateAdapter.getValidDateOrNull(\n        this._dateAdapter.deserialize(value)\n      ) || this._dateAdapter.today();\n    this._activeDate = this._dateAdapter.clampDate(validDate, this.minDate, this.maxDate);\n\n    if (!isSameMultiYearView(\n      this._dateAdapter, oldActiveDate, this._activeDate, this.minDate, this.maxDate)) {\n      this._init();\n    }\n  }\n  private _activeDate: D;\n\n  /** The currently selected date. */\n  @Input()\n  get selected(): DateRange<D> | D | null { return this._selected; }\n  set selected(value: DateRange<D> | D | null) {\n    if (value instanceof DateRange) {\n      this._selected = value;\n    } else {\n      this._selected = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n    }\n\n    this._setSelectedYear(value);\n  }\n  private _selected: DateRange<D> | D | null;\n\n\n  /** The minimum selectable date. */\n  @Input()\n  get minDate(): D | null { return this._minDate; }\n  set minDate(value: D | null) {\n    this._minDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n  }\n  private _minDate: D | null;\n\n  /** The maximum selectable date. */\n  @Input()\n  get maxDate(): D | null { return this._maxDate; }\n  set maxDate(value: D | null) {\n    this._maxDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n  }\n  private _maxDate: D | null;\n\n  /** A function used to filter which dates are selectable. */\n  @Input() dateFilter: (date: D) => boolean;\n\n  /** Function that can be used to add custom CSS classes to date cells. */\n  @Input() dateClass: UsaCalendarCellClassFunction<D>;\n\n  /** Emits when a new year is selected. */\n  @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();\n\n  /** Emits the selected year. This doesn't imply a change on the selected date */\n  @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();\n\n  /** Emits when any date is activated. */\n  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();\n\n  /** The body of calendar table */\n  @ViewChild(UsaCalendarBody) _usaCalendarBody: UsaCalendarBody;\n\n  /** Grid of calendar cells representing the currently displayed years. */\n  _years: UsaCalendarCell[][];\n\n  /** The year that today falls on. */\n  _todayYear: number;\n\n  /** The year of the selected date. Null if the selected date is null. */\n  _selectedYear: number | null;\n\n  constructor(\n    private _changeDetectorRef: ChangeDetectorRef,\n    @Optional() public _dateAdapter: DateAdapter<D>,\n  ) {\n    if (!this._dateAdapter && isDevMode()) {\n      throw createMissingDateImplError('DateAdapter');\n    }\n\n    this._activeDate = this._dateAdapter.today();\n  }\n\n  ngAfterContentInit() {\n    this._rerenderSubscription = this._dateAdapter.localeChanges\n      .pipe(startWith(null))\n      .subscribe(() => this._init());\n  }\n\n  ngOnDestroy() {\n    this._rerenderSubscription.unsubscribe();\n  }\n\n  /** Initializes this multi-year view. */\n  _init() {\n    this._todayYear = this._dateAdapter.getYear(this._dateAdapter.today());\n\n    // We want a range years such that we maximize the number of\n    // enabled dates visible at once. This prevents issues where the minimum year\n    // is the last item of a page OR the maximum year is the first item of a page.\n\n    // The offset from the active year to the \"slot\" for the starting year is the\n    // *actual* first rendered year in the multi-year view.\n    const activeYear = this._dateAdapter.getYear(this._activeDate);\n    const minYearOfPage = activeYear - getActiveOffset(\n      this._dateAdapter, this.activeDate, this.minDate, this.maxDate);\n\n    this._years = [];\n    for (let i = 0, row: number[] = []; i < yearsPerPage; i++) {\n      row.push(minYearOfPage + i);\n      if (row.length == yearsPerRow) {\n        this._years.push(row.map(year => this._createCellForYear(year)));\n        row = [];\n      }\n    }\n    this._changeDetectorRef.markForCheck();\n  }\n\n  // TODO\n  getNextYears() {\n    this.activeDate = this._dateAdapter.addCalendarYears(this.activeDate, yearsPerPage);\n  }\n\n  getPreviousYears() {\n    this.activeDate = this._dateAdapter.addCalendarYears(this.activeDate, -yearsPerPage);\n  }\n\n  /** Handles when a new year is selected. */\n  _yearSelected(event: UsaCalendarUserEvent<number>) {\n    const year = event.value;\n    this.yearSelected.emit(this._dateAdapter.createDate(year, 0, 1));\n    let month = this._dateAdapter.getMonth(this.activeDate);\n    let daysInMonth =\n      this._dateAdapter.getNumDaysInMonth(this._dateAdapter.createDate(year, month, 1));\n    this.selectedChange.emit(this._dateAdapter.createDate(year, month,\n      Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));\n  }\n\n  /** Handles keydown events on the calendar body when calendar is in multi-year view. */\n  _handleCalendarBodyKeydown(event: KeyboardEvent): void {\n    const oldActiveDate = this._activeDate;\n    switch (event.keyCode) {\n      case KeyCode.ArrowLeft:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -1);\n        break;\n      case KeyCode.ArrowRight:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, 1);\n        break;\n      case KeyCode.ArrowUp:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -yearsPerRow);\n        break;\n      case KeyCode.ArrowDown:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, yearsPerRow);\n        break;\n      case KeyCode.Home:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate,\n          -getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate));\n        break;\n      case KeyCode.End:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate,\n          yearsPerPage - getActiveOffset(\n            this._dateAdapter, this.activeDate, this.minDate, this.maxDate) - 1);\n        break;\n      case KeyCode.PageUp:\n        this.activeDate =\n          this._dateAdapter.addCalendarYears(\n            this._activeDate, event.altKey ? -yearsPerPage * 10 : -yearsPerPage);\n        break;\n      case KeyCode.PageDown:\n        this.activeDate =\n          this._dateAdapter.addCalendarYears(\n            this._activeDate, event.altKey ? yearsPerPage * 10 : yearsPerPage);\n        break;\n      case KeyCode.Enter:\n      case KeyCode.Space:\n        // Note that we only prevent the default action here while the selection happens in\n        // `keyup` below. We can't do the selection here, because it can cause the calendar to\n        // reopen if focus is restored immediately. We also can't call `preventDefault` on `keyup`\n        // because it's too late (see #23305).\n        this._selectionKeyPressed = true;\n        break;\n      default:\n        // Don't prevent default or focus active cell on keys that we don't explicitly handle.\n        return;\n    }\n    if (this._dateAdapter.compareDate(oldActiveDate, this.activeDate)) {\n      this.activeDateChange.emit(this.activeDate);\n    }\n\n    this._focusActiveCell();\n    // Prevent unexpected default actions such as form submission.\n    event.preventDefault();\n  }\n\n  /** Handles keyup events on the calendar body when calendar is in multi-year view. */\n  _handleCalendarBodyKeyup(event: KeyboardEvent): void {\n    if (event.keyCode === KeyCode.Space || event.keyCode === KeyCode.Enter) {\n      if (this._selectionKeyPressed) {\n        this._yearSelected({ value: this._dateAdapter.getYear(this._activeDate), event });\n      }\n\n      this._selectionKeyPressed = false;\n    }\n  }\n\n  _getActiveCell(): number {\n    return getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate);\n  }\n\n  /** Focuses the active cell after the microtask queue is empty. */\n  _focusActiveCell() {\n    this._usaCalendarBody._focusActiveCell();\n  }\n\n  /** Creates an UsaCalendarCell for the given year. */\n  private _createCellForYear(year: number) {\n    const date = this._dateAdapter.createDate(year, 0, 1);\n    const yearName = this._dateAdapter.getYearName(date);\n    const cellClasses = this.dateClass ? this.dateClass(date, 'multi-year') : undefined;\n\n    return new UsaCalendarCell(year, yearName, yearName, this._shouldEnableYear(year), cellClasses);\n  }\n\n  /** Whether the given year is enabled. */\n  private _shouldEnableYear(year: number) {\n    // disable if the year is greater than maxDate lower than minDate\n    if (year === undefined || year === null ||\n      (this.maxDate && year > this._dateAdapter.getYear(this.maxDate)) ||\n      (this.minDate && year < this._dateAdapter.getYear(this.minDate))) {\n      return false;\n    }\n\n    // enable if it reaches here and there's no filter defined\n    if (!this.dateFilter) {\n      return true;\n    }\n\n    const firstOfYear = this._dateAdapter.createDate(year, 0, 1);\n\n    // If any date in the year is enabled count the year as enabled.\n    for (let date = firstOfYear; this._dateAdapter.getYear(date) == year;\n      date = this._dateAdapter.addCalendarDays(date, 1)) {\n      if (this.dateFilter(date)) {\n        return true;\n      }\n    }\n\n    return false;\n  }\n\n  /** Sets the currently-highlighted year based on a model value. */\n  private _setSelectedYear(value: DateRange<D> | D | null) {\n    this._selectedYear = null;\n\n    if (value instanceof DateRange) {\n      const displayValue = value.start || value.end;\n\n      if (displayValue) {\n        this._selectedYear = this._dateAdapter.getYear(displayValue);\n      }\n    } else if (value) {\n      this._selectedYear = this._dateAdapter.getYear(value);\n    }\n  }\n}\n\nexport function isSameMultiYearView<D>(\n  dateAdapter: DateAdapter<D>, date1: D, date2: D, minDate: D | null, maxDate: D | null): boolean {\n  const year1 = dateAdapter.getYear(date1);\n  const year2 = dateAdapter.getYear(date2);\n  const startingYear = getStartingYear(dateAdapter, minDate, maxDate);\n  return Math.floor((year1 - startingYear) / yearsPerPage) ===\n    Math.floor((year2 - startingYear) / yearsPerPage);\n}\n\n/**\n * When the multi-year view is first opened, the active year will be in view.\n * So we compute how many years are between the active year and the *slot* where our\n * \"startingYear\" will render when paged into view.\n */\nexport function getActiveOffset<D>(\n  dateAdapter: DateAdapter<D>, activeDate: D, minDate: D | null, maxDate: D | null): number {\n  const activeYear = dateAdapter.getYear(activeDate);\n  return euclideanModulo((activeYear - getStartingYear(dateAdapter, minDate, maxDate)),\n    yearsPerPage);\n}\n\n/**\n * We pick a \"starting\" year such that either the maximum year would be at the end\n * or the minimum year would be at the beginning of a page.\n */\nfunction getStartingYear<D>(\n  dateAdapter: DateAdapter<D>, minDate: D | null, maxDate: D | null): number {\n  let startingYear = 0;\n  if (maxDate) {\n    const maxYear = dateAdapter.getYear(maxDate);\n    startingYear = maxYear - yearsPerPage + 1;\n  } else if (minDate) {\n    startingYear = dateAdapter.getYear(minDate);\n  }\n  return startingYear;\n}\n\n/** Gets remainder that is non-negative, even if first number is negative */\nfunction euclideanModulo(a: number, b: number): number {\n  return (a % b + b) % b;\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -34593,7 +34593,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 120,
+                "line": 116,
                 "jsdoctags": [
                     {
                         "name": "_changeDetectorRef",
@@ -34636,7 +34636,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 49,
+                        "line": 45,
                         "jsdoctags": [
                             {
                                 "name": "value",
@@ -34653,7 +34653,7 @@
                         "name": "activeDate",
                         "type": "",
                         "returnType": "D",
-                        "line": 48,
+                        "line": 44,
                         "rawdescription": "\nThe date to display in this multi-year view (everything other than the year is ignored).",
                         "description": "<p>The date to display in this multi-year view (everything other than the year is ignored).</p>\n"
                     }
@@ -34674,7 +34674,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 67,
+                        "line": 63,
                         "jsdoctags": [
                             {
                                 "name": "value",
@@ -34691,7 +34691,7 @@
                         "name": "selected",
                         "type": "",
                         "returnType": "DateRange | D | null",
-                        "line": 66,
+                        "line": 62,
                         "rawdescription": "\nThe currently selected date.",
                         "description": "<p>The currently selected date.</p>\n"
                     }
@@ -34712,7 +34712,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 82,
+                        "line": 78,
                         "jsdoctags": [
                             {
                                 "name": "value",
@@ -34729,7 +34729,7 @@
                         "name": "minDate",
                         "type": "",
                         "returnType": "D | null",
-                        "line": 81,
+                        "line": 77,
                         "rawdescription": "\nThe minimum selectable date.",
                         "description": "<p>The minimum selectable date.</p>\n"
                     }
@@ -34750,7 +34750,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 90,
+                        "line": 86,
                         "jsdoctags": [
                             {
                                 "name": "value",
@@ -34767,7 +34767,7 @@
                         "name": "maxDate",
                         "type": "",
                         "returnType": "D | null",
-                        "line": 89,
+                        "line": 85,
                         "rawdescription": "\nThe maximum selectable date.",
                         "description": "<p>The maximum selectable date.</p>\n"
                     }
@@ -43519,13 +43519,13 @@
         },
         {
             "name": "UsaAccordionModule",
-            "id": "module-UsaAccordionModule-35e3c210c64cd13c4f5c18350102c7c5eb6a88eac6655bd00afe57a065b0d1b906feabfa3ca32a889b74748bfcf5ea8ca9ae324707968f7dee48c5132018aa26",
+            "id": "module-UsaAccordionModule-52032850ef7d575d33bc997abfbfefef0f13a71317698f9ecbbb207d9f2fd5f33c2facdd49ae3aef8e0c0ac8ff9253a284c73733e05010e89268c1f34a98ca40",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/accordion/accordion.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { \n  UsaAccordionContent, \n  UsaAccordionHeader, \n  UsaAccordionItem\n} from \"./accordion-items\";\nimport { UsaAccordionToggle } from \"./accordion-toggle.directive\";\nimport { UsaAccordionComponent } from \"./accordion.component\";\n\n@NgModule({\n  imports: [\n    CommonModule,\n  ],\n  declarations: [\n    UsaAccordionComponent,\n    UsaAccordionHeader,\n    UsaAccordionContent,\n    UsaAccordionToggle,\n    UsaAccordionItem\n  ],\n  exports: [\n    UsaAccordionComponent,\n    UsaAccordionHeader,\n    UsaAccordionContent,\n    UsaAccordionToggle,\n    UsaAccordionItem\n  ]\n})\nexport class UsaAccordionModule {}\n",
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { \n  UsaAccordionContent, \n  UsaAccordionHeader, \n  UsaAccordionItem\n} from \"./accordion-items\";\nimport { UsaAccordionComponent, UsaAccordionToggle } from \"./accordion.component\";\n\n@NgModule({\n  imports: [\n    CommonModule,\n  ],\n  declarations: [\n    UsaAccordionComponent,\n    UsaAccordionHeader,\n    UsaAccordionContent,\n    UsaAccordionToggle,\n    UsaAccordionItem\n  ],\n  exports: [\n    UsaAccordionComponent,\n    UsaAccordionHeader,\n    UsaAccordionContent,\n    UsaAccordionToggle,\n    UsaAccordionItem\n  ]\n})\nexport class UsaAccordionModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -45216,31 +45216,11 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
             },
             {
                 "name": "Basic",
@@ -45256,6 +45236,16 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/header/header.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45266,11 +45256,11 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
+                "defaultValue": "basicTemplate.bind({})"
             },
             {
                 "name": "Basic",
@@ -45291,6 +45281,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
             },
             {
                 "name": "Basic",
@@ -45456,21 +45456,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45818,21 +45818,21 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./checkbox-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./datepicker-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./checkbox-overview.html')"
             },
             {
                 "name": "footer",
@@ -45848,21 +45848,21 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./modal-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./radio-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./modal-overview.html')"
             },
             {
                 "name": "footer",
@@ -46186,7 +46186,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46196,7 +46196,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46306,21 +46306,21 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: ' $theme-checkbox-border-radius',\n        description: 'Checkbox border radius for rounded corners.',\n      },\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  },\n})"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "() => ({\n  template: footer.default,\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: ' $theme-checkbox-border-radius',\n        description: 'Checkbox border radius for rounded corners.',\n      },\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  },\n})"
             },
             {
                 "name": "Overview",
@@ -46338,21 +46338,21 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default\n})"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  }\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default\n})"
             },
             {
                 "name": "Overview",
@@ -46473,10 +46473,10 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": ""
+                "type": "any"
             },
             {
                 "name": "require",
@@ -46491,10 +46491,10 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "any"
+                "type": ""
             },
             {
                 "name": "require",
@@ -46738,21 +46738,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/file-input/file-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/file-input/file-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
             },
             {
                 "name": "template",
@@ -50521,47 +50521,6 @@
                     "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
                 }
             ],
-            "src/app/components/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                },
-                {
-                    "name": "DropdownForms",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                }
-            ],
             "src/app/components/checkbox/checkbox.stories.ts": [
                 {
                     "name": "Basic",
@@ -50643,6 +50602,89 @@
                     "type": ""
                 }
             ],
+            "src/app/components/file-input/file-input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
+                },
+                {
+                    "name": "InputWithTable",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: '<file-input-table></file-input-table>',\n})"
+                },
+                {
+                    "name": "ServerUpload",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: '<file-input-upload></file-input-upload>'\n})"
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
+                }
+            ],
+            "src/app/components/dropdown/dropdown.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+                },
+                {
+                    "name": "DropdownForms",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                }
+            ],
             "src/app/components/combo-box/combo-box.stories.ts": [
                 {
                     "name": "Basic",
@@ -50695,46 +50737,16 @@
                     "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
-            "src/app/components/file-input/file-input.stories.ts": [
+            "src/app/components/input/input.stories.ts": [
                 {
                     "name": "Basic",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "file": "src/app/components/input/input.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
-                },
-                {
-                    "name": "InputWithTable",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/file-input/file-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: '<file-input-table></file-input-table>',\n})"
-                },
-                {
-                    "name": "ServerUpload",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/file-input/file-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: '<file-input-upload></file-input-upload>'\n})"
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/file-input/file-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
+                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
                 }
             ],
             "src/app/components/modal/modal.stories.ts": [
@@ -50817,18 +50829,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "() => ({\n  template: footer.default\n})"
-                }
-            ],
-            "src/app/components/input/input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/input/input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
                 }
             ],
             "src/app/components/step-indicator/step-indicator.stories.ts": [
@@ -51549,18 +51549,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                }
-            ],
             "projects/uswds-components/src/lib/character-count/character-count.directive.ts": [
                 {
                     "name": "nextId",
@@ -51580,6 +51568,18 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
+                }
+            ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
@@ -54742,15 +54742,6 @@
                 "status": "low"
             },
             {
-                "filePath": "projects/uswds-components/src/lib/accordion/accordion-toggle.directive.ts",
-                "type": "directive",
-                "linktype": "directive",
-                "name": "UsaAccordionToggle",
-                "coveragePercent": 16,
-                "coverageCount": "1/6",
-                "status": "low"
-            },
-            {
                 "filePath": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -54758,6 +54749,15 @@
                 "coveragePercent": 53,
                 "coverageCount": "15/28",
                 "status": "good"
+            },
+            {
+                "filePath": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
+                "type": "directive",
+                "linktype": "directive",
+                "name": "UsaAccordionToggle",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
             },
             {
                 "filePath": "projects/uswds-components/src/lib/accordion/accordion.config.ts",
