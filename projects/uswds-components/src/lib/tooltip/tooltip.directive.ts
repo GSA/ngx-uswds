@@ -27,6 +27,9 @@ export class UsaTooltipDirective implements AfterViewInit {
   readonly TRIANGLE_SIZE = 5;
 
   @Input()
+  theme: 'dark' | 'light' = 'dark';
+
+  @Input()
   position: 'top' | 'bottom' | 'left' | 'right' = 'top';
 
   /**
@@ -73,6 +76,16 @@ export class UsaTooltipDirective implements AfterViewInit {
 
     const text = this.renderer.createText(this.title);
     this.renderer.appendChild(this.tooltipBody, text);
+  }
+  
+  themeLight(): void {
+    this.resetPositionStyles(this.tooltipBody);
+
+    this.setThemeClass('light');
+
+    this.tooltipBody.style.color = '#454540';
+    this.tooltipBody.style.backgroundColor = '#c9c9c9';
+    this.tooltipBody.style.border = 'solid 1px #454540';
   }
 
   positionTop(): void {
@@ -167,10 +180,20 @@ export class UsaTooltipDirective implements AfterViewInit {
     this.renderer.addClass(this.tooltipBody, `usa-tooltip__body--${position}`);
   }
 
+  setThemeClass(theme: string): void {
+    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--dark');
+    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');
+    this.renderer.addClass(this.tooltipBody, `usa-tooltip--${theme}`);
+  }
+
   show() {
     this.tooltipBody.setAttribute('aria-hidden', 'false');
     this.renderer.addClass(this.tooltipBody, 'is-set');
     this.renderer.addClass(this.tooltipBody, 'is-visible');
+
+    if(this.theme === 'light') {
+      this.themeLight();
+    }
 
     switch (this.position) {
       case 'top': {
@@ -244,5 +267,8 @@ export class UsaTooltipDirective implements AfterViewInit {
     target.style.right = null;
     target.style.left = null;
     target.style.margin = null;
+    target.style.color = '';
+    target.style.backgroundColor = '';
+    target.style.border = '';
   }
 }

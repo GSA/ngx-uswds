@@ -16651,12 +16651,12 @@
         },
         {
             "name": "UsaTooltipDirective",
-            "id": "directive-UsaTooltipDirective-0810bf36b77f153accb785f70fda885138c1e47fb91772859a7be3f3281c2fe19252eefe5def57c079d071a8eea89efcabc3cb08d77d756bd0226ebcf69a79be",
+            "id": "directive-UsaTooltipDirective-5912826354706db4dac7c5dc947eb2c7e7b3a72bc06966eb6c0f9944b6454eb0c95f32ef6b58b1ff46857abe7c303525ed957fdecd55a96963a9fbaa07c23cc3",
             "file": "projects/uswds-components/src/lib/tooltip/tooltip.directive.ts",
             "type": "directive",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import {\n  AfterViewInit,\n  Directive,\n  ElementRef,\n  Input,\n  Renderer2,\n} from '@angular/core';\n\n@Directive({\n  selector: '[usaTooltip]',\n  host: {\n    class: 'usa-tooltip__trigger',\n    '(mouseenter)': 'show()',\n    '(focus)': 'show()',\n    '(mouseleave)': 'hide()',\n    '(blur)': 'hide()',\n  },\n})\nexport class UsaTooltipDirective implements AfterViewInit {\n  // Span which contains the tooltip text\n  tooltipBody: HTMLElement;\n  // Element which causes tooltip to be shown, tooltip apppears relative to this\n  tooltipTrigger: HTMLElement;\n  // Element which wraps tooltip and trigger\n  tooltipWrapper: HTMLElement;\n\n  readonly TRIANGLE_SIZE = 5;\n\n  @Input()\n  position: 'top' | 'bottom' | 'left' | 'right' = 'top';\n\n  /**\n   * Value to be displayed in tooltip\n   */\n  @Input()\n  title: string;\n\n  /**\n   * Additional classes to be applied to wrapper\n   */\n  @Input()\n  classes: string;\n\n  constructor(private el: ElementRef, private renderer: Renderer2) {}\n\n  ngAfterViewInit() {\n    const tooltipID = `tooltip-${Math.floor(Math.random() * 900000) + 100000}`;\n\n    this.tooltipTrigger = this.el.nativeElement;\n    this.tooltipWrapper = document.createElement('span');\n    this.tooltipBody = document.createElement('span');\n\n    this.tooltipTrigger.setAttribute('aria-describedby', tooltipID);\n    this.tooltipTrigger.setAttribute('tabindex', '0');\n    this.tooltipTrigger.classList.remove('usa-tooltip');\n\n    const parent = this.renderer.parentNode(this.el.nativeElement);\n    parent.replaceChild(this.tooltipWrapper, this.el.nativeElement);\n    this.renderer.appendChild(this.tooltipWrapper, this.tooltipTrigger);\n    this.renderer.appendChild(this.tooltipWrapper, this.tooltipBody);\n    this.renderer.addClass(this.tooltipWrapper, 'usa-tooltip');\n\n    if (this.classes) {\n      this.classes\n        .split(' ')\n        .forEach((className) => this.tooltipWrapper.classList.add(className));\n    }\n\n    this.renderer.addClass(this.tooltipBody, 'usa-tooltip__body');\n    this.renderer.setAttribute(this.tooltipBody, 'id', tooltipID);\n    this.renderer.setAttribute(this.tooltipBody, 'role', 'tooltip');\n    this.renderer.setAttribute(this.tooltipBody, 'aria-hidden', 'true');\n\n    const text = this.renderer.createText(this.title);\n    this.renderer.appendChild(this.tooltipBody, text);\n  }\n\n  positionTop(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('top');\n\n    this.tooltipBody.style.left = '50%';\n    this.tooltipBody.style.top = `-${this.TRIANGLE_SIZE}px`;\n    this.tooltipBody.style.margin = `-${top}px 0 0 -${left / 2}px`;\n  }\n\n  positionBottom(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('bottom');\n\n    this.tooltipBody.style.left = '50%';\n    this.tooltipBody.style.margin = `${this.TRIANGLE_SIZE}px 0 0 -${\n      left / 2\n    }px`;\n  }\n\n  positionLeft(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth\n        ? this.tooltipTrigger.offsetLeft - this.tooltipBody.offsetWidth\n        : this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('left');\n\n    this.tooltipBody.style.top = `50%`;\n    this.tooltipBody.style.left = `-${this.TRIANGLE_SIZE}px`;\n    this.tooltipBody.style.margin = `-${top / 2}px 0 0 ${\n      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth\n        ? left\n        : -left\n    }px`;\n  }\n  positionRight(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('right');\n\n    this.tooltipBody.style.top = '50%';\n    this.tooltipBody.style.left = `${\n      this.tooltipTrigger.offsetLeft +\n      this.tooltipTrigger.offsetWidth +\n      this.TRIANGLE_SIZE\n    }px`;\n    this.tooltipBody.style.margin = `-${top / 2}px 0 0 0`;\n  }\n\n  setPositionClass(position: string): void {\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--top');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--bottom');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--left');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--right');\n    this.renderer.addClass(this.tooltipBody, `usa-tooltip__body--${position}`);\n  }\n\n  show() {\n    this.tooltipBody.setAttribute('aria-hidden', 'false');\n    this.renderer.addClass(this.tooltipBody, 'is-set');\n    this.renderer.addClass(this.tooltipBody, 'is-visible');\n\n    switch (this.position) {\n      case 'top': {\n        this.positionTop();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionBottom();\n        }\n        break;\n      }\n      case 'bottom': {\n        this.positionBottom();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionTop();\n        }\n        break;\n      }\n      case 'left':\n        this.positionLeft();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionRight();\n          if (!this.isInViewport(this.tooltipBody)) {\n            this.positionTop();\n          }\n        }\n        break;\n      case 'right':\n        this.positionRight();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionLeft();\n          if (!this.isInViewport(this.tooltipBody)) {\n            this.positionTop();\n          }\n        }\n        break;\n    }\n  }\n\n  hide() {\n    this.renderer.removeClass(this.tooltipBody, 'is-set');\n    this.renderer.removeClass(this.tooltipBody, 'is-visible');\n    this.tooltipBody.setAttribute('aria-hidden', 'true');\n  }\n\n  isInViewport(elementToCheck): boolean {\n    const rect = elementToCheck.getBoundingClientRect();\n    return (\n      rect.top >= 0 &&\n      rect.left >= 0 &&\n      rect.bottom <=\n        (window.innerHeight || document.documentElement.clientHeight) &&\n      rect.right <= (window.innerWidth || document.documentElement.clientWidth)\n    );\n  }\n\n  offsetMargin(target, propertyToCheck): number {\n    return parseInt(\n      window.getComputedStyle(target).getPropertyValue(propertyToCheck),\n      10\n    );\n  }\n\n  calculateMarginOffset(positionToCheck, bodyOffset, trigger) {\n    return this.offsetMargin(trigger, `margin-${positionToCheck}`) > 0\n      ? bodyOffset - this.offsetMargin(trigger, `margin-${positionToCheck}`)\n      : bodyOffset;\n  }\n\n  resetPositionStyles(target): void {\n    target.style.top = null;\n    target.style.bottom = null;\n    target.style.right = null;\n    target.style.left = null;\n    target.style.margin = null;\n  }\n}\n",
+            "sourceCode": "import {\n  AfterViewInit,\n  Directive,\n  ElementRef,\n  Input,\n  Renderer2,\n} from '@angular/core';\n\n@Directive({\n  selector: '[usaTooltip]',\n  host: {\n    class: 'usa-tooltip__trigger',\n    '(mouseenter)': 'show()',\n    '(focus)': 'show()',\n    '(mouseleave)': 'hide()',\n    '(blur)': 'hide()',\n  },\n})\nexport class UsaTooltipDirective implements AfterViewInit {\n  // Span which contains the tooltip text\n  tooltipBody: HTMLElement;\n  // Element which causes tooltip to be shown, tooltip apppears relative to this\n  tooltipTrigger: HTMLElement;\n  // Element which wraps tooltip and trigger\n  tooltipWrapper: HTMLElement;\n\n  readonly TRIANGLE_SIZE = 5;\n\n  @Input()\n  theme: 'dark' | 'light' = 'dark';\n\n  @Input()\n  position: 'top' | 'bottom' | 'left' | 'right' = 'top';\n\n  /**\n   * Value to be displayed in tooltip\n   */\n  @Input()\n  title: string;\n\n  /**\n   * Additional classes to be applied to wrapper\n   */\n  @Input()\n  classes: string;\n\n  constructor(private el: ElementRef, private renderer: Renderer2) {}\n\n  ngAfterViewInit() {\n    const tooltipID = `tooltip-${Math.floor(Math.random() * 900000) + 100000}`;\n\n    this.tooltipTrigger = this.el.nativeElement;\n    this.tooltipWrapper = document.createElement('span');\n    this.tooltipBody = document.createElement('span');\n\n    this.tooltipTrigger.setAttribute('aria-describedby', tooltipID);\n    this.tooltipTrigger.setAttribute('tabindex', '0');\n    this.tooltipTrigger.classList.remove('usa-tooltip');\n\n    const parent = this.renderer.parentNode(this.el.nativeElement);\n    parent.replaceChild(this.tooltipWrapper, this.el.nativeElement);\n    this.renderer.appendChild(this.tooltipWrapper, this.tooltipTrigger);\n    this.renderer.appendChild(this.tooltipWrapper, this.tooltipBody);\n    this.renderer.addClass(this.tooltipWrapper, 'usa-tooltip');\n\n    if (this.classes) {\n      this.classes\n        .split(' ')\n        .forEach((className) => this.tooltipWrapper.classList.add(className));\n    }\n\n    this.renderer.addClass(this.tooltipBody, 'usa-tooltip__body');\n    this.renderer.setAttribute(this.tooltipBody, 'id', tooltipID);\n    this.renderer.setAttribute(this.tooltipBody, 'role', 'tooltip');\n    this.renderer.setAttribute(this.tooltipBody, 'aria-hidden', 'true');\n\n    const text = this.renderer.createText(this.title);\n    this.renderer.appendChild(this.tooltipBody, text);\n  }\n  \n  themeLight(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    this.setThemeClass('light');\n\n    this.tooltipBody.style.color = '#454540';\n    this.tooltipBody.style.backgroundColor = '#c9c9c9';\n    this.tooltipBody.style.border = 'solid 1px #454540';\n  }\n\n  positionTop(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('top');\n\n    this.tooltipBody.style.left = '50%';\n    this.tooltipBody.style.top = `-${this.TRIANGLE_SIZE}px`;\n    this.tooltipBody.style.margin = `-${top}px 0 0 -${left / 2}px`;\n  }\n\n  positionBottom(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('bottom');\n\n    this.tooltipBody.style.left = '50%';\n    this.tooltipBody.style.margin = `${this.TRIANGLE_SIZE}px 0 0 -${\n      left / 2\n    }px`;\n  }\n\n  positionLeft(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth\n        ? this.tooltipTrigger.offsetLeft - this.tooltipBody.offsetWidth\n        : this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('left');\n\n    this.tooltipBody.style.top = `50%`;\n    this.tooltipBody.style.left = `-${this.TRIANGLE_SIZE}px`;\n    this.tooltipBody.style.margin = `-${top / 2}px 0 0 ${\n      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth\n        ? left\n        : -left\n    }px`;\n  }\n  positionRight(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('right');\n\n    this.tooltipBody.style.top = '50%';\n    this.tooltipBody.style.left = `${\n      this.tooltipTrigger.offsetLeft +\n      this.tooltipTrigger.offsetWidth +\n      this.TRIANGLE_SIZE\n    }px`;\n    this.tooltipBody.style.margin = `-${top / 2}px 0 0 0`;\n  }\n\n  setPositionClass(position: string): void {\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--top');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--bottom');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--left');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--right');\n    this.renderer.addClass(this.tooltipBody, `usa-tooltip__body--${position}`);\n  }\n\n  setThemeClass(theme: string): void {\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--dark');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');\n    this.renderer.addClass(this.tooltipBody, `usa-tooltip--${theme}`);\n  }\n\n  show() {\n    this.tooltipBody.setAttribute('aria-hidden', 'false');\n    this.renderer.addClass(this.tooltipBody, 'is-set');\n    this.renderer.addClass(this.tooltipBody, 'is-visible');\n\n    if(this.theme === 'light') {\n      this.themeLight();\n    }\n\n    switch (this.position) {\n      case 'top': {\n        this.positionTop();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionBottom();\n        }\n        break;\n      }\n      case 'bottom': {\n        this.positionBottom();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionTop();\n        }\n        break;\n      }\n      case 'left':\n        this.positionLeft();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionRight();\n          if (!this.isInViewport(this.tooltipBody)) {\n            this.positionTop();\n          }\n        }\n        break;\n      case 'right':\n        this.positionRight();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionLeft();\n          if (!this.isInViewport(this.tooltipBody)) {\n            this.positionTop();\n          }\n        }\n        break;\n    }\n  }\n\n  hide() {\n    this.renderer.removeClass(this.tooltipBody, 'is-set');\n    this.renderer.removeClass(this.tooltipBody, 'is-visible');\n    this.tooltipBody.setAttribute('aria-hidden', 'true');\n  }\n\n  isInViewport(elementToCheck): boolean {\n    const rect = elementToCheck.getBoundingClientRect();\n    return (\n      rect.top >= 0 &&\n      rect.left >= 0 &&\n      rect.bottom <=\n        (window.innerHeight || document.documentElement.clientHeight) &&\n      rect.right <= (window.innerWidth || document.documentElement.clientWidth)\n    );\n  }\n\n  offsetMargin(target, propertyToCheck): number {\n    return parseInt(\n      window.getComputedStyle(target).getPropertyValue(propertyToCheck),\n      10\n    );\n  }\n\n  calculateMarginOffset(positionToCheck, bodyOffset, trigger) {\n    return this.offsetMargin(trigger, `margin-${positionToCheck}`) > 0\n      ? bodyOffset - this.offsetMargin(trigger, `margin-${positionToCheck}`)\n      : bodyOffset;\n  }\n\n  resetPositionStyles(target): void {\n    target.style.top = null;\n    target.style.bottom = null;\n    target.style.right = null;\n    target.style.left = null;\n    target.style.margin = null;\n    target.style.color = '';\n    target.style.backgroundColor = '';\n    target.style.border = '';\n  }\n}\n",
             "selector": "[usaTooltip]",
             "providers": [],
             "inputsClass": [
@@ -16666,7 +16666,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nAdditional classes to be applied to wrapper\n",
                     "description": "<p>Additional classes to be applied to wrapper</p>\n",
-                    "line": 42,
+                    "line": 45,
                     "type": "string",
                     "decorators": []
                 },
@@ -16675,8 +16675,17 @@
                     "defaultValue": "'top'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 30,
+                    "line": 33,
                     "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+                    "decorators": []
+                },
+                {
+                    "name": "theme",
+                    "defaultValue": "'dark'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 30,
+                    "type": "\"dark\" | \"light\"",
                     "decorators": []
                 },
                 {
@@ -16685,7 +16694,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nValue to be displayed in tooltip\n",
                     "description": "<p>Value to be displayed in tooltip</p>\n",
-                    "line": 36,
+                    "line": 39,
                     "type": "string",
                     "decorators": []
                 }
@@ -16763,7 +16772,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 235,
+                    "line": 258,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16802,7 +16811,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 211,
+                    "line": 234,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16819,7 +16828,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 217,
+                    "line": 240,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16840,7 +16849,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 46,
+                    "line": 49,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16863,7 +16872,7 @@
                     "optional": false,
                     "returnType": "number",
                     "typeParameters": [],
-                    "line": 228,
+                    "line": 251,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16893,7 +16902,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 99,
+                    "line": 112,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16903,7 +16912,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 116,
+                    "line": 129,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16913,7 +16922,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 142,
+                    "line": 155,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16923,7 +16932,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 78,
+                    "line": 91,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16940,7 +16949,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 241,
+                    "line": 264,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16968,7 +16977,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 162,
+                    "line": 175,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16984,12 +16993,50 @@
                     ]
                 },
                 {
+                    "name": "setThemeClass",
+                    "args": [
+                        {
+                            "name": "theme",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 183,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "theme",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
                     "name": "show",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 170,
+                    "line": 189,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "themeLight",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 81,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -17016,7 +17063,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 42,
+                "line": 45,
                 "jsdoctags": [
                     {
                         "name": "el",
@@ -23243,7 +23290,7 @@
         },
         {
             "name": "TooltipBasicComponent",
-            "id": "component-TooltipBasicComponent-b00993e94457af0f73c9313c798b5f0e7715c5fd9da4f68528862603fe82d47b79caff574a8affd8ea3172023510a4f8cb35c920ba5d7cfd54d5fc113478763d",
+            "id": "component-TooltipBasicComponent-621a77a43f56dd16d29a84b3b26098416f3cafb19b047b8ccff9f2c11d537070918f5d74e4ea0aa4204c36d2d5d4f2f9f4f8f8536ae417f285d8660b4af90067",
             "file": "src/app/components/tooltip/tooltip-basic/tooltip-basic.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -23268,6 +23315,15 @@
                     "decorators": []
                 },
                 {
+                    "name": "theme",
+                    "defaultValue": "'dark'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 10,
+                    "type": "\"dark\" | \"light\"",
+                    "decorators": []
+                },
+                {
                     "name": "title",
                     "defaultValue": "'Tooltip Text'",
                     "deprecated": false,
@@ -23287,11 +23343,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, TemplateRef } from '@angular/core';\n\n@Component({\n  selector: 'tooltip-basic',\n  templateUrl: './tooltip-basic.component.html'\n})\nexport class TooltipBasicComponent {\n  @Input() position: 'top' | 'bottom' | 'left' | 'right' = 'top';\n  @Input() title: string | TemplateRef<any> = 'Tooltip Text'\n}\n",
+            "sourceCode": "import { Component, Input, TemplateRef } from '@angular/core';\n\n@Component({\n  selector: 'tooltip-basic',\n  templateUrl: './tooltip-basic.component.html'\n})\nexport class TooltipBasicComponent {\n  @Input() position: 'top' | 'bottom' | 'left' | 'right' = 'top';\n  @Input() title: string | TemplateRef<any> = 'Tooltip Text';\n  @Input ()theme: 'dark' | 'light' = 'dark';\n}\n ",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "templateData": "<div>\n  <button type=\"button\" usaTooltip [position]=\"position\" class=\"usa-button\" [title]=\"title\" classes=\"test\" >Tooltip</button>\n</div>\n"
+            "templateData": "<div>\n  <button type=\"button\" usaTooltip [theme]=\"theme\" [position]=\"position\" class=\"usa-button\" [title]=\"title\" classes=\"test\" >Tooltip</button>\n</div>\n"
         },
         {
             "name": "UsaAccordionComponent",
@@ -37852,7 +37908,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "tr.usa-table__row--hovered {\n  td {\n    background-color: #e1f3f8;\n    cursor: pointer;\n  }\n}\n\ntable {\n  color: red;\n}\n",
+                    "data": "::ng-deep {\n  tr.usa-table__row--hovered {\n    td {\n      background-color: #e1f3f8 !important;\n      cursor: pointer;\n    }\n  }\n}\n",
                     "styleUrl": "./table.component.scss"
                 }
             ],
@@ -45096,21 +45152,21 @@
                 "name": "actionsData",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  radioChange: action('Radio Change'),\n}"
-            },
-            {
-                "name": "actionsData",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
+            },
+            {
+                "name": "actionsData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  radioChange: action('Radio Change'),\n}"
             },
             {
                 "name": "actionsData",
@@ -45226,6 +45282,16 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45256,16 +45322,6 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/input/input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45286,21 +45342,21 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -45466,21 +45522,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<ComboBoxBasicComponent>",
                 "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45566,7 +45622,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45576,7 +45632,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -46186,7 +46242,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46196,7 +46252,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46437,7 +46493,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46446,7 +46502,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46509,7 +46565,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
+                "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46518,7 +46574,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
+                "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -50172,6 +50228,47 @@
                     "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
                 }
             ],
+            "src/app/components/search/search.stories.ts": [
+                {
+                    "name": "actionsData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
+                },
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+                }
+            ],
             "src/app/components/radio/radio.stories.ts": [
                 {
                     "name": "actionsData",
@@ -50241,47 +50338,6 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
-                }
-            ],
-            "src/app/components/search/search.stories.ts": [
-                {
-                    "name": "actionsData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
-                },
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
                 }
             ],
             "src/app/components/side-navigation/side-navigation.stories.ts": [
@@ -50602,6 +50658,58 @@
                     "type": ""
                 }
             ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                }
+            ],
             "src/app/components/dropdown/dropdown.stories.ts": [
                 {
                     "name": "Basic",
@@ -50683,58 +50791,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-                }
-            ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
-                },
-                {
-                    "name": "dummyData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
-                },
-                {
-                    "name": "mockService",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
             "src/app/components/input/input.stories.ts": [
@@ -51342,27 +51398,6 @@
                     "type": "literal type"
                 }
             ],
-            "projects/uswds-components/src/test.ts": [
-                {
-                    "name": "context",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "literal type"
-                }
-            ],
             "projects/uswds-formly/src/test.ts": [
                 {
                     "name": "context",
@@ -51379,6 +51414,27 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-formly/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type"
+                }
+            ],
+            "projects/uswds-components/src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/test.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "literal type"
@@ -51549,6 +51605,18 @@
                     "defaultValue": "0"
                 }
             ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                }
+            ],
             "projects/uswds-components/src/lib/character-count/character-count.directive.ts": [
                 {
                     "name": "nextId",
@@ -51568,18 +51636,6 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
-                }
-            ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
@@ -56087,8 +56143,8 @@
                 "type": "directive",
                 "linktype": "directive",
                 "name": "UsaTooltipDirective",
-                "coveragePercent": 9,
-                "coverageCount": "2/21",
+                "coveragePercent": 8,
+                "coverageCount": "2/24",
                 "status": "low"
             },
             {
@@ -58264,7 +58320,7 @@
                 "linktype": "component",
                 "name": "TooltipBasicComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {
