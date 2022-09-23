@@ -27,7 +27,7 @@ export class UsaTooltipDirective implements AfterViewInit {
   readonly TRIANGLE_SIZE = 5;
 
   @Input()
-  theme: 'dark' | 'light' = 'dark';
+  theme: 'dark' | 'light';
 
   @Input()
   position: 'top' | 'bottom' | 'left' | 'right' = 'top';
@@ -63,6 +63,7 @@ export class UsaTooltipDirective implements AfterViewInit {
     this.renderer.appendChild(this.tooltipWrapper, this.tooltipBody);
     this.renderer.addClass(this.tooltipWrapper, 'usa-tooltip');
 
+    
     if (this.classes) {
       this.classes
         .split(' ')
@@ -76,17 +77,23 @@ export class UsaTooltipDirective implements AfterViewInit {
 
     const text = this.renderer.createText(this.title);
     this.renderer.appendChild(this.tooltipBody, text);
+
+    // if(this.theme == 'dark') {
+    //   this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');
+    // } else {
+    //   this.renderer.addClass(this.tooltipBody, 'usa-tooltip--light');
+    // }
   }
   
-  themeLight(): void {
-    this.resetPositionStyles(this.tooltipBody);
+  // themeLight(): void {
+  //   this.resetPositionStyles(this.tooltipBody);
 
-    this.setThemeClass('light');
+  //   this.setThemeClass('light');
 
-    this.tooltipBody.style.color = '#454540';
-    this.tooltipBody.style.backgroundColor = '#c9c9c9';
-    this.tooltipBody.style.border = 'solid 1px #454540';
-  }
+  //   this.tooltipBody.style.color = '#454540';
+  //   this.tooltipBody.style.backgroundColor = '#c9c9c9';
+  //   this.tooltipBody.style.border = 'solid 1px #454540';
+  // }
 
   positionTop(): void {
     this.resetPositionStyles(this.tooltipBody);
@@ -180,19 +187,25 @@ export class UsaTooltipDirective implements AfterViewInit {
     this.renderer.addClass(this.tooltipBody, `usa-tooltip__body--${position}`);
   }
 
-  setThemeClass(theme: string): void {
-    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--dark');
-    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');
-    this.renderer.addClass(this.tooltipBody, `usa-tooltip--${theme}`);
-  }
+  // setThemeClass(theme: string): void {
+  //   this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--dark');
+  //   this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');
+  //   this.renderer.addClass(this.tooltipBody, `usa-tooltip--${theme}`);
+  // }
 
   show() {
     this.tooltipBody.setAttribute('aria-hidden', 'false');
     this.renderer.addClass(this.tooltipBody, 'is-set');
     this.renderer.addClass(this.tooltipBody, 'is-visible');
 
+    // if(this.theme === 'light') {
+    //   this.themeLight();
+    // }
+
     if(this.theme === 'light') {
-      this.themeLight();
+      this.renderer.addClass(this.tooltipBody, 'usa-tooltip--light');
+    } else {
+      this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');
     }
 
     switch (this.position) {

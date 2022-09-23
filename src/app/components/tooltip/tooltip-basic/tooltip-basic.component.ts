@@ -7,6 +7,7 @@ import { Component, Input, TemplateRef } from '@angular/core';
 export class TooltipBasicComponent {
   @Input() position: 'top' | 'bottom' | 'left' | 'right' = 'top';
   @Input() title: string | TemplateRef<any> = 'Tooltip Text';
-  @Input ()theme: 'dark' | 'light' = 'dark';
+  light = 'light';
+  dark = 'dark';
 }
  

@@ -16651,12 +16651,12 @@
         },
         {
             "name": "UsaTooltipDirective",
-            "id": "directive-UsaTooltipDirective-5912826354706db4dac7c5dc947eb2c7e7b3a72bc06966eb6c0f9944b6454eb0c95f32ef6b58b1ff46857abe7c303525ed957fdecd55a96963a9fbaa07c23cc3",
+            "id": "directive-UsaTooltipDirective-d7c56d480333502f4d8c951bbda46a18f575414401214ba72d451fb25c6f276957b2eeeffe2861c7f8f17ca9245676fbb9ed3e81658c569b0f6d69b6a4c59abf",
             "file": "projects/uswds-components/src/lib/tooltip/tooltip.directive.ts",
             "type": "directive",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import {\n  AfterViewInit,\n  Directive,\n  ElementRef,\n  Input,\n  Renderer2,\n} from '@angular/core';\n\n@Directive({\n  selector: '[usaTooltip]',\n  host: {\n    class: 'usa-tooltip__trigger',\n    '(mouseenter)': 'show()',\n    '(focus)': 'show()',\n    '(mouseleave)': 'hide()',\n    '(blur)': 'hide()',\n  },\n})\nexport class UsaTooltipDirective implements AfterViewInit {\n  // Span which contains the tooltip text\n  tooltipBody: HTMLElement;\n  // Element which causes tooltip to be shown, tooltip apppears relative to this\n  tooltipTrigger: HTMLElement;\n  // Element which wraps tooltip and trigger\n  tooltipWrapper: HTMLElement;\n\n  readonly TRIANGLE_SIZE = 5;\n\n  @Input()\n  theme: 'dark' | 'light' = 'dark';\n\n  @Input()\n  position: 'top' | 'bottom' | 'left' | 'right' = 'top';\n\n  /**\n   * Value to be displayed in tooltip\n   */\n  @Input()\n  title: string;\n\n  /**\n   * Additional classes to be applied to wrapper\n   */\n  @Input()\n  classes: string;\n\n  constructor(private el: ElementRef, private renderer: Renderer2) {}\n\n  ngAfterViewInit() {\n    const tooltipID = `tooltip-${Math.floor(Math.random() * 900000) + 100000}`;\n\n    this.tooltipTrigger = this.el.nativeElement;\n    this.tooltipWrapper = document.createElement('span');\n    this.tooltipBody = document.createElement('span');\n\n    this.tooltipTrigger.setAttribute('aria-describedby', tooltipID);\n    this.tooltipTrigger.setAttribute('tabindex', '0');\n    this.tooltipTrigger.classList.remove('usa-tooltip');\n\n    const parent = this.renderer.parentNode(this.el.nativeElement);\n    parent.replaceChild(this.tooltipWrapper, this.el.nativeElement);\n    this.renderer.appendChild(this.tooltipWrapper, this.tooltipTrigger);\n    this.renderer.appendChild(this.tooltipWrapper, this.tooltipBody);\n    this.renderer.addClass(this.tooltipWrapper, 'usa-tooltip');\n\n    if (this.classes) {\n      this.classes\n        .split(' ')\n        .forEach((className) => this.tooltipWrapper.classList.add(className));\n    }\n\n    this.renderer.addClass(this.tooltipBody, 'usa-tooltip__body');\n    this.renderer.setAttribute(this.tooltipBody, 'id', tooltipID);\n    this.renderer.setAttribute(this.tooltipBody, 'role', 'tooltip');\n    this.renderer.setAttribute(this.tooltipBody, 'aria-hidden', 'true');\n\n    const text = this.renderer.createText(this.title);\n    this.renderer.appendChild(this.tooltipBody, text);\n  }\n  \n  themeLight(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    this.setThemeClass('light');\n\n    this.tooltipBody.style.color = '#454540';\n    this.tooltipBody.style.backgroundColor = '#c9c9c9';\n    this.tooltipBody.style.border = 'solid 1px #454540';\n  }\n\n  positionTop(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('top');\n\n    this.tooltipBody.style.left = '50%';\n    this.tooltipBody.style.top = `-${this.TRIANGLE_SIZE}px`;\n    this.tooltipBody.style.margin = `-${top}px 0 0 -${left / 2}px`;\n  }\n\n  positionBottom(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('bottom');\n\n    this.tooltipBody.style.left = '50%';\n    this.tooltipBody.style.margin = `${this.TRIANGLE_SIZE}px 0 0 -${\n      left / 2\n    }px`;\n  }\n\n  positionLeft(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth\n        ? this.tooltipTrigger.offsetLeft - this.tooltipBody.offsetWidth\n        : this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('left');\n\n    this.tooltipBody.style.top = `50%`;\n    this.tooltipBody.style.left = `-${this.TRIANGLE_SIZE}px`;\n    this.tooltipBody.style.margin = `-${top / 2}px 0 0 ${\n      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth\n        ? left\n        : -left\n    }px`;\n  }\n  positionRight(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('right');\n\n    this.tooltipBody.style.top = '50%';\n    this.tooltipBody.style.left = `${\n      this.tooltipTrigger.offsetLeft +\n      this.tooltipTrigger.offsetWidth +\n      this.TRIANGLE_SIZE\n    }px`;\n    this.tooltipBody.style.margin = `-${top / 2}px 0 0 0`;\n  }\n\n  setPositionClass(position: string): void {\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--top');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--bottom');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--left');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--right');\n    this.renderer.addClass(this.tooltipBody, `usa-tooltip__body--${position}`);\n  }\n\n  setThemeClass(theme: string): void {\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--dark');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');\n    this.renderer.addClass(this.tooltipBody, `usa-tooltip--${theme}`);\n  }\n\n  show() {\n    this.tooltipBody.setAttribute('aria-hidden', 'false');\n    this.renderer.addClass(this.tooltipBody, 'is-set');\n    this.renderer.addClass(this.tooltipBody, 'is-visible');\n\n    if(this.theme === 'light') {\n      this.themeLight();\n    }\n\n    switch (this.position) {\n      case 'top': {\n        this.positionTop();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionBottom();\n        }\n        break;\n      }\n      case 'bottom': {\n        this.positionBottom();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionTop();\n        }\n        break;\n      }\n      case 'left':\n        this.positionLeft();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionRight();\n          if (!this.isInViewport(this.tooltipBody)) {\n            this.positionTop();\n          }\n        }\n        break;\n      case 'right':\n        this.positionRight();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionLeft();\n          if (!this.isInViewport(this.tooltipBody)) {\n            this.positionTop();\n          }\n        }\n        break;\n    }\n  }\n\n  hide() {\n    this.renderer.removeClass(this.tooltipBody, 'is-set');\n    this.renderer.removeClass(this.tooltipBody, 'is-visible');\n    this.tooltipBody.setAttribute('aria-hidden', 'true');\n  }\n\n  isInViewport(elementToCheck): boolean {\n    const rect = elementToCheck.getBoundingClientRect();\n    return (\n      rect.top >= 0 &&\n      rect.left >= 0 &&\n      rect.bottom <=\n        (window.innerHeight || document.documentElement.clientHeight) &&\n      rect.right <= (window.innerWidth || document.documentElement.clientWidth)\n    );\n  }\n\n  offsetMargin(target, propertyToCheck): number {\n    return parseInt(\n      window.getComputedStyle(target).getPropertyValue(propertyToCheck),\n      10\n    );\n  }\n\n  calculateMarginOffset(positionToCheck, bodyOffset, trigger) {\n    return this.offsetMargin(trigger, `margin-${positionToCheck}`) > 0\n      ? bodyOffset - this.offsetMargin(trigger, `margin-${positionToCheck}`)\n      : bodyOffset;\n  }\n\n  resetPositionStyles(target): void {\n    target.style.top = null;\n    target.style.bottom = null;\n    target.style.right = null;\n    target.style.left = null;\n    target.style.margin = null;\n    target.style.color = '';\n    target.style.backgroundColor = '';\n    target.style.border = '';\n  }\n}\n",
+            "sourceCode": "import {\n  AfterViewInit,\n  Directive,\n  ElementRef,\n  Input,\n  Renderer2,\n} from '@angular/core';\n\n@Directive({\n  selector: '[usaTooltip]',\n  host: {\n    class: 'usa-tooltip__trigger',\n    '(mouseenter)': 'show()',\n    '(focus)': 'show()',\n    '(mouseleave)': 'hide()',\n    '(blur)': 'hide()',\n  },\n})\nexport class UsaTooltipDirective implements AfterViewInit {\n  // Span which contains the tooltip text\n  tooltipBody: HTMLElement;\n  // Element which causes tooltip to be shown, tooltip apppears relative to this\n  tooltipTrigger: HTMLElement;\n  // Element which wraps tooltip and trigger\n  tooltipWrapper: HTMLElement;\n\n  readonly TRIANGLE_SIZE = 5;\n\n  @Input()\n  theme: 'dark' | 'light' = 'dark';\n\n  @Input()\n  position: 'top' | 'bottom' | 'left' | 'right' = 'top';\n\n  /**\n   * Value to be displayed in tooltip\n   */\n  @Input()\n  title: string;\n\n  /**\n   * Additional classes to be applied to wrapper\n   */\n  @Input()\n  classes: string;\n\n  constructor(private el: ElementRef, private renderer: Renderer2) {}\n\n  ngAfterViewInit() {\n    const tooltipID = `tooltip-${Math.floor(Math.random() * 900000) + 100000}`;\n\n    this.tooltipTrigger = this.el.nativeElement;\n    this.tooltipWrapper = document.createElement('span');\n    this.tooltipBody = document.createElement('span');\n\n    this.tooltipTrigger.setAttribute('aria-describedby', tooltipID);\n    this.tooltipTrigger.setAttribute('tabindex', '0');\n    this.tooltipTrigger.classList.remove('usa-tooltip');\n\n    const parent = this.renderer.parentNode(this.el.nativeElement);\n    parent.replaceChild(this.tooltipWrapper, this.el.nativeElement);\n    this.renderer.appendChild(this.tooltipWrapper, this.tooltipTrigger);\n    this.renderer.appendChild(this.tooltipWrapper, this.tooltipBody);\n    this.renderer.addClass(this.tooltipWrapper, 'usa-tooltip');\n\n    \n    if (this.classes) {\n      this.classes\n        .split(' ')\n        .forEach((className) => this.tooltipWrapper.classList.add(className));\n    }\n\n    this.renderer.addClass(this.tooltipBody, 'usa-tooltip__body');\n    this.renderer.setAttribute(this.tooltipBody, 'id', tooltipID);\n    this.renderer.setAttribute(this.tooltipBody, 'role', 'tooltip');\n    this.renderer.setAttribute(this.tooltipBody, 'aria-hidden', 'true');\n\n    const text = this.renderer.createText(this.title);\n    this.renderer.appendChild(this.tooltipBody, text);\n\n    // if(this.theme == 'dark') {\n    //   this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');\n    // } else {\n    //   this.renderer.addClass(this.tooltipBody, 'usa-tooltip--light');\n    // }\n  }\n  \n  // themeLight(): void {\n  //   this.resetPositionStyles(this.tooltipBody);\n\n  //   this.setThemeClass('light');\n\n  //   this.tooltipBody.style.color = '#454540';\n  //   this.tooltipBody.style.backgroundColor = '#c9c9c9';\n  //   this.tooltipBody.style.border = 'solid 1px #454540';\n  // }\n\n  positionTop(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('top');\n\n    this.tooltipBody.style.left = '50%';\n    this.tooltipBody.style.top = `-${this.TRIANGLE_SIZE}px`;\n    this.tooltipBody.style.margin = `-${top}px 0 0 -${left / 2}px`;\n  }\n\n  positionBottom(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('bottom');\n\n    this.tooltipBody.style.left = '50%';\n    this.tooltipBody.style.margin = `${this.TRIANGLE_SIZE}px 0 0 -${\n      left / 2\n    }px`;\n  }\n\n  positionLeft(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n    const left = this.calculateMarginOffset(\n      'left',\n      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth\n        ? this.tooltipTrigger.offsetLeft - this.tooltipBody.offsetWidth\n        : this.tooltipBody.offsetWidth,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('left');\n\n    this.tooltipBody.style.top = `50%`;\n    this.tooltipBody.style.left = `-${this.TRIANGLE_SIZE}px`;\n    this.tooltipBody.style.margin = `-${top / 2}px 0 0 ${\n      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth\n        ? left\n        : -left\n    }px`;\n  }\n  positionRight(): void {\n    this.resetPositionStyles(this.tooltipBody);\n\n    const top = this.calculateMarginOffset(\n      'top',\n      this.tooltipBody.offsetHeight,\n      this.tooltipTrigger\n    );\n\n    this.setPositionClass('right');\n\n    this.tooltipBody.style.top = '50%';\n    this.tooltipBody.style.left = `${\n      this.tooltipTrigger.offsetLeft +\n      this.tooltipTrigger.offsetWidth +\n      this.TRIANGLE_SIZE\n    }px`;\n    this.tooltipBody.style.margin = `-${top / 2}px 0 0 0`;\n  }\n\n  setPositionClass(position: string): void {\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--top');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--bottom');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--left');\n    this.renderer.removeClass(this.tooltipBody, 'usa-tooltip__body--right');\n    this.renderer.addClass(this.tooltipBody, `usa-tooltip__body--${position}`);\n  }\n\n  // setThemeClass(theme: string): void {\n  //   this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--dark');\n  //   this.renderer.removeClass(this.tooltipBody, 'usa-tooltip--light');\n  //   this.renderer.addClass(this.tooltipBody, `usa-tooltip--${theme}`);\n  // }\n\n  show() {\n    this.tooltipBody.setAttribute('aria-hidden', 'false');\n    this.renderer.addClass(this.tooltipBody, 'is-set');\n    this.renderer.addClass(this.tooltipBody, 'is-visible');\n\n    // if(this.theme === 'light') {\n    //   this.themeLight();\n    // }\n\n    this.renderer.addClass(this.tooltipBody, 'usa-tooltip--light');\n    \n\n    switch (this.position) {\n      case 'top': {\n        this.positionTop();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionBottom();\n        }\n        break;\n      }\n      case 'bottom': {\n        this.positionBottom();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionTop();\n        }\n        break;\n      }\n      case 'left':\n        this.positionLeft();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionRight();\n          if (!this.isInViewport(this.tooltipBody)) {\n            this.positionTop();\n          }\n        }\n        break;\n      case 'right':\n        this.positionRight();\n        if (!this.isInViewport(this.tooltipBody)) {\n          this.positionLeft();\n          if (!this.isInViewport(this.tooltipBody)) {\n            this.positionTop();\n          }\n        }\n        break;\n    }\n  }\n\n  hide() {\n    this.renderer.removeClass(this.tooltipBody, 'is-set');\n    this.renderer.removeClass(this.tooltipBody, 'is-visible');\n    this.tooltipBody.setAttribute('aria-hidden', 'true');\n  }\n\n  isInViewport(elementToCheck): boolean {\n    const rect = elementToCheck.getBoundingClientRect();\n    return (\n      rect.top >= 0 &&\n      rect.left >= 0 &&\n      rect.bottom <=\n        (window.innerHeight || document.documentElement.clientHeight) &&\n      rect.right <= (window.innerWidth || document.documentElement.clientWidth)\n    );\n  }\n\n  offsetMargin(target, propertyToCheck): number {\n    return parseInt(\n      window.getComputedStyle(target).getPropertyValue(propertyToCheck),\n      10\n    );\n  }\n\n  calculateMarginOffset(positionToCheck, bodyOffset, trigger) {\n    return this.offsetMargin(trigger, `margin-${positionToCheck}`) > 0\n      ? bodyOffset - this.offsetMargin(trigger, `margin-${positionToCheck}`)\n      : bodyOffset;\n  }\n\n  resetPositionStyles(target): void {\n    target.style.top = null;\n    target.style.bottom = null;\n    target.style.right = null;\n    target.style.left = null;\n    target.style.margin = null;\n    target.style.color = '';\n    target.style.backgroundColor = '';\n    target.style.border = '';\n  }\n}\n",
             "selector": "[usaTooltip]",
             "providers": [],
             "inputsClass": [
@@ -16772,7 +16772,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 258,
+                    "line": 268,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16811,7 +16811,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 234,
+                    "line": 244,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16828,7 +16828,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 240,
+                    "line": 250,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16872,7 +16872,7 @@
                     "optional": false,
                     "returnType": "number",
                     "typeParameters": [],
-                    "line": 251,
+                    "line": 261,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16902,7 +16902,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 112,
+                    "line": 119,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16912,7 +16912,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 129,
+                    "line": 136,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16922,7 +16922,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 155,
+                    "line": 162,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16932,7 +16932,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 91,
+                    "line": 98,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -16949,7 +16949,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 264,
+                    "line": 274,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16977,7 +16977,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 175,
+                    "line": 182,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -16993,50 +16993,12 @@
                     ]
                 },
                 {
-                    "name": "setThemeClass",
-                    "args": [
-                        {
-                            "name": "theme",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 183,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "theme",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                },
-                {
                     "name": "show",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 189,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                },
-                {
-                    "name": "themeLight",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 81,
+                    "line": 196,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -23290,7 +23252,7 @@
         },
         {
             "name": "TooltipBasicComponent",
-            "id": "component-TooltipBasicComponent-621a77a43f56dd16d29a84b3b26098416f3cafb19b047b8ccff9f2c11d537070918f5d74e4ea0aa4204c36d2d5d4f2f9f4f8f8536ae417f285d8660b4af90067",
+            "id": "component-TooltipBasicComponent-aab8f019e11cb971ef667799b0af2c1e7496b02dc11ae4554a3470006229ae30528d63f2d80d3e2a52dbb7fba63059b45375b75da30859f3facb3dd6caa140e3",
             "file": "src/app/components/tooltip/tooltip-basic/tooltip-basic.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -23315,15 +23277,6 @@
                     "decorators": []
                 },
                 {
-                    "name": "theme",
-                    "defaultValue": "'dark'",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 10,
-                    "type": "\"dark\" | \"light\"",
-                    "decorators": []
-                },
-                {
                     "name": "title",
                     "defaultValue": "'Tooltip Text'",
                     "deprecated": false,
@@ -23334,7 +23287,26 @@
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [],
+            "propertiesClass": [
+                {
+                    "name": "dark",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "light",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
             "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
@@ -23343,11 +23315,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, TemplateRef } from '@angular/core';\n\n@Component({\n  selector: 'tooltip-basic',\n  templateUrl: './tooltip-basic.component.html'\n})\nexport class TooltipBasicComponent {\n  @Input() position: 'top' | 'bottom' | 'left' | 'right' = 'top';\n  @Input() title: string | TemplateRef<any> = 'Tooltip Text';\n  @Input ()theme: 'dark' | 'light' = 'dark';\n}\n ",
+            "sourceCode": "import { Component, Input, TemplateRef } from '@angular/core';\n\n@Component({\n  selector: 'tooltip-basic',\n  templateUrl: './tooltip-basic.component.html'\n})\nexport class TooltipBasicComponent {\n  @Input() position: 'top' | 'bottom' | 'left' | 'right' = 'top';\n  @Input() title: string | TemplateRef<any> = 'Tooltip Text';\n  light: any;\n  dark: any;\n}\n ",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "templateData": "<div>\n  <button type=\"button\" usaTooltip [theme]=\"theme\" [position]=\"position\" class=\"usa-button\" [title]=\"title\" classes=\"test\" >Tooltip</button>\n</div>\n"
+            "templateData": "<div>\n  <button type=\"button\" usaTooltip [theme]=\"dark\" [position]=\"position\" class=\"usa-button\" [title]=\"title\" classes=\"test\" >Tooltip</button>\n</div>\n"
         },
         {
             "name": "UsaAccordionComponent",
@@ -45152,21 +45124,21 @@
                 "name": "actionsData",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
-            },
-            {
-                "name": "actionsData",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  radioChange: action('Radio Change'),\n}"
+            },
+            {
+                "name": "actionsData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/search/search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
             },
             {
                 "name": "actionsData",
@@ -45322,16 +45294,6 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/input/input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/modal/modal.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45342,11 +45304,11 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
+                "file": "src/app/components/input/input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
+                "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
             },
             {
                 "name": "Basic",
@@ -45357,6 +45319,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/search/search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -45412,16 +45384,6 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45432,7 +45394,7 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "file": "src/app/formly/input/formly-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45442,7 +45404,7 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45473,6 +45435,16 @@
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45622,7 +45594,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45632,7 +45604,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -46004,16 +45976,6 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<FormlyForm>",
-                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46024,21 +45986,21 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaDropdownComponent>",
-                "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/input/formly-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<FormlyForm>",
                 "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<FormlyForm>",
+                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
             },
             {
                 "name": "FormControlTemplate",
@@ -46069,6 +46031,16 @@
                 "deprecationMessage": "",
                 "type": "Story<UsaTextareaComponent>",
                 "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaDropdownComponent>",
+                "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
             },
             {
                 "name": "headerData",
@@ -46242,7 +46214,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46252,7 +46224,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46493,7 +46465,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46502,7 +46474,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46565,7 +46537,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
+                "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46574,7 +46546,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
+                "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46610,15 +46582,6 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46628,7 +46591,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "file": "src/app/formly/input/formly-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46637,7 +46600,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46665,6 +46628,15 @@
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46864,16 +46836,6 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46884,21 +46846,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/input/formly-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
             },
             {
                 "name": "template",
@@ -46929,6 +46891,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
             },
             {
                 "name": "uniqueId",
@@ -50228,47 +50200,6 @@
                     "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
                 }
             ],
-            "src/app/components/search/search.stories.ts": [
-                {
-                    "name": "actionsData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
-                },
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/search/search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-                }
-            ],
             "src/app/components/radio/radio.stories.ts": [
                 {
                     "name": "actionsData",
@@ -50338,6 +50269,47 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
+                }
+            ],
+            "src/app/components/search/search.stories.ts": [
+                {
+                    "name": "actionsData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n}"
+                },
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n  },\n})"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/search/search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
                 }
             ],
             "src/app/components/side-navigation/side-navigation.stories.ts": [
@@ -50793,18 +50765,6 @@
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
                 }
             ],
-            "src/app/components/input/input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/input/input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
-                }
-            ],
             "src/app/components/modal/modal.stories.ts": [
                 {
                     "name": "Basic",
@@ -50885,6 +50845,18 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "() => ({\n  template: footer.default\n})"
+                }
+            ],
+            "src/app/components/input/input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/input/input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
                 }
             ],
             "src/app/components/step-indicator/step-indicator.stories.ts": [
@@ -51034,6 +51006,88 @@
                     "defaultValue": "(args) => ({\n  template: `<tooltip-basic [position]=\"'${args.position}'\" [title]=\"'${args.title}'\">Tooltip</tooltip-basic>`,\n})"
                 }
             ],
+            "src/app/formly/datepicker/datepicker.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaSearchComponent>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+                }
+            ],
+            "src/app/formly/input/formly-input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
+                }
+            ],
             "src/app/formly/checkbox/formly-checkbox.stories.ts": [
                 {
                     "name": "Basic",
@@ -51085,129 +51139,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-                }
-            ],
-            "src/app/formly/datepicker/datepicker.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaSearchComponent>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-                }
-            ],
-            "src/app/formly/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaDropdownComponent>",
-                    "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                }
-            ],
-            "src/app/formly/input/formly-input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
                 }
             ],
             "src/app/formly/radio/formly-radio.stories.ts": [
@@ -51333,6 +51264,47 @@
                     "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
                 }
             ],
+            "src/app/formly/dropdown/dropdown.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaDropdownComponent>",
+                    "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+                }
+            ],
             "src/app/components/table/table-static-data.ts": [
                 {
                     "name": "basicColumns",
@@ -51398,27 +51370,6 @@
                     "type": "literal type"
                 }
             ],
-            "projects/uswds-formly/src/test.ts": [
-                {
-                    "name": "context",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-formly/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-formly/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "literal type"
-                }
-            ],
             "projects/uswds-components/src/test.ts": [
                 {
                     "name": "context",
@@ -51435,6 +51386,27 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-components/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type"
+                }
+            ],
+            "projects/uswds-formly/src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-formly/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-formly/src/test.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "literal type"
@@ -51605,18 +51577,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                }
-            ],
             "projects/uswds-components/src/lib/character-count/character-count.directive.ts": [
                 {
                     "name": "nextId",
@@ -51636,6 +51596,18 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
+                }
+            ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
@@ -56143,8 +56115,8 @@
                 "type": "directive",
                 "linktype": "directive",
                 "name": "UsaTooltipDirective",
-                "coveragePercent": 8,
-                "coverageCount": "2/24",
+                "coveragePercent": 9,
+                "coverageCount": "2/22",
                 "status": "low"
             },
             {
@@ -58320,7 +58292,7 @@
                 "linktype": "component",
                 "name": "TooltipBasicComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
