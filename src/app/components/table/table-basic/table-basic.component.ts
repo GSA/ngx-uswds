@@ -30,6 +30,7 @@ export class TableBasicComponent {
     },
   ];
 
+  fullwidth: boolean = false;
   striped: boolean = false;
   borderless: boolean = true;
   compact: boolean = false;

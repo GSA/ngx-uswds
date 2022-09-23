@@ -65,6 +65,12 @@ export class UsaTableComponent
   implements AfterContentInit, OnChanges, AfterContentChecked
 {
   /**
+   * Display table without full width
+   * @default false
+   */
+   @Input() fullwidth: boolean;
+  
+  /**
    * Display table without column borders
    * @default false
    */
@@ -216,6 +222,7 @@ export class UsaTableComponent
   }
 
   constructor(private config: UsaTableConfig, public cdr: ChangeDetectorRef) {
+    this.fullwidth = this.config.fullwidth;
     this.borderless = this.config.borderless;
     this.compact = this.config.compact;
     this.scrollable = this.config.scrollable;
