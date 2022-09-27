@@ -68,7 +68,7 @@ export class UsaTableComponent
    * Display table without full width
    * @default false
    */
-   @Input() fullwidth: boolean;
+   @Input() fullWidth: boolean;
   
   /**
    * Display table without column borders
@@ -222,7 +222,7 @@ export class UsaTableComponent
   }
 
   constructor(private config: UsaTableConfig, public cdr: ChangeDetectorRef) {
-    this.fullwidth = this.config.fullwidth;
+    this.fullWidth = this.config.fullWidth;
     this.borderless = this.config.borderless;
     this.compact = this.config.compact;
     this.scrollable = this.config.scrollable;

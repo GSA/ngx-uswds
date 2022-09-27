@@ -8,7 +8,7 @@ export class UsaTableConfig {
    * Display table without full width
    * @default false
    */
-  fullwidth = false;
+  fullWidth = false;
 
   /**
    * Display table without column borders
