@@ -4,7 +4,7 @@ import { SidenavModel } from './sidenav.model';
 
 
 @Component({
-  selector: `usa-sidenav`,
+  selector: `usa-sidenav, dropdown-usa-sidenav`,
   templateUrl: `sidenav.component.html`,
   styleUrls: ['./sidenav.component.scss']
 })

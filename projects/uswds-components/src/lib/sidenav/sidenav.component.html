@@ -1,4 +1,4 @@
-<ul class="usa-sidenav">
+<ul class="usa-sidenav || dropdown-usa-sidenav">
   <li *ngFor="let link of sidenavContent" class="usa-sidenav__item">
     <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
     </ng-container>
@@ -16,3 +16,5 @@
     </ul>
   </div>
 </ng-template>
+
+

@@ -9,7 +9,7 @@ import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +32,8 @@ import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
       },
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [
+  ]
 })
 export class AppModule { }

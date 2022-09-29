@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { UsaLinkTemplateModule } from "../shared/link-template/link-template.module";
 import { UsaSidenavComponent } from "./sidenav.component";
+//import { DropdownUsaSidenavComponent } from "./dropdown-sidenav.component";
 
 
 @NgModule({
@@ -10,10 +11,10 @@ import { UsaSidenavComponent } from "./sidenav.component";
     UsaLinkTemplateModule
   ],
   declarations: [
-    UsaSidenavComponent
+    UsaSidenavComponent,
   ],
   exports: [
-    UsaSidenavComponent
+    UsaSidenavComponent,
   ]
 })
 export class UsaSidenavModule {}
