@@ -1,13 +1,13 @@
 {
   "name": "@gsa-sam/uswds-formly",
-  "version": "12.0.2",
+  "version": "13.0.0-beta.1",
   "peerDependencies": {
-    "@angular/common": "^12.2.14",
-    "@angular/core": "^12.2.14",
-    "@angular/forms": "^12.2.14",
+    "@angular/common": "~13.3.11",
+    "@angular/core": "~13.3.11",
+    "@angular/forms": "~13.3.11",
     "uswds": "^2.11.2",
     "@ngx-formly/core": "^5.10.23",
-    "@gsa-sam/uswds-components": "12.0.0"
+    "@gsa-sam/uswds-components": "13.0.0-beta.1"
   },
   "dependencies": {
     "tslib": "^2.0.0"
