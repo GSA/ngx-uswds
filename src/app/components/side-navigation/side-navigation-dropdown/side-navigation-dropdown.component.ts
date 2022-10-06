@@ -71,6 +71,7 @@ export class SideNavigationDropdownComponent {
     }
   ];
 
+  @Input() dropdownBg: boolean = true;
   @Input() expandType: 'single' | 'multiple' = 'single';
   @Input() enableLabelCollapse: boolean = false;
   @Input() autoCollapseLabels: boolean = false;

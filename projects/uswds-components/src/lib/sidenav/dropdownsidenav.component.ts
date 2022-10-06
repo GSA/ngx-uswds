@@ -4,17 +4,15 @@ import { SidenavModel } from './sidenav.model';
 
 
 @Component({
-  selector: `usa-sidenav`,
-  templateUrl: `sidenav.component.html`,
-  styleUrls: ['./sidenav.component.scss']
+  selector: `dropdown-usa-sidenav`,
+  templateUrl: `dropdownsidenav.component.html`,
+  styleUrls: ['./dropdownsidenav.component.scss']
 })
-export class UsaSidenavComponent implements OnInit {
+export class DropdownUsaSidenavComponent implements OnInit {
 
   NavigationMode = UsaNavigationMode;
 
-  @Input() sidenavContent: SidenavModel[];
-
-  //@Input() dropdownBg: boolean = true;
+  @Input() dropdownSidenavContent: SidenavModel[];
 
   /**
    * Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.
@@ -47,7 +45,7 @@ export class UsaSidenavComponent implements OnInit {
   ngOnInit(): void {
     // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label
     if (this.expandType) {
-      this.sidenavContent.map(link => {
+      this.dropdownSidenavContent.map(link => {
         if (link.mode !== UsaNavigationMode.LABEL) {
           // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration
           link.collapsed = link.collapsed === undefined ? true : link.collapsed;
@@ -71,15 +69,15 @@ export class UsaSidenavComponent implements OnInit {
 
   onSidenavItemClicked(item: SidenavModel): void {
 
-    this.deselectSideNav(this.sidenavContent);
-    this.selectSideNav(item, this.sidenavContent);
+    this.deselectSideNav(this.dropdownSidenavContent);
+    this.selectSideNav(item, this.dropdownSidenavContent);
     if (item.children && this.canCollapseLabel(item)) {
       item.collapsed = !item.collapsed;
       this.toggleBasedOnSelected(item.children);
     }
     if (this.expandType === 'single') {
 
-      this.toggleBasedOnSelected(this.sidenavContent);
+      this.toggleBasedOnSelected(this.dropdownSidenavContent);
     }
     this.sidenavClicked.emit(item);
   }
@@ -143,7 +141,7 @@ export class UsaSidenavComponent implements OnInit {
    */
   public expandAll(): void {
     if (this.expandType === 'multiple') {
-      this.sidenavContent.forEach(link => this.expandChildren(link, false));
+      this.dropdownSidenavContent.forEach(link => this.expandChildren(link, false));
     }
   }
 
@@ -151,7 +149,7 @@ export class UsaSidenavComponent implements OnInit {
    * Collapses all links
    */
   public collapseAll(): void {
-    this.sidenavContent.forEach(link => this.expandChildren(link, true));
+    this.dropdownSidenavContent.forEach(link => this.expandChildren(link, true));
   }
 
   private expandChildren(link: SidenavModel, collapsedValue: boolean): void {
