@@ -40,6 +40,7 @@ export default {
     stacked: false,
     stackedHeader: false,
     highlightRowOnHover: false,
+    fullWidth: false,
     displayedColumns: basicColumns,
     displayedData: basicData,
   }

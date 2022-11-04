@@ -5,6 +5,12 @@ import {Injectable} from '@angular/core';
 })
 export class UsaTableConfig {
   /**
+   * Display table without full width
+   * @default false
+   */
+  fullWidth = false;
+
+  /**
    * Display table without column borders
    * @default false
    */
