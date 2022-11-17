@@ -34,6 +34,8 @@ export class UsaSearchComponent {
 
   @Output() searchTextChange: EventEmitter<string> = new EventEmitter(null);
 
+  @Output() onTextSubmit: EventEmitter<string> = new EventEmitter(null);
+
   constructor(public cdr: ChangeDetectorRef) { }
 
   focusChange(event) {
@@ -57,6 +59,7 @@ export class UsaSearchComponent {
     this.model = val;
     this.updateModel();
     ev.preventDefault();
+    this.onTextSubmit.emit(val);
   }
 
   // Helper method that gets a new instance of the model and notifies ControlValueAccessor that we have a new model for this FormControl (our custom component)
