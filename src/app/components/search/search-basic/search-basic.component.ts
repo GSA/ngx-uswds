@@ -20,4 +20,8 @@ export class SearchBasicComponent {
   @Input() onBlur: Function = ($event) => {
     console.log($event);
   }
+
+  @Input() onTextSubmit: Function = ($event) => {
+    console.log($event);
+  }
 }

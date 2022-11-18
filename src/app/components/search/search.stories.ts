@@ -11,6 +11,7 @@ const template = require('!!raw-loader!./search-basic/search-basic.component.htm
 const actionsData = {
   searchTextChange: action('Text Change'),
   blurUpdate: action('Blur'),
+  onTextSubmit: action('Submit'),
 };
 
 export default {
@@ -39,6 +40,7 @@ export const Basic = (args) => ({
     ariaLabel: args.ariaLabel,
     searchTextChange: actionsData.searchTextChange,
     onBlur: actionsData.blurUpdate,
+    onTextSubmit: actionsData.onTextSubmit,
   },
 });
 
