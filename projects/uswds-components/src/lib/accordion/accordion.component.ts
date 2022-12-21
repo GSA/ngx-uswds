@@ -10,33 +10,6 @@ import { UsaAccordionConfig } from './accordion.config';
 import { AnimationEvent } from '@angular/animations';
 import { UsaExpansionAnimations } from './accordion-animations';
 
-@Directive({
-  selector: 'button[UsaAccordionToggle]',
-  host: {
-    'type': 'button',
-    '[disabled]': 'panel.disabled',
-    'class': 'usa-accordion__button',
-    '[class.collapsed]': '!panel.expanded',
-    '[attr.aria-expanded]': 'panel.expanded',
-    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',
-    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',
-    '[attr.aria-label]': 'panel.ariaLabel',
-    '(click)': 'accordion.toggle(panel.id)',
-  }
-})
-export class UsaAccordionToggle {
-  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';
-
-  @Input()
-  set UsaAccordionToggle(panel: UsaAccordionItem) {
-    if (panel) {
-      this.panel = panel;
-    }
-  }
-
-  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }
-}
-
 @Component({
   selector: 'usa-accordion',
   exportAs: 'usaAccordion',
@@ -290,4 +263,31 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {
     return this._element.nativeElement.querySelector('#' + panelId + '-header button');
   }
+}
+
+@Directive({
+  selector: 'button[UsaAccordionToggle]',
+  host: {
+    'type': 'button',
+    '[disabled]': 'panel.disabled',
+    'class': 'usa-accordion__button',
+    '[class.collapsed]': '!panel.expanded',
+    '[attr.aria-expanded]': 'panel.expanded',
+    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',
+    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',
+    '[attr.aria-label]': 'panel.ariaLabel',
+    '(click)': 'accordion.toggle(panel.id)',
+  }
+})
+export class UsaAccordionToggle {
+  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';
+
+  @Input()
+  set UsaAccordionToggle(panel: UsaAccordionItem) {
+    if (panel) {
+      this.panel = panel;
+    }
+  }
+
+  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }
 }
