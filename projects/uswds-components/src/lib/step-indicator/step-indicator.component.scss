@@ -1,11 +1,12 @@
+@use "sass:math";
 @import "node_modules/uswds/src/stylesheets/packages/required";
 
 /** Define styles for scaling segment width */
 @for $i from 1 through 8 {
-  $scale-percentage: ($i * 100) / 2;
+  $scale-percentage: math.div($i * 100, 2);
   .usa-step-indicator__segment.scale-percent-#{$scale-percentage} {
-    max-width: 15rem * ($scale-percentage / 100);
-    flex-grow: $scale-percentage / 100;
+    max-width: 15rem * math.div($scale-percentage, 100);
+    flex-grow: math.div($scale-percentage, 100);
   }
 }
 
@@ -37,7 +38,7 @@
   @include gradient($theme-step-indicator-segment-color-current, 75%,  $theme-step-indicator-segment-color-pending);
 }
 
-/** 
+/**
   Add css to hide counter if step label is not defined. Normally used to indicate last step in
   step indicator with counter variation
 */
