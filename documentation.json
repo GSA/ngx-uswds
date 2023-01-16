@@ -1260,12 +1260,12 @@
         },
         {
             "name": "UsaNavigationLink",
-            "id": "interface-UsaNavigationLink-8d71b21de440c16012e4f3ef71f8893d7eb232e4b6b2eb6ae0add9bee56e28159f01b1f3c4f2f96deec6650073325431ff7130c9543c65c071c5ce1134fe3de6",
+            "id": "interface-UsaNavigationLink-95a94284e9d0c4880e977a90efbb5ce5bdc22ce285ab7b2b42f0f8a6e98ef7c7a417270799617fb936eedd9957fb0dc71777e2f1989d99451eef218f9a28e9c2",
             "file": "projects/uswds-components/src/lib/util/navigation.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { QueryParamsHandling } from \"@angular/router\";\n\nexport enum UsaNavigationMode {\n  /** \n   * Navigation within a known route of the application. Navigation will be done through\n   * Angular's routerLink directive\n   */\n   INTERNAL, \n\n   /**\n    * Navigation to external url outside of the application. Navigation will be done through href attribute\n    */\n   EXTERNAL, \n \n   /**\n    * No Navigation should occur. Only an event will be emitted when use clicks on a navigation item with this mode\n    */\n   EVENT,\n \n   /**\n    * No Navigation and no event on user click. Link will be uninteractive\n    */\n   LABEL,\n}\n\nexport interface UsaNavigationLink<T = any> {\n  /**\n   * Text to be displayed in the link or button\n  */\n   text: string;\n\n   /**\n    * Identifier to use for the item\n    */\n   id: string;\n\n\n  /** \n   * Define navigation behavior for the link\n   * \n   * NavigationMode.INTERNAL - Use angular routerlinks\n   * \n   * NavigationMode.EXTERNAL - use anchor tag's href attribute\n   * \n   * NavigationMode.EVENT - Do not route, simply fire an event on click\n   * \n   * NavigationMode.LABEL - Non interactive label. Do not route, do not fire event\n   */\n   mode?: UsaNavigationMode;\n\n   /**\n    * Selected items have visual indicators that separate\n    * then from non-selected links\n    */\n   selected?: boolean;\n\n   /** \n    * Defines route to navigate to on click. The route will be attached to an href attribute\n    * of an anchor tag. If you'd like to control navigation application side, please leave this value\n    * undefined\n    */\n   path?: string;\n\n   /** \n    * Defines additional query parameters to add for angular routing\n    * Only relevent when routing is internal\n    */\n   queryParams?: {[key: string]: any};\n\n  /** \n   * Defines query param strategy to use for angular routing\n   * Only relevent when routing is internal\n   */\n   queryParamsHandling?: QueryParamsHandling;\n\n   /** Additional sub routes for the navigation link */\n   children?: T[] & UsaNavigationLink[];\n\n   /** Any additional data to add into the model */\n   [key: string]: any;\n}",
+            "sourceCode": "import { QueryParamsHandling } from \"@angular/router\";\n\nexport enum UsaNavigationMode {\n  /** \n   * Navigation within a known route of the application. Navigation will be done through\n   * Angular's routerLink directive\n   */\n   INTERNAL, \n\n   /**\n    * Navigation to external url outside of the application. Navigation will be done through href attribute\n    */ \n   EXTERNAL, \n \n   /**\n    * No Navigation should occur. Only an event will be emitted when use clicks on a navigation item with this mode\n    */\n   EVENT,\n \n   /**\n    * No Navigation and no event on user click. Link will be uninteractive\n    */\n   LABEL,\n}\n\nexport interface UsaNavigationLink<T = any> {\n  /**\n   * Text to be displayed in the link or button\n  */\n   text: string;\n\n   /**\n    * Identifier to use for the item\n    */\n   id: string;\n\n\n  /** \n   * Define navigation behavior for the link\n   * \n   * NavigationMode.INTERNAL - Use angular routerlinks\n   * \n   * NavigationMode.EXTERNAL - use anchor tag's href attribute\n   * \n   * NavigationMode.EVENT - Do not route, simply fire an event on click\n   * \n   * NavigationMode.LABEL - Non interactive label. Do not route, do not fire event\n   */\n   mode?: UsaNavigationMode;\n\n   /**\n    * Selected items have visual indicators that separate\n    * then from non-selected links\n    */\n   selected?: boolean;\n\n   /** \n    * Defines route to navigate to on click. The route will be attached to an href attribute\n    * of an anchor tag. If you'd like to control navigation application side, please leave this value\n    * undefined\n    */\n   path?: string;\n\n   /** \n    * Defines additional query parameters to add for angular routing\n    * Only relevent when routing is internal\n    */\n   queryParams?: {[key: string]: any};\n\n  /** \n   * Defines query param strategy to use for angular routing\n   * Only relevent when routing is internal\n   */ \n   queryParamsHandling?: QueryParamsHandling;\n\n   /** Additional sub routes for the navigation link */\n   children?: T[] & UsaNavigationLink[];\n\n   /** Any additional data to add into the model */\n   [key: string]: any;\n}",
             "properties": [
                 {
                     "name": "children",
@@ -1350,7 +1350,7 @@
             ],
             "indexSignatures": [
                 {
-                    "id": "index-declaration-8d71b21de440c16012e4f3ef71f8893d7eb232e4b6b2eb6ae0add9bee56e28159f01b1f3c4f2f96deec6650073325431ff7130c9543c65c071c5ce1134fe3de6",
+                    "id": "index-declaration-95a94284e9d0c4880e977a90efbb5ce5bdc22ce285ab7b2b42f0f8a6e98ef7c7a417270799617fb936eedd9957fb0dc71777e2f1989d99451eef218f9a28e9c2",
                     "args": [
                         {
                             "name": "key",
@@ -18689,6 +18689,560 @@
             "templateData": "<legend class=\"usa-legend\">Select one historical figure</legend>\n<usa-dropdown [(ngModel)]=\"templateModel\" [options]=\"dropdownOptions\"></usa-dropdown>\n\n<div class=\"margin-top-2\">\n  Selected Value: <code>{{templateModel | json}}</code>\n</div>\n\n<legend class=\"usa-legend margin-top-5\">Select one historical figure</legend>\n<usa-dropdown [formControl]=\"reactiveFormControl\" [options]=\"dropdownOptions\"></usa-dropdown>\n<div class=\"margin-top-2\">\n  Selected Value: <code>{{reactiveFormControl.value |json}}</code>\n</div>\n"
         },
         {
+            "name": "DropdownUsaSidenavComponent",
+            "id": "component-DropdownUsaSidenavComponent-1737a345e913a1d5ee0ad06b0712286384599e80e82567615e80171fffb49fa9839f1c7eaade4c95e9bbb4ab15e1ab8a9fe346b1c9dc6f468b7b7218d29172f3",
+            "file": "projects/uswds-components/src/lib/sidenav/dropdownsidenav.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "dropdown-usa-sidenav",
+            "styleUrls": [
+                "./dropdownsidenav.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "dropdownsidenav.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "autoCollapseLabels",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nCollapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation\n",
+                    "description": "<p>Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation</p>\n",
+                    "line": 29,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "dropdownSidenavContent",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 15,
+                    "type": "SidenavModel[]",
+                    "decorators": []
+                },
+                {
+                    "name": "enableLabelCollapse",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nEnables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.\n",
+                    "description": "<p>Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.</p>\n",
+                    "line": 34,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "expandType",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nEnables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.\n\n'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse\n\n'multiple' will allow all branches to be expanded independently of each other.\n",
+                    "description": "<p>Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.</p>\n<p>&#39;single&#39; will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse</p>\n<p>&#39;multiple&#39; will allow all branches to be expanded independently of each other.</p>\n",
+                    "line": 24,
+                    "type": "\"single\" | \"multiple\"",
+                    "decorators": []
+                },
+                {
+                    "name": "selectFirstLabelChild",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nIf true, the first child of the first label in the side nav will be selected by default\n",
+                    "description": "<p>If true, the first child of the first label in the side nav will be selected by default</p>\n",
+                    "line": 39,
+                    "type": "boolean",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "sidenavClicked",
+                    "defaultValue": "new EventEmitter<SidenavModel>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 43,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "NavigationMode",
+                    "defaultValue": "UsaNavigationMode",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "canCollapseLabel",
+                    "args": [
+                        {
+                            "name": "link",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "boolean",
+                    "typeParameters": [],
+                    "line": 90,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\n\n",
+                    "description": "",
+                    "modifierKind": [
+                        121
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": {
+                                "pos": 2986,
+                                "end": 2990,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "link"
+                            },
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "pos": 2980,
+                                "end": 2985,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "param"
+                            },
+                            "comment": "<ul>\n<li>Link which has been clicked on</li>\n</ul>\n"
+                        },
+                        {
+                            "tagName": {
+                                "pos": 3030,
+                                "end": 3037,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "returns"
+                            },
+                            "comment": "<p>true if either link is not a label, or it is a label and label collapse is enabled</p>\n"
+                        }
+                    ]
+                },
+                {
+                    "name": "collapseAll",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 151,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nCollapses all links\n",
+                    "description": "<p>Collapses all links</p>\n",
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "collapseChildren",
+                    "args": [
+                        {
+                            "name": "link",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 63,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        121
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "link",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "deselectSideNav",
+                    "args": [
+                        {
+                            "name": "sidenavItems",
+                            "type": "SidenavModel[]",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 108,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nDeselects any previously selected sidenav item\n",
+                    "description": "<p>Deselects any previously selected sidenav item</p>\n",
+                    "modifierKind": [
+                        121
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": {
+                                "pos": 3601,
+                                "end": 3613,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "sidenavItems"
+                            },
+                            "type": "SidenavModel[]",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "pos": 3595,
+                                "end": 3600,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "param"
+                            },
+                            "comment": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "expandAll",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 142,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nWhen expandType is multiple, expands all collapseable links in sidenav\n",
+                    "description": "<p>When expandType is multiple, expands all collapseable links in sidenav</p>\n",
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "expandChildren",
+                    "args": [
+                        {
+                            "name": "link",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "collapsedValue",
+                            "type": "boolean",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 155,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        121
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "link",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "collapsedValue",
+                            "type": "boolean",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 45,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onSidenavItemClicked",
+                    "args": [
+                        {
+                            "name": "item",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 70,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "item",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "queryStringBuilder",
+                    "args": [
+                        {
+                            "name": "item",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "string",
+                    "typeParameters": [],
+                    "line": 161,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        121
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "item",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "selectSideNav",
+                    "args": [
+                        {
+                            "name": "selectedItem",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "allNavItems",
+                            "type": "SidenavModel[]",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "boolean",
+                    "typeParameters": [],
+                    "line": 122,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nSelects the clicked sidenav item as we as any parent\n",
+                    "description": "<p>Selects the clicked sidenav item as we as any parent</p>\n",
+                    "modifierKind": [
+                        121
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": {
+                                "pos": 3945,
+                                "end": 3957,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "selectedItem"
+                            },
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "pos": 3939,
+                                "end": 3944,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "param"
+                            },
+                            "comment": ""
+                        },
+                        {
+                            "name": {
+                                "pos": 3970,
+                                "end": 3981,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "allNavItems"
+                            },
+                            "type": "SidenavModel[]",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "pos": 3964,
+                                "end": 3969,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "param"
+                            },
+                            "comment": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "toggleBasedOnSelected",
+                    "args": [
+                        {
+                            "name": "links",
+                            "type": "SidenavModel[]",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 94,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        121
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "links",
+                            "type": "SidenavModel[]",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "urlBuilder",
+                    "args": [
+                        {
+                            "name": "item",
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "string",
+                    "typeParameters": [],
+                    "line": 177,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\ncreates url from provided route and query params\n",
+                    "description": "<p>creates url from provided route and query params</p>\n",
+                    "jsdoctags": [
+                        {
+                            "name": {
+                                "pos": 5533,
+                                "end": 5537,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "item"
+                            },
+                            "type": "SidenavModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "pos": 5527,
+                                "end": 5532,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "param"
+                            },
+                            "comment": "<ul>\n<li>Link to use when building url</li>\n</ul>\n"
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { UsaNavigationMode } from '../util/navigation';\nimport { SidenavModel } from './sidenav.model';\n\n\n@Component({\n  selector: `dropdown-usa-sidenav`,\n  templateUrl: `dropdownsidenav.component.html`,\n  styleUrls: ['./dropdownsidenav.component.scss']\n})\nexport class DropdownUsaSidenavComponent implements OnInit {\n\n  NavigationMode = UsaNavigationMode;\n\n  @Input() dropdownSidenavContent: SidenavModel[];\n\n  /**\n   * Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.\n   *\n   * 'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse\n   *\n   * 'multiple' will allow all branches to be expanded independently of each other.\n   */\n  @Input() expandType: 'single' | 'multiple';\n\n  /**\n   * Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation\n   */\n  @Input() autoCollapseLabels: boolean = true;\n\n  /**\n   * Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.\n   */\n  @Input() enableLabelCollapse = false;\n\n  /**\n   * If true, the first child of the first label in the side nav will be selected by default\n   */\n  @Input() selectFirstLabelChild = false;\n\n\n\n  @Output() sidenavClicked = new EventEmitter<SidenavModel>();\n\n  ngOnInit(): void {\n    // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label\n    if (this.expandType) {\n      this.dropdownSidenavContent.map(link => {\n        if (link.mode !== UsaNavigationMode.LABEL) {\n          // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration\n          link.collapsed = link.collapsed === undefined ? true : link.collapsed;\n        }\n        else {\n          link.collapsed = link.collapsed === undefined ? !this.autoCollapseLabels && this.expandType !== 'multiple' : link.collapsed;\n        }\n        if (link.children) {\n          this.collapseChildren(link);\n        }\n      });\n    }\n  }\n\n  private collapseChildren(link: SidenavModel): void {\n    link.children = link.children.map(childLink => {\n      childLink.collapsed = true;\n      return childLink;\n    });\n  }\n\n  onSidenavItemClicked(item: SidenavModel): void {\n\n    this.deselectSideNav(this.dropdownSidenavContent);\n    this.selectSideNav(item, this.dropdownSidenavContent);\n    if (item.children && this.canCollapseLabel(item)) {\n      item.collapsed = !item.collapsed;\n      this.toggleBasedOnSelected(item.children);\n    }\n    if (this.expandType === 'single') {\n\n      this.toggleBasedOnSelected(this.dropdownSidenavContent);\n    }\n    this.sidenavClicked.emit(item);\n  }\n\n  /**\n   *\n   * @param link - Link which has been clicked on\n   * @returns true if either link is not a label, or it is a label and label collapse is enabled\n   */\n  private canCollapseLabel(link: SidenavModel): boolean {\n    return link.mode === UsaNavigationMode.LABEL ? this.enableLabelCollapse : true;\n  }\n\n  private toggleBasedOnSelected(links: SidenavModel[]): void {\n    links.forEach(link => {\n      link.collapsed = link.selected ? false : true;\n      if (link.children) {\n        this.toggleBasedOnSelected(link.children);\n      }\n      return;\n    });\n  }\n\n  /**\n   * Deselects any previously selected sidenav item\n   * @param sidenavItems\n   */\n  private deselectSideNav(sidenavItems: SidenavModel[]): void {\n    sidenavItems.forEach(sideNavItem => {\n      if (sideNavItem.children) {\n        this.deselectSideNav(sideNavItem.children);\n      }\n      sideNavItem.selected = false;\n    });\n  }\n\n  /**\n   * Selects the clicked sidenav item as we as any parent\n   * @param selectedItem\n   * @param allNavItems\n   */\n  private selectSideNav(selectedItem: SidenavModel, allNavItems: SidenavModel[]): boolean {\n    for (const item of allNavItems) {\n\n      if (item === selectedItem) {\n        item.selected = true;\n        return true;\n      } else if (item.children) {\n        const isChildSelected = this.selectSideNav(selectedItem, item.children);\n        if (isChildSelected) {\n          item.selected = true;\n          return true;\n        }\n      }\n    }\n    return false;\n  }\n\n  /**\n   * When expandType is multiple, expands all collapseable links in sidenav\n   */\n  public expandAll(): void {\n    if (this.expandType === 'multiple') {\n      this.dropdownSidenavContent.forEach(link => this.expandChildren(link, false));\n    }\n  }\n\n  /**\n   * Collapses all links\n   */\n  public collapseAll(): void {\n    this.dropdownSidenavContent.forEach(link => this.expandChildren(link, true));\n  }\n\n  private expandChildren(link: SidenavModel, collapsedValue: boolean): void {\n    if (link.children) {\n      link.collapsed = collapsedValue;\n      link.children.forEach(childLink => childLink.children ? this.expandChildren(childLink, collapsedValue) : null);\n    }\n  }\n  private queryStringBuilder(item: SidenavModel): string {\n    const ret = [];\n    let keys = [];\n    if (item.queryParams) {\n      keys = Object.keys(item.queryParams);\n    }\n    for (const d of keys) {\n      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d]));\n    }\n    return ret.join('&');\n  }\n\n  /**\n   * creates url from provided route and query params\n   * @param item - Link to use when building url\n   */\n  urlBuilder(item: SidenavModel): string {\n    let url = item.path;\n    const queryParams = this.queryStringBuilder(item);\n    if (queryParams) {\n      if (url.indexOf('?') === -1) {\n        url += '?' + queryParams;\n      } else if (url.indexOf('?') === url.length - 1) {\n        url += queryParams;\n      } else {\n        url += '&' + queryParams;\n      }\n    }\n    return url;\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".usa-sidenav__sublist{\n    .usa-sidenav__sublist{\n      .usa-sidenav__sublist{\n        .usa-sidenav__sublist{\n          padding-left: 1rem;\n          .usa-sidenav__sublist{\n            padding-left: 1rem;\n          }\n        }\n      }\n    }\n  }\n  ",
+                    "styleUrl": "./dropdownsidenav.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<ul class=\"usa-sidenav whitebg\">\n    <li *ngFor=\"let link of dropdownSidenavContent\" class=\"usa-sidenav__item\">\n      <ng-container [ngTemplateOutlet]=\"dropdownSideNavLinkTemplate\" [ngTemplateOutletContext]=\"{$implicit:link}\">\n      </ng-container>\n    </li>\n  </ul>\n   \n  <ng-template #dropdownSideNavLinkTemplate let-link>\n    <usa-link-template [link]=\"link\" (linkClicked)=\"onSidenavItemClicked($event)\"></usa-link-template>\n    <div *ngIf=\"!expandType || (expandType && !link.collapsed)\">\n      <ul class=\"usa-sidenav__sublist\">\n        <li *ngFor=\"let link of link.children\" class=\"usa-sidenav__item\">\n          <ng-container [ngTemplateOutlet]=\"dropdownSideNavLinkTemplate\" [ngTemplateOutletContext]=\"{$implicit:link}\">\n          </ng-container>\n        </li>\n      </ul>\n    </div>\n  </ng-template>\n  \n  \n  "
+        },
+        {
             "name": "DynamicTableComponent",
             "id": "component-DynamicTableComponent-a423292090225de194c8dc51302dad72fba46ffaedfbd5024fecf979235dea31fe2adadb6db7e0681108741c8b43a7e84ceda10221b828fff43f79c23082bd30",
             "file": "src/app/components/table/dynamic-table/dynamic-table.component.ts",
@@ -22246,6 +22800,103 @@
             "styleUrlsData": "",
             "stylesData": "",
             "templateData": "<div class=\"width-mobile-lg\">\n  <usa-sidenav \n    [sidenavContent]=\"sidenavContent\"\n    [expandType]=\"expandType\" \n    [enableLabelCollapse]=\"enableLabelCollapse\" \n    [autoCollapseLabels]=\"autoCollapseLabels\"\n    [selectFirstLabelChild]=\"selectFirstLabelChild\"\n    (sidenavClicked)=\"sidenavClicked($event)\">\n  </usa-sidenav>\n</div>\n"
+        },
+        {
+            "name": "SideNavigationDropdownComponent",
+            "id": "component-SideNavigationDropdownComponent-72eca40dbb28c1fb75797421bdfbe885b44631748bc0c7b28894332f2befd5df4fb3f7ab2c5ea1c70d64e4ddf3d6db29760c585a251db6c0969d0421bd076d28",
+            "file": "src/app/components/side-navigation/side-navigation-dropdown/side-navigation-dropdown.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "side-navigation-dropdown",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./side-navigation-dropdown.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "autoCollapseLabels",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 77,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "dropdownBg",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 74,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "dropdownSidenavContent",
+                    "defaultValue": "[\n    {\n      mode: UsaNavigationMode.EXTERNAL,\n      text: 'Accordion',\n      path: 'javascript:void(0)',\n      id: '1',\n      children: [\n        {\n          mode: UsaNavigationMode.EXTERNAL,\n          text: 'Accordion - Child',\n          path: 'javascript:void(0)',\n          id: '100',\n          children: [\n            {\n              mode: UsaNavigationMode.EXTERNAL,\n              text: 'Accordion - Grandchild',\n              path: 'javascript:void(0)',\n              id: '1000'\n            }\n          ]\n        }\n      ]\n    },\n    {\n      mode: UsaNavigationMode.INTERNAL,\n      text: 'File Input',\n      path: '/file-input',\n      id: '10',\n      queryParams: { index: 'opportunities' },\n      children: [\n        {\n          mode: UsaNavigationMode.INTERNAL,\n          text: 'File Input - Child',\n          path: '/file-input-child',\n          id: '104'\n        },\n      ]\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Step Indicator',\n      path: 'step-indicator',\n      id: '14'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Modal',\n      path: 'modal',\n      id: '15'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Tooltip',\n      path: 'tooltip',\n      id: '16'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Table',\n      path: 'table',\n      id: '17',\n    }\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 10,
+                    "type": "SidenavModel[]",
+                    "decorators": []
+                },
+                {
+                    "name": "enableLabelCollapse",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 76,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "expandType",
+                    "defaultValue": "'single'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 75,
+                    "type": "\"single\" | \"multiple\"",
+                    "decorators": []
+                },
+                {
+                    "name": "selectFirstLabelChild",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 78,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "sidenavClicked",
+                    "defaultValue": "($event) => {\n    console.log($event);\n  }",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 79,
+                    "type": "Function",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { UsaNavigationMode, SidenavModel } from '@gsa-sam/ngx-uswds';\n\n@Component({\n  selector: 'side-navigation-dropdown',\n  templateUrl: './side-navigation-dropdown.component.html'\n})\nexport class SideNavigationDropdownComponent {\n\n  @Input() dropdownSidenavContent: SidenavModel[] = [\n    {\n      mode: UsaNavigationMode.EXTERNAL,\n      text: 'Accordion',\n      path: 'javascript:void(0)',\n      id: '1',\n      children: [\n        {\n          mode: UsaNavigationMode.EXTERNAL,\n          text: 'Accordion - Child',\n          path: 'javascript:void(0)',\n          id: '100',\n          children: [\n            {\n              mode: UsaNavigationMode.EXTERNAL,\n              text: 'Accordion - Grandchild',\n              path: 'javascript:void(0)',\n              id: '1000'\n            }\n          ]\n        }\n      ]\n    },\n    {\n      mode: UsaNavigationMode.INTERNAL,\n      text: 'File Input',\n      path: '/file-input',\n      id: '10',\n      queryParams: { index: 'opportunities' },\n      children: [\n        {\n          mode: UsaNavigationMode.INTERNAL,\n          text: 'File Input - Child',\n          path: '/file-input-child',\n          id: '104'\n        },\n      ]\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Step Indicator',\n      path: 'step-indicator',\n      id: '14'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Modal',\n      path: 'modal',\n      id: '15'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Tooltip',\n      path: 'tooltip',\n      id: '16'\n    },\n    {\n      mode: UsaNavigationMode.EVENT,\n      text: 'Table',\n      path: 'table',\n      id: '17',\n    }\n  ];\n\n  @Input() dropdownBg: boolean = true;\n  @Input() expandType: 'single' | 'multiple' = 'single';\n  @Input() enableLabelCollapse: boolean = false;\n  @Input() autoCollapseLabels: boolean = false;\n  @Input() selectFirstLabelChild: boolean = true;\n  @Input() sidenavClicked: Function = ($event) => {\n    console.log($event);\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "templateData": "<div class=\"width-mobile-lg\">\n<div class=\"sds-card__secondary--border\">\n  <div class=\"sds-card__body sds-card__body--accent-cool\">\n    <dropdown-usa-sidenav \n      [dropdownSidenavContent]=\"dropdownSidenavContent\"\n      [expandType]=\"expandType\" \n      [enableLabelCollapse]=\"enableLabelCollapse\" \n      [autoCollapseLabels]=\"autoCollapseLabels\"\n      [selectFirstLabelChild]=\"selectFirstLabelChild\"\n      (sidenavClicked)=\"sidenavClicked($event)\">\n    </dropdown-usa-sidenav>\n  </div>\n  </div>\n</div>"
         },
         {
             "name": "SortableTableComponent",
@@ -36015,7 +36666,7 @@
         },
         {
             "name": "UsaSidenavComponent",
-            "id": "component-UsaSidenavComponent-c55f0572c768fd3091ed52528e1a36783b2bc0b23399d2d692b0e36199d6fa94954f0e6ef7e5be6585610f5ac99edbd8f8c3e766096614abd2c1de03f2e28e4e",
+            "id": "component-UsaSidenavComponent-7e94fd54a0e961defe79c2eff114f8a354c387fb9eeee127a792f419a38127cf0142b98353c36b1af0a46e1aa557b2b7235f752d99a9ac4ad995aa917b29d338",
             "file": "projects/uswds-components/src/lib/sidenav/sidenav.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -36039,7 +36690,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCollapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation\n",
                     "description": "<p>Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation</p>\n",
-                    "line": 29,
+                    "line": 31,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36050,7 +36701,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nEnables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.\n",
                     "description": "<p>Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.</p>\n",
-                    "line": 34,
+                    "line": 36,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36060,7 +36711,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nEnables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.\n\n'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse\n\n'multiple' will allow all branches to be expanded independently of each other.\n",
                     "description": "<p>Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.</p>\n<p>&#39;single&#39; will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse</p>\n<p>&#39;multiple&#39; will allow all branches to be expanded independently of each other.</p>\n",
-                    "line": 24,
+                    "line": 26,
                     "type": "\"single\" | \"multiple\"",
                     "decorators": []
                 },
@@ -36071,7 +36722,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nIf true, the first child of the first label in the side nav will be selected by default\n",
                     "description": "<p>If true, the first child of the first label in the side nav will be selected by default</p>\n",
-                    "line": 39,
+                    "line": 41,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36090,7 +36741,7 @@
                     "defaultValue": "new EventEmitter<SidenavModel>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 43,
+                    "line": 45,
                     "type": "EventEmitter"
                 }
             ],
@@ -36120,7 +36771,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 90,
+                    "line": 92,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\n\n",
@@ -36131,8 +36782,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 2913,
-                                "end": 2917,
+                                "pos": 2955,
+                                "end": 2959,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36143,8 +36794,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 2907,
-                                "end": 2912,
+                                "pos": 2949,
+                                "end": 2954,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36155,8 +36806,8 @@
                         },
                         {
                             "tagName": {
-                                "pos": 2957,
-                                "end": 2964,
+                                "pos": 2999,
+                                "end": 3006,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36173,7 +36824,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 151,
+                    "line": 153,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCollapses all links\n",
@@ -36195,7 +36846,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 63,
+                    "line": 65,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36226,7 +36877,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 108,
+                    "line": 110,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects any previously selected sidenav item\n",
@@ -36237,8 +36888,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3528,
-                                "end": 3540,
+                                "pos": 3570,
+                                "end": 3582,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36249,8 +36900,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3522,
-                                "end": 3527,
+                                "pos": 3564,
+                                "end": 3569,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36267,7 +36918,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 142,
+                    "line": 144,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nWhen expandType is multiple, expands all collapseable links in sidenav\n",
@@ -36295,7 +36946,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 155,
+                    "line": 157,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36328,7 +36979,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 45,
+                    "line": 47,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -36345,7 +36996,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 70,
+                    "line": 72,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -36373,7 +37024,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 161,
+                    "line": 163,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36410,7 +37061,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 122,
+                    "line": 124,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSelects the clicked sidenav item as we as any parent\n",
@@ -36421,8 +37072,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3872,
-                                "end": 3884,
+                                "pos": 3914,
+                                "end": 3926,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36433,8 +37084,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3866,
-                                "end": 3871,
+                                "pos": 3908,
+                                "end": 3913,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36445,8 +37096,8 @@
                         },
                         {
                             "name": {
-                                "pos": 3897,
-                                "end": 3908,
+                                "pos": 3939,
+                                "end": 3950,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36457,8 +37108,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3891,
-                                "end": 3896,
+                                "pos": 3933,
+                                "end": 3938,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36482,7 +37133,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 94,
+                    "line": 96,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36513,7 +37164,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 177,
+                    "line": 179,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\ncreates url from provided route and query params\n",
@@ -36521,8 +37172,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 5444,
-                                "end": 5448,
+                                "pos": 5486,
+                                "end": 5490,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36533,8 +37184,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 5438,
-                                "end": 5443,
+                                "pos": 5480,
+                                "end": 5485,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36553,7 +37204,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { UsaNavigationMode } from '../util/navigation';\nimport { SidenavModel } from './sidenav.model';\n\n\n@Component({\n  selector: `usa-sidenav`,\n  templateUrl: `sidenav.component.html`,\n  styleUrls: ['./sidenav.component.scss']\n})\nexport class UsaSidenavComponent implements OnInit {\n\n  NavigationMode = UsaNavigationMode;\n\n  @Input() sidenavContent: SidenavModel[];\n\n  /**\n   * Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.\n   *\n   * 'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse\n   *\n   * 'multiple' will allow all branches to be expanded independently of each other.\n   */\n  @Input() expandType: 'single' | 'multiple';\n\n  /**\n   * Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation\n   */\n  @Input() autoCollapseLabels: boolean = true;\n\n  /**\n   * Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.\n   */\n  @Input() enableLabelCollapse = false;\n\n  /**\n   * If true, the first child of the first label in the side nav will be selected by default\n   */\n  @Input() selectFirstLabelChild = false;\n\n\n\n  @Output() sidenavClicked = new EventEmitter<SidenavModel>();\n\n  ngOnInit(): void {\n    // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label\n    if (this.expandType) {\n      this.sidenavContent.map(link => {\n        if (link.mode !== UsaNavigationMode.LABEL) {\n          // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration\n          link.collapsed = link.collapsed === undefined ? true : link.collapsed;\n        }\n        else {\n          link.collapsed = link.collapsed === undefined ? !this.autoCollapseLabels && this.expandType !== 'multiple' : link.collapsed;\n        }\n        if (link.children) {\n          this.collapseChildren(link);\n        }\n      });\n    }\n  }\n\n  private collapseChildren(link: SidenavModel): void {\n    link.children = link.children.map(childLink => {\n      childLink.collapsed = true;\n      return childLink;\n    });\n  }\n\n  onSidenavItemClicked(item: SidenavModel): void {\n\n    this.deselectSideNav(this.sidenavContent);\n    this.selectSideNav(item, this.sidenavContent);\n    if (item.children && this.canCollapseLabel(item)) {\n      item.collapsed = !item.collapsed;\n      this.toggleBasedOnSelected(item.children);\n    }\n    if (this.expandType === 'single') {\n\n      this.toggleBasedOnSelected(this.sidenavContent);\n    }\n    this.sidenavClicked.emit(item);\n  }\n\n  /**\n   *\n   * @param link - Link which has been clicked on\n   * @returns true if either link is not a label, or it is a label and label collapse is enabled\n   */\n  private canCollapseLabel(link: SidenavModel): boolean {\n    return link.mode === UsaNavigationMode.LABEL ? this.enableLabelCollapse : true;\n  }\n\n  private toggleBasedOnSelected(links: SidenavModel[]): void {\n    links.forEach(link => {\n      link.collapsed = link.selected ? false : true;\n      if (link.children) {\n        this.toggleBasedOnSelected(link.children);\n      }\n      return;\n    });\n  }\n\n  /**\n   * Deselects any previously selected sidenav item\n   * @param sidenavItems\n   */\n  private deselectSideNav(sidenavItems: SidenavModel[]): void {\n    sidenavItems.forEach(sideNavItem => {\n      if (sideNavItem.children) {\n        this.deselectSideNav(sideNavItem.children);\n      }\n      sideNavItem.selected = false;\n    });\n  }\n\n  /**\n   * Selects the clicked sidenav item as we as any parent\n   * @param selectedItem\n   * @param allNavItems\n   */\n  private selectSideNav(selectedItem: SidenavModel, allNavItems: SidenavModel[]): boolean {\n    for (const item of allNavItems) {\n\n      if (item === selectedItem) {\n        item.selected = true;\n        return true;\n      } else if (item.children) {\n        const isChildSelected = this.selectSideNav(selectedItem, item.children);\n        if (isChildSelected) {\n          item.selected = true;\n          return true;\n        }\n      }\n    }\n    return false;\n  }\n\n  /**\n   * When expandType is multiple, expands all collapseable links in sidenav\n   */\n  public expandAll(): void {\n    if (this.expandType === 'multiple') {\n      this.sidenavContent.forEach(link => this.expandChildren(link, false));\n    }\n  }\n\n  /**\n   * Collapses all links\n   */\n  public collapseAll(): void {\n    this.sidenavContent.forEach(link => this.expandChildren(link, true));\n  }\n\n  private expandChildren(link: SidenavModel, collapsedValue: boolean): void {\n    if (link.children) {\n      link.collapsed = collapsedValue;\n      link.children.forEach(childLink => childLink.children ? this.expandChildren(childLink, collapsedValue) : null);\n    }\n  }\n  private queryStringBuilder(item: SidenavModel): string {\n    const ret = [];\n    let keys = [];\n    if (item.queryParams) {\n      keys = Object.keys(item.queryParams);\n    }\n    for (const d of keys) {\n      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d]));\n    }\n    return ret.join('&');\n  }\n\n  /**\n   * creates url from provided route and query params\n   * @param item - Link to use when building url\n   */\n  urlBuilder(item: SidenavModel): string {\n    let url = item.path;\n    const queryParams = this.queryStringBuilder(item);\n    if (queryParams) {\n      if (url.indexOf('?') === -1) {\n        url += '?' + queryParams;\n      } else if (url.indexOf('?') === url.length - 1) {\n        url += queryParams;\n      } else {\n        url += '&' + queryParams;\n      }\n    }\n    return url;\n  }\n\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { UsaNavigationMode } from '../util/navigation';\nimport { SidenavModel } from './sidenav.model';\n\n\n@Component({\n  selector: `usa-sidenav`,\n  templateUrl: `sidenav.component.html`,\n  styleUrls: ['./sidenav.component.scss']\n})\nexport class UsaSidenavComponent implements OnInit {\n\n  NavigationMode = UsaNavigationMode;\n\n  @Input() sidenavContent: SidenavModel[];\n\n  //@Input() dropdownBg: boolean = true;\n\n  /**\n   * Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.\n   *\n   * 'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse\n   *\n   * 'multiple' will allow all branches to be expanded independently of each other.\n   */\n  @Input() expandType: 'single' | 'multiple';\n\n  /**\n   * Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation\n   */\n  @Input() autoCollapseLabels: boolean = true;\n\n  /**\n   * Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.\n   */\n  @Input() enableLabelCollapse = false;\n\n  /**\n   * If true, the first child of the first label in the side nav will be selected by default\n   */\n  @Input() selectFirstLabelChild = false;\n\n\n\n  @Output() sidenavClicked = new EventEmitter<SidenavModel>();\n\n  ngOnInit(): void {\n    // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label\n    if (this.expandType) {\n      this.sidenavContent.map(link => {\n        if (link.mode !== UsaNavigationMode.LABEL) {\n          // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration\n          link.collapsed = link.collapsed === undefined ? true : link.collapsed;\n        }\n        else {\n          link.collapsed = link.collapsed === undefined ? !this.autoCollapseLabels && this.expandType !== 'multiple' : link.collapsed;\n        }\n        if (link.children) {\n          this.collapseChildren(link);\n        }\n      });\n    }\n  }\n\n  private collapseChildren(link: SidenavModel): void {\n    link.children = link.children.map(childLink => {\n      childLink.collapsed = true;\n      return childLink;\n    });\n  }\n\n  onSidenavItemClicked(item: SidenavModel): void {\n\n    this.deselectSideNav(this.sidenavContent);\n    this.selectSideNav(item, this.sidenavContent);\n    if (item.children && this.canCollapseLabel(item)) {\n      item.collapsed = !item.collapsed;\n      this.toggleBasedOnSelected(item.children);\n    }\n    if (this.expandType === 'single') {\n\n      this.toggleBasedOnSelected(this.sidenavContent);\n    }\n    this.sidenavClicked.emit(item);\n  }\n\n  /**\n   *\n   * @param link - Link which has been clicked on\n   * @returns true if either link is not a label, or it is a label and label collapse is enabled\n   */\n  private canCollapseLabel(link: SidenavModel): boolean {\n    return link.mode === UsaNavigationMode.LABEL ? this.enableLabelCollapse : true;\n  }\n\n  private toggleBasedOnSelected(links: SidenavModel[]): void {\n    links.forEach(link => {\n      link.collapsed = link.selected ? false : true;\n      if (link.children) {\n        this.toggleBasedOnSelected(link.children);\n      }\n      return;\n    });\n  }\n\n  /**\n   * Deselects any previously selected sidenav item\n   * @param sidenavItems\n   */\n  private deselectSideNav(sidenavItems: SidenavModel[]): void {\n    sidenavItems.forEach(sideNavItem => {\n      if (sideNavItem.children) {\n        this.deselectSideNav(sideNavItem.children);\n      }\n      sideNavItem.selected = false;\n    });\n  }\n\n  /**\n   * Selects the clicked sidenav item as we as any parent\n   * @param selectedItem\n   * @param allNavItems\n   */\n  private selectSideNav(selectedItem: SidenavModel, allNavItems: SidenavModel[]): boolean {\n    for (const item of allNavItems) {\n\n      if (item === selectedItem) {\n        item.selected = true;\n        return true;\n      } else if (item.children) {\n        const isChildSelected = this.selectSideNav(selectedItem, item.children);\n        if (isChildSelected) {\n          item.selected = true;\n          return true;\n        }\n      }\n    }\n    return false;\n  }\n\n  /**\n   * When expandType is multiple, expands all collapseable links in sidenav\n   */\n  public expandAll(): void {\n    if (this.expandType === 'multiple') {\n      this.sidenavContent.forEach(link => this.expandChildren(link, false));\n    }\n  }\n\n  /**\n   * Collapses all links\n   */\n  public collapseAll(): void {\n    this.sidenavContent.forEach(link => this.expandChildren(link, true));\n  }\n\n  private expandChildren(link: SidenavModel, collapsedValue: boolean): void {\n    if (link.children) {\n      link.collapsed = collapsedValue;\n      link.children.forEach(childLink => childLink.children ? this.expandChildren(childLink, collapsedValue) : null);\n    }\n  }\n  private queryStringBuilder(item: SidenavModel): string {\n    const ret = [];\n    let keys = [];\n    if (item.queryParams) {\n      keys = Object.keys(item.queryParams);\n    }\n    for (const d of keys) {\n      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d]));\n    }\n    return ret.join('&');\n  }\n\n  /**\n   * creates url from provided route and query params\n   * @param item - Link to use when building url\n   */\n  urlBuilder(item: SidenavModel): string {\n    let url = item.path;\n    const queryParams = this.queryStringBuilder(item);\n    if (queryParams) {\n      if (url.indexOf('?') === -1) {\n        url += '?' + queryParams;\n      } else if (url.indexOf('?') === url.length - 1) {\n        url += queryParams;\n      } else {\n        url += '&' + queryParams;\n      }\n    }\n    return url;\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -36565,7 +37216,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<ul class=\"usa-sidenav\">\n  <li *ngFor=\"let link of sidenavContent\" class=\"usa-sidenav__item\">\n    <ng-container [ngTemplateOutlet]=\"sideNavLinkTemplate\" [ngTemplateOutletContext]=\"{$implicit:link}\">\n    </ng-container>\n  </li>\n</ul>\n\n<ng-template #sideNavLinkTemplate let-link>\n  <usa-link-template [link]=\"link\" (linkClicked)=\"onSidenavItemClicked($event)\"></usa-link-template>\n  <div *ngIf=\"!expandType || (expandType && !link.collapsed)\">\n    <ul class=\"usa-sidenav__sublist\">\n      <li *ngFor=\"let link of link.children\" class=\"sidenav__item\">\n        <ng-container [ngTemplateOutlet]=\"sideNavLinkTemplate\" [ngTemplateOutletContext]=\"{$implicit:link}\">\n        </ng-container>\n      </li>\n    </ul>\n  </div>\n</ng-template>\n"
+            "templateData": "<ul class=\"usa-sidenav\">\n  <li *ngFor=\"let link of sidenavContent\" class=\"usa-sidenav__item\">\n    <ng-container [ngTemplateOutlet]=\"sideNavLinkTemplate\" [ngTemplateOutletContext]=\"{$implicit:link}\">\n    </ng-container>\n  </li>\n</ul>\n \n<ng-template #sideNavLinkTemplate let-link>\n  <usa-link-template [link]=\"link\" (linkClicked)=\"onSidenavItemClicked($event)\"></usa-link-template>\n  <div *ngIf=\"!expandType || (expandType && !link.collapsed)\">\n    <ul class=\"usa-sidenav__sublist\">\n      <li *ngFor=\"let link of link.children\" class=\"usa-sidenav__item\">\n        <ng-container [ngTemplateOutlet]=\"sideNavLinkTemplate\" [ngTemplateOutletContext]=\"{$implicit:link}\">\n        </ng-container>\n      </li>\n    </ul>\n  </div>\n</ng-template>\n\n\n"
         },
         {
             "name": "UsaSort",
@@ -37852,7 +38503,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "tr.usa-table__row--hovered {\n  td {\n    background-color: #e1f3f8;\n    cursor: pointer;\n  }\n}\n\ntable {\n  color: red;\n}\n",
+                    "data": "::ng-deep {\n  tr.usa-table__row--hovered {\n    td {\n      background-color: #e1f3f8 !important;\n      cursor: pointer;\n    }\n  }\n}\n",
                     "styleUrl": "./table.component.scss"
                 }
             ],
@@ -40818,13 +41469,13 @@
         },
         {
             "name": "AppModule",
-            "id": "module-AppModule-d85d2147ee20e95042da54a2209e0a2762dd67d902cea3d528f7619fd338b453df40e32cf3078805f241f07ac79b9612f0f97c171973bedd81d20b7829eb5e7b",
+            "id": "module-AppModule-35c5e120660fcb3e284cd701b819a844ad5f51c40bfe3c55289ba7611cf6c93f99c9ff47089dad3a2d34e52e6e41f49556f44ec61a0859fc658835fa6854ebba",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { BrowserModule } from '@angular/platform-browser';\nimport { NgModule } from '@angular/core';\nimport { AppComponent } from './app.component';\nimport { AppRoutingModule } from './app.routing.module';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';\nimport { MarkdownModule } from 'ngx-markdown';\nimport { UsaAppHeaderModule } from './shared/app-header/app-header.module';\n\n@NgModule({\n  declarations: [\n    AppComponent\n  ],\n  imports: [\n    BrowserModule,\n    BrowserAnimationsModule,\n    AppRoutingModule,\n    MarkdownModule.forRoot(),\n    UsaAppHeaderModule,\n  ],\n  providers: [\n    {\n      provide: HIGHLIGHT_OPTIONS,\n      useValue: {\n        coreLibraryLoader: () => import('highlight.js/lib/core'),\n        lineNumbersLoader: () => import('highlightjs-line-numbers.js'), // Optional, only if you want the line numbers\n        languages: {\n          typescript: () => import('highlight.js/lib/languages/typescript'),\n          css: () => import('highlight.js/lib/languages/css'),\n          xml: () => import('highlight.js/lib/languages/xml')\n        }\n      },\n    },\n  ],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "sourceCode": "import { BrowserModule } from '@angular/platform-browser';\nimport { NgModule } from '@angular/core';\nimport { AppComponent } from './app.component';\nimport { AppRoutingModule } from './app.routing.module';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';\nimport { MarkdownModule } from 'ngx-markdown';\nimport { UsaAppHeaderModule } from './shared/app-header/app-header.module';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n  ],\n  imports: [\n    BrowserModule,\n    BrowserAnimationsModule,\n    AppRoutingModule,\n    MarkdownModule.forRoot(),\n    UsaAppHeaderModule,\n  ],\n  providers: [\n    {\n      provide: HIGHLIGHT_OPTIONS,\n      useValue: {\n        coreLibraryLoader: () => import('highlight.js/lib/core'),\n        lineNumbersLoader: () => import('highlightjs-line-numbers.js'), // Optional, only if you want the line numbers\n        languages: {\n          typescript: () => import('highlight.js/lib/languages/typescript'),\n          css: () => import('highlight.js/lib/languages/css'),\n          xml: () => import('highlight.js/lib/languages/xml')\n        }\n      },\n    },\n  ],\n  bootstrap: [AppComponent],\n  exports: [\n  ]\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -42986,6 +43637,54 @@
             ]
         },
         {
+            "name": "SideNavigationDropdownModule",
+            "id": "module-SideNavigationDropdownModule-eac7b60c1cd202759f21490354ede72ac45a9589903ee331198ab0e4f16df125791f9e3e0baef3dd8530409434d94292e7f42dbb307a44649dd68d73f3674a7d",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/components/side-navigation/side-navigation-dropdown/side-navigation-dropdown.module.ts",
+            "methods": [],
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { NgModule } from '@angular/core';\nimport { UsaSidenavModule } from '@gsa-sam/ngx-uswds';\nimport { SideNavigationDropdownComponent } from './side-navigation-dropdown.component';\n\n\n@NgModule({\n  imports: [\n    CommonModule,\n    UsaSidenavModule,\n  ],\n  declarations: [\n    SideNavigationDropdownComponent\n  ],\n  exports: [\n    SideNavigationDropdownComponent\n  ]\n})\nexport class SideNavigationDropdownModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "SideNavigationDropdownComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "UsaSidenavModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "SideNavigationDropdownComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
             "name": "SortableTableModule",
             "id": "module-SortableTableModule-876a103d494fdeaeb8e0e509b12bff3d917f4b6f961f9a8751d2f8098f96c5d009f5b19e95be410583b62fedb8c0f2c90c5db2ca95009324e85305cc5e05ec8d",
             "description": "",
@@ -44512,13 +45211,13 @@
         },
         {
             "name": "UsaSidenavModule",
-            "id": "module-UsaSidenavModule-799d8ce61a7b39aaaebcab848310c218f53a38eef6530c3c63a8638d5a6950dc0ea24a1519b43d2607ed23d62e185e0ccab9bb54b62f6a6abb33186c4d32b63a",
+            "id": "module-UsaSidenavModule-64bded94105d48cbfab40622d7054dfae9d2e8e157a0fe466c811c7fb73b47a476d30163f05e8580f705ae871b4b5531ac6b0060234c2f8e53afd3b15490889b",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/sidenav/sidenav.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaLinkTemplateModule } from \"../shared/link-template/link-template.module\";\nimport { UsaSidenavComponent } from \"./sidenav.component\";\n\n\n@NgModule({\n  imports: [\n    CommonModule,\n    UsaLinkTemplateModule\n  ],\n  declarations: [\n    UsaSidenavComponent\n  ],\n  exports: [\n    UsaSidenavComponent\n  ]\n})\nexport class UsaSidenavModule {}\n",
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaLinkTemplateModule } from \"../shared/link-template/link-template.module\";\nimport { UsaSidenavComponent } from \"./sidenav.component\";\nimport { DropdownUsaSidenavComponent } from \"./dropdownsidenav.component\";\n\n@NgModule({\n  imports: [\n    CommonModule,\n    UsaLinkTemplateModule\n  ],\n  declarations: [\n    UsaSidenavComponent,\n    DropdownUsaSidenavComponent\n  ],\n  exports: [\n    UsaSidenavComponent,\n    DropdownUsaSidenavComponent\n  ]\n})\nexport class UsaSidenavModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -44527,6 +45226,9 @@
                 {
                     "type": "declarations",
                     "elements": [
+                        {
+                            "name": "DropdownUsaSidenavComponent"
+                        },
                         {
                             "name": "UsaSidenavComponent"
                         }
@@ -44543,6 +45245,9 @@
                 {
                     "type": "exports",
                     "elements": [
+                        {
+                            "name": "DropdownUsaSidenavComponent"
+                        },
                         {
                             "name": "UsaSidenavComponent"
                         }
@@ -45116,21 +45821,21 @@
                 "name": "actionsData",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  sidenavClicked: action('Text Change'),\n}"
-            },
-            {
-                "name": "actionsData",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  rowClicked: action('Row Clicked'),\n}"
+            },
+            {
+                "name": "actionsData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  sidenavClicked: action('Text Change'),\n}"
             },
             {
                 "name": "ANGULAR_CODESANDBOX",
@@ -45216,6 +45921,16 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45251,16 +45966,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
             },
             {
                 "name": "Basic",
@@ -45306,16 +46011,6 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    sidenavContent: args.sidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/step-indicator/step-indicator.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45331,6 +46026,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    rowClicked: actionsData.rowClicked,\n    ...args,\n  }\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    sidenavContent: args.sidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
             },
             {
                 "name": "Basic",
@@ -45456,6 +46161,16 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<ComboBoxBasicComponent>",
+                "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45476,21 +46191,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<ComboBoxBasicComponent>",
-                "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./side-navigation-basic/side-navigation-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45723,6 +46438,16 @@
                 "defaultValue": "{\n  basic: {\n    title: 'Basic Textarea',\n    type: TextareaBasicComponent,\n    code: require('!!raw-loader!./demos/basic/textarea-basic.component'),\n    markup: require('!!raw-loader!./demos/basic/textarea-basic.component.html'),\n    module: require('!!raw-loader!./demos/basic/textarea-basic.module'),\n    path: 'src/app/components/textarea/demos/basic',\n  },\n  wrapper: {\n    title: 'Textarea with wrapper',\n    type: TextareaWrapperComponent,\n    code: require('!!raw-loader!./demos/wrapper/textarea-wrapper.component'),\n    markup: require('!!raw-loader!./demos/wrapper/textarea-wrapper.component.html'),\n    module: require('!!raw-loader!./demos/wrapper/textarea-wrapper.module'),\n    path: 'src/app/components/textarea/demos/wrapper',\n  },\n}"
             },
             {
+                "name": "Dropdown",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: dropdownTemplate.default,\n  props: {\n    dropdownSidenavContent: args.dropdownSidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
+            },
+            {
                 "name": "DropdownForms",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -45741,6 +46466,26 @@
                 "deprecationMessage": "",
                 "type": "number",
                 "defaultValue": "0"
+            },
+            {
+                "name": "dropdownSidenavModel",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/side-navigation/side-navigation-dropdown/side-navigation-dropdown.data.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "SidenavModel[]",
+                "defaultValue": "[\n  {\n    mode: UsaNavigationMode.EVENT,\n    text: 'Entity Registration',\n    path: '/entity-registration',\n    queryParams: { index: 'opportunities' },\n    id: '1',\n    children: [\n        {\n            mode: UsaNavigationMode.EVENT,\n            text: 'Core Data',\n            path: '/core-data',\n            id: '10',\n        },\n        {\n            mode: UsaNavigationMode.EVENT,\n            text: 'Assertions',\n            path: '/assertions',\n            id: '20',\n            children: [\n            {\n                mode: UsaNavigationMode.EVENT,\n                text: 'Service Classifications',\n                path: '/service-classifications',\n                id: '200',\n            },\n            {\n                mode: UsaNavigationMode.EVENT,\n                text: 'Disaster Response',\n                path: '/disaster-response',\n                id: '300',\n            }\n            ]\n        },\n      {\n        mode: UsaNavigationMode.EVENT,\n        text: 'Reps and Certs',\n        path: '/reps-and-certs',\n        id: '30',\n      }\n    ]\n  },\n  {\n    mode: UsaNavigationMode.EVENT,\n    text: 'Exclusions',\n    path: '/exclusions',\n    id: '2',\n  },\n  {\n    mode: UsaNavigationMode.EVENT,\n    text: 'Responsibility/Qualification',\n    path: 'responsibility-qualification',\n    id: '3'\n  },\n  {\n    mode: UsaNavigationMode.EVENT,\n    text: 'Entity Reporting',\n    path: '/entity-reporting',\n    id: '4'\n  }\n]"
+            },
+            {
+                "name": "dropdownTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./side-navigation-dropdown/side-navigation-dropdown.component.html')"
             },
             {
                 "name": "dummyData",
@@ -45778,21 +46523,21 @@
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.prod.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  production: true\n}"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/environments/environment.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  production: false\n}"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.prod.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  production: true\n}"
             },
             {
                 "name": "environment",
@@ -46419,7 +47164,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
+                "file": "src/sandbox/sandbox-utils.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46428,7 +47173,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/sandbox/sandbox-utils.ts",
+                "file": "src/sandbox/angular-dependencies.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46773,16 +47518,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./side-navigation-basic/side-navigation-basic.component.html')"
             },
             {
                 "name": "template",
@@ -50284,38 +51019,6 @@
                     "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
                 }
             ],
-            "src/app/components/side-navigation/side-navigation.stories.ts": [
-                {
-                    "name": "actionsData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/side-navigation/side-navigation.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  sidenavClicked: action('Text Change'),\n}"
-                },
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/side-navigation/side-navigation.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    sidenavContent: args.sidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/side-navigation/side-navigation.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./side-navigation-basic/side-navigation-basic.component.html')"
-                }
-            ],
             "src/app/components/table/table.stories.ts": [
                 {
                     "name": "actionsData",
@@ -50423,6 +51126,58 @@
                     "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
                 }
             ],
+            "src/app/components/side-navigation/side-navigation.stories.ts": [
+                {
+                    "name": "actionsData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  sidenavClicked: action('Text Change'),\n}"
+                },
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    sidenavContent: args.sidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./side-navigation-basic/side-navigation-basic.component.html')"
+                },
+                {
+                    "name": "Dropdown",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: dropdownTemplate.default,\n  props: {\n    dropdownSidenavContent: args.dropdownSidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
+                },
+                {
+                    "name": "dropdownTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./side-navigation-dropdown/side-navigation-dropdown.component.html')"
+                }
+            ],
             "src/sandbox/templates/angular-cli-config.ts": [
                 {
                     "name": "angularCLIConfig",
@@ -50519,6 +51274,58 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
+                }
+            ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
             "src/app/components/checkbox/checkbox.stories.ts": [
@@ -50683,58 +51490,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-                }
-            ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
-                },
-                {
-                    "name": "dummyData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
-                },
-                {
-                    "name": "mockService",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
             "src/app/components/input/input.stories.ts": [
@@ -51451,16 +52206,16 @@
                     "defaultValue": "0"
                 }
             ],
-            "src/environments/environment.prod.ts": [
+            "src/app/components/side-navigation/side-navigation-dropdown/side-navigation-dropdown.data.ts": [
                 {
-                    "name": "environment",
+                    "name": "dropdownSidenavModel",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/environments/environment.prod.ts",
+                    "file": "src/app/components/side-navigation/side-navigation-dropdown/side-navigation-dropdown.data.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  production: true\n}"
+                    "type": "SidenavModel[]",
+                    "defaultValue": "[\n  {\n    mode: UsaNavigationMode.EVENT,\n    text: 'Entity Registration',\n    path: '/entity-registration',\n    queryParams: { index: 'opportunities' },\n    id: '1',\n    children: [\n        {\n            mode: UsaNavigationMode.EVENT,\n            text: 'Core Data',\n            path: '/core-data',\n            id: '10',\n        },\n        {\n            mode: UsaNavigationMode.EVENT,\n            text: 'Assertions',\n            path: '/assertions',\n            id: '20',\n            children: [\n            {\n                mode: UsaNavigationMode.EVENT,\n                text: 'Service Classifications',\n                path: '/service-classifications',\n                id: '200',\n            },\n            {\n                mode: UsaNavigationMode.EVENT,\n                text: 'Disaster Response',\n                path: '/disaster-response',\n                id: '300',\n            }\n            ]\n        },\n      {\n        mode: UsaNavigationMode.EVENT,\n        text: 'Reps and Certs',\n        path: '/reps-and-certs',\n        id: '30',\n      }\n    ]\n  },\n  {\n    mode: UsaNavigationMode.EVENT,\n    text: 'Exclusions',\n    path: '/exclusions',\n    id: '2',\n  },\n  {\n    mode: UsaNavigationMode.EVENT,\n    text: 'Responsibility/Qualification',\n    path: 'responsibility-qualification',\n    id: '3'\n  },\n  {\n    mode: UsaNavigationMode.EVENT,\n    text: 'Entity Reporting',\n    path: '/entity-reporting',\n    id: '4'\n  }\n]"
                 }
             ],
             "src/environments/environment.ts": [
@@ -51473,6 +52228,18 @@
                     "deprecationMessage": "",
                     "type": "object",
                     "defaultValue": "{\n  production: false\n}"
+                }
+            ],
+            "src/environments/environment.prod.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.prod.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  production: true\n}"
                 }
             ],
             "projects/uswds-components/src/lib/environment.ts": [
@@ -55883,6 +56650,15 @@
                 "status": "medium"
             },
             {
+                "filePath": "projects/uswds-components/src/lib/sidenav/dropdownsidenav.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DropdownUsaSidenavComponent",
+                "coveragePercent": 45,
+                "coverageCount": "9/20",
+                "status": "medium"
+            },
+            {
                 "filePath": "projects/uswds-components/src/lib/sidenav/sidenav.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -57859,6 +58635,25 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/components/side-navigation/side-navigation-dropdown/side-navigation-dropdown.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SideNavigationDropdownComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/side-navigation/side-navigation-dropdown/side-navigation-dropdown.data.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "dropdownSidenavModel",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/components/side-navigation/side-navigation.data.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
@@ -57893,7 +58688,27 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "template",
+                "name": "basicTemplate",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Dropdown",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "dropdownTemplate",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

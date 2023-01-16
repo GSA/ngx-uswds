@@ -1,0 +1,21 @@
+<ul class="usa-sidenav whitebg">
+    <li *ngFor="let link of dropdownSidenavContent" class="usa-sidenav__item">
+      <ng-container [ngTemplateOutlet]="dropdownSideNavLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+      </ng-container>
+    </li>
+  </ul>
+   
+  <ng-template #dropdownSideNavLinkTemplate let-link>
+    <usa-link-template [link]="link" (linkClicked)="onSidenavItemClicked($event)"></usa-link-template>
+    <div *ngIf="!expandType || (expandType && !link.collapsed)">
+      <ul class="usa-sidenav__sublist">
+        <li *ngFor="let link of link.children" class="usa-sidenav__item">
+          <ng-container [ngTemplateOutlet]="dropdownSideNavLinkTemplate" [ngTemplateOutletContext]="{$implicit:link}">
+          </ng-container>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  
+  
+  

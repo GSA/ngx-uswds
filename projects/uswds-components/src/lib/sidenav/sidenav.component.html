@@ -4,7 +4,7 @@
     </ng-container>
   </li>
 </ul>
-
+ 
 <ng-template #sideNavLinkTemplate let-link>
   <usa-link-template [link]="link" (linkClicked)="onSidenavItemClicked($event)"></usa-link-template>
   <div *ngIf="!expandType || (expandType && !link.collapsed)">
@@ -16,3 +16,5 @@
     </ul>
   </div>
 </ng-template>
+
+

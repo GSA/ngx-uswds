@@ -9,7 +9,7 @@ export enum UsaNavigationMode {
 
    /**
     * Navigation to external url outside of the application. Navigation will be done through href attribute
-    */
+    */ 
    EXTERNAL, 
  
    /**
@@ -70,7 +70,7 @@ export interface UsaNavigationLink<T = any> {
   /** 
    * Defines query param strategy to use for angular routing
    * Only relevent when routing is internal
-   */
+   */ 
    queryParamsHandling?: QueryParamsHandling;
 
    /** Additional sub routes for the navigation link */
