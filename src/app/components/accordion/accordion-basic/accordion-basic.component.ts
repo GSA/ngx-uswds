@@ -1,5 +1,4 @@
-import { Component } from "@angular/core";
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'accordion-basic',
@@ -7,9 +6,9 @@ import { Component } from "@angular/core";
 })
 export class AccordionBasicComponent {
   /**
-     * If `true`, accordion will be animated.
-     * @default true
-     */
+   * If `true`, accordion will be animated.
+   * @default true
+   */
   animation: boolean = true;
 
   /**
@@ -27,14 +26,11 @@ export class AccordionBasicComponent {
    */
   singleSelect: boolean;
 
-  /**
-   * Type of panels.
-   *
-   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,
-   * `'secondary'`, `'light'` and `'dark'`.
-   */
   bordered: boolean;
-
+  /**
+   * Change the Header background color to the accent cool variation
+   */
+  isAccentCoolHeader: boolean;
   /**
    * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.
    */

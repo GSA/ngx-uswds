@@ -17043,7 +17043,7 @@
     "components": [
         {
             "name": "AccordionBasicComponent",
-            "id": "component-AccordionBasicComponent-0da19f3e0feffe7825b48da541590ba71d0743af1d5443022d8473507e6fcf5ffdf0bf8fd03e1ae596d559eb99e2daf557326e43fd453f269e44a11e21694bb0",
+            "id": "component-AccordionBasicComponent-efae52d02d1670b6dd59ed388ab3b5c9dbc3a3a12c041b45a685d5e8fbbbe3b8c176b235b9749969aa75407be67a6d9264fd17bbcd13bcf055c40b345cb4f5ba",
             "file": "src/app/components/accordion/accordion-basic/accordion-basic.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -17068,7 +17068,7 @@
                     "type": "string[]",
                     "optional": false,
                     "description": "<p>An array or comma separated strings of panel ids that should be opened <strong>initially</strong>.</p>\n<p>For subsequent changes use methods like <code>expand()</code>, <code>collapse()</code>, etc. and\nthe <code>(panelChange)</code> event.</p>\n",
-                    "line": 21,
+                    "line": 20,
                     "rawdescription": "\n\nAn array or comma separated strings of panel ids that should be opened **initially**.\n\nFor subsequent changes use methods like `expand()`, `collapse()`, etc. and\nthe `(panelChange)` event.\n"
                 },
                 {
@@ -17079,19 +17079,19 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "<p>If <code>true</code>, accordion will be animated.</p>\n",
-                    "line": 13,
+                    "line": 12,
                     "rawdescription": "\n\nIf `true`, accordion will be animated.\n",
                     "jsdoctags": [
                         {
-                            "pos": 241,
-                            "end": 260,
+                            "pos": 236,
+                            "end": 253,
                             "flags": 4227072,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 325,
                             "tagName": {
-                                "pos": 242,
-                                "end": 249,
+                                "pos": 237,
+                                "end": 244,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -17110,7 +17110,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "<p>Type of panels.</p>\n<p>Bootstrap provides styles for the following types: <code>&#39;success&#39;</code>, <code>&#39;info&#39;</code>, <code>&#39;warning&#39;</code>, <code>&#39;danger&#39;</code>, <code>&#39;primary&#39;</code>,\n<code>&#39;secondary&#39;</code>, <code>&#39;light&#39;</code> and <code>&#39;dark&#39;</code>.</p>\n",
-                    "line": 36,
+                    "line": 35,
                     "rawdescription": "\n\nType of panels.\n\nBootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n`'secondary'`, `'light'` and `'dark'`.\n"
                 },
                 {
@@ -17125,13 +17125,22 @@
                     "rawdescription": "\n\nHeading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n"
                 },
                 {
+                    "name": "isAccentCoolHeader",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 37
+                },
+                {
                     "name": "singleSelect",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "boolean",
                     "optional": false,
                     "description": "<p> If <code>true</code>, only one panel could be opened at a time.</p>\n<p> Opening a new panel will close others.</p>\n",
-                    "line": 28,
+                    "line": 27,
                     "rawdescription": "\n\n If `true`, only one panel could be opened at a time.\n\n Opening a new panel will close others.\n"
                 }
             ],
@@ -17228,11 +17237,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from \"@angular/core\";\n\n\n@Component({\n  selector: 'accordion-basic',\n  templateUrl: './accordion-basic.component.html',\n})\nexport class AccordionBasicComponent {\n  /**\n     * If `true`, accordion will be animated.\n     * @default true\n     */\n  animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  onPanelChange($event) {\n    console.log($event);\n  }\n\n  shown($event) {\n    console.log($event);\n  }\n\n  hidden($event) {\n    console.log($event);\n  }\n}",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'accordion-basic',\n  templateUrl: './accordion-basic.component.html',\n})\nexport class AccordionBasicComponent {\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  bordered: boolean;\n\n  isAccentCoolHeader: boolean;\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  onPanelChange($event) {\n    console.log($event);\n  }\n\n  shown($event) {\n    console.log($event);\n  }\n\n  hidden($event) {\n    console.log($event);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "templateData": "<usa-accordion \n  [singleSelect]=\"singleSelect\" \n  [bordered]=\"bordered\" \n  [animation]=\"animation\"\n  [headerLevel]=\"headerLevel\"\n  [activeIds]=\"activeIds\"\n  (panelChange)=\"onPanelChange($event)\"\n  (shown)=\"shown($event)\"\n  (hidden)=\"hidden($event)\"\n>\n  \n  <usa-accordion-item header=\"Simple Text Header\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry \n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor \n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, \n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda \n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item>\n    <ng-template UsaAccordionHeader>\n      <b class=\"text-base\">I am a <i>Template</i> Header</b>\n    </ng-template>\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry \n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor \n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, \n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda \n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item header=\"Disabled Header\" [disabled]=\"true\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry \n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor \n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, \n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda \n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>\n"
+            "templateData": "<usa-accordion [ngClass]=\"{'usa-accordion--accent_cool': isAccentCoolHeader}\" [singleSelect]=\"singleSelect\"\n  [bordered]=\"bordered\" [animation]=\"animation\" [headerLevel]=\"headerLevel\" [activeIds]=\"activeIds\"\n  (panelChange)=\"onPanelChange($event)\" (shown)=\"shown($event)\" (hidden)=\"hidden($event)\">\n\n  <usa-accordion-item header=\"Simple Text Header\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item>\n    <ng-template UsaAccordionHeader>\n      <b class=\"text-base\">I am a <i>Template</i> Header</b>\n    </ng-template>\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item header=\"Disabled Header\" [disabled]=\"true\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>\n"
         },
         {
             "name": "AppComponent",
@@ -20794,7 +20803,7 @@
                     }
                 ]
             },
-            "templateData": "<ng-template #content let-modal>\n  <h2 class=\"usa-modal__heading\" id=\"modal-1-heading\">\n    Are you sure you want to continue?\n  </h2>\n  <div class=\"usa-prose\">\n    <p id=\"modal-1-description\">You have unsaved changes that will be lost.</p>\n  </div>\n  <div class=\"usa-modal__footer\">\n    <ul class=\"usa-button-group\">\n      <li class=\"usa-button-group__item\">\n          <button type=\"button\" class=\"usa-button\" (click)=\"close('Continue')\">Continue without saving</button>\n      </li>\n      <li class=\"usa-button-group__item\">\n        <button type=\"button\" class=\"usa-button usa-button--unstyled padding-105 text-center\" (click)=\"close('Go Back')\">Go back</button>\n      </li>\n    </ul>\n  </div>\n</ng-template>\n<button class=\"usa-button\" (click)=\"open(content)\">Launch Default modal</button>\n<hr>\n<pre>{{ closeResult }}</pre>\n"
+            "templateData": "<ng-template #content let-modal>\n  <h1 class=\"usa-modal__heading\" id=\"modal-1-heading\">\n    Are you sure you want to continue?\n  </h1>\n  <div class=\"usa-prose\">\n    <p id=\"modal-1-description\">You have unsaved changes that will be lost.</p>\n  </div>\n  <div class=\"usa-modal__footer\">\n    <ul class=\"usa-button-group\">\n      <li class=\"usa-button-group__item\">\n        <button type=\"button\" class=\"usa-button\" (click)=\"close('Continue')\">Continue without saving</button>\n      </li>\n      <li class=\"usa-button-group__item\">\n        <button type=\"button\" class=\"usa-button usa-button--unstyled padding-105 text-center\"\n          (click)=\"close('Go Back')\">Go back</button>\n      </li>\n    </ul>\n  </div>\n</ng-template>\n<button class=\"usa-button\" (click)=\"open(content)\">Launch Default modal</button>\n<hr>\n<pre>{{ closeResult }}</pre>\n"
         },
         {
             "name": "ModalComponentWrapper",
@@ -45103,16 +45112,6 @@
                 "name": "actionsData",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  linkEvent: action('Link Event'),\n}"
-            },
-            {
-                "name": "actionsData",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45128,6 +45127,16 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n  onTextSubmit: action('Submit'),\n}"
+            },
+            {
+                "name": "actionsData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  linkEvent: action('Link Event'),\n}"
             },
             {
                 "name": "actionsData",
@@ -45207,7 +45216,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
+                "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -45253,41 +45262,11 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/file-input/file-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/input/input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
             },
             {
                 "name": "Basic",
@@ -45313,11 +45292,41 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/input/input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n    onTextSubmit: actionsData.onTextSubmit,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -45493,21 +45502,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45583,7 +45592,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45593,7 +45602,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45855,16 +45864,6 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./header-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/modal/modal.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45880,6 +45879,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./radio-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./header-overview.html')"
             },
             {
                 "name": "footer",
@@ -46343,18 +46352,6 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-header-font-family ',\n        description: 'Font family of the header.',\n      },\n      {\n        variable: '$theme-header-logo-text-width',\n        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'\n      },\n      {\n        variable: '$theme-header-max-width',\n        description: 'Maximum width of the header.'\n      },\n      {\n        variable: '$theme-header-min-width',\n        description: 'Breakpoint at which the non-mobile header is shown.'\n      },\n    ]\n  }\n})",
-                "rawdescription": "------------------------- Overview Notes ---------------------------",
-                "description": "<p>------------------------- Overview Notes ---------------------------</p>\n"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/modal/modal.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46370,6 +46367,18 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  }\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-header-font-family ',\n        description: 'Font family of the header.',\n      },\n      {\n        variable: '$theme-header-logo-text-width',\n        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'\n      },\n      {\n        variable: '$theme-header-max-width',\n        description: 'Maximum width of the header.'\n      },\n      {\n        variable: '$theme-header-min-width',\n        description: 'Breakpoint at which the non-mobile header is shown.'\n      },\n    ]\n  }\n})",
+                "rawdescription": "------------------------- Overview Notes ---------------------------",
+                "description": "<p>------------------------- Overview Notes ---------------------------</p>\n"
             },
             {
                 "name": "Overview",
@@ -46454,7 +46463,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46463,7 +46472,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46508,24 +46517,6 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46539,6 +46530,24 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
             },
             {
                 "name": "require",
@@ -46775,21 +46784,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/search/search.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
             },
             {
                 "name": "template",
@@ -49890,7 +49899,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
+                    "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
                 },
                 {
                     "name": "footerTemplate",
@@ -50094,101 +50103,6 @@
                     "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
                 }
             ],
-            "src/app/components/header/header.stories.ts": [
-                {
-                    "name": "actionsData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  linkEvent: action('Link Event'),\n}"
-                },
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
-                },
-                {
-                    "name": "footer",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./header-overview.html')"
-                },
-                {
-                    "name": "headerData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./header-data.ts')"
-                },
-                {
-                    "name": "headerTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<header-extended-template></header-extended-template>`\n})",
-                    "rawdescription": "----------------------------- Template Driven Header ------------------------------",
-                    "description": "<p>----------------------------- Template Driven Header ------------------------------</p>\n"
-                },
-                {
-                    "name": "HeaderTemplates",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "headerTemplate.bind({})"
-                },
-                {
-                    "name": "Overview",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-header-font-family ',\n        description: 'Font family of the header.',\n      },\n      {\n        variable: '$theme-header-logo-text-width',\n        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'\n      },\n      {\n        variable: '$theme-header-max-width',\n        description: 'Maximum width of the header.'\n      },\n      {\n        variable: '$theme-header-min-width',\n        description: 'Breakpoint at which the non-mobile header is shown.'\n      },\n    ]\n  }\n})",
-                    "rawdescription": "------------------------- Overview Notes ---------------------------",
-                    "description": "<p>------------------------- Overview Notes ---------------------------</p>\n"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "any"
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
-                }
-            ],
             "src/app/components/radio/radio.stories.ts": [
                 {
                     "name": "actionsData",
@@ -50299,6 +50213,101 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+                }
+            ],
+            "src/app/components/header/header.stories.ts": [
+                {
+                    "name": "actionsData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  linkEvent: action('Link Event'),\n}"
+                },
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
+                },
+                {
+                    "name": "footer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./header-overview.html')"
+                },
+                {
+                    "name": "headerData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./header-data.ts')"
+                },
+                {
+                    "name": "headerTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<header-extended-template></header-extended-template>`\n})",
+                    "rawdescription": "----------------------------- Template Driven Header ------------------------------",
+                    "description": "<p>----------------------------- Template Driven Header ------------------------------</p>\n"
+                },
+                {
+                    "name": "HeaderTemplates",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "headerTemplate.bind({})"
+                },
+                {
+                    "name": "Overview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-header-font-family ',\n        description: 'Font family of the header.',\n      },\n      {\n        variable: '$theme-header-logo-text-width',\n        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'\n      },\n      {\n        variable: '$theme-header-max-width',\n        description: 'Maximum width of the header.'\n      },\n      {\n        variable: '$theme-header-min-width',\n        description: 'Breakpoint at which the non-mobile header is shown.'\n      },\n    ]\n  }\n})",
+                    "rawdescription": "------------------------- Overview Notes ---------------------------",
+                    "description": "<p>------------------------- Overview Notes ---------------------------</p>\n"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any"
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
                 }
             ],
             "src/app/components/side-navigation/side-navigation.stories.ts": [
@@ -50671,47 +50680,6 @@
                     "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
                 }
             ],
-            "src/app/components/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                },
-                {
-                    "name": "DropdownForms",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                }
-            ],
             "src/app/components/file-input/file-input.stories.ts": [
                 {
                     "name": "Basic",
@@ -50752,18 +50720,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-                }
-            ],
-            "src/app/components/input/input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/input/input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
                 }
             ],
             "src/app/components/modal/modal.stories.ts": [
@@ -50846,6 +50802,59 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "() => ({\n  template: footer.default\n})"
+                }
+            ],
+            "src/app/components/input/input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/input/input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
+                }
+            ],
+            "src/app/components/dropdown/dropdown.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+                },
+                {
+                    "name": "DropdownForms",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
                 }
             ],
             "src/app/components/step-indicator/step-indicator.stories.ts": [
@@ -51359,27 +51368,6 @@
                     "type": "literal type"
                 }
             ],
-            "projects/uswds-components/src/test.ts": [
-                {
-                    "name": "context",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "literal type"
-                }
-            ],
             "projects/uswds-formly/src/test.ts": [
                 {
                     "name": "context",
@@ -51396,6 +51384,27 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-formly/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type"
+                }
+            ],
+            "projects/uswds-components/src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/test.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "literal type"
@@ -56744,9 +56753,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "AccordionBasicComponent",
-                "coveragePercent": 55,
-                "coverageCount": "5/9",
-                "status": "good"
+                "coveragePercent": 50,
+                "coverageCount": "5/10",
+                "status": "medium"
             },
             {
                 "filePath": "src/app/components/accordion/accordion.stories.ts",
