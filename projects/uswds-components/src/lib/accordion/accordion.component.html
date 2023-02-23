@@ -1,19 +1,14 @@
 <ng-template ngFor let-panel [ngForOf]="panels">
-    <div role="heading" id="{{panel.id}}-header" class="usa-accordion__heading" [attr.aria-level]="headerLevel">
-      <button class="usa-accordion__button"
-        [UsaAccordionToggle]="panel"
-        (keydown)="onKeyDown($event, panel)" 
-        >
-        {{panel.header}}
-        <ng-template [ngTemplateOutlet]="panel.headerTpl?.templateRef"></ng-template>
-      </button>
-    </div>
-    <section #panelContent id="{{panel.id}}" class="usa-accordion__content overflow-hidden"
-      [@.disabled]="!animation"
-      [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'"
-      (@bodyExpansion.start)="onBodyExpansionStart($event, panelContent)"
-      (@bodyExpansion.done)="onBodyExpansionEnd($event, panelContent)"
-      [attr.aria-labelledby]="panel.id + '-header'">
-        <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
-    </section>
+  <div role="heading" id="{{panel.id}}-header" class="usa-accordion__heading border-0" [attr.aria-level]="headerLevel">
+    <button class="usa-accordion__button" [UsaAccordionToggle]="panel" (keydown)="onKeyDown($event, panel)">
+      {{panel.header}}
+      <ng-template [ngTemplateOutlet]="panel.headerTpl?.templateRef"></ng-template>
+    </button>
+  </div>
+  <section #panelContent id="{{panel.id}}" class="usa-accordion__content overflow-hidden" [@.disabled]="!animation"
+    [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'"
+    (@bodyExpansion.start)="onBodyExpansionStart($event, panelContent)"
+    (@bodyExpansion.done)="onBodyExpansionEnd($event, panelContent)" [attr.aria-labelledby]="panel.id + '-header'">
+    <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
+  </section>
 </ng-template>
