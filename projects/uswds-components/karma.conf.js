@@ -17,7 +17,7 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage/uswds-components'),
-      reports: ['html', 'lcovonly', 'text-summary'],
+      reports: ['html', 'lcovonly', 'text-summary', 'coverage-istanbul'],
       fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],

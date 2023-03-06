@@ -4,7 +4,6 @@
 
 // Accordion
 export * from './lib/accordion/accordion-items';
-export * from './lib/accordion/accordion-toggle.directive';
 export * from './lib/accordion/accordion.component';
 export * from './lib/accordion/accordion.module';
 

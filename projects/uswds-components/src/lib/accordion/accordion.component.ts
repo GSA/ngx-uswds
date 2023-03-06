@@ -1,7 +1,7 @@
-import { 
-  Component, ContentChildren, 
-  Input, QueryList, ElementRef, AfterContentChecked, 
-  EventEmitter, Output, Renderer2 
+import {
+  Component, ContentChildren,
+  Input, QueryList, ElementRef, AfterContentChecked,
+  EventEmitter, Output, Renderer2, Directive, Host, Optional
 } from '@angular/core';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 import { isString, findLast, getNextItemInList } from '../util/util';
@@ -78,7 +78,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   @Output() hidden = new EventEmitter<string>();
 
   constructor(
-      config: UsaAccordionConfig, 
+      config: UsaAccordionConfig,
       private _element: ElementRef,
       private _renderer: Renderer2
     ) {
@@ -153,8 +153,8 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     }
 
     // update panels open states
-    this.panels.forEach(panel => { 
-      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1); 
+    this.panels.forEach(panel => {
+      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);
     });
 
     // closeOthers updates
@@ -263,4 +263,31 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {
     return this._element.nativeElement.querySelector('#' + panelId + '-header button');
   }
+}
+
+@Directive({
+  selector: 'button[UsaAccordionToggle]',
+  host: {
+    'type': 'button',
+    '[disabled]': 'panel.disabled',
+    'class': 'usa-accordion__button',
+    '[class.collapsed]': '!panel.expanded',
+    '[attr.aria-expanded]': 'panel.expanded',
+    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',
+    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',
+    '[attr.aria-label]': 'panel.ariaLabel',
+    '(click)': 'accordion.toggle(panel.id)',
+  }
+})
+export class UsaAccordionToggle {
+  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';
+
+  @Input()
+  set UsaAccordionToggle(panel: UsaAccordionItem) {
+    if (panel) {
+      this.panel = panel;
+    }
+  }
+
+  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }
 }
