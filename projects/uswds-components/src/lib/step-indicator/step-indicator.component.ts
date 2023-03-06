@@ -1,5 +1,4 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { UsaStepIndicatorHeaderComponent } from './step-indicator-header.component';
+import { Component, ContentChild, ElementRef, EventEmitter, Host, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { UsaStepIndicatorConfig } from './step-indicator.config';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 import { getNextItemIndexInList, findLastIndex } from '../util/util';
@@ -70,7 +69,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
   constructor(
     config: UsaStepIndicatorConfig,
     private elementRef: ElementRef,
-  ) { 
+  ) {
     this.hideLabels = config.hideLabels;
     this.centerLabels = config.centerLabels;
     this.displayCounters = config.displayCounters;
@@ -82,7 +81,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.currentStep) {
       if (this.currentStep > this.steps.length - 1 || this.currentStep < 0) {
-        throw new Error(`Steps in step indicator is out of bounds. 
+        throw new Error(`Steps in step indicator is out of bounds.
           Current Step: ${this.currentStep}, Step Range: 0 - ${this.steps.length - 1}`);
       }
     }
@@ -112,7 +111,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
       case KeyCode.ArrowLeft:
         nextStepIndex = getNextItemIndexInList(index, this.steps, -1);
         this._getAllStepListElements()[nextStepIndex].focus();
-        event.preventDefault();       
+        event.preventDefault();
         break;
       case Key.Home:
       case MicrosfotKeys.Home:
@@ -155,4 +154,37 @@ export class UsaStepIndicatorComponent implements OnChanges {
     return Array.prototype.slice.call(listElements);
   }
 
+}
+
+@Component({
+  selector: `[UsaStepHeader]`,
+  template: `
+    <ng-container *ngIf="template; else default">
+      <ng-template [ngTemplateOutlet]="template"></ng-template>
+    </ng-container>
+
+    <ng-template #default>
+      <span class="usa-step-indicator__heading-counter">
+        <span class="usa-step-indicator__current-step">{{
+          stepIndicator?.currentStep + 1
+        }}</span>
+        <span class="usa-step-indicator__total-steps">
+          of {{ stepIndicator?.steps.length }}</span
+        >
+      </span>
+      <span class="usa-step-indicator__heading-text">{{
+        stepIndicator?.steps[stepIndicator?.currentStep].label
+      }}</span>
+    </ng-template>
+  `,
+  host: {
+    class: 'usa-step-indicator__heading',
+    '[class.margin-top-0]': "stepIndicator.headerPosition === 'top'",
+    '[class.margin-bottom-4]': "stepIndicator.headerPosition === 'top'",
+  },
+})
+export class UsaStepIndicatorHeaderComponent {
+  @Input() template: TemplateRef<any>;
+
+  constructor(@Host() public stepIndicator: UsaStepIndicatorComponent) {}
 }

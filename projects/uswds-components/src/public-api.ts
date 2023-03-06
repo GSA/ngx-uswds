@@ -69,7 +69,6 @@ export * from './lib/search/search.module';
 export * from './lib/step-indicator/step-indicator.model';
 export * from './lib/step-indicator/step-indicator.config';
 export * from './lib/step-indicator/step-indicator.component';
-export * from './lib/step-indicator/step-indicator-header.component';
 export * from './lib/step-indicator/step-indicator.module';
 
 // Table

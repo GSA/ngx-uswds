@@ -10441,12 +10441,12 @@
         },
         {
             "name": "UsaAccordionToggle",
-            "id": "directive-UsaAccordionToggle-ef4049df00d5ce7b4d6097b38b118b9ab3dd46923e3612eb8b9860ee1368469cc4c31d5b9bb81a586988128229d0f755f2296342564c0ce825fafb8ef95c6c1d",
-            "file": "projects/uswds-components/src/lib/accordion/accordion-toggle.directive.ts",
+            "id": "directive-UsaAccordionToggle-6a7967c7c012c60d0a633b62855d1221ebb3c0eeb58e2d916762c09cca4cc86af25bc2b5960a29377d5038fb3a710f1820f4d0c817b8d72f4b681edd6c8f4857",
+            "file": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
             "type": "directive",
-            "description": "<p>A directive to put on a button that toggles panel opening and closing.</p>\n<p>Due to circular dependency issue, this toggle button is on a separate file</p>\n",
-            "rawdescription": "\n\nA directive to put on a button that toggles panel opening and closing.\n\nDue to circular dependency issue, this toggle button is on a separate file\n",
-            "sourceCode": "import { Directive, Host, Input, Optional } from \"@angular/core\";\nimport { UsaAccordionItem } from \"./accordion-items\";\nimport { UsaAccordionComponent } from \"./accordion.component\";\n\n/**\n * A directive to put on a button that toggles panel opening and closing.\n * \n * Due to circular dependency issue, this toggle button is on a separate file\n */\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import {\n  Component, ContentChildren,\n  Input, QueryList, ElementRef, AfterContentChecked,\n  EventEmitter, Output, Renderer2, Directive, Host, Optional\n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n  host: {\n    'class': 'usa-accordion',\n    '[class.usa-accordion--bordered]': 'bordered',\n    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',\n  },\n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig,\n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n\n    // update panels open states\n    this.panels.forEach(panel => {\n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);\n    });\n\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}\n",
             "selector": "button[UsaAccordionToggle]",
             "providers": [],
             "inputsClass": [
@@ -10454,7 +10454,7 @@
                     "name": "UsaAccordionToggle",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 28,
+                    "line": 286,
                     "type": "UsaAccordionItem",
                     "decorators": []
                 }
@@ -10472,7 +10472,7 @@
                     "type": "UsaAccordionComponent",
                     "optional": false,
                     "description": "",
-                    "line": 34,
+                    "line": 292,
                     "modifierKind": [
                         123
                     ]
@@ -10484,7 +10484,7 @@
                     "type": "UsaAccordionItem | string",
                     "optional": false,
                     "description": "",
-                    "line": 25,
+                    "line": 283,
                     "modifierKind": [
                         124
                     ]
@@ -10496,7 +10496,7 @@
                     "type": "UsaAccordionItem",
                     "optional": false,
                     "description": "",
-                    "line": 34,
+                    "line": 292,
                     "decorators": [
                         {
                             "name": "Optional",
@@ -10532,7 +10532,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 32,
+                "line": 290,
                 "jsdoctags": [
                     {
                         "name": "accordion",
@@ -10571,7 +10571,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 28,
+                        "line": 286,
                         "jsdoctags": [
                             {
                                 "name": "panel",
@@ -17043,7 +17043,7 @@
     "components": [
         {
             "name": "AccordionBasicComponent",
-            "id": "component-AccordionBasicComponent-efae52d02d1670b6dd59ed388ab3b5c9dbc3a3a12c041b45a685d5e8fbbbe3b8c176b235b9749969aa75407be67a6d9264fd17bbcd13bcf055c40b345cb4f5ba",
+            "id": "component-AccordionBasicComponent-51cb05c91108dec093e70128da08ff520041570effdf2bb74339687e78abd0b4e1593ccc23853100051fcfe2c1d144be90e875be6b27824b8eeabcdc71225e0b",
             "file": "src/app/components/accordion/accordion-basic/accordion-basic.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -17109,9 +17109,8 @@
                     "deprecationMessage": "",
                     "type": "boolean",
                     "optional": false,
-                    "description": "<p>Type of panels.</p>\n<p>Bootstrap provides styles for the following types: <code>&#39;success&#39;</code>, <code>&#39;info&#39;</code>, <code>&#39;warning&#39;</code>, <code>&#39;danger&#39;</code>, <code>&#39;primary&#39;</code>,\n<code>&#39;secondary&#39;</code>, <code>&#39;light&#39;</code> and <code>&#39;dark&#39;</code>.</p>\n",
-                    "line": 35,
-                    "rawdescription": "\n\nType of panels.\n\nBootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n`'secondary'`, `'light'` and `'dark'`.\n"
+                    "description": "",
+                    "line": 29
                 },
                 {
                     "name": "headerLevel",
@@ -17121,7 +17120,7 @@
                     "type": "\"2\" | \"3\" | \"4\" | \"5\" | \"6\"",
                     "optional": false,
                     "description": "<p>Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.</p>\n",
-                    "line": 41,
+                    "line": 37,
                     "rawdescription": "\n\nHeading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n"
                 },
                 {
@@ -17130,8 +17129,9 @@
                     "deprecationMessage": "",
                     "type": "boolean",
                     "optional": false,
-                    "description": "",
-                    "line": 37
+                    "description": "<p>Change the Header background color to the accent cool variation</p>\n",
+                    "line": 33,
+                    "rawdescription": "\n\nChange the Header background color to the accent cool variation\n"
                 },
                 {
                     "name": "singleSelect",
@@ -17158,7 +17158,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 51,
+                    "line": 47,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -17186,7 +17186,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 43,
+                    "line": 39,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -17214,7 +17214,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 47,
+                    "line": 43,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -17237,11 +17237,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'accordion-basic',\n  templateUrl: './accordion-basic.component.html',\n})\nexport class AccordionBasicComponent {\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  bordered: boolean;\n\n  isAccentCoolHeader: boolean;\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  onPanelChange($event) {\n    console.log($event);\n  }\n\n  shown($event) {\n    console.log($event);\n  }\n\n  hidden($event) {\n    console.log($event);\n  }\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'accordion-basic',\n  templateUrl: './accordion-basic.component.html',\n})\nexport class AccordionBasicComponent {\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  singleSelect: boolean;\n\n  bordered: boolean;\n  /**\n   * Change the Header background color to the accent cool variation\n   */\n  isAccentCoolHeader: boolean;\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  onPanelChange($event) {\n    console.log($event);\n  }\n\n  shown($event) {\n    console.log($event);\n  }\n\n  hidden($event) {\n    console.log($event);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "templateData": "<usa-accordion [ngClass]=\"{'usa-accordion--accent_cool': isAccentCoolHeader}\" [singleSelect]=\"singleSelect\"\n  [bordered]=\"bordered\" [animation]=\"animation\" [headerLevel]=\"headerLevel\" [activeIds]=\"activeIds\"\n  (panelChange)=\"onPanelChange($event)\" (shown)=\"shown($event)\" (hidden)=\"hidden($event)\">\n\n  <usa-accordion-item header=\"Simple Text Header\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item>\n    <ng-template UsaAccordionHeader>\n      <b class=\"text-base\">I am a <i>Template</i> Header</b>\n    </ng-template>\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item header=\"Disabled Header\" [disabled]=\"true\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>\n"
+            "templateData": "<usa-accordion [ngClass]=\"{'usa-accordion--accent_cool border-0': isAccentCoolHeader}\" [singleSelect]=\"singleSelect\"\n  [bordered]=\"bordered\" [animation]=\"animation\" [headerLevel]=\"headerLevel\" [activeIds]=\"activeIds\"\n  (panelChange)=\"onPanelChange($event)\" (shown)=\"shown($event)\" (hidden)=\"hidden($event)\">\n\n  <usa-accordion-item header=\"Simple Text Header\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item>\n    <ng-template UsaAccordionHeader>\n      <b class=\"text-base\">I am a <i>Template</i> Header</b>\n    </ng-template>\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item header=\"Disabled Header\" [disabled]=\"true\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>\n"
         },
         {
             "name": "AppComponent",
@@ -23313,7 +23313,7 @@
         },
         {
             "name": "UsaAccordionComponent",
-            "id": "component-UsaAccordionComponent-db43dbcf3cea2fd14e23288288786fa5360fe3efee19045b3ca86620260eb3274ad4cc613ab5b27b7ff15b9f09061c0cfc4fa6b22efbfbb37db91847fbb5760d",
+            "id": "component-UsaAccordionComponent-6a7967c7c012c60d0a633b62855d1221ebb3c0eeb58e2d916762c09cca4cc86af25bc2b5960a29377d5038fb3a710f1820f4d0c817b8d72f4b681edd6c8f4857",
             "file": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -23348,15 +23348,15 @@
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "pos": 1077,
-                            "end": 1094,
+                            "pos": 1100,
+                            "end": 1117,
                             "flags": 4227072,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 325,
                             "tagName": {
-                                "pos": 1078,
-                                "end": 1085,
+                                "pos": 1101,
+                                "end": 1108,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -23415,15 +23415,15 @@
                     "description": "<p>An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\nThe payload is the panel id.</p>\n",
                     "jsdoctags": [
                         {
-                            "pos": 2424,
-                            "end": 2440,
+                            "pos": 2447,
+                            "end": 2463,
                             "flags": 4227072,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 325,
                             "tagName": {
-                                "pos": 2425,
-                                "end": 2430,
+                                "pos": 2448,
+                                "end": 2453,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -23994,7 +23994,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { \n  Component, ContentChildren, \n  Input, QueryList, ElementRef, AfterContentChecked, \n  EventEmitter, Output, Renderer2 \n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n  host: {\n    'class': 'usa-accordion',\n    '[class.usa-accordion--bordered]': 'bordered',\n    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',\n  },\n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig, \n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n\n    // update panels open states\n    this.panels.forEach(panel => { \n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1); \n    });\n\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n",
+            "sourceCode": "import {\n  Component, ContentChildren,\n  Input, QueryList, ElementRef, AfterContentChecked,\n  EventEmitter, Output, Renderer2, Directive, Host, Optional\n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n  host: {\n    'class': 'usa-accordion',\n    '[class.usa-accordion--bordered]': 'bordered',\n    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',\n  },\n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig,\n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n\n    // update panels open states\n    this.panels.forEach(panel => {\n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);\n    });\n\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -34066,7 +34066,7 @@
         },
         {
             "name": "UsaMultiYearView",
-            "id": "component-UsaMultiYearView-3f1d3b4ef8bc49f52e3d0a5b3eed894142675d844f6c58749db79f11b00e751164167a1616f9bef2c0739d49b53b01390e1d4975322d74cba14b9e534e03c7a0",
+            "id": "component-UsaMultiYearView-0258a5041fd16e79e9d4c2db420c50dae8f73581ffa07b60a63ad570e6830f8405d408365819e2b06e4176ab084fbd79ee9467491932f2a5a45daea9ec2ec934",
             "file": "projects/uswds-components/src/lib/datepicker/calendar/multi-year-view.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -34089,7 +34089,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nThe date to display in this multi-year view (everything other than the year is ignored).",
                     "description": "<p>The date to display in this multi-year view (everything other than the year is ignored).</p>\n",
-                    "line": 48,
+                    "line": 44,
                     "type": "D",
                     "decorators": []
                 },
@@ -34099,7 +34099,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nFunction that can be used to add custom CSS classes to date cells.",
                     "description": "<p>Function that can be used to add custom CSS classes to date cells.</p>\n",
-                    "line": 99,
+                    "line": 95,
                     "type": "UsaCalendarCellClassFunction<D>",
                     "decorators": []
                 },
@@ -34109,7 +34109,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nA function used to filter which dates are selectable.",
                     "description": "<p>A function used to filter which dates are selectable.</p>\n",
-                    "line": 96,
+                    "line": 92,
                     "type": "function",
                     "decorators": []
                 },
@@ -34119,7 +34119,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nThe maximum selectable date.",
                     "description": "<p>The maximum selectable date.</p>\n",
-                    "line": 89,
+                    "line": 85,
                     "type": "D | null",
                     "decorators": []
                 },
@@ -34129,7 +34129,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nThe minimum selectable date.",
                     "description": "<p>The minimum selectable date.</p>\n",
-                    "line": 81,
+                    "line": 77,
                     "type": "D | null",
                     "decorators": []
                 },
@@ -34139,7 +34139,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nThe currently selected date.",
                     "description": "<p>The currently selected date.</p>\n",
-                    "line": 66,
+                    "line": 62,
                     "type": "DateRange<D> | D | null",
                     "decorators": []
                 }
@@ -34152,7 +34152,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nEmits when any date is activated.",
                     "description": "<p>Emits when any date is activated.</p>\n",
-                    "line": 108,
+                    "line": 104,
                     "type": "EventEmitter<D>"
                 },
                 {
@@ -34162,7 +34162,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nEmits when a new year is selected.",
                     "description": "<p>Emits when a new year is selected.</p>\n",
-                    "line": 102,
+                    "line": 98,
                     "type": "EventEmitter<D>"
                 },
                 {
@@ -34172,7 +34172,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nEmits the selected year. This doesn't imply a change on the selected date",
                     "description": "<p>Emits the selected year. This doesn&#39;t imply a change on the selected date</p>\n",
-                    "line": 105,
+                    "line": 101,
                     "type": "EventEmitter<D>"
                 }
             ],
@@ -34184,7 +34184,7 @@
                     "type": "D",
                     "optional": false,
                     "description": "",
-                    "line": 62,
+                    "line": 58,
                     "modifierKind": [
                         121
                     ]
@@ -34196,7 +34196,7 @@
                     "type": "DateAdapter<D>",
                     "optional": false,
                     "description": "",
-                    "line": 124,
+                    "line": 120,
                     "decorators": [
                         {
                             "name": "Optional",
@@ -34214,7 +34214,7 @@
                     "type": "D | null",
                     "optional": false,
                     "description": "",
-                    "line": 93,
+                    "line": 89,
                     "modifierKind": [
                         121
                     ]
@@ -34226,7 +34226,7 @@
                     "type": "D | null",
                     "optional": false,
                     "description": "",
-                    "line": 85,
+                    "line": 81,
                     "modifierKind": [
                         121
                     ]
@@ -34239,7 +34239,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 41,
+                    "line": 37,
                     "modifierKind": [
                         121
                     ]
@@ -34251,7 +34251,7 @@
                     "type": "DateRange<D> | D | null",
                     "optional": false,
                     "description": "",
-                    "line": 76,
+                    "line": 72,
                     "modifierKind": [
                         121
                     ]
@@ -34263,7 +34263,7 @@
                     "type": "number | null",
                     "optional": false,
                     "description": "<p>The year of the selected date. Null if the selected date is null.</p>\n",
-                    "line": 120,
+                    "line": 116,
                     "rawdescription": "\nThe year of the selected date. Null if the selected date is null."
                 },
                 {
@@ -34273,7 +34273,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "<p>Flag used to filter out space/enter keyup events that originated outside of the view.</p>\n",
-                    "line": 44,
+                    "line": 40,
                     "rawdescription": "\nFlag used to filter out space/enter keyup events that originated outside of the view.",
                     "modifierKind": [
                         121
@@ -34286,7 +34286,7 @@
                     "type": "number",
                     "optional": false,
                     "description": "<p>The year that today falls on.</p>\n",
-                    "line": 117,
+                    "line": 113,
                     "rawdescription": "\nThe year that today falls on."
                 },
                 {
@@ -34296,7 +34296,7 @@
                     "type": "UsaCalendarBody",
                     "optional": false,
                     "description": "<p>The body of calendar table</p>\n",
-                    "line": 111,
+                    "line": 107,
                     "rawdescription": "\nThe body of calendar table",
                     "decorators": [
                         {
@@ -34312,7 +34312,7 @@
                     "type": "UsaCalendarCell[][]",
                     "optional": false,
                     "description": "<p>Grid of calendar cells representing the currently displayed years.</p>\n",
-                    "line": 114,
+                    "line": 110,
                     "rawdescription": "\nGrid of calendar cells representing the currently displayed years."
                 }
             ],
@@ -34330,7 +34330,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 265,
+                    "line": 261,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nCreates an UsaCalendarCell for the given year.",
@@ -34356,7 +34356,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 260,
+                    "line": 256,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nFocuses the active cell after the microtask queue is empty.",
@@ -34368,7 +34368,7 @@
                     "optional": false,
                     "returnType": "number",
                     "typeParameters": [],
-                    "line": 255,
+                    "line": 251,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -34385,7 +34385,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 189,
+                    "line": 185,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nHandles keydown events on the calendar body when calendar is in multi-year view.",
@@ -34415,7 +34415,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 245,
+                    "line": 241,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nHandles keyup events on the calendar body when calendar is in multi-year view.",
@@ -34438,7 +34438,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 144,
+                    "line": 140,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nInitializes this multi-year view.",
@@ -34457,7 +34457,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 301,
+                    "line": 297,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nSets the currently-highlighted year based on a model value.",
@@ -34490,7 +34490,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 274,
+                    "line": 270,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nWhether the given year is enabled.",
@@ -34523,7 +34523,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 178,
+                    "line": 174,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nHandles when a new year is selected.",
@@ -34546,7 +34546,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 169,
+                    "line": 165,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -34556,7 +34556,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 173,
+                    "line": 169,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -34566,7 +34566,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 133,
+                    "line": 129,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -34576,7 +34576,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 139,
+                    "line": 135,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -34588,7 +34588,7 @@
             "description": "<p>An internal component used to display a year selector in the datePicker.</p>\n",
             "rawdescription": "\n\nAn internal component used to display a year selector in the datePicker.\n",
             "type": "component",
-            "sourceCode": "import {\n  AfterContentInit,\n  ChangeDetectionStrategy,\n  ChangeDetectorRef,\n  Component,\n  EventEmitter,\n  Input,\n  Optional,\n  Output,\n  ViewChild,\n  ViewEncapsulation,\n  OnDestroy,\n  isDevMode,\n  Inject,\n  forwardRef,\n} from '@angular/core';\nimport { Subscription } from 'rxjs';\nimport { startWith } from 'rxjs/operators';\nimport { KeyCode } from '../../util/key';\nimport { DateAdapter } from '../dateadapter/date-adapter';\nimport { DateRange } from '../date-selection-model';\nimport { createMissingDateImplError } from '../date-picker-errors';\nimport { UsaCalendar } from './calendar';\nimport { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';\n\nexport const yearsPerPage = 12;\n\nexport const yearsPerRow = 4;\n\n/**\n * An internal component used to display a year selector in the datePicker.\n * @docs-private\n */\n@Component({\n  selector: 'usa-multi-year-view',\n  templateUrl: './multi-year-view.html',\n  exportAs: 'usaMultiYearView',\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {\n  private _rerenderSubscription = Subscription.EMPTY;\n\n  /** Flag used to filter out space/enter keyup events that originated outside of the view. */\n  private _selectionKeyPressed: boolean;\n\n  /** The date to display in this multi-year view (everything other than the year is ignored). */\n  @Input()\n  get activeDate(): D { return this._activeDate; }\n  set activeDate(value: D) {\n    let oldActiveDate = this._activeDate;\n    const validDate =\n      this._dateAdapter.getValidDateOrNull(\n        this._dateAdapter.deserialize(value)\n      ) || this._dateAdapter.today();\n    this._activeDate = this._dateAdapter.clampDate(validDate, this.minDate, this.maxDate);\n\n    if (!isSameMultiYearView(\n      this._dateAdapter, oldActiveDate, this._activeDate, this.minDate, this.maxDate)) {\n      this._init();\n    }\n  }\n  private _activeDate: D;\n\n  /** The currently selected date. */\n  @Input()\n  get selected(): DateRange<D> | D | null { return this._selected; }\n  set selected(value: DateRange<D> | D | null) {\n    if (value instanceof DateRange) {\n      this._selected = value;\n    } else {\n      this._selected = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n    }\n\n    this._setSelectedYear(value);\n  }\n  private _selected: DateRange<D> | D | null;\n\n\n  /** The minimum selectable date. */\n  @Input()\n  get minDate(): D | null { return this._minDate; }\n  set minDate(value: D | null) {\n    this._minDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n  }\n  private _minDate: D | null;\n\n  /** The maximum selectable date. */\n  @Input()\n  get maxDate(): D | null { return this._maxDate; }\n  set maxDate(value: D | null) {\n    this._maxDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n  }\n  private _maxDate: D | null;\n\n  /** A function used to filter which dates are selectable. */\n  @Input() dateFilter: (date: D) => boolean;\n\n  /** Function that can be used to add custom CSS classes to date cells. */\n  @Input() dateClass: UsaCalendarCellClassFunction<D>;\n\n  /** Emits when a new year is selected. */\n  @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();\n\n  /** Emits the selected year. This doesn't imply a change on the selected date */\n  @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();\n\n  /** Emits when any date is activated. */\n  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();\n\n  /** The body of calendar table */\n  @ViewChild(UsaCalendarBody) _usaCalendarBody: UsaCalendarBody;\n\n  /** Grid of calendar cells representing the currently displayed years. */\n  _years: UsaCalendarCell[][];\n\n  /** The year that today falls on. */\n  _todayYear: number;\n\n  /** The year of the selected date. Null if the selected date is null. */\n  _selectedYear: number | null;\n\n  constructor(\n    private _changeDetectorRef: ChangeDetectorRef,\n    @Optional() public _dateAdapter: DateAdapter<D>,\n  ) {\n    if (!this._dateAdapter && isDevMode()) {\n      throw createMissingDateImplError('DateAdapter');\n    }\n\n    this._activeDate = this._dateAdapter.today();\n  }\n\n  ngAfterContentInit() {\n    this._rerenderSubscription = this._dateAdapter.localeChanges\n      .pipe(startWith(null))\n      .subscribe(() => this._init());\n  }\n\n  ngOnDestroy() {\n    this._rerenderSubscription.unsubscribe();\n  }\n\n  /** Initializes this multi-year view. */\n  _init() {\n    this._todayYear = this._dateAdapter.getYear(this._dateAdapter.today());\n\n    // We want a range years such that we maximize the number of\n    // enabled dates visible at once. This prevents issues where the minimum year\n    // is the last item of a page OR the maximum year is the first item of a page.\n\n    // The offset from the active year to the \"slot\" for the starting year is the\n    // *actual* first rendered year in the multi-year view.\n    const activeYear = this._dateAdapter.getYear(this._activeDate);\n    const minYearOfPage = activeYear - getActiveOffset(\n      this._dateAdapter, this.activeDate, this.minDate, this.maxDate);\n\n    this._years = [];\n    for (let i = 0, row: number[] = []; i < yearsPerPage; i++) {\n      row.push(minYearOfPage + i);\n      if (row.length == yearsPerRow) {\n        this._years.push(row.map(year => this._createCellForYear(year)));\n        row = [];\n      }\n    }\n    this._changeDetectorRef.markForCheck();\n  }\n\n  // TODO\n  getNextYears() {\n    this.activeDate = this._dateAdapter.addCalendarYears(this.activeDate, yearsPerPage);\n  }\n\n  getPreviousYears() {\n    this.activeDate = this._dateAdapter.addCalendarYears(this.activeDate, -yearsPerPage);\n  }\n\n  /** Handles when a new year is selected. */\n  _yearSelected(event: UsaCalendarUserEvent<number>) {\n    const year = event.value;\n    this.yearSelected.emit(this._dateAdapter.createDate(year, 0, 1));\n    let month = this._dateAdapter.getMonth(this.activeDate);\n    let daysInMonth =\n      this._dateAdapter.getNumDaysInMonth(this._dateAdapter.createDate(year, month, 1));\n    this.selectedChange.emit(this._dateAdapter.createDate(year, month,\n      Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));\n  }\n\n  /** Handles keydown events on the calendar body when calendar is in multi-year view. */\n  _handleCalendarBodyKeydown(event: KeyboardEvent): void {\n    const oldActiveDate = this._activeDate;\n    switch (event.keyCode) {\n      case KeyCode.ArrowLeft:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -1);\n        break;\n      case KeyCode.ArrowRight:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, 1);\n        break;\n      case KeyCode.ArrowUp:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -yearsPerRow);\n        break;\n      case KeyCode.ArrowDown:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, yearsPerRow);\n        break;\n      case KeyCode.Home:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate,\n          -getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate));\n        break;\n      case KeyCode.End:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate,\n          yearsPerPage - getActiveOffset(\n            this._dateAdapter, this.activeDate, this.minDate, this.maxDate) - 1);\n        break;\n      case KeyCode.PageUp:\n        this.activeDate =\n          this._dateAdapter.addCalendarYears(\n            this._activeDate, event.altKey ? -yearsPerPage * 10 : -yearsPerPage);\n        break;\n      case KeyCode.PageDown:\n        this.activeDate =\n          this._dateAdapter.addCalendarYears(\n            this._activeDate, event.altKey ? yearsPerPage * 10 : yearsPerPage);\n        break;\n      case KeyCode.Enter:\n      case KeyCode.Space:\n        // Note that we only prevent the default action here while the selection happens in\n        // `keyup` below. We can't do the selection here, because it can cause the calendar to\n        // reopen if focus is restored immediately. We also can't call `preventDefault` on `keyup`\n        // because it's too late (see #23305).\n        this._selectionKeyPressed = true;\n        break;\n      default:\n        // Don't prevent default or focus active cell on keys that we don't explicitly handle.\n        return;\n    }\n    if (this._dateAdapter.compareDate(oldActiveDate, this.activeDate)) {\n      this.activeDateChange.emit(this.activeDate);\n    }\n\n    this._focusActiveCell();\n    // Prevent unexpected default actions such as form submission.\n    event.preventDefault();\n  }\n\n  /** Handles keyup events on the calendar body when calendar is in multi-year view. */\n  _handleCalendarBodyKeyup(event: KeyboardEvent): void {\n    if (event.keyCode === KeyCode.Space || event.keyCode === KeyCode.Enter) {\n      if (this._selectionKeyPressed) {\n        this._yearSelected({ value: this._dateAdapter.getYear(this._activeDate), event });\n      }\n\n      this._selectionKeyPressed = false;\n    }\n  }\n\n  _getActiveCell(): number {\n    return getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate);\n  }\n\n  /** Focuses the active cell after the microtask queue is empty. */\n  _focusActiveCell() {\n    this._usaCalendarBody._focusActiveCell();\n  }\n\n  /** Creates an UsaCalendarCell for the given year. */\n  private _createCellForYear(year: number) {\n    const date = this._dateAdapter.createDate(year, 0, 1);\n    const yearName = this._dateAdapter.getYearName(date);\n    const cellClasses = this.dateClass ? this.dateClass(date, 'multi-year') : undefined;\n\n    return new UsaCalendarCell(year, yearName, yearName, this._shouldEnableYear(year), cellClasses);\n  }\n\n  /** Whether the given year is enabled. */\n  private _shouldEnableYear(year: number) {\n    // disable if the year is greater than maxDate lower than minDate\n    if (year === undefined || year === null ||\n      (this.maxDate && year > this._dateAdapter.getYear(this.maxDate)) ||\n      (this.minDate && year < this._dateAdapter.getYear(this.minDate))) {\n      return false;\n    }\n\n    // enable if it reaches here and there's no filter defined\n    if (!this.dateFilter) {\n      return true;\n    }\n\n    const firstOfYear = this._dateAdapter.createDate(year, 0, 1);\n\n    // If any date in the year is enabled count the year as enabled.\n    for (let date = firstOfYear; this._dateAdapter.getYear(date) == year;\n      date = this._dateAdapter.addCalendarDays(date, 1)) {\n      if (this.dateFilter(date)) {\n        return true;\n      }\n    }\n\n    return false;\n  }\n\n  /** Sets the currently-highlighted year based on a model value. */\n  private _setSelectedYear(value: DateRange<D> | D | null) {\n    this._selectedYear = null;\n\n    if (value instanceof DateRange) {\n      const displayValue = value.start || value.end;\n\n      if (displayValue) {\n        this._selectedYear = this._dateAdapter.getYear(displayValue);\n      }\n    } else if (value) {\n      this._selectedYear = this._dateAdapter.getYear(value);\n    }\n  }\n}\n\nexport function isSameMultiYearView<D>(\n  dateAdapter: DateAdapter<D>, date1: D, date2: D, minDate: D | null, maxDate: D | null): boolean {\n  const year1 = dateAdapter.getYear(date1);\n  const year2 = dateAdapter.getYear(date2);\n  const startingYear = getStartingYear(dateAdapter, minDate, maxDate);\n  return Math.floor((year1 - startingYear) / yearsPerPage) ===\n    Math.floor((year2 - startingYear) / yearsPerPage);\n}\n\n/**\n * When the multi-year view is first opened, the active year will be in view.\n * So we compute how many years are between the active year and the *slot* where our\n * \"startingYear\" will render when paged into view.\n */\nexport function getActiveOffset<D>(\n  dateAdapter: DateAdapter<D>, activeDate: D, minDate: D | null, maxDate: D | null): number {\n  const activeYear = dateAdapter.getYear(activeDate);\n  return euclideanModulo((activeYear - getStartingYear(dateAdapter, minDate, maxDate)),\n    yearsPerPage);\n}\n\n/**\n * We pick a \"starting\" year such that either the maximum year would be at the end\n * or the minimum year would be at the beginning of a page.\n */\nfunction getStartingYear<D>(\n  dateAdapter: DateAdapter<D>, minDate: D | null, maxDate: D | null): number {\n  let startingYear = 0;\n  if (maxDate) {\n    const maxYear = dateAdapter.getYear(maxDate);\n    startingYear = maxYear - yearsPerPage + 1;\n  } else if (minDate) {\n    startingYear = dateAdapter.getYear(minDate);\n  }\n  return startingYear;\n}\n\n/** Gets remainder that is non-negative, even if first number is negative */\nfunction euclideanModulo(a: number, b: number): number {\n  return (a % b + b) % b;\n}\n",
+            "sourceCode": "import {\n  AfterContentInit,\n  ChangeDetectionStrategy,\n  ChangeDetectorRef,\n  Component,\n  EventEmitter,\n  Input,\n  Optional,\n  Output,\n  ViewChild,\n  OnDestroy,\n  isDevMode,\n} from '@angular/core';\nimport { Subscription } from 'rxjs';\nimport { startWith } from 'rxjs/operators';\nimport { KeyCode } from '../../util/key';\nimport { DateAdapter } from '../dateadapter/date-adapter';\nimport { DateRange } from '../date-selection-model';\nimport { createMissingDateImplError } from '../date-picker-errors';\nimport { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCellClassFunction } from './calendar-body';\n\nexport const yearsPerPage = 12;\n\nexport const yearsPerRow = 4;\n\n/**\n * An internal component used to display a year selector in the datePicker.\n * @docs-private\n */\n@Component({\n  selector: 'usa-multi-year-view',\n  templateUrl: './multi-year-view.html',\n  exportAs: 'usaMultiYearView',\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {\n  private _rerenderSubscription = Subscription.EMPTY;\n\n  /** Flag used to filter out space/enter keyup events that originated outside of the view. */\n  private _selectionKeyPressed: boolean;\n\n  /** The date to display in this multi-year view (everything other than the year is ignored). */\n  @Input()\n  get activeDate(): D { return this._activeDate; }\n  set activeDate(value: D) {\n    let oldActiveDate = this._activeDate;\n    const validDate =\n      this._dateAdapter.getValidDateOrNull(\n        this._dateAdapter.deserialize(value)\n      ) || this._dateAdapter.today();\n    this._activeDate = this._dateAdapter.clampDate(validDate, this.minDate, this.maxDate);\n\n    if (!isSameMultiYearView(\n      this._dateAdapter, oldActiveDate, this._activeDate, this.minDate, this.maxDate)) {\n      this._init();\n    }\n  }\n  private _activeDate: D;\n\n  /** The currently selected date. */\n  @Input()\n  get selected(): DateRange<D> | D | null { return this._selected; }\n  set selected(value: DateRange<D> | D | null) {\n    if (value instanceof DateRange) {\n      this._selected = value;\n    } else {\n      this._selected = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n    }\n\n    this._setSelectedYear(value);\n  }\n  private _selected: DateRange<D> | D | null;\n\n\n  /** The minimum selectable date. */\n  @Input()\n  get minDate(): D | null { return this._minDate; }\n  set minDate(value: D | null) {\n    this._minDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n  }\n  private _minDate: D | null;\n\n  /** The maximum selectable date. */\n  @Input()\n  get maxDate(): D | null { return this._maxDate; }\n  set maxDate(value: D | null) {\n    this._maxDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));\n  }\n  private _maxDate: D | null;\n\n  /** A function used to filter which dates are selectable. */\n  @Input() dateFilter: (date: D) => boolean;\n\n  /** Function that can be used to add custom CSS classes to date cells. */\n  @Input() dateClass: UsaCalendarCellClassFunction<D>;\n\n  /** Emits when a new year is selected. */\n  @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();\n\n  /** Emits the selected year. This doesn't imply a change on the selected date */\n  @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();\n\n  /** Emits when any date is activated. */\n  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();\n\n  /** The body of calendar table */\n  @ViewChild(UsaCalendarBody) _usaCalendarBody: UsaCalendarBody;\n\n  /** Grid of calendar cells representing the currently displayed years. */\n  _years: UsaCalendarCell[][];\n\n  /** The year that today falls on. */\n  _todayYear: number;\n\n  /** The year of the selected date. Null if the selected date is null. */\n  _selectedYear: number | null;\n\n  constructor(\n    private _changeDetectorRef: ChangeDetectorRef,\n    @Optional() public _dateAdapter: DateAdapter<D>,\n  ) {\n    if (!this._dateAdapter && isDevMode()) {\n      throw createMissingDateImplError('DateAdapter');\n    }\n\n    this._activeDate = this._dateAdapter.today();\n  }\n\n  ngAfterContentInit() {\n    this._rerenderSubscription = this._dateAdapter.localeChanges\n      .pipe(startWith(null))\n      .subscribe(() => this._init());\n  }\n\n  ngOnDestroy() {\n    this._rerenderSubscription.unsubscribe();\n  }\n\n  /** Initializes this multi-year view. */\n  _init() {\n    this._todayYear = this._dateAdapter.getYear(this._dateAdapter.today());\n\n    // We want a range years such that we maximize the number of\n    // enabled dates visible at once. This prevents issues where the minimum year\n    // is the last item of a page OR the maximum year is the first item of a page.\n\n    // The offset from the active year to the \"slot\" for the starting year is the\n    // *actual* first rendered year in the multi-year view.\n    const activeYear = this._dateAdapter.getYear(this._activeDate);\n    const minYearOfPage = activeYear - getActiveOffset(\n      this._dateAdapter, this.activeDate, this.minDate, this.maxDate);\n\n    this._years = [];\n    for (let i = 0, row: number[] = []; i < yearsPerPage; i++) {\n      row.push(minYearOfPage + i);\n      if (row.length == yearsPerRow) {\n        this._years.push(row.map(year => this._createCellForYear(year)));\n        row = [];\n      }\n    }\n    this._changeDetectorRef.markForCheck();\n  }\n\n  // TODO\n  getNextYears() {\n    this.activeDate = this._dateAdapter.addCalendarYears(this.activeDate, yearsPerPage);\n  }\n\n  getPreviousYears() {\n    this.activeDate = this._dateAdapter.addCalendarYears(this.activeDate, -yearsPerPage);\n  }\n\n  /** Handles when a new year is selected. */\n  _yearSelected(event: UsaCalendarUserEvent<number>) {\n    const year = event.value;\n    this.yearSelected.emit(this._dateAdapter.createDate(year, 0, 1));\n    let month = this._dateAdapter.getMonth(this.activeDate);\n    let daysInMonth =\n      this._dateAdapter.getNumDaysInMonth(this._dateAdapter.createDate(year, month, 1));\n    this.selectedChange.emit(this._dateAdapter.createDate(year, month,\n      Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));\n  }\n\n  /** Handles keydown events on the calendar body when calendar is in multi-year view. */\n  _handleCalendarBodyKeydown(event: KeyboardEvent): void {\n    const oldActiveDate = this._activeDate;\n    switch (event.keyCode) {\n      case KeyCode.ArrowLeft:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -1);\n        break;\n      case KeyCode.ArrowRight:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, 1);\n        break;\n      case KeyCode.ArrowUp:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -yearsPerRow);\n        break;\n      case KeyCode.ArrowDown:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, yearsPerRow);\n        break;\n      case KeyCode.Home:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate,\n          -getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate));\n        break;\n      case KeyCode.End:\n        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate,\n          yearsPerPage - getActiveOffset(\n            this._dateAdapter, this.activeDate, this.minDate, this.maxDate) - 1);\n        break;\n      case KeyCode.PageUp:\n        this.activeDate =\n          this._dateAdapter.addCalendarYears(\n            this._activeDate, event.altKey ? -yearsPerPage * 10 : -yearsPerPage);\n        break;\n      case KeyCode.PageDown:\n        this.activeDate =\n          this._dateAdapter.addCalendarYears(\n            this._activeDate, event.altKey ? yearsPerPage * 10 : yearsPerPage);\n        break;\n      case KeyCode.Enter:\n      case KeyCode.Space:\n        // Note that we only prevent the default action here while the selection happens in\n        // `keyup` below. We can't do the selection here, because it can cause the calendar to\n        // reopen if focus is restored immediately. We also can't call `preventDefault` on `keyup`\n        // because it's too late (see #23305).\n        this._selectionKeyPressed = true;\n        break;\n      default:\n        // Don't prevent default or focus active cell on keys that we don't explicitly handle.\n        return;\n    }\n    if (this._dateAdapter.compareDate(oldActiveDate, this.activeDate)) {\n      this.activeDateChange.emit(this.activeDate);\n    }\n\n    this._focusActiveCell();\n    // Prevent unexpected default actions such as form submission.\n    event.preventDefault();\n  }\n\n  /** Handles keyup events on the calendar body when calendar is in multi-year view. */\n  _handleCalendarBodyKeyup(event: KeyboardEvent): void {\n    if (event.keyCode === KeyCode.Space || event.keyCode === KeyCode.Enter) {\n      if (this._selectionKeyPressed) {\n        this._yearSelected({ value: this._dateAdapter.getYear(this._activeDate), event });\n      }\n\n      this._selectionKeyPressed = false;\n    }\n  }\n\n  _getActiveCell(): number {\n    return getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate);\n  }\n\n  /** Focuses the active cell after the microtask queue is empty. */\n  _focusActiveCell() {\n    this._usaCalendarBody._focusActiveCell();\n  }\n\n  /** Creates an UsaCalendarCell for the given year. */\n  private _createCellForYear(year: number) {\n    const date = this._dateAdapter.createDate(year, 0, 1);\n    const yearName = this._dateAdapter.getYearName(date);\n    const cellClasses = this.dateClass ? this.dateClass(date, 'multi-year') : undefined;\n\n    return new UsaCalendarCell(year, yearName, yearName, this._shouldEnableYear(year), cellClasses);\n  }\n\n  /** Whether the given year is enabled. */\n  private _shouldEnableYear(year: number) {\n    // disable if the year is greater than maxDate lower than minDate\n    if (year === undefined || year === null ||\n      (this.maxDate && year > this._dateAdapter.getYear(this.maxDate)) ||\n      (this.minDate && year < this._dateAdapter.getYear(this.minDate))) {\n      return false;\n    }\n\n    // enable if it reaches here and there's no filter defined\n    if (!this.dateFilter) {\n      return true;\n    }\n\n    const firstOfYear = this._dateAdapter.createDate(year, 0, 1);\n\n    // If any date in the year is enabled count the year as enabled.\n    for (let date = firstOfYear; this._dateAdapter.getYear(date) == year;\n      date = this._dateAdapter.addCalendarDays(date, 1)) {\n      if (this.dateFilter(date)) {\n        return true;\n      }\n    }\n\n    return false;\n  }\n\n  /** Sets the currently-highlighted year based on a model value. */\n  private _setSelectedYear(value: DateRange<D> | D | null) {\n    this._selectedYear = null;\n\n    if (value instanceof DateRange) {\n      const displayValue = value.start || value.end;\n\n      if (displayValue) {\n        this._selectedYear = this._dateAdapter.getYear(displayValue);\n      }\n    } else if (value) {\n      this._selectedYear = this._dateAdapter.getYear(value);\n    }\n  }\n}\n\nexport function isSameMultiYearView<D>(\n  dateAdapter: DateAdapter<D>, date1: D, date2: D, minDate: D | null, maxDate: D | null): boolean {\n  const year1 = dateAdapter.getYear(date1);\n  const year2 = dateAdapter.getYear(date2);\n  const startingYear = getStartingYear(dateAdapter, minDate, maxDate);\n  return Math.floor((year1 - startingYear) / yearsPerPage) ===\n    Math.floor((year2 - startingYear) / yearsPerPage);\n}\n\n/**\n * When the multi-year view is first opened, the active year will be in view.\n * So we compute how many years are between the active year and the *slot* where our\n * \"startingYear\" will render when paged into view.\n */\nexport function getActiveOffset<D>(\n  dateAdapter: DateAdapter<D>, activeDate: D, minDate: D | null, maxDate: D | null): number {\n  const activeYear = dateAdapter.getYear(activeDate);\n  return euclideanModulo((activeYear - getStartingYear(dateAdapter, minDate, maxDate)),\n    yearsPerPage);\n}\n\n/**\n * We pick a \"starting\" year such that either the maximum year would be at the end\n * or the minimum year would be at the beginning of a page.\n */\nfunction getStartingYear<D>(\n  dateAdapter: DateAdapter<D>, minDate: D | null, maxDate: D | null): number {\n  let startingYear = 0;\n  if (maxDate) {\n    const maxYear = dateAdapter.getYear(maxDate);\n    startingYear = maxYear - yearsPerPage + 1;\n  } else if (minDate) {\n    startingYear = dateAdapter.getYear(minDate);\n  }\n  return startingYear;\n}\n\n/** Gets remainder that is non-negative, even if first number is negative */\nfunction euclideanModulo(a: number, b: number): number {\n  return (a % b + b) % b;\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -34611,7 +34611,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 120,
+                "line": 116,
                 "jsdoctags": [
                     {
                         "name": "_changeDetectorRef",
@@ -34654,7 +34654,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 49,
+                        "line": 45,
                         "jsdoctags": [
                             {
                                 "name": "value",
@@ -34671,7 +34671,7 @@
                         "name": "activeDate",
                         "type": "",
                         "returnType": "D",
-                        "line": 48,
+                        "line": 44,
                         "rawdescription": "\nThe date to display in this multi-year view (everything other than the year is ignored).",
                         "description": "<p>The date to display in this multi-year view (everything other than the year is ignored).</p>\n"
                     }
@@ -34692,7 +34692,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 67,
+                        "line": 63,
                         "jsdoctags": [
                             {
                                 "name": "value",
@@ -34709,7 +34709,7 @@
                         "name": "selected",
                         "type": "",
                         "returnType": "DateRange | D | null",
-                        "line": 66,
+                        "line": 62,
                         "rawdescription": "\nThe currently selected date.",
                         "description": "<p>The currently selected date.</p>\n"
                     }
@@ -34730,7 +34730,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 82,
+                        "line": 78,
                         "jsdoctags": [
                             {
                                 "name": "value",
@@ -34747,7 +34747,7 @@
                         "name": "minDate",
                         "type": "",
                         "returnType": "D | null",
-                        "line": 81,
+                        "line": 77,
                         "rawdescription": "\nThe minimum selectable date.",
                         "description": "<p>The minimum selectable date.</p>\n"
                     }
@@ -34768,7 +34768,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 90,
+                        "line": 86,
                         "jsdoctags": [
                             {
                                 "name": "value",
@@ -34785,7 +34785,7 @@
                         "name": "maxDate",
                         "type": "",
                         "returnType": "D | null",
-                        "line": 89,
+                        "line": 85,
                         "rawdescription": "\nThe maximum selectable date.",
                         "description": "<p>The maximum selectable date.</p>\n"
                     }
@@ -36835,7 +36835,7 @@
         },
         {
             "name": "UsaStepIndicatorComponent",
-            "id": "component-UsaStepIndicatorComponent-f20db706e087c7f523cba712983e83b8e945ebc68370d49795d28ea7df0b8546d643d63c03ba41852b6e4e7b518fe4c6b16aae2e2db872b866b21f7a8140b1fc",
+            "id": "component-UsaStepIndicatorComponent-8525ff79dc6983d9b95533caa599aef87a9d0857714062de72b0a3f0901002dd1110f131a1ccad67d1ae3f2668dfb0514f9145bcf8f4ca625ca4b404598eba8d",
             "file": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -36860,7 +36860,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCenters label with the step bar when set to true\n",
                     "description": "<p>Centers label with the step bar when set to true</p>\n",
-                    "line": 33,
+                    "line": 32,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36871,7 +36871,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCurrently selected step\n",
                     "description": "<p>Currently selected step</p>\n",
-                    "line": 61,
+                    "line": 60,
                     "type": "number",
                     "decorators": []
                 },
@@ -36882,7 +36882,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDisables the ability to navigate to steps by clicking on the step bar\n",
                     "description": "<p>Disables the ability to navigate to steps by clicking on the step bar</p>\n",
-                    "line": 53,
+                    "line": 52,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36893,7 +36893,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDisplays step counter\n",
                     "description": "<p>Displays step counter</p>\n",
-                    "line": 38,
+                    "line": 37,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36904,7 +36904,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nWhether to place the header above or below the step indicator\n",
                     "description": "<p>Whether to place the header above or below the step indicator</p>\n",
-                    "line": 48,
+                    "line": 47,
                     "type": "\"top\" | \"bottom\"",
                     "decorators": []
                 },
@@ -36915,7 +36915,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nHides labels on each step when set to true\n",
                     "description": "<p>Hides labels on each step when set to true</p>\n",
-                    "line": 28,
+                    "line": 27,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36924,7 +36924,7 @@
                     "defaultValue": "`usa-step-indicator-${stepIndicatorId++}`",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 56,
+                    "line": 55,
                     "type": "string",
                     "decorators": []
                 },
@@ -36935,7 +36935,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nShrinks size of displayed step counter\n",
                     "description": "<p>Shrinks size of displayed step counter</p>\n",
-                    "line": 43,
+                    "line": 42,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36946,7 +36946,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nAll possible steps\n",
                     "description": "<p>All possible steps</p>\n",
-                    "line": 66,
+                    "line": 65,
                     "type": "UsaStepIndicatorModel[]",
                     "decorators": []
                 }
@@ -36957,7 +36957,7 @@
                     "defaultValue": "new EventEmitter<number>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 68,
+                    "line": 67,
                     "type": "EventEmitter"
                 }
             ],
@@ -36969,7 +36969,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 153,
+                    "line": 152,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36989,7 +36989,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 134,
+                    "line": 133,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -37017,7 +37017,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 147,
+                    "line": 146,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -37045,7 +37045,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 82,
+                    "line": 81,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -37079,7 +37079,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 99,
+                    "line": 98,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -37122,7 +37122,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 91,
+                    "line": 90,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -37154,7 +37154,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';\nimport { UsaStepIndicatorHeaderComponent } from './step-indicator-header.component';\nimport { UsaStepIndicatorConfig } from './step-indicator.config';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { getNextItemIndexInList, findLastIndex } from '../util/util';\nimport { UsaStepIndicatorModel } from './step-indicator.model';\n\nlet stepIndicatorId = 0;\n\n@Component({\n  selector: 'usa-step-indicator',\n  templateUrl: './step-indicator.component.html',\n  host: {\n    'class': 'usa-step-indicator',\n    '[class.usa-step-indicator--no-labels]': 'hideLabels',\n    '[class.usa-step-indicator--center]': 'centerLabels && !hideLabels',\n    '[class.usa-step-indicator--counters]': 'displayCounters && !smallCounters',\n    '[class.usa-step-indicator--counters-sm]': 'smallCounters',\n\n  },\n  styleUrls: ['./step-indicator.component.scss'],\n})\nexport class UsaStepIndicatorComponent implements OnChanges {\n\n  /**\n   * Hides labels on each step when set to true\n   */\n  @Input() hideLabels: boolean = false\n\n  /**\n   * Centers label with the step bar when set to true\n   */\n  @Input() centerLabels: boolean = false\n\n  /**\n   * Displays step counter\n   */\n  @Input() displayCounters: boolean = false\n\n  /**\n   * Shrinks size of displayed step counter\n   */\n  @Input() smallCounters: boolean = false\n\n  /**\n   * Whether to place the header above or below the step indicator\n   */\n  @Input() headerPosition: 'top' | 'bottom' = 'bottom';\n\n  /**\n   * Disables the ability to navigate to steps by clicking on the step bar\n   */\n  @Input() disableStepSelection: boolean = false;\n\n\n  @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;\n\n  /**\n   * Currently selected step\n   */\n  @Input() currentStep: number = 0;\n\n  /**\n   * All possible steps\n   */\n  @Input() steps: UsaStepIndicatorModel[] = [];\n\n  @Output() currentStepChange = new EventEmitter<number>();\n\n  constructor(\n    config: UsaStepIndicatorConfig,\n    private elementRef: ElementRef,\n  ) { \n    this.hideLabels = config.hideLabels;\n    this.centerLabels = config.centerLabels;\n    this.displayCounters = config.displayCounters;\n    this.smallCounters = config.smallCounters;\n    this.headerPosition = config.headerPosition;\n    this.disableStepSelection = config.disableStepSelection;\n  }\n\n  ngOnChanges(changes: SimpleChanges) {\n    if (changes.currentStep) {\n      if (this.currentStep > this.steps.length - 1 || this.currentStep < 0) {\n        throw new Error(`Steps in step indicator is out of bounds. \n          Current Step: ${this.currentStep}, Step Range: 0 - ${this.steps.length - 1}`);\n      }\n    }\n  }\n\n  onStepClicked(stepIndex: number, step: any) {\n    if (step.disabled || this.disableStepSelection) {\n      return;\n    }\n\n    this.currentStepChange.emit(stepIndex);\n  }\n\n  onKeyDown(event: KeyboardEvent, index: number) {\n    const keyPressed = event.key || event.keyCode;\n    let nextStepIndex: number;\n    switch(keyPressed) {\n      case Key.ArrowRight:\n      case MicrosfotKeys.ArrowRight:\n      case KeyCode.ArrowRight:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, 1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.ArrowLeft:\n      case MicrosfotKeys.ArrowLeft:\n      case KeyCode.ArrowLeft:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, -1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();       \n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        nextStepIndex = this.steps.findIndex(step => !step.disabled);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        nextStepIndex= findLastIndex(this.steps, (step => !step.disabled));\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      }\n  }\n\n  getFillPercentage(step: UsaStepIndicatorModel) {\n    if (step.completionPercent === undefined || step != this.steps[this.currentStep]) {\n      return undefined;\n    }\n\n    if (step.completionPercent % 25 === 0 || step.completionPercent % 33 === 0) {\n      return `fill-${step.completionPercent}`;\n    }\n\n    const roundedStep = Math.round(step.completionPercent / 10) * 10;\n    return `fill-${roundedStep}`\n  }\n\n  getSegmentScale(step: UsaStepIndicatorModel) {\n    if (step.segmentScale === undefined) return undefined;\n    const segmentPercentage = Math.max(0.5, Math.min(4, step.segmentScale)) * 100;\n    return `scale-percent-${segmentPercentage}`;\n  }\n\n  private _getAllStepListElements() {\n    const listElements: NodeList = this.elementRef.nativeElement.querySelectorAll(`#${this.id} .usa-step-indicator__segment`);\n    return Array.prototype.slice.call(listElements);\n  }\n\n}\n",
+            "sourceCode": "import { Component, ContentChild, ElementRef, EventEmitter, Host, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';\nimport { UsaStepIndicatorConfig } from './step-indicator.config';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { getNextItemIndexInList, findLastIndex } from '../util/util';\nimport { UsaStepIndicatorModel } from './step-indicator.model';\n\nlet stepIndicatorId = 0;\n\n@Component({\n  selector: 'usa-step-indicator',\n  templateUrl: './step-indicator.component.html',\n  host: {\n    'class': 'usa-step-indicator',\n    '[class.usa-step-indicator--no-labels]': 'hideLabels',\n    '[class.usa-step-indicator--center]': 'centerLabels && !hideLabels',\n    '[class.usa-step-indicator--counters]': 'displayCounters && !smallCounters',\n    '[class.usa-step-indicator--counters-sm]': 'smallCounters',\n\n  },\n  styleUrls: ['./step-indicator.component.scss'],\n})\nexport class UsaStepIndicatorComponent implements OnChanges {\n\n  /**\n   * Hides labels on each step when set to true\n   */\n  @Input() hideLabels: boolean = false\n\n  /**\n   * Centers label with the step bar when set to true\n   */\n  @Input() centerLabels: boolean = false\n\n  /**\n   * Displays step counter\n   */\n  @Input() displayCounters: boolean = false\n\n  /**\n   * Shrinks size of displayed step counter\n   */\n  @Input() smallCounters: boolean = false\n\n  /**\n   * Whether to place the header above or below the step indicator\n   */\n  @Input() headerPosition: 'top' | 'bottom' = 'bottom';\n\n  /**\n   * Disables the ability to navigate to steps by clicking on the step bar\n   */\n  @Input() disableStepSelection: boolean = false;\n\n\n  @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;\n\n  /**\n   * Currently selected step\n   */\n  @Input() currentStep: number = 0;\n\n  /**\n   * All possible steps\n   */\n  @Input() steps: UsaStepIndicatorModel[] = [];\n\n  @Output() currentStepChange = new EventEmitter<number>();\n\n  constructor(\n    config: UsaStepIndicatorConfig,\n    private elementRef: ElementRef,\n  ) {\n    this.hideLabels = config.hideLabels;\n    this.centerLabels = config.centerLabels;\n    this.displayCounters = config.displayCounters;\n    this.smallCounters = config.smallCounters;\n    this.headerPosition = config.headerPosition;\n    this.disableStepSelection = config.disableStepSelection;\n  }\n\n  ngOnChanges(changes: SimpleChanges) {\n    if (changes.currentStep) {\n      if (this.currentStep > this.steps.length - 1 || this.currentStep < 0) {\n        throw new Error(`Steps in step indicator is out of bounds.\n          Current Step: ${this.currentStep}, Step Range: 0 - ${this.steps.length - 1}`);\n      }\n    }\n  }\n\n  onStepClicked(stepIndex: number, step: any) {\n    if (step.disabled || this.disableStepSelection) {\n      return;\n    }\n\n    this.currentStepChange.emit(stepIndex);\n  }\n\n  onKeyDown(event: KeyboardEvent, index: number) {\n    const keyPressed = event.key || event.keyCode;\n    let nextStepIndex: number;\n    switch(keyPressed) {\n      case Key.ArrowRight:\n      case MicrosfotKeys.ArrowRight:\n      case KeyCode.ArrowRight:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, 1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.ArrowLeft:\n      case MicrosfotKeys.ArrowLeft:\n      case KeyCode.ArrowLeft:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, -1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        nextStepIndex = this.steps.findIndex(step => !step.disabled);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        nextStepIndex= findLastIndex(this.steps, (step => !step.disabled));\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      }\n  }\n\n  getFillPercentage(step: UsaStepIndicatorModel) {\n    if (step.completionPercent === undefined || step != this.steps[this.currentStep]) {\n      return undefined;\n    }\n\n    if (step.completionPercent % 25 === 0 || step.completionPercent % 33 === 0) {\n      return `fill-${step.completionPercent}`;\n    }\n\n    const roundedStep = Math.round(step.completionPercent / 10) * 10;\n    return `fill-${roundedStep}`\n  }\n\n  getSegmentScale(step: UsaStepIndicatorModel) {\n    if (step.segmentScale === undefined) return undefined;\n    const segmentPercentage = Math.max(0.5, Math.min(4, step.segmentScale)) * 100;\n    return `scale-percent-${segmentPercentage}`;\n  }\n\n  private _getAllStepListElements() {\n    const listElements: NodeList = this.elementRef.nativeElement.querySelectorAll(`#${this.id} .usa-step-indicator__segment`);\n    return Array.prototype.slice.call(listElements);\n  }\n\n}\n\n@Component({\n  selector: `[UsaStepHeader]`,\n  template: `\n    <ng-container *ngIf=\"template; else default\">\n      <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    </ng-container>\n\n    <ng-template #default>\n      <span class=\"usa-step-indicator__heading-counter\">\n        <span class=\"usa-step-indicator__current-step\">{{\n          stepIndicator?.currentStep + 1\n        }}</span>\n        <span class=\"usa-step-indicator__total-steps\">\n          of {{ stepIndicator?.steps.length }}</span\n        >\n      </span>\n      <span class=\"usa-step-indicator__heading-text\">{{\n        stepIndicator?.steps[stepIndicator?.currentStep].label\n      }}</span>\n    </ng-template>\n  `,\n  host: {\n    class: 'usa-step-indicator__heading',\n    '[class.margin-top-0]': \"stepIndicator.headerPosition === 'top'\",\n    '[class.margin-bottom-4]': \"stepIndicator.headerPosition === 'top'\",\n  },\n})\nexport class UsaStepIndicatorHeaderComponent {\n  @Input() template: TemplateRef<any>;\n\n  constructor(@Host() public stepIndicator: UsaStepIndicatorComponent) {}\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -37182,7 +37182,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 68,
+                "line": 67,
                 "jsdoctags": [
                     {
                         "name": "config",
@@ -37211,8 +37211,8 @@
         },
         {
             "name": "UsaStepIndicatorHeaderComponent",
-            "id": "component-UsaStepIndicatorHeaderComponent-936f29461da633722d18fd538de74a8a3681480d2a6dedd39aefa6cfc167eff37ccb00fcf6a23f8daf59d60e812426227ad31cb3387d9d32d1693afd4d0dc2a7",
-            "file": "projects/uswds-components/src/lib/step-indicator/step-indicator-header.component.ts",
+            "id": "component-UsaStepIndicatorHeaderComponent-8525ff79dc6983d9b95533caa599aef87a9d0857714062de72b0a3f0901002dd1110f131a1ccad67d1ae3f2668dfb0514f9145bcf8f4ca625ca4b404598eba8d",
+            "file": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "host": {},
@@ -37230,7 +37230,7 @@
                     "name": "template",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 32,
+                    "line": 187,
                     "type": "TemplateRef<any>",
                     "decorators": []
                 }
@@ -37244,7 +37244,7 @@
                     "type": "UsaStepIndicatorComponent",
                     "optional": false,
                     "description": "",
-                    "line": 34,
+                    "line": 189,
                     "decorators": [
                         {
                             "name": "Host",
@@ -37264,7 +37264,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Host, Input, TemplateRef } from '@angular/core';\nimport { UsaStepIndicatorComponent } from './step-indicator.component';\n\n@Component({\n  selector: `[UsaStepHeader]`,\n  template: `\n    <ng-container *ngIf=\"template; else default\">\n      <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    </ng-container>\n\n    <ng-template #default>\n      <span class=\"usa-step-indicator__heading-counter\">\n        <span class=\"usa-step-indicator__current-step\">{{\n          stepIndicator?.currentStep + 1\n        }}</span>\n        <span class=\"usa-step-indicator__total-steps\">\n          of {{ stepIndicator?.steps.length }}</span\n        >\n      </span>\n      <span class=\"usa-step-indicator__heading-text\">{{\n        stepIndicator?.steps[stepIndicator?.currentStep].label\n      }}</span>\n    </ng-template>\n  `,\n  host: {\n    class: 'usa-step-indicator__heading',\n    '[class.margin-top-0]': \"stepIndicator.headerPosition === 'top'\",\n    '[class.margin-bottom-4]': \"stepIndicator.headerPosition === 'top'\",\n  },\n})\nexport class UsaStepIndicatorHeaderComponent {\n  @Input() template: TemplateRef<any>;\n\n  constructor(@Host() public stepIndicator: UsaStepIndicatorComponent) {}\n}\n",
+            "sourceCode": "import { Component, ContentChild, ElementRef, EventEmitter, Host, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';\nimport { UsaStepIndicatorConfig } from './step-indicator.config';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { getNextItemIndexInList, findLastIndex } from '../util/util';\nimport { UsaStepIndicatorModel } from './step-indicator.model';\n\nlet stepIndicatorId = 0;\n\n@Component({\n  selector: 'usa-step-indicator',\n  templateUrl: './step-indicator.component.html',\n  host: {\n    'class': 'usa-step-indicator',\n    '[class.usa-step-indicator--no-labels]': 'hideLabels',\n    '[class.usa-step-indicator--center]': 'centerLabels && !hideLabels',\n    '[class.usa-step-indicator--counters]': 'displayCounters && !smallCounters',\n    '[class.usa-step-indicator--counters-sm]': 'smallCounters',\n\n  },\n  styleUrls: ['./step-indicator.component.scss'],\n})\nexport class UsaStepIndicatorComponent implements OnChanges {\n\n  /**\n   * Hides labels on each step when set to true\n   */\n  @Input() hideLabels: boolean = false\n\n  /**\n   * Centers label with the step bar when set to true\n   */\n  @Input() centerLabels: boolean = false\n\n  /**\n   * Displays step counter\n   */\n  @Input() displayCounters: boolean = false\n\n  /**\n   * Shrinks size of displayed step counter\n   */\n  @Input() smallCounters: boolean = false\n\n  /**\n   * Whether to place the header above or below the step indicator\n   */\n  @Input() headerPosition: 'top' | 'bottom' = 'bottom';\n\n  /**\n   * Disables the ability to navigate to steps by clicking on the step bar\n   */\n  @Input() disableStepSelection: boolean = false;\n\n\n  @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;\n\n  /**\n   * Currently selected step\n   */\n  @Input() currentStep: number = 0;\n\n  /**\n   * All possible steps\n   */\n  @Input() steps: UsaStepIndicatorModel[] = [];\n\n  @Output() currentStepChange = new EventEmitter<number>();\n\n  constructor(\n    config: UsaStepIndicatorConfig,\n    private elementRef: ElementRef,\n  ) {\n    this.hideLabels = config.hideLabels;\n    this.centerLabels = config.centerLabels;\n    this.displayCounters = config.displayCounters;\n    this.smallCounters = config.smallCounters;\n    this.headerPosition = config.headerPosition;\n    this.disableStepSelection = config.disableStepSelection;\n  }\n\n  ngOnChanges(changes: SimpleChanges) {\n    if (changes.currentStep) {\n      if (this.currentStep > this.steps.length - 1 || this.currentStep < 0) {\n        throw new Error(`Steps in step indicator is out of bounds.\n          Current Step: ${this.currentStep}, Step Range: 0 - ${this.steps.length - 1}`);\n      }\n    }\n  }\n\n  onStepClicked(stepIndex: number, step: any) {\n    if (step.disabled || this.disableStepSelection) {\n      return;\n    }\n\n    this.currentStepChange.emit(stepIndex);\n  }\n\n  onKeyDown(event: KeyboardEvent, index: number) {\n    const keyPressed = event.key || event.keyCode;\n    let nextStepIndex: number;\n    switch(keyPressed) {\n      case Key.ArrowRight:\n      case MicrosfotKeys.ArrowRight:\n      case KeyCode.ArrowRight:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, 1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.ArrowLeft:\n      case MicrosfotKeys.ArrowLeft:\n      case KeyCode.ArrowLeft:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, -1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        nextStepIndex = this.steps.findIndex(step => !step.disabled);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        nextStepIndex= findLastIndex(this.steps, (step => !step.disabled));\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      }\n  }\n\n  getFillPercentage(step: UsaStepIndicatorModel) {\n    if (step.completionPercent === undefined || step != this.steps[this.currentStep]) {\n      return undefined;\n    }\n\n    if (step.completionPercent % 25 === 0 || step.completionPercent % 33 === 0) {\n      return `fill-${step.completionPercent}`;\n    }\n\n    const roundedStep = Math.round(step.completionPercent / 10) * 10;\n    return `fill-${roundedStep}`\n  }\n\n  getSegmentScale(step: UsaStepIndicatorModel) {\n    if (step.segmentScale === undefined) return undefined;\n    const segmentPercentage = Math.max(0.5, Math.min(4, step.segmentScale)) * 100;\n    return `scale-percent-${segmentPercentage}`;\n  }\n\n  private _getAllStepListElements() {\n    const listElements: NodeList = this.elementRef.nativeElement.querySelectorAll(`#${this.id} .usa-step-indicator__segment`);\n    return Array.prototype.slice.call(listElements);\n  }\n\n}\n\n@Component({\n  selector: `[UsaStepHeader]`,\n  template: `\n    <ng-container *ngIf=\"template; else default\">\n      <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    </ng-container>\n\n    <ng-template #default>\n      <span class=\"usa-step-indicator__heading-counter\">\n        <span class=\"usa-step-indicator__current-step\">{{\n          stepIndicator?.currentStep + 1\n        }}</span>\n        <span class=\"usa-step-indicator__total-steps\">\n          of {{ stepIndicator?.steps.length }}</span\n        >\n      </span>\n      <span class=\"usa-step-indicator__heading-text\">{{\n        stepIndicator?.steps[stepIndicator?.currentStep].label\n      }}</span>\n    </ng-template>\n  `,\n  host: {\n    class: 'usa-step-indicator__heading',\n    '[class.margin-top-0]': \"stepIndicator.headerPosition === 'top'\",\n    '[class.margin-bottom-4]': \"stepIndicator.headerPosition === 'top'\",\n  },\n})\nexport class UsaStepIndicatorHeaderComponent {\n  @Input() template: TemplateRef<any>;\n\n  constructor(@Host() public stepIndicator: UsaStepIndicatorComponent) {}\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -37281,7 +37281,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 32,
+                "line": 187,
                 "jsdoctags": [
                     {
                         "name": "stepIndicator",
@@ -43545,13 +43545,13 @@
         },
         {
             "name": "UsaAccordionModule",
-            "id": "module-UsaAccordionModule-35e3c210c64cd13c4f5c18350102c7c5eb6a88eac6655bd00afe57a065b0d1b906feabfa3ca32a889b74748bfcf5ea8ca9ae324707968f7dee48c5132018aa26",
+            "id": "module-UsaAccordionModule-2983a175acece57e9251710d21b3bae6ccc46eb3f643a045b50556718c89d85a938ee96d2e3620f93b5ea50c487211ad82f20201b67ee935dcb958ae540ee33b",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/accordion/accordion.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { \n  UsaAccordionContent, \n  UsaAccordionHeader, \n  UsaAccordionItem\n} from \"./accordion-items\";\nimport { UsaAccordionToggle } from \"./accordion-toggle.directive\";\nimport { UsaAccordionComponent } from \"./accordion.component\";\n\n@NgModule({\n  imports: [\n    CommonModule,\n  ],\n  declarations: [\n    UsaAccordionComponent,\n    UsaAccordionHeader,\n    UsaAccordionContent,\n    UsaAccordionToggle,\n    UsaAccordionItem\n  ],\n  exports: [\n    UsaAccordionComponent,\n    UsaAccordionHeader,\n    UsaAccordionContent,\n    UsaAccordionToggle,\n    UsaAccordionItem\n  ]\n})\nexport class UsaAccordionModule {}\n",
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport {\n  UsaAccordionContent,\n  UsaAccordionHeader,\n  UsaAccordionItem\n} from \"./accordion-items\";\nimport { UsaAccordionComponent, UsaAccordionToggle } from \"./accordion.component\";\n\n@NgModule({\n  imports: [\n    CommonModule,\n  ],\n  declarations: [\n    UsaAccordionComponent,\n    UsaAccordionHeader,\n    UsaAccordionContent,\n    UsaAccordionToggle,\n    UsaAccordionItem\n  ],\n  exports: [\n    UsaAccordionComponent,\n    UsaAccordionHeader,\n    UsaAccordionContent,\n    UsaAccordionToggle,\n    UsaAccordionItem\n  ]\n})\nexport class UsaAccordionModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -43957,13 +43957,13 @@
         },
         {
             "name": "UsaDatePickerModule",
-            "id": "module-UsaDatePickerModule-f38b0895b8d587b50d1d7f32ab9453afb9f2536a8ae00679c3567622bceee30f78c8966c25b4a89aecae4747293e123b16608cd4d98b499fb7153ca98230ea90",
+            "id": "module-UsaDatePickerModule-247a1959b6748d307d0f1c5759bb1bd583484ccf328d1235de3f21830d96084d655e1943febbe53890c88bbbf04dc9ba6586a3e8609319025edd35626c02134f",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/datepicker/date-picker.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaCalendar, UsaCalendarHeader } from \"./calendar/calendar\";\nimport { UsaCalendarBody } from \"./calendar/calendar-body\";\nimport { UsaMonthView } from \"./calendar/month-view\";\nimport { UsaMultiYearView } from \"./calendar/multi-year-view\";\nimport { UsaYearView } from \"./calendar/year-view\";\nimport { UsaDatePicker, UsaDatePickerWrapper } from \"./date-picker\";\nimport { UsaDatePickerContent } from \"./date-picker-base\";\nimport { UsaDatePickerInput } from \"./date-picker-input\";\nimport { UsaDatePickerButton } from \"./date-picker-button\";\nimport { DateAdapter } from \"./dateadapter/date-adapter\";\nimport { NativeDateAdapter } from \"./dateadapter/native-date-adapter\";\nimport { USA_DATE_FORMATS } from \"./dateadapter/date-formats\";\nimport { USA_NATIVE_DATE_FORMATS } from \"./dateadapter/native-date-formats\";\nimport { HoverClassModule } from \"../util/hover-class\";\nimport { UsaDatePickerButtonIcon } from './date-picker-button';\n\n\n@NgModule({\n  declarations: [\n    UsaDatePickerInput,\n    UsaDatePickerButton,\n    UsaCalendar,\n    UsaCalendarHeader,\n    UsaCalendarBody,\n    UsaMonthView,\n    UsaYearView,\n    UsaMultiYearView,\n    UsaCalendarBody,\n    UsaDatePickerContent,\n    UsaDatePicker,\n    UsaDatePickerWrapper,\n    UsaDatePickerButtonIcon,\n  ],\n  imports: [\n    CommonModule,\n    HoverClassModule,\n  ],\n  providers: [\n    {provide: DateAdapter, useClass: NativeDateAdapter},\n    {provide: USA_DATE_FORMATS, useValue: USA_NATIVE_DATE_FORMATS}\n  ],\n  exports: [\n    UsaDatePickerInput,\n    UsaDatePickerButton,\n    UsaCalendar,\n    UsaCalendarHeader,\n    UsaCalendarBody,\n    UsaDatePickerContent,\n    UsaDatePicker,\n    UsaDatePickerWrapper,\n  ],\n  entryComponents: [\n    UsaDatePickerContent,\n  ]\n})\nexport class UsaDatePickerModule {}",
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaCalendar, UsaCalendarHeader } from \"./calendar/calendar\";\nimport { UsaCalendarBody } from \"./calendar/calendar-body\";\nimport { UsaMonthView } from \"./calendar/month-view\";\nimport { UsaMultiYearView } from \"./calendar/multi-year-view\";\nimport { UsaYearView } from \"./calendar/year-view\";\nimport { UsaDatePicker, UsaDatePickerWrapper } from \"./date-picker\";\nimport { UsaDatePickerContent } from \"./date-picker-base\";\nimport { UsaDatePickerInput } from \"./date-picker-input\";\nimport { UsaDatePickerButton } from \"./date-picker-button\";\nimport { DateAdapter } from \"./dateadapter/date-adapter\";\nimport { NativeDateAdapter } from \"./dateadapter/native-date-adapter\";\nimport { USA_DATE_FORMATS } from \"./dateadapter/date-formats\";\nimport { USA_NATIVE_DATE_FORMATS } from \"./dateadapter/native-date-formats\";\nimport { HoverClassModule } from \"../util/hover-class\";\nimport { UsaDatePickerButtonIcon } from './date-picker-button';\n\n\n@NgModule({\n    declarations: [\n        UsaDatePickerInput,\n        UsaDatePickerButton,\n        UsaCalendar,\n        UsaCalendarHeader,\n        UsaCalendarBody,\n        UsaMonthView,\n        UsaYearView,\n        UsaMultiYearView,\n        UsaCalendarBody,\n        UsaDatePickerContent,\n        UsaDatePicker,\n        UsaDatePickerWrapper,\n        UsaDatePickerButtonIcon,\n    ],\n    imports: [\n        CommonModule,\n        HoverClassModule,\n    ],\n    providers: [\n        { provide: DateAdapter, useClass: NativeDateAdapter },\n        { provide: USA_DATE_FORMATS, useValue: USA_NATIVE_DATE_FORMATS }\n    ],\n    exports: [\n        UsaDatePickerInput,\n        UsaDatePickerButton,\n        UsaCalendar,\n        UsaCalendarHeader,\n        UsaCalendarBody,\n        UsaDatePickerContent,\n        UsaDatePicker,\n        UsaDatePickerWrapper,\n    ]\n})\nexport class UsaDatePickerModule {}",
             "children": [
                 {
                     "type": "providers",
@@ -44382,13 +44382,13 @@
         },
         {
             "name": "UsaModalModule",
-            "id": "module-UsaModalModule-bcaa60e558241c28923c38c5e7224733d7f0c9c59c6ebf638c588385ddbb4e2767e34f38fd473e62612e3cdbc74ce6bb719cd8957a008794ba5a194fc6166040",
+            "id": "module-UsaModalModule-ba8c88cbc9bfe792d4230b14c56968ec0a87d99db154084a682289bc53e0da39a2be5b6217c0ca86a17a827864821e9a461963064c393a4c0e3f430d6449ca68",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/modal/modal.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport {NgModule} from '@angular/core';\n\nimport {UsaModalWrapper} from './modal-wrapper';\nimport {UsaModalWindow} from './modal-window';\n@NgModule({\n  imports: [\n    CommonModule,\n  ],\n  declarations: [UsaModalWrapper, UsaModalWindow],\n  entryComponents: [UsaModalWrapper, UsaModalWindow],\n  exports: [\n    UsaModalWrapper,\n    UsaModalWindow,\n  ]\n})\nexport class UsaModalModule {}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport {NgModule} from '@angular/core';\n\nimport {UsaModalWrapper} from './modal-wrapper';\nimport {UsaModalWindow} from './modal-window';\n@NgModule({\n    imports: [\n        CommonModule,\n    ],\n    declarations: [UsaModalWrapper, UsaModalWindow],\n    exports: [\n        UsaModalWrapper,\n        UsaModalWindow,\n    ]\n})\nexport class UsaModalModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -44586,13 +44586,13 @@
         },
         {
             "name": "UsaStepIndicatorModule",
-            "id": "module-UsaStepIndicatorModule-091ae579b0f6b0a65c24709d82be08dd83c4c365e70b99b0f436015a6c1ed05d71f34db896f3eda1aba84efde364ca61c2dbf166306404cf456d84b714f73bbf",
+            "id": "module-UsaStepIndicatorModule-5da29704f4e7fd904cb3fc7b60ae5784e37e8b6ca898b552dd089639e2c4c3ee313f09cb44192e49054f9825d1f2ca5a8fbae802b452251d5143ed5dd7fd55d5",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/step-indicator/step-indicator.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { UsaStepIndicatorComponent } from './step-indicator.component';\nimport { UsaStepIndicatorHeaderComponent } from './step-indicator-header.component';\n\n\n\n@NgModule({\n  declarations: [\n    UsaStepIndicatorComponent,\n    UsaStepIndicatorHeaderComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [\n    UsaStepIndicatorComponent,\n    UsaStepIndicatorHeaderComponent\n  ]\n})\nexport class UsaStepIndicatorModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { UsaStepIndicatorComponent, UsaStepIndicatorHeaderComponent } from './step-indicator.component';\n\n\n\n@NgModule({\n  declarations: [\n    UsaStepIndicatorComponent,\n    UsaStepIndicatorHeaderComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [\n    UsaStepIndicatorComponent,\n    UsaStepIndicatorHeaderComponent\n  ]\n})\nexport class UsaStepIndicatorModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -45112,6 +45112,16 @@
                 "name": "actionsData",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  linkEvent: action('Link Event'),\n}"
+            },
+            {
+                "name": "actionsData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/radio/radio.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45127,16 +45137,6 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  searchTextChange: action('Text Change'),\n  blurUpdate: action('Blur'),\n  onTextSubmit: action('Submit'),\n}"
-            },
-            {
-                "name": "actionsData",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  linkEvent: action('Link Event'),\n}"
             },
             {
                 "name": "actionsData",
@@ -45242,16 +45242,6 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45262,51 +45252,11 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/file-input/file-input.stories.ts",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/input/input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n    onTextSubmit: actionsData.onTextSubmit,\n  },\n})"
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
             },
             {
                 "name": "Basic",
@@ -45332,11 +45282,71 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/file-input/file-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/input/input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/search/search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n    onTextSubmit: actionsData.onTextSubmit,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/side-navigation/side-navigation.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    sidenavContent: args.sidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    rowClicked: actionsData.rowClicked,\n    ...args,\n  }\n})"
             },
             {
                 "name": "Basic",
@@ -45352,11 +45362,11 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    rowClicked: actionsData.rowClicked,\n    ...args,\n  }\n})"
+                "defaultValue": "FormControlTemplate.bind({})"
             },
             {
                 "name": "Basic",
@@ -45377,16 +45387,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "basicTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
             },
             {
                 "name": "Basic",
@@ -45482,16 +45482,6 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/combo-box/combo-box.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45502,11 +45492,11 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
+                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45517,6 +45507,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
             },
             {
                 "name": "basicTemplate",
@@ -45592,7 +45592,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45602,7 +45602,7 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -45804,21 +45804,21 @@
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.prod.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  production: true\n}"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/environments/environment.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  production: false\n}"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.prod.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  production: true\n}"
             },
             {
                 "name": "environment",
@@ -45844,6 +45844,16 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45854,11 +45864,11 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "file": "src/app/components/header/header.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-overview.html')"
+                "defaultValue": "require('!!raw-loader!./header-overview.html')"
             },
             {
                 "name": "footer",
@@ -45884,11 +45894,11 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
+                "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "require('!!raw-loader!./header-overview.html')"
+                "defaultValue": "require('!!raw-loader!./table-overview.html')"
             },
             {
                 "name": "footer",
@@ -45899,16 +45909,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./step-indicator-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./table-overview.html')"
             },
             {
                 "name": "footerTemplate",
@@ -46232,7 +46232,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/modal/modal-window.ts",
+                "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46242,7 +46242,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
+                "file": "projects/uswds-components/src/lib/modal/modal-window.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46332,6 +46332,16 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default,\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46342,11 +46352,13 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "file": "src/app/components/header/header.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n})"
+                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-header-font-family ',\n        description: 'Font family of the header.',\n      },\n      {\n        variable: '$theme-header-logo-text-width',\n        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'\n      },\n      {\n        variable: '$theme-header-max-width',\n        description: 'Maximum width of the header.'\n      },\n      {\n        variable: '$theme-header-min-width',\n        description: 'Breakpoint at which the non-mobile header is shown.'\n      },\n    ]\n  }\n})",
+                "rawdescription": "------------------------- Overview Notes ---------------------------",
+                "description": "<p>------------------------- Overview Notes ---------------------------</p>\n"
             },
             {
                 "name": "Overview",
@@ -46372,13 +46384,11 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
+                "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-header-font-family ',\n        description: 'Font family of the header.',\n      },\n      {\n        variable: '$theme-header-logo-text-width',\n        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'\n      },\n      {\n        variable: '$theme-header-max-width',\n        description: 'Maximum width of the header.'\n      },\n      {\n        variable: '$theme-header-min-width',\n        description: 'Breakpoint at which the non-mobile header is shown.'\n      },\n    ]\n  }\n})",
-                "rawdescription": "------------------------- Overview Notes ---------------------------",
-                "description": "<p>------------------------- Overview Notes ---------------------------</p>\n"
+                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-table-border-color',\n        description: 'Defines a border color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-text-color',\n        description: 'Defines a text color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-header-background-color',\n        description: 'Defines a background color for header cells.'\n      },\n      {\n        variable: '$theme-table-header-text-color ',\n        description: 'Defines a text color for header cells. A value of default uses either the default text or reverse text color depending on the header background color.'\n      },\n      {\n        variable: '$theme-table-stripe-background-color',\n        description: 'Defines a background color for alternating horizontal stripes in the striped table variant.'\n      },\n      {\n        variable: '$theme-table-stripe-text-color',\n        description: 'Defines a text color for alternating horizontal stripes in the striped table variant. A value of default uses either the default text or reverse text color depending on the stripe background color.'\n      },\n      {\n        variable: '$theme-table-sorted-header-background-color',\n        description: 'Defines a background color for the sorted column header'\n      },\n      {\n        variable: '$theme-table-sorted-background-color',\n        description: 'Defines a background color for the cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-stripe-background-color',\n        description: 'Defines a background color for the alternating horizontal stripes applied to cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-icon-color',\n        description: 'Defines a fill color for the activated sort button in a sortable column header. A value of default uses either the default text or reverse text color depending on the sorted column header background color.'\n      },\n      {\n        variable: '$theme-table-unsorted-icon-color',\n        description: 'Defines a fill color for the unactivated sort button in a sortable column header'\n      },\n    ]\n  }\n})"
             },
             {
                 "name": "Overview",
@@ -46391,16 +46401,6 @@
                 "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n        {\n          variable: '$step-indicator-background-color',\n          description: 'Background color of the component and the gaps around the counters',\n        },\n        {\n          variable: '$theme-step-indicator-counter-gap',\n          description: 'Gap between the counter and the segment'\n        },\n        {\n          variable: '$theme-step-indicator-counter-border-width',\n          description: 'Size of the border around the pending steps'\n        },\n        {\n          variable: '$theme-step-indicator-font-family',\n          description: 'Font family of the labels and counter numbers'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-family',\n          description: 'Font family of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-color',\n          description: 'Color of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size',\n          description: 'Font size of the heading on screens of $theme-step-indicator-min-width and larger'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size-small',\n          description: 'Font size of the heading on screens smaller than $theme-step-indicator-min-width'\n        },\n        {\n          variable: '$theme-step-indicator-label-font-size',\n          description: 'Font size of segment labels'\n        },\n        {\n          variable: '$theme-step-indicator-min-width',\n          description: 'Width at which the component displays large-width features'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-pending',\n          description: 'Color of pending step segments. Use a grade of 20 more than $step-indicator-background-color'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-complete',\n          description: 'Color of complete step segments. Use a grade at least 60.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-current',\n          description: 'Color of the current step segments. Use a grade at least 20 more than $theme-step-indicator-segment-color-complete.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-gap',\n          description: 'Gap between step segments'\n        },\n        {\n          variable: '$theme-step-indicator-segment-height',\n          description: 'Height of the step segment. Note that the mobile segment height is always 1 unit.'\n        },\n        {\n          variable: '$theme-step-indicator-text-pending-color',\n          description: 'The text color of pending steps. Use a gray grade of 60 more than the $step-indicator-background-color.'\n        },\n      ]\n  }\n})",
                 "rawdescription": "-------------------- Overview Notes --------------------",
                 "description": "<p>-------------------- Overview Notes --------------------</p>\n"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-table-border-color',\n        description: 'Defines a border color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-text-color',\n        description: 'Defines a text color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-header-background-color',\n        description: 'Defines a background color for header cells.'\n      },\n      {\n        variable: '$theme-table-header-text-color ',\n        description: 'Defines a text color for header cells. A value of default uses either the default text or reverse text color depending on the header background color.'\n      },\n      {\n        variable: '$theme-table-stripe-background-color',\n        description: 'Defines a background color for alternating horizontal stripes in the striped table variant.'\n      },\n      {\n        variable: '$theme-table-stripe-text-color',\n        description: 'Defines a text color for alternating horizontal stripes in the striped table variant. A value of default uses either the default text or reverse text color depending on the stripe background color.'\n      },\n      {\n        variable: '$theme-table-sorted-header-background-color',\n        description: 'Defines a background color for the sorted column header'\n      },\n      {\n        variable: '$theme-table-sorted-background-color',\n        description: 'Defines a background color for the cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-stripe-background-color',\n        description: 'Defines a background color for the alternating horizontal stripes applied to cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-icon-color',\n        description: 'Defines a fill color for the activated sort button in a sortable column header. A value of default uses either the default text or reverse text color depending on the sorted column header background color.'\n      },\n      {\n        variable: '$theme-table-unsorted-icon-color',\n        description: 'Defines a fill color for the unactivated sort button in a sortable column header'\n      },\n    ]\n  }\n})"
             },
             {
                 "name": "polyfill",
@@ -46463,7 +46463,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
+                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46472,7 +46472,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
+                "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "literal type"
@@ -46499,15 +46499,6 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46517,16 +46508,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -46553,7 +46535,25 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/search/search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -46562,7 +46562,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -46774,6 +46774,16 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/file-input/file-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46794,16 +46804,6 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/side-navigation/side-navigation.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46814,21 +46814,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/table/table.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
             },
             {
                 "name": "template",
@@ -50103,6 +50103,101 @@
                     "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
                 }
             ],
+            "src/app/components/header/header.stories.ts": [
+                {
+                    "name": "actionsData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  linkEvent: action('Link Event'),\n}"
+                },
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
+                },
+                {
+                    "name": "footer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./header-overview.html')"
+                },
+                {
+                    "name": "headerData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./header-data.ts')"
+                },
+                {
+                    "name": "headerTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<header-extended-template></header-extended-template>`\n})",
+                    "rawdescription": "----------------------------- Template Driven Header ------------------------------",
+                    "description": "<p>----------------------------- Template Driven Header ------------------------------</p>\n"
+                },
+                {
+                    "name": "HeaderTemplates",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "headerTemplate.bind({})"
+                },
+                {
+                    "name": "Overview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-header-font-family ',\n        description: 'Font family of the header.',\n      },\n      {\n        variable: '$theme-header-logo-text-width',\n        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'\n      },\n      {\n        variable: '$theme-header-max-width',\n        description: 'Maximum width of the header.'\n      },\n      {\n        variable: '$theme-header-min-width',\n        description: 'Breakpoint at which the non-mobile header is shown.'\n      },\n    ]\n  }\n})",
+                    "rawdescription": "------------------------- Overview Notes ---------------------------",
+                    "description": "<p>------------------------- Overview Notes ---------------------------</p>\n"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any"
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/header/header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
+                }
+            ],
             "src/app/components/radio/radio.stories.ts": [
                 {
                     "name": "actionsData",
@@ -50213,101 +50308,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-                }
-            ],
-            "src/app/components/header/header.stories.ts": [
-                {
-                    "name": "actionsData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  linkEvent: action('Link Event'),\n}"
-                },
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
-                },
-                {
-                    "name": "footer",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./header-overview.html')"
-                },
-                {
-                    "name": "headerData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./header-data.ts')"
-                },
-                {
-                    "name": "headerTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<header-extended-template></header-extended-template>`\n})",
-                    "rawdescription": "----------------------------- Template Driven Header ------------------------------",
-                    "description": "<p>----------------------------- Template Driven Header ------------------------------</p>\n"
-                },
-                {
-                    "name": "HeaderTemplates",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "headerTemplate.bind({})"
-                },
-                {
-                    "name": "Overview",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-header-font-family ',\n        description: 'Font family of the header.',\n      },\n      {\n        variable: '$theme-header-logo-text-width',\n        description: 'Width of the logo text area at desktop width as a percentage of the total header width.'\n      },\n      {\n        variable: '$theme-header-max-width',\n        description: 'Maximum width of the header.'\n      },\n      {\n        variable: '$theme-header-min-width',\n        description: 'Breakpoint at which the non-mobile header is shown.'\n      },\n    ]\n  }\n})",
-                    "rawdescription": "------------------------- Overview Notes ---------------------------",
-                    "description": "<p>------------------------- Overview Notes ---------------------------</p>\n"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "any"
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/header/header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
                 }
             ],
             "src/app/components/side-navigation/side-navigation.stories.ts": [
@@ -50547,6 +50547,58 @@
                     "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
                 }
             ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                }
+            ],
             "src/app/components/checkbox/checkbox.stories.ts": [
                 {
                     "name": "Basic",
@@ -50628,56 +50680,45 @@
                     "type": ""
                 }
             ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
+            "src/app/components/dropdown/dropdown.stories.ts": [
                 {
                     "name": "Basic",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
                 },
                 {
                     "name": "basicTemplate",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
                 },
                 {
-                    "name": "dummyData",
+                    "name": "DropdownForms",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
                 },
                 {
-                    "name": "mockService",
+                    "name": "require",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                    "type": ""
                 }
             ],
             "src/app/components/file-input/file-input.stories.ts": [
@@ -50720,6 +50761,18 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
+                }
+            ],
+            "src/app/components/input/input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/input/input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
                 }
             ],
             "src/app/components/modal/modal.stories.ts": [
@@ -50802,59 +50855,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "() => ({\n  template: footer.default\n})"
-                }
-            ],
-            "src/app/components/input/input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/input/input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
-                }
-            ],
-            "src/app/components/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                },
-                {
-                    "name": "DropdownForms",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
                 }
             ],
             "src/app/components/step-indicator/step-indicator.stories.ts": [
@@ -50960,50 +50960,6 @@
                     "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
                 }
             ],
-            "src/app/components/time-picker/time-picker.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/time-picker/time-picker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    minTime: args.minTime,\n    maxTime: args.maxTime,\n    timeStep: args.timeStep,\n    filterBy: args.filterBy,\n  }\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/time-picker/time-picker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./time-picker-basic/time-picker-basic.component.html')"
-                }
-            ],
-            "src/app/components/tooltip/tooltip.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/tooltip/tooltip.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/tooltip/tooltip.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<tooltip-basic [position]=\"'${args.position}'\" [title]=\"'${args.title}'\">Tooltip</tooltip-basic>`,\n})"
-                }
-            ],
             "src/app/formly/checkbox/formly-checkbox.stories.ts": [
                 {
                     "name": "Basic",
@@ -51055,6 +51011,50 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+                }
+            ],
+            "src/app/components/time-picker/time-picker.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/time-picker/time-picker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    minTime: args.minTime,\n    maxTime: args.maxTime,\n    timeStep: args.timeStep,\n    filterBy: args.filterBy,\n  }\n})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/time-picker/time-picker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./time-picker-basic/time-picker-basic.component.html')"
+                }
+            ],
+            "src/app/components/tooltip/tooltip.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<tooltip-basic [position]=\"'${args.position}'\" [title]=\"'${args.title}'\">Tooltip</tooltip-basic>`,\n})"
                 }
             ],
             "src/app/formly/datepicker/datepicker.stories.ts": [
@@ -51368,27 +51368,6 @@
                     "type": "literal type"
                 }
             ],
-            "projects/uswds-formly/src/test.ts": [
-                {
-                    "name": "context",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-formly/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-formly/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "literal type"
-                }
-            ],
             "projects/uswds-components/src/test.ts": [
                 {
                     "name": "context",
@@ -51405,6 +51384,27 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-components/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type"
+                }
+            ],
+            "projects/uswds-formly/src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-formly/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-formly/src/test.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "literal type"
@@ -51477,18 +51477,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "src/environments/environment.prod.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.prod.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  production: true\n}"
-                }
-            ],
             "src/environments/environment.ts": [
                 {
                     "name": "environment",
@@ -51499,6 +51487,18 @@
                     "deprecationMessage": "",
                     "type": "object",
                     "defaultValue": "{\n  production: false\n}"
+                }
+            ],
+            "src/environments/environment.prod.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.prod.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  production: true\n}"
                 }
             ],
             "projects/uswds-components/src/lib/environment.ts": [
@@ -51608,24 +51608,24 @@
                     "defaultValue": "0"
                 }
             ],
-            "projects/uswds-components/src/lib/modal/modal-window.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/modal/modal-window.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                }
-            ],
             "projects/uswds-components/src/lib/radio/radio.component.ts": [
                 {
                     "name": "nextId",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                }
+            ],
+            "projects/uswds-components/src/lib/modal/modal-window.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/modal/modal-window.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "number",
@@ -54768,15 +54768,6 @@
                 "status": "low"
             },
             {
-                "filePath": "projects/uswds-components/src/lib/accordion/accordion-toggle.directive.ts",
-                "type": "directive",
-                "linktype": "directive",
-                "name": "UsaAccordionToggle",
-                "coveragePercent": 16,
-                "coverageCount": "1/6",
-                "status": "low"
-            },
-            {
                 "filePath": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -54784,6 +54775,15 @@
                 "coveragePercent": 53,
                 "coverageCount": "15/28",
                 "status": "good"
+            },
+            {
+                "filePath": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
+                "type": "directive",
+                "linktype": "directive",
+                "name": "UsaAccordionToggle",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
             },
             {
                 "filePath": "projects/uswds-components/src/lib/accordion/accordion.config.ts",
@@ -55927,15 +55927,6 @@
                 "status": "medium"
             },
             {
-                "filePath": "projects/uswds-components/src/lib/step-indicator/step-indicator-header.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "UsaStepIndicatorHeaderComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/4",
-                "status": "low"
-            },
-            {
                 "filePath": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -55943,6 +55934,15 @@
                 "coveragePercent": 44,
                 "coverageCount": "8/18",
                 "status": "medium"
+            },
+            {
+                "filePath": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "UsaStepIndicatorHeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
             },
             {
                 "filePath": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
