@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Host, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { UsaStepIndicatorConfig } from './step-indicator.config';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 import { getNextItemIndexInList, findLastIndex } from '../util/util';
@@ -154,37 +154,4 @@ export class UsaStepIndicatorComponent implements OnChanges {
     return Array.prototype.slice.call(listElements);
   }
 
-}
-
-@Component({
-  selector: `[UsaStepHeader]`,
-  template: `
-    <ng-container *ngIf="template; else default">
-      <ng-template [ngTemplateOutlet]="template"></ng-template>
-    </ng-container>
-
-    <ng-template #default>
-      <span class="usa-step-indicator__heading-counter">
-        <span class="usa-step-indicator__current-step">{{
-          stepIndicator?.currentStep + 1
-        }}</span>
-        <span class="usa-step-indicator__total-steps">
-          of {{ stepIndicator?.steps.length }}</span
-        >
-      </span>
-      <span class="usa-step-indicator__heading-text">{{
-        stepIndicator?.steps[stepIndicator?.currentStep].label
-      }}</span>
-    </ng-template>
-  `,
-  host: {
-    class: 'usa-step-indicator__heading',
-    '[class.margin-top-0]': "stepIndicator.headerPosition === 'top'",
-    '[class.margin-bottom-4]': "stepIndicator.headerPosition === 'top'",
-  },
-})
-export class UsaStepIndicatorHeaderComponent {
-  @Input() template: TemplateRef<any>;
-
-  constructor(@Host() public stepIndicator: UsaStepIndicatorComponent) {}
 }
