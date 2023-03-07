@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { UsaCharacterCountDirective } from './character-count.directive';
 
 @Component({
@@ -10,7 +10,7 @@ import { UsaCharacterCountDirective } from './character-count.directive';
   `
 })
 class CharacterCountTestComponent {
-  formControl = new FormControl();
+  formControl = new UntypedFormControl();
   constructor(public elementRef: ElementRef) {}
 }
 
