@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsaStepIndicatorComponent, UsaStepIndicatorHeaderComponent } from './step-indicator.component';
+import { UsaStepIndicatorComponent } from './step-indicator.component';
+import { UsaStepIndicatorHeaderComponent } from './step-indicator-header.component';
 
 
 
