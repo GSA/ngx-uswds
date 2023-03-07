@@ -36835,7 +36835,7 @@
         },
         {
             "name": "UsaStepIndicatorComponent",
-            "id": "component-UsaStepIndicatorComponent-8525ff79dc6983d9b95533caa599aef87a9d0857714062de72b0a3f0901002dd1110f131a1ccad67d1ae3f2668dfb0514f9145bcf8f4ca625ca4b404598eba8d",
+            "id": "component-UsaStepIndicatorComponent-25ed89fdd095f049df35f100d321e986c06f5c5680f3a03f8bac09c11398959a1cbfd9dca35419e8b7833f932a88e5de8466a3f0a76155ecad79390405945b3d",
             "file": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -37154,7 +37154,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, ContentChild, ElementRef, EventEmitter, Host, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';\nimport { UsaStepIndicatorConfig } from './step-indicator.config';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { getNextItemIndexInList, findLastIndex } from '../util/util';\nimport { UsaStepIndicatorModel } from './step-indicator.model';\n\nlet stepIndicatorId = 0;\n\n@Component({\n  selector: 'usa-step-indicator',\n  templateUrl: './step-indicator.component.html',\n  host: {\n    'class': 'usa-step-indicator',\n    '[class.usa-step-indicator--no-labels]': 'hideLabels',\n    '[class.usa-step-indicator--center]': 'centerLabels && !hideLabels',\n    '[class.usa-step-indicator--counters]': 'displayCounters && !smallCounters',\n    '[class.usa-step-indicator--counters-sm]': 'smallCounters',\n\n  },\n  styleUrls: ['./step-indicator.component.scss'],\n})\nexport class UsaStepIndicatorComponent implements OnChanges {\n\n  /**\n   * Hides labels on each step when set to true\n   */\n  @Input() hideLabels: boolean = false\n\n  /**\n   * Centers label with the step bar when set to true\n   */\n  @Input() centerLabels: boolean = false\n\n  /**\n   * Displays step counter\n   */\n  @Input() displayCounters: boolean = false\n\n  /**\n   * Shrinks size of displayed step counter\n   */\n  @Input() smallCounters: boolean = false\n\n  /**\n   * Whether to place the header above or below the step indicator\n   */\n  @Input() headerPosition: 'top' | 'bottom' = 'bottom';\n\n  /**\n   * Disables the ability to navigate to steps by clicking on the step bar\n   */\n  @Input() disableStepSelection: boolean = false;\n\n\n  @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;\n\n  /**\n   * Currently selected step\n   */\n  @Input() currentStep: number = 0;\n\n  /**\n   * All possible steps\n   */\n  @Input() steps: UsaStepIndicatorModel[] = [];\n\n  @Output() currentStepChange = new EventEmitter<number>();\n\n  constructor(\n    config: UsaStepIndicatorConfig,\n    private elementRef: ElementRef,\n  ) {\n    this.hideLabels = config.hideLabels;\n    this.centerLabels = config.centerLabels;\n    this.displayCounters = config.displayCounters;\n    this.smallCounters = config.smallCounters;\n    this.headerPosition = config.headerPosition;\n    this.disableStepSelection = config.disableStepSelection;\n  }\n\n  ngOnChanges(changes: SimpleChanges) {\n    if (changes.currentStep) {\n      if (this.currentStep > this.steps.length - 1 || this.currentStep < 0) {\n        throw new Error(`Steps in step indicator is out of bounds.\n          Current Step: ${this.currentStep}, Step Range: 0 - ${this.steps.length - 1}`);\n      }\n    }\n  }\n\n  onStepClicked(stepIndex: number, step: any) {\n    if (step.disabled || this.disableStepSelection) {\n      return;\n    }\n\n    this.currentStepChange.emit(stepIndex);\n  }\n\n  onKeyDown(event: KeyboardEvent, index: number) {\n    const keyPressed = event.key || event.keyCode;\n    let nextStepIndex: number;\n    switch(keyPressed) {\n      case Key.ArrowRight:\n      case MicrosfotKeys.ArrowRight:\n      case KeyCode.ArrowRight:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, 1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.ArrowLeft:\n      case MicrosfotKeys.ArrowLeft:\n      case KeyCode.ArrowLeft:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, -1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        nextStepIndex = this.steps.findIndex(step => !step.disabled);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        nextStepIndex= findLastIndex(this.steps, (step => !step.disabled));\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      }\n  }\n\n  getFillPercentage(step: UsaStepIndicatorModel) {\n    if (step.completionPercent === undefined || step != this.steps[this.currentStep]) {\n      return undefined;\n    }\n\n    if (step.completionPercent % 25 === 0 || step.completionPercent % 33 === 0) {\n      return `fill-${step.completionPercent}`;\n    }\n\n    const roundedStep = Math.round(step.completionPercent / 10) * 10;\n    return `fill-${roundedStep}`\n  }\n\n  getSegmentScale(step: UsaStepIndicatorModel) {\n    if (step.segmentScale === undefined) return undefined;\n    const segmentPercentage = Math.max(0.5, Math.min(4, step.segmentScale)) * 100;\n    return `scale-percent-${segmentPercentage}`;\n  }\n\n  private _getAllStepListElements() {\n    const listElements: NodeList = this.elementRef.nativeElement.querySelectorAll(`#${this.id} .usa-step-indicator__segment`);\n    return Array.prototype.slice.call(listElements);\n  }\n\n}\n\n@Component({\n  selector: `[UsaStepHeader]`,\n  template: `\n    <ng-container *ngIf=\"template; else default\">\n      <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    </ng-container>\n\n    <ng-template #default>\n      <span class=\"usa-step-indicator__heading-counter\">\n        <span class=\"usa-step-indicator__current-step\">{{\n          stepIndicator?.currentStep + 1\n        }}</span>\n        <span class=\"usa-step-indicator__total-steps\">\n          of {{ stepIndicator?.steps.length }}</span\n        >\n      </span>\n      <span class=\"usa-step-indicator__heading-text\">{{\n        stepIndicator?.steps[stepIndicator?.currentStep].label\n      }}</span>\n    </ng-template>\n  `,\n  host: {\n    class: 'usa-step-indicator__heading',\n    '[class.margin-top-0]': \"stepIndicator.headerPosition === 'top'\",\n    '[class.margin-bottom-4]': \"stepIndicator.headerPosition === 'top'\",\n  },\n})\nexport class UsaStepIndicatorHeaderComponent {\n  @Input() template: TemplateRef<any>;\n\n  constructor(@Host() public stepIndicator: UsaStepIndicatorComponent) {}\n}\n",
+            "sourceCode": "import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';\nimport { UsaStepIndicatorConfig } from './step-indicator.config';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { getNextItemIndexInList, findLastIndex } from '../util/util';\nimport { UsaStepIndicatorModel } from './step-indicator.model';\n\nlet stepIndicatorId = 0;\n\n@Component({\n  selector: 'usa-step-indicator',\n  templateUrl: './step-indicator.component.html',\n  host: {\n    'class': 'usa-step-indicator',\n    '[class.usa-step-indicator--no-labels]': 'hideLabels',\n    '[class.usa-step-indicator--center]': 'centerLabels && !hideLabels',\n    '[class.usa-step-indicator--counters]': 'displayCounters && !smallCounters',\n    '[class.usa-step-indicator--counters-sm]': 'smallCounters',\n\n  },\n  styleUrls: ['./step-indicator.component.scss'],\n})\nexport class UsaStepIndicatorComponent implements OnChanges {\n\n  /**\n   * Hides labels on each step when set to true\n   */\n  @Input() hideLabels: boolean = false\n\n  /**\n   * Centers label with the step bar when set to true\n   */\n  @Input() centerLabels: boolean = false\n\n  /**\n   * Displays step counter\n   */\n  @Input() displayCounters: boolean = false\n\n  /**\n   * Shrinks size of displayed step counter\n   */\n  @Input() smallCounters: boolean = false\n\n  /**\n   * Whether to place the header above or below the step indicator\n   */\n  @Input() headerPosition: 'top' | 'bottom' = 'bottom';\n\n  /**\n   * Disables the ability to navigate to steps by clicking on the step bar\n   */\n  @Input() disableStepSelection: boolean = false;\n\n\n  @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;\n\n  /**\n   * Currently selected step\n   */\n  @Input() currentStep: number = 0;\n\n  /**\n   * All possible steps\n   */\n  @Input() steps: UsaStepIndicatorModel[] = [];\n\n  @Output() currentStepChange = new EventEmitter<number>();\n\n  constructor(\n    config: UsaStepIndicatorConfig,\n    private elementRef: ElementRef,\n  ) {\n    this.hideLabels = config.hideLabels;\n    this.centerLabels = config.centerLabels;\n    this.displayCounters = config.displayCounters;\n    this.smallCounters = config.smallCounters;\n    this.headerPosition = config.headerPosition;\n    this.disableStepSelection = config.disableStepSelection;\n  }\n\n  ngOnChanges(changes: SimpleChanges) {\n    if (changes.currentStep) {\n      if (this.currentStep > this.steps.length - 1 || this.currentStep < 0) {\n        throw new Error(`Steps in step indicator is out of bounds.\n          Current Step: ${this.currentStep}, Step Range: 0 - ${this.steps.length - 1}`);\n      }\n    }\n  }\n\n  onStepClicked(stepIndex: number, step: any) {\n    if (step.disabled || this.disableStepSelection) {\n      return;\n    }\n\n    this.currentStepChange.emit(stepIndex);\n  }\n\n  onKeyDown(event: KeyboardEvent, index: number) {\n    const keyPressed = event.key || event.keyCode;\n    let nextStepIndex: number;\n    switch(keyPressed) {\n      case Key.ArrowRight:\n      case MicrosfotKeys.ArrowRight:\n      case KeyCode.ArrowRight:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, 1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.ArrowLeft:\n      case MicrosfotKeys.ArrowLeft:\n      case KeyCode.ArrowLeft:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, -1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        nextStepIndex = this.steps.findIndex(step => !step.disabled);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        nextStepIndex= findLastIndex(this.steps, (step => !step.disabled));\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      }\n  }\n\n  getFillPercentage(step: UsaStepIndicatorModel) {\n    if (step.completionPercent === undefined || step != this.steps[this.currentStep]) {\n      return undefined;\n    }\n\n    if (step.completionPercent % 25 === 0 || step.completionPercent % 33 === 0) {\n      return `fill-${step.completionPercent}`;\n    }\n\n    const roundedStep = Math.round(step.completionPercent / 10) * 10;\n    return `fill-${roundedStep}`\n  }\n\n  getSegmentScale(step: UsaStepIndicatorModel) {\n    if (step.segmentScale === undefined) return undefined;\n    const segmentPercentage = Math.max(0.5, Math.min(4, step.segmentScale)) * 100;\n    return `scale-percent-${segmentPercentage}`;\n  }\n\n  private _getAllStepListElements() {\n    const listElements: NodeList = this.elementRef.nativeElement.querySelectorAll(`#${this.id} .usa-step-indicator__segment`);\n    return Array.prototype.slice.call(listElements);\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -37211,8 +37211,8 @@
         },
         {
             "name": "UsaStepIndicatorHeaderComponent",
-            "id": "component-UsaStepIndicatorHeaderComponent-8525ff79dc6983d9b95533caa599aef87a9d0857714062de72b0a3f0901002dd1110f131a1ccad67d1ae3f2668dfb0514f9145bcf8f4ca625ca4b404598eba8d",
-            "file": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
+            "id": "component-UsaStepIndicatorHeaderComponent-8a1942982151997b608b16f75222f5cbd3e10db7af4863600a93e97bfd330df553cdb97a87ed4002425719569a75d340dc9a48aece54fbd7f800e30feb46161c",
+            "file": "projects/uswds-components/src/lib/step-indicator/step-indicator-header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "host": {},
@@ -37230,7 +37230,7 @@
                     "name": "template",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 187,
+                    "line": 32,
                     "type": "TemplateRef<any>",
                     "decorators": []
                 }
@@ -37244,7 +37244,7 @@
                     "type": "UsaStepIndicatorComponent",
                     "optional": false,
                     "description": "",
-                    "line": 189,
+                    "line": 34,
                     "decorators": [
                         {
                             "name": "Host",
@@ -37264,7 +37264,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, ContentChild, ElementRef, EventEmitter, Host, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';\nimport { UsaStepIndicatorConfig } from './step-indicator.config';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { getNextItemIndexInList, findLastIndex } from '../util/util';\nimport { UsaStepIndicatorModel } from './step-indicator.model';\n\nlet stepIndicatorId = 0;\n\n@Component({\n  selector: 'usa-step-indicator',\n  templateUrl: './step-indicator.component.html',\n  host: {\n    'class': 'usa-step-indicator',\n    '[class.usa-step-indicator--no-labels]': 'hideLabels',\n    '[class.usa-step-indicator--center]': 'centerLabels && !hideLabels',\n    '[class.usa-step-indicator--counters]': 'displayCounters && !smallCounters',\n    '[class.usa-step-indicator--counters-sm]': 'smallCounters',\n\n  },\n  styleUrls: ['./step-indicator.component.scss'],\n})\nexport class UsaStepIndicatorComponent implements OnChanges {\n\n  /**\n   * Hides labels on each step when set to true\n   */\n  @Input() hideLabels: boolean = false\n\n  /**\n   * Centers label with the step bar when set to true\n   */\n  @Input() centerLabels: boolean = false\n\n  /**\n   * Displays step counter\n   */\n  @Input() displayCounters: boolean = false\n\n  /**\n   * Shrinks size of displayed step counter\n   */\n  @Input() smallCounters: boolean = false\n\n  /**\n   * Whether to place the header above or below the step indicator\n   */\n  @Input() headerPosition: 'top' | 'bottom' = 'bottom';\n\n  /**\n   * Disables the ability to navigate to steps by clicking on the step bar\n   */\n  @Input() disableStepSelection: boolean = false;\n\n\n  @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;\n\n  /**\n   * Currently selected step\n   */\n  @Input() currentStep: number = 0;\n\n  /**\n   * All possible steps\n   */\n  @Input() steps: UsaStepIndicatorModel[] = [];\n\n  @Output() currentStepChange = new EventEmitter<number>();\n\n  constructor(\n    config: UsaStepIndicatorConfig,\n    private elementRef: ElementRef,\n  ) {\n    this.hideLabels = config.hideLabels;\n    this.centerLabels = config.centerLabels;\n    this.displayCounters = config.displayCounters;\n    this.smallCounters = config.smallCounters;\n    this.headerPosition = config.headerPosition;\n    this.disableStepSelection = config.disableStepSelection;\n  }\n\n  ngOnChanges(changes: SimpleChanges) {\n    if (changes.currentStep) {\n      if (this.currentStep > this.steps.length - 1 || this.currentStep < 0) {\n        throw new Error(`Steps in step indicator is out of bounds.\n          Current Step: ${this.currentStep}, Step Range: 0 - ${this.steps.length - 1}`);\n      }\n    }\n  }\n\n  onStepClicked(stepIndex: number, step: any) {\n    if (step.disabled || this.disableStepSelection) {\n      return;\n    }\n\n    this.currentStepChange.emit(stepIndex);\n  }\n\n  onKeyDown(event: KeyboardEvent, index: number) {\n    const keyPressed = event.key || event.keyCode;\n    let nextStepIndex: number;\n    switch(keyPressed) {\n      case Key.ArrowRight:\n      case MicrosfotKeys.ArrowRight:\n      case KeyCode.ArrowRight:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, 1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.ArrowLeft:\n      case MicrosfotKeys.ArrowLeft:\n      case KeyCode.ArrowLeft:\n        nextStepIndex = getNextItemIndexInList(index, this.steps, -1);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        nextStepIndex = this.steps.findIndex(step => !step.disabled);\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        nextStepIndex= findLastIndex(this.steps, (step => !step.disabled));\n        this._getAllStepListElements()[nextStepIndex].focus();\n        event.preventDefault();\n        break;\n      }\n  }\n\n  getFillPercentage(step: UsaStepIndicatorModel) {\n    if (step.completionPercent === undefined || step != this.steps[this.currentStep]) {\n      return undefined;\n    }\n\n    if (step.completionPercent % 25 === 0 || step.completionPercent % 33 === 0) {\n      return `fill-${step.completionPercent}`;\n    }\n\n    const roundedStep = Math.round(step.completionPercent / 10) * 10;\n    return `fill-${roundedStep}`\n  }\n\n  getSegmentScale(step: UsaStepIndicatorModel) {\n    if (step.segmentScale === undefined) return undefined;\n    const segmentPercentage = Math.max(0.5, Math.min(4, step.segmentScale)) * 100;\n    return `scale-percent-${segmentPercentage}`;\n  }\n\n  private _getAllStepListElements() {\n    const listElements: NodeList = this.elementRef.nativeElement.querySelectorAll(`#${this.id} .usa-step-indicator__segment`);\n    return Array.prototype.slice.call(listElements);\n  }\n\n}\n\n@Component({\n  selector: `[UsaStepHeader]`,\n  template: `\n    <ng-container *ngIf=\"template; else default\">\n      <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    </ng-container>\n\n    <ng-template #default>\n      <span class=\"usa-step-indicator__heading-counter\">\n        <span class=\"usa-step-indicator__current-step\">{{\n          stepIndicator?.currentStep + 1\n        }}</span>\n        <span class=\"usa-step-indicator__total-steps\">\n          of {{ stepIndicator?.steps.length }}</span\n        >\n      </span>\n      <span class=\"usa-step-indicator__heading-text\">{{\n        stepIndicator?.steps[stepIndicator?.currentStep].label\n      }}</span>\n    </ng-template>\n  `,\n  host: {\n    class: 'usa-step-indicator__heading',\n    '[class.margin-top-0]': \"stepIndicator.headerPosition === 'top'\",\n    '[class.margin-bottom-4]': \"stepIndicator.headerPosition === 'top'\",\n  },\n})\nexport class UsaStepIndicatorHeaderComponent {\n  @Input() template: TemplateRef<any>;\n\n  constructor(@Host() public stepIndicator: UsaStepIndicatorComponent) {}\n}\n",
+            "sourceCode": "import { Component, Host, Input, TemplateRef } from \"@angular/core\";\nimport { UsaStepIndicatorComponent } from \"./step-indicator.component\";\n\n@Component({\n  selector: `[UsaStepHeader]`,\n  template: `\n    <ng-container *ngIf=\"template; else default\">\n      <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    </ng-container>\n\n    <ng-template #default>\n      <span class=\"usa-step-indicator__heading-counter\">\n        <span class=\"usa-step-indicator__current-step\">{{\n          stepIndicator?.currentStep + 1\n        }}</span>\n        <span class=\"usa-step-indicator__total-steps\">\n          of {{ stepIndicator?.steps.length }}</span\n        >\n      </span>\n      <span class=\"usa-step-indicator__heading-text\">{{\n        stepIndicator?.steps[stepIndicator?.currentStep].label\n      }}</span>\n    </ng-template>\n  `,\n  host: {\n    class: 'usa-step-indicator__heading',\n    '[class.margin-top-0]': \"stepIndicator.headerPosition === 'top'\",\n    '[class.margin-bottom-4]': \"stepIndicator.headerPosition === 'top'\",\n  },\n})\nexport class UsaStepIndicatorHeaderComponent {\n  @Input() template: TemplateRef<any>;\n\n  constructor(@Host() public stepIndicator: UsaStepIndicatorComponent) {}\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -37281,7 +37281,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 187,
+                "line": 32,
                 "jsdoctags": [
                     {
                         "name": "stepIndicator",
@@ -44586,13 +44586,13 @@
         },
         {
             "name": "UsaStepIndicatorModule",
-            "id": "module-UsaStepIndicatorModule-5da29704f4e7fd904cb3fc7b60ae5784e37e8b6ca898b552dd089639e2c4c3ee313f09cb44192e49054f9825d1f2ca5a8fbae802b452251d5143ed5dd7fd55d5",
+            "id": "module-UsaStepIndicatorModule-091ae579b0f6b0a65c24709d82be08dd83c4c365e70b99b0f436015a6c1ed05d71f34db896f3eda1aba84efde364ca61c2dbf166306404cf456d84b714f73bbf",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "projects/uswds-components/src/lib/step-indicator/step-indicator.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { UsaStepIndicatorComponent, UsaStepIndicatorHeaderComponent } from './step-indicator.component';\n\n\n\n@NgModule({\n  declarations: [\n    UsaStepIndicatorComponent,\n    UsaStepIndicatorHeaderComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [\n    UsaStepIndicatorComponent,\n    UsaStepIndicatorHeaderComponent\n  ]\n})\nexport class UsaStepIndicatorModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { UsaStepIndicatorComponent } from './step-indicator.component';\nimport { UsaStepIndicatorHeaderComponent } from './step-indicator-header.component';\n\n\n\n@NgModule({\n  declarations: [\n    UsaStepIndicatorComponent,\n    UsaStepIndicatorHeaderComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [\n    UsaStepIndicatorComponent,\n    UsaStepIndicatorHeaderComponent\n  ]\n})\nexport class UsaStepIndicatorModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -45212,181 +45212,11 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: breadcrumbTemplate.default,\n  props: {\n    ...args,\n    onSelection: actionsData.onSelection,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/character-count/character-count.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/file-input/file-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/input/input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/modal/modal.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n    onTextSubmit: actionsData.onTextSubmit,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    sidenavContent: args.sidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    rowClicked: actionsData.rowClicked,\n    ...args,\n  }\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: template.default,\n  props: args,\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/time-picker/time-picker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    minTime: args.minTime,\n    maxTime: args.maxTime,\n    timeStep: args.timeStep,\n    filterBy: args.filterBy,\n  }\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/tooltip/tooltip.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "basicTemplate.bind({})"
             },
             {
                 "name": "Basic",
@@ -45449,6 +45279,176 @@
                 "defaultValue": "FormControlTemplate.bind({})"
             },
             {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: breadcrumbTemplate.default,\n  props: {\n    ...args,\n    onSelection: actionsData.onSelection,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/character-count/character-count.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/file-input/file-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    title: args.title,\n    primaryNavItems: args.primaryNavItems,\n    secondaryNavItems: args.secondaryNavItems,\n    extended: args.extended,\n    displayOverlayOnMenuOpen: args.displayOverlayOnMenuOpen,\n    linkEvent: actionsData.linkEvent,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/input/input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/modal/modal.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    ...args,\n    onRadioChange: actionsData.radioChange,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/search/search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    buttonText: args.buttonText,\n    size: args.size,\n    placeholder: args.placeholder,\n    id: args.id,\n    name: args.name,\n    ariaLabel: args.ariaLabel,\n    searchTextChange: actionsData.searchTextChange,\n    onBlur: actionsData.blurUpdate,\n    onTextSubmit: actionsData.onTextSubmit,\n  },\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    sidenavContent: args.sidenavContent,\n    expandType: args.expandType,\n    enableLabelCollapse: args.enableLabelCollapse,\n    autoCollapseLabels: args.autoCollapseLabels,\n    selectFirstLabelChild: args.selectFirstLabelChild,\n    sidenavClicked: actionsData.sidenavClicked,\n  }\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: args,\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    rowClicked: actionsData.rowClicked,\n    ...args,\n  }\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/time-picker/time-picker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    minTime: args.minTime,\n    maxTime: args.maxTime,\n    timeStep: args.timeStep,\n    filterBy: args.filterBy,\n  }\n})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "basicTemplate.bind({})"
+            },
+            {
                 "name": "basicColumns",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -45482,21 +45482,21 @@
                 "name": "basicTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/combo-box/combo-box.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<ComboBoxBasicComponent>",
-                "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-            },
-            {
-                "name": "basicTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+            },
+            {
+                "name": "basicTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/combo-box/combo-box.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<ComboBoxBasicComponent>",
+                "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
             },
             {
                 "name": "basicTemplate",
@@ -45804,21 +45804,21 @@
                 "name": "environment",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  production: false\n}"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/environments/environment.prod.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  production: true\n}"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  production: false\n}"
             },
             {
                 "name": "environment",
@@ -45844,21 +45844,21 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./checkbox-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-overview.html')"
             },
             {
                 "name": "footer",
@@ -45894,21 +45894,21 @@
                 "name": "footer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./table-overview.html')"
-            },
-            {
-                "name": "footer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/step-indicator/step-indicator.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./step-indicator-overview.html')"
+            },
+            {
+                "name": "footer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./table-overview.html')"
             },
             {
                 "name": "footerTemplate",
@@ -45949,26 +45949,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/character-count/character-count.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaCharacterCountDirective>",
-                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaCheckboxComponent>",
-                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
             },
             {
                 "name": "FormControlTemplate",
@@ -46039,6 +46019,26 @@
                 "deprecationMessage": "",
                 "type": "Story<UsaTextareaComponent>",
                 "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/character-count/character-count.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaCharacterCountDirective>",
+                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaCheckboxComponent>",
+                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
             },
             {
                 "name": "headerData",
@@ -46232,7 +46232,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
+                "file": "projects/uswds-components/src/lib/modal/modal-window.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46242,7 +46242,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/modal/modal-window.ts",
+                "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46332,21 +46332,21 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n})"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/checkbox/checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: ' $theme-checkbox-border-radius',\n        description: 'Checkbox border radius for rounded corners.',\n      },\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  },\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default,\n})"
             },
             {
                 "name": "Overview",
@@ -46384,16 +46384,6 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-table-border-color',\n        description: 'Defines a border color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-text-color',\n        description: 'Defines a text color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-header-background-color',\n        description: 'Defines a background color for header cells.'\n      },\n      {\n        variable: '$theme-table-header-text-color ',\n        description: 'Defines a text color for header cells. A value of default uses either the default text or reverse text color depending on the header background color.'\n      },\n      {\n        variable: '$theme-table-stripe-background-color',\n        description: 'Defines a background color for alternating horizontal stripes in the striped table variant.'\n      },\n      {\n        variable: '$theme-table-stripe-text-color',\n        description: 'Defines a text color for alternating horizontal stripes in the striped table variant. A value of default uses either the default text or reverse text color depending on the stripe background color.'\n      },\n      {\n        variable: '$theme-table-sorted-header-background-color',\n        description: 'Defines a background color for the sorted column header'\n      },\n      {\n        variable: '$theme-table-sorted-background-color',\n        description: 'Defines a background color for the cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-stripe-background-color',\n        description: 'Defines a background color for the alternating horizontal stripes applied to cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-icon-color',\n        description: 'Defines a fill color for the activated sort button in a sortable column header. A value of default uses either the default text or reverse text color depending on the sorted column header background color.'\n      },\n      {\n        variable: '$theme-table-unsorted-icon-color',\n        description: 'Defines a fill color for the unactivated sort button in a sortable column header'\n      },\n    ]\n  }\n})"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/step-indicator/step-indicator.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46401,6 +46391,16 @@
                 "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n        {\n          variable: '$step-indicator-background-color',\n          description: 'Background color of the component and the gaps around the counters',\n        },\n        {\n          variable: '$theme-step-indicator-counter-gap',\n          description: 'Gap between the counter and the segment'\n        },\n        {\n          variable: '$theme-step-indicator-counter-border-width',\n          description: 'Size of the border around the pending steps'\n        },\n        {\n          variable: '$theme-step-indicator-font-family',\n          description: 'Font family of the labels and counter numbers'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-family',\n          description: 'Font family of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-color',\n          description: 'Color of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size',\n          description: 'Font size of the heading on screens of $theme-step-indicator-min-width and larger'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size-small',\n          description: 'Font size of the heading on screens smaller than $theme-step-indicator-min-width'\n        },\n        {\n          variable: '$theme-step-indicator-label-font-size',\n          description: 'Font size of segment labels'\n        },\n        {\n          variable: '$theme-step-indicator-min-width',\n          description: 'Width at which the component displays large-width features'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-pending',\n          description: 'Color of pending step segments. Use a grade of 20 more than $step-indicator-background-color'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-complete',\n          description: 'Color of complete step segments. Use a grade at least 60.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-current',\n          description: 'Color of the current step segments. Use a grade at least 20 more than $theme-step-indicator-segment-color-complete.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-gap',\n          description: 'Gap between step segments'\n        },\n        {\n          variable: '$theme-step-indicator-segment-height',\n          description: 'Height of the step segment. Note that the mobile segment height is always 1 unit.'\n        },\n        {\n          variable: '$theme-step-indicator-text-pending-color',\n          description: 'The text color of pending steps. Use a gray grade of 60 more than the $step-indicator-background-color.'\n        },\n      ]\n  }\n})",
                 "rawdescription": "-------------------- Overview Notes --------------------",
                 "description": "<p>-------------------- Overview Notes --------------------</p>\n"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-table-border-color',\n        description: 'Defines a border color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-text-color',\n        description: 'Defines a text color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-header-background-color',\n        description: 'Defines a background color for header cells.'\n      },\n      {\n        variable: '$theme-table-header-text-color ',\n        description: 'Defines a text color for header cells. A value of default uses either the default text or reverse text color depending on the header background color.'\n      },\n      {\n        variable: '$theme-table-stripe-background-color',\n        description: 'Defines a background color for alternating horizontal stripes in the striped table variant.'\n      },\n      {\n        variable: '$theme-table-stripe-text-color',\n        description: 'Defines a text color for alternating horizontal stripes in the striped table variant. A value of default uses either the default text or reverse text color depending on the stripe background color.'\n      },\n      {\n        variable: '$theme-table-sorted-header-background-color',\n        description: 'Defines a background color for the sorted column header'\n      },\n      {\n        variable: '$theme-table-sorted-background-color',\n        description: 'Defines a background color for the cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-stripe-background-color',\n        description: 'Defines a background color for the alternating horizontal stripes applied to cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-icon-color',\n        description: 'Defines a fill color for the activated sort button in a sortable column header. A value of default uses either the default text or reverse text color depending on the sorted column header background color.'\n      },\n      {\n        variable: '$theme-table-unsorted-icon-color',\n        description: 'Defines a fill color for the unactivated sort button in a sortable column header'\n      },\n    ]\n  }\n})"
             },
             {
                 "name": "polyfill",
@@ -46481,105 +46481,6 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/textarea/textarea.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46638,6 +46539,105 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/search/search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/textarea/textarea.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
             },
             {
                 "name": "ResizeObserver",
@@ -46764,76 +46764,6 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/file-input/file-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./side-navigation-basic/side-navigation-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46899,6 +46829,76 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/file-input/file-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./header-basic/header-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/search/search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/side-navigation/side-navigation.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./side-navigation-basic/side-navigation-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
             },
             {
                 "name": "uniqueId",
@@ -50485,481 +50485,6 @@
                     "description": "<p>Animations used by SdsDialog.</p>\n"
                 }
             ],
-            "src/app/components/character-count/character-count.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<character-count-basic [characterCount]=\"${args.usaCharacterCount}\"></character-count-basic>`\n})"
-                },
-                {
-                    "name": "characterCountFooter",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./character-count-overview.html')"
-                },
-                {
-                    "name": "FormControlCounter",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaCharacterCountDirective>",
-                    "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
-                },
-                {
-                    "name": "Overview",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/character-count/character-count.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
-                }
-            ],
-            "src/app/components/combo-box/combo-box.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<ComboBoxBasicComponent>",
-                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "CustomTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
-                },
-                {
-                    "name": "dummyData",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
-                },
-                {
-                    "name": "mockService",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/combo-box/combo-box.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
-                }
-            ],
-            "src/app/components/checkbox/checkbox.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/checkbox/checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/checkbox/checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-                },
-                {
-                    "name": "footer",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/checkbox/checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./checkbox-overview.html')"
-                },
-                {
-                    "name": "FormControlCheckbox",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/checkbox/checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/checkbox/checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaCheckboxComponent>",
-                    "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
-                },
-                {
-                    "name": "Indeterminate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/checkbox/checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<checkbox-indeterminate></checkbox-indeterminate>`\n})"
-                },
-                {
-                    "name": "Overview",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/checkbox/checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: ' $theme-checkbox-border-radius',\n        description: 'Checkbox border radius for rounded corners.',\n      },\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  },\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/checkbox/checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                }
-            ],
-            "src/app/components/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                },
-                {
-                    "name": "DropdownForms",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                }
-            ],
-            "src/app/components/file-input/file-input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/file-input/file-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
-                },
-                {
-                    "name": "InputWithTable",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/file-input/file-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: '<file-input-table></file-input-table>',\n})"
-                },
-                {
-                    "name": "ServerUpload",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/file-input/file-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: '<file-input-upload></file-input-upload>'\n})"
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/file-input/file-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
-                }
-            ],
-            "src/app/components/input/input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/input/input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
-                }
-            ],
-            "src/app/components/modal/modal.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/modal/modal.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
-                },
-                {
-                    "name": "ComponentContent",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/modal/modal.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<modal-component-wrapper></modal-component-wrapper>`\n})"
-                },
-                {
-                    "name": "CustomFocus",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/modal/modal.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<modal-custom-focus></modal-custom-focus>`\n})"
-                },
-                {
-                    "name": "footer",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/modal/modal.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./modal-overview.html')"
-                },
-                {
-                    "name": "ForcedAction",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/modal/modal.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<modal-forced-action></modal-forced-action>`,\n})"
-                },
-                {
-                    "name": "ModalScrollable",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/modal/modal.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<modal-scrollable-content></modal-scrollable-content>`,\n})"
-                },
-                {
-                    "name": "ModalStacked",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/modal/modal.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<modal-stacked></modal-stacked>`,\n})"
-                },
-                {
-                    "name": "Overview",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/modal/modal.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: footer.default\n})"
-                }
-            ],
-            "src/app/components/step-indicator/step-indicator.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "currentStep",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                },
-                {
-                    "name": "customHeader",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./step-indicator-custom-header.html')"
-                },
-                {
-                    "name": "CustomHeader",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: customHeader.default,\n  props: args,\n})"
-                },
-                {
-                    "name": "footer",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./step-indicator-overview.html')"
-                },
-                {
-                    "name": "Overview",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n        {\n          variable: '$step-indicator-background-color',\n          description: 'Background color of the component and the gaps around the counters',\n        },\n        {\n          variable: '$theme-step-indicator-counter-gap',\n          description: 'Gap between the counter and the segment'\n        },\n        {\n          variable: '$theme-step-indicator-counter-border-width',\n          description: 'Size of the border around the pending steps'\n        },\n        {\n          variable: '$theme-step-indicator-font-family',\n          description: 'Font family of the labels and counter numbers'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-family',\n          description: 'Font family of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-color',\n          description: 'Color of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size',\n          description: 'Font size of the heading on screens of $theme-step-indicator-min-width and larger'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size-small',\n          description: 'Font size of the heading on screens smaller than $theme-step-indicator-min-width'\n        },\n        {\n          variable: '$theme-step-indicator-label-font-size',\n          description: 'Font size of segment labels'\n        },\n        {\n          variable: '$theme-step-indicator-min-width',\n          description: 'Width at which the component displays large-width features'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-pending',\n          description: 'Color of pending step segments. Use a grade of 20 more than $step-indicator-background-color'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-complete',\n          description: 'Color of complete step segments. Use a grade at least 60.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-current',\n          description: 'Color of the current step segments. Use a grade at least 20 more than $theme-step-indicator-segment-color-complete.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-gap',\n          description: 'Gap between step segments'\n        },\n        {\n          variable: '$theme-step-indicator-segment-height',\n          description: 'Height of the step segment. Note that the mobile segment height is always 1 unit.'\n        },\n        {\n          variable: '$theme-step-indicator-text-pending-color',\n          description: 'The text color of pending steps. Use a gray grade of 60 more than the $step-indicator-background-color.'\n        },\n      ]\n  }\n})",
-                    "rawdescription": "-------------------- Overview Notes --------------------",
-                    "description": "<p>-------------------- Overview Notes --------------------</p>\n"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "any"
-                },
-                {
-                    "name": "steps",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "UsaStepIndicatorModel[]",
-                    "defaultValue": "[\n  { label: 'Step 1' },\n  { label: 'Step 2' },\n  { label: 'Step 3' },\n  { label: 'Step 4' },\n  { label: 'Step 5' },\n]"
-                },
-                {
-                    "name": "Substeps",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<step-indicator-substeps></step-indicator-substeps>`\n})"
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
-                }
-            ],
             "src/app/formly/checkbox/formly-checkbox.stories.ts": [
                 {
                     "name": "Basic",
@@ -51011,50 +50536,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-                }
-            ],
-            "src/app/components/time-picker/time-picker.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/time-picker/time-picker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    minTime: args.minTime,\n    maxTime: args.maxTime,\n    timeStep: args.timeStep,\n    filterBy: args.filterBy,\n  }\n})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/time-picker/time-picker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./time-picker-basic/time-picker-basic.component.html')"
-                }
-            ],
-            "src/app/components/tooltip/tooltip.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/tooltip/tooltip.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "basicTemplate.bind({})"
-                },
-                {
-                    "name": "basicTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/tooltip/tooltip.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "(args) => ({\n  template: `<tooltip-basic [position]=\"'${args.position}'\" [title]=\"'${args.title}'\">Tooltip</tooltip-basic>`,\n})"
                 }
             ],
             "src/app/formly/datepicker/datepicker.stories.ts": [
@@ -51303,6 +50784,525 @@
                     "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
                 }
             ],
+            "src/app/components/character-count/character-count.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<character-count-basic [characterCount]=\"${args.usaCharacterCount}\"></character-count-basic>`\n})"
+                },
+                {
+                    "name": "characterCountFooter",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./character-count-overview.html')"
+                },
+                {
+                    "name": "FormControlCounter",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaCharacterCountDirective>",
+                    "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
+                },
+                {
+                    "name": "Overview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/character-count/character-count.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
+                }
+            ],
+            "src/app/components/checkbox/checkbox.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/checkbox/checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/checkbox/checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+                },
+                {
+                    "name": "footer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/checkbox/checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./checkbox-overview.html')"
+                },
+                {
+                    "name": "FormControlCheckbox",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/checkbox/checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/checkbox/checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaCheckboxComponent>",
+                    "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
+                },
+                {
+                    "name": "Indeterminate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/checkbox/checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<checkbox-indeterminate></checkbox-indeterminate>`\n})"
+                },
+                {
+                    "name": "Overview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/checkbox/checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: ' $theme-checkbox-border-radius',\n        description: 'Checkbox border radius for rounded corners.',\n      },\n      {\n        variable: '$theme-input-tile-background-color-selected',\n        description: 'Tile background color when selected.'\n      },\n      {\n        variable: '$theme-input-tile-border-radius',\n        description: 'Tile border radius for rounded corners.'\n      },\n      {\n        variable: '$theme-input-tile-border-width',\n        description: 'Tile border thickness.'\n      },\n      {\n        variable: '$theme-input-tile-border-color',\n        description: 'Tile border color.'\n      },\n      {\n        variable: '$theme-input-tile-border-color-selected',\n        description: 'Tile border color when selected.'\n      }\n    ]\n  },\n})"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/checkbox/checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                }
+            ],
+            "src/app/components/combo-box/combo-box.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ComboBoxBasicComponent>",
+                    "defaultValue": "(args: ComboBoxBasicComponent) => ({\n  component: ComboBoxBasicComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "CustomTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<combo-box-template></combo-box-template>`,\n})"
+                },
+                {
+                    "name": "dummyData",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-data.ts')"
+                },
+                {
+                    "name": "mockService",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/combo-box/combo-box.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./combo-box-dummy-service.ts')"
+                }
+            ],
+            "src/app/components/file-input/file-input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: {\n    multiple: args.multiple,\n    acceptFileType: args.acceptFileType,\n    id: args.id,\n    hint: args.hint,\n    disabled: args.disabled,\n    selectedFiles: args.selectedFiles,\n    clearFilesOnAdd: args.clearFilesOnAdd,\n    displayFileInfo: args.displayFileInfo,\n    uploadRequest: (file) => {\n      // Consider upload as success after 3 second mocked delay\n      return of(true).pipe(delay(3000));\n    },\n  }\n})"
+                },
+                {
+                    "name": "InputWithTable",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: '<file-input-table></file-input-table>',\n})"
+                },
+                {
+                    "name": "ServerUpload",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: '<file-input-upload></file-input-upload>'\n})"
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/file-input/file-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
+                }
+            ],
+            "src/app/components/dropdown/dropdown.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: args,\n})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+                },
+                {
+                    "name": "DropdownForms",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<dropdown-forms></dropdown-forms>`\n})"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                }
+            ],
+            "src/app/components/input/input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/input/input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<input-basic [prefix]=\"'${args.prefix}'\" [suffix]=\"'${args.suffix}'\"></input-basic>`,\n})"
+                }
+            ],
+            "src/app/components/modal/modal.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/modal/modal.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `\n  <modal-basic\n    [id]=\"'${args.id}'\"\n    [ariaLabelledBy]=\"'${args.ariaLabelledBy}'\"\n    [ariaDescribedBy]=\"'${args.ariaDescribedBy}'\"\n    [size]=\"'${args.size}'\"\n    [animation]=\"${args.animation}\"\n    [showClose]=\"${args.showClose}\"\n    [backdrop]=\"${args.backdrop}\"\n    [keyboard]=\"${args.keyboard}\"\n    [modalDialogClass]=\"'${args.modalDialogClass}'\"\n    [beforeDismiss]=\"${args.beforeDismiss}\"\n  ></modal-basic>`,\n})"
+                },
+                {
+                    "name": "ComponentContent",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/modal/modal.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<modal-component-wrapper></modal-component-wrapper>`\n})"
+                },
+                {
+                    "name": "CustomFocus",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/modal/modal.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<modal-custom-focus></modal-custom-focus>`\n})"
+                },
+                {
+                    "name": "footer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/modal/modal.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./modal-overview.html')"
+                },
+                {
+                    "name": "ForcedAction",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/modal/modal.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<modal-forced-action></modal-forced-action>`,\n})"
+                },
+                {
+                    "name": "ModalScrollable",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/modal/modal.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<modal-scrollable-content></modal-scrollable-content>`,\n})"
+                },
+                {
+                    "name": "ModalStacked",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/modal/modal.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<modal-stacked></modal-stacked>`,\n})"
+                },
+                {
+                    "name": "Overview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/modal/modal.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: footer.default\n})"
+                }
+            ],
+            "src/app/components/step-indicator/step-indicator.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: template.default,\n  props: args,\n})"
+                },
+                {
+                    "name": "currentStep",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                },
+                {
+                    "name": "customHeader",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./step-indicator-custom-header.html')"
+                },
+                {
+                    "name": "CustomHeader",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: customHeader.default,\n  props: args,\n})"
+                },
+                {
+                    "name": "footer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./step-indicator-overview.html')"
+                },
+                {
+                    "name": "Overview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n        {\n          variable: '$step-indicator-background-color',\n          description: 'Background color of the component and the gaps around the counters',\n        },\n        {\n          variable: '$theme-step-indicator-counter-gap',\n          description: 'Gap between the counter and the segment'\n        },\n        {\n          variable: '$theme-step-indicator-counter-border-width',\n          description: 'Size of the border around the pending steps'\n        },\n        {\n          variable: '$theme-step-indicator-font-family',\n          description: 'Font family of the labels and counter numbers'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-family',\n          description: 'Font family of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-color',\n          description: 'Color of the heading'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size',\n          description: 'Font size of the heading on screens of $theme-step-indicator-min-width and larger'\n        },\n        {\n          variable: '$theme-step-indicator-heading-font-size-small',\n          description: 'Font size of the heading on screens smaller than $theme-step-indicator-min-width'\n        },\n        {\n          variable: '$theme-step-indicator-label-font-size',\n          description: 'Font size of segment labels'\n        },\n        {\n          variable: '$theme-step-indicator-min-width',\n          description: 'Width at which the component displays large-width features'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-pending',\n          description: 'Color of pending step segments. Use a grade of 20 more than $step-indicator-background-color'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-complete',\n          description: 'Color of complete step segments. Use a grade at least 60.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-color-current',\n          description: 'Color of the current step segments. Use a grade at least 20 more than $theme-step-indicator-segment-color-complete.'\n        },\n        {\n          variable: '$theme-step-indicator-segment-gap',\n          description: 'Gap between step segments'\n        },\n        {\n          variable: '$theme-step-indicator-segment-height',\n          description: 'Height of the step segment. Note that the mobile segment height is always 1 unit.'\n        },\n        {\n          variable: '$theme-step-indicator-text-pending-color',\n          description: 'The text color of pending steps. Use a gray grade of 60 more than the $step-indicator-background-color.'\n        },\n      ]\n  }\n})",
+                    "rawdescription": "-------------------- Overview Notes --------------------",
+                    "description": "<p>-------------------- Overview Notes --------------------</p>\n"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any"
+                },
+                {
+                    "name": "steps",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "UsaStepIndicatorModel[]",
+                    "defaultValue": "[\n  { label: 'Step 1' },\n  { label: 'Step 2' },\n  { label: 'Step 3' },\n  { label: 'Step 4' },\n  { label: 'Step 5' },\n]"
+                },
+                {
+                    "name": "Substeps",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<step-indicator-substeps></step-indicator-substeps>`\n})"
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./step-indicator-basic/step-indicator-basic.component.html')"
+                }
+            ],
+            "src/app/components/time-picker/time-picker.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/time-picker/time-picker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: basicTemplate.default,\n  props: {\n    minTime: args.minTime,\n    maxTime: args.maxTime,\n    timeStep: args.timeStep,\n    filterBy: args.filterBy,\n  }\n})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/time-picker/time-picker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./time-picker-basic/time-picker-basic.component.html')"
+                }
+            ],
+            "src/app/components/tooltip/tooltip.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "basicTemplate.bind({})"
+                },
+                {
+                    "name": "basicTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: `<tooltip-basic [position]=\"'${args.position}'\" [title]=\"'${args.title}'\">Tooltip</tooltip-basic>`,\n})"
+                }
+            ],
             "src/app/components/table/table-static-data.ts": [
                 {
                     "name": "basicColumns",
@@ -51477,18 +51477,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "src/environments/environment.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  production: false\n}"
-                }
-            ],
             "src/environments/environment.prod.ts": [
                 {
                     "name": "environment",
@@ -51499,6 +51487,18 @@
                     "deprecationMessage": "",
                     "type": "object",
                     "defaultValue": "{\n  production: true\n}"
+                }
+            ],
+            "src/environments/environment.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  production: false\n}"
                 }
             ],
             "projects/uswds-components/src/lib/environment.ts": [
@@ -51608,24 +51608,24 @@
                     "defaultValue": "0"
                 }
             ],
-            "projects/uswds-components/src/lib/radio/radio.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                }
-            ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
                 {
                     "name": "nextId",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "projects/uswds-components/src/lib/modal/modal-window.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                }
+            ],
+            "projects/uswds-components/src/lib/radio/radio.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/radio/radio.component.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "number",
@@ -55927,6 +55927,15 @@
                 "status": "medium"
             },
             {
+                "filePath": "projects/uswds-components/src/lib/step-indicator/step-indicator-header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "UsaStepIndicatorHeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
                 "filePath": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -55934,15 +55943,6 @@
                 "coveragePercent": 44,
                 "coverageCount": "8/18",
                 "status": "medium"
-            },
-            {
-                "filePath": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "UsaStepIndicatorHeaderComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/4",
-                "status": "low"
             },
             {
                 "filePath": "projects/uswds-components/src/lib/step-indicator/step-indicator.component.ts",
