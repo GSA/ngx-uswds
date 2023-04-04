@@ -2,9 +2,9 @@
   "name": "@gsa-sam/uswds-formly",
   "version": "14.0.0-beta.0",
   "peerDependencies": {
-    "@angular/common": "^~14.2.12",
-    "@angular/core": "^~14.2.12",
-    "@angular/forms": "^~14.2.12",
+    "@angular/common": "^14.2.12",
+    "@angular/core": "^14.2.12",
+    "@angular/forms": "^14.2.12",
     "uswds": "^2.11.2",
     "@ngx-formly/core": "^5.10.23",
     "@gsa-sam/ngx-uswds": "^12.0.0"

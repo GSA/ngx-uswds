@@ -6,9 +6,9 @@
     "url": "https://github.com/GSA/ngx-uswds.git"
   },
   "peerDependencies": {
-    "@angular/common": "^~14.2.12",
-    "@angular/core": "^~14.2.12",
-    "@angular/forms": "^~14.2.12",
+    "@angular/common": "^14.2.12",
+    "@angular/core": "^14.2.12",
+    "@angular/forms": "^14.2.12",
     "uswds": "2.11.2"
   },
   "dependencies": {
