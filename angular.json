@@ -28,20 +28,34 @@
             "outputHashing": "none",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
+              "src/assets",
               {
-                "input": "src/styles/uswds-styles.scss",
-                "inject": false,
-                "bundleName": "uswds-styles"
+                "glob": "**/*",
+                "input": "./node_modules/@uswds/uswds/dist/fonts/",
+                "output": "/assets/uswds/fonts/"
               },
               {
-                "input": "src/styles/sam.scss",
-                "inject": false,
-                "bundleName": "sam-styles"
+                "glob": "**/*",
+                "input": "./node_modules/@uswds/uswds/dist/img/",
+                "output": "/assets/uswds/img/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@gsa-sam/sam-styles/src/packages/images",
+                "output": "/assets/uswds/img/"
               }
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+
+                "./node_modules/@uswds/uswds/packages",
+                "./node_modules/@gsa-sam/sam-styles"
+              ]
+            },
+            "styles": [
+"src/styles/uswds-styles.scss","src/styles/sam.scss"
+
+],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -104,13 +118,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles/app.styles.scss"],
             "scripts": []
           }
         },

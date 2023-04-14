@@ -1,3 +1,13 @@
+@use "src/packages/theme/settings" with (
+  $sam-uswds-font-path: "/assets/uswds/fonts",
+  $sam-uswds-image-path: "/assets/uswds/img"
+);
+@use "src/packages/theme/variables" with (
+  $sam-image-path: "/assets/uswds/img"
+);
+@forward "src";
+
+
 /** CSS for demo site here **/
 .site-sidenav {
   border: 2px solid rgba(0,0,0,.1);
@@ -13,7 +23,7 @@
 
   .usa-nav__inner {
     max-width: none;
-    @include u-bg('primary-darker');
+   // @include u-bg('primary-darker');
   }
 
   .usa-navbar {

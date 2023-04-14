@@ -1,11 +1,10 @@
-@import "node_modules/uswds/src/stylesheets/packages/required";
-
+@use 'uswds-core';
 /** Define styles for scaling segment width */
 @for $i from 1 through 8 {
-  $scale-percentage: ($i * 100) / 2;
+  $scale-percentage: calc(($i * 100) / 2);
   .usa-step-indicator__segment.scale-percent-#{$scale-percentage} {
-    max-width: 15rem * ($scale-percentage / 100);
-    flex-grow: $scale-percentage / 100;
+    max-width: 15rem * calc($scale-percentage / 100);
+    flex-grow: calc($scale-percentage / 100)
   }
 }
 

@@ -29,8 +29,8 @@ export const parameters = {
   },
   cssVariables: {
     files: {
-      SAM,
-      USWDS,
+     SAM,
+     USWDS,
     }
   },
   options: {
