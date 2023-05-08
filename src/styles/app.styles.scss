@@ -1,11 +1,11 @@
-@use "src/packages/theme/settings" with (
+@use "sam-styles/packages/theme/settings" with (
   $sam-uswds-font-path: "/assets/uswds/fonts",
   $sam-uswds-image-path: "/assets/uswds/img"
 );
-@use "src/packages/theme/variables" with (
+@use "sam-styles/packages/theme/variables" with (
   $sam-image-path: "/assets/uswds/img"
 );
-@forward "src";
+@forward "sam-styles";
 
 
 /** CSS for demo site here **/

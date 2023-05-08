@@ -1,45 +1,45 @@
-@use 'uswds-core';
-/** Define styles for scaling segment width */
-@for $i from 1 through 8 {
-  $scale-percentage: calc(($i * 100) / 2);
-  .usa-step-indicator__segment.scale-percent-#{$scale-percentage} {
-    max-width: 15rem * calc($scale-percentage / 100);
-    flex-grow: calc($scale-percentage / 100)
-  }
-}
+// @use 'uswds-core';
+// /** Define styles for scaling segment width */
+// @for $i from 1 through 8 {
+//   $scale-percentage: calc(($i * 100) / 2);
+//   .usa-step-indicator__segment.scale-percent-#{$scale-percentage} {
+//     max-width: 15rem * calc($scale-percentage / 100);
+//     flex-grow: calc($scale-percentage / 100)
+//   }
+// }
 
-/** Mixin to allow partial step completion */
-@mixin gradient($color, $fill-percentage, $color-remaining) {
-  background: linear-gradient(to right, color($color) $fill-percentage, color($color-remaining) $fill-percentage);
-}
+// /** Mixin to allow partial step completion */
+// @mixin gradient($color, $fill-percentage, $color-remaining) {
+//   background: linear-gradient(to right, color($color) $fill-percentage, color($color-remaining) $fill-percentage);
+// }
 
-/** Define styles for partial step completion in multiples of 10 */
-@for $i from 0 through 10 {
-  .fill-#{$i * 10}.usa-step-indicator__segment--current:after {
-    @include gradient($theme-step-indicator-segment-color-current, $i * 10%,  $theme-step-indicator-segment-color-pending);
-  }
-}
+// /** Define styles for partial step completion in multiples of 10 */
+// @for $i from 0 through 10 {
+//   .fill-#{$i * 10}.usa-step-indicator__segment--current:after {
+//     // @include gradient($theme-step-indicator-segment-color-current, $i * 10%,  $theme-step-indicator-segment-color-pending);
+//   }
+// }
 
-/** Define styles for partial step completion in multiples of 33 */
-@for $i from 1 through 3 {
-  .fill-#{$i * 33}.usa-step-indicator__segment--current:after {
-    @include gradient($theme-step-indicator-segment-color-current, $i * 33%,  $theme-step-indicator-segment-color-pending);
-  }
-}
+// /** Define styles for partial step completion in multiples of 33 */
+// @for $i from 1 through 3 {
+//   .fill-#{$i * 33}.usa-step-indicator__segment--current:after {
+//     // @include gradient($theme-step-indicator-segment-color-current, $i * 33%,  $theme-step-indicator-segment-color-pending);
+//   }
+// }
 
-/** Manually add partial step completion for 25% and 75% */
-.fill-25.usa-step-indicator__segment--current:after  {
-  @include gradient($theme-step-indicator-segment-color-current, 25%,  $theme-step-indicator-segment-color-pending);
-}
+// /** Manually add partial step completion for 25% and 75% */
+// .fill-25.usa-step-indicator__segment--current:after  {
+//   // @include gradient($theme-step-indicator-segment-color-current, 25%,  $theme-step-indicator-segment-color-pending);
+// }
 
-.fill-75.usa-step-indicator__segment--current:after  {
-  @include gradient($theme-step-indicator-segment-color-current, 75%,  $theme-step-indicator-segment-color-pending);
-}
+// .fill-75.usa-step-indicator__segment--current:after  {
+//   // @include gradient($theme-step-indicator-segment-color-current, 75%,  $theme-step-indicator-segment-color-pending);
+// }
 
-/** 
-  Add css to hide counter if step label is not defined. Normally used to indicate last step in
-  step indicator with counter variation
-*/
-.usa-step-indicator__segment--no-counter:before {
-  content: '';
-}
+// /** 
+//   Add css to hide counter if step label is not defined. Normally used to indicate last step in
+//   step indicator with counter variation
+// */
+// .usa-step-indicator__segment--no-counter:before {
+//   content: '';
+// }
