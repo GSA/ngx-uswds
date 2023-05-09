@@ -1,6 +1,6 @@
 {
   "name": "usa-components",
-  "version": "14.0.0-beta.2",
+  "version": "14.0.0-beta.3",
   "scripts": {
     "ng": "ng",
     "start": "npm run sandbox-icons && npm run docs:json && start-storybook -p 4200",
@@ -41,7 +41,7 @@
     "ngx-markdown": "^14.0.1",
     "rxjs": "~6.6.7",
     "tslib": "^2.0.0",
-    "uswds": "2.11.2",
+    "uswds": "^2.13.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
