@@ -3,8 +3,8 @@ import {
 } from "@storybook/addon-docs/angular";
 import docJson from "../documentation.json";
 
-import SAM from '!!style-loader?{"injectType": "lazyStyleTag", "attributes":{"id": "ngx-uswds-theme"}}!css-loader!sass-loader!../src/styles/sam.scss'
-import USWDS from '!!style-loader?{"injectType": "lazyStyleTag", "attributes":{"id": "ngx-uswds-theme"}}!css-loader!sass-loader!../src/styles/uswds-styles.scss'
+// import SAM from '!!style-loader?{"injectType": "lazyStyleTag", "attributes":{"id": "ngx-uswds-theme"}}!css-loader!sass-loader!../src/styles/app.styles.scss'
+// import USWDS from '!!style-loader?{"injectType": "lazyStyleTag", "attributes":{"id": "ngx-uswds-theme"}}!css-loader!sass-loader!../src/styles/app.styles.scss'
 
 import cssVariablesTheme from '@etchteam/storybook-addon-css-variables-theme'
 
@@ -29,8 +29,8 @@ export const parameters = {
   },
   cssVariables: {
     files: {
-      SAM,
-      USWDS,
+      // SAM,
+      // USWDS,
     }
   },
   options: {
