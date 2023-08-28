@@ -21,7 +21,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     HomeModule,
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, {}),
   ],
   exports: [
     RouterModule,
