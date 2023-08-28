@@ -2,14 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UsaNavigationMode } from '../util/navigation';
 import { SidenavModel } from './sidenav.model';
 
-
 @Component({
   selector: `usa-sidenav`,
   templateUrl: `sidenav.component.html`,
-  styleUrls: ['./sidenav.component.scss']
 })
 export class UsaSidenavComponent implements OnInit {
-
   NavigationMode = UsaNavigationMode;
 
   @Input() sidenavContent: SidenavModel[];
@@ -38,20 +35,20 @@ export class UsaSidenavComponent implements OnInit {
    */
   @Input() selectFirstLabelChild = false;
 
-
-
   @Output() sidenavClicked = new EventEmitter<SidenavModel>();
 
   ngOnInit(): void {
     // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label
     if (this.expandType) {
-      this.sidenavContent.map(link => {
+      this.sidenavContent.map((link) => {
         if (link.mode !== UsaNavigationMode.LABEL) {
           // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration
           link.collapsed = link.collapsed === undefined ? true : link.collapsed;
-        }
-        else {
-          link.collapsed = link.collapsed === undefined ? !this.autoCollapseLabels && this.expandType !== 'multiple' : link.collapsed;
+        } else {
+          link.collapsed =
+            link.collapsed === undefined
+              ? !this.autoCollapseLabels && this.expandType !== 'multiple'
+              : link.collapsed;
         }
         if (link.children) {
           this.collapseChildren(link);
@@ -61,14 +58,13 @@ export class UsaSidenavComponent implements OnInit {
   }
 
   private collapseChildren(link: SidenavModel): void {
-    link.children = link.children.map(childLink => {
+    link.children = link.children.map((childLink) => {
       childLink.collapsed = true;
       return childLink;
     });
   }
 
   onSidenavItemClicked(item: SidenavModel): void {
-
     this.deselectSideNav(this.sidenavContent);
     this.selectSideNav(item, this.sidenavContent);
     if (item.children && this.canCollapseLabel(item)) {
@@ -76,7 +72,6 @@ export class UsaSidenavComponent implements OnInit {
       this.toggleBasedOnSelected(item.children);
     }
     if (this.expandType === 'single') {
-
       this.toggleBasedOnSelected(this.sidenavContent);
     }
     this.sidenavClicked.emit(item);
@@ -88,11 +83,13 @@ export class UsaSidenavComponent implements OnInit {
    * @returns true if either link is not a label, or it is a label and label collapse is enabled
    */
   private canCollapseLabel(link: SidenavModel): boolean {
-    return link.mode === UsaNavigationMode.LABEL ? this.enableLabelCollapse : true;
+    return link.mode === UsaNavigationMode.LABEL
+      ? this.enableLabelCollapse
+      : true;
   }
 
   private toggleBasedOnSelected(links: SidenavModel[]): void {
-    links.forEach(link => {
+    links.forEach((link) => {
       link.collapsed = link.selected ? false : true;
       if (link.children) {
         this.toggleBasedOnSelected(link.children);
@@ -106,7 +103,7 @@ export class UsaSidenavComponent implements OnInit {
    * @param sidenavItems
    */
   private deselectSideNav(sidenavItems: SidenavModel[]): void {
-    sidenavItems.forEach(sideNavItem => {
+    sidenavItems.forEach((sideNavItem) => {
       if (sideNavItem.children) {
         this.deselectSideNav(sideNavItem.children);
       }
@@ -119,9 +116,11 @@ export class UsaSidenavComponent implements OnInit {
    * @param selectedItem
    * @param allNavItems
    */
-  private selectSideNav(selectedItem: SidenavModel, allNavItems: SidenavModel[]): boolean {
+  private selectSideNav(
+    selectedItem: SidenavModel,
+    allNavItems: SidenavModel[]
+  ): boolean {
     for (const item of allNavItems) {
-
       if (item === selectedItem) {
         item.selected = true;
         return true;
@@ -141,7 +140,7 @@ export class UsaSidenavComponent implements OnInit {
    */
   public expandAll(): void {
     if (this.expandType === 'multiple') {
-      this.sidenavContent.forEach(link => this.expandChildren(link, false));
+      this.sidenavContent.forEach((link) => this.expandChildren(link, false));
     }
   }
 
@@ -149,13 +148,17 @@ export class UsaSidenavComponent implements OnInit {
    * Collapses all links
    */
   public collapseAll(): void {
-    this.sidenavContent.forEach(link => this.expandChildren(link, true));
+    this.sidenavContent.forEach((link) => this.expandChildren(link, true));
   }
 
   private expandChildren(link: SidenavModel, collapsedValue: boolean): void {
     if (link.children) {
       link.collapsed = collapsedValue;
-      link.children.forEach(childLink => childLink.children ? this.expandChildren(childLink, collapsedValue) : null);
+      link.children.forEach((childLink) =>
+        childLink.children
+          ? this.expandChildren(childLink, collapsedValue)
+          : null
+      );
     }
   }
   private queryStringBuilder(item: SidenavModel): string {
@@ -165,7 +168,9 @@ export class UsaSidenavComponent implements OnInit {
       keys = Object.keys(item.queryParams);
     }
     for (const d of keys) {
-      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d]));
+      ret.push(
+        encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d])
+      );
     }
     return ret.join('&');
   }
@@ -188,5 +193,4 @@ export class UsaSidenavComponent implements OnInit {
     }
     return url;
   }
-
 }
