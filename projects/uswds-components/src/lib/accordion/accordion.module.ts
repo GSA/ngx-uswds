@@ -1,12 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { 
-  UsaAccordionContent, 
-  UsaAccordionHeader, 
+import {
+  UsaAccordionContent,
+  UsaAccordionHeader,
   UsaAccordionItem
 } from "./accordion-items";
-import { UsaAccordionToggle } from "./accordion-toggle.directive";
-import { UsaAccordionComponent } from "./accordion.component";
+import { UsaAccordionComponent, UsaAccordionToggle } from "./accordion.component";
 
 @NgModule({
   imports: [

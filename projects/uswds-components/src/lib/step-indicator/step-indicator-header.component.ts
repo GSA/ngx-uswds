@@ -1,5 +1,5 @@
-import { Component, Host, Input, TemplateRef } from '@angular/core';
-import { UsaStepIndicatorComponent } from './step-indicator.component';
+import { Component, Host, Input, TemplateRef } from "@angular/core";
+import { UsaStepIndicatorComponent } from "./step-indicator.component";
 
 @Component({
   selector: `[UsaStepHeader]`,

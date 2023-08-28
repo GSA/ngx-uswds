@@ -4,7 +4,6 @@
 
 // Accordion
 export * from './lib/accordion/accordion-items';
-export * from './lib/accordion/accordion-toggle.directive';
 export * from './lib/accordion/accordion.component';
 export * from './lib/accordion/accordion.module';
 
@@ -47,6 +46,7 @@ export * from './lib/dropdown/dropdown.module';
 export * from './lib/file-input/file-input.component';
 export * from './lib/file-input/file-input.module';
 export * from './lib/file-input/file-input.config';
+export * from './lib/file-input/file-preview.directive';
 
 // Modal
 export * from './lib/modal/modal-dismiss-reasons';
@@ -80,6 +80,7 @@ export * from './lib/table/table-header';
 export * from './lib/table/table-sort.component';
 export * from './lib/table/table.component';
 export * from './lib/table/table.module';
+export * from './lib/table/highlight-on-hover.directive';
 
 //TextArea
 export * from './lib/textarea/textarea.component';
