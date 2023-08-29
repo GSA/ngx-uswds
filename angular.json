@@ -28,25 +28,34 @@
             "outputHashing": "none",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
+              "src/assets",
               {
-                "input": "src/styles/uswds-styles.scss",
-                "inject": false,
-                "bundleName": "uswds-styles"
+                "glob": "**/*",
+                "input": "./node_modules/@uswds/uswds/dist/fonts/",
+                "output": "/assets/uswds/fonts/"
               },
               {
-                "input": "src/styles/sam.scss",
-                "inject": false,
-                "bundleName": "sam-styles"
+                "glob": "**/*",
+                "input": "./node_modules/@uswds/uswds/dist/img/",
+                "output": "/assets/uswds/img/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@gsa-sam/sam-styles/sam-styles/packages/images",
+                "output": "/assets/uswds/img/"
               }
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./node_modules/@uswds/uswds/packages",
+                "./node_modules/@gsa-sam/sam-styles"
+              ]
+            },
+            "styles": ["src/styles/app.styles.scss"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
-            "sourceMap": true,
             "optimization": false,
             "namedChunks": true
           },
@@ -107,11 +116,24 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@uswds/uswds/dist/fonts/",
+                "output": "/assets/uswds/fonts/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@uswds/uswds/dist/img/",
+                "output": "/assets/uswds/img/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@gsa-sam/sam-styles/sam-styles/packages/images",
+                "output": "/assets/uswds/img/"
+              }
             ],
-            "styles": [
-              "src/styles/styles.scss"
-            ],
+            "styles": ["src/styles/app.styles.scss"],
             "scripts": []
           }
         },
@@ -184,6 +206,6 @@
           }
         }
       }
-    }},
-  "defaultProject": "usa-components"
+    }
+  }
 }

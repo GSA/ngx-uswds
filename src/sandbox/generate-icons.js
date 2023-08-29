@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const getDirName = require('path').dirname;
 
-const pathToUsaIcons = '../../node_modules/uswds/dist/img/usa-icons';
+const pathToUsaIcons = '../../node_modules/@uswds/uswds/dist/img/usa-icons';
 
 function readIcons(dir) {
   const files = {};

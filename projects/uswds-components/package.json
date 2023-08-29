@@ -1,15 +1,15 @@
 {
   "name": "@gsa-sam/ngx-uswds",
-  "version": "13.0.0",
+  "version": "14.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/GSA/ngx-uswds.git"
   },
   "peerDependencies": {
-    "@angular/common": "^~13.3.12",
-    "@angular/core": "^~13.3.12",
-    "@angular/forms": "^~13.3.12",
-    "uswds": "2.11.2"
+    "@angular/common": ">=14.2.12 <15.0.0",
+    "@angular/core": ">=14.2.12 <15.0.0",
+    "@angular/forms": ">=14.2.12 <15.0.0",
+    "uswds": ">=2.13.1 <3.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"

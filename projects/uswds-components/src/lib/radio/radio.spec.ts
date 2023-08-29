@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing"
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { UntypedFormControl, ReactiveFormsModule } from "@angular/forms";
 import { UsaRadioGroupComponent } from "./radio-group.component";
 import { UsaRadioModule } from "./radio.module";
 
@@ -30,7 +30,7 @@ class RadioTestComponent {
   @ViewChild('radioGroupA') radioGroupA: UsaRadioGroupComponent;
   @ViewChild('radioGroupB') radioGroupB: UsaRadioGroupComponent;
 
-  reactiveFormControl = new FormControl();
+  reactiveFormControl = new UntypedFormControl();
 
   constructor(public elementRef: ElementRef) {}
 

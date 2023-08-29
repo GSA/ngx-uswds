@@ -1,40 +1,41 @@
-@import "node_modules/uswds/src/stylesheets/packages/required";
+$theme-step-indicator-segment-color-pending: #dfe1e2;
+$theme-step-indicator-segment-color-current: #005ea2;
 
-/** Define styles for scaling segment width */
 @for $i from 1 through 8 {
-  $scale-percentage: ($i * 100) / 2;
+  $scale-percentage: calc(($i * 100) / 2);
+
   .usa-step-indicator__segment.scale-percent-#{$scale-percentage} {
-    max-width: 15rem * ($scale-percentage / 100);
-    flex-grow: $scale-percentage / 100;
+    max-width: 15rem * calc($scale-percentage / 100);
+    flex-grow: calc($scale-percentage / 100);
   }
 }
 
 /** Mixin to allow partial step completion */
 @mixin gradient($color, $fill-percentage, $color-remaining) {
-  background: linear-gradient(to right, color($color) $fill-percentage, color($color-remaining) $fill-percentage);
+  background: linear-gradient(to right, $color $fill-percentage, $color-remaining $fill-percentage);
 }
 
 /** Define styles for partial step completion in multiples of 10 */
 @for $i from 0 through 10 {
   .fill-#{$i * 10}.usa-step-indicator__segment--current:after {
-    @include gradient($theme-step-indicator-segment-color-current, $i * 10%,  $theme-step-indicator-segment-color-pending);
+    @include gradient($theme-step-indicator-segment-color-current, $i * 10%, $theme-step-indicator-segment-color-pending);
   }
 }
 
 /** Define styles for partial step completion in multiples of 33 */
 @for $i from 1 through 3 {
   .fill-#{$i * 33}.usa-step-indicator__segment--current:after {
-    @include gradient($theme-step-indicator-segment-color-current, $i * 33%,  $theme-step-indicator-segment-color-pending);
+    @include gradient($theme-step-indicator-segment-color-current, $i * 33%, $theme-step-indicator-segment-color-pending);
   }
 }
 
 /** Manually add partial step completion for 25% and 75% */
-.fill-25.usa-step-indicator__segment--current:after  {
-  @include gradient($theme-step-indicator-segment-color-current, 25%,  $theme-step-indicator-segment-color-pending);
+.fill-25.usa-step-indicator__segment--current:after {
+  @include gradient($theme-step-indicator-segment-color-current, 25%, $theme-step-indicator-segment-color-pending);
 }
 
-.fill-75.usa-step-indicator__segment--current:after  {
-  @include gradient($theme-step-indicator-segment-color-current, 75%,  $theme-step-indicator-segment-color-pending);
+.fill-75.usa-step-indicator__segment--current:after {
+  @include gradient($theme-step-indicator-segment-color-current, 75%, $theme-step-indicator-segment-color-pending);
 }
 
 /** 
@@ -43,4 +44,17 @@
 */
 .usa-step-indicator__segment--no-counter:before {
   content: '';
+  box-shadow: inset 0 0 0 0.25rem #f5f5f0, 0 0 0 0.25rem #ffff !important;
+}
+
+.usa-step-indicator__segment:before {
+  box-shadow: inset 0 0 0 0.25rem #f5f5f0, 0 0 0 0.25rem #ffff !important;
+}
+
+.usa-step-indicator__segment--current:before {
+  box-shadow: inset 0 0 0 0.25rem #2672de, 0 0 0 0.25rem  #ffff !important;
+}
+
+.usa-step-indicator__segment--complete:before {
+  box-shadow: inset 0 0 0 0.25rem #1a4480, 0 0 0 0.25rem  #ffff !important;
 }
