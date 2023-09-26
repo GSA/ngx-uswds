@@ -172,7 +172,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/uswds-components/src/test.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],        
             "tsConfig": "projects/uswds-components/tsconfig.spec.json",
             "karmaConfig": "projects/uswds-components/karma.conf.js"
           }
