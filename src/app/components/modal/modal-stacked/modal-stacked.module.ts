@@ -11,6 +11,6 @@ import { ModalStackedBComponent, ModalStackedComponent } from './modal-stacked.c
     CommonModule
   ],
   exports: [ModalStackedComponent],
-  entryComponents: [ ModalStackedBComponent ],
+  //entryComponents: [ ModalStackedBComponent ],
 })
 export class ModalStackedModule { }
