@@ -36479,7 +36479,7 @@
         },
         {
             "name": "UsaSidenavComponent",
-            "id": "component-UsaSidenavComponent-c55f0572c768fd3091ed52528e1a36783b2bc0b23399d2d692b0e36199d6fa94954f0e6ef7e5be6585610f5ac99edbd8f8c3e766096614abd2c1de03f2e28e4e",
+            "id": "component-UsaSidenavComponent-7908e959d08cc88bc3c1326accb159fd85343028fa187109c07e9ff8c9ae8ea6c189c76c3f0cbbe7d6a615b3fcc52aa361b8a0904937f89f1a502badb5c6a1cf",
             "file": "projects/uswds-components/src/lib/sidenav/sidenav.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -36487,9 +36487,7 @@
             "outputs": [],
             "providers": [],
             "selector": "usa-sidenav",
-            "styleUrls": [
-                "./sidenav.component.scss"
-            ],
+            "styleUrls": [],
             "styles": [],
             "templateUrl": [
                 "sidenav.component.html"
@@ -36504,7 +36502,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCollapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation\n",
                     "description": "<p>Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation</p>\n",
-                    "line": 29,
+                    "line": 26,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36515,7 +36513,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nEnables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.\n",
                     "description": "<p>Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.</p>\n",
-                    "line": 34,
+                    "line": 31,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36525,7 +36523,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nEnables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.\n\n'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse\n\n'multiple' will allow all branches to be expanded independently of each other.\n",
                     "description": "<p>Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.</p>\n<p>&#39;single&#39; will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse</p>\n<p>&#39;multiple&#39; will allow all branches to be expanded independently of each other.</p>\n",
-                    "line": 24,
+                    "line": 21,
                     "type": "\"single\" | \"multiple\"",
                     "decorators": []
                 },
@@ -36536,7 +36534,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nIf true, the first child of the first label in the side nav will be selected by default\n",
                     "description": "<p>If true, the first child of the first label in the side nav will be selected by default</p>\n",
-                    "line": 39,
+                    "line": 36,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -36544,7 +36542,7 @@
                     "name": "sidenavContent",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 15,
+                    "line": 12,
                     "type": "SidenavModel[]",
                     "decorators": []
                 }
@@ -36555,7 +36553,7 @@
                     "defaultValue": "new EventEmitter<SidenavModel>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 43,
+                    "line": 38,
                     "type": "EventEmitter"
                 }
             ],
@@ -36568,7 +36566,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 10
                 }
             ],
             "methodsClass": [
@@ -36585,7 +36583,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 90,
+                    "line": 85,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\n\n",
@@ -36596,8 +36594,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 2913,
-                                "end": 2917,
+                                "pos": 2901,
+                                "end": 2905,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36608,8 +36606,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 2907,
-                                "end": 2912,
+                                "pos": 2895,
+                                "end": 2900,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36620,8 +36618,8 @@
                         },
                         {
                             "tagName": {
-                                "pos": 2957,
-                                "end": 2964,
+                                "pos": 2945,
+                                "end": 2952,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36638,7 +36636,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 151,
+                    "line": 150,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCollapses all links\n",
@@ -36660,7 +36658,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 63,
+                    "line": 60,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36691,7 +36689,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 108,
+                    "line": 105,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects any previously selected sidenav item\n",
@@ -36702,8 +36700,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3528,
-                                "end": 3540,
+                                "pos": 3530,
+                                "end": 3542,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36714,8 +36712,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3522,
-                                "end": 3527,
+                                "pos": 3524,
+                                "end": 3529,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36732,7 +36730,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 142,
+                    "line": 141,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nWhen expandType is multiple, expands all collapseable links in sidenav\n",
@@ -36760,7 +36758,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 155,
+                    "line": 154,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36793,7 +36791,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 45,
+                    "line": 40,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -36810,7 +36808,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 70,
+                    "line": 67,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -36838,7 +36836,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 161,
+                    "line": 164,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36875,7 +36873,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 122,
+                    "line": 119,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSelects the clicked sidenav item as we as any parent\n",
@@ -36886,8 +36884,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3872,
-                                "end": 3884,
+                                "pos": 3876,
+                                "end": 3888,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36898,8 +36896,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3866,
-                                "end": 3871,
+                                "pos": 3870,
+                                "end": 3875,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36910,8 +36908,8 @@
                         },
                         {
                             "name": {
-                                "pos": 3897,
-                                "end": 3908,
+                                "pos": 3901,
+                                "end": 3912,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36922,8 +36920,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3891,
-                                "end": 3896,
+                                "pos": 3895,
+                                "end": 3900,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36947,7 +36945,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 94,
+                    "line": 91,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -36978,7 +36976,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 177,
+                    "line": 182,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\ncreates url from provided route and query params\n",
@@ -36986,8 +36984,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 5444,
-                                "end": 5448,
+                                "pos": 5516,
+                                "end": 5520,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -36998,8 +36996,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 5438,
-                                "end": 5443,
+                                "pos": 5510,
+                                "end": 5515,
                                 "flags": 8421376,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -37020,14 +37018,9 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { UsaNavigationMode } from '../util/navigation';\nimport { SidenavModel } from './sidenav.model';\n\n\n@Component({\n  selector: `usa-sidenav`,\n  templateUrl: `sidenav.component.html`,\n  styleUrls: ['./sidenav.component.scss']\n})\nexport class UsaSidenavComponent implements OnInit {\n\n  NavigationMode = UsaNavigationMode;\n\n  @Input() sidenavContent: SidenavModel[];\n\n  /**\n   * Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.\n   *\n   * 'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse\n   *\n   * 'multiple' will allow all branches to be expanded independently of each other.\n   */\n  @Input() expandType: 'single' | 'multiple';\n\n  /**\n   * Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation\n   */\n  @Input() autoCollapseLabels: boolean = true;\n\n  /**\n   * Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.\n   */\n  @Input() enableLabelCollapse = false;\n\n  /**\n   * If true, the first child of the first label in the side nav will be selected by default\n   */\n  @Input() selectFirstLabelChild = false;\n\n\n\n  @Output() sidenavClicked = new EventEmitter<SidenavModel>();\n\n  ngOnInit(): void {\n    // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label\n    if (this.expandType) {\n      this.sidenavContent.map(link => {\n        if (link.mode !== UsaNavigationMode.LABEL) {\n          // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration\n          link.collapsed = link.collapsed === undefined ? true : link.collapsed;\n        }\n        else {\n          link.collapsed = link.collapsed === undefined ? !this.autoCollapseLabels && this.expandType !== 'multiple' : link.collapsed;\n        }\n        if (link.children) {\n          this.collapseChildren(link);\n        }\n      });\n    }\n  }\n\n  private collapseChildren(link: SidenavModel): void {\n    link.children = link.children.map(childLink => {\n      childLink.collapsed = true;\n      return childLink;\n    });\n  }\n\n  onSidenavItemClicked(item: SidenavModel): void {\n\n    this.deselectSideNav(this.sidenavContent);\n    this.selectSideNav(item, this.sidenavContent);\n    if (item.children && this.canCollapseLabel(item)) {\n      item.collapsed = !item.collapsed;\n      this.toggleBasedOnSelected(item.children);\n    }\n    if (this.expandType === 'single') {\n\n      this.toggleBasedOnSelected(this.sidenavContent);\n    }\n    this.sidenavClicked.emit(item);\n  }\n\n  /**\n   *\n   * @param link - Link which has been clicked on\n   * @returns true if either link is not a label, or it is a label and label collapse is enabled\n   */\n  private canCollapseLabel(link: SidenavModel): boolean {\n    return link.mode === UsaNavigationMode.LABEL ? this.enableLabelCollapse : true;\n  }\n\n  private toggleBasedOnSelected(links: SidenavModel[]): void {\n    links.forEach(link => {\n      link.collapsed = link.selected ? false : true;\n      if (link.children) {\n        this.toggleBasedOnSelected(link.children);\n      }\n      return;\n    });\n  }\n\n  /**\n   * Deselects any previously selected sidenav item\n   * @param sidenavItems\n   */\n  private deselectSideNav(sidenavItems: SidenavModel[]): void {\n    sidenavItems.forEach(sideNavItem => {\n      if (sideNavItem.children) {\n        this.deselectSideNav(sideNavItem.children);\n      }\n      sideNavItem.selected = false;\n    });\n  }\n\n  /**\n   * Selects the clicked sidenav item as we as any parent\n   * @param selectedItem\n   * @param allNavItems\n   */\n  private selectSideNav(selectedItem: SidenavModel, allNavItems: SidenavModel[]): boolean {\n    for (const item of allNavItems) {\n\n      if (item === selectedItem) {\n        item.selected = true;\n        return true;\n      } else if (item.children) {\n        const isChildSelected = this.selectSideNav(selectedItem, item.children);\n        if (isChildSelected) {\n          item.selected = true;\n          return true;\n        }\n      }\n    }\n    return false;\n  }\n\n  /**\n   * When expandType is multiple, expands all collapseable links in sidenav\n   */\n  public expandAll(): void {\n    if (this.expandType === 'multiple') {\n      this.sidenavContent.forEach(link => this.expandChildren(link, false));\n    }\n  }\n\n  /**\n   * Collapses all links\n   */\n  public collapseAll(): void {\n    this.sidenavContent.forEach(link => this.expandChildren(link, true));\n  }\n\n  private expandChildren(link: SidenavModel, collapsedValue: boolean): void {\n    if (link.children) {\n      link.collapsed = collapsedValue;\n      link.children.forEach(childLink => childLink.children ? this.expandChildren(childLink, collapsedValue) : null);\n    }\n  }\n  private queryStringBuilder(item: SidenavModel): string {\n    const ret = [];\n    let keys = [];\n    if (item.queryParams) {\n      keys = Object.keys(item.queryParams);\n    }\n    for (const d of keys) {\n      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d]));\n    }\n    return ret.join('&');\n  }\n\n  /**\n   * creates url from provided route and query params\n   * @param item - Link to use when building url\n   */\n  urlBuilder(item: SidenavModel): string {\n    let url = item.path;\n    const queryParams = this.queryStringBuilder(item);\n    if (queryParams) {\n      if (url.indexOf('?') === -1) {\n        url += '?' + queryParams;\n      } else if (url.indexOf('?') === url.length - 1) {\n        url += queryParams;\n      } else {\n        url += '&' + queryParams;\n      }\n    }\n    return url;\n  }\n\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { UsaNavigationMode } from '../util/navigation';\nimport { SidenavModel } from './sidenav.model';\n\n@Component({\n  selector: `usa-sidenav`,\n  templateUrl: `sidenav.component.html`,\n})\nexport class UsaSidenavComponent implements OnInit {\n  NavigationMode = UsaNavigationMode;\n\n  @Input() sidenavContent: SidenavModel[];\n\n  /**\n   * Enables navigation items to be toggled. By default all EXTERNAL and INTERNAL links are fully collapsed unless specified in sidenavContent.\n   *\n   * 'single' will allow only one branch to be expanded at a time. If a new branch is expanded, all open branches will collapse\n   *\n   * 'multiple' will allow all branches to be expanded independently of each other.\n   */\n  @Input() expandType: 'single' | 'multiple';\n\n  /**\n   * Collapse the children of LABEL by default. Setting to false has no effect on behavior of single-select. This behavior can be overriden on a link by link basis via configuation\n   */\n  @Input() autoCollapseLabels: boolean = true;\n\n  /**\n   * Enables links with a mode of NavigationMode.LABEL to be collapsed, by default they are expanded and locked.\n   */\n  @Input() enableLabelCollapse = false;\n\n  /**\n   * If true, the first child of the first label in the side nav will be selected by default\n   */\n  @Input() selectFirstLabelChild = false;\n\n  @Output() sidenavClicked = new EventEmitter<SidenavModel>();\n\n  ngOnInit(): void {\n    // If collapse is enabled, collapse all children by default. If label, expand to show children and select the first child of the first label\n    if (this.expandType) {\n      this.sidenavContent.map((link) => {\n        if (link.mode !== UsaNavigationMode.LABEL) {\n          // By default, link will not be expanded to show children. But this can be overridden for a given link based on configuration\n          link.collapsed = link.collapsed === undefined ? true : link.collapsed;\n        } else {\n          link.collapsed =\n            link.collapsed === undefined\n              ? !this.autoCollapseLabels && this.expandType !== 'multiple'\n              : link.collapsed;\n        }\n        if (link.children) {\n          this.collapseChildren(link);\n        }\n      });\n    }\n  }\n\n  private collapseChildren(link: SidenavModel): void {\n    link.children = link.children.map((childLink) => {\n      childLink.collapsed = true;\n      return childLink;\n    });\n  }\n\n  onSidenavItemClicked(item: SidenavModel): void {\n    this.deselectSideNav(this.sidenavContent);\n    this.selectSideNav(item, this.sidenavContent);\n    if (item.children && this.canCollapseLabel(item)) {\n      item.collapsed = !item.collapsed;\n      this.toggleBasedOnSelected(item.children);\n    }\n    if (this.expandType === 'single') {\n      this.toggleBasedOnSelected(this.sidenavContent);\n    }\n    this.sidenavClicked.emit(item);\n  }\n\n  /**\n   *\n   * @param link - Link which has been clicked on\n   * @returns true if either link is not a label, or it is a label and label collapse is enabled\n   */\n  private canCollapseLabel(link: SidenavModel): boolean {\n    return link.mode === UsaNavigationMode.LABEL\n      ? this.enableLabelCollapse\n      : true;\n  }\n\n  private toggleBasedOnSelected(links: SidenavModel[]): void {\n    links.forEach((link) => {\n      link.collapsed = link.selected ? false : true;\n      if (link.children) {\n        this.toggleBasedOnSelected(link.children);\n      }\n      return;\n    });\n  }\n\n  /**\n   * Deselects any previously selected sidenav item\n   * @param sidenavItems\n   */\n  private deselectSideNav(sidenavItems: SidenavModel[]): void {\n    sidenavItems.forEach((sideNavItem) => {\n      if (sideNavItem.children) {\n        this.deselectSideNav(sideNavItem.children);\n      }\n      sideNavItem.selected = false;\n    });\n  }\n\n  /**\n   * Selects the clicked sidenav item as we as any parent\n   * @param selectedItem\n   * @param allNavItems\n   */\n  private selectSideNav(\n    selectedItem: SidenavModel,\n    allNavItems: SidenavModel[]\n  ): boolean {\n    for (const item of allNavItems) {\n      if (item === selectedItem) {\n        item.selected = true;\n        return true;\n      } else if (item.children) {\n        const isChildSelected = this.selectSideNav(selectedItem, item.children);\n        if (isChildSelected) {\n          item.selected = true;\n          return true;\n        }\n      }\n    }\n    return false;\n  }\n\n  /**\n   * When expandType is multiple, expands all collapseable links in sidenav\n   */\n  public expandAll(): void {\n    if (this.expandType === 'multiple') {\n      this.sidenavContent.forEach((link) => this.expandChildren(link, false));\n    }\n  }\n\n  /**\n   * Collapses all links\n   */\n  public collapseAll(): void {\n    this.sidenavContent.forEach((link) => this.expandChildren(link, true));\n  }\n\n  private expandChildren(link: SidenavModel, collapsedValue: boolean): void {\n    if (link.children) {\n      link.collapsed = collapsedValue;\n      link.children.forEach((childLink) =>\n        childLink.children\n          ? this.expandChildren(childLink, collapsedValue)\n          : null\n      );\n    }\n  }\n  private queryStringBuilder(item: SidenavModel): string {\n    const ret = [];\n    let keys = [];\n    if (item.queryParams) {\n      keys = Object.keys(item.queryParams);\n    }\n    for (const d of keys) {\n      ret.push(\n        encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d])\n      );\n    }\n    return ret.join('&');\n  }\n\n  /**\n   * creates url from provided route and query params\n   * @param item - Link to use when building url\n   */\n  urlBuilder(item: SidenavModel): string {\n    let url = item.path;\n    const queryParams = this.queryStringBuilder(item);\n    if (queryParams) {\n      if (url.indexOf('?') === -1) {\n        url += '?' + queryParams;\n      } else if (url.indexOf('?') === url.length - 1) {\n        url += queryParams;\n      } else {\n        url += '&' + queryParams;\n      }\n    }\n    return url;\n  }\n}\n",
             "assetsDirs": [],
-            "styleUrlsData": [
-                {
-                    "data": ".usa-sidenav__sublist{\n  .usa-sidenav__sublist{\n    .usa-sidenav__sublist{\n      .usa-sidenav__sublist{\n        padding-left: 1rem;\n        .usa-sidenav__sublist{\n          padding-left: 1rem;\n        }\n      }\n    }\n  }\n}\n",
-                    "styleUrl": "./sidenav.component.scss"
-                }
-            ],
+            "styleUrlsData": "",
             "stylesData": "",
             "implements": [
                 "OnInit"
@@ -41799,13 +41792,13 @@
         },
         {
             "name": "DatepickerBasicModule",
-            "id": "module-DatepickerBasicModule-d494c4f32d0344d6872150019ab0b18713ccb46d012b29a0548873b6a65e5423e9deecb748edeeee2c18b04dfe18b15e99cdbfe7c4e352a89db4d6421b82cf6d",
+            "id": "module-DatepickerBasicModule-492a96d9e7bfb42578b3b1d72fbb82afbdf33bf59a7d1fa8e22443b7165b44079f02495621102d6df4090aea835885c7e862b30be35315b0e67afc9e334122d5",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/components/datepicker/datepicker-basic/datepicker-basic.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaDatePickerContent, UsaDatePickerModule } from \"@gsa-sam/ngx-uswds\";\nimport { DatepickerBasicComponent } from \"./datepicker-basic.component\";\n\n\n@NgModule({\n  imports: [ CommonModule, UsaDatePickerModule],\n  declarations: [ DatepickerBasicComponent ],\n  exports: [ DatepickerBasicComponent ],\n  // Entry components not needed for Ivy\n  entryComponents: [UsaDatePickerContent]\n})\nexport class DatepickerBasicModule {}\n",
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaDatePickerContent, UsaDatePickerModule } from \"@gsa-sam/ngx-uswds\";\nimport { DatepickerBasicComponent } from \"./datepicker-basic.component\";\n\n\n@NgModule({\n  imports: [ CommonModule, UsaDatePickerModule],\n  declarations: [ DatepickerBasicComponent ],\n  exports: [ DatepickerBasicComponent ]\n  // Entry components not needed for Ivy\n //entryComponents: [UsaDatePickerContent]\n})\nexport class DatepickerBasicModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -43063,13 +43056,13 @@
         },
         {
             "name": "ModalComponentWrapperModule",
-            "id": "module-ModalComponentWrapperModule-2e97ed1424cec69767e6c7a2f8ca6a40ebd609dd1aae936853272e97104b7360603cbdb324156bc1e0ad336ec3fcc2c6bcc2b8ad3cd778f7bf470095365addac",
+            "id": "module-ModalComponentWrapperModule-9ec2e8497a925bc44f1584207d115adff7c6d54e88e1a6e777e81ec5557b7aedbde20e57e21561b038b5f4553948e5b3466cc3f2d4821222b9ccffa146e561a4",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/components/modal/modal-component-wrapper/modal-component-wrapper.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { ModalComponentWrapper, ModalContent } from './modal-component-wrapper.component';\nimport { UsaModalModule } from '@gsa-sam/ngx-uswds';\n\n@NgModule({\n  declarations: [\n    ModalComponentWrapper,\n    ModalContent,\n  ],\n  imports: [\n    CommonModule,\n    UsaModalModule,\n  ],\n  exports: [\n    ModalComponentWrapper\n  ],\n  entryComponents: [\n    ModalContent\n  ],\n})\nexport class ModalComponentWrapperModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { ModalComponentWrapper, ModalContent } from './modal-component-wrapper.component';\nimport { UsaModalModule } from '@gsa-sam/ngx-uswds';\n\n@NgModule({\n  declarations: [\n    ModalComponentWrapper,\n    ModalContent,\n  ],\n  imports: [\n    CommonModule,\n    UsaModalModule,\n  ],\n  exports: [\n    ModalComponentWrapper\n  ],\n  // entryComponents: [\n  //   ModalContent\n  // ],\n})\nexport class ModalComponentWrapperModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -43254,13 +43247,13 @@
         },
         {
             "name": "ModalStackedModule",
-            "id": "module-ModalStackedModule-506748a1d1a9def71e8142b67d56236cf4df7ba161224bccfba0a02c3ba5f530eae0c19621d0d8e3f787955096f8240b3c28e02cc68a3fec34021be744cce41d",
+            "id": "module-ModalStackedModule-ee962b4b242e175b9e68d1353db573228341bba0a90f3e0267bd59f165bccf57cacaea0c586dca5b68623a83ea4b380e869e77072672c1a8439f5279fb3eef7e",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/components/modal/modal-stacked/modal-stacked.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { ModalStackedBComponent, ModalStackedComponent } from './modal-stacked.component';\n\n@NgModule({\n  declarations: [\n    ModalStackedComponent,\n    ModalStackedBComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [ModalStackedComponent],\n  entryComponents: [ ModalStackedBComponent ],\n})\nexport class ModalStackedModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { ModalStackedBComponent, ModalStackedComponent } from './modal-stacked.component';\n\n@NgModule({\n  declarations: [\n    ModalStackedComponent,\n    ModalStackedBComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [ModalStackedComponent],\n  //entryComponents: [ ModalStackedBComponent ],\n})\nexport class ModalStackedModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -45610,21 +45603,21 @@
                 "name": "actionsData",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  panelChange: action('Panel Change'),\n  shown: action('Shown'),\n  hidden: action('Hidden'),\n}"
-            },
-            {
-                "name": "actionsData",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  onSelection: action('Breadcrumb Selected'),\n}"
+            },
+            {
+                "name": "actionsData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  panelChange: action('Panel Change'),\n  shown: action('Shown'),\n  hidden: action('Hidden'),\n}"
             },
             {
                 "name": "actionsData",
@@ -45740,16 +45733,6 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -45765,6 +45748,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "basicTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -46111,16 +46104,6 @@
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/test.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-            },
-            {
-                "name": "context",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -46740,7 +46723,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46750,7 +46733,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46830,16 +46813,6 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footerTemplate.default,\n  props: {},\n})"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46855,6 +46828,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footerTemplate.default,\n  props: {},\n})"
             },
             {
                 "name": "Overview",
@@ -47009,7 +46992,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
+                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -47018,7 +47001,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
+                "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -47427,6 +47410,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+            },
+            {
+                "name": "testsContext",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/uswds-components/src/test.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(require as any).context('./', true, /\\.spec\\.ts$/)"
             },
             {
                 "name": "uniqueId",
@@ -51896,27 +51889,6 @@
                     "type": "literal type"
                 }
             ],
-            "projects/uswds-components/src/test.ts": [
-                {
-                    "name": "context",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "literal type"
-                }
-            ],
             "projects/uswds-formly/src/test.ts": [
                 {
                     "name": "context",
@@ -52103,6 +52075,18 @@
                     "defaultValue": "0"
                 }
             ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                }
+            ],
             "projects/uswds-components/src/lib/character-count/character-count.directive.ts": [
                 {
                     "name": "nextId",
@@ -52122,18 +52106,6 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
-                }
-            ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
@@ -52278,6 +52250,27 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
+                }
+            ],
+            "projects/uswds-components/src/test.ts": [
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type"
+                },
+                {
+                    "name": "testsContext",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/test.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(require as any).context('./', true, /\\.spec\\.ts$/)"
                 }
             ],
             "src/app/components/side-navigation/side-navigation.data.ts": [
@@ -57142,7 +57135,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "context",
+                "name": "require",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -57152,7 +57145,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "require",
+                "name": "testsContext",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
