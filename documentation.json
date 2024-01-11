@@ -1516,18 +1516,6 @@
             "indexSignatures": [],
             "kind": 168,
             "methods": []
-        },
-        {
-            "name": "User",
-            "id": "interface-User-9c7e5f1bbbab702cb032307d130876cb68969b0cd4eedef32a0c8cad8081a54e5f8f577ed6ad4539c1b99a1d246cb34031d198c2ea8eba440e64e91b14f01fdc",
-            "file": "src/stories/User.ts",
-            "deprecated": false,
-            "deprecationMessage": "",
-            "type": "interface",
-            "sourceCode": "export interface User {}\n",
-            "properties": [],
-            "indexSignatures": [],
-            "methods": []
         }
     ],
     "injectables": [
@@ -6404,43 +6392,6 @@
     "guards": [],
     "interceptors": [],
     "classes": [
-        {
-            "name": "AppPage",
-            "id": "class-AppPage-216456583e25428faed77a4328eb6552448b3ca5a60c594cca6093d48f5332766845debfe0c05c76cc89e95f1f958caf3ad9253a229c2cc3a570b8ec03f2b4c7",
-            "file": "e2e/src/app.po.ts",
-            "deprecated": false,
-            "deprecationMessage": "",
-            "type": "class",
-            "sourceCode": "import { browser, by, element } from 'protractor';\n\nexport class AppPage {\n  navigateTo(): Promise<unknown> {\n    return browser.get(browser.baseUrl) as Promise<unknown>;\n  }\n\n  getTitleText(): Promise<string> {\n    return element(by.css('app-root .content span')).getText() as Promise<string>;\n  }\n}\n",
-            "properties": [],
-            "methods": [
-                {
-                    "name": "getTitleText",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "Promise<string>",
-                    "typeParameters": [],
-                    "line": 8,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                },
-                {
-                    "name": "navigateTo",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "Promise<>",
-                    "typeParameters": [],
-                    "line": 4,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                }
-            ],
-            "indexSignatures": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "hostBindings": [],
-            "hostListeners": []
-        },
         {
             "name": "ContentRef",
             "id": "class-ContentRef-9b27e3fb85b7e8035193d9b5640c41eca7abd1b3a95b6167bdcdc68adf00113c7985d4686a270043515606c155c7cbbbb0da8e9283f9379fc673d06388b3ba87",
@@ -45568,16 +45519,6 @@
     "miscellaneous": {
         "variables": [
             {
-                "name": "__assign",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Object.assign || function(t) {\n  for (var s, i = 1, n = arguments.length; i < n; i++) {\n      s = arguments[i];\n      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n          t[p] = s[p];\n  }\n  return t;\n}"
-            },
-            {
                 "name": "ACCORDION_ITEM_ANIMATION_TIMING",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -45603,21 +45544,21 @@
                 "name": "actionsData",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  onSelection: action('Breadcrumb Selected'),\n}"
-            },
-            {
-                "name": "actionsData",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  panelChange: action('Panel Change'),\n  shown: action('Shown'),\n  hidden: action('Hidden'),\n}"
+            },
+            {
+                "name": "actionsData",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  onSelection: action('Breadcrumb Selected'),\n}"
             },
             {
                 "name": "actionsData",
@@ -45680,26 +45621,6 @@
                 "defaultValue": "{\n  rowClicked: action('Row Clicked'),\n}"
             },
             {
-                "name": "ANGULAR_CODESANDBOX",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "function (files, moduleName, selector) {\n    if (files === void 0) { files = {}; }\n\n    const newFiles = {};\n\n    Object.keys(files).forEach(key => {\n      const newKey = `src/app/${key}`;\n      newFiles[newKey] = files[key];\n    });\n\n    let modulePath = Object.keys(files).find(key => key.indexOf('module.ts') > -1);\n    modulePath = `./${modulePath.substring(0, modulePath.length - 3)}`;\n    const appModuleCompiled = ejs.render(appModule.default, {moduleClassName: moduleName, modulePath});\n    const appComponentCompiled = ejs.render(appComponent.default, {demoSelector: selector});\n    return {\n        dependencies: {\n            \"@angular/animations\":  \"^12.2.14\",\n            \"@angular/common\":  \"^12.2.14\",\n            \"@angular/compiler\":  \"^12.2.14\",\n            \"@angular/core\":  \"^12.2.14\",\n            \"@angular/forms\":  \"^12.2.14\",\n            \"@angular/platform-browser\":  \"^12.2.14\",\n            \"@angular/platform-browser-dynamic\":  \"^12.2.14\",\n            \"@angular/router\":  \"^12.2.14\",\n            \"@gsa-sam/ngx-uswds\": \"12.0.4\",\n            \"@gsa-sam/uswds-formly\": \"^12.0.4\",\n            \"@ngx-formly/core\": \"^5.10.23\",\n            \"core-js\": \"^2.6.11\",\n            \"rxjs\": \"~6.5.5\",\n            \"uswds\": \"2.11.2\",\n            \"zone.js\": \"~0.10.2\"\n        },\n        files: __assign(\n            { \"src/main.ts\": mainTs.default,\n              \"src/polyfills.ts\": polyfill.default,\n              \"src/index.html\": indexHtml.default,\n              \"src/environments/environment.ts\": \"\\n    export const environment = {\\n        production: false\\n    };\\n    \",\n              \"src/environments/environment.prod.ts\": \"\\n    export const environment = {\\n        production: true\\n    };\\n    \",\n              \"angular-cli.json\": JSON.stringify(angularCLIConfig),\n              \"tsconfig.json\": JSON.stringify((tsconfigJson as any).default),\n              \"src/app/app.component.ts\": appComponentCompiled,\n              \"src/app/app.module.ts\": appModuleCompiled,\n            },\n            newFiles,\n            (iconsJson as any).default,\n        ),\n    };\n}"
-            },
-            {
-                "name": "angularCLIConfig",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/templates/angular-cli-config.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  \"apps\": [\n      {\n          \"root\": \"src\",\n          \"outDir\": \"dist\",\n          \"assets\": [\"assets\", \"favicon.ico\"],\n          \"index\": \"index.html\",\n          \"main\": \"main.ts\",\n          \"polyfills\": \"polyfills.ts\",\n          \"prefix\": \"app\",\n          \"styles\": ['src/styles.scss'],\n          \"scripts\": [],\n          \"environmentSource\": \"environments/environment.ts\",\n          \"environments\": {\n              \"dev\": \"environments/environment.ts\",\n              \"prod\": \"environments/environment.prod.ts\"\n          }\n      }\n  ]\n}"
-            },
-            {
                 "name": "animationBody",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -45710,24 +45631,14 @@
                 "defaultValue": "[\n  transition('* => enter',\n    [\n      style({opacity: 0, transform: 'scale(0.7)'}),\n      animate('150ms cubic-bezier(0, 0, 0.2, 1)',\n        style({transform: 'none', opacity: 1}))\n    ]\n  ),\n  transition('* => slideEnter', [\n    style({right: '-15rem'}),\n    animate('150ms', style({right: '0rem'}))\n  ]),\n\n  transition('* => void, * => exit', [\n    style({transform: 'none'}),\n    animate('75ms cubic-bezier(0.4, 0.0, 0.2, 1)',\n      style({opacity: 0})\n    )\n  ]),\n  transition('* => slideExit', [\n    style({right: '0rem'}),\n    animate('150ms', style({right: '-15rem'}))\n  ]),\n]"
             },
             {
-                "name": "appComponent",
+                "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
+                "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "require('!!raw-loader!./templates/app.component.ejs')"
-            },
-            {
-                "name": "appModule",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./templates/app.module.ejs')"
+                "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -45748,16 +45659,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "basicTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "(args) => ({\n  template: accordionTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
             },
             {
                 "name": "Basic",
@@ -46103,16 +46004,6 @@
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/test.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-            },
-            {
-                "name": "context",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "projects/uswds-formly/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46300,36 +46191,6 @@
                 "defaultValue": "() => ({\n  template: '<dynamic-table></dynamic-table>',\n})",
                 "rawdescription": "-------------- Dynamic Table --------------------------------",
                 "description": "<p>-------------- Dynamic Table --------------------------------</p>\n"
-            },
-            {
-                "name": "ejs",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('ejs')"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/environments/environment.prod.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  production: true\n}"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/environments/environment.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  production: false\n}"
             },
             {
                 "name": "environment",
@@ -46594,16 +46455,6 @@
                 "defaultValue": "() => ({\n  template: `<checkbox-indeterminate></checkbox-indeterminate>`\n})"
             },
             {
-                "name": "indexHtml",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./templates/index.html')"
-            },
-            {
                 "name": "InputWithTable",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -46634,16 +46485,6 @@
                 "deprecationMessage": "",
                 "type": "number",
                 "defaultValue": "0"
-            },
-            {
-                "name": "mainTs",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./templates/main.ts')"
             },
             {
                 "name": "mockData",
@@ -46723,7 +46564,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46733,7 +46574,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46813,6 +46654,16 @@
                 "name": "Overview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\n  template: footerTemplate.default,\n  props: {},\n})"
+            },
+            {
+                "name": "Overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46828,16 +46679,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "(args) => ({\n  template: characterCountFooter.default\n})"
-            },
-            {
-                "name": "Overview",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\n  template: footerTemplate.default,\n  props: {},\n})"
             },
             {
                 "name": "Overview",
@@ -46914,16 +46755,6 @@
                 "defaultValue": "() => ({\n  template: footer.default,\n  props: {\n    columnHeaders: ['variable', 'description'],\n    dataRows: [\n      {\n        variable: '$theme-table-border-color',\n        description: 'Defines a border color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-text-color',\n        description: 'Defines a text color for table cells. A value of default uses either the default text or reverse text color depending on the site background color.'\n      },\n      {\n        variable: '$theme-table-header-background-color',\n        description: 'Defines a background color for header cells.'\n      },\n      {\n        variable: '$theme-table-header-text-color ',\n        description: 'Defines a text color for header cells. A value of default uses either the default text or reverse text color depending on the header background color.'\n      },\n      {\n        variable: '$theme-table-stripe-background-color',\n        description: 'Defines a background color for alternating horizontal stripes in the striped table variant.'\n      },\n      {\n        variable: '$theme-table-stripe-text-color',\n        description: 'Defines a text color for alternating horizontal stripes in the striped table variant. A value of default uses either the default text or reverse text color depending on the stripe background color.'\n      },\n      {\n        variable: '$theme-table-sorted-header-background-color',\n        description: 'Defines a background color for the sorted column header'\n      },\n      {\n        variable: '$theme-table-sorted-background-color',\n        description: 'Defines a background color for the cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-stripe-background-color',\n        description: 'Defines a background color for the alternating horizontal stripes applied to cells of the sorted column'\n      },\n      {\n        variable: '$theme-table-sorted-icon-color',\n        description: 'Defines a fill color for the activated sort button in a sortable column header. A value of default uses either the default text or reverse text color depending on the sorted column header background color.'\n      },\n      {\n        variable: '$theme-table-unsorted-icon-color',\n        description: 'Defines a fill color for the unactivated sort button in a sortable column header'\n      },\n    ]\n  }\n})"
             },
             {
-                "name": "polyfill",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./templates/polyfill.ts')"
-            },
-            {
                 "name": "primaryNavItems",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -46947,52 +46778,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/test.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "literal type"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/angular-dependencies.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/sandbox/sandbox-utils.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "literal type"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "literal type"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
+                "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -47001,7 +46787,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
+                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "any"
@@ -47032,6 +46818,24 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/uswds-components/src/test.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "literal type"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/uswds-formly/src/test.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "literal type"
             },
             {
                 "name": "require",
@@ -48034,64 +47838,6 @@
                             "escapedText": "param"
                         },
                         "comment": "<p>calls predicate once for each element of the array, in descending\norder, until it finds one where predicate returns true. If such an element is found,\nfindLastIndex immediately returns that element&#39;s index. Otherwise, findLast returns -1.</p>\n"
-                    }
-                ]
-            },
-            {
-                "name": "generateConfig",
-                "file": "src/sandbox/sandbox-utils.ts",
-                "ctype": "miscellaneous",
-                "subtype": "function",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
-                "args": [
-                    {
-                        "name": "filePath",
-                        "type": "string",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    },
-                    {
-                        "name": "moduleName",
-                        "type": "string",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    },
-                    {
-                        "name": "selector",
-                        "type": "string",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    }
-                ],
-                "jsdoctags": [
-                    {
-                        "name": "filePath",
-                        "type": "string",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    },
-                    {
-                        "name": "moduleName",
-                        "type": "string",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    },
-                    {
-                        "name": "selector",
-                        "type": "string",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
                     }
                 ]
             },
@@ -50276,97 +50022,6 @@
             }
         ],
         "groupedVariables": {
-            "src/sandbox/angular-dependencies.ts": [
-                {
-                    "name": "__assign",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Object.assign || function(t) {\n  for (var s, i = 1, n = arguments.length; i < n; i++) {\n      s = arguments[i];\n      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n          t[p] = s[p];\n  }\n  return t;\n}"
-                },
-                {
-                    "name": "ANGULAR_CODESANDBOX",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "function (files, moduleName, selector) {\n    if (files === void 0) { files = {}; }\n\n    const newFiles = {};\n\n    Object.keys(files).forEach(key => {\n      const newKey = `src/app/${key}`;\n      newFiles[newKey] = files[key];\n    });\n\n    let modulePath = Object.keys(files).find(key => key.indexOf('module.ts') > -1);\n    modulePath = `./${modulePath.substring(0, modulePath.length - 3)}`;\n    const appModuleCompiled = ejs.render(appModule.default, {moduleClassName: moduleName, modulePath});\n    const appComponentCompiled = ejs.render(appComponent.default, {demoSelector: selector});\n    return {\n        dependencies: {\n            \"@angular/animations\":  \"^12.2.14\",\n            \"@angular/common\":  \"^12.2.14\",\n            \"@angular/compiler\":  \"^12.2.14\",\n            \"@angular/core\":  \"^12.2.14\",\n            \"@angular/forms\":  \"^12.2.14\",\n            \"@angular/platform-browser\":  \"^12.2.14\",\n            \"@angular/platform-browser-dynamic\":  \"^12.2.14\",\n            \"@angular/router\":  \"^12.2.14\",\n            \"@gsa-sam/ngx-uswds\": \"12.0.4\",\n            \"@gsa-sam/uswds-formly\": \"^12.0.4\",\n            \"@ngx-formly/core\": \"^5.10.23\",\n            \"core-js\": \"^2.6.11\",\n            \"rxjs\": \"~6.5.5\",\n            \"uswds\": \"2.11.2\",\n            \"zone.js\": \"~0.10.2\"\n        },\n        files: __assign(\n            { \"src/main.ts\": mainTs.default,\n              \"src/polyfills.ts\": polyfill.default,\n              \"src/index.html\": indexHtml.default,\n              \"src/environments/environment.ts\": \"\\n    export const environment = {\\n        production: false\\n    };\\n    \",\n              \"src/environments/environment.prod.ts\": \"\\n    export const environment = {\\n        production: true\\n    };\\n    \",\n              \"angular-cli.json\": JSON.stringify(angularCLIConfig),\n              \"tsconfig.json\": JSON.stringify((tsconfigJson as any).default),\n              \"src/app/app.component.ts\": appComponentCompiled,\n              \"src/app/app.module.ts\": appModuleCompiled,\n            },\n            newFiles,\n            (iconsJson as any).default,\n        ),\n    };\n}"
-                },
-                {
-                    "name": "appComponent",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./templates/app.component.ejs')"
-                },
-                {
-                    "name": "appModule",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./templates/app.module.ejs')"
-                },
-                {
-                    "name": "ejs",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('ejs')"
-                },
-                {
-                    "name": "indexHtml",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./templates/index.html')"
-                },
-                {
-                    "name": "mainTs",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./templates/main.ts')"
-                },
-                {
-                    "name": "polyfill",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./templates/polyfill.ts')"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/angular-dependencies.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                }
-            ],
             "projects/uswds-components/src/lib/accordion/accordion-animations.ts": [
                 {
                     "name": "ACCORDION_ITEM_ANIMATION_TIMING",
@@ -50968,18 +50623,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
-                }
-            ],
-            "src/sandbox/templates/angular-cli-config.ts": [
-                {
-                    "name": "angularCLIConfig",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/templates/angular-cli-config.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  \"apps\": [\n      {\n          \"root\": \"src\",\n          \"outDir\": \"dist\",\n          \"assets\": [\"assets\", \"favicon.ico\"],\n          \"index\": \"index.html\",\n          \"main\": \"main.ts\",\n          \"polyfills\": \"polyfills.ts\",\n          \"prefix\": \"app\",\n          \"styles\": ['src/styles.scss'],\n          \"scripts\": [],\n          \"environmentSource\": \"environments/environment.ts\",\n          \"environments\": {\n              \"dev\": \"environments/environment.ts\",\n              \"prod\": \"environments/environment.prod.ts\"\n          }\n      }\n  ]\n}"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-animations.ts": [
@@ -51868,27 +51511,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "src/test.ts": [
-                {
-                    "name": "context",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/test.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "literal type"
-                }
-            ],
             "projects/uswds-formly/src/test.ts": [
                 {
                     "name": "context",
@@ -51977,30 +51599,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "src/environments/environment.prod.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.prod.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  production: true\n}"
-                }
-            ],
-            "src/environments/environment.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  production: false\n}"
-                }
-            ],
             "projects/uswds-components/src/lib/environment.ts": [
                 {
                     "name": "environment",
@@ -52075,18 +51673,6 @@
                     "defaultValue": "0"
                 }
             ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
-                }
-            ],
             "projects/uswds-components/src/lib/character-count/character-count.directive.ts": [
                 {
                     "name": "nextId",
@@ -52106,6 +51692,18 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
+                }
+            ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
@@ -52239,17 +51837,6 @@
                     "deprecationMessage": "",
                     "type": "[]",
                     "defaultValue": "[\n  {\n    text: 'Secondary Link',\n    id: 'request',\n    selected: true,\n    path: ''\n  },\n  {\n    text: 'Custom Template Link',\n    id: 'messages',\n  },\n]"
-                }
-            ],
-            "src/sandbox/sandbox-utils.ts": [
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/sandbox/sandbox-utils.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
                 }
             ],
             "projects/uswds-components/src/test.ts": [
@@ -53773,66 +53360,6 @@
                     ]
                 }
             ],
-            "src/sandbox/sandbox-utils.ts": [
-                {
-                    "name": "generateConfig",
-                    "file": "src/sandbox/sandbox-utils.ts",
-                    "ctype": "miscellaneous",
-                    "subtype": "function",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "args": [
-                        {
-                            "name": "filePath",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        },
-                        {
-                            "name": "moduleName",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        },
-                        {
-                            "name": "selector",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "jsdoctags": [
-                        {
-                            "name": "filePath",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        },
-                        {
-                            "name": "moduleName",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        },
-                        {
-                            "name": "selector",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                }
-            ],
             "projects/uswds-components/src/lib/util/focus-trap.ts": [
                 {
                     "name": "getFocusableBoundaryElements",
@@ -55173,55 +54700,11 @@
             ]
         }
     },
-    "routes": {
-        "name": "<root>",
-        "kind": "module",
-        "className": "AppModule",
-        "children": [
-            {
-                "name": "routes",
-                "filename": "src/app/app.routing.module.ts",
-                "module": "AppRoutingModule",
-                "children": [
-                    {
-                        "path": "",
-                        "redirectTo": "home",
-                        "pathMatch": "full"
-                    },
-                    {
-                        "path": "home",
-                        "component": "HomeComponent"
-                    }
-                ],
-                "kind": "module"
-            },
-            {
-                "name": "routes",
-                "filename": "src/app/home/home.module.ts",
-                "module": "HomeModule",
-                "children": [
-                    {
-                        "path": "",
-                        "component": "HomeComponent"
-                    }
-                ],
-                "kind": "module"
-            }
-        ]
-    },
+    "routes": [],
     "coverage": {
-        "count": 18,
+        "count": 19,
         "status": "low",
         "files": [
-            {
-                "filePath": "e2e/src/app.po.ts",
-                "type": "class",
-                "linktype": "classe",
-                "name": "AppPage",
-                "coveragePercent": 0,
-                "coverageCount": "0/3",
-                "status": "low"
-            },
             {
                 "filePath": "projects/uswds-components/src/lib/accordion/accordion-animations.ts",
                 "type": "variable",
@@ -59293,175 +58776,6 @@
                 "name": "ThemeSwitcherService",
                 "coveragePercent": 25,
                 "coverageCount": "2/8",
-                "status": "low"
-            },
-            {
-                "filePath": "src/environments/environment.prod.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "environment",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/environments/environment.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "environment",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "__assign",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "ANGULAR_CODESANDBOX",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "appComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "appModule",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "ejs",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "indexHtml",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "mainTs",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "polyfill",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/angular-dependencies.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "require",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/sandbox-utils.ts",
-                "type": "function",
-                "linktype": "miscellaneous",
-                "linksubtype": "function",
-                "name": "generateConfig",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/sandbox-utils.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "require",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/sandbox/templates/angular-cli-config.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "angularCLIConfig",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/User.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "User",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/test.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "context",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/test.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "require",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
                 "status": "low"
             }
         ]

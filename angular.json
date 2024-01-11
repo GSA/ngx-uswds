@@ -51,7 +51,9 @@
                 "./node_modules/@gsa-sam/sam-styles"
               ]
             },
-            "styles": ["src/styles/app.styles.scss"],
+            "styles": [
+              "src/styles/app.styles.scss"
+            ],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -133,7 +135,9 @@
                 "output": "/assets/uswds/img/"
               }
             ],
-            "styles": ["src/styles/app.styles.scss"],
+            "styles": [
+              "src/styles/app.styles.scss"
+            ],
             "scripts": []
           }
         },
@@ -147,6 +151,36 @@
             "production": {
               "devServerTarget": "usa-components:serve:production"
             }
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "browserTarget": "usa-components:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "browserTarget": "usa-components:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
+            "outputDir": "dist/storybook/usa-components"
           }
         }
       }
@@ -175,7 +209,7 @@
             "polyfills": [
               "zone.js",
               "zone.js/testing"
-            ],        
+            ],
             "tsConfig": "projects/uswds-components/tsconfig.spec.json",
             "karmaConfig": "projects/uswds-components/karma.conf.js"
           }
