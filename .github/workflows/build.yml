@@ -1,0 +1,29 @@
+name: Build Storybook
+on:
+  workflow_call:
+    inputs:
+      pr-number:
+        required: false
+        type: string
+jobs:
+  Build-Storybook-Assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+      - name: Install Node Packages
+        run: npm i
+      - name: Build Storybook Assets
+        run: npm run build-storybook
+      - name: Add .nojekyll file to allow for node_modules to be included in bundle
+        run: touch storybook-static/.nojekyll
+      - name: Archive Storybook Assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-assets
+          path: storybook-static
+          retention-days: 1
