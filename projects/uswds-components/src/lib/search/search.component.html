@@ -1,16 +1,22 @@
- <section [attr.aria-label]="ariaLabel">
-   <form class="usa-search" role="search" [ngClass]="{
+<section [attr.aria-label]="ariaLabel">
+  <form class="usa-search" role="search" [ngClass]="{
     'usa-search--big': size === 'big',
     'usa-search--small':size == 'small'
    }">
-     <label class="usa-sr-only" [attr.for]="id">Search</label>
-     <input class="usa-input" [attr.id]="id" type="search" [attr.name]="name" [placeholder]="placeholder" #searchInput
-       [value]="model" (blur)="focusChange($event)" (input)="onValueChange($event.target.value)"
-       (keydown)="onKeydown($event)" />
-     <button class="usa-button" type="submit" (click)="onSubmit(searchInput.value, $event);">
-       <span [ngClass]="[size === 'small' ? 'usa-sr-only' : 'usa-search__submit-text']">
-         {{ buttonText }}
-       </span>
-     </button>
-   </form>
- </section>
+    <label class="usa-sr-only" [attr.for]="id">Search</label>
+    <input [disabled]="hasSearch" class="usa-input" [attr.id]="id" type="search" [attr.name]="name"
+      [placeholder]="placeholder" #searchInput [value]="model" (blur)="focusChange($event)"
+      (input)="onValueChange($event.target.value)" (keydown)="onKeydown($event)" />
+    <button *ngIf="!hasSearch" class="usa-button" type="submit" (click)="onSubmit(searchInput.value, $event);">
+      <span [ngClass]="[size === 'small' ? 'usa-sr-only' : 'usa-search__submit-text']">
+        {{ buttonText }}
+      </span>
+    </button>
+    <button *ngIf="hasSearch" class="usa-button" type="submit" (click)="resetForm();">Reset
+    </button>
+  </form>
+  <div class="margin-top-2" *ngIf="hasSearch">
+    <label>Search Term:</label>
+    {{model}}
+  </div>
+</section>
