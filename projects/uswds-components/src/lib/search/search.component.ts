@@ -19,6 +19,7 @@ let nextId = 0;
 export class UsaSearchComponent {
 
   model: string = '';
+  hasSearch = false;
 
   private _onChange = (_: any) => { };
   private _onTouched = () => { };
@@ -56,10 +57,19 @@ export class UsaSearchComponent {
 
   // Helper method to programatically update the search value to the model
   onSubmit(val, ev) {
+    if (!val) {
+      return;
+    }
+    this.hasSearch = true;
     this.model = val;
     this.updateModel();
     ev.preventDefault();
     this.onTextSubmit.emit(val);
+  }
+
+  resetForm() {
+    this.model = '';
+    this.hasSearch = false;
   }
 
   // Helper method that gets a new instance of the model and notifies ControlValueAccessor that we have a new model for this FormControl (our custom component)
