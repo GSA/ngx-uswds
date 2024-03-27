@@ -7,7 +7,7 @@ jobs:
   build:
     working_directory: ~/project/ngx-uswds
     docker:
-      - image: circleci/node:16.13-browsers
+        - image: cimg/node:20.8.0-browsers
     steps:
       - checkout
       - run: npm install
