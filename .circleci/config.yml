@@ -9,7 +9,14 @@ jobs:
     docker:
         - image: cimg/node:20.8.0-browsers
     steps:
+     - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - checkout
+       - run:
+          command: |
+            google-chrome --version
+            chromedriver --version
+          name: Check install
       - run: npm install
       - run: npm run test:components
       - run: npm run build:components
