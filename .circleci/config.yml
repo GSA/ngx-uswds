@@ -12,7 +12,7 @@ jobs:
      - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - checkout
-       - run:
+      - run:
           command: |
             google-chrome --version
             chromedriver --version
