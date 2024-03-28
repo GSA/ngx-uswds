@@ -9677,12 +9677,12 @@
     "directives": [
         {
             "name": "AbstractUswdsFormly",
-            "id": "directive-AbstractUswdsFormly-3b24310dd5f6c02aabea6bb0d420da2af420174e34bfbd8cfd9a22f04acb16c7aabf6c398807c830d451723d18f80409a77aa1bbd8becf0b61804333de0e6c4b",
+            "id": "directive-AbstractUswdsFormly-60377934f58a167163b6ac92f55d9edbb908161f0e65466727d4f7d42c8520c60fbb9ae06cd12353d1d1ddd0aa618850bcf2238f379cf93689f6c31c4a363ab2",
             "file": "projects/uswds-formly/src/lib/uswds-formly.ts",
             "type": "directive",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';\nimport { FieldType } from '@ngx-formly/core';\n\n@Directive()\nexport abstract class AbstractUswdsFormly extends FieldType implements OnInit {\n\n    public cdr: ChangeDetectorRef;\n    public template: any;\n\n    public ngOnInit() {\n        this.setProperties(\n            this.template,\n            (<any>this).field.templateOptions\n        );\n    }\n\n    public setProperties(component: any, configuration: any) {\n        Object.keys(configuration).map(function (key) {\n            component[key] = configuration[key];\n        });\n\n        if ((<any>this).template.control) {\n            (<any>this).template.control = (<any>this).formControl;\n        }\n    }\n}\n",
+            "sourceCode": "import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';\nimport { FieldType } from '@ngx-formly/core';\n\n@Directive()\nexport abstract class AbstractUswdsFormly extends FieldType implements OnInit {\n\n    public cdr: ChangeDetectorRef;\n    public template: any;\n\n    public ngOnInit() {\n        this.setProperties(\n            this.template,\n            (<any>this).field.props\n        );\n    }\n\n    public setProperties(component: any, configuration: any) {\n        Object.keys(configuration).map(function (key) {\n            component[key] = configuration[key];\n        });\n\n        if ((<any>this).template.control) {\n            (<any>this).template.control = (<any>this).formControl;\n        }\n    }\n}\n",
             "providers": [],
             "hostDirectives": [],
             "standalone": false,
@@ -20533,7 +20533,7 @@
         },
         {
             "name": "FormlyWrapperFormFieldComponent",
-            "id": "component-FormlyWrapperFormFieldComponent-9a9c73c1d171e99dec2e8dc3899ee3900f8ab43944196251c70a6d940fb136c543e7efd64ecfa1abda782aad5bffca6b01bd82f0c3b03b4b9df433f0cb589af4",
+            "id": "component-FormlyWrapperFormFieldComponent-02aba4bf6f093681566959d298cc9249fb1b388e927acdde840643f868ef2fffe17f6dfafd0f3f0a42c93f41359506f759f8c934aff33242d5c692195eb0d691",
             "file": "projects/uswds-formly/src/lib/wrappers/form-field.wrapper.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -20542,32 +20542,13 @@
             "providers": [],
             "styleUrls": [],
             "styles": [],
-            "template": "<div class=\"usa-form-group\" [class.usa-form-group--error]=\"showError\">\n  <label\n    class=\"usa-label\"\n    *ngIf=\"to.label && !to.hideLabel\"\n    [attr.for]=\"id\"\n  >\n    {{ to.label }}\n  </label>\n  <div\n    *ngIf=\"to.description\"\n    class=\"usa-hint\"\n    [innerHTML]=\"to.description\"\n  ></div>\n  <div\n    *ngIf=\"showError\"\n    class=\"usa-error-message\"\n    [style.display]=\"'block'\"\n  >\n    <formly-validation-message [field]=\"field\"></formly-validation-message>\n  </div>\n  <ng-template #fieldComponent></ng-template>\n</div>\n",
+            "template": "<div class=\"usa-form-group\" [class.usa-form-group--error]=\"showError\">\n  <label\n    class=\"usa-label\"\n    *ngIf=\"props.label && !props.hideLabel\"\n    [attr.for]=\"id\"\n  >\n    {{ props.label }}\n  </label>\n  <div\n    *ngIf=\"props.description\"\n    class=\"usa-hint\"\n    [innerHTML]=\"props.description\"\n  ></div>\n  <div\n    *ngIf=\"showError\"\n    class=\"usa-error-message\"\n    [style.display]=\"'block'\"\n  >\n    <formly-validation-message [field]=\"field\"></formly-validation-message>\n  </div>\n  <ng-template #fieldComponent></ng-template>\n</div>\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
             "inputsClass": [],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "fieldComponent",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "ViewContainerRef",
-                    "optional": false,
-                    "description": "",
-                    "line": 38,
-                    "decorators": [
-                        {
-                            "name": "ViewChild",
-                            "stringifiedArguments": "'fieldComponent', {read: ViewContainerRef}"
-                        }
-                    ],
-                    "modifierKind": [
-                        170
-                    ]
-                }
-            ],
+            "propertiesClass": [],
             "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
@@ -20578,7 +20559,7 @@
             "description": "",
             "rawdescription": "\n\n",
             "type": "component",
-            "sourceCode": "import { Component, ViewChild, ViewContainerRef } from '@angular/core';\nimport { FieldWrapper } from '@ngx-formly/core';\n\n/**\n * @param string [to.label] Text to be shown for the label\n * @param string [to.required] Makes the field required\n * @param string [to.description] Add a description below the label\n */\n\n@Component({\n  template: `\n    <div class=\"usa-form-group\" [class.usa-form-group--error]=\"showError\">\n      <label\n        class=\"usa-label\"\n        *ngIf=\"to.label && !to.hideLabel\"\n        [attr.for]=\"id\"\n      >\n        {{ to.label }}\n      </label>\n      <div\n        *ngIf=\"to.description\"\n        class=\"usa-hint\"\n        [innerHTML]=\"to.description\"\n      ></div>\n      <div\n        *ngIf=\"showError\"\n        class=\"usa-error-message\"\n        [style.display]=\"'block'\"\n      >\n        <formly-validation-message [field]=\"field\"></formly-validation-message>\n      </div>\n      <ng-template #fieldComponent></ng-template>\n    </div>\n  `,\n})\nexport class FormlyWrapperFormFieldComponent extends FieldWrapper {\n  @ViewChild('fieldComponent', { read: ViewContainerRef })\n  fieldComponent!: ViewContainerRef;\n}\n",
+            "sourceCode": "import { Component, ViewChild, ViewContainerRef } from '@angular/core';\nimport { FieldWrapper } from '@ngx-formly/core';\n\n/**\n * @param string [to.label] Text to be shown for the label\n * @param string [to.required] Makes the field required\n * @param string [to.description] Add a description below the label\n */\n\n@Component({\n  template: `\n    <div class=\"usa-form-group\" [class.usa-form-group--error]=\"showError\">\n      <label\n        class=\"usa-label\"\n        *ngIf=\"props.label && !props.hideLabel\"\n        [attr.for]=\"id\"\n      >\n        {{ props.label }}\n      </label>\n      <div\n        *ngIf=\"props.description\"\n        class=\"usa-hint\"\n        [innerHTML]=\"props.description\"\n      ></div>\n      <div\n        *ngIf=\"showError\"\n        class=\"usa-error-message\"\n        [style.display]=\"'block'\"\n      >\n        <formly-validation-message [field]=\"field\"></formly-validation-message>\n      </div>\n      <ng-template #fieldComponent></ng-template>\n    </div>\n  `,\n})\nexport class FormlyWrapperFormFieldComponent extends FieldWrapper {\n  // @ViewChild('fieldComponent', { read: ViewContainerRef })\n  // fieldComponent!: ViewContainerRef;\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -40304,7 +40285,7 @@
         },
         {
             "name": "USWDSFormlyCheckboxComponent",
-            "id": "component-USWDSFormlyCheckboxComponent-d8016f858f4bb41026627f5ef18a69c444175c467cbd1961223e76fae8371a09341b7e53783477626995a943af2bd87839059b903ba5e4f3ffce38b4f4fad6a0",
+            "id": "component-USWDSFormlyCheckboxComponent-527686466787076341b8eb64a17573f9ba3c2d0fa433f0227aefed06916e4019d92a04584df60a35f1c5e06b7a9d1f31310f12f86d1471737dc824adbfbc611b",
             "file": "projects/uswds-formly/src/lib/types/checkbox.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -40322,28 +40303,6 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
-                    "name": "template",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "UsaCheckboxComponent",
-                    "optional": false,
-                    "description": "",
-                    "line": 12,
-                    "decorators": [
-                        {
-                            "name": "ViewChild",
-                            "stringifiedArguments": "UsaCheckboxComponent, {static: true}"
-                        }
-                    ],
-                    "modifierKind": [
-                        170,
-                        125
-                    ],
-                    "inheritance": {
-                        "file": "AbstractUswdsFormly"
-                    }
-                },
-                {
                     "name": "cdr",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -40351,6 +40310,21 @@
                     "optional": false,
                     "description": "",
                     "line": 7,
+                    "modifierKind": [
+                        125
+                    ],
+                    "inheritance": {
+                        "file": "AbstractUswdsFormly"
+                    }
+                },
+                {
+                    "name": "template",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 8,
                     "modifierKind": [
                         125
                     ],
@@ -40435,7 +40409,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\r\nimport { UsaCheckboxComponent } from '@gsa-sam/ngx-uswds';\r\nimport { AbstractUswdsFormly } from '../uswds-formly';\r\n\r\n@Component({\r\n  template: `\r\n  <usa-checkbox [formControl]=\"formControl\">{{ to.label }}</usa-checkbox>\r\n  `,\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class USWDSFormlyCheckboxComponent extends AbstractUswdsFormly {\r\n  @ViewChild(UsaCheckboxComponent, { static: true }) public template: UsaCheckboxComponent;\r\n  constructor(_cdr: ChangeDetectorRef) {\r\n    super();\r\n    this.cdr = _cdr;\r\n  }\r\n}\r\n",
+            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\r\nimport { UsaCheckboxComponent } from '@gsa-sam/ngx-uswds';\r\nimport { AbstractUswdsFormly } from '../uswds-formly';\r\n\r\n@Component({\r\n  template: `\r\n  <usa-checkbox [formControl]=\"formControl\">{{ to.label }}</usa-checkbox>\r\n  `,\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class USWDSFormlyCheckboxComponent extends AbstractUswdsFormly {\r\n  //@ViewChild(UsaCheckboxComponent, { static: true })  template: UsaCheckboxComponent;\r\n  constructor(_cdr: ChangeDetectorRef) {\r\n    super();\r\n    this.cdr = _cdr;\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -40452,7 +40426,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 12,
+                "line": 11,
                 "jsdoctags": [
                     {
                         "name": "_cdr",
@@ -40471,7 +40445,7 @@
         },
         {
             "name": "USWDSFormlyDatePickerComponent",
-            "id": "component-USWDSFormlyDatePickerComponent-c929e01f6aed5fa44ff44113094091ff846609d617825b1e028d82eb32a185ba4d582ef4a683b37addba22ceb43e462ce26a6facb370dded04517018bd91e94d",
+            "id": "component-USWDSFormlyDatePickerComponent-ad625bb9cc948f2592ecb682db45a2be22202d1a99ecf8149bc264df6adc964eb2ea64c6b5ddc4c340cc6b73bb60bd26cbac80785210401e0d1eddcfd3124a47",
             "file": "projects/uswds-formly/src/lib/types/datepicker.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -40481,35 +40455,13 @@
             "providers": [],
             "styleUrls": [],
             "styles": [],
-            "template": "  <usa-date-picker-wrapper>\n  <input [formControl]=\"formControl\" [usaDatePicker]=\"picker\" [id]=\"to.id+ '_datePicker'\">\n  <usa-date-picker-button [for]=\"picker\"></usa-date-picker-button>\n  <usa-date-picker #picker></usa-date-picker>\n</usa-date-picker-wrapper>\n",
+            "template": "  <usa-date-picker-wrapper>\n  <input [formControl]=\"formControl\" [usaDatePicker]=\"picker\" [id]=\"props.id+ '_datePicker'\">\n  <usa-date-picker-button [for]=\"picker\"></usa-date-picker-button>\n  <usa-date-picker #picker></usa-date-picker>\n</usa-date-picker-wrapper>\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
             "inputsClass": [],
             "outputsClass": [],
             "propertiesClass": [
-                {
-                    "name": "template",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "UsaDatePickerWrapper",
-                    "optional": false,
-                    "description": "",
-                    "line": 16,
-                    "decorators": [
-                        {
-                            "name": "ViewChild",
-                            "stringifiedArguments": "UsaDatePickerWrapper, {static: true}"
-                        }
-                    ],
-                    "modifierKind": [
-                        170,
-                        125
-                    ],
-                    "inheritance": {
-                        "file": "AbstractUswdsFormly"
-                    }
-                },
                 {
                     "name": "cdr",
                     "deprecated": false,
@@ -40518,6 +40470,21 @@
                     "optional": false,
                     "description": "",
                     "line": 7,
+                    "modifierKind": [
+                        125
+                    ],
+                    "inheritance": {
+                        "file": "AbstractUswdsFormly"
+                    }
+                },
+                {
+                    "name": "template",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 8,
                     "modifierKind": [
                         125
                     ],
@@ -40602,7 +40569,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\r\nimport { UsaDatePickerWrapper } from '@gsa-sam/ngx-uswds';\r\nimport { AbstractUswdsFormly } from '../uswds-formly';\r\n\r\n@Component({\r\n  template: `\r\n  <usa-date-picker-wrapper>\r\n  <input [formControl]=\"formControl\" [usaDatePicker]=\"picker\" [id]=\"to.id+ '_datePicker'\">\r\n  <usa-date-picker-button [for]=\"picker\"></usa-date-picker-button>\r\n  <usa-date-picker #picker></usa-date-picker>\r\n</usa-date-picker-wrapper>\r\n  `,\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class USWDSFormlyDatePickerComponent extends AbstractUswdsFormly {\r\n  @ViewChild(UsaDatePickerWrapper, { static: true }) public template: UsaDatePickerWrapper;\r\n  constructor(_cdr: ChangeDetectorRef) {\r\n    super();\r\n    this.cdr = _cdr;\r\n  }\r\n}\r\n",
+            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\r\nimport { UsaDatePickerWrapper } from '@gsa-sam/ngx-uswds';\r\nimport { AbstractUswdsFormly } from '../uswds-formly';\r\n\r\n@Component({\r\n  template: `\r\n  <usa-date-picker-wrapper>\r\n  <input [formControl]=\"formControl\" [usaDatePicker]=\"picker\" [id]=\"props.id+ '_datePicker'\">\r\n  <usa-date-picker-button [for]=\"picker\"></usa-date-picker-button>\r\n  <usa-date-picker #picker></usa-date-picker>\r\n</usa-date-picker-wrapper>\r\n  `,\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class USWDSFormlyDatePickerComponent extends AbstractUswdsFormly {\r\n  //@ViewChild(UsaDatePickerWrapper, { static: true }) public template: UsaDatePickerWrapper;\r\n  constructor(_cdr: ChangeDetectorRef) {\r\n    super();\r\n    this.cdr = _cdr;\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -40619,7 +40586,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 16,
+                "line": 15,
                 "jsdoctags": [
                     {
                         "name": "_cdr",
@@ -40638,7 +40605,7 @@
         },
         {
             "name": "USWDSFormlyDropdownComponent",
-            "id": "component-USWDSFormlyDropdownComponent-ad256a421ae07ffae19e1c73c8477f7b31b80aadcf90dd5e37d544d5f120594e3c7cf0eb7b1add452afae91f1e6b6b5cb6a2df04cc3fb6ea43d191708f735c80",
+            "id": "component-USWDSFormlyDropdownComponent-defd0cdb8afcdb197e26521935da9fcd089c18ef369a92b159abdbdb3c09b2d8d24da41078e5aabbcec95dc7d46d54423f2d37d8811441b2c845448198a4d6ca",
             "file": "projects/uswds-formly/src/lib/types/dropdown.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -40648,35 +40615,13 @@
             "providers": [],
             "styleUrls": [],
             "styles": [],
-            "template": "<usa-dropdown [formControl]=\"formControl\" [options]=\"to.options\">{{ to.label }}</usa-dropdown>\n",
+            "template": "<usa-dropdown [formControl]=\"formControl\" [options]=\"props.options\">{{ props.label }}</usa-dropdown>\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
             "inputsClass": [],
             "outputsClass": [],
             "propertiesClass": [
-                {
-                    "name": "template",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "UsaDropdownComponent",
-                    "optional": false,
-                    "description": "",
-                    "line": 12,
-                    "decorators": [
-                        {
-                            "name": "ViewChild",
-                            "stringifiedArguments": "UsaDropdownComponent, {static: true}"
-                        }
-                    ],
-                    "modifierKind": [
-                        170,
-                        125
-                    ],
-                    "inheritance": {
-                        "file": "AbstractUswdsFormly"
-                    }
-                },
                 {
                     "name": "cdr",
                     "deprecated": false,
@@ -40685,6 +40630,21 @@
                     "optional": false,
                     "description": "",
                     "line": 7,
+                    "modifierKind": [
+                        125
+                    ],
+                    "inheritance": {
+                        "file": "AbstractUswdsFormly"
+                    }
+                },
+                {
+                    "name": "template",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 8,
                     "modifierKind": [
                         125
                     ],
@@ -40769,7 +40729,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\r\nimport { UsaDropdownComponent } from '@gsa-sam/ngx-uswds';\r\nimport { AbstractUswdsFormly } from '../uswds-formly';\r\n\r\n@Component({\r\n  template: `\r\n  <usa-dropdown [formControl]=\"formControl\" [options]=\"to.options\">{{ to.label }}</usa-dropdown>\r\n  `,\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class USWDSFormlyDropdownComponent extends AbstractUswdsFormly {\r\n  @ViewChild(UsaDropdownComponent, { static: true }) public template: UsaDropdownComponent;\r\n  constructor(_cdr: ChangeDetectorRef) {\r\n    super();\r\n    this.cdr = _cdr;\r\n  }\r\n}\r\n",
+            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\r\nimport { UsaDropdownComponent } from '@gsa-sam/ngx-uswds';\r\nimport { AbstractUswdsFormly } from '../uswds-formly';\r\n\r\n@Component({\r\n  template: `\r\n  <usa-dropdown [formControl]=\"formControl\" [options]=\"props.options\">{{ props.label }}</usa-dropdown>\r\n  `,\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class USWDSFormlyDropdownComponent extends AbstractUswdsFormly {\r\n  //@ViewChild(UsaDropdownComponent, { static: true }) public template: UsaDropdownComponent;\r\n  constructor(_cdr: ChangeDetectorRef) {\r\n    super();\r\n    this.cdr = _cdr;\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -40786,7 +40746,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 12,
+                "line": 11,
                 "jsdoctags": [
                     {
                         "name": "_cdr",
@@ -40805,7 +40765,7 @@
         },
         {
             "name": "USWDSFormlyInputComponent",
-            "id": "component-USWDSFormlyInputComponent-4904b3e0cfeca57b670345671ed7641eaa82a789dbe1e4f0ca248b21605f47ae84deb4a0875d1f684bbf4452aa5d5ad5fbb8c21570c7d1b0b498ef834b29474f",
+            "id": "component-USWDSFormlyInputComponent-5962b1b18cf940310a85ed0353afe716a2e71406d3a64b6bf2251ee4e3bb3265fdd3d0cad78d55c5ff190c6ec41f9c2357423bb439ab2d9890023bd36cceddf0",
             "file": "projects/uswds-formly/src/lib/types/input.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -40814,7 +40774,7 @@
             "providers": [],
             "styleUrls": [],
             "styles": [],
-            "template": "\n<input\n  [ngClass]=\"{\n    'usa-input--disabled': to.disabled,\n    'usa-input--error': showError,\n    'usa-input--success': formControl.dirty  && !formControl.invalid\n  }\"\n  class=\"usa-input\"\n  [placeholder]=\"to.placeholder\"\n  [usaCharacterCount]=\"to.characterCount\"\n  [name]=\"to.name ? to.name : 'input'\"\n  [formlyAttributes]=\"field\"\n  [type]=\"to.inputType ? to.inputType : 'text'\"\n  [formControl]=\"formControl\"\n  [prefix]=to.prefix\n  [suffix]=to.suffix\n/>\n\n",
+            "template": "\n<input\n  [ngClass]=\"{\n    'usa-input--disabled': props.disabled,\n    'usa-input--error': showError,\n    'usa-input--success': formControl.dirty  && !formControl.invalid\n  }\"\n  class=\"usa-input\"\n  [placeholder]=\"props.placeholder\"\n  [usaCharacterCount]=\"props.characterCount\"\n  [name]=\"props.name ? props.name : 'input'\"\n  [formlyAttributes]=\"field\"\n  [type]=\"props.inputType ? props.inputType : 'text'\"\n  [formControl]=\"formControl\"\n  [prefix]=props.prefix\n  [suffix]=props.suffix\n/>\n\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
@@ -40831,7 +40791,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { FieldType } from '@ngx-formly/core';\n\n@Component({\n  template: `\n\n    <input\n      [ngClass]=\"{\n        'usa-input--disabled': to.disabled,\n        'usa-input--error': showError,\n        'usa-input--success': formControl.dirty  && !formControl.invalid\n      }\"\n      class=\"usa-input\"\n      [placeholder]=\"to.placeholder\"\n      [usaCharacterCount]=\"to.characterCount\"\n      [name]=\"to.name ? to.name : 'input'\"\n      [formlyAttributes]=\"field\"\n      [type]=\"to.inputType ? to.inputType : 'text'\"\n      [formControl]=\"formControl\"\n      [prefix]=to.prefix\n      [suffix]=to.suffix\n    />\n\n  `,\n})\nexport class USWDSFormlyInputComponent extends FieldType {}\n",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { FieldType } from '@ngx-formly/core';\n\n@Component({\n  template: `\n\n    <input\n      [ngClass]=\"{\n        'usa-input--disabled': props.disabled,\n        'usa-input--error': showError,\n        'usa-input--success': formControl.dirty  && !formControl.invalid\n      }\"\n      class=\"usa-input\"\n      [placeholder]=\"props.placeholder\"\n      [usaCharacterCount]=\"props.characterCount\"\n      [name]=\"props.name ? props.name : 'input'\"\n      [formlyAttributes]=\"field\"\n      [type]=\"props.inputType ? props.inputType : 'text'\"\n      [formControl]=\"formControl\"\n      [prefix]=props.prefix\n      [suffix]=props.suffix\n    />\n\n  `,\n})\nexport class USWDSFormlyInputComponent extends FieldType {}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -40841,7 +40801,7 @@
         },
         {
             "name": "USWDSFormlyMultiCheckboxComponent",
-            "id": "component-USWDSFormlyMultiCheckboxComponent-8f51854e5f0f817a4c7616520bdaa8a715a151bbff7cb0033881100721019694f3836f4d9c3efc2639ded6b4ea1eff6c0b39a2b072d39fa45f028716c89b5aa5",
+            "id": "component-USWDSFormlyMultiCheckboxComponent-b6e48403a78e7d301be5d03d25110bf6f9dd0f8050f7b95b964edd5f3b32dcdea8f5ad7c38a1b79201d89d9774dce6556e799bed9d787f94e24c6c97215f135d",
             "file": "projects/uswds-formly/src/lib/types/multicheckbox.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -40851,7 +40811,7 @@
             "providers": [],
             "styleUrls": [],
             "styles": [],
-            "template": "    <usa-checkbox *ngIf=\"to.selectAllLable\" [checked]=\"allChecked\" [indeterminate]=\"checkIndeterminate()\"\n  (change)=\"checkAll($event)\">{{to.selectAllLable}}</usa-checkbox>\n\n<ul class=\"usa-list usa-list--unstyled\">\n  <li class=\"margin-left-3\">\n    <usa-checkbox *ngFor=\"let item of to.options\" [tile]=\"to.tile\" (change)=\"onChange(item.key, item.checked)\" [(ngModel)]=\"item.checked\" >{{item.value}}</usa-checkbox>\n  </li>\n</ul>\n",
+            "template": "    <usa-checkbox *ngIf=\"props.selectAllLable\" [checked]=\"allChecked\" [indeterminate]=\"checkIndeterminate()\"\n  (change)=\"checkAll($event)\">{{props.selectAllLable}}</usa-checkbox>\n\n<ul class=\"usa-list usa-list--unstyled\">\n  <li class=\"margin-left-3\">\n    <usa-checkbox *ngFor=\"let item of props.options\" [tile]=\"props.tile\" (change)=\"onChange(item.key, item.checked)\" [(ngModel)]=\"item.checked\" >{{item.value}}</usa-checkbox>\n  </li>\n</ul>\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
@@ -40865,16 +40825,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 30
-                },
-                {
-                    "name": "template",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "UsaCheckboxComponent",
-                    "optional": false,
-                    "description": "",
-                    "line": 29,
+                    "line": 30,
                     "decorators": [
                         {
                             "name": "ViewChild",
@@ -40882,12 +40833,8 @@
                         }
                     ],
                     "modifierKind": [
-                        170,
-                        125
-                    ],
-                    "inheritance": {
-                        "file": "AbstractUswdsFormly"
-                    }
+                        170
+                    ]
                 },
                 {
                     "name": "cdr",
@@ -40897,6 +40844,21 @@
                     "optional": false,
                     "description": "",
                     "line": 7,
+                    "modifierKind": [
+                        125
+                    ],
+                    "inheritance": {
+                        "file": "AbstractUswdsFormly"
+                    }
+                },
+                {
+                    "name": "template",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 8,
                     "modifierKind": [
                         125
                     ],
@@ -41062,7 +41024,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\r\n  ChangeDetectionStrategy,\r\n  ChangeDetectorRef,\r\n  Component,\r\n  ViewChild,\r\n} from '@angular/core';\r\n\r\nimport { UsaCheckboxComponent } from '@gsa-sam/ngx-uswds';\r\n\r\nimport { AbstractUswdsFormly } from '../uswds-formly';\r\n\r\n@Component({\r\n  template: `\r\n    <usa-checkbox *ngIf=\"to.selectAllLable\" [checked]=\"allChecked\" [indeterminate]=\"checkIndeterminate()\" \r\n  (change)=\"checkAll($event)\">{{to.selectAllLable}}</usa-checkbox>\r\n\r\n<ul class=\"usa-list usa-list--unstyled\">\r\n  <li class=\"margin-left-3\">\r\n    <usa-checkbox *ngFor=\"let item of to.options\" [tile]=\"to.tile\" (change)=\"onChange(item.key, item.checked)\" [(ngModel)]=\"item.checked\" >{{item.value}}</usa-checkbox>\r\n  </li>\r\n</ul>\r\n  `,\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class USWDSFormlyMultiCheckboxComponent\r\n  extends AbstractUswdsFormly {\r\n\r\n  @ViewChild(UsaCheckboxComponent, { static: true })\r\n  public template: UsaCheckboxComponent;\r\n  allChecked: boolean;\r\n  constructor(_cdr: ChangeDetectorRef) {\r\n    super();\r\n    this.cdr = _cdr;\r\n  }\r\n  checkIndeterminate() {\r\n    let value;\r\n    if (this.formControl && this.formControl.value) {\r\n      if (!Array.isArray(this.formControl.value)) {\r\n        let values = Object.keys(this.formControl.value).map(\r\n          (item) => this.formControl.value[item]\r\n        );\r\n        value = values.filter((x) => x === true).length;\r\n      } else {\r\n        value = this.formControl.value.length;\r\n      }\r\n    }\r\n    if (Array.isArray(this.field.templateOptions.options)) {\r\n      this.allChecked =\r\n        value === this.field.templateOptions.options.length ? true : false;\r\n    }\r\n\r\n  }\r\n\r\n  onChange(value: any, checked: boolean) {\r\n    if (this.to.type === 'array') {\r\n      this.formControl.patchValue(\r\n        checked\r\n          ? [...(this.formControl.value || []), value]\r\n          : [...(this.formControl.value || [])].filter((o) => o !== value)\r\n      );\r\n    } else {\r\n      this.formControl.patchValue({\r\n        ...this.formControl.value,\r\n        [value]: checked,\r\n      });\r\n    }\r\n    this.checkIndeterminate();\r\n    this.formControl.markAsTouched();\r\n  }\r\n\r\n  checkAll(ev: boolean) {\r\n\r\n    this.allChecked = !this.allChecked;\r\n    if (Array.isArray(this.field.templateOptions.options)) {\r\n      this.formControl.setValue([]);\r\n      this.field.templateOptions.options.forEach(value => value.checked = ev);\r\n      this.field.templateOptions.options.map((option) => {\r\n        this.onChange(option.key, ev);\r\n      });\r\n    }\r\n  }\r\n\r\n\r\n}\r\n",
+            "sourceCode": "import {\r\n  ChangeDetectionStrategy,\r\n  ChangeDetectorRef,\r\n  Component,\r\n  ViewChild,\r\n} from '@angular/core';\r\n\r\nimport { UsaCheckboxComponent } from '@gsa-sam/ngx-uswds';\r\n\r\nimport { AbstractUswdsFormly } from '../uswds-formly';\r\n\r\n@Component({\r\n  template: `\r\n    <usa-checkbox *ngIf=\"props.selectAllLable\" [checked]=\"allChecked\" [indeterminate]=\"checkIndeterminate()\" \r\n  (change)=\"checkAll($event)\">{{props.selectAllLable}}</usa-checkbox>\r\n\r\n<ul class=\"usa-list usa-list--unstyled\">\r\n  <li class=\"margin-left-3\">\r\n    <usa-checkbox *ngFor=\"let item of props.options\" [tile]=\"props.tile\" (change)=\"onChange(item.key, item.checked)\" [(ngModel)]=\"item.checked\" >{{item.value}}</usa-checkbox>\r\n  </li>\r\n</ul>\r\n  `,\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class USWDSFormlyMultiCheckboxComponent\r\n  extends AbstractUswdsFormly {\r\n\r\n  @ViewChild(UsaCheckboxComponent, { static: true })\r\n  //public template: UsaCheckboxComponent;\r\n  allChecked: boolean;\r\n  constructor(_cdr: ChangeDetectorRef) {\r\n    super();\r\n    this.cdr = _cdr;\r\n  }\r\n  checkIndeterminate() {\r\n    let value;\r\n    if (this.formControl && this.formControl.value) {\r\n      if (!Array.isArray(this.formControl.value)) {\r\n        let values = Object.keys(this.formControl.value).map(\r\n          (item) => this.formControl.value[item]\r\n        );\r\n        value = values.filter((x) => x === true).length;\r\n      } else {\r\n        value = this.formControl.value.length;\r\n      }\r\n    }\r\n    if (Array.isArray(this.field.props.options)) {\r\n      this.allChecked =\r\n        value === this.field.props.options.length ? true : false;\r\n    }\r\n\r\n  }\r\n\r\n  onChange(value: any, checked: boolean) {\r\n    if (this.props.type === 'array') {\r\n      this.formControl.patchValue(\r\n        checked\r\n          ? [...(this.formControl.value || []), value]\r\n          : [...(this.formControl.value || [])].filter((o) => o !== value)\r\n      );\r\n    } else {\r\n      this.formControl.patchValue({\r\n        ...this.formControl.value,\r\n        [value]: checked,\r\n      });\r\n    }\r\n    this.checkIndeterminate();\r\n    this.formControl.markAsTouched();\r\n  }\r\n\r\n  checkAll(ev: boolean) {\r\n\r\n    this.allChecked = !this.allChecked;\r\n    if (Array.isArray(this.field.props.options)) {\r\n      this.formControl.setValue([]);\r\n      this.field.props.options.forEach(value => value.checked = ev);\r\n      this.field.props.options.map((option) => {\r\n        this.onChange(option.key, ev);\r\n      });\r\n    }\r\n  }\r\n\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -41135,7 +41097,7 @@
         },
         {
             "name": "USWDSFormlySearchComponent",
-            "id": "component-USWDSFormlySearchComponent-a54d97287a5dce247c20b74a6059e75efa7185cb29a33dc2e0dff60a9db3f6c87f18eef184c406ee9ac92ba90c136885871e594a69314f58be74613268357c42",
+            "id": "component-USWDSFormlySearchComponent-2ae42aa0e8b3f3a39cd0a8107f5178d047678660a84b2e3ac0ff6e3817482ebe83562fb24c29a8a023bcd76d8bfc803c1caec89e7205aeb2a1f93fa70d12cb4b",
             "file": "projects/uswds-formly/src/lib/types/search.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -41153,28 +41115,6 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
-                    "name": "template",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "UsaSearchComponent",
-                    "optional": false,
-                    "description": "",
-                    "line": 14,
-                    "decorators": [
-                        {
-                            "name": "ViewChild",
-                            "stringifiedArguments": "UsaSearchComponent, {static: true}"
-                        }
-                    ],
-                    "modifierKind": [
-                        170,
-                        125
-                    ],
-                    "inheritance": {
-                        "file": "AbstractUswdsFormly"
-                    }
-                },
-                {
                     "name": "cdr",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -41182,6 +41122,21 @@
                     "optional": false,
                     "description": "",
                     "line": 7,
+                    "modifierKind": [
+                        125
+                    ],
+                    "inheritance": {
+                        "file": "AbstractUswdsFormly"
+                    }
+                },
+                {
+                    "name": "template",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 8,
                     "modifierKind": [
                         125
                     ],
@@ -41266,7 +41221,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\nimport { UsaSearchComponent } from '@gsa-sam/ngx-uswds';\nimport { AbstractUswdsFormly } from '../uswds-formly';\n\n@Component({\n  template: `\n  <usa-search\n      [formControl]=\"formControl\"\n    ></usa-search>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class USWDSFormlySearchComponent extends AbstractUswdsFormly {\n  @ViewChild(UsaSearchComponent, { static: true }) public template: UsaSearchComponent;\n  constructor(_cdr: ChangeDetectorRef) {\n    super();\n    this.cdr = _cdr;\n  }\n}\n",
+            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\nimport { UsaSearchComponent } from '@gsa-sam/ngx-uswds';\nimport { AbstractUswdsFormly } from '../uswds-formly';\n\n@Component({\n  template: `\n  <usa-search\n      [formControl]=\"formControl\"\n    ></usa-search>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class USWDSFormlySearchComponent extends AbstractUswdsFormly {\n // @ViewChild(UsaSearchComponent, { static: true }) public template: UsaSearchComponent;\n  constructor(_cdr: ChangeDetectorRef) {\n    super();\n    this.cdr = _cdr;\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -41283,7 +41238,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 14,
+                "line": 13,
                 "jsdoctags": [
                     {
                         "name": "_cdr",
@@ -41302,7 +41257,7 @@
         },
         {
             "name": "USWDSFormlyTextAreaComponent",
-            "id": "component-USWDSFormlyTextAreaComponent-1d8f31cf7c2a0c1cde075fc268c0513ce1f13b844e99aaad4cb275ebdfd9dece09cf5b1012e933e5186fb23312ab56a3419f20efa504695d85a49dfc19848ed4",
+            "id": "component-USWDSFormlyTextAreaComponent-6a951f581de2eb14dc734103f26b0e76fe3478eda16afd2209482f8a28ac56315783d0b13a81803918d6768627fd137a76c698df0142803335b17683b907770a",
             "file": "projects/uswds-formly/src/lib/types/textarea.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -41312,35 +41267,13 @@
             "providers": [],
             "styleUrls": [],
             "styles": [],
-            "template": "<usa-textarea [formControl]=\"formControl\" [placeholder]=\"to.placeholder\">{{ to.label }}</usa-textarea>\n",
+            "template": "<usa-textarea [formControl]=\"formControl\" [placeholder]=\"props.placeholder\">{{ props.label }}</usa-textarea>\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
             "inputsClass": [],
             "outputsClass": [],
             "propertiesClass": [
-                {
-                    "name": "template",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "UsaTextareaComponent",
-                    "optional": false,
-                    "description": "",
-                    "line": 12,
-                    "decorators": [
-                        {
-                            "name": "ViewChild",
-                            "stringifiedArguments": "UsaTextareaComponent, {static: true}"
-                        }
-                    ],
-                    "modifierKind": [
-                        170,
-                        125
-                    ],
-                    "inheritance": {
-                        "file": "AbstractUswdsFormly"
-                    }
-                },
                 {
                     "name": "cdr",
                     "deprecated": false,
@@ -41349,6 +41282,21 @@
                     "optional": false,
                     "description": "",
                     "line": 7,
+                    "modifierKind": [
+                        125
+                    ],
+                    "inheritance": {
+                        "file": "AbstractUswdsFormly"
+                    }
+                },
+                {
+                    "name": "template",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 8,
                     "modifierKind": [
                         125
                     ],
@@ -41433,7 +41381,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\nimport { UsaTextareaComponent } from '@gsa-sam/ngx-uswds';\nimport { AbstractUswdsFormly } from '../uswds-formly';\n\n@Component({\n    template: `\n  <usa-textarea [formControl]=\"formControl\" [placeholder]=\"to.placeholder\">{{ to.label }}</usa-textarea>\n  `,\n    changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class USWDSFormlyTextAreaComponent extends AbstractUswdsFormly {\n    @ViewChild(UsaTextareaComponent, { static: true }) public template: UsaTextareaComponent;\n    constructor(_cdr: ChangeDetectorRef) {\n        super();\n        this.cdr = _cdr;\n    }\n}\n",
+            "sourceCode": "import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';\nimport { UsaTextareaComponent } from '@gsa-sam/ngx-uswds';\nimport { AbstractUswdsFormly } from '../uswds-formly';\n\n@Component({\n    template: `\n  <usa-textarea [formControl]=\"formControl\" [placeholder]=\"props.placeholder\">{{ props.label }}</usa-textarea>\n  `,\n    changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class USWDSFormlyTextAreaComponent extends AbstractUswdsFormly {\n   // @ViewChild(UsaTextareaComponent, { static: true }) public  template: UsaTextareaComponent;\n    constructor(_cdr: ChangeDetectorRef) {\n        super();\n        this.cdr = _cdr;\n    }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -41450,7 +41398,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 12,
+                "line": 11,
                 "jsdoctags": [
                     {
                         "name": "_cdr",
@@ -45837,6 +45785,76 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/formly-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "FormControlTemplate.bind({})"
+            },
+            {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46002,76 +46020,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "basicTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
-            },
-            {
-                "name": "Basic",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "FormControlTemplate.bind({})"
             },
             {
                 "name": "basicColumns",
@@ -46529,51 +46477,11 @@
                 "name": "FormControlTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/character-count/character-count.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaCharacterCountDirective>",
-                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaCheckboxComponent>",
-                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<FormlyForm>",
-                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<UsaSearchComponent>",
                 "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-            },
-            {
-                "name": "FormControlTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<UsaDropdownComponent>",
-                "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
             },
             {
                 "name": "FormControlTemplate",
@@ -46614,6 +46522,46 @@
                 "deprecationMessage": "",
                 "type": "Story<UsaTextareaComponent>",
                 "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaDropdownComponent>",
+                "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<FormlyForm>",
+                "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/character-count/character-count.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaCharacterCountDirective>",
+                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n      <label for=\"formControlInput\">Form Control Textarea</label>\n      <textarea class=\"usa-textarea\" type=\"textarea\" id=\"formControlInput\"\n       [usaCharacterCount]=\"${args.usaCharacterCount}\" [formControl]=\"formControl\" rows=\"5\"></textarea>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
+            },
+            {
+                "name": "FormControlTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<UsaCheckboxComponent>",
+                "defaultValue": "(args: any) => {\n\n  const formControl = new FormControl();\n\n  return {\n    template: `\n    <usa-checkbox [tile]=\"${args.tile}\" [disabled]=\"${args.disabled}\" [checked]=\"${args.checked}\" \n      [formControl]=\"formControl\"> Sojourner Truth\n      <span usaCheckboxDescription>\n        This is optional text that can be used to describe the label in more detail.\n      </span>\n    </usa-checkbox>`,\n    props: {\n      ...args,\n      formControl: formControl,\n    },\n  }\n}"
             },
             {
                 "name": "headerData",
@@ -46981,69 +46929,6 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/accordion/accordion.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/checkbox/checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/header/header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/radio/radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "projects/uswds-components/src/test.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -47062,61 +46947,7 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/search/search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/table/table.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/textarea/textarea.module.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "any"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
@@ -47156,6 +46987,123 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/breadcrumb/breadcrumb.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/checkbox/checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/header/header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/radio/radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/search/search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": ""
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/step-indicator/step-indicator.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/table/table.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/textarea/textarea.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "any"
             },
             {
                 "name": "ResizeObserver",
@@ -47282,6 +47230,76 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/input/formly-input.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/radio/formly-radio.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/search/formly-search.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -47347,76 +47365,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./table-basic/table-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/input/formly-input.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/radio/formly-radio.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/search/formly-search.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
             },
             {
                 "name": "testsContext",
@@ -50852,6 +50800,305 @@
                     "description": "<p>Animations used by SdsDialog.</p>\n"
                 }
             ],
+            "src/app/formly/datepicker/datepicker.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaSearchComponent>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
+                }
+            ],
+            "src/app/formly/input/formly-input.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/input/formly-input.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
+                }
+            ],
+            "src/app/formly/radio/formly-radio.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/radio/formly-radio.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
+                }
+            ],
+            "src/app/formly/search/formly-search.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaSearchComponent>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/search/formly-search.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
+                }
+            ],
+            "src/app/formly/textarea/formly-textarea.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaTextareaComponent>",
+                    "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
+                }
+            ],
+            "src/app/formly/dropdown/dropdown.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<UsaDropdownComponent>",
+                    "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
+                }
+            ],
+            "src/app/formly/checkbox/formly-checkbox.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "FormControlTemplate.bind({})"
+                },
+                {
+                    "name": "FormControlTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<FormlyForm>",
+                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
+                },
+                {
+                    "name": "MultiCheckbox",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\n  template: `<formly-multi-checkbox></formly-multi-checkbox>`\n})",
+                    "rawdescription": "------------ MultiCheckbox -------------------",
+                    "description": "<p>------------ MultiCheckbox -------------------</p>\n"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": ""
+                },
+                {
+                    "name": "template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
+                }
+            ],
             "src/app/components/character-count/character-count.stories.ts": [
                 {
                     "name": "Basic",
@@ -51369,305 +51616,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "(args) => ({\n  template: `<tooltip-basic [position]=\"'${args.position}'\" [title]=\"'${args.title}'\">Tooltip</tooltip-basic>`,\n})"
-                }
-            ],
-            "src/app/formly/checkbox/formly-checkbox.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'checkboxDemo',\n      type: 'checkbox',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "MultiCheckbox",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\n  template: `<formly-multi-checkbox></formly-multi-checkbox>`\n})",
-                    "rawdescription": "------------ MultiCheckbox -------------------",
-                    "description": "<p>------------ MultiCheckbox -------------------</p>\n"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/checkbox/formly-checkbox.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html')"
-                }
-            ],
-            "src/app/formly/datepicker/datepicker.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaSearchComponent>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'date',\n      type: 'datepicker',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/datepicker/datepicker.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-                }
-            ],
-            "src/app/formly/dropdown/dropdown.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaDropdownComponent>",
-                    "defaultValue": "(args: any) => {\r\n\r\n  const form = new FormGroup({});\r\n  const model: any = {};\r\n  const options: FormlyFormOptions = {};\r\n\r\n  const fields: FormlyFieldConfig[] = [\r\n    {\r\n      key: 'date',\r\n      type: 'dropdown',\r\n      templateOptions: args,\r\n    }\r\n  ];\r\n\r\n  return {\r\n    template: template.default,\r\n    props: {\r\n      form,\r\n      model,\r\n      options,\r\n      fields\r\n    },\r\n  }\r\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/dropdown/dropdown.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html')"
-                }
-            ],
-            "src/app/formly/input/formly-input.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'input',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/input/formly-input.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./input-basic/input-basic.component.html')"
-                }
-            ],
-            "src/app/formly/radio/formly-radio.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<FormlyForm>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'historical-figures',\n      type: 'radio',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/radio/formly-radio.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./radio-basic/radio-basic.component.html')"
-                }
-            ],
-            "src/app/formly/search/formly-search.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaSearchComponent>",
-                    "defaultValue": "(args: any) => {\n\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'search',\n      type: 'search',\n      templateOptions: args,\n    }\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields\n    },\n  }\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/search/formly-search.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./search-basic/search-basic.component.html')"
-                }
-            ],
-            "src/app/formly/textarea/formly-textarea.stories.ts": [
-                {
-                    "name": "Basic",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "FormControlTemplate.bind({})"
-                },
-                {
-                    "name": "FormControlTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<UsaTextareaComponent>",
-                    "defaultValue": "(args: any) => {\n  const form = new FormGroup({});\n  const model: any = {};\n  const options: FormlyFormOptions = {};\n\n  const fields: FormlyFieldConfig[] = [\n    {\n      key: 'textarea',\n      type: 'textarea',\n      templateOptions: args,\n    },\n  ];\n\n  return {\n    template: template.default,\n    props: {\n      form,\n      model,\n      options,\n      fields,\n    },\n  };\n}"
-                },
-                {
-                    "name": "require",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": ""
-                },
-                {
-                    "name": "template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/formly/textarea/formly-textarea.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "require('!!raw-loader!./textarea-basic/textarea-basic.component.html')"
                 }
             ],
             "src/app/components/table/table-static-data.ts": [
@@ -56923,7 +56871,7 @@
                 "linktype": "component",
                 "name": "FormlyWrapperFormFieldComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/2",
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {

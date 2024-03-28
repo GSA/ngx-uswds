@@ -11,7 +11,7 @@ import { AbstractUswdsFormly } from '../uswds-formly';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class USWDSFormlySearchComponent extends AbstractUswdsFormly {
-  @ViewChild(UsaSearchComponent, { static: true }) public template: UsaSearchComponent;
+ // @ViewChild(UsaSearchComponent, { static: true }) public template: UsaSearchComponent;
   constructor(_cdr: ChangeDetectorRef) {
     super();
     this.cdr = _cdr;
