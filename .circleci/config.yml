@@ -12,6 +12,7 @@ jobs:
       - image: cimg/node:20.8.0-browsers
     steps:
       - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - checkout
       - run: npm install
       - run: npm run test:components
