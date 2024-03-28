@@ -7,8 +7,8 @@ import { DatepickerBasicComponent } from "./datepicker-basic.component";
 @NgModule({
   imports: [ CommonModule, UsaDatePickerModule],
   declarations: [ DatepickerBasicComponent ],
-  exports: [ DatepickerBasicComponent ],
+  exports: [ DatepickerBasicComponent ]
   // Entry components not needed for Ivy
-  entryComponents: [UsaDatePickerContent]
+ //entryComponents: [UsaDatePickerContent]
 })
 export class DatepickerBasicModule {}

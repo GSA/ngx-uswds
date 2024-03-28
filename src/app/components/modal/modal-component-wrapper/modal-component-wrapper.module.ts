@@ -15,8 +15,8 @@ import { UsaModalModule } from '@gsa-sam/ngx-uswds';
   exports: [
     ModalComponentWrapper
   ],
-  entryComponents: [
-    ModalContent
-  ],
+  // entryComponents: [
+  //   ModalContent
+  // ],
 })
 export class ModalComponentWrapperModule { }

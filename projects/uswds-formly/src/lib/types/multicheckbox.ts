@@ -11,12 +11,12 @@ import { AbstractUswdsFormly } from '../uswds-formly';
 
 @Component({
   template: `
-    <usa-checkbox *ngIf="to.selectAllLable" [checked]="allChecked" [indeterminate]="checkIndeterminate()" 
-  (change)="checkAll($event)">{{to.selectAllLable}}</usa-checkbox>
+    <usa-checkbox *ngIf="props.selectAllLable" [checked]="allChecked" [indeterminate]="checkIndeterminate()" 
+  (change)="checkAll($event)">{{props.selectAllLable}}</usa-checkbox>
 
 <ul class="usa-list usa-list--unstyled">
   <li class="margin-left-3">
-    <usa-checkbox *ngFor="let item of to.options" [tile]="to.tile" (change)="onChange(item.key, item.checked)" [(ngModel)]="item.checked" >{{item.value}}</usa-checkbox>
+    <usa-checkbox *ngFor="let item of props.options" [tile]="props.tile" (change)="onChange(item.key, item.checked)" [(ngModel)]="item.checked" >{{item.value}}</usa-checkbox>
   </li>
 </ul>
   `,
@@ -26,7 +26,7 @@ export class USWDSFormlyMultiCheckboxComponent
   extends AbstractUswdsFormly {
 
   @ViewChild(UsaCheckboxComponent, { static: true })
-  public template: UsaCheckboxComponent;
+  //public template: UsaCheckboxComponent;
   allChecked: boolean;
   constructor(_cdr: ChangeDetectorRef) {
     super();
@@ -44,15 +44,15 @@ export class USWDSFormlyMultiCheckboxComponent
         value = this.formControl.value.length;
       }
     }
-    if (Array.isArray(this.field.templateOptions.options)) {
+    if (Array.isArray(this.field.props.options)) {
       this.allChecked =
-        value === this.field.templateOptions.options.length ? true : false;
+        value === this.field.props.options.length ? true : false;
     }
 
   }
 
   onChange(value: any, checked: boolean) {
-    if (this.to.type === 'array') {
+    if (this.props.type === 'array') {
       this.formControl.patchValue(
         checked
           ? [...(this.formControl.value || []), value]
@@ -71,10 +71,10 @@ export class USWDSFormlyMultiCheckboxComponent
   checkAll(ev: boolean) {
 
     this.allChecked = !this.allChecked;
-    if (Array.isArray(this.field.templateOptions.options)) {
+    if (Array.isArray(this.field.props.options)) {
       this.formControl.setValue([]);
-      this.field.templateOptions.options.forEach(value => value.checked = ev);
-      this.field.templateOptions.options.map((option) => {
+      this.field.props.options.forEach(value => value.checked = ev);
+      this.field.props.options.map((option) => {
         this.onChange(option.key, ev);
       });
     }
