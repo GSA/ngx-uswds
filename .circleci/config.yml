@@ -9,11 +9,10 @@ jobs:
   build:
     working_directory: ~/project/ngx-uswds
     docker:
-       - image: cimg/node:20.8.0-browsers
+      - image: cimg/node:20.8.0-browsers
     steps:
-     - browser-tools/install-chrome
-     - browser-tools/install-chromedriver
-     - checkout
+      - browser-tools/install-chrome
+      - checkout
       - run: npm install
       - run: npm run test:components
       - run: npm run build:components
