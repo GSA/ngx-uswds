@@ -16,7 +16,6 @@ import { UsaExpansionAnimations } from './accordion-animations';
   templateUrl: './accordion.component.html',
   animations: [UsaExpansionAnimations.bodyExpansion],
   host: {
-    'class': 'usa-accordion',
     '[class.usa-accordion--bordered]': 'bordered',
     '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',
   },
@@ -151,12 +150,12 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     if (isString(this.activeIds)) {
       this.activeIds = this.activeIds.split(/\s*,\s*/);
     }
-
+ if (this.activeIds.length > 1){
     // update panels open states
     this.panels.forEach(panel => {
       panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);
     });
-
+ }
     // closeOthers updates
     if (this.activeIds.length > 1 && this.singleSelect) {
       this._closeOthers(this.activeIds[0]);
