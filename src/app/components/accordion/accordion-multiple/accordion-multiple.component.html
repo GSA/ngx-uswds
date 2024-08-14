@@ -1,5 +1,5 @@
-<div class="margin-bottom-1">
-<usa-accordion [ngClass]="{'usa-accordion--accent_cool border-0': isAccentCoolHeader}" [singleSelect]="singleSelect"
+
+<usa-accordion class="margin-bottom-1" [singleSelect]="singleSelect"
   [bordered]="bordered" [animation]="animation" [headerLevel]="headerLevel" (panelChange)="onPanelChange($event)"
   (shown)="shown($event)" (hidden)="hidden($event)">
 
@@ -13,9 +13,8 @@
     </ng-template>
   </usa-accordion-item>
 </usa-accordion>
-</div>
-<div class="margin-bottom-1">
-<usa-accordion>
+
+<usa-accordion class="margin-bottom-1" [ngClass]="{'usa-accordion--accent_cool border-0': isAccentCoolHeader}" >
   <usa-accordion-item>
     <ng-template UsaAccordionHeader>
       <b class="text-base">I am a <i>Template</i> Header</b>
@@ -29,8 +28,7 @@
     </ng-template>
   </usa-accordion-item>
 </usa-accordion>
-</div>
-<div class="margin-bottom-1">
+
 <usa-accordion>
   <usa-accordion-item header="Disabled Header">
     <ng-template UsaAccordionContent>
@@ -42,4 +40,3 @@
     </ng-template>
   </usa-accordion-item>
 </usa-accordion>
-</div><div>
