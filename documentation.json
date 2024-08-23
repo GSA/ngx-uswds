@@ -10457,12 +10457,12 @@
         },
         {
             "name": "UsaAccordionToggle",
-            "id": "directive-UsaAccordionToggle-6a7967c7c012c60d0a633b62855d1221ebb3c0eeb58e2d916762c09cca4cc86af25bc2b5960a29377d5038fb3a710f1820f4d0c817b8d72f4b681edd6c8f4857",
+            "id": "directive-UsaAccordionToggle-bdc881cd83a1557082a75c841e6873023b8ec466ae354ac67069b7ed16e503a502b699f43cc41b8a18cdc7e25093f1bff037a48bcbcb4485718a1e07875e710b",
             "file": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
             "type": "directive",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import {\n  Component, ContentChildren,\n  Input, QueryList, ElementRef, AfterContentChecked,\n  EventEmitter, Output, Renderer2, Directive, Host, Optional\n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n  host: {\n    'class': 'usa-accordion',\n    '[class.usa-accordion--bordered]': 'bordered',\n    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',\n  },\n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig,\n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n\n    // update panels open states\n    this.panels.forEach(panel => {\n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);\n    });\n\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}\n",
+            "sourceCode": "import {\n  Component, ContentChildren,\n  Input, QueryList, ElementRef, AfterContentChecked,\n  EventEmitter, Output, Renderer2, Directive, Host, Optional\n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n \n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig,\n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n if (this.activeIds.length > 1){\n    // update panels open states\n    this.panels.forEach(panel => {\n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);\n    });\n }\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}\n",
             "selector": "button[UsaAccordionToggle]",
             "providers": [],
             "hostDirectives": [],
@@ -10472,7 +10472,7 @@
                     "name": "UsaAccordionToggle",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 286,
+                    "line": 282,
                     "type": "UsaAccordionItem",
                     "decorators": []
                 }
@@ -10490,7 +10490,7 @@
                     "type": "UsaAccordionComponent",
                     "optional": false,
                     "description": "",
-                    "line": 292,
+                    "line": 288,
                     "modifierKind": [
                         125
                     ]
@@ -10502,7 +10502,7 @@
                     "type": "UsaAccordionItem | string",
                     "optional": false,
                     "description": "",
-                    "line": 283,
+                    "line": 279,
                     "modifierKind": [
                         126
                     ]
@@ -10514,7 +10514,7 @@
                     "type": "UsaAccordionItem",
                     "optional": false,
                     "description": "",
-                    "line": 292,
+                    "line": 288,
                     "decorators": [
                         {
                             "name": "Optional",
@@ -10553,7 +10553,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 290,
+                "line": 286,
                 "jsdoctags": [
                     {
                         "name": "accordion",
@@ -10592,7 +10592,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 286,
+                        "line": 282,
                         "jsdoctags": [
                             {
                                 "name": "panel",
@@ -17167,7 +17167,7 @@
     "components": [
         {
             "name": "AccordionBasicComponent",
-            "id": "component-AccordionBasicComponent-51cb05c91108dec093e70128da08ff520041570effdf2bb74339687e78abd0b4e1593ccc23853100051fcfe2c1d144be90e875be6b27824b8eeabcdc71225e0b",
+            "id": "component-AccordionBasicComponent-78f09553bd3802852a2436185ec1bbf98f174ca0b53757093b2ba2d949f98969e4a8532026c485776854d6b291ba745b1ff2b8a8d37e11ca78581d6d53d16aa2",
             "file": "src/app/components/accordion/accordion-basic/accordion-basic.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -17249,6 +17249,7 @@
                 },
                 {
                     "name": "isAccentCoolHeader",
+                    "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "boolean",
@@ -17363,12 +17364,218 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'accordion-basic',\n  templateUrl: './accordion-basic.component.html',\n})\nexport class AccordionBasicComponent {\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  singleSelect: boolean;\n\n  bordered: boolean;\n  /**\n   * Change the Header background color to the accent cool variation\n   */\n  isAccentCoolHeader: boolean;\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  onPanelChange($event) {\n    console.log($event);\n  }\n\n  shown($event) {\n    console.log($event);\n  }\n\n  hidden($event) {\n    console.log($event);\n  }\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'accordion-basic',\n  templateUrl: './accordion-basic.component.html',\n})\nexport class AccordionBasicComponent {\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  singleSelect: boolean;\n\n  bordered: boolean;\n  /**\n   * Change the Header background color to the accent cool variation\n   */\n  isAccentCoolHeader: boolean =false;\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  onPanelChange($event) {\n    console.log($event);\n  }\n\n  shown($event) {\n    console.log($event);\n  }\n\n  hidden($event) {\n    console.log($event);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<usa-accordion [ngClass]=\"{'usa-accordion--accent_cool border-0': isAccentCoolHeader}\" [singleSelect]=\"singleSelect\"\n  [bordered]=\"bordered\" [animation]=\"animation\" [headerLevel]=\"headerLevel\" [activeIds]=\"activeIds\"\n  (panelChange)=\"onPanelChange($event)\" (shown)=\"shown($event)\" (hidden)=\"hidden($event)\">\n\n  <usa-accordion-item header=\"Simple Text Header\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item>\n    <ng-template UsaAccordionHeader>\n      <b class=\"text-base\">I am a <i>Template</i> Header</b>\n    </ng-template>\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item header=\"Disabled Header\" [disabled]=\"true\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>\n"
+            "templateData": "<usa-accordion [ngClass]=\"{'usa-accordion--accent_cool border-0': isAccentCoolHeader}\" [singleSelect]=\"singleSelect\"\n  [bordered]=\"bordered\" [animation]=\"animation\" [headerLevel]=\"headerLevel\" (panelChange)=\"onPanelChange($event)\"\n  (shown)=\"shown($event)\" (hidden)=\"hidden($event)\">\n\n  <usa-accordion-item header=\"Simple Text Header\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item>\n    <ng-template UsaAccordionHeader>\n      <b class=\"text-base\">I am a <i>Template</i> Header</b>\n    </ng-template>\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n\n  <usa-accordion-item header=\"Disabled Header\" [disabled]=\"true\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>"
+        },
+        {
+            "name": "AccordionMultipleComponent",
+            "id": "component-AccordionMultipleComponent-bce80a4a0e72a64417f4b50b4a3a8bbbcff16fc550341c19334bf74045a434d6e31c67cb1ebcdb2e1659015a459180aaadb01f879b4a7fd4a4b3560e530824d4",
+            "file": "src/app/components/accordion/accordion-multiple/accordion-multiple.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "accordion-multiple",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./accordion-multiple.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "activeIds",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string[]",
+                    "optional": false,
+                    "description": "<p>An array or comma separated strings of panel ids that should be opened <strong>initially</strong>.</p>\n<p>For subsequent changes use methods like <code>expand()</code>, <code>collapse()</code>, etc. and\nthe <code>(panelChange)</code> event.</p>\n",
+                    "line": 20,
+                    "rawdescription": "\n\nAn array or comma separated strings of panel ids that should be opened **initially**.\n\nFor subsequent changes use methods like `expand()`, `collapse()`, etc. and\nthe `(panelChange)` event.\n"
+                },
+                {
+                    "name": "animation",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "<p>If <code>true</code>, accordion will be animated.</p>\n",
+                    "line": 12,
+                    "rawdescription": "\n\nIf `true`, accordion will be animated.\n",
+                    "jsdoctags": [
+                        {
+                            "pos": 245,
+                            "end": 262,
+                            "flags": 16842752,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 334,
+                            "tagName": {
+                                "pos": 246,
+                                "end": 253,
+                                "flags": 16842752,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 80,
+                                "escapedText": "default"
+                            },
+                            "comment": "<p>true</p>\n"
+                        }
+                    ]
+                },
+                {
+                    "name": "bordered",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 29
+                },
+                {
+                    "name": "headerLevel",
+                    "defaultValue": "4",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "\"2\" | \"3\" | \"4\" | \"5\" | \"6\"",
+                    "optional": false,
+                    "description": "<p>Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.</p>\n",
+                    "line": 37,
+                    "rawdescription": "\n\nHeading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n"
+                },
+                {
+                    "name": "isAccentCoolHeader",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "<p>Change the Header background color to the accent cool variation</p>\n",
+                    "line": 33,
+                    "rawdescription": "\n\nChange the Header background color to the accent cool variation\n"
+                },
+                {
+                    "name": "singleSelect",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "<p> If <code>true</code>, only one panel could be opened at a time.</p>\n<p> Opening a new panel will close others.</p>\n",
+                    "line": 27,
+                    "rawdescription": "\n\n If `true`, only one panel could be opened at a time.\n\n Opening a new panel will close others.\n"
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "hidden",
+                    "args": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 47,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "onPanelChange",
+                    "args": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 39,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "shown",
+                    "args": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 43,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'accordion-multiple',\n  templateUrl: './accordion-multiple.component.html',\n})\nexport class AccordionMultipleComponent {\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  singleSelect: boolean;\n\n  bordered: boolean;\n  /**\n   * Change the Header background color to the accent cool variation\n   */\n  isAccentCoolHeader: boolean =false;\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  onPanelChange($event) {\n    console.log($event);\n  }\n\n  shown($event) {\n    console.log($event);\n  }\n\n  hidden($event) {\n    console.log($event);\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "\n<usa-accordion [ngClass]=\"{'usa-accordion--accent_cool border-0': isAccentCoolHeader}\" class=\"margin-1px\" [singleSelect]=\"singleSelect\"\n  [bordered]=\"bordered\" [animation]=\"animation\" [headerLevel]=\"headerLevel\" (panelChange)=\"onPanelChange($event)\"\n  (shown)=\"shown($event)\" (hidden)=\"hidden($event)\">\n\n  <usa-accordion-item header=\"Simple Text Header\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>\n\n\n<usa-accordion >\n  <usa-accordion-item>\n    <ng-template UsaAccordionHeader>\n      <b class=\"text-base\">I am a <i>Template</i> Header</b>\n    </ng-template>\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>\n\n<usa-accordion>\n  <usa-accordion-item header=\"Disabled Header\">\n    <ng-template UsaAccordionContent>\n      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry\n      richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor\n      brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,\n      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda\n      shoreditch et.\n    </ng-template>\n  </usa-accordion-item>\n</usa-accordion>\n"
         },
         {
             "name": "AppComponent",
@@ -23668,12 +23875,11 @@
         },
         {
             "name": "UsaAccordionComponent",
-            "id": "component-UsaAccordionComponent-6a7967c7c012c60d0a633b62855d1221ebb3c0eeb58e2d916762c09cca4cc86af25bc2b5960a29377d5038fb3a710f1820f4d0c817b8d72f4b681edd6c8f4857",
+            "id": "component-UsaAccordionComponent-bdc881cd83a1557082a75c841e6873023b8ec466ae354ac67069b7ed16e503a502b699f43cc41b8a18cdc7e25093f1bff037a48bcbcb4485718a1e07875e710b",
             "file": "projects/uswds-components/src/lib/accordion/accordion.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "exportAs": "usaAccordion",
-            "host": {},
             "inputs": [],
             "outputs": [],
             "providers": [],
@@ -23693,7 +23899,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nAn array or comma separated strings of panel ids that should be opened **initially**.\n\nFor subsequent changes use methods like `expand()`, `collapse()`, etc. and\nthe `(panelChange)` event.\n",
                     "description": "<p>An array or comma separated strings of panel ids that should be opened <strong>initially</strong>.</p>\n<p>For subsequent changes use methods like <code>expand()</code>, <code>collapse()</code>, etc. and\nthe <code>(panelChange)</code> event.</p>\n",
-                    "line": 40,
+                    "line": 36,
                     "type": "string[]",
                     "decorators": []
                 },
@@ -23704,15 +23910,15 @@
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "pos": 1100,
-                            "end": 1117,
+                            "pos": 936,
+                            "end": 953,
                             "flags": 16842752,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 334,
                             "tagName": {
-                                "pos": 1101,
-                                "end": 1108,
+                                "pos": 937,
+                                "end": 944,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -23724,7 +23930,7 @@
                     ],
                     "rawdescription": "\n\nIf `true`, accordion will be animated.\n",
                     "description": "<p>If <code>true</code>, accordion will be animated.</p>\n",
-                    "line": 32,
+                    "line": 28,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -23734,7 +23940,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nType of panels.\n\nBootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n`'secondary'`, `'light'` and `'dark'`.\n",
                     "description": "<p>Type of panels.</p>\n<p>Bootstrap provides styles for the following types: <code>&#39;success&#39;</code>, <code>&#39;info&#39;</code>, <code>&#39;warning&#39;</code>, <code>&#39;danger&#39;</code>, <code>&#39;primary&#39;</code>,\n<code>&#39;secondary&#39;</code>, <code>&#39;light&#39;</code> and <code>&#39;dark&#39;</code>.</p>\n",
-                    "line": 55,
+                    "line": 51,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -23745,7 +23951,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nHeading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n",
                     "description": "<p>Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.</p>\n",
-                    "line": 60,
+                    "line": 56,
                     "type": "\"2\" | \"3\" | \"4\" | \"5\" | \"6\"",
                     "decorators": []
                 },
@@ -23755,7 +23961,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\n If `true`, only one panel could be opened at a time.\n\n Opening a new panel will close others.\n",
                     "description": "<p> If <code>true</code>, only one panel could be opened at a time.</p>\n<p> Opening a new panel will close others.</p>\n",
-                    "line": 47,
+                    "line": 43,
                     "type": "boolean",
                     "decorators": []
                 }
@@ -23770,15 +23976,15 @@
                     "description": "<p>An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\nThe payload is the panel id.</p>\n",
                     "jsdoctags": [
                         {
-                            "pos": 2447,
-                            "end": 2463,
+                            "pos": 2283,
+                            "end": 2299,
                             "flags": 16842752,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
                             "kind": 334,
                             "tagName": {
-                                "pos": 2448,
-                                "end": 2453,
+                                "pos": 2284,
+                                "end": 2289,
                                 "flags": 16842752,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -23788,7 +23994,7 @@
                             "comment": "<p>8.0.0</p>\n"
                         }
                     ],
-                    "line": 78,
+                    "line": 74,
                     "type": "EventEmitter"
                 },
                 {
@@ -23798,7 +24004,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nEvent emitted right before the panel toggle happens.\n",
                     "description": "<p>Event emitted right before the panel toggle happens.</p>\n",
-                    "line": 65,
+                    "line": 61,
                     "type": "EventEmitter"
                 },
                 {
@@ -23808,7 +24014,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nAn event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n",
                     "description": "<p>An event emitted when the expanding animation is finished on the panel. The payload is the panel id.</p>\n",
-                    "line": 70,
+                    "line": 66,
                     "type": "EventEmitter"
                 }
             ],
@@ -23820,7 +24026,7 @@
                     "type": "QueryList<UsaAccordionItem>",
                     "optional": false,
                     "description": "",
-                    "line": 26,
+                    "line": 22,
                     "decorators": [
                         {
                             "name": "ContentChildren",
@@ -23852,7 +24058,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 231,
+                    "line": 227,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23892,7 +24098,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 249,
+                    "line": 245,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23923,7 +24129,7 @@
                     "optional": false,
                     "returnType": "UsaAccordionItem | null",
                     "typeParameters": [],
-                    "line": 257,
+                    "line": 253,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -23954,7 +24160,7 @@
                     "optional": false,
                     "returnType": "\"expanded\" | \"collapsed\"",
                     "typeParameters": [],
-                    "line": 145,
+                    "line": 141,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\nGets the expanded state string.",
@@ -23990,7 +24196,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 224,
+                    "line": 220,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -24030,7 +24236,7 @@
                     "optional": false,
                     "returnType": "HTMLElement | null",
                     "typeParameters": [],
-                    "line": 263,
+                    "line": 259,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -24054,7 +24260,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 259,
+                    "line": 255,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -24074,7 +24280,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 123,
+                    "line": 119,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCollapses a panel with the given id.\n\nHas no effect if the panel is already collapsed or disabled.\n",
@@ -24097,7 +24303,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 128,
+                    "line": 124,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nCollapses all opened panels.\n",
@@ -24116,7 +24322,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 101,
+                    "line": 97,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nExpands a panel with a given id.\n\nHas no effect if the panel is already expanded or disabled.\n",
@@ -24139,7 +24345,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 108,
+                    "line": 104,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nExpands all panels, if `[closeOthers]` is `false`.\n\nIf `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n",
@@ -24158,7 +24364,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 94,
+                    "line": 90,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nChecks if a panel with a given id is expanded.\n",
@@ -24181,7 +24387,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 149,
+                    "line": 145,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -24204,7 +24410,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 213,
+                    "line": 209,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -24247,7 +24453,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 207,
+                    "line": 203,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -24290,7 +24496,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 167,
+                    "line": 163,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -24327,7 +24533,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 137,
+                    "line": 133,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nToggles a panel with the given id.\n\nHas no effect if the panel is disabled.\n",
@@ -24354,7 +24560,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  Component, ContentChildren,\n  Input, QueryList, ElementRef, AfterContentChecked,\n  EventEmitter, Output, Renderer2, Directive, Host, Optional\n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n  host: {\n    'class': 'usa-accordion',\n    '[class.usa-accordion--bordered]': 'bordered',\n    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',\n  },\n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig,\n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n\n    // update panels open states\n    this.panels.forEach(panel => {\n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);\n    });\n\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}\n",
+            "sourceCode": "import {\n  Component, ContentChildren,\n  Input, QueryList, ElementRef, AfterContentChecked,\n  EventEmitter, Output, Renderer2, Directive, Host, Optional\n} from '@angular/core';\nimport { Key, KeyCode, MicrosfotKeys } from '../util/key';\nimport { isString, findLast, getNextItemInList } from '../util/util';\nimport { UsaAccordionItem, UsaAccordionChangeEvent } from './accordion-items';\nimport { UsaAccordionConfig } from './accordion.config';\nimport { AnimationEvent } from '@angular/animations';\nimport { UsaExpansionAnimations } from './accordion-animations';\n\n@Component({\n  selector: 'usa-accordion',\n  exportAs: 'usaAccordion',\n  templateUrl: './accordion.component.html',\n  animations: [UsaExpansionAnimations.bodyExpansion],\n \n})\nexport class UsaAccordionComponent implements AfterContentChecked  {\n\n  @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;\n\n  /**\n   * If `true`, accordion will be animated.\n   * @default true\n   */\n  @Input() animation: boolean = true;\n\n  /**\n   * An array or comma separated strings of panel ids that should be opened **initially**.\n   *\n   * For subsequent changes use methods like `expand()`, `collapse()`, etc. and\n   * the `(panelChange)` event.\n   */\n  @Input() activeIds: string[] = [];\n\n  /**\n   *  If `true`, only one panel could be opened at a time.\n   *\n   *  Opening a new panel will close others.\n   */\n  @Input() singleSelect: boolean;\n\n  /**\n   * Type of panels.\n   *\n   * Bootstrap provides styles for the following types: `'success'`, `'info'`, `'warning'`, `'danger'`, `'primary'`,\n   * `'secondary'`, `'light'` and `'dark'`.\n   */\n  @Input() bordered: boolean;\n\n  /**\n   * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.\n   */\n  @Input() headerLevel: 2 | 3 | 4 | 5 | 6 = 4;\n\n  /**\n   * Event emitted right before the panel toggle happens.\n   */\n  @Output() panelChange = new EventEmitter<UsaAccordionChangeEvent>();\n\n  /**\n   * An event emitted when the expanding animation is finished on the panel. The payload is the panel id.\n   */\n  @Output() shown = new EventEmitter<string>();\n\n  /**\n   * An event emitted when the collapsing animation is finished on the panel, and before the panel element is removed.\n   * The payload is the panel id.\n   *\n   * @since 8.0.0\n   */\n  @Output() hidden = new EventEmitter<string>();\n\n  constructor(\n      config: UsaAccordionConfig,\n      private _element: ElementRef,\n      private _renderer: Renderer2\n    ) {\n    this.animation = config.animation;\n    this.bordered = config.bordered;\n    this.singleSelect = config.singleSelect;\n    this.headerLevel = config.headerLevel;\n  }\n\n  /**\n   * Checks if a panel with a given id is expanded.\n   */\n  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }\n\n  /**\n   * Expands a panel with a given id.\n   *\n   * Has no effect if the panel is already expanded or disabled.\n   */\n  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }\n\n  /**\n   * Expands all panels, if `[closeOthers]` is `false`.\n   *\n   * If `[closeOthers]` is `true`, it will expand the first panel, unless there is already a panel opened.\n   */\n  expandAll(): void {\n    if (this.singleSelect) {\n      if (this.activeIds.length === 0 && this.panels.length) {\n        this._changeOpenState(this.panels.first, true);\n      }\n    } else {\n      this.panels.forEach(panel => this._changeOpenState(panel, true));\n    }\n  }\n\n  /**\n   * Collapses a panel with the given id.\n   *\n   * Has no effect if the panel is already collapsed or disabled.\n   */\n  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }\n\n  /**\n   * Collapses all opened panels.\n   */\n  collapseAll() {\n    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });\n  }\n\n  /**\n   * Toggles a panel with the given id.\n   *\n   * Has no effect if the panel is disabled.\n   */\n  toggle(panelId: string) {\n    const panel = this._findPanelById(panelId);\n    if (panel) {\n      this._changeOpenState(panel, !panel.expanded);\n    }\n  }\n\n  /** Gets the expanded state string. */\n  _getExpandedState(panel: UsaAccordionItem) {\n    return panel.expanded ? 'expanded' : 'collapsed';\n  }\n\n  ngAfterContentChecked() {\n    // active id updates\n    if (isString(this.activeIds)) {\n      this.activeIds = this.activeIds.split(/\\s*,\\s*/);\n    }\n if (this.activeIds.length > 1){\n    // update panels open states\n    this.panels.forEach(panel => {\n      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);\n    });\n }\n    // closeOthers updates\n    if (this.activeIds.length > 1 && this.singleSelect) {\n      this._closeOthers(this.activeIds[0]);\n      this._updateActiveIds();\n    }\n  }\n\n  onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {\n    const keyPressed = $event.key || $event.keyCode;\n    switch(keyPressed) {\n      case Key.ArrowDown:\n      case MicrosfotKeys.ArrowDown:\n      case KeyCode.ArrowDown:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, 1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.ArrowUp:\n      case MicrosfotKeys.ArrowUp:\n      case KeyCode.ArrowUp:\n        this._getPanelElementHeaderButton(\n          this._getNextAccordion(panel, -1).id\n        ).focus();\n        $event.preventDefault();\n        break;\n      case Key.Home:\n      case MicrosfotKeys.Home:\n      case KeyCode.Home:\n        const firstPanel = this.panels.find(panel => !panel.disabled);\n        if (firstPanel) {\n          this._getPanelElementHeaderButton(firstPanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n      case Key.End:\n      case MicrosfotKeys.End:\n      case KeyCode.End:\n        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));\n        if (lastFocusablePanel) {\n          this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();\n        }\n        $event.preventDefault();\n        break;\n    }\n  }\n\n  onBodyExpansionStart(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState === 'collapsed' && event.toState === 'expanded') {\n      this._renderer.removeStyle(panel, 'display');\n    }\n  }\n\n  onBodyExpansionEnd(event: AnimationEvent, panel: HTMLDivElement) {\n    if (event.fromState !== 'void') {\n      if (event.toState === 'expanded') {\n        this.shown.emit(panel.id);\n      } else if (event.toState === 'collapsed') {\n        this._renderer.setStyle(panel, 'display', 'none');\n        this.hidden.emit(panel.id);\n      }\n    }\n  }\n\n  private _getNextAccordion(currentPanel: UsaAccordionItem, delta: 1 | -1) {\n    const allPanels = this.panels.toArray();\n    const currentIndex = allPanels.indexOf(currentPanel);\n    const nextPanel = getNextItemInList(currentIndex, allPanels, delta);\n    return nextPanel\n  }\n\n  private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {\n    if (panel != null && !panel.disabled) {\n      let defaultPrevented = false;\n\n      this.panelChange.emit(\n          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});\n\n      if (!defaultPrevented) {\n        panel.expanded = nextState;\n\n        if (nextState && this.singleSelect) {\n          this._closeOthers(panel.id);\n        }\n        this._updateActiveIds();\n      }\n    }\n  }\n\n  private _closeOthers(panelId: string) {\n    this.panels.forEach(panel => {\n      if (panel.id !== panelId && panel.expanded) {\n        panel.expanded = false;\n      }\n    });\n  }\n\n  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }\n\n  private _updateActiveIds() {\n    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);\n  }\n\n  private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {\n    return this._element.nativeElement.querySelector('#' + panelId + '-header button');\n  }\n}\n\n@Directive({\n  selector: 'button[UsaAccordionToggle]',\n  host: {\n    'type': 'button',\n    '[disabled]': 'panel.disabled',\n    'class': 'usa-accordion__button',\n    '[class.collapsed]': '!panel.expanded',\n    '[attr.aria-expanded]': 'panel.expanded',\n    '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',\n    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',\n    '[attr.aria-label]': 'panel.ariaLabel',\n    '(click)': 'accordion.toggle(panel.id)',\n  }\n})\nexport class UsaAccordionToggle {\n  static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';\n\n  @Input()\n  set UsaAccordionToggle(panel: UsaAccordionItem) {\n    if (panel) {\n      this.panel = panel;\n    }\n  }\n\n  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -24383,7 +24589,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 78,
+                "line": 74,
                 "jsdoctags": [
                     {
                         "name": "config",
@@ -24418,7 +24624,7 @@
             "implements": [
                 "AfterContentChecked"
             ],
-            "templateData": "<ng-template ngFor let-panel [ngForOf]=\"panels\">\n    <div role=\"heading\" id=\"{{panel.id}}-header\" class=\"usa-accordion__heading\" [attr.aria-level]=\"headerLevel\">\n      <button class=\"usa-accordion__button\"\n        [UsaAccordionToggle]=\"panel\"\n        (keydown)=\"onKeyDown($event, panel)\" \n        >\n        {{panel.header}}\n        <ng-template [ngTemplateOutlet]=\"panel.headerTpl?.templateRef\"></ng-template>\n      </button>\n    </div>\n    <section #panelContent id=\"{{panel.id}}\" class=\"usa-accordion__content overflow-hidden\"\n      [@.disabled]=\"!animation\"\n      [@bodyExpansion]=\"panel.expanded ? 'expanded' : 'collapsed'\"\n      (@bodyExpansion.start)=\"onBodyExpansionStart($event, panelContent)\"\n      (@bodyExpansion.done)=\"onBodyExpansionEnd($event, panelContent)\"\n      [attr.aria-labelledby]=\"panel.id + '-header'\">\n        <ng-template [ngTemplateOutlet]=\"panel.contentTpl?.templateRef || null\"></ng-template>\n    </section>\n</ng-template>\n"
+            "templateData": " <div class=\"usa-accordion\" [class.usa-accordion--bordered]= \"bordered\" [attr.aria-multiselectable]=\"singleSelect ? true : 'undefined'\">\n  <ng-template ngFor let-panel [ngForOf]=\"panels\">\n    <div role=\"heading\" id=\"{{panel.id}}-header\" class=\"usa-accordion__heading\" [attr.aria-level]=\"headerLevel\">\n      <button class=\"usa-accordion__button\" [UsaAccordionToggle]=\"panel\" (keydown)=\"onKeyDown($event, panel)\">\n        {{panel.header}}\n        <ng-template [ngTemplateOutlet]=\"panel.headerTpl?.templateRef\"></ng-template>\n      </button>\n    </div>\n    <section #panelContent id=\"{{panel.id}}\" class=\"usa-accordion__content overflow-hidden\" [@.disabled]=\"!animation\"\n      [@bodyExpansion]=\"panel.expanded ? 'expanded' : 'collapsed'\"\n      (@bodyExpansion.start)=\"onBodyExpansionStart($event, panelContent)\"\n      (@bodyExpansion.done)=\"onBodyExpansionEnd($event, panelContent)\" [attr.aria-labelledby]=\"panel.id + '-header'\">\n      <ng-template [ngTemplateOutlet]=\"panel.contentTpl?.templateRef || null\"></ng-template>\n    </section>\n  </ng-template>\n </div> "
         },
         {
             "name": "UsaAppHeaderComponent",
@@ -41466,6 +41672,54 @@
             ]
         },
         {
+            "name": "AccordionMultipleModule",
+            "id": "module-AccordionMultipleModule-3eb371977cfd99f5338c0ed75e464a36fed43ec908f33f43c27cacc207242335109e6699606bace5744e2a90915458f2b9e767e93a9e49f502fd1c5485dc5495",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/components/accordion/accordion-multiple/accordion-multiple.module.ts",
+            "methods": [],
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { UsaAccordionModule } from \"@gsa-sam/ngx-uswds\";\nimport { AccordionMultipleComponent } from \"./accordion-multiple.component\";\n\n@NgModule({\n  imports: [CommonModule, UsaAccordionModule],\n  declarations: [AccordionMultipleComponent],\n  exports: [AccordionMultipleComponent],\n})\nexport class AccordionMultipleModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AccordionMultipleComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "UsaAccordionModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "AccordionMultipleComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
             "name": "AppModule",
             "id": "module-AppModule-d85d2147ee20e95042da54a2209e0a2762dd67d902cea3d528f7619fd338b453df40e32cf3078805f241f07ac79b9612f0f97c171973bedd81d20b7829eb5e7b",
             "description": "",
@@ -45682,6 +45936,16 @@
                 "description": "<p>Time and timing curve for accordion item animations.</p>\n"
             },
             {
+                "name": "accordionMultipleTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./accordion-multiple/accordion-multiple.component.html')"
+            },
+            {
                 "name": "accordionTemplate",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -46702,6 +46966,16 @@
                 "description": "<p>-------------------------- Multi Header ----------------------------</p>\n"
             },
             {
+                "name": "Multiple",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/accordion/accordion.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(args) => ({\n  template: accordionMultipleTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
+            },
+            {
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -46715,7 +46989,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
+                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46725,7 +46999,7 @@
                 "name": "nextId",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                "file": "projects/uswds-components/src/lib/character-count/character-count.directive.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "number",
@@ -46929,6 +47203,24 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "projects/uswds-components/src/test.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "literal type"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/uswds-formly/src/test.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "literal type"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/components/accordion/accordion.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -46956,19 +47248,19 @@
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "file": "src/app/components/dropdown/dropdown.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "any"
+                "type": ""
             },
             {
                 "name": "require",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/dropdown/dropdown.stories.ts",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": ""
+                "type": "any"
             },
             {
                 "name": "require",
@@ -46987,24 +47279,6 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": ""
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/uswds-components/src/test.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "literal type"
-            },
-            {
-                "name": "require",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/uswds-formly/src/test.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "literal type"
             },
             {
                 "name": "require",
@@ -47230,21 +47504,21 @@
                 "name": "template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/datepicker/datepicker.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
-            },
-            {
-                "name": "template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/app/components/file-input/file-input.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "require('!!raw-loader!./file-input-basic/file-input-basic.component.html')"
+            },
+            {
+                "name": "template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/components/datepicker/datepicker.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html')"
             },
             {
                 "name": "template",
@@ -50199,6 +50473,16 @@
             ],
             "src/app/components/accordion/accordion.stories.ts": [
                 {
+                    "name": "accordionMultipleTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/accordion/accordion.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "require('!!raw-loader!./accordion-multiple/accordion-multiple.component.html')"
+                },
+                {
                     "name": "accordionTemplate",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -50237,6 +50521,16 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "require('!!raw-loader!./accordion-overview.html')"
+                },
+                {
+                    "name": "Multiple",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/accordion/accordion.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(args) => ({\n  template: accordionMultipleTemplate.default,\n  props: {\n    singleSelect: args.singleSelect,\n    bordered: args.bordered,\n    isAccentCoolHeader: args.isAccentCoolHeader,\n    animation: args.animation,\n    headerLevel: args.headerLevel,\n    activeIds: args.activeIds,\n\n    onPanelChange: actionsData.panelChange,\n    shown: actionsData.shown,\n    hidden: actionsData.hidden,\n  },\n})"
                 },
                 {
                     "name": "Overview",
@@ -51824,6 +52118,18 @@
                     "defaultValue": "0"
                 }
             ],
+            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
+                {
+                    "name": "nextId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "defaultValue": "0"
+                }
+            ],
             "projects/uswds-components/src/lib/character-count/character-count.directive.ts": [
                 {
                     "name": "nextId",
@@ -51843,18 +52149,6 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": ""
-                }
-            ],
-            "projects/uswds-components/src/lib/checkbox/checkbox.component.ts": [
-                {
-                    "name": "nextId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/uswds-components/src/lib/checkbox/checkbox.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "number",
-                    "defaultValue": "0"
                 }
             ],
             "projects/uswds-components/src/lib/modal/modal-window.ts": [
@@ -56913,6 +57207,25 @@
                 "status": "medium"
             },
             {
+                "filePath": "src/app/components/accordion/accordion-multiple/accordion-multiple.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AccordionMultipleComponent",
+                "coveragePercent": 50,
+                "coverageCount": "5/10",
+                "status": "medium"
+            },
+            {
+                "filePath": "src/app/components/accordion/accordion.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "accordionMultipleTemplate",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/components/accordion/accordion.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
@@ -56948,6 +57261,16 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "footerTemplate",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/accordion/accordion.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Multiple",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

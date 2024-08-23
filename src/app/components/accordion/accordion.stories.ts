@@ -12,6 +12,7 @@ import { generateConfig } from 'src/sandbox/sandbox-utils';
 declare var require: any;
 
 const accordionTemplate = require('!!raw-loader!./accordion-basic/accordion-basic.component.html');
+const accordionMultipleTemplate = require('!!raw-loader!./accordion-multiple/accordion-multiple.component.html');
 
 const footerTemplate = require('!!raw-loader!./accordion-overview.html');
 
@@ -66,5 +67,30 @@ Basic.parameters = {
     'components/accordion/accordion-basic',
     'AccordionBasicModule',
     'accordion-basic'
+  ),
+};
+
+
+export const Multiple = (args) => ({
+  template: accordionMultipleTemplate.default,
+  props: {
+    singleSelect: args.singleSelect,
+    bordered: args.bordered,
+    isAccentCoolHeader: args.isAccentCoolHeader,
+    animation: args.animation,
+    headerLevel: args.headerLevel,
+    activeIds: args.activeIds,
+
+    onPanelChange: actionsData.panelChange,
+    shown: actionsData.shown,
+    hidden: actionsData.hidden,
+  },
+});
+
+Multiple.parameters = {
+  preview: generateConfig(
+    'components/accordion/accordion-multiple',
+    'AccordionMultipleModule',
+    'accordion-multiple'
   ),
 };
