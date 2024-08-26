@@ -4,12 +4,12 @@ import { AbstractUswdsFormly } from '../uswds-formly';
 
 @Component({
     template: `
-  <usa-textarea [formControl]="formControl" [placeholder]="to.placeholder">{{ to.label }}</usa-textarea>
+  <usa-textarea [formControl]="formControl" [placeholder]="props.placeholder">{{ props.label }}</usa-textarea>
   `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class USWDSFormlyTextAreaComponent extends AbstractUswdsFormly {
-    @ViewChild(UsaTextareaComponent, { static: true }) public template: UsaTextareaComponent;
+   // @ViewChild(UsaTextareaComponent, { static: true }) public  template: UsaTextareaComponent;
     constructor(_cdr: ChangeDetectorRef) {
         super();
         this.cdr = _cdr;

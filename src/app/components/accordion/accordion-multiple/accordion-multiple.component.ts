@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'accordion-basic',
-  templateUrl: './accordion-basic.component.html',
+  selector: 'accordion-multiple',
+  templateUrl: './accordion-multiple.component.html',
 })
-export class AccordionBasicComponent {
+export class AccordionMultipleComponent {
   /**
    * If `true`, accordion will be animated.
    * @default true

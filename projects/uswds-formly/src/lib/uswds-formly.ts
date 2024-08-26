@@ -10,7 +10,7 @@ export abstract class AbstractUswdsFormly extends FieldType implements OnInit {
     public ngOnInit() {
         this.setProperties(
             this.template,
-            (<any>this).field.templateOptions
+            (<any>this).field.props
         );
     }
 

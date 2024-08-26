@@ -1,7 +1,16 @@
 import {
-  Component, ContentChildren,
-  Input, QueryList, ElementRef, AfterContentChecked,
-  EventEmitter, Output, Renderer2, Directive, Host, Optional
+  Component,
+  ContentChildren,
+  Input,
+  QueryList,
+  ElementRef,
+  AfterContentChecked,
+  EventEmitter,
+  Output,
+  Renderer2,
+  Directive,
+  Host,
+  Optional,
 } from '@angular/core';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 import { isString, findLast, getNextItemInList } from '../util/util';
@@ -16,13 +25,10 @@ import { UsaExpansionAnimations } from './accordion-animations';
   templateUrl: './accordion.component.html',
   animations: [UsaExpansionAnimations.bodyExpansion],
   host: {
-    'class': 'usa-accordion',
-    '[class.usa-accordion--bordered]': 'bordered',
-    '[attr.aria-multiselectable]': 'singleSelect ? true : undefined',
+    class: 'display-block',
   },
 })
-export class UsaAccordionComponent implements AfterContentChecked  {
-
+export class UsaAccordionComponent implements AfterContentChecked {
   @ContentChildren(UsaAccordionItem) panels: QueryList<UsaAccordionItem>;
 
   /**
@@ -45,6 +51,12 @@ export class UsaAccordionComponent implements AfterContentChecked  {
    *  Opening a new panel will close others.
    */
   @Input() singleSelect: boolean;
+
+  /**
+   *
+   *  Apply the classes to the accordion.
+   */
+  @Input() class: string = '';
 
   /**
    * Type of panels.
@@ -78,10 +90,10 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   @Output() hidden = new EventEmitter<string>();
 
   constructor(
-      config: UsaAccordionConfig,
-      private _element: ElementRef,
-      private _renderer: Renderer2
-    ) {
+    config: UsaAccordionConfig,
+    private _element: ElementRef,
+    private _renderer: Renderer2
+  ) {
     this.animation = config.animation;
     this.bordered = config.bordered;
     this.singleSelect = config.singleSelect;
@@ -91,14 +103,18 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   /**
    * Checks if a panel with a given id is expanded.
    */
-  isExpanded(panelId: string): boolean { return this.activeIds.indexOf(panelId) > -1; }
+  isExpanded(panelId: string): boolean {
+    return this.activeIds.indexOf(panelId) > -1;
+  }
 
   /**
    * Expands a panel with a given id.
    *
    * Has no effect if the panel is already expanded or disabled.
    */
-  expand(panelId: string): void { this._changeOpenState(this._findPanelById(panelId), true); }
+  expand(panelId: string): void {
+    this._changeOpenState(this._findPanelById(panelId), true);
+  }
 
   /**
    * Expands all panels, if `[closeOthers]` is `false`.
@@ -111,7 +127,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
         this._changeOpenState(this.panels.first, true);
       }
     } else {
-      this.panels.forEach(panel => this._changeOpenState(panel, true));
+      this.panels.forEach((panel) => this._changeOpenState(panel, true));
     }
   }
 
@@ -120,13 +136,17 @@ export class UsaAccordionComponent implements AfterContentChecked  {
    *
    * Has no effect if the panel is already collapsed or disabled.
    */
-  collapse(panelId: string) { this._changeOpenState(this._findPanelById(panelId), false); }
+  collapse(panelId: string) {
+    this._changeOpenState(this._findPanelById(panelId), false);
+  }
 
   /**
    * Collapses all opened panels.
    */
   collapseAll() {
-    this.panels.forEach((panel) => { this._changeOpenState(panel, false); });
+    this.panels.forEach((panel) => {
+      this._changeOpenState(panel, false);
+    });
   }
 
   /**
@@ -151,12 +171,14 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     if (isString(this.activeIds)) {
       this.activeIds = this.activeIds.split(/\s*,\s*/);
     }
-
-    // update panels open states
-    this.panels.forEach(panel => {
-      panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);
-    });
-
+    if (this.activeIds.length > 1) {
+      // update panels open states
+      this.panels.forEach((panel) => {
+        panel.expanded =
+          panel.expanded ||
+          (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);
+      });
+    }
     // closeOthers updates
     if (this.activeIds.length > 1 && this.singleSelect) {
       this._closeOthers(this.activeIds[0]);
@@ -166,7 +188,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
 
   onKeyDown($event: KeyboardEvent, panel: UsaAccordionItem) {
     const keyPressed = $event.key || $event.keyCode;
-    switch(keyPressed) {
+    switch (keyPressed) {
       case Key.ArrowDown:
       case MicrosfotKeys.ArrowDown:
       case KeyCode.ArrowDown:
@@ -186,7 +208,7 @@ export class UsaAccordionComponent implements AfterContentChecked  {
       case Key.Home:
       case MicrosfotKeys.Home:
       case KeyCode.Home:
-        const firstPanel = this.panels.find(panel => !panel.disabled);
+        const firstPanel = this.panels.find((panel) => !panel.disabled);
         if (firstPanel) {
           this._getPanelElementHeaderButton(firstPanel.id).focus();
         }
@@ -195,7 +217,10 @@ export class UsaAccordionComponent implements AfterContentChecked  {
       case Key.End:
       case MicrosfotKeys.End:
       case KeyCode.End:
-        const lastFocusablePanel = findLast(this.panels.toArray(), (panel => !panel.disabled));
+        const lastFocusablePanel = findLast(
+          this.panels.toArray(),
+          (panel) => !panel.disabled
+        );
         if (lastFocusablePanel) {
           this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();
         }
@@ -225,15 +250,20 @@ export class UsaAccordionComponent implements AfterContentChecked  {
     const allPanels = this.panels.toArray();
     const currentIndex = allPanels.indexOf(currentPanel);
     const nextPanel = getNextItemInList(currentIndex, allPanels, delta);
-    return nextPanel
+    return nextPanel;
   }
 
   private _changeOpenState(panel: UsaAccordionItem | null, nextState: boolean) {
     if (panel != null && !panel.disabled) {
       let defaultPrevented = false;
 
-      this.panelChange.emit(
-          {panelId: panel.id, nextState: nextState, preventDefault: () => { defaultPrevented = true; }});
+      this.panelChange.emit({
+        panelId: panel.id,
+        nextState: nextState,
+        preventDefault: () => {
+          defaultPrevented = true;
+        },
+      });
 
       if (!defaultPrevented) {
         panel.expanded = nextState;
@@ -247,37 +277,44 @@ export class UsaAccordionComponent implements AfterContentChecked  {
   }
 
   private _closeOthers(panelId: string) {
-    this.panels.forEach(panel => {
+    this.panels.forEach((panel) => {
       if (panel.id !== panelId && panel.expanded) {
         panel.expanded = false;
       }
     });
   }
 
-  private _findPanelById(panelId: string): UsaAccordionItem | null { return this.panels.find(p => p.id === panelId) || null; }
+  private _findPanelById(panelId: string): UsaAccordionItem | null {
+    return this.panels.find((p) => p.id === panelId) || null;
+  }
 
   private _updateActiveIds() {
-    this.activeIds = this.panels.filter(panel => panel.expanded && !panel.disabled).map(panel => panel.id);
+    this.activeIds = this.panels
+      .filter((panel) => panel.expanded && !panel.disabled)
+      .map((panel) => panel.id);
   }
 
   private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {
-    return this._element.nativeElement.querySelector('#' + panelId + '-header button');
+    return this._element.nativeElement.querySelector(
+      '#' + panelId + '-header button'
+    );
   }
 }
 
 @Directive({
   selector: 'button[UsaAccordionToggle]',
   host: {
-    'type': 'button',
+    type: 'button',
     '[disabled]': 'panel.disabled',
-    'class': 'usa-accordion__button',
+    class: 'usa-accordion__button',
     '[class.collapsed]': '!panel.expanded',
     '[attr.aria-expanded]': 'panel.expanded',
     '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',
-    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',
+    '[attr.aria-disabled]':
+      'panel.disabled && panel.expanded ? true : undefined',
     '[attr.aria-label]': 'panel.ariaLabel',
     '(click)': 'accordion.toggle(panel.id)',
-  }
+  },
 })
 export class UsaAccordionToggle {
   static ngAcceptInputType_UsaAccordionToggle: UsaAccordionItem | '';
@@ -289,5 +326,8 @@ export class UsaAccordionToggle {
     }
   }
 
-  constructor(public accordion: UsaAccordionComponent, @Optional() @Host() public panel: UsaAccordionItem) { }
+  constructor(
+    public accordion: UsaAccordionComponent,
+    @Optional() @Host() public panel: UsaAccordionItem
+  ) {}
 }

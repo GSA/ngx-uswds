@@ -9,7 +9,7 @@ import { AbstractUswdsFormly } from '../uswds-formly';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class USWDSFormlyCheckboxComponent extends AbstractUswdsFormly {
-  @ViewChild(UsaCheckboxComponent, { static: true }) public template: UsaCheckboxComponent;
+  //@ViewChild(UsaCheckboxComponent, { static: true })  template: UsaCheckboxComponent;
   constructor(_cdr: ChangeDetectorRef) {
     super();
     this.cdr = _cdr;

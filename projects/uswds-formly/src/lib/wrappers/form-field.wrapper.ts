@@ -12,15 +12,15 @@ import { FieldWrapper } from '@ngx-formly/core';
     <div class="usa-form-group" [class.usa-form-group--error]="showError">
       <label
         class="usa-label"
-        *ngIf="to.label && !to.hideLabel"
+        *ngIf="props.label && !props.hideLabel"
         [attr.for]="id"
       >
-        {{ to.label }}
+        {{ props.label }}
       </label>
       <div
-        *ngIf="to.description"
+        *ngIf="props.description"
         class="usa-hint"
-        [innerHTML]="to.description"
+        [innerHTML]="props.description"
       ></div>
       <div
         *ngIf="showError"
@@ -34,6 +34,6 @@ import { FieldWrapper } from '@ngx-formly/core';
   `,
 })
 export class FormlyWrapperFormFieldComponent extends FieldWrapper {
-  @ViewChild('fieldComponent', { read: ViewContainerRef })
-  fieldComponent!: ViewContainerRef;
+  // @ViewChild('fieldComponent', { read: ViewContainerRef })
+  // fieldComponent!: ViewContainerRef;
 }
