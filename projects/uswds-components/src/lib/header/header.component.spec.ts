@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { UsaNavigationLink } from '../util/navigation';
 import { UsaHeaderPrimaryLink } from './header.model';
@@ -9,12 +9,12 @@ fdescribe('HeaderComponent', () => {
   let component: MockHeaderComponent;
   let fixture: ComponentFixture<MockHeaderComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync (() => {
+     TestBed.configureTestingModule({
       declarations: [MockHeaderComponent],
       imports: [UsaHeaderModule],
     }).compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockHeaderComponent);
