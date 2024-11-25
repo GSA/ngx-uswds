@@ -1,16 +1,23 @@
-name: Deploy Main
+name: Deploy PRs
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
 jobs:
   Build-Storybook:
+    if: github.event.action != 'closed'
     uses: ./.github/workflows/build.yml
+    with:
+        pr-number: ${{ github.event.number }}
   Deploy-Storybook:
     runs-on: ubuntu-latest
-    if: ${{ success() }}
+    if: ${{ !failure() }}
     needs: Build-Storybook
     steps:
+        # Only needed because rossjrw/pr-preview-action needs to run in a git repo
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Download Storybook Assets
@@ -20,10 +27,7 @@ jobs:
         with:
           name: storybook-assets
           path: ./storybook-static
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.3
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
         with:
-          branch: gh-pages
-          folder: storybook-static
-          clean-exclude: pr-preview/
-          force: false
+          source-dir: ./storybook-static/
