@@ -116,7 +116,7 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
     if (value === undefined || value === null) {
       return;
     }
-
+    
     this.setCharacterCountText(value.length, this.usaCharacterCount);
   }
 

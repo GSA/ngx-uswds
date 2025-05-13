@@ -8,10 +8,10 @@ let listBoxId = 0;
 @Component({
   selector: 'usa-combobox',
   templateUrl: './combo-box.component.html',
-  providers: [{       
-    provide: NG_VALUE_ACCESSOR, 
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => UsaComboBoxComponent),
-    multi: true     
+    multi: true
   }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -152,7 +152,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   onInputKeyDown($event: KeyboardEvent) {
     const keyPressed = $event.key || $event.keyCode;
 
-    switch(keyPressed) {
+    switch (keyPressed) {
       case Key.ArrowDown:
       case MicrosfotKeys.ArrowDown:
       case KeyCode.ArrowDown:
@@ -160,7 +160,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
           this._displayDropdown = true;
           this.cdr.detectChanges();
         }
-        
+
         if (this.comboBoxDropdown) {
           this.comboBoxDropdown.focusHighlightedElement();
         }

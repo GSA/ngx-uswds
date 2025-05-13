@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { mockData } from "../combo-box-dummy-data";
 
 @Component({
@@ -7,12 +7,15 @@ import { mockData } from "../combo-box-dummy-data";
 })
 export class ComboBoxBasicComponent {
 
-  id = 'basicCombobox';
-  disabled = false;
-  readonly = false;
-  virtualScroll = true;
-  labelField = 'name';
-  valueField = 'id';
+  @Input() id = 'basicCombobox';
+  @Input() disabled = false;
+  @Input() readonly = false;
+  @Input() virtualScroll = true;
+  @Input() labelField = 'name';
+  @Input() valueField = 'id';
 
-  mockData = mockData;
+  @Input() mockData;
+  constructor() {
+
+  }
 }

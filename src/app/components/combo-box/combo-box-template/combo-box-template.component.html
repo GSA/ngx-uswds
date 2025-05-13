@@ -1,6 +1,6 @@
 <label for="combo-box-template" class="usa-sr-only">Combo Box With Template and Service Data</label>
 <usa-combobox 
-  [items]="mockdata$ | waitForAsync" labelField="name" valueField="id"
+  [items]="mockdata$" labelField="name" valueField="id"
   [ngModel]="searchValue" (ngModelChange)="onValueChange($event)" (scrollEnd)="onScrollEnd()"
   [id]="'combo-box-template'"
 >
