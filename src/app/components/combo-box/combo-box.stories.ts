@@ -4,6 +4,7 @@ import { ComboBoxBasicModule } from "./combo-box-basic/combo-box-basic.module";
 import { ComboBoxBasicComponent } from "./combo-box-basic/combo-box-basic.component";
 import { generateConfig } from "src/sandbox/sandbox-utils";
 import { ComboBoxTemplateModule } from "./combo-box-template/combo-box-template.module";
+import { mockData } from "./combo-box-dummy-data";
 
 export default {
   title: 'Components/ComboBox',
@@ -20,10 +21,20 @@ export default {
 
 const mockService = require('!!raw-loader!./combo-box-dummy-service.ts');
 const dummyData = require('!!raw-loader!./combo-box-dummy-data.ts');
+const template = require('!!raw-loader!./combo-box-basic/combo-box-basic.component.html');
 
-const basicTemplate: Story<ComboBoxBasicComponent> = (args: ComboBoxBasicComponent) => ({
-  component: ComboBoxBasicComponent,
-  props: args,
+const basicTemplate = (args) => ({
+  template: template.default,
+
+  props: {
+    id: 'basicCombobox',
+    disabled: false,
+    readonly: false,
+    virtualScroll: true,
+    labelField: 'name',
+    valueField: 'id',
+    mockData: mockData
+  },
 });
 
 export const Basic = basicTemplate.bind({});
@@ -59,7 +70,7 @@ CustomTemplate.parameters = {
       copy: true,
     },
   ],
-  options: { 
-    showPanel: false 
+  options: {
+    showPanel: false
   }
 };

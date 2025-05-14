@@ -25,6 +25,7 @@ export default {
   args: {
     buttonText: 'Search',
     size: 'big',
+    placeholder:''
   }
 } as Meta;
 

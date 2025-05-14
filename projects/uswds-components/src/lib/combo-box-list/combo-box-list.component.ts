@@ -17,14 +17,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  isArrowDown,
-  isArrowUp,
-  isEnd,
-  isEnter,
-  isHome,
-  isPageDown,
-  isPageUp,
-  isTab,
+  isArrowDown, isArrowUp, isEnd, isEnter,
+  isHome, isPageDown, isPageUp, isTab,
 } from '../util/key';
 import { DOCUMENT } from '@angular/common';
 
@@ -32,7 +26,7 @@ import { DOCUMENT } from '@angular/common';
   selector: `[usa-combo-box-item-template]`,
 })
 export class UsaComboBoxItemTemplate {
-  constructor(public templateRef: TemplateRef<any>) {}
+  constructor(public templateRef: TemplateRef<any>) { }
 }
 
 @Component({
@@ -113,7 +107,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document
-  ) {}
+  ) { }
 
   trackByFn(index: number) {
     return index;
@@ -122,7 +116,6 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
   ngAfterViewInit() {
     this.setDropdownDirection();
     this.registerEventHandlers();
-
     if (this.selectedItem) {
       const index = this.items.findIndex((item) => item === this.selectedItem);
       this.highlightItem(index);
@@ -198,7 +191,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
 
         const numItemsToScrollPast = Math.ceil(
           dropdownNativeElement.clientHeight /
-            dropdownNativeElement.firstElementChild.clientHeight
+          dropdownNativeElement.firstElementChild.clientHeight
         );
         let newIndex = Math.min(
           this._focusedItem.index + numItemsToScrollPast,

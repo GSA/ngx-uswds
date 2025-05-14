@@ -6,21 +6,24 @@
 -->
 <script>
   function deleteStyle() {
-    var style = window.parent.document.head.querySelector('style#customTheme')
+    var style = window.parent.document.head.querySelector("style#customTheme");
     window.parent.document.head.removeChild(style);
   }
 
   function addStyle() {
-    var themeStyle = document.head.querySelector('style#ngx-uswds-theme');
-    var styleEl = document.createElement('style');
-    styleEl.id = 'customTheme'
-    styleEl.innerHTML = themeStyle.innerHTML;
+    var themeStyle = document.head.querySelector("style#ngx-uswds-theme");
+    var styleEl = document.createElement("style");
+    styleEl.id = "customTheme";
+    if (themeStyle && styleEl) {
+      styleEl.innerHTML = themeStyle.innerHTML;
+    }
     window.parent.document.head.appendChild(styleEl);
   }
 
   function listenForThemesChange() {
-    const select = window.parent.document.body.querySelector('.os-content select');
-    select.addEventListener('change', (event) => {
+    const select =
+      window.parent.document.body.querySelector(".os-content select");
+    select.addEventListener("change", (event) => {
       const val = event.target.value;
       setTimeout(() => {
         // A bit strange, but something in between the set timeout can occasionally revert the value,
@@ -36,26 +39,27 @@
   Removing uswds & sam styles being inserted by default
   */
   function removeInsertedStyles() {
-    const styles = document.head.querySelectorAll('style');
-    styles.forEach(style => {
+    const styles = document.head.querySelectorAll("style");
+    styles.forEach((style) => {
       if (
-        (style.innerText.includes('/*! uswds @version */') || style.innerText.includes('SDS THEME')) &&
-        style.id === ''
+        (style.innerText.includes("/*! uswds @version */") ||
+          style.innerText.includes("SDS THEME")) &&
+        style.id === ""
       ) {
         document.head.removeChild(style);
       }
-    })
-
+    });
   }
 
   window.addEventListener("load", function () {
     removeInsertedStyles();
     addStyle();
     listenForThemesChange();
-    var contents = window.parent.document.querySelectorAll('div[role="main"] .os-content');
+    var contents = window.parent.document.querySelectorAll(
+      'div[role="main"] .os-content'
+    );
     for (let i = 0; i < contents.length; i++) {
-      contents[i].classList.add('bg-primary-darker')
+      contents[i].classList.add("bg-primary-darker");
     }
   });
-
 </script>
