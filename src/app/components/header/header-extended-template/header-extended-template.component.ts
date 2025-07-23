@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'header-extended-template',
   templateUrl: './header-extended-template.component.html',
 })

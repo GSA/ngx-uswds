@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaActiveModal, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'modal-stacked',
   templateUrl: './modal-stacked.component.html',
 })
@@ -51,7 +52,8 @@ export class ModalStackedComponent {
   }
 }
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-modal-stacked-b`,
   template: `
     <h2 class="usa-modal__heading" id="modal-8-heading">

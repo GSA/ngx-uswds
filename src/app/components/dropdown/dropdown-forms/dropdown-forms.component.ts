@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DropdownOptionsModel } from '@gsa-sam/ngx-uswds';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'dropdown-forms',
   templateUrl: './dropdown-forms.component.html',
 })

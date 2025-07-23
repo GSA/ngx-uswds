@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'radio-basic',
   templateUrl: './radio-basic.component.html',
 })

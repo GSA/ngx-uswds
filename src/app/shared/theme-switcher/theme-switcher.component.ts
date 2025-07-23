@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { ThemeSwitcherService } from "./theme-switcher.service";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-theme-switcher`,
   template: `
     <select #select class="usa-select" aria-label="Application Theme Switcher">

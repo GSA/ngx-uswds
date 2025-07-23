@@ -28,14 +28,16 @@ import {
 } from '../util/key';
 import { DOCUMENT } from '@angular/common';
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: `[usa-combo-box-item-template]`,
 })
 export class UsaComboBoxItemTemplate {
   constructor(public templateRef: TemplateRef<any>) {}
 }
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-combo-box-list`,
   templateUrl: './combo-box-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

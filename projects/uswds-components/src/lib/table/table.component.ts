@@ -26,7 +26,8 @@ import {
 import { UsaSort } from './table-sort.component';
 import { UsaTableConfig } from './table.config';
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: `[usaColumnDef]`,
 })
 export class UsaColumnDef {
@@ -55,7 +56,8 @@ export class UsaColumnDef {
   }
 }
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],

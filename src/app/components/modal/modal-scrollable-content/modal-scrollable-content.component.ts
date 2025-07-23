@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'modal-scrollable-content',
   templateUrl: './modal-scrollable-content.component.html',
 })

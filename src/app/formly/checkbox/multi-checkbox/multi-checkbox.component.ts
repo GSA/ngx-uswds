@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'formly-multi-checkbox',
   templateUrl: './multi-checkbox.component.html',
 

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'modal-custom-focus',
   templateUrl: './modal-custom-focus.component.html',
 })

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'datepicker-disabled',
   templateUrl: './datepicker-disabled.component.html',
 })

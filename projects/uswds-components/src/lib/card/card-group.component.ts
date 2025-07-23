@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `uswds-card-group`,
   template: `
   <ul class="usa-card-group">

@@ -1,6 +1,7 @@
 import { Component, Input, TemplateRef } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'tooltip-basic',
   templateUrl: './tooltip-basic.component.html'
 })

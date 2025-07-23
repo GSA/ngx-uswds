@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-textarea-basic',
   templateUrl: './textarea-basic.component.html',
 })

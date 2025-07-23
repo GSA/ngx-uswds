@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'documentation-widget-demo',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './demo.component.html',

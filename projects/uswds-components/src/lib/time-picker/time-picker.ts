@@ -3,7 +3,8 @@ import { Subscription } from "rxjs";
 import { UsaComboBoxComponent } from "../combo-box/combo-box.component";
 
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: '[usa-time-picker]',
   exportAs: 'usaTimePicker'
 })

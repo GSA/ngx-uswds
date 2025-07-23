@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'search-basic',
   templateUrl: './search-basic.component.html',
 })

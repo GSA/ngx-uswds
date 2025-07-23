@@ -3,7 +3,8 @@ import { Observable } from "rxjs";
 import { ComboBoxMockService } from "../combo-box-dummy-service";
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `combo-box-template`,
   templateUrl: './combo-box-template.component.html',
   providers: [ComboBoxMockService],

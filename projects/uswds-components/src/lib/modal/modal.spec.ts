@@ -90,7 +90,8 @@ describe('UsaModal', () => {
   });
 });
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
     <ng-template #content let-modal>
       <h2 class="usa-modal__heading" id="modal-test">

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { TableDataSource } from '@gsa-sam/ngx-uswds';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-table-row-hover',
   templateUrl: './table-row-hover.component.html',
   styles: [],

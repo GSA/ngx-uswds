@@ -5,7 +5,8 @@ import { UntypedFormControl, ReactiveFormsModule } from "@angular/forms";
 import { UsaRadioGroupComponent } from "./radio-group.component";
 import { UsaRadioModule } from "./radio.module";
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
   <!-- Basic Radio Input -->
   <usa-radio-group #radioGroupA name="historical-figures" (change)="onRadioChange($event)" [ariaLabelledBy]="'historicalFigures1Label'">

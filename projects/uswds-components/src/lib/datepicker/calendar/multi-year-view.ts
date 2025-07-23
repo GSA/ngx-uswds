@@ -27,7 +27,8 @@ export const yearsPerRow = 4;
  * An internal component used to display a year selector in the datePicker.
  * @docs-private
  */
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-multi-year-view',
   templateUrl: './multi-year-view.html',
   exportAs: 'usaMultiYearView',

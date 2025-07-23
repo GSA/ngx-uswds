@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { UsaNavigationMode, SidenavModel } from '@gsa-sam/ngx-uswds';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'side-navigation-basic',
   templateUrl: './side-navigation-basic.component.html'
 })

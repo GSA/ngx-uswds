@@ -3,7 +3,8 @@ import { NavigationEnd, Router } from "@angular/router";
 import { UsaHeaderComponent, UsaHeaderPrimaryLink } from "@gsa-sam/ngx-uswds";
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-app-header`,
   templateUrl: './app-header.component.html',
 })

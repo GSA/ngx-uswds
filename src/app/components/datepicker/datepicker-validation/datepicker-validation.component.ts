@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NgModel } from '@angular/forms';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'datepicker-validation',
   templateUrl: './datepicker-validation.component.html',
 })

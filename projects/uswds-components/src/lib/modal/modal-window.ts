@@ -24,7 +24,8 @@ import { usaDialogAnimations } from './modal-animations';
 import { AnimationEvent } from '@angular/animations';
 
 let nextId = 0;
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-modal-window',
   animations: [usaDialogAnimations.dialogContainer],
   host: {

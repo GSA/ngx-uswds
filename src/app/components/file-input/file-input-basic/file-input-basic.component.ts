@@ -1,7 +1,8 @@
 import { Component, TemplateRef } from "@angular/core";
 import { Observable } from "rxjs";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'file-input-basic',
   templateUrl: './file-input-basic.component.html'
 })

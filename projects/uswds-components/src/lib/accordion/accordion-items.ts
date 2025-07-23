@@ -36,7 +36,8 @@ let nextId = 0;
 /**
  * A directive that wraps the accordion panel content.
  */
-@Directive({ selector: 'ng-template[UsaAccordionContent]' })
+	@Directive({
+	standalone: false, selector: 'ng-template[UsaAccordionContent]' })
 export class UsaAccordionContent {
   constructor(public templateRef: TemplateRef<any>) { }
 }
@@ -44,7 +45,8 @@ export class UsaAccordionContent {
 /**
  * A directive that wraps the accordion header content.
  */
-@Directive({ 
+	@Directive({
+	standalone: false, 
   selector: 'ng-template[UsaAccordionHeader]',
 })
 export class UsaAccordionHeader {
@@ -54,7 +56,8 @@ export class UsaAccordionHeader {
 /**
  * A directive that wraps an individual accordion panel with title and collapsible content.
  */
-@Directive({ selector: 'usa-accordion-item' })
+	@Directive({
+	standalone: false, selector: 'usa-accordion-item' })
 export class UsaAccordionItem implements AfterContentChecked {
   /**
    *  If `true`, the panel is disabled an can't be toggled.

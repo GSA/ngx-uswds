@@ -100,7 +100,8 @@ export interface UsaDatePickerPanel<
  * future. (e.g. confirmation buttons).
  * @docs-private
  */
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-date-picker-content',
   templateUrl: './date-picker-content.html',
   host: {

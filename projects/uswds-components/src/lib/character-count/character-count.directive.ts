@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs';
 declare var ResizeObserver;
 
 let nextId = 0;
-@Directive({
+	@Directive({
+	standalone: false,
   selector: '[usaCharacterCount]',
 })
 export class UsaCharacterCountDirective implements OnInit, OnDestroy {

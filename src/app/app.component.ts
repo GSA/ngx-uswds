@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeSwitcherService } from './shared/theme-switcher/theme-switcher.service';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
 })

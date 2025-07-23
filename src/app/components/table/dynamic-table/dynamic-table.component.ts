@@ -1,7 +1,8 @@
 import { Component, TrackByFunction } from '@angular/core';
 import { TableDataSource } from '@gsa-sam/ngx-uswds';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html',
   styles: [

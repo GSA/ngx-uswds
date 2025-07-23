@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'modal-forced-action',
   templateUrl: './modal-forced-action.component.html'
 })

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { UsaStepIndicatorModel } from '@gsa-sam/ngx-uswds';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'step-indicator-substeps',
   templateUrl: './step-indicator-substeps.component.html',
   styles: [

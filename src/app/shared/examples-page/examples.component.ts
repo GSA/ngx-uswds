@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentationDemoList } from '../demo-list';
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
     <documentation-widget-demo
       *ngFor="let demo of demos"

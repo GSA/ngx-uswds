@@ -26,7 +26,8 @@ import { UsaCalendarUserEvent, UsaCalendarBody, UsaCalendarCell, UsaCalendarCell
  * An internal component used to display a single year in the datePicker.
  * @docs-private
  */
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-year-view',
   templateUrl: './year-view.html',
   exportAs: 'usaYearView',

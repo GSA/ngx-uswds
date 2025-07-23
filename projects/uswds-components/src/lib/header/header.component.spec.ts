@@ -114,7 +114,8 @@ fdescribe('HeaderComponent', () => {
   });
 });
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
     <usa-header
       [extended]="extended"

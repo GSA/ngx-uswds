@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'character-count-basic',
   templateUrl: './character-count-basic.component.html'
 })

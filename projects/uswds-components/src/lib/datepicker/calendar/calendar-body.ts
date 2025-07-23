@@ -43,7 +43,8 @@ export interface UsaCalendarUserEvent<D> {
  * An internal component used to display calendar data in a table.
  * @docs-private
  */
-@Component({
+	@Component({
+	standalone: false,
   selector: '[usa-calendar-body]',
   templateUrl: './calendar-body.html',
   exportAs: 'usaCalendarBody',

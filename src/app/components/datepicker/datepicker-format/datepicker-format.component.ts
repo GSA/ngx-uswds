@@ -10,7 +10,8 @@ export const UsaDemoFormat: UsaDateFormats = {
   }
 };
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'datepicker-format',
   templateUrl: './datepicker-format.component.html',
   providers: [

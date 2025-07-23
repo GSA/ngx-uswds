@@ -2,7 +2,8 @@ import { HttpResponse } from "@angular/common/http";
 import { Directive, ElementRef, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Observable } from "rxjs";
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: `[usaFilePreview]`
 })
 export class UsaFilePreviewDirective implements OnInit {

@@ -18,7 +18,8 @@ import {
 } from './header-selectors';
 import { UsaHeaderPrimaryLink } from './header.model';
 import { UsaNavigationLink, UsaNavigationMode } from '../util/navigation';
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-header',
   templateUrl: './header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

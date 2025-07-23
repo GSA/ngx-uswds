@@ -4,7 +4,8 @@ import { Key } from '../util/key';
 
 let nextId = 0;
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-search',
   templateUrl: './search.component.html',
   providers: [

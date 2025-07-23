@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from
 import { UsaSearchComponent } from '@gsa-sam/ngx-uswds';
 import { AbstractUswdsFormly } from '../uswds-formly';
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
   <usa-search
       [formControl]="formControl"
