@@ -1,11 +1,10 @@
 {
   "name": "@gsa-sam/ngx-uswds",
-  "version": "18.0.0",
+  "version": "19.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/GSA/ngx-uswds.git"
   },
-  
   "dependencies": {
     "tslib": "^2.0.0"
   }
