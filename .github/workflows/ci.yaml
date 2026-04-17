@@ -1,0 +1,31 @@
+---
+name: ci build
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+    build_and_run_tests:
+        name: Build and Run Tests
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        steps:
+            - name: Check out repository code
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+            - name: Setup Node
+              uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+              with:
+                  node-version: "24.x"
+            - name: Install Node Packages
+              run: npm ci
+            - name: Build the project
+              run: |
+                npm run build:components \
+                && npm run build:formly
+            - name: Run tests
+              # formly code does not have tests at all change back to npm run test when it does
+              run: npm run test:components

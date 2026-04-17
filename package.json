@@ -11,7 +11,7 @@
     "build:formly": "ng build uswds-formly --configuration production",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test:components": "ng test uswds-components --watch=false --code-coverage --no-progress",
+    "test:components": "ng test uswds-components --watch=false --code-coverage --no-progress --browsers=ChromeHeadless",
     "test:formly": "ng test uswds-formly --watch=false --code-coverage --no-progress",
     "ghpages": "npm run build-storybook && touch storybook-static/.nojekyll && npx angular-cli-ghpages --dir=storybook-static",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
