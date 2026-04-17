@@ -58,7 +58,7 @@
     "@storybook/addon-mdx-gfm": "8.6.14",
     "@storybook/angular": "^8.6.18",
     "@storybook/testing-library": "0.2.2",
-    "@types/jasmine": "~3.6.0",
+    "@types/jasmine": "~3.10.19",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^16.0.0",
     "angular-cli-github-pages": "0.2.0",
