@@ -19,13 +19,15 @@ import { UsaDatePickerControl, UsaDatePickerPanel } from './date-picker-base';
 
 
 /** Can be used to override the icon of a `usaDatePickerButton`. */
-@Directive({
+	@Directive({
+	standalone: false,
   selector: '[usaDatePickerButtonIcon]'
 })
 export class UsaDatePickerButtonIcon { }
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-date-picker-button',
   templateUrl: './date-picker-button.html',
   host: {

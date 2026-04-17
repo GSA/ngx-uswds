@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { mockData } from "../combo-box-dummy-data";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-combo-box-basic',
   templateUrl: './combo-box-basic.component.html',
 })

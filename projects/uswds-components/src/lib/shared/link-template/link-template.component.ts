@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { UsaNavigationLink, UsaNavigationMode } from "../../util/navigation";
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-link-template`,
   templateUrl: './link-template.component.html'
 })

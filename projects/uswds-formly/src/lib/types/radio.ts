@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { FieldType } from '@ngx-formly/core';
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
     <usa-radio-group [tile]="to.tile" [formControl]="formControl" [name]="to.name ? to.name : 'radio-group'"  [ariaLabelledBy]="to.ariaLabelledBy">
      <ng-container *ngFor="let option of to.options;let i = index">

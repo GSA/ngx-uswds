@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `uswds-card-footer`,
   template: `
     <ng-content></ng-content>

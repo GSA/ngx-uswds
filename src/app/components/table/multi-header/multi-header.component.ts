@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { TableDataSource } from '@gsa-sam/ngx-uswds';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'table-multi-header',
   templateUrl: './multi-header.component.html'
 })

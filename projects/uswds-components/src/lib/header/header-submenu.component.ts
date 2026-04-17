@@ -5,7 +5,8 @@ import {
 
 let submenuId = 0;
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `button[usaHeaderSubmenu]`,
   host: {
     class: `usa-accordion__button usa-nav__link`,

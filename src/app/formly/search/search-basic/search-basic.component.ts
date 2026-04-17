@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'formly-search-basic',
   templateUrl: './search-basic.component.html',
 

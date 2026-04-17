@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ModalDismissReasons, UsaModalService, UsaModalRef } from '@gsa-sam/ngx-uswds';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'modal-basic',
   templateUrl: './modal-basic.component.html'
 })

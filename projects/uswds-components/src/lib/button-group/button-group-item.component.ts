@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `uswds-button-group-item`,
   template: `
     <ng-content></ng-content>

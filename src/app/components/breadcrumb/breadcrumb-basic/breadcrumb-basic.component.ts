@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'breadcrumb-basic',
   templateUrl: './breadcrumb-basic.component.html'
 })

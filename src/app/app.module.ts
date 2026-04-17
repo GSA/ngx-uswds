@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,6 +19,7 @@ import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
     UsaAppHeaderModule,
   ],
   providers: [
+    provideZoneChangeDetection({ ignoreChangesOutsideZone: true }),
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {

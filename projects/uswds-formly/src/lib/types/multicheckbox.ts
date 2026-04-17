@@ -9,7 +9,8 @@ import { UsaCheckboxComponent } from '@gsa-sam/ngx-uswds';
 
 import { AbstractUswdsFormly } from '../uswds-formly';
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
     <usa-checkbox *ngIf="props.selectAllLable" [checked]="allChecked" [indeterminate]="checkIndeterminate()" 
   (change)="checkAll($event)">{{props.selectAllLable}}</usa-checkbox>

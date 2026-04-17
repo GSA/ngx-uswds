@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'formly-checkbox-basic',
   templateUrl: './checkbox-basic.component.html',
 

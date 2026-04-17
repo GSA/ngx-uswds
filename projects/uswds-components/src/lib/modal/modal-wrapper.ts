@@ -1,6 +1,7 @@
 import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-modal-wrapper',
   encapsulation: ViewEncapsulation.None,
   template: `

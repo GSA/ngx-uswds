@@ -3,7 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { UsaTooltipDirective } from './tooltip.directive';
 
-@Component({
+	@Component({
+	standalone: false,
   template: `<div><button [usaTooltip] title="test">Test</button></div>`
 })
 class TestTooltipComponent {

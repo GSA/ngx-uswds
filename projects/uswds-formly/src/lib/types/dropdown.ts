@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from
 import { UsaDropdownComponent } from '@gsa-sam/ngx-uswds';
 import { AbstractUswdsFormly } from '../uswds-formly';
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
   <usa-dropdown [formControl]="formControl" [options]="props.options">{{ props.label }}</usa-dropdown>
   `,

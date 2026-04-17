@@ -2,7 +2,8 @@ import { HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'file-input-upload',
   templateUrl: './file-input-upload.component.html',
   styles: [

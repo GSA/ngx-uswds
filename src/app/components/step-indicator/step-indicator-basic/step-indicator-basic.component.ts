@@ -2,7 +2,8 @@ import { Component, Input } from "@angular/core";
 import { UsaStepIndicatorModel } from "@gsa-sam/ngx-uswds";
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'step-indicator-basic',
   templateUrl: './step-indicator-basic.component.html'
 })

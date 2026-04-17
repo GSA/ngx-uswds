@@ -1,7 +1,8 @@
 import { Component, Host, Input, TemplateRef } from "@angular/core";
 import { UsaStepIndicatorComponent } from "./step-indicator.component";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `[UsaStepHeader]`,
   template: `
     <ng-container *ngIf="template; else default">

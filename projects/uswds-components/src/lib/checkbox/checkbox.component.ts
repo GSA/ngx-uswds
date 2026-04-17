@@ -3,14 +3,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 let nextId = 0;
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: '[usaCheckboxDescription]',
   host: {
     class: 'usa-checkbox__label-description'
   }
 })
 export class UsaCheckboxLabelDescription {}
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-checkbox',
   templateUrl: './checkbox.component.html',
   providers: [

@@ -7,7 +7,8 @@ import { FieldWrapper } from '@ngx-formly/core';
  * @param string [to.description] Add a description below the label
  */
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
     <div class="usa-form-group" [class.usa-form-group--error]="showError">
       <label

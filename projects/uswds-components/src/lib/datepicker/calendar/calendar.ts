@@ -41,7 +41,8 @@ export type UsaCalendarView = 'month' | 'year' | 'multi-year';
 let uniqueId = 0;
 
 /** Default header for MatCalendar */
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-calendar-header',
   templateUrl: './calendar-header.html',
   exportAs: 'usaCalendarHeader',
@@ -144,7 +145,8 @@ export class UsaCalendarHeader<D> {
 }
 
 /** A calendar that is used as part of the datePicker. */
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-calendar',
   templateUrl: 'calendar.html',
   exportAs: 'usaCalendar',

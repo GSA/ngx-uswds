@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'accordion-multiple',
   templateUrl: './accordion-multiple.component.html',
 })

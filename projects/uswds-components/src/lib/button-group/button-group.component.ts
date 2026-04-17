@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'uswds-button-group',
   template: `
   <ul class="usa-button-group" [ngClass]="{'usa-button-group--segmented': isSegmented}">

@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UsaNavigationMode } from '../util/navigation';
 import { SidenavModel } from './sidenav.model';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-sidenav`,
   templateUrl: `sidenav.component.html`,
 })

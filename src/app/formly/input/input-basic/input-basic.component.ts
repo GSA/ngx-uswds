@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-@Component({
+	@Component({
+	standalone: false,
   templateUrl: './input-basic.component.html',
   selector: `formly-input-basic`,
 })

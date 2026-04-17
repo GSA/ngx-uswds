@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Key } from '../util/key';
 
 import { UsaStepIndicatorComponent } from './step-indicator.component';
@@ -46,12 +46,12 @@ describe('StepIndicatorComponent', () => {
   let component: UsaStepIndicatorComponent;
   let fixture: ComponentFixture<UsaStepIndicatorComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync (() => {
+     TestBed.configureTestingModule({
       declarations: [ UsaStepIndicatorComponent ]
     })
     .compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsaStepIndicatorComponent);

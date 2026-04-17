@@ -12,7 +12,8 @@ import { Key } from '../util/key';
 
 let nextId = 0;
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-textarea',
   templateUrl: './textarea.component.html',
 })

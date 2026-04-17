@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
 
     <input

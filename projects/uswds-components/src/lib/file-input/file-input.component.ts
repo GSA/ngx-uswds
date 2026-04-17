@@ -17,7 +17,8 @@ export interface UploadedFile {
   imageId: string, 
   file: File
 }
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-file-input',
   templateUrl: './file-input.component.html',
   providers: [

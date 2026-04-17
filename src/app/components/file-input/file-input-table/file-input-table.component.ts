@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'file-input-table',
   templateUrl: './file-input-table.component.html'
 })

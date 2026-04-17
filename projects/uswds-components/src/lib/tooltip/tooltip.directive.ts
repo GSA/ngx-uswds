@@ -6,7 +6,8 @@ import {
   Renderer2,
 } from '@angular/core';
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: '[usaTooltip]',
   host: {
     class: 'usa-tooltip__trigger',

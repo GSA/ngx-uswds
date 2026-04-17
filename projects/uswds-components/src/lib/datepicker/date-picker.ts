@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UsaDatePickerBase, UsaDatePickerControl } from './date-picker-base';
 import { USA_SINGLE_DATE_SELECTION_MODEL_PROVIDER } from './date-selection-model';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-date-picker-wrapper`,
   template: `
     <div class="usa-date-picker usa-date-picker--initialized">
@@ -15,7 +16,8 @@ import { USA_SINGLE_DATE_SELECTION_MODEL_PROVIDER } from './date-selection-model
 export class UsaDatePickerWrapper { }
 
 /** Component responsible for managing the datePicker popup/dialog. */
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-date-picker',
   template: ``,
   exportAs: 'usaDatePicker',

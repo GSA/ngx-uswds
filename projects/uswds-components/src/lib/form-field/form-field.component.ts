@@ -1,7 +1,8 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-form-field',
   templateUrl: 'form-field.component.html',
 })

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalDismissReasons, UsaActiveModal, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'modal-component-wrapper',
   templateUrl: './modal-component-wrapper.component.html',
 })
@@ -37,7 +38,8 @@ export class ModalComponentWrapper {
 }
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-modal-content`,
   template: `
     <h2 class="usa-modal__heading" id="modal-5-heading">

@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from
 import { UsaTextareaComponent } from '@gsa-sam/ngx-uswds';
 import { AbstractUswdsFormly } from '../uswds-formly';
 
-@Component({
+	@Component({
+	standalone: false,
     template: `
   <usa-textarea [formControl]="formControl" [placeholder]="props.placeholder">{{ props.label }}</usa-textarea>
   `,

@@ -3,7 +3,8 @@ import { DropdownOptionsModel } from './dropdown-options.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 let dropdownId = 0;
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-dropdown',
   templateUrl: './dropdown.component.html',
   providers: [

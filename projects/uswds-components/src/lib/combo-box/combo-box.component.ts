@@ -5,7 +5,8 @@ import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 
 let comboBoxId = 0;
 let listBoxId = 0;
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-combobox',
   templateUrl: './combo-box.component.html',
   providers: [{       

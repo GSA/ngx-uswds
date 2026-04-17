@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'input-basic',
   templateUrl: './input-basic.component.html',
 })

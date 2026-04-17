@@ -3,7 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { UsaCharacterCountDirective } from './character-count.directive';
 
-@Component({
+	@Component({
+	standalone: false,
   template: `
     <input [usaCharacterCount]="25" id="inputA">
     <input [usaCharacterCount]="25" [formControl]="formControl" id="inputB">

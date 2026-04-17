@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Directive, EventEmitter, forwardRef, Input, Output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: '[usaRadioDescription]',
   host: {
     class: 'usa-checkbox__label-description'
@@ -11,7 +12,8 @@ export class UsaRadioLabelDescription { }
 
 let nextId = 0;
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-radio`,
   templateUrl: `./radio.component.html`,
   providers: [

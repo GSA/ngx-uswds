@@ -6,7 +6,8 @@ import { UsaSort } from "./table-sort.component";
  * Structural Directive to extract table header template
  * from user
  */
-@Directive({
+	@Directive({
+	standalone: false,
   selector: `[usaTableHeaderDef]`,
 })
 export class UsaTableHeaderDef {
@@ -19,7 +20,8 @@ export class UsaTableHeaderDef {
 /**
  * Directive to apply certain styles and/or attribute to table header
  */
-@Directive({
+	@Directive({
+	standalone: false,
   selector: `[usa-table-header]`,
   host: {
     '[attr.role]': '\'columnheader\'',
@@ -84,7 +86,8 @@ export class UsaTableHeader implements AfterViewInit{
  * Represents one row of table headers. Multiple rows of
  * table headers can exist in one table
  */
-@Directive({
+	@Directive({
+	standalone: false,
   selector: `[usaHeaderRowDef]`,
 })
 export class UsaHeaderRowDef {

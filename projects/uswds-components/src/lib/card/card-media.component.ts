@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `uswds-card-media`,
   template: `
   <header>

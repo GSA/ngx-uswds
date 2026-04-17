@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Directive, HostListener, ElementRef, Input, NgModule } from '@angular/core';
 
 /** For internal use - directive that adds or removes class based on hover */
-@Directive({
+	@Directive({
+	standalone: false,
   selector: '[hover-class]'
 })
 export class HoverClassDirective {

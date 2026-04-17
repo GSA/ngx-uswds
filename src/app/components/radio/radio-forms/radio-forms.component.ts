@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'radio-forms',
   templateUrl: './radio-forms.component.html',
   styles: [

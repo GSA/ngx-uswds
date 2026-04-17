@@ -6,12 +6,14 @@ import { UsaRadioComponent } from "./radio.component";
 /**
  * Directive to allow heading for group of radio options
  */
-@Directive({
+	@Directive({
+	standalone: false,
   selector: '[usaRadioGroupLabel]',
 })
 export class UsaRadioGroupLabel {}
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `usa-radio-group`,
   template: `
   <div role="radiogroup" [attr.aria-labelledby]="ariaLabelledBy">

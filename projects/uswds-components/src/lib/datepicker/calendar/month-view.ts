@@ -40,7 +40,8 @@ const DAYS_PER_WEEK = 7;
  * An internal component used to display a single month in the datePicker.
  * @docs-private
  */
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-month-view',
   templateUrl: './month-view.html',
   exportAs: 'usaMonthView',

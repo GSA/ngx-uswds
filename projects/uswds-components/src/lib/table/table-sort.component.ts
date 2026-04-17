@@ -1,7 +1,8 @@
 import { DOCUMENT } from "@angular/common";
 import { Component, ElementRef, EventEmitter, Inject, Input, Output } from "@angular/core";
 
-@Component({
+	@Component({
+	standalone: false,
   selector: `button[usa-sort]`,
   host: {
     class: 'usa-table__header__button',

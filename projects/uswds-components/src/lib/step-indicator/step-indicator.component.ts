@@ -6,7 +6,8 @@ import { UsaStepIndicatorModel } from './step-indicator.model';
 
 let stepIndicatorId = 0;
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-step-indicator',
   templateUrl: './step-indicator.component.html',
   host: {

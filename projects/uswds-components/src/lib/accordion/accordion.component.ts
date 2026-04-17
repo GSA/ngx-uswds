@@ -19,7 +19,8 @@ import { UsaAccordionConfig } from './accordion.config';
 import { AnimationEvent } from '@angular/animations';
 import { UsaExpansionAnimations } from './accordion-animations';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-accordion',
   exportAs: 'usaAccordion',
   templateUrl: './accordion.component.html',
@@ -301,7 +302,8 @@ export class UsaAccordionComponent implements AfterContentChecked {
   }
 }
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: 'button[UsaAccordionToggle]',
   host: {
     type: 'button',

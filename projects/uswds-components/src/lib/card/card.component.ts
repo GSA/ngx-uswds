@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: '[uswds-card]',
   template: `
     <div class="usa-card__container">

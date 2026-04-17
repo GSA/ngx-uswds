@@ -21,7 +21,8 @@ export const USA_DATEPICKER_VALIDATORS: any = {
   multi: true
 };
 
-@Directive({
+	@Directive({
+	standalone: false,
   selector: 'input[usaDatePicker]',
   providers: [
     USA_DATEPICKER_VALUE_ACCESSOR,

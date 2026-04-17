@@ -22,14 +22,16 @@ import { UsaNavigationLink } from '../util/navigation';
  *  <a *usaBreadcrumbLinkTemplate="let breadcrumb" href="myHref">{{breadcrumb.text}}</a>
  * </usa-breadcrumbs>
  */
-@Directive({
+	@Directive({
+	standalone: false,
   selector: `[usaBreadcrumbLinkTemplate]`,
 })
 export class UsaBreadcrumbLinkTemplate {
   constructor(public templateRef: TemplateRef<any>) {}
 }
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'usa-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

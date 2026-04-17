@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { UsaHeaderPrimaryLink, UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 import { primaryNavItems, secondaryNavItems } from '../header-data';
 
-@Component({
+	@Component({
+	standalone: false,
   selector: 'header-basic',
   templateUrl: './header-basic.component.html',
 })
