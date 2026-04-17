@@ -48,7 +48,7 @@
     "@angular-devkit/build-angular": "19.2.24",
     "@angular/cli": "^19.2.24",
     "@angular/compiler-cli": "^19.2.20",
-    "@babel/core": "^7.17.8",
+    "@babel/core": "^7.29.0",
     "@compodoc/compodoc": "^1.2.1",
     "@etchteam/storybook-addon-css-variables-theme": "^2.0.6",
     "@storybook/addon-a11y": "^8.6.18",
