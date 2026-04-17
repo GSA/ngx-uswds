@@ -25,7 +25,7 @@ jobs:
             - name: Build the project
               run: |
                 npm run build:components \
-                && build:formly
+                && npm run build:formly
             - name: Run tests
               # formly code does not have tests at all change back to npm run test when it does
               run: npm run test:components
