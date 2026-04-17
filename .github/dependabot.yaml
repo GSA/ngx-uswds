@@ -25,7 +25,7 @@ updates:
     # Ignore major updates to avoid breaking changes unless reviewed manually
     ignore:
       - dependency-name: "*"
-        update-types: [ "major" ]
+        update-types: [ "version-update:semver-major" ]
     # Labels to apply to npm PRs
     labels:
       - "dependencies"
