@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e # v1
         with:
-          node-version: "14.x"
+          node-version: "24.x"
       - name: Install Node Packages
         run: npm i
       - name: Build Storybook Assets
