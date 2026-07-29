@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "19.2.24",
-    "@angular/cli": "^19.2.24",
+    "@angular/cli": "^22.0.9",
     "@angular/compiler-cli": "^19.2.20",
     "@babel/core": "^7.29.0",
     "@compodoc/compodoc": "^1.2.1",
