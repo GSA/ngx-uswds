@@ -44,9 +44,7 @@ export const usaFocusTrap =
         fromEvent<KeyboardEvent>(element, 'keydown')
             .pipe(
                 takeUntil(stopFocusTrap$),
-                // tslint:disable:deprecation
-                filter(e => e.key === Key.Tab || e.key === MicrosfotKeys.Tab || e.which === KeyCode.Tab),
-                // tslint:enable:deprecation
+                filter(e => e.key === Key.Tab || e.key === MicrosfotKeys.Tab || e.keyCode === KeyCode.Tab),
                 withLatestFrom(lastFocusedElement$))
             .subscribe(([tabEvent, focusedElement]) => {
               const[first, last] = getFocusableBoundaryElements(element);
