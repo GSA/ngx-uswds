@@ -106,7 +106,8 @@ describe('UsaModal', () => {
   `
 })
 class UsaModalTestComponent {
-  closeResult: ModalDismissReasons;
+  closeResult: string;
+  dismissReason: ModalDismissReasons;
   modalOptions: UsaModalOptions = {ariaLabelledBy: 'modal-test'};
   modalRef: UsaModalRef;
 
@@ -119,7 +120,9 @@ class UsaModalTestComponent {
     this.modalRef = this.modalService.open(content, this.modalOptions)
     this.modalRef.result.then((result) => {
       this.closeResult = result;
-    }, () => {});
+    }, (reason: ModalDismissReasons) => {
+      this.dismissReason = reason;
+    });
   }
 
   close(reason) {
