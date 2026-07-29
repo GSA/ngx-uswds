@@ -44,7 +44,7 @@ export const usaFocusTrap =
         fromEvent<KeyboardEvent>(element, 'keydown')
             .pipe(
                 takeUntil(stopFocusTrap$),
-                filter(e => e.key === Key.Tab || e.key === MicrosfotKeys.Tab || e.which === KeyCode.Tab),
+                filter(e => e.key === Key.Tab || e.key === MicrosfotKeys.Tab || e.keyCode === KeyCode.Tab),
                 withLatestFrom(lastFocusedElement$))
             .subscribe(([tabEvent, focusedElement]) => {
               const[first, last] = getFocusableBoundaryElements(element);

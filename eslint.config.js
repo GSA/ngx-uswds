@@ -8,9 +8,23 @@ const angular = require("angular-eslint");
 // in CI now; tighten them to errors as the legacy lint debt is paid down.
 const existingDebtWarnings = {
   "@angular-eslint/component-class-suffix": "warn",
-  "@angular-eslint/component-selector": "warn",
+  "@angular-eslint/component-selector": [
+    "warn",
+    {
+      type: "element",
+      prefix: "usa",
+      style: "kebab-case",
+    },
+  ],
   "@angular-eslint/directive-class-suffix": "warn",
-  "@angular-eslint/directive-selector": "warn",
+  "@angular-eslint/directive-selector": [
+    "warn",
+    {
+      type: "attribute",
+      prefix: "usa",
+      style: "camelCase",
+    },
+  ],
   "@angular-eslint/no-output-native": "warn",
   "@angular-eslint/no-output-on-prefix": "warn",
   "@angular-eslint/no-output-rename": "warn",
