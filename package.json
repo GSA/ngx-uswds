@@ -21,6 +21,9 @@
     "build-storybook": "ng run usa-components:build-storybook"
   },
   "private": true,
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
   "browser": {
     "fs": false,
     "os": false,
