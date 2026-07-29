@@ -213,6 +213,16 @@
             "tsConfig": "projects/uswds-components/tsconfig.spec.json",
             "karmaConfig": "projects/uswds-components/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/uswds-components/**/*.ts",
+              "projects/uswds-components/**/*.html"
+            ],
+            "eslintConfig": "projects/uswds-components/eslint.config.js"
+          }
         }
       }
     },
@@ -240,6 +250,16 @@
             "main": "projects/uswds-formly/src/test.ts",
             "tsConfig": "projects/uswds-formly/tsconfig.spec.json",
             "karmaConfig": "projects/uswds-formly/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/uswds-formly/**/*.ts",
+              "projects/uswds-formly/**/*.html"
+            ],
+            "eslintConfig": "projects/uswds-formly/eslint.config.js"
           }
         }
       }

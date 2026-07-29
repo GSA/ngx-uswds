@@ -65,10 +65,11 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^16.0.0",
     "angular-cli-github-pages": "0.2.0",
+    "angular-eslint": "^19.8.1",
     "babel-loader": "^8.2.4",
-    "codelyzer": "^6.0.0",
     "css-loader": "^6.5.1",
     "ejs": "^3.1.6",
+    "eslint": "^9.39.5",
     "jasmine-core": "^3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.3.4",
@@ -84,7 +85,7 @@
     "storybook": "^8.6.18",
     "storybook-addon-preview": "^2.3.0",
     "ts-node": "~8.3.0",
-    "tslint": "~6.1.3",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.65.0"
   }
 }
