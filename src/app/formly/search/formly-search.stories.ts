@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from "@storybook/angular";
+import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
@@ -37,7 +37,7 @@ declare var require;
 
 const template = require('!!raw-loader!./search-basic/search-basic.component.html');
 
-const FormControlTemplate: Story<UsaSearchComponent> = (args: any) => {
+const FormControlTemplate: StoryFn<UsaSearchComponent> = (args: any) => {
 
   const form = new FormGroup({});
   const model: any = {};

@@ -180,7 +180,7 @@
               "-d",
               "."
             ],
-            "outputDir": "dist/storybook/usa-components"
+            "outputDir": "storybook-static"
           }
         }
       }

@@ -45,6 +45,8 @@ jobs:
               run: |
                 npm run build:components \
                 && npm run build:formly
+            - name: Build Storybook static assets
+              run: npm run build-storybook
             - name: Run component tests with coverage
               id: component-tests
               # formly code does not have tests at all; scope coverage to components

@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { UsaFormlyModule } from '@gsa-sam/uswds-formly';
 import {
@@ -36,7 +36,7 @@ declare var require;
 
 const template = require('!!raw-loader!./textarea-basic/textarea-basic.component.html');
 
-const FormControlTemplate: Story<UsaTextareaComponent> = (args: any) => {
+const FormControlTemplate: StoryFn<UsaTextareaComponent> = (args: any) => {
   const form = new FormGroup({});
   const model: any = {};
   const options: FormlyFormOptions = {};
