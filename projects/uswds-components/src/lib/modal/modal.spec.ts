@@ -119,7 +119,7 @@ class UsaModalTestComponent {
     this.modalRef = this.modalService.open(content, this.modalOptions)
     this.modalRef.result.then((result) => {
       this.closeResult = result;
-    });
+    }, () => {});
   }
 
   close(reason) {

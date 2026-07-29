@@ -27,6 +27,13 @@ jobs:
               run: |
                 npm run build:components \
                 && npm run build:formly
-            - name: Run tests
-              # formly code does not have tests at all change back to npm run test when it does
+            - name: Run component tests with coverage
+              # formly code does not have tests at all; scope coverage to components
               run: npm run test:components
+            - name: Upload component coverage artifact
+              if: always()
+              uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+              with:
+                  name: uswds-components-coverage
+                  path: coverage/uswds-components/**
+                  if-no-files-found: error
