@@ -43,6 +43,36 @@ export const sidenavModel: SidenavModel[] = [
                 ]
               }
             ]
+          },
+          {
+            mode: UsaNavigationMode.EXTERNAL,
+            text: 'Accordion - Grandchild',
+            path: 'javascript:void(0)',
+            id: '2000',
+            children: [
+              {
+                mode: UsaNavigationMode.EXTERNAL,
+                text: 'Accordion - Great-Grandchild',
+                path: 'javascript:void(0)',
+                id: '20000',
+                children: [
+                  {
+                    mode: UsaNavigationMode.EXTERNAL,
+                    text: 'Accordion - Great-Great-Grandchild',
+                    path: 'javascript:void(0)',
+                    id: '200000',
+                    children: [
+                      {
+                        mode: UsaNavigationMode.EXTERNAL,
+                        text: 'Accordion - Great-Great-Great-Grandchild',
+                        path: 'javascript:void(0)',
+                        id: '2000000'
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -82,7 +112,7 @@ export const sidenavModel: SidenavModel[] = [
     id: '16'
   },
   {
-    mode: UsaNavigationMode.EVENT,
+    mode: UsaNavigationMode.LABEL,
     text: 'Table',
     path: 'table',
     id: '17',
