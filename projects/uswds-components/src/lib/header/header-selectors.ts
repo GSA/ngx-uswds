@@ -1,7 +1,7 @@
-import { Directive, TemplateRef } from "@angular/core";
+import { Directive, TemplateRef } from '@angular/core';
 
 /**
- * Define primary navigation links for the header. Use this over passing in JSON model 
+ * Define primary navigation links for the header. Use this over passing in JSON model
  * through primaryNavItems input if you'd like more customization to the header's primary
  * link templates. Only usable with ul tags.
  * @example
@@ -12,14 +12,14 @@ import { Directive, TemplateRef } from "@angular/core";
  *     </li>
  *   </ul>
  * </usa-header>
- * 
+ *
  */
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `ul[usaHeaderPrimaryLinks]`,
   host: {
     class: 'usa-nav__primary usa-accordion',
-  }
+  },
 })
 export class UsaHeaderPrimaryLinks {}
 
@@ -33,8 +33,8 @@ export class UsaHeaderPrimaryLinks {}
  *  </div>
  * </usa-header>
  */
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `[usaHeaderPrimaryExtra]`,
 })
 export class UsaHeaderPrimaryExtra {}
@@ -51,12 +51,12 @@ export class UsaHeaderPrimaryExtra {}
  *  </ng-template>
  * </usa-header>
  */
-	@Directive({
-	standalone: false,
-  selector: `[usaHeaderPrimaryLinkTemplate]`
+@Directive({
+  standalone: false,
+  selector: `[usaHeaderPrimaryLinkTemplate]`,
 })
 export class UsaHeaderPrimaryLinkTemplate {
-  constructor (public templateRef: TemplateRef<any>) {}
+  constructor(public templateRef: TemplateRef<any>) {}
 }
 
 /**
@@ -72,12 +72,12 @@ export class UsaHeaderPrimaryLinkTemplate {
  *  </ul>
  * </usa-header>
  */
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `ul[usaHeaderSecondaryLinks]`,
   host: {
     class: 'usa-nav__secondary-links',
-  }
+  },
 })
 export class UsaHeaderSecondaryLinks {}
 
@@ -91,12 +91,11 @@ export class UsaHeaderSecondaryLinks {}
  *  </div>
  * </usa-header>
  */
-	@Directive({
-	standalone: false,
-  selector: `[usaHeaderSecondaryExtra]`
+@Directive({
+  standalone: false,
+  selector: `[usaHeaderSecondaryExtra]`,
 })
 export class UsaHeaderSecondaryExtra {}
-
 
 /**
  * Define template for displaying secondary navigation link. This is useful if you'd
@@ -110,12 +109,10 @@ export class UsaHeaderSecondaryExtra {}
  *  </ng-template>
  * </usa-header>
  */
-	@Directive({
-	standalone: false,
-  selector: `[usaHeaderSecondaryLinkTemplate]`
+@Directive({
+  standalone: false,
+  selector: `[usaHeaderSecondaryLinkTemplate]`,
 })
 export class UsaHeaderSecondaryLinkTemplate {
   constructor(public templateRef: TemplateRef<any>) {}
 }
-
-

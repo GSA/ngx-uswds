@@ -1,8 +1,8 @@
-import { Component, Host, Input, TemplateRef } from "@angular/core";
-import { UsaStepIndicatorComponent } from "./step-indicator.component";
+import { Component, Host, Input, TemplateRef } from '@angular/core';
+import { UsaStepIndicatorComponent } from './step-indicator.component';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `[UsaStepHeader]`,
   template: `
     <ng-container *ngIf="template; else default">
@@ -11,16 +11,10 @@ import { UsaStepIndicatorComponent } from "./step-indicator.component";
 
     <ng-template #default>
       <span class="usa-step-indicator__heading-counter">
-        <span class="usa-step-indicator__current-step">{{
-          stepIndicator?.currentStep + 1
-        }}</span>
-        <span class="usa-step-indicator__total-steps">
-          of {{ stepIndicator?.steps.length }}</span
-        >
+        <span class="usa-step-indicator__current-step">{{ stepIndicator?.currentStep + 1 }}</span>
+        <span class="usa-step-indicator__total-steps"> of {{ stepIndicator?.steps.length }}</span>
       </span>
-      <span class="usa-step-indicator__heading-text">{{
-        stepIndicator?.steps[stepIndicator?.currentStep].label
-      }}</span>
+      <span class="usa-step-indicator__heading-text">{{ stepIndicator?.steps[stepIndicator?.currentStep].label }}</span>
     </ng-template>
   `,
   host: {

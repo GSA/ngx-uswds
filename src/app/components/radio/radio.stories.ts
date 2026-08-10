@@ -1,10 +1,17 @@
-import { Meta, moduleMetadata } from "@storybook/angular";
-import { CommonModule } from "@angular/common";
-import { UsaRadioComponent, UsaRadioGroupComponent, UsaRadioGroupLabel, UsaRadioLabelDescription, UsaRadioModule, UsaTableModule } from "@gsa-sam/ngx-uswds";
-import {  ReactiveFormsModule } from '@angular/forms';
-import { action } from "@storybook/addon-actions";
-import { RadioFormsModule } from "./radio-forms/radio-forms.module";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { Meta, moduleMetadata } from '@storybook/angular';
+import { CommonModule } from '@angular/common';
+import {
+  UsaRadioComponent,
+  UsaRadioGroupComponent,
+  UsaRadioGroupLabel,
+  UsaRadioLabelDescription,
+  UsaRadioModule,
+  UsaTableModule,
+} from '@gsa-sam/ngx-uswds';
+import { ReactiveFormsModule } from '@angular/forms';
+import { action } from '@storybook/addon-actions';
+import { RadioFormsModule } from './radio-forms/radio-forms.module';
+import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 declare var require;
 
@@ -19,9 +26,9 @@ export default {
   title: 'Components/Radio',
   component: UsaRadioGroupComponent,
   subcomponents: {
-      'UsaRadioComponent': UsaRadioComponent,
-      'UsaRadioGroupLabel': UsaRadioGroupLabel,
-      'UsaRadioLabelDescription': UsaRadioLabelDescription
+    UsaRadioComponent: UsaRadioComponent,
+    UsaRadioGroupLabel: UsaRadioGroupLabel,
+    UsaRadioLabelDescription: UsaRadioLabelDescription,
   },
   decorators: [
     moduleMetadata({
@@ -34,7 +41,7 @@ export default {
     checked: false,
     name: 'basicRadio',
     ariaLabelledBy: 'basicRadioLabel',
-  }
+  },
 } as Meta;
 
 export const Overview = () => ({
@@ -44,29 +51,28 @@ export const Overview = () => ({
     dataRows: [
       {
         variable: '$theme-input-tile-background-color-selected',
-        description: 'Tile background color when selected.'
+        description: 'Tile background color when selected.',
       },
       {
         variable: '$theme-input-tile-border-radius',
-        description: 'Tile border radius for rounded corners.'
+        description: 'Tile border radius for rounded corners.',
       },
       {
         variable: '$theme-input-tile-border-width',
-        description: 'Tile border thickness.'
+        description: 'Tile border thickness.',
       },
       {
         variable: '$theme-input-tile-border-color',
-        description: 'Tile border color.'
+        description: 'Tile border color.',
       },
       {
         variable: '$theme-input-tile-border-color-selected',
-        description: 'Tile border color when selected.'
-      }
-    ]
-  }
+        description: 'Tile border color when selected.',
+      },
+    ],
+  },
 });
-Overview.parameters = {options: {showPanel: false}};
-
+Overview.parameters = { options: { showPanel: false } };
 
 export const Basic = (args) => ({
   template: basicTemplate.default,
@@ -76,13 +82,12 @@ export const Basic = (args) => ({
   },
 });
 Basic.parameters = {
-  preview: generateConfig('components/radio/radio-basic', 'RadioBasicModule', 'radio-basic')
+  preview: generateConfig('components/radio/radio-basic', 'RadioBasicModule', 'radio-basic'),
 };
 
-
 export const RadioForms = () => ({
-  template: `<radio-forms></radio-forms>`
+  template: `<radio-forms></radio-forms>`,
 });
 RadioForms.parameters = {
-  preview: generateConfig('components/radio/radio-forms', 'RadioFormsModule', 'radio-forms')
+  preview: generateConfig('components/radio/radio-forms', 'RadioFormsModule', 'radio-forms'),
 };

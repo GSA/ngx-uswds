@@ -16,21 +16,25 @@ import { take } from 'rxjs/operators';
 export type UsaCalendarCellCssClasses = string | string[] | Set<string> | { [key: string]: any };
 
 /** Function that can generate the extra classes that should be added to a calendar cell. */
-export type UsaCalendarCellClassFunction<D> =
-  (date: D, view: 'month' | 'year' | 'multi-year') => UsaCalendarCellCssClasses;
+export type UsaCalendarCellClassFunction<D> = (
+  date: D,
+  view: 'month' | 'year' | 'multi-year',
+) => UsaCalendarCellCssClasses;
 
 /**
  * An internal class that represents the data corresponding to a single calendar cell.
  * @docs-private
  */
 export class UsaCalendarCell<D = any> {
-  constructor(public value: number,
+  constructor(
+    public value: number,
     public displayValue: string,
     public ariaLabel: string,
     public enabled: boolean,
     public cssClasses: UsaCalendarCellCssClasses = {},
     public compareValue = value,
-    public rawValue?: D) { }
+    public rawValue?: D,
+  ) {}
 }
 
 /** Event emitted when a date inside the calendar is triggered as a result of a user action. */
@@ -43,8 +47,8 @@ export interface UsaCalendarUserEvent<D> {
  * An internal component used to display calendar data in a table.
  * @docs-private
  */
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: '[usa-calendar-body]',
   templateUrl: './calendar-body.html',
   exportAs: 'usaCalendarBody',
@@ -112,8 +116,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
   @Output() readonly selectedValueChange = new EventEmitter<UsaCalendarUserEvent<number>>();
 
   /** Emits when the preview has changed as a result of a user action. */
-  @Output() readonly previewChange =
-    new EventEmitter<UsaCalendarUserEvent<UsaCalendarCell | null>>();
+  @Output() readonly previewChange = new EventEmitter<UsaCalendarUserEvent<UsaCalendarCell | null>>();
 
   /** The number of blank cells to put at the beginning for the first row. */
   _firstRowOffset: number;
@@ -124,7 +127,10 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
   /** Width of an individual cell. */
   _cellWidth: string;
 
-  constructor(private _elementRef: ElementRef<HTMLElement>, private _ngZone: NgZone) {
+  constructor(
+    private _elementRef: ElementRef<HTMLElement>,
+    private _ngZone: NgZone,
+  ) {
     _ngZone.runOutsideAngular(() => {
       const element = _elementRef.nativeElement;
       element.addEventListener('mouseenter', this._enterHandler, true);
@@ -155,7 +161,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
     }
 
     if (changes['cellAspectRatio'] || columnChanges || !this._cellPadding) {
-      this._cellPadding = `${50 * this.cellAspectRatio / numCols}%`;
+      this._cellPadding = `${(50 * this.cellAspectRatio) / numCols}%`;
     }
 
     if (columnChanges || !this._cellWidth) {
@@ -187,8 +193,9 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
   _focusActiveCell(movePreview = true) {
     this._ngZone.runOutsideAngular(() => {
       this._ngZone.onStable.pipe(take(1)).subscribe(() => {
-        const activeCell: HTMLElement | null =
-          this._elementRef.nativeElement.querySelector('.usa-date-picker__calendar__date--focused');
+        const activeCell: HTMLElement | null = this._elementRef.nativeElement.querySelector(
+          '.usa-date-picker__calendar__date--focused',
+        );
 
         if (activeCell) {
           if (!movePreview) {
@@ -312,7 +319,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
         this._ngZone.run(() => this.previewChange.emit({ value: cell.enabled ? cell : null, event }));
       }
     }
-  }
+  };
 
   /**
    * Event handler for when the user's pointer leaves an element
@@ -328,7 +335,7 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
         this._ngZone.run(() => this.previewChange.emit({ value: null, event }));
       }
     }
-  }
+  };
 
   /** Finds the UsaCalendarCell that corresponds to a DOM node. */
   private _getCellFromElement(element: HTMLElement): UsaCalendarCell | null {
@@ -351,7 +358,6 @@ export class UsaCalendarBody implements OnChanges, OnDestroy {
 
     return null;
   }
-
 }
 
 /** Checks whether a node is a table cell element. */
@@ -370,10 +376,6 @@ function isEnd(value: number, start: number | null, end: number | null): boolean
 }
 
 /** Checks whether a value is inside of a range. */
-function isInRange(value: number,
-  start: number | null,
-  end: number | null,
-  rangeEnabled: boolean): boolean {
-  return rangeEnabled && start !== null && end !== null && start !== end &&
-    value >= start && value <= end;
+function isInRange(value: number, start: number | null, end: number | null, rangeEnabled: boolean): boolean {
+  return rangeEnabled && start !== null && end !== null && start !== end && value >= start && value <= end;
 }

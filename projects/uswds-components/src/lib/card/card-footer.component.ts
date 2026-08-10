@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `uswds-card-footer`,
-  template: `
-    <ng-content></ng-content>
-  `,
+  template: ` <ng-content></ng-content> `,
   host: {
-    'class': 'usa-card__footer'
-  }
+    class: 'usa-card__footer',
+  },
 })
 export class USWDSCardFooterComponent {}

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { TableDataSource } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'table-basic',
   templateUrl: './table-basic.component.html',
 })
@@ -12,22 +12,23 @@ export class TableBasicComponent {
     {
       description: 'Statement adopted by the Continental Congress declaring independence from the British Empire.',
       title: 'Declaration of Independence',
-      year: 1776
+      year: 1776,
     },
     {
       title: 'Bill of Rights',
       description: 'The first ten amendments of the U.S. Constitution guaranteeing rights and freedoms.',
-      year: 1791
+      year: 1791,
     },
     {
       title: 'Declaration of Sentiments',
-      description: 'A document written during the Seneca Falls Convention outlining the rights that American women should be entitled to as citizens.',
-      year: 1848
+      description:
+        'A document written during the Seneca Falls Convention outlining the rights that American women should be entitled to as citizens.',
+      year: 1848,
     },
     {
       title: 'Emancipation Proclamation',
       description: 'An executive order granting freedom to slaves in designated southern states.',
-      year: 1863
+      year: 1863,
     },
   ];
 
@@ -39,7 +40,7 @@ export class TableBasicComponent {
   stackedHeader: boolean = false;
   highlightRowOnHover: boolean = false;
 
-  rowClicked(data){
-    console.log('data', data)
+  rowClicked(data) {
+    console.log('data', data);
   }
 }

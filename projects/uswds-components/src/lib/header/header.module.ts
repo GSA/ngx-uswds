@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsaHeaderComponent } from './header.component';
-import { 
-  UsaHeaderPrimaryLinks, 
-  UsaHeaderPrimaryExtra, 
-  UsaHeaderSecondaryLinks, 
-  UsaHeaderSecondaryExtra, 
-  UsaHeaderPrimaryLinkTemplate, 
-  UsaHeaderSecondaryLinkTemplate } from './header-selectors';
+import {
+  UsaHeaderPrimaryLinks,
+  UsaHeaderPrimaryExtra,
+  UsaHeaderSecondaryLinks,
+  UsaHeaderSecondaryExtra,
+  UsaHeaderPrimaryLinkTemplate,
+  UsaHeaderSecondaryLinkTemplate,
+} from './header-selectors';
 import { UsaHeaderSubmenuButton } from './header-submenu.component';
 import { RouterModule } from '@angular/router';
 
@@ -22,10 +23,7 @@ import { RouterModule } from '@angular/router';
     UsaHeaderPrimaryLinkTemplate,
     UsaHeaderSecondaryLinkTemplate,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-  ],
+  imports: [CommonModule, RouterModule],
   exports: [
     UsaHeaderComponent,
     UsaHeaderPrimaryLinks,
@@ -35,6 +33,6 @@ import { RouterModule } from '@angular/router';
     UsaHeaderSecondaryExtra,
     UsaHeaderPrimaryLinkTemplate,
     UsaHeaderSecondaryLinkTemplate,
-  ]
+  ],
 })
-export class UsaHeaderModule { }
+export class UsaHeaderModule {}

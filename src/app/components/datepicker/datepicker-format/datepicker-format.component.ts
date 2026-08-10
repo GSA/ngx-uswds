@@ -6,16 +6,14 @@ export const UsaDemoFormat: UsaDateFormats = {
   ...USA_NATIVE_DATE_FORMATS,
   display: {
     ...USA_NATIVE_DATE_FORMATS.display,
-    dateInput: { year: 'numeric', month: 'long', day: '2-digit' }
-  }
+    dateInput: { year: 'numeric', month: 'long', day: '2-digit' },
+  },
 };
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'datepicker-format',
   templateUrl: './datepicker-format.component.html',
-  providers: [
-    { provide: USA_DATE_FORMATS, useValue: UsaDemoFormat }
-  ]
+  providers: [{ provide: USA_DATE_FORMATS, useValue: UsaDemoFormat }],
 })
-export class DatepickerFormatComponent { }
+export class DatepickerFormatComponent {}

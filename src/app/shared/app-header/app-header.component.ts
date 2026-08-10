@@ -1,15 +1,13 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
-import { UsaHeaderComponent, UsaHeaderPrimaryLink } from "@gsa-sam/ngx-uswds";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { UsaHeaderComponent, UsaHeaderPrimaryLink } from '@gsa-sam/ngx-uswds';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `usa-app-header`,
   templateUrl: './app-header.component.html',
 })
 export class UsaAppHeaderComponent implements OnInit {
-
   @ViewChild(UsaHeaderComponent) usaHeader: UsaHeaderComponent;
 
   navigationLinks: UsaHeaderPrimaryLink[] = [
@@ -21,16 +19,13 @@ export class UsaAppHeaderComponent implements OnInit {
     },
   ];
 
-  constructor(
-    private router: Router,
-  ) { }
-
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    const initRouteSubscription = this.router.events.subscribe(data => {
+    const initRouteSubscription = this.router.events.subscribe((data) => {
       if (data instanceof NavigationEnd) {
         const url = data.url.split('/')[1];
-        const selectedNavLink = this.navigationLinks.find(nav => nav.path === url);
+        const selectedNavLink = this.navigationLinks.find((nav) => nav.path === url);
         if (selectedNavLink) {
           this.usaHeader.selectNavItem(selectedNavLink);
         } else {
@@ -38,7 +33,7 @@ export class UsaAppHeaderComponent implements OnInit {
         }
         initRouteSubscription.unsubscribe();
       }
-    })
+    });
   }
 
   onLinkClicked(link: UsaHeaderPrimaryLink) {

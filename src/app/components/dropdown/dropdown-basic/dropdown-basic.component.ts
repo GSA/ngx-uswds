@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DropdownOptionsModel } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'app-dropdown',
   templateUrl: './dropdown-basic.component.html',
 })
 export class DropdownBasicComponent {
-
   options: DropdownOptionsModel[] = [
     {
       label: '--Select--',
@@ -15,24 +14,24 @@ export class DropdownBasicComponent {
     },
     {
       label: 'Option A',
-      value: 'value1'
+      value: 'value1',
     },
     {
       label: 'Option B',
-      value: 'value2'
+      value: 'value2',
     },
     {
       label: 'Option C',
-      value: 'value3'
+      value: 'value3',
     },
     {
       label: 'Option D',
-      value: 'value4'
+      value: 'value4',
     },
     {
       label: 'Option E',
-      value: 'value5'
-    }
+      value: 'value5',
+    },
   ];
 
   name: 'basicDropdown';
@@ -42,5 +41,4 @@ export class DropdownBasicComponent {
   onOptionChange($event) {
     this.selectedOption = $event;
   }
-
 }

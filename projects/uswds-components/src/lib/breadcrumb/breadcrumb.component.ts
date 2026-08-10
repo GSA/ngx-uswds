@@ -22,16 +22,16 @@ import { UsaNavigationLink } from '../util/navigation';
  *  <a *usaBreadcrumbLinkTemplate="let breadcrumb" href="myHref">{{breadcrumb.text}}</a>
  * </usa-breadcrumbs>
  */
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `[usaBreadcrumbLinkTemplate]`,
 })
 export class UsaBreadcrumbLinkTemplate {
   constructor(public templateRef: TemplateRef<any>) {}
 }
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -71,7 +71,7 @@ export class UsaBreadcrumbComponent implements OnInit, OnChanges {
      * For public component usage if parents ever want to programatically
      * invoke change detection on component
      */
-    public cdr: ChangeDetectorRef
+    public cdr: ChangeDetectorRef,
   ) {}
 
   /**
@@ -116,9 +116,7 @@ export class UsaBreadcrumbComponent implements OnInit, OnChanges {
       return;
     }
 
-    let truncateIndex = this.items.findIndex(
-      (breadcrumb) => breadcrumb.selected
-    );
+    let truncateIndex = this.items.findIndex((breadcrumb) => breadcrumb.selected);
 
     if (truncateIndex < 0) {
       truncateIndex = this.items.length - 1;

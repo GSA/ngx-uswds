@@ -1,14 +1,13 @@
-import { CommonModule } from "@angular/common";
-import { Component, ElementRef, NgModule } from "@angular/core";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, NgModule } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Key } from '../util/key';
-import { UsaModalService } from "./modal";
-import { UsaModalOptions } from "./modal-config";
-import { ModalDismissReasons } from "./modal-dismiss-reasons";
-import { UsaModalRef } from "./modal-ref";
-import { UsaModalModule } from "./modal.module";
-
+import { UsaModalService } from './modal';
+import { UsaModalOptions } from './modal-config';
+import { ModalDismissReasons } from './modal-dismiss-reasons';
+import { UsaModalRef } from './modal-ref';
+import { UsaModalModule } from './modal.module';
 
 describe('UsaModal', () => {
   let fixture: ComponentFixture<UsaModalTestComponent>;
@@ -17,10 +16,10 @@ describe('UsaModal', () => {
   let openModal = () => {
     const openButton: HTMLButtonElement = component._el.nativeElement.querySelector('#modal-test-open');
     openButton.click();
-  }
+  };
 
-  beforeEach( waitForAsync(() => {
-    TestBed.configureTestingModule({imports: [UsaModalTestModule]}).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({ imports: [UsaModalTestModule] }).compileComponents();
     fixture = TestBed.createComponent(UsaModalTestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -54,7 +53,7 @@ describe('UsaModal', () => {
       overlayModel.click();
     });
 
-    component.modalRef.dismissed.subscribe(reason => {
+    component.modalRef.dismissed.subscribe((reason) => {
       expect(reason).toEqual(ModalDismissReasons.BACKDROP_CLICK);
       done();
     });
@@ -68,7 +67,7 @@ describe('UsaModal', () => {
       closeButton.click();
     });
 
-    component.modalRef.dismissed.subscribe(reason => {
+    component.modalRef.dismissed.subscribe((reason) => {
       expect(reason).toEqual(ModalDismissReasons.CLOSE_CLICKED);
       done();
     });
@@ -79,36 +78,34 @@ describe('UsaModal', () => {
 
     component.modalRef.shown.subscribe(() => {
       const modalEl = document.querySelector('usa-modal-window') as HTMLElement;
-      const event = new KeyboardEvent('keydown', {key: Key.Escape, bubbles: true});
+      const event = new KeyboardEvent('keydown', { key: Key.Escape, bubbles: true });
       modalEl.dispatchEvent(event);
     });
 
-    component.modalRef.dismissed.subscribe(reason => {
+    component.modalRef.dismissed.subscribe((reason) => {
       expect(reason).toEqual(ModalDismissReasons.ESC);
       done();
     });
   });
 });
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   template: `
     <ng-template #content let-modal>
-      <h2 class="usa-modal__heading" id="modal-test">
-        Test Modal
-      </h2>
+      <h2 class="usa-modal__heading" id="modal-test">Test Modal</h2>
       <div class="usa-modal__footer">
         <button type="button" class="usa-button" id="modal-test-close" (click)="close('Close')">Close</button>
       </div>
     </ng-template>
     <button class="usa-button" id="modal-test-open" (click)="open(content)">Launch Default modal</button>
-    <hr>
-  `
+    <hr />
+  `,
 })
 class UsaModalTestComponent {
   closeResult: string;
   dismissReason: ModalDismissReasons;
-  modalOptions: UsaModalOptions = {ariaLabelledBy: 'modal-test'};
+  modalOptions: UsaModalOptions = { ariaLabelledBy: 'modal-test' };
   modalRef: UsaModalRef;
 
   constructor(
@@ -117,12 +114,15 @@ class UsaModalTestComponent {
   ) {}
 
   open(content) {
-    this.modalRef = this.modalService.open(content, this.modalOptions)
-    this.modalRef.result.then((result) => {
-      this.closeResult = result;
-    }, (reason: ModalDismissReasons) => {
-      this.dismissReason = reason;
-    });
+    this.modalRef = this.modalService.open(content, this.modalOptions);
+    this.modalRef.result.then(
+      (result) => {
+        this.closeResult = result;
+      },
+      (reason: ModalDismissReasons) => {
+        this.dismissReason = reason;
+      },
+    );
   }
 
   close(reason) {
@@ -131,13 +131,7 @@ class UsaModalTestComponent {
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    UsaModalModule,
-    NoopAnimationsModule,
-  ],
-  declarations: [
-    UsaModalTestComponent
-  ]
+  imports: [CommonModule, UsaModalModule, NoopAnimationsModule],
+  declarations: [UsaModalTestComponent],
 })
 class UsaModalTestModule {}

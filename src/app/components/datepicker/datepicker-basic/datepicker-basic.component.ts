@@ -1,14 +1,13 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'datepicker-basic',
-  templateUrl: './datepicker-basic.component.html'
+  templateUrl: './datepicker-basic.component.html',
 })
 export class DatepickerBasicComponent {
-  
   calendarOpen() {
-    console.log('Calendar Open')
+    console.log('Calendar Open');
   }
 
   calendarClosed() {

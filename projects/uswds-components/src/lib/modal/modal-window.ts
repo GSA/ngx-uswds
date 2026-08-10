@@ -1,4 +1,4 @@
-import {DOCUMENT} from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -11,28 +11,28 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {fromEvent, Observable, Subject} from 'rxjs';
-import {filter, switchMap, take, takeUntil, tap} from 'rxjs/operators';
+import { fromEvent, Observable, Subject } from 'rxjs';
+import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
-import {getFocusableBoundaryElements} from '../util/focus-trap';
-import { Key, KeyCode, MicrosfotKeys} from '../util/key';
-import {ModalDismissReasons} from './modal-dismiss-reasons';
+import { getFocusableBoundaryElements } from '../util/focus-trap';
+import { Key, KeyCode, MicrosfotKeys } from '../util/key';
+import { ModalDismissReasons } from './modal-dismiss-reasons';
 import { usaDialogAnimations } from './modal-animations';
 import { AnimationEvent } from '@angular/animations';
 
 let nextId = 0;
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-modal-window',
   animations: [usaDialogAnimations.dialogContainer],
   host: {
     '[class]': '"usa-modal" + (modalDialogClass ? " " + modalDialogClass : "")',
-    '[class.usa-modal--lg]': 'size === \'lg\'',
-    'role': 'dialog',
-    'tabindex': '-1',
+    '[class.usa-modal--lg]': "size === 'lg'",
+    role: 'dialog',
+    tabindex: '-1',
     '[attr.id]': 'id',
     '[attr.aria-modal]': 'true',
     '[attr.aria-labelledby]': 'ariaLabelledBy',
@@ -47,25 +47,31 @@ let nextId = 0;
         <ng-content></ng-content>
       </div>
 
-      <button *ngIf="showClose" class="usa-button usa-modal__close" aria-label="Close this window" (click)="onCloseClicked()">
+      <button
+        *ngIf="showClose"
+        class="usa-button usa-modal__close"
+        aria-label="Close this window"
+        (click)="onCloseClicked()"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" class="usa-icon">
-          <path d="M0 0h24v24H0z" fill="none"/>
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+          />
         </svg>
       </button>
     </div>
-    `,
+  `,
   encapsulation: ViewEncapsulation.None,
 })
-export class UsaModalWindow implements OnInit,
-    AfterViewInit, OnDestroy {
+export class UsaModalWindow implements OnInit, AfterViewInit, OnDestroy {
   private _closed$ = new Subject<void>();
-  private _elWithFocus: Element | null = null;  // element that is focused prior to modal opening
+  private _elWithFocus: Element | null = null; // element that is focused prior to modal opening
 
   /** State of the dialog animation. */
   _state: 'void' | 'enter' | 'slideEnter' | 'exit' | 'slideExit';
 
-  @ViewChild('dialog', {static: true}) private _dialogEl: ElementRef<HTMLElement>;
+  @ViewChild('dialog', { static: true }) private _dialogEl: ElementRef<HTMLElement>;
 
   @Input() animation: boolean;
   @Input() ariaLabelledBy: string;
@@ -86,24 +92,29 @@ export class UsaModalWindow implements OnInit,
   _animationStateChanged = new Subject<void>();
 
   constructor(
-      @Inject(DOCUMENT) private _document: any,
-      private _elRef: ElementRef<HTMLElement>,
-      private _zone: NgZone,
-    ) {}
+    @Inject(DOCUMENT) private _document: any,
+    private _elRef: ElementRef<HTMLElement>,
+    private _zone: NgZone,
+  ) {}
 
-  dismiss(reason): void { this.dismissEvent.emit(reason); }
+  dismiss(reason): void {
+    this.dismissEvent.emit(reason);
+  }
 
   ngOnInit() {
     this._elWithFocus = this._document.activeElement;
     this._state = this.animation ? 'slideEnter' : 'enter';
   }
 
-  ngAfterViewInit() { this._show(); }
+  ngAfterViewInit() {
+    this._show();
+  }
 
-  ngOnDestroy() { this._disableEventHandling(); }
+  ngOnDestroy() {
+    this._disableEventHandling();
+  }
 
   hide(): Observable<any> {
-
     const exitAnimation$ = this._startExitAnimation();
     exitAnimation$.subscribe(() => {
       this.hidden.next();
@@ -125,46 +136,55 @@ export class UsaModalWindow implements OnInit,
   }
 
   private _enableEventHandling() {
-    const {nativeElement} = this._elRef;
+    const { nativeElement } = this._elRef;
     this._zone.runOutsideAngular(() => {
       fromEvent<KeyboardEvent>(nativeElement, 'keydown')
-          .pipe(
-              takeUntil(this._closed$),
-              filter(e => e.key === Key.Escape || e.key === MicrosfotKeys.Escape || e.which === KeyCode.Escape))
-          .subscribe(event => {
-            if (this.keyboard) {
-              requestAnimationFrame(() => {
-                if (!event.defaultPrevented) {
-                  this._zone.run(() => this.dismiss(ModalDismissReasons.ESC));
-                }
-              });
-            }
-          });
+        .pipe(
+          takeUntil(this._closed$),
+          filter((e) => e.key === Key.Escape || e.key === MicrosfotKeys.Escape || e.which === KeyCode.Escape),
+        )
+        .subscribe((event) => {
+          if (this.keyboard) {
+            requestAnimationFrame(() => {
+              if (!event.defaultPrevented) {
+                this._zone.run(() => this.dismiss(ModalDismissReasons.ESC));
+              }
+            });
+          }
+        });
 
       let preventClose = false;
       fromEvent<MouseEvent>(this._dialogEl.nativeElement, 'mousedown')
-          .pipe(
-              takeUntil(this._closed$), tap(() => preventClose = false),
-              switchMap(() => fromEvent<MouseEvent>(nativeElement, 'mouseup').pipe(takeUntil(this._closed$), take(1))),
-              filter(({target}) => nativeElement === target))
-          .subscribe(() => { preventClose = true; });
+        .pipe(
+          takeUntil(this._closed$),
+          tap(() => (preventClose = false)),
+          switchMap(() => fromEvent<MouseEvent>(nativeElement, 'mouseup').pipe(takeUntil(this._closed$), take(1))),
+          filter(({ target }) => nativeElement === target),
+        )
+        .subscribe(() => {
+          preventClose = true;
+        });
 
-      fromEvent<MouseEvent>(this.overlayElement, 'click').pipe(takeUntil(this._closed$)).subscribe(({target}) => {
-        if (this.overlayElement === target) {
-          if (this.backdrop === true && !preventClose) {
-            this._zone.run(() => this.dismiss(ModalDismissReasons.BACKDROP_CLICK));
+      fromEvent<MouseEvent>(this.overlayElement, 'click')
+        .pipe(takeUntil(this._closed$))
+        .subscribe(({ target }) => {
+          if (this.overlayElement === target) {
+            if (this.backdrop === true && !preventClose) {
+              this._zone.run(() => this.dismiss(ModalDismissReasons.BACKDROP_CLICK));
+            }
           }
-        }
 
-        preventClose = false;
-      });
+          preventClose = false;
+        });
     });
   }
 
-  private _disableEventHandling() { this._closed$.next(); }
+  private _disableEventHandling() {
+    this._closed$.next();
+  }
 
   private _setFocus() {
-    const {nativeElement} = this._elRef;
+    const { nativeElement } = this._elRef;
     if (!nativeElement.contains(document.activeElement)) {
       const autoFocusable = nativeElement.querySelector(`[usaAutofocus]`) as HTMLElement;
       const firstFocusable = getFocusableBoundaryElements(nativeElement)[0];

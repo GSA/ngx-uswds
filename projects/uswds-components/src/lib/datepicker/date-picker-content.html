@@ -1,4 +1,3 @@
-
 <usa-calendar
   [id]="datePicker.id"
   [ngClass]="datePicker.panelClass"
@@ -11,7 +10,8 @@
   [dateClass]="datePicker.dateClass"
   [comparisonStart]="comparisonStart"
   [comparisonEnd]="comparisonEnd"
-  (_userSelection)="_handleUserSelection($event)"></usa-calendar>
+  (_userSelection)="_handleUserSelection($event)"
+></usa-calendar>
 
 <!-- Invisible close button for screen reader users. -->
 <button
@@ -20,4 +20,7 @@
   [class.cdk-visually-hidden]="!_closeButtonFocused"
   (focus)="_closeButtonFocused = true"
   (blur)="_closeButtonFocused = false"
-  (click)="datePicker.close()">{{ _closeButtonText }}</button>
+  (click)="datePicker.close()"
+>
+  {{ _closeButtonText }}
+</button>

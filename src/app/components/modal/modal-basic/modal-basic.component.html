@@ -1,7 +1,5 @@
 <ng-template #content let-modal>
-  <h1 class="usa-modal__heading" id="modal-1-heading">
-    Are you sure you want to continue?
-  </h1>
+  <h1 class="usa-modal__heading" id="modal-1-heading">Are you sure you want to continue?</h1>
   <div class="usa-prose">
     <p id="modal-1-description">You have unsaved changes that will be lost.</p>
   </div>
@@ -11,12 +9,17 @@
         <button type="button" class="usa-button" (click)="close('Continue')">Continue without saving</button>
       </li>
       <li class="usa-button-group__item">
-        <button type="button" class="usa-button usa-button--unstyled padding-105 text-center"
-          (click)="close('Go Back')">Go back</button>
+        <button
+          type="button"
+          class="usa-button usa-button--unstyled padding-105 text-center"
+          (click)="close('Go Back')"
+        >
+          Go back
+        </button>
       </li>
     </ul>
   </div>
 </ng-template>
 <button class="usa-button" (click)="open(content)">Launch Default modal</button>
-<hr>
+<hr />
 <pre>{{ closeResult }}</pre>

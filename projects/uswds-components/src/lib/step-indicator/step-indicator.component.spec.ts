@@ -38,7 +38,7 @@ function getSteps(): UsaStepIndicatorModel[] {
     },
     {
       label: 'Step 5',
-    }
+    },
   ];
 }
 
@@ -46,11 +46,10 @@ describe('StepIndicatorComponent', () => {
   let component: UsaStepIndicatorComponent;
   let fixture: ComponentFixture<UsaStepIndicatorComponent>;
 
-  beforeEach(waitForAsync (() => {
-     TestBed.configureTestingModule({
-      declarations: [ UsaStepIndicatorComponent ]
-    })
-    .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [UsaStepIndicatorComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -65,7 +64,7 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should contain proper number of steps', () => {
-    expect(getAllSteps(fixture.debugElement).length).toEqual(5)
+    expect(getAllSteps(fixture.debugElement).length).toEqual(5);
   });
 
   it('Should contain proper number of completed steps', () => {
@@ -90,7 +89,7 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should update current step on current step change', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
@@ -99,7 +98,7 @@ describe('StepIndicatorComponent', () => {
 
   it('Should not update current step on step click if step is disabled', () => {
     component.steps[2].disabled = true;
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
@@ -108,7 +107,7 @@ describe('StepIndicatorComponent', () => {
 
   it('Should not update current step on step click if step selection is disabled', () => {
     component.disableStepSelection = true;
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
@@ -116,13 +115,13 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should focus on next step on arrow right press', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[0].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keydown',{
-      key: Key.ArrowRight
+    const event = new KeyboardEvent('keydown', {
+      key: Key.ArrowRight,
     });
 
     allSteps[0].dispatchEvent(event);
@@ -135,13 +134,13 @@ describe('StepIndicatorComponent', () => {
     component.steps[1].disabled = true;
     fixture.detectChanges();
 
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[0].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keydown',{
-      key: Key.ArrowRight
+    const event = new KeyboardEvent('keydown', {
+      key: Key.ArrowRight,
     });
 
     allSteps[0].dispatchEvent(event);
@@ -151,13 +150,13 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should focus on previous step on arrow left press', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[0].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keydown',{
-      key: Key.ArrowLeft
+    const event = new KeyboardEvent('keydown', {
+      key: Key.ArrowLeft,
     });
 
     allSteps[0].dispatchEvent(event);
@@ -170,13 +169,13 @@ describe('StepIndicatorComponent', () => {
     component.steps[4].disabled = true;
     fixture.detectChanges();
 
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[0].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keydown',{
-      key: Key.ArrowLeft
+    const event = new KeyboardEvent('keydown', {
+      key: Key.ArrowLeft,
     });
 
     allSteps[0].dispatchEvent(event);
@@ -186,13 +185,13 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should focus on first step on home press', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keydown',{
-      key: Key.Home
+    const event = new KeyboardEvent('keydown', {
+      key: Key.Home,
     });
 
     allSteps[2].dispatchEvent(event);
@@ -206,13 +205,13 @@ describe('StepIndicatorComponent', () => {
     component.steps[1].disabled = true;
     fixture.detectChanges();
 
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[3].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keydown',{
-      key: Key.Home
+    const event = new KeyboardEvent('keydown', {
+      key: Key.Home,
     });
 
     allSteps[3].dispatchEvent(event);
@@ -222,13 +221,13 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should focus on last step on end press', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keydown',{
-      key: Key.End
+    const event = new KeyboardEvent('keydown', {
+      key: Key.End,
     });
 
     allSteps[2].dispatchEvent(event);
@@ -242,13 +241,13 @@ describe('StepIndicatorComponent', () => {
     component.steps[3].disabled = true;
     fixture.detectChanges();
 
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => component.currentStep = index);
+    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
 
-    const event = new KeyboardEvent('keydown',{
-      key: Key.End
+    const event = new KeyboardEvent('keydown', {
+      key: Key.End,
     });
 
     allSteps[2].dispatchEvent(event);

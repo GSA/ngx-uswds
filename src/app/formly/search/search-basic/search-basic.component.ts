@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'formly-search-basic',
   templateUrl: './search-basic.component.html',
-
 })
 export class FormlyBasicSearchComponent {
   form = new FormGroup({});
@@ -24,8 +23,8 @@ export class FormlyBasicSearchComponent {
         id: 'usa-search-demo',
         size: 'small',
         buttonText: 'Search',
-        name: 'search'
+        name: 'search',
       },
-    },];
-
+    },
+  ];
 }

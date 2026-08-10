@@ -1,12 +1,11 @@
-
-import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
-import { CommonModule } from "@angular/common";
-import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
-import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
-import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { FormlyBasicDatepickerModule } from "./datepicker-basic/datepicker-basic.module";
-import { UsaDatePickerInput, UsaSearchComponent } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { CommonModule } from '@angular/common';
+import { UsaFormlyModule } from '@gsa-sam/uswds-formly';
+import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormlyBasicDatepickerModule } from './datepicker-basic/datepicker-basic.module';
+import { UsaDatePickerInput, UsaSearchComponent } from '@gsa-sam/ngx-uswds';
+import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 export default {
   title: 'Formly/Datepicker',
@@ -14,30 +13,29 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        CommonModule, 
-        UsaFormlyModule, 
-        FormlyModule, 
-        ReactiveFormsModule, 
-        FormsModule, 
+        CommonModule,
+        UsaFormlyModule,
+        FormlyModule,
+        ReactiveFormsModule,
+        FormsModule,
         FormlyBasicDatepickerModule,
       ],
     }),
   ],
   args: {
-      label: 'Start Date',
-      max: undefined,
-      min: undefined,
+    label: 'Start Date',
+    max: undefined,
+    min: undefined,
   },
   argTypes: {
-    max: {type: 'string'},
-    min: {type: 'string'},
-  }
+    max: { type: 'string' },
+    min: { type: 'string' },
+  },
 } as Meta;
 
 const template = require('!!raw-loader!./datepicker-basic/datepicker-basic.component.html');
 
 const FormControlTemplate: StoryFn<UsaSearchComponent> = (args: any) => {
-
   const form = new FormGroup({});
   const model: any = {};
   const options: FormlyFormOptions = {};
@@ -47,7 +45,7 @@ const FormControlTemplate: StoryFn<UsaSearchComponent> = (args: any) => {
       key: 'date',
       type: 'datepicker',
       templateOptions: args,
-    }
+    },
   ];
 
   return {
@@ -56,9 +54,9 @@ const FormControlTemplate: StoryFn<UsaSearchComponent> = (args: any) => {
       form,
       model,
       options,
-      fields
+      fields,
     },
-  }
+  };
 };
 
 export const Basic = FormControlTemplate.bind({});
@@ -66,5 +64,9 @@ export const Basic = FormControlTemplate.bind({});
 declare var require;
 
 Basic.parameters = {
-  preview: generateConfig('formly/datepicker/datepicker-basic', 'FormlyBasicDatepickerModule', 'formly-datepicker-basic')
-}
+  preview: generateConfig(
+    'formly/datepicker/datepicker-basic',
+    'FormlyBasicDatepickerModule',
+    'formly-datepicker-basic',
+  ),
+};

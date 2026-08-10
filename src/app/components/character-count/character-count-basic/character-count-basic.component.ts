@@ -1,9 +1,9 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'character-count-basic',
-  templateUrl: './character-count-basic.component.html'
+  templateUrl: './character-count-basic.component.html',
 })
 export class CharacterCountBasic {
   /** Defines max amount of characters allowed in input field */

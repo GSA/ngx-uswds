@@ -1,10 +1,9 @@
-
 export const secondaryNavItems = [
   {
     text: 'Secondary Link',
     id: 'request',
     selected: true,
-    path: ''
+    path: '',
   },
   {
     text: 'Custom Template Link',
@@ -32,7 +31,7 @@ export const primaryNavItems = [
         text: 'Item 3',
         id: 'homeChild3',
         path: '',
-      }
+      },
     ],
   },
   {
@@ -42,7 +41,7 @@ export const primaryNavItems = [
     children: [
       {
         text: 'Item 1',
-        id: 'homeChild1',  
+        id: 'homeChild1',
         path: '',
       },
       {

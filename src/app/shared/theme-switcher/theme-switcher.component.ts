@@ -1,31 +1,29 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
-import { ThemeSwitcherService } from "./theme-switcher.service";
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { ThemeSwitcherService } from './theme-switcher.service';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `usa-theme-switcher`,
   template: `
     <select #select class="usa-select" aria-label="Application Theme Switcher">
       <option value="uswds">USWDS Styles</option>
       <option value="samStyles">Sam Styles</option>
     </select>
-  `
+  `,
 })
 export class ThemeSwitcherComponent implements AfterViewInit {
   @ViewChild('select') themeSelector: ElementRef<HTMLSelectElement>;
-  
+
   currentStyle = 'uswds';
 
-  constructor(
-    private themeSwitcherService: ThemeSwitcherService
-  ) {}
+  constructor(private themeSwitcherService: ThemeSwitcherService) {}
 
   ngAfterViewInit() {
     this.themeSelector.nativeElement.addEventListener('change', ($event) => {
       this.currentStyle = ($event.target as HTMLSelectElement).value;
       if (this.currentStyle === 'uswds') {
         this.themeSwitcherService.setStyle('theme', 'uswds-styles.css');
-      } else if (this.currentStyle  === 'samStyles') {
+      } else if (this.currentStyle === 'samStyles') {
         this.themeSwitcherService.setStyle('theme', 'sam-styles.css');
       }
     });

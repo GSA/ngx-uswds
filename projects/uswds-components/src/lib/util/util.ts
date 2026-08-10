@@ -1,12 +1,12 @@
-import {NgZone} from '@angular/core';
-import {Observable, OperatorFunction} from 'rxjs';
+import { NgZone } from '@angular/core';
+import { Observable, OperatorFunction } from 'rxjs';
 
 export function toInteger(value: any): number {
   return parseInt(`${value}`, 10);
 }
 
 export function toString(value: any): string {
-  return (value !== undefined && value !== null) ? `${value}` : '';
+  return value !== undefined && value !== null ? `${value}` : '';
 }
 
 export function getValueInRange(value: number, max: number, min = 0): number {
@@ -42,8 +42,9 @@ export function regExpEscape(text) {
 }
 
 export function hasClassName(element: any, className: string): boolean {
-  return element && element.className && element.className.split &&
-      element.className.split(/\s+/).indexOf(className) >= 0;
+  return (
+    element && element.className && element.className.split && element.className.split(/\s+/).indexOf(className) >= 0
+  );
 }
 
 if (typeof Element !== 'undefined' && !Element.prototype.closest) {
@@ -54,7 +55,7 @@ if (typeof Element !== 'undefined' && !Element.prototype.closest) {
     Element.prototype.matches = (Element.prototype as any).msMatchesSelector || Element.prototype.webkitMatchesSelector;
   }
 
-  Element.prototype.closest = function(s: string) {
+  Element.prototype.closest = function (s: string) {
     let el = this;
     if (!document.documentElement.contains(el)) {
       return null;
@@ -105,7 +106,7 @@ export function reflow(element: HTMLElement) {
  */
 export function runInZone<T>(zone: NgZone): OperatorFunction<T, T> {
   return (source) => {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       const onNext = (value: T) => zone.run(() => observer.next(value));
       const onError = (e: any) => zone.run(() => observer.error(e));
       const onComplete = () => zone.run(() => observer.complete());
@@ -119,35 +120,33 @@ export function removeAccents(str: string): string {
 }
 
 /**
-* Returns the the last element in the array where predicate is true, and null
-* otherwise.
-* @param array The source array to search in
-* @param predicate find calls predicate once for each element of the array, in descending
-* order, until it finds one where predicate returns true. If such an element is found,
-* findLast immediately returns that element. Otherwise, findLast returns null.
-*/
+ * Returns the the last element in the array where predicate is true, and null
+ * otherwise.
+ * @param array The source array to search in
+ * @param predicate find calls predicate once for each element of the array, in descending
+ * order, until it finds one where predicate returns true. If such an element is found,
+ * findLast immediately returns that element. Otherwise, findLast returns null.
+ */
 export function findLast<T>(array: Array<T>, predicate: (value: T, index: number, obj: T[]) => boolean): T {
   let l = array.length;
   while (l--) {
-      if (predicate(array[l], l, array))
-          return array[l];
+    if (predicate(array[l], l, array)) return array[l];
   }
   return null;
 }
 
 /**
-* Returns the the last element's index in the array where predicate is true, and null
-* otherwise.
-* @param array The source array to search in
-* @param predicate calls predicate once for each element of the array, in descending
-* order, until it finds one where predicate returns true. If such an element is found,
-* findLastIndex immediately returns that element's index. Otherwise, findLast returns -1.
-*/
+ * Returns the the last element's index in the array where predicate is true, and null
+ * otherwise.
+ * @param array The source array to search in
+ * @param predicate calls predicate once for each element of the array, in descending
+ * order, until it finds one where predicate returns true. If such an element is found,
+ * findLastIndex immediately returns that element's index. Otherwise, findLast returns -1.
+ */
 export function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: number, obj: T[]) => boolean): number {
   let l = array.length;
   while (l--) {
-      if (predicate(array[l], l, array))
-          return l;
+    if (predicate(array[l], l, array)) return l;
   }
   return -1;
 }
@@ -160,15 +159,15 @@ export function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: n
  * @param delta - either 1 to get next item in positive direction or -1 to get next item in previous direction
  * @returns next item
  */
-export function getNextItemInList<T extends {disabled: boolean}>(currentIndex: number, allItems: T[], delta: 1 | -1) {
-  let nextItemIndex = ((currentIndex + delta) + allItems.length) % allItems.length;
+export function getNextItemInList<T extends { disabled: boolean }>(currentIndex: number, allItems: T[], delta: 1 | -1) {
+  let nextItemIndex = (currentIndex + delta + allItems.length) % allItems.length;
 
-  while(nextItemIndex != currentIndex) {
+  while (nextItemIndex != currentIndex) {
     if (!allItems[nextItemIndex].disabled) {
       break;
     }
-    
-    nextItemIndex = ((nextItemIndex + delta) + allItems.length) % allItems.length;    
+
+    nextItemIndex = (nextItemIndex + delta + allItems.length) % allItems.length;
   }
 
   return allItems[nextItemIndex];
@@ -182,15 +181,19 @@ export function getNextItemInList<T extends {disabled: boolean}>(currentIndex: n
  * @param delta - either 1 to get next item in positive direction or -1 to get next item in previous direction
  * @returns next focusable item's index
  */
- export function getNextItemIndexInList<T extends {disabled?: boolean}>(currentIndex: number, allItems: T[], delta: 1 | -1) {
-  let nextItemIndex = ((currentIndex + delta) + allItems.length) % allItems.length;
+export function getNextItemIndexInList<T extends { disabled?: boolean }>(
+  currentIndex: number,
+  allItems: T[],
+  delta: 1 | -1,
+) {
+  let nextItemIndex = (currentIndex + delta + allItems.length) % allItems.length;
 
-  while(nextItemIndex != currentIndex) {
+  while (nextItemIndex != currentIndex) {
     if (!allItems[nextItemIndex].disabled) {
       break;
     }
-    
-    nextItemIndex = ((nextItemIndex + delta) + allItems.length) % allItems.length;    
+
+    nextItemIndex = (nextItemIndex + delta + allItems.length) % allItems.length;
   }
 
   return nextItemIndex;
@@ -213,7 +216,7 @@ export function getNextItemInList<T extends {disabled: boolean}>(currentIndex: n
  * @param value the value to coerce into an array of strings
  * @param separator split-separator if value isn't an array
  */
- export function coerceStringArray(value: any, separator: string | RegExp = /\s+/): string[] {
+export function coerceStringArray(value: any, separator: string | RegExp = /\s+/): string[] {
   const result = [];
 
   if (value != null) {

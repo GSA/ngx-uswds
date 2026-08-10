@@ -51,9 +51,7 @@ import { USWDSFormlyTextAreaComponent } from './types/textarea';
     UsaDatePickerModule,
     UsaAffixModule,
     FormlyModule.forChild({
-      validationMessages: [
-        { name: 'required', message: 'This field is required' },
-      ],
+      validationMessages: [{ name: 'required', message: 'This field is required' }],
       types: [
         {
           name: 'input',
@@ -96,9 +94,7 @@ import { USWDSFormlyTextAreaComponent } from './types/textarea';
           wrappers: ['form-field'],
         },
       ],
-      wrappers: [
-        { name: 'form-field', component: FormlyWrapperFormFieldComponent },
-      ],
+      wrappers: [{ name: 'form-field', component: FormlyWrapperFormFieldComponent }],
     }),
   ],
 })

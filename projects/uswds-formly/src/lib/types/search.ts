@@ -2,17 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from
 import { UsaSearchComponent } from '@gsa-sam/ngx-uswds';
 import { AbstractUswdsFormly } from '../uswds-formly';
 
-	@Component({
-	standalone: false,
-  template: `
-  <usa-search
-      [formControl]="formControl"
-    ></usa-search>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+@Component({
+  standalone: false,
+  template: ` <usa-search [formControl]="formControl"></usa-search> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class USWDSFormlySearchComponent extends AbstractUswdsFormly {
- // @ViewChild(UsaSearchComponent, { static: true }) public template: UsaSearchComponent;
+  // @ViewChild(UsaSearchComponent, { static: true }) public template: UsaSearchComponent;
   constructor(_cdr: ChangeDetectorRef) {
     super();
     this.cdr = _cdr;

@@ -2,17 +2,17 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from
 import { UsaTextareaComponent } from '@gsa-sam/ngx-uswds';
 import { AbstractUswdsFormly } from '../uswds-formly';
 
-	@Component({
-	standalone: false,
-    template: `
-  <usa-textarea [formControl]="formControl" [placeholder]="props.placeholder">{{ props.label }}</usa-textarea>
+@Component({
+  standalone: false,
+  template: `
+    <usa-textarea [formControl]="formControl" [placeholder]="props.placeholder">{{ props.label }}</usa-textarea>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class USWDSFormlyTextAreaComponent extends AbstractUswdsFormly {
-   // @ViewChild(UsaTextareaComponent, { static: true }) public  template: UsaTextareaComponent;
-    constructor(_cdr: ChangeDetectorRef) {
-        super();
-        this.cdr = _cdr;
-    }
+  // @ViewChild(UsaTextareaComponent, { static: true }) public  template: UsaTextareaComponent;
+  constructor(_cdr: ChangeDetectorRef) {
+    super();
+    this.cdr = _cdr;
+  }
 }

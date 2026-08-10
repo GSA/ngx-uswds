@@ -4,19 +4,11 @@ import { ModalComponentWrapper, ModalContent } from './modal-component-wrapper.c
 import { UsaModalModule } from '@gsa-sam/ngx-uswds';
 
 @NgModule({
-  declarations: [
-    ModalComponentWrapper,
-    ModalContent,
-  ],
-  imports: [
-    CommonModule,
-    UsaModalModule,
-  ],
-  exports: [
-    ModalComponentWrapper
-  ],
+  declarations: [ModalComponentWrapper, ModalContent],
+  imports: [CommonModule, UsaModalModule],
+  exports: [ModalComponentWrapper],
   // entryComponents: [
   //   ModalContent
   // ],
 })
-export class ModalComponentWrapperModule { }
+export class ModalComponentWrapperModule {}

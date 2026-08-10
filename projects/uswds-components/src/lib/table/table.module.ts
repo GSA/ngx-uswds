@@ -19,9 +19,7 @@ import { HighlightOnHoverDirective } from './highlight-on-hover.directive';
     UsaTableData,
     HighlightOnHoverDirective,
   ],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [
     UsaTableComponent,
     UsaColumnDef,
@@ -35,4 +33,4 @@ import { HighlightOnHoverDirective } from './highlight-on-hover.directive';
     HighlightOnHoverDirective,
   ],
 })
-export class UsaTableModule { }
+export class UsaTableModule {}

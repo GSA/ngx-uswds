@@ -6,11 +6,10 @@ describe('CheckboxComponent', () => {
   let component: UsaCheckboxComponent;
   let fixture: ComponentFixture<UsaCheckboxComponent>;
 
-  beforeEach(waitForAsync (() => {
-     TestBed.configureTestingModule({
-      declarations: [ UsaCheckboxComponent ]
-    })
-    .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [UsaCheckboxComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

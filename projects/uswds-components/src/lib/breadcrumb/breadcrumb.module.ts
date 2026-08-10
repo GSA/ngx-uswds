@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  UsaBreadcrumbComponent,
-  UsaBreadcrumbLinkTemplate,
-} from './breadcrumb.component';
+import { UsaBreadcrumbComponent, UsaBreadcrumbLinkTemplate } from './breadcrumb.component';
 import { UsaLinkTemplateModule } from '../shared/link-template/link-template.module';
 // import { UsaBreadcrumbLinkTemplate } from './breadcrumb.component';
 

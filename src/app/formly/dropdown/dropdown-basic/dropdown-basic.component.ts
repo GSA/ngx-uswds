@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'app-formly-dropdown-basic',
   templateUrl: './dropdown-basic.component.html',
 })
@@ -23,30 +23,30 @@ export class FormlyBasicDropdownComponent {
           {
             label: 'Option A',
             value: 'A',
-            disabled: false
+            disabled: false,
           },
           {
             label: 'Option B',
             value: 'B',
-            disabled: false
+            disabled: false,
           },
           {
             label: 'Option C',
             value: 'C',
-            disabled: false
+            disabled: false,
           },
           {
             label: 'Option D',
             value: 'D',
-            disabled: false
+            disabled: false,
           },
           {
             label: 'Option E',
             value: 'E',
-            disabled: false
-          }
-        ]
-      }
-    }
+            disabled: false,
+          },
+        ],
+      },
+    },
   ];
 }

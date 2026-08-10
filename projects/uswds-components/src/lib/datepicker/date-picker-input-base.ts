@@ -12,24 +12,11 @@ import {
   SimpleChanges,
   isDevMode,
 } from '@angular/core';
-import {
-  AbstractControl,
-  ControlValueAccessor,
-  ValidationErrors,
-  Validator,
-  ValidatorFn,
-} from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, ValidationErrors, Validator, ValidatorFn } from '@angular/forms';
 import { DateAdapter } from './dateadapter/date-adapter';
-import {
-  USA_DATE_FORMATS,
-  UsaDateFormats,
-} from './dateadapter/date-formats';
+import { USA_DATE_FORMATS, UsaDateFormats } from './dateadapter/date-formats';
 import { Subscription, Subject } from 'rxjs';
-import {
-  ExtractDateTypeFromSelection,
-  UsaDateSelectionModel,
-  DateSelectionModelChange,
-} from './date-selection-model';
+import { ExtractDateTypeFromSelection, UsaDateSelectionModel, DateSelectionModelChange } from './date-selection-model';
 import { createMissingDateImplError } from './date-picker-errors';
 import { KeyCode } from '../util/key';
 import { BooleanInput, coerceBooleanProperty } from '../util/boolean-property';
@@ -47,7 +34,8 @@ export class UsaDatePickerInputEvent<D, S = unknown> {
     /** Reference to the datePicker input component that emitted the event. */
     public target: UsaDatePickerInputBase<S, D>,
     /** Reference to the native input element associated with the datePicker input. */
-    public targetElement: HTMLElement) {
+    public targetElement: HTMLElement,
+  ) {
     this.value = this.target.value;
   }
 }
@@ -58,8 +46,8 @@ export type DateFilterFn<D> = (date: D | null) => boolean;
 /** Base class for datePicker inputs. */
 @Directive()
 export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection<S>>
-  implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy, Validator {
-
+  implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy, Validator
+{
   /** Whether the component has been initialized. */
   private _isInitialized: boolean;
 
@@ -75,7 +63,9 @@ export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection
 
   /** Whether the datePicker-input is disabled. */
   @Input()
-  get disabled(): boolean { return !!this._disabled || this._parentDisabled(); }
+  get disabled(): boolean {
+    return !!this._disabled || this._parentDisabled();
+  }
   set disabled(value: boolean) {
     const newValue = coerceBooleanProperty(value);
     const element = this._elementRef.nativeElement;
@@ -99,20 +89,22 @@ export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection
   private _disabled: boolean;
 
   /** Emits when a `change` event is fired on this `<input>`. */
-  @Output() readonly dateChange: EventEmitter<UsaDatePickerInputEvent<D, S>> =
-    new EventEmitter<UsaDatePickerInputEvent<D, S>>();
+  @Output() readonly dateChange: EventEmitter<UsaDatePickerInputEvent<D, S>> = new EventEmitter<
+    UsaDatePickerInputEvent<D, S>
+  >();
 
   /** Emits when an `input` event is fired on this `<input>`. */
-  @Output() readonly dateInput: EventEmitter<UsaDatePickerInputEvent<D, S>> =
-    new EventEmitter<UsaDatePickerInputEvent<D, S>>();
+  @Output() readonly dateInput: EventEmitter<UsaDatePickerInputEvent<D, S>> = new EventEmitter<
+    UsaDatePickerInputEvent<D, S>
+  >();
 
   /** Emits when the internal state has changed */
   readonly stateChanges = new Subject<void>();
 
-  _onTouched = () => { };
-  _validatorOnChange = () => { };
+  _onTouched = () => {};
+  _validatorOnChange = () => {};
 
-  private _cvaOnChange: (value: any) => void = () => { };
+  private _cvaOnChange: (value: any) => void = () => {};
   private _valueChangesSubscription = Subscription.EMPTY;
   private _localeSubscription = Subscription.EMPTY;
 
@@ -125,37 +117,32 @@ export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection
 
   /** The form control validator for whether the input parses. */
   private _parseValidator: ValidatorFn = (): ValidationErrors | null => {
-    return this._lastValueValid ?
-      null : { 'usaDatePickerParse': { 'text': this._elementRef.nativeElement.value } };
-  }
+    return this._lastValueValid ? null : { usaDatePickerParse: { text: this._elementRef.nativeElement.value } };
+  };
 
   /** The form control validator for the date filter. */
   private _filterValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value));
-    return !controlValue || this._matchesFilter(controlValue) ?
-      null : { 'usaDatePickerFilter': true };
-  }
+    const controlValue = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(control.value));
+    return !controlValue || this._matchesFilter(controlValue) ? null : { usaDatePickerFilter: true };
+  };
 
   /** The form control validator for the min date. */
   private _minValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value));
+    const controlValue = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(control.value));
     const min = this._getMinDate();
-    return (!min || !controlValue ||
-      this._dateAdapter.compareDate(min, controlValue) <= 0) ?
-      null : { 'usaDatePickerMin': { 'min': min, 'actual': controlValue } };
-  }
+    return !min || !controlValue || this._dateAdapter.compareDate(min, controlValue) <= 0
+      ? null
+      : { usaDatePickerMin: { min: min, actual: controlValue } };
+  };
 
   /** The form control validator for the max date. */
   private _maxValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value));
+    const controlValue = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(control.value));
     const max = this._getMaxDate();
-    return (!max || !controlValue ||
-      this._dateAdapter.compareDate(max, controlValue) >= 0) ?
-      null : { 'usaDatePickerMax': { 'max': max, 'actual': controlValue } };
-  }
+    return !max || !controlValue || this._dateAdapter.compareDate(max, controlValue) >= 0
+      ? null
+      : { usaDatePickerMax: { max: max, actual: controlValue } };
+  };
 
   /** Gets the base validator functions. */
   protected _getValidators(): ValidatorFn[] {
@@ -180,7 +167,7 @@ export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection
       this._assignValue(this._pendingValue);
     }
 
-    this._valueChangesSubscription = this._model.selectionChanged.subscribe(event => {
+    this._valueChangesSubscription = this._model.selectionChanged.subscribe((event) => {
       if (this._shouldHandleChangeEvent(event)) {
         const value = this._getValueFromModel(event.selection);
         this._lastValueValid = this._isValidValue(value);
@@ -214,8 +201,8 @@ export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection
   constructor(
     protected _elementRef: ElementRef<HTMLInputElement>,
     @Optional() public _dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(USA_DATE_FORMATS) private _dateFormats: UsaDateFormats) {
-
+    @Optional() @Inject(USA_DATE_FORMATS) private _dateFormats: UsaDateFormats,
+  ) {
     if (isDevMode()) {
       if (!this._dateAdapter) {
         throw createMissingDateImplError('DateAdapter');
@@ -325,8 +312,9 @@ export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection
 
   /** Formats a value and sets it on the input element. */
   protected _formatValue(value: D | null) {
-    this._elementRef.nativeElement.value =
-      value ? this._dateAdapter.format(value, this._dateFormats.display.dateInput) : '';
+    this._elementRef.nativeElement.value = value
+      ? this._dateAdapter.format(value, this._dateFormats.display.dateInput)
+      : '';
   }
 
   /** Assigns a value to the model. */
@@ -379,9 +367,7 @@ export abstract class UsaDatePickerInputBase<S, D = ExtractDateTypeFromSelection
  * Checks whether the `SimpleChanges` object from an `ngOnChanges`
  * callback has any changes, accounting for date objects.
  */
-export function dateInputsHaveChanged(
-  changes: SimpleChanges,
-  adapter: DateAdapter<unknown>): boolean {
+export function dateInputsHaveChanged(changes: SimpleChanges, adapter: DateAdapter<unknown>): boolean {
   const keys = Object.keys(changes);
 
   for (let key of keys) {

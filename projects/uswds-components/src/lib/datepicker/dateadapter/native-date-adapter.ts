@@ -1,4 +1,3 @@
-
 import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { DateAdapter, USA_DATE_LOCALE } from './date-adapter';
 
@@ -7,9 +6,7 @@ import { DateAdapter, USA_DATE_LOCALE } from './date-adapter';
  * (https://tools.ietf.org/html/rfc3339). Note that the string may not actually be a valid date
  * because the regex will match strings an with out of bounds month, date, etc.
  */
-const ISO_8601_REGEX =
-  /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|(?:(?:\+|-)\d{2}:\d{2}))?)?$/;
-
+const ISO_8601_REGEX = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|(?:(?:\+|-)\d{2}:\d{2}))?)?$/;
 
 /** Creates an array and fills it with values. */
 function range<T>(length: number, valueFunction: (index: number) => T): T[] {
@@ -52,17 +49,17 @@ export class NativeDateAdapter extends DateAdapter<Date> {
 
   getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
     const dtf = new Intl.DateTimeFormat(this.locale, { month: style, timeZone: 'utc' });
-    return range(12, i => this._format(dtf, new Date(2017, i, 1)));
+    return range(12, (i) => this._format(dtf, new Date(2017, i, 1)));
   }
 
   getDateNames(): string[] {
     const dtf = new Intl.DateTimeFormat(this.locale, { day: 'numeric', timeZone: 'utc' });
-    return range(31, i => this._format(dtf, new Date(2017, 0, i + 1)));
+    return range(31, (i) => this._format(dtf, new Date(2017, 0, i + 1)));
   }
 
   getDayOfWeekNames(style: 'long' | 'short' | 'narrow'): string[] {
     const dtf = new Intl.DateTimeFormat(this.locale, { weekday: style, timeZone: 'utc' });
-    return range(7, i => this._format(dtf, new Date(2017, 0, i + 1)));
+    return range(7, (i) => this._format(dtf, new Date(2017, 0, i + 1)));
   }
 
   getYearName(date: Date): string {
@@ -76,8 +73,7 @@ export class NativeDateAdapter extends DateAdapter<Date> {
   }
 
   getNumDaysInMonth(date: Date): number {
-    return this.getDate(this._createDateWithOverflow(
-      this.getYear(date), this.getMonth(date) + 1, 0));
+    return this.getDate(this._createDateWithOverflow(this.getYear(date), this.getMonth(date) + 1, 0));
   }
 
   clone(date: Date): Date {
@@ -133,14 +129,13 @@ export class NativeDateAdapter extends DateAdapter<Date> {
   }
 
   addCalendarMonths(date: Date, months: number): Date {
-    let newDate = this._createDateWithOverflow(
-      this.getYear(date), this.getMonth(date) + months, this.getDate(date));
+    let newDate = this._createDateWithOverflow(this.getYear(date), this.getMonth(date) + months, this.getDate(date));
 
     // It's possible to wind up in the wrong month if the original month has more days than the new
     // month. In this case we want to go to the last day of the desired month.
     // Note: the additional + 12 % 12 ensures we end up with a positive number, since JS % doesn't
     // guarantee this.
-    if (this.getMonth(newDate) != ((this.getMonth(date) + months) % 12 + 12) % 12) {
+    if (this.getMonth(newDate) != (((this.getMonth(date) + months) % 12) + 12) % 12) {
       newDate = this._createDateWithOverflow(this.getYear(newDate), this.getMonth(newDate), 0);
     }
 
@@ -148,16 +143,11 @@ export class NativeDateAdapter extends DateAdapter<Date> {
   }
 
   addCalendarDays(date: Date, days: number): Date {
-    return this._createDateWithOverflow(
-      this.getYear(date), this.getMonth(date), this.getDate(date) + days);
+    return this._createDateWithOverflow(this.getYear(date), this.getMonth(date), this.getDate(date) + days);
   }
 
   toIso8601(date: Date): string {
-    return [
-      date.getUTCFullYear(),
-      this._2digit(date.getUTCMonth() + 1),
-      this._2digit(date.getUTCDate())
-    ].join('-');
+    return [date.getUTCFullYear(), this._2digit(date.getUTCMonth() + 1), this._2digit(date.getUTCDate())].join('-');
   }
 
   /**

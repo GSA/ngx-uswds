@@ -12,14 +12,11 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import {
-  UsaHeaderPrimaryLinkTemplate,
-  UsaHeaderSecondaryLinkTemplate,
-} from './header-selectors';
+import { UsaHeaderPrimaryLinkTemplate, UsaHeaderSecondaryLinkTemplate } from './header-selectors';
 import { UsaHeaderPrimaryLink } from './header.model';
 import { UsaNavigationLink, UsaNavigationMode } from '../util/navigation';
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-header',
   templateUrl: './header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -96,10 +93,7 @@ export class UsaHeaderComponent implements OnInit {
   // Let's make the page state consistent by deactivating the mobile nav.
   @HostListener('window:resize', ['$event'])
   onBrowserResize(event) {
-    if (
-      this.mobileNavActive &&
-      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0
-    ) {
+    if (this.mobileNavActive && this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0) {
       this.mobileNavActive = false;
     }
   }

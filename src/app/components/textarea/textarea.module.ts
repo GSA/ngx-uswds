@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  DocumentationComponentsSharedModule,
-  DocumentationDemoList,
-} from '../../shared';
+import { DocumentationComponentsSharedModule, DocumentationDemoList } from '../../shared';
 import { DemoWrapperComponent } from '../../shared/demo-wrapper.component';
 import { DocumentationExamplesPage } from '../../shared/examples-page/examples.component';
 import { TextareaBasicComponent } from './demos/basic/textarea-basic.component';
@@ -51,12 +48,7 @@ export const ROUTES = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DocumentationComponentsSharedModule,
-    TextareaBasicModule,
-    TextareaWrapperModule,
-  ],
+  imports: [CommonModule, DocumentationComponentsSharedModule, TextareaBasicModule, TextareaWrapperModule],
 })
 export class TextareaModule {
   constructor(demoList: DocumentationDemoList) {

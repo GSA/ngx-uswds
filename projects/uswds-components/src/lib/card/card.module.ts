@@ -7,8 +7,6 @@ import { USWDSCardGroupComponent } from './card-group.component';
 import { USWDSCardHeaderComponent } from './card-header.component';
 import { USWDSCardMediaComponent } from './card-media.component';
 
-
-
 @NgModule({
   declarations: [
     USWDSCardComponent,
@@ -16,18 +14,16 @@ import { USWDSCardMediaComponent } from './card-media.component';
     USWDSCardFooterComponent,
     USWDSCardGroupComponent,
     USWDSCardHeaderComponent,
-    USWDSCardMediaComponent
+    USWDSCardMediaComponent,
   ],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [
     USWDSCardComponent,
     USWDSCardBodyComponent,
     USWDSCardFooterComponent,
     USWDSCardGroupComponent,
     USWDSCardHeaderComponent,
-    USWDSCardMediaComponent
-  ]
+    USWDSCardMediaComponent,
+  ],
 })
-export class USWDSCardModule { }
+export class USWDSCardModule {}

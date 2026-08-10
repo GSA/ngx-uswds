@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'radio-forms',
   templateUrl: './radio-forms.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class RadioFormsComponent {
-
-
   templateModel: string = 'sojourner-truth';
 
   reactiveFormControl = new FormControl('frederick-douglass');

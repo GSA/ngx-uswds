@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UsaNavigationMode } from '../util/navigation';
 import { SidenavModel } from './sidenav.model';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `usa-sidenav`,
   templateUrl: `sidenav.component.html`,
 })
@@ -47,9 +47,7 @@ export class UsaSidenavComponent implements OnInit {
           link.collapsed = link.collapsed === undefined ? true : link.collapsed;
         } else {
           link.collapsed =
-            link.collapsed === undefined
-              ? !this.autoCollapseLabels && this.expandType !== 'multiple'
-              : link.collapsed;
+            link.collapsed === undefined ? !this.autoCollapseLabels && this.expandType !== 'multiple' : link.collapsed;
         }
         if (link.children) {
           this.collapseChildren(link);
@@ -84,9 +82,7 @@ export class UsaSidenavComponent implements OnInit {
    * @returns true if either link is not a label, or it is a label and label collapse is enabled
    */
   private canCollapseLabel(link: SidenavModel): boolean {
-    return link.mode === UsaNavigationMode.LABEL
-      ? this.enableLabelCollapse
-      : true;
+    return link.mode === UsaNavigationMode.LABEL ? this.enableLabelCollapse : true;
   }
 
   private toggleBasedOnSelected(links: SidenavModel[]): void {
@@ -117,10 +113,7 @@ export class UsaSidenavComponent implements OnInit {
    * @param selectedItem
    * @param allNavItems
    */
-  private selectSideNav(
-    selectedItem: SidenavModel,
-    allNavItems: SidenavModel[]
-  ): boolean {
+  private selectSideNav(selectedItem: SidenavModel, allNavItems: SidenavModel[]): boolean {
     for (const item of allNavItems) {
       if (item === selectedItem) {
         item.selected = true;
@@ -156,9 +149,7 @@ export class UsaSidenavComponent implements OnInit {
     if (link.children) {
       link.collapsed = collapsedValue;
       link.children.forEach((childLink) =>
-        childLink.children
-          ? this.expandChildren(childLink, collapsedValue)
-          : null
+        childLink.children ? this.expandChildren(childLink, collapsedValue) : null,
       );
     }
   }
@@ -169,9 +160,7 @@ export class UsaSidenavComponent implements OnInit {
       keys = Object.keys(item.queryParams);
     }
     for (const d of keys) {
-      ret.push(
-        encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d])
-      );
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(item.queryParams[d]));
     }
     return ret.join('&');
   }

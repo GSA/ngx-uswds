@@ -2,15 +2,13 @@ import { HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'file-input-upload',
   templateUrl: './file-input-upload.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class FileInputUploadComponent {
-
   simulateServerDelay = false;
   serverResponseSucceeds = true;
   uploadFilesMethod = this.uploadFilesSuccess;
@@ -27,8 +25,8 @@ export class FileInputUploadComponent {
 
   /**
    * Simulate case where server endpoint returns HTTP OK after requesting file upload
-   * @param file 
-   * @returns 
+   * @param file
+   * @returns
    */
   uploadFilesSuccess(file: File) {
     return new Observable((observer) => {
@@ -41,8 +39,8 @@ export class FileInputUploadComponent {
 
   /**
    * Simulate case where server endpoint returns HTTP ERROR after requesting file upload
-   * @param file 
-   * @returns 
+   * @param file
+   * @returns
    */
   uploadFilesFail(file: File) {
     return new Observable((observer) => {
@@ -55,7 +53,7 @@ export class FileInputUploadComponent {
 
   /**
    * Event fired when upload fails
-   * @param file 
+   * @param file
    */
   onUploadError(file: File) {
     this.failedUploads.push(file);

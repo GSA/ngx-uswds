@@ -1,9 +1,5 @@
 import { Meta, moduleMetadata } from '@storybook/angular';
-import {
-  UsaAccordionComponent,
-  UsaAccordionItem,
-  UsaAccordionModule,
-} from '@gsa-sam/ngx-uswds';
+import { UsaAccordionComponent, UsaAccordionItem, UsaAccordionModule } from '@gsa-sam/ngx-uswds';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { action } from '@storybook/addon-actions';
@@ -63,13 +59,8 @@ export const Basic = (args) => ({
 });
 
 Basic.parameters = {
-  preview: generateConfig(
-    'components/accordion/accordion-basic',
-    'AccordionBasicModule',
-    'accordion-basic'
-  ),
+  preview: generateConfig('components/accordion/accordion-basic', 'AccordionBasicModule', 'accordion-basic'),
 };
-
 
 export const Multiple = (args) => ({
   template: accordionMultipleTemplate.default,
@@ -88,9 +79,5 @@ export const Multiple = (args) => ({
 });
 
 Multiple.parameters = {
-  preview: generateConfig(
-    'components/accordion/accordion-multiple',
-    'AccordionMultipleModule',
-    'accordion-multiple'
-  ),
+  preview: generateConfig('components/accordion/accordion-multiple', 'AccordionMultipleModule', 'accordion-multiple'),
 };

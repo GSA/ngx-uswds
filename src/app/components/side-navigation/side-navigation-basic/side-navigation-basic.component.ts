@@ -1,13 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { UsaNavigationMode, SidenavModel } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'side-navigation-basic',
-  templateUrl: './side-navigation-basic.component.html'
+  templateUrl: './side-navigation-basic.component.html',
 })
 export class SideNavigationBasicComponent {
-
   @Input() sidenavContent: SidenavModel[] = [
     {
       mode: UsaNavigationMode.EXTERNAL,
@@ -25,11 +24,11 @@ export class SideNavigationBasicComponent {
               mode: UsaNavigationMode.EXTERNAL,
               text: 'Accordion - Grandchild',
               path: 'javascript:void(0)',
-              id: '1000'
-            }
-          ]
-        }
-      ]
+              id: '1000',
+            },
+          ],
+        },
+      ],
     },
     {
       mode: UsaNavigationMode.INTERNAL,
@@ -42,34 +41,34 @@ export class SideNavigationBasicComponent {
           mode: UsaNavigationMode.INTERNAL,
           text: 'File Input - Child',
           path: '/file-input-child',
-          id: '104'
+          id: '104',
         },
-      ]
+      ],
     },
     {
       mode: UsaNavigationMode.EVENT,
       text: 'Step Indicator',
       path: 'step-indicator',
-      id: '14'
+      id: '14',
     },
     {
       mode: UsaNavigationMode.EVENT,
       text: 'Modal',
       path: 'modal',
-      id: '15'
+      id: '15',
     },
     {
       mode: UsaNavigationMode.EVENT,
       text: 'Tooltip',
       path: 'tooltip',
-      id: '16'
+      id: '16',
     },
     {
       mode: UsaNavigationMode.EVENT,
       text: 'Table',
       path: 'table',
       id: '17',
-    }
+    },
   ];
 
   @Input() expandType: 'single' | 'multiple' = 'single';
@@ -78,5 +77,5 @@ export class SideNavigationBasicComponent {
   @Input() selectFirstLabelChild: boolean = true;
   @Input() sidenavClicked: Function = ($event) => {
     console.log($event);
-  }
+  };
 }

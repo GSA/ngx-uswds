@@ -2,11 +2,11 @@
 <usa-dropdown [(ngModel)]="templateModel" [options]="dropdownOptions"></usa-dropdown>
 
 <div class="margin-top-2">
-  Selected Value: <code>{{templateModel | json}}</code>
+  Selected Value: <code>{{ templateModel | json }}</code>
 </div>
 
 <legend class="usa-legend margin-top-5">Select one historical figure</legend>
 <usa-dropdown [formControl]="reactiveFormControl" [options]="dropdownOptions"></usa-dropdown>
 <div class="margin-top-2">
-  Selected Value: <code>{{reactiveFormControl.value |json}}</code>
+  Selected Value: <code>{{ reactiveFormControl.value | json }}</code>
 </div>

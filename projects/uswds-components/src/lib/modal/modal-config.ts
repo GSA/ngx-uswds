@@ -1,4 +1,4 @@
-import {Injectable, Injector} from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 
 /**
  * Options available when opening new modal windows with `UsaModal.open()` method.
@@ -63,7 +63,6 @@ export interface UsaModalOptions {
    */
   size?: 'sm' | 'lg';
 
-
   /**
    * A custom class to append to the modal dialog.
    *
@@ -86,10 +85,10 @@ export interface UsaModalOptions {
  *
  * You can inject this service, typically in your root component, and customize the values of its properties in
  * order to provide default values for all modals used in the application.
-*
-* @since 3.1.0
-*/
-@Injectable({providedIn: 'root'})
+ *
+ * @since 3.1.0
+ */
+@Injectable({ providedIn: 'root' })
 export class UsaModalConfig implements Required<UsaModalOptions> {
   ariaLabelledBy: string;
   ariaDescribedBy: string;

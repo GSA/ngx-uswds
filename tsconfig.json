@@ -12,25 +12,16 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "es2022",
-    "lib": [
-      "es2018",
-      "esnext.disposable",
-      "dom"
-    ],
+    "lib": ["es2018", "esnext.disposable", "dom"],
     "paths": {
-      "@gsa-sam/ngx-uswds": [
-        "projects/uswds-components/src/public-api.ts"
-      ],
+      "@gsa-sam/ngx-uswds": ["projects/uswds-components/src/public-api.ts"],
       "@gsa-sam/uswds-formly": [
         "dist/uswds-formly/uswds-formly",
         "dist/uswds-formly",
-        "projects/uswds-formly/src/public-api.ts",
+        "projects/uswds-formly/src/public-api.ts"
       ]
     },
     "rootDir": "."
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

@@ -1,37 +1,33 @@
-import { AfterViewInit, ContentChild, Directive, ElementRef, Input, TemplateRef } from "@angular/core";
-import { UsaSort } from "./table-sort.component";
-
+import { AfterViewInit, ContentChild, Directive, ElementRef, Input, TemplateRef } from '@angular/core';
+import { UsaSort } from './table-sort.component';
 
 /**
  * Structural Directive to extract table header template
  * from user
  */
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `[usaTableHeaderDef]`,
 })
 export class UsaTableHeaderDef {
-
-  constructor(
-    public templateRef: TemplateRef<any>,
-  ) {}
+  constructor(public templateRef: TemplateRef<any>) {}
 }
 
 /**
  * Directive to apply certain styles and/or attribute to table header
  */
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `[usa-table-header]`,
   host: {
-    '[attr.role]': '\'columnheader\'',
-    '[attr.scope]': '\'col\'',
+    '[attr.role]': "'columnheader'",
+    '[attr.scope]': "'col'",
     '[attr.data-sortable]': 'usaSort ? true : undefined',
     '[attr.aria-sort]': 'ariaSort ? ariaSort : undefined',
-    '[attr.aria-label]': 'ariaLabel'
-  }
+    '[attr.aria-label]': 'ariaLabel',
+  },
 })
-export class UsaTableHeader implements AfterViewInit{
+export class UsaTableHeader implements AfterViewInit {
   @ContentChild(UsaSort) usaSort: UsaSort;
 
   @Input() ariaLabel: string;
@@ -40,9 +36,7 @@ export class UsaTableHeader implements AfterViewInit{
 
   _defaultAriaLabel: string;
 
-  constructor(
-    public elementRef: ElementRef
-  ) {}
+  constructor(public elementRef: ElementRef) {}
 
   ngAfterViewInit() {
     if (this.ariaLabel) {
@@ -50,12 +44,12 @@ export class UsaTableHeader implements AfterViewInit{
       return;
     }
 
-    let ariaLabel  = (this.elementRef.nativeElement as HTMLTableHeaderCellElement).innerText;
+    let ariaLabel = (this.elementRef.nativeElement as HTMLTableHeaderCellElement).innerText;
     this._defaultAriaLabel = ariaLabel;
 
     if (this.usaSort) {
       this.usaSort.setColumnHeader(this._defaultAriaLabel);
-      ariaLabel = this._defaultAriaLabel + ', sortable column, currently unsorted'
+      ariaLabel = this._defaultAriaLabel + ', sortable column, currently unsorted';
     }
 
     this.ariaLabel = ariaLabel;
@@ -69,7 +63,7 @@ export class UsaTableHeader implements AfterViewInit{
     this.ariaSort = sortState;
 
     if (this._defaultAriaLabel) {
-      this.ariaLabel = this._defaultAriaLabel  + ', sortable column, currently sorted ' + this.ariaSort;
+      this.ariaLabel = this._defaultAriaLabel + ', sortable column, currently sorted ' + this.ariaSort;
     }
   }
 
@@ -77,7 +71,7 @@ export class UsaTableHeader implements AfterViewInit{
     this.ariaSort = undefined;
     this.usaSort.disableSort();
     if (this._defaultAriaLabel) {
-      this.ariaLabel = this._defaultAriaLabel  + ', sortable column, currently unsorted';
+      this.ariaLabel = this._defaultAriaLabel + ', sortable column, currently unsorted';
     }
   }
 }
@@ -86,12 +80,11 @@ export class UsaTableHeader implements AfterViewInit{
  * Represents one row of table headers. Multiple rows of
  * table headers can exist in one table
  */
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `[usaHeaderRowDef]`,
 })
 export class UsaHeaderRowDef {
-  
   @Input() usaHeaderRowDef: string[];
 
   constructor(public templateRef: TemplateRef<any>) {}

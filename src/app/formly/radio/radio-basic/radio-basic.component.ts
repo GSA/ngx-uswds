@@ -2,15 +2,14 @@ import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'formly-radio-basic',
-  templateUrl: './radio-basic.component.html'
+  templateUrl: './radio-basic.component.html',
 })
 export class FormlyBasicRadioComponent {
-
   label = 'Historical Figures';
-  options: { label: string, value: string }[] = [
+  options: { label: string; value: string }[] = [
     {
       value: 'sojourner-truth',
       label: 'Sojourner Truth',
@@ -44,8 +43,7 @@ export class FormlyBasicRadioComponent {
       templateOptions: {
         label: this.label,
         options: this.options,
-      }
-    }
+      },
+    },
   ];
-
 }

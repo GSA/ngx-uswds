@@ -1,20 +1,20 @@
-import { 
-  AfterContentChecked, 
-  ContentChildren, 
-  Directive, 
-  EventEmitter, 
-  Input, 
-  Output, 
-  QueryList, 
-  TemplateRef } from "@angular/core";
+import {
+  AfterContentChecked,
+  ContentChildren,
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+  QueryList,
+  TemplateRef,
+} from '@angular/core';
 
 let nextId = 0;
-
 
 /**
  * An event emitted right before toggling an accordion panel.
  */
- export interface UsaAccordionChangeEvent {
+export interface UsaAccordionChangeEvent {
   /**
    * The id of the accordion panel being toggled.
    */
@@ -36,28 +36,32 @@ let nextId = 0;
 /**
  * A directive that wraps the accordion panel content.
  */
-	@Directive({
-	standalone: false, selector: 'ng-template[UsaAccordionContent]' })
+@Directive({
+  standalone: false,
+  selector: 'ng-template[UsaAccordionContent]',
+})
 export class UsaAccordionContent {
-  constructor(public templateRef: TemplateRef<any>) { }
+  constructor(public templateRef: TemplateRef<any>) {}
 }
 
 /**
  * A directive that wraps the accordion header content.
  */
-	@Directive({
-	standalone: false, 
+@Directive({
+  standalone: false,
   selector: 'ng-template[UsaAccordionHeader]',
 })
 export class UsaAccordionHeader {
-  constructor(public templateRef: TemplateRef<any>) { }
+  constructor(public templateRef: TemplateRef<any>) {}
 }
 
 /**
  * A directive that wraps an individual accordion panel with title and collapsible content.
  */
-	@Directive({
-	standalone: false, selector: 'usa-accordion-item' })
+@Directive({
+  standalone: false,
+  selector: 'usa-accordion-item',
+})
 export class UsaAccordionItem implements AfterContentChecked {
   /**
    *  If `true`, the panel is disabled an can't be toggled.
@@ -81,7 +85,6 @@ export class UsaAccordionItem implements AfterContentChecked {
    *  The panel header.
    */
   @Input() header: string;
-
 
   /**
    * An optional class applied to the accordion card element that wraps both panel title and content.
@@ -112,7 +115,6 @@ export class UsaAccordionItem implements AfterContentChecked {
    */
   @Output() hidden = new EventEmitter<void>();
 
-
   /** Provided template for Accordion header */
   headerTpl: UsaAccordionHeader;
 
@@ -123,7 +125,6 @@ export class UsaAccordionItem implements AfterContentChecked {
   @ContentChildren(UsaAccordionContent, { descendants: false }) contentTpls: QueryList<UsaAccordionContent>;
 
   constructor() {}
-
 
   ngAfterContentChecked() {
     // We are using @ContentChildren instead of @ContentChild as in the Angular version being used

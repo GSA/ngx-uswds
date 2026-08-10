@@ -1,18 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { ModalDismissReasons, UsaModalService, UsaModalRef } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'modal-basic',
-  templateUrl: './modal-basic.component.html'
+  templateUrl: './modal-basic.component.html',
 })
 export class ModalBasicComponent {
-
   /** See UsaModelOptions for description on these inputs */
 
   @Input() animation = true;
-  @Input() showClose =  true;
-  @Input() backdrop: boolean  = true;
+  @Input() showClose = true;
+  @Input() backdrop: boolean = true;
   @Input() keyboard = false;
   @Input() ariaDescribedBy: string;
   @Input() id: string = 'modal-1';
@@ -25,28 +24,29 @@ export class ModalBasicComponent {
 
   modalRef: UsaModalRef;
 
-  constructor(private modalService: UsaModalService) { }
+  constructor(private modalService: UsaModalService) {}
 
   open(content) {
-    this.modalRef = this.modalService.open(content,
-      {
-        ariaLabelledBy: this.ariaLabelledBy,
-        id: this.id,
-        showClose: this.showClose,
-        backdrop: this.backdrop,
-        keyboard: this.keyboard,
-        animation: this.animation,
-        ariaDescribedBy: this.ariaDescribedBy,
-        size: this.size,
-        modalDialogClass: this.modalDialogClass,
-        beforeDismiss: this.beforeDismiss,
-      }
-    );
-    this.modalRef.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalRef = this.modalService.open(content, {
+      ariaLabelledBy: this.ariaLabelledBy,
+      id: this.id,
+      showClose: this.showClose,
+      backdrop: this.backdrop,
+      keyboard: this.keyboard,
+      animation: this.animation,
+      ariaDescribedBy: this.ariaDescribedBy,
+      size: this.size,
+      modalDialogClass: this.modalDialogClass,
+      beforeDismiss: this.beforeDismiss,
     });
+    this.modalRef.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      },
+    );
   }
 
   close(reason) {
@@ -60,8 +60,7 @@ export class ModalBasicComponent {
       return 'by clicking on a backdrop';
     } else if (reason === ModalDismissReasons.CLOSE_CLICKED) {
       return 'by clicking close button';
-    }
-    else {
+    } else {
       return `with: ${reason}`;
     }
   }

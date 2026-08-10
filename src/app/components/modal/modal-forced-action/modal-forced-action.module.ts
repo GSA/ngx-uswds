@@ -5,10 +5,7 @@ import { UsaModalModule } from '@gsa-sam/ngx-uswds';
 
 @NgModule({
   declarations: [ModalForcedActionComponent],
-  imports: [
-    CommonModule,
-    UsaModalModule,
-  ],
-  exports: [ModalForcedActionComponent]
+  imports: [CommonModule, UsaModalModule],
+  exports: [ModalForcedActionComponent],
 })
-export class ModalForcedActionModule { }
+export class ModalForcedActionModule {}

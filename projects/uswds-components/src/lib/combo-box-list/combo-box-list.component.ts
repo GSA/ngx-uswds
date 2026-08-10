@@ -16,28 +16,19 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import {
-  isArrowDown,
-  isArrowUp,
-  isEnd,
-  isEnter,
-  isHome,
-  isPageDown,
-  isPageUp,
-  isTab,
-} from '../util/key';
+import { isArrowDown, isArrowUp, isEnd, isEnter, isHome, isPageDown, isPageUp, isTab } from '../util/key';
 import { DOCUMENT } from '@angular/common';
 
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `[usa-combo-box-item-template]`,
 })
 export class UsaComboBoxItemTemplate {
   constructor(public templateRef: TemplateRef<any>) {}
 }
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `usa-combo-box-list`,
   templateUrl: './combo-box-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -114,7 +105,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     private el: ElementRef,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document
+    @Inject(DOCUMENT) private document,
   ) {}
 
   trackByFn(index: number) {
@@ -169,8 +160,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     switch (true) {
       case isArrowDown($event):
         if (this._focusedItem?.index === this.items.length - 1) return;
-        const nextSibling = this._focusedItem.itemHtml
-          .nextElementSibling as HTMLDataListElement;
+        const nextSibling = this._focusedItem.itemHtml.nextElementSibling as HTMLDataListElement;
         this.updateFocusedItem(this._focusedItem.index + 1, nextSibling);
         $event.preventDefault();
         break;
@@ -181,8 +171,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
           return;
         }
 
-        const previousSibling = this._focusedItem.itemHtml
-          .previousElementSibling as HTMLDataListElement;
+        const previousSibling = this._focusedItem.itemHtml.previousElementSibling as HTMLDataListElement;
         this.updateFocusedItem(this._focusedItem.index - 1, previousSibling);
         $event.preventDefault();
         break;
@@ -191,31 +180,19 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
       case isPageDown($event):
         const dropdownNativeElement = this.dropdownListBox.nativeElement;
 
-        if (
-          !dropdownNativeElement.firstElementChild ||
-          !dropdownNativeElement.firstElementChild.clientHeight
-        ) {
+        if (!dropdownNativeElement.firstElementChild || !dropdownNativeElement.firstElementChild.clientHeight) {
           return;
         }
 
         const numItemsToScrollPast = Math.ceil(
-          dropdownNativeElement.clientHeight /
-            dropdownNativeElement.firstElementChild.clientHeight
+          dropdownNativeElement.clientHeight / dropdownNativeElement.firstElementChild.clientHeight,
         );
-        let newIndex = Math.min(
-          this._focusedItem.index + numItemsToScrollPast,
-          this.items.length - 1
-        );
+        let newIndex = Math.min(this._focusedItem.index + numItemsToScrollPast, this.items.length - 1);
         if (isPageUp($event)) {
-          newIndex = Math.max(
-            this._focusedItem.index - numItemsToScrollPast,
-            0
-          );
+          newIndex = Math.max(this._focusedItem.index - numItemsToScrollPast, 0);
         }
 
-        const newFocusedElement = this.el.nativeElement.querySelector(
-          `#${this.listId}-${newIndex}`
-        );
+        const newFocusedElement = this.el.nativeElement.querySelector(`#${this.listId}-${newIndex}`);
         this.updateFocusedItem(newIndex, newFocusedElement);
         $event.preventDefault();
         break;
@@ -242,16 +219,14 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
    * Focus on first element of combo-box dropdown
    */
   focusFirstElement() {
-    const firstElement = this.dropdownListBox.nativeElement
-      .firstElementChild as HTMLDataListElement;
+    const firstElement = this.dropdownListBox.nativeElement.firstElementChild as HTMLDataListElement;
     this.updateFocusedItem(0, firstElement);
     this.cdr.detectChanges();
   }
 
   focusLastElement() {
     const lastIndex = this.items.length - 1;
-    const lastElement = this.dropdownListBox.nativeElement
-      .lastElementChild as HTMLDataListElement;
+    const lastElement = this.dropdownListBox.nativeElement.lastElementChild as HTMLDataListElement;
     this.updateFocusedItem(lastIndex, lastElement);
     this.cdr.detectChanges();
   }
@@ -260,10 +235,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     if (!this._highlightedItem) {
       this.focusFirstElement();
     } else {
-      this.updateFocusedItem(
-        this._highlightedItem.index,
-        this._highlightedItem.itemHtml
-      );
+      this.updateFocusedItem(this._highlightedItem.index, this._highlightedItem.itemHtml);
     }
   }
 
@@ -288,9 +260,7 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     if (index < 0 || index >= this.items.length) return;
 
     const itemId = `${this.listId}-${index}`;
-    const itemHtml: HTMLDataListElement = this.el.nativeElement.querySelector(
-      `#${itemId}`
-    );
+    const itemHtml: HTMLDataListElement = this.el.nativeElement.querySelector(`#${itemId}`);
 
     this._highlightedItem = { item: this.items[index], index, itemHtml };
     itemHtml.scrollIntoView({ block: 'end' });
@@ -336,32 +306,24 @@ export class UsaComboboxList implements AfterViewInit, OnDestroy, OnChanges {
     if (!this.virtualScroll) return;
 
     const dropdownElement = this.dropdownListBox.nativeElement;
-    const scrollListener = this.renderer.listen(
-      dropdownElement,
-      'scroll',
-      () => {
-        const currentScrolledAmount =
-          dropdownElement.offsetHeight + dropdownElement.scrollTop;
-        const totalScrollAmount = dropdownElement.scrollHeight;
-        if (currentScrolledAmount >= totalScrollAmount) {
-          this.scrollEnd.emit();
-        }
+    const scrollListener = this.renderer.listen(dropdownElement, 'scroll', () => {
+      const currentScrolledAmount = dropdownElement.offsetHeight + dropdownElement.scrollTop;
+      const totalScrollAmount = dropdownElement.scrollHeight;
+      if (currentScrolledAmount >= totalScrollAmount) {
+        this.scrollEnd.emit();
       }
-    );
+    });
 
     this._eventListeners.push(scrollListener);
   }
 
   private setDropdownDirection() {
-    const dropdownRect = this.dropdownListBox.nativeElement
-      .getClientRects()
-      .item(0);
+    const dropdownRect = this.dropdownListBox.nativeElement.getClientRects().item(0);
     /**
      * If there isn't enough room to display dropdown above the input, then simply display dropdown
      * below regardless of space
      */
-    if (this.direction === 'bottom' || dropdownRect.height > dropdownRect.top)
-      return;
+    if (this.direction === 'bottom' || dropdownRect.height > dropdownRect.top) return;
 
     const dropdownY = dropdownRect.height + dropdownRect.top;
 

@@ -8,16 +8,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    MarkdownModule.forRoot(),
-    UsaAppHeaderModule,
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, MarkdownModule.forRoot(), UsaAppHeaderModule],
   providers: [
     provideZoneChangeDetection({ ignoreChangesOutsideZone: true }),
     {
@@ -28,11 +20,11 @@ import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
         languages: {
           typescript: () => import('highlight.js/lib/languages/typescript'),
           css: () => import('highlight.js/lib/languages/css'),
-          xml: () => import('highlight.js/lib/languages/xml')
-        }
+          xml: () => import('highlight.js/lib/languages/xml'),
+        },
       },
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

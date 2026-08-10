@@ -6,11 +6,10 @@ describe('ComboboxComponent', () => {
   let component: UsaComboBoxComponent;
   let fixture: ComponentFixture<UsaComboBoxComponent>;
 
-  beforeEach(waitForAsync (() => {
-     TestBed.configureTestingModule({
-      declarations: [ UsaComboBoxComponent ]
-    })
-    .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [UsaComboBoxComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

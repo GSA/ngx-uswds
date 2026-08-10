@@ -1,10 +1,10 @@
-import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
-import { CommonModule } from "@angular/common";
-import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
-import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
-import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { FormlyBasicInputModule } from "./input-basic/input-basic.module";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { CommonModule } from '@angular/common';
+import { UsaFormlyModule } from '@gsa-sam/uswds-formly';
+import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormlyBasicInputModule } from './input-basic/input-basic.module';
+import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 export default {
   title: 'Formly/Input',
@@ -23,10 +23,10 @@ export default {
     required: false,
   },
   argTypes: {
-    characterCount: {type: 'number'},
-    prefix: {type: 'string'},
-    suffix: {type: 'string'},
-  }
+    characterCount: { type: 'number' },
+    prefix: { type: 'string' },
+    suffix: { type: 'string' },
+  },
 } as Meta;
 
 declare var require;
@@ -34,7 +34,6 @@ declare var require;
 const template = require('!!raw-loader!./input-basic/input-basic.component.html');
 
 const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
-
   const form = new FormGroup({});
   const model: any = {};
   const options: FormlyFormOptions = {};
@@ -44,7 +43,7 @@ const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
       key: 'search',
       type: 'input',
       templateOptions: args,
-    }
+    },
   ];
 
   return {
@@ -53,13 +52,13 @@ const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
       form,
       model,
       options,
-      fields
+      fields,
     },
-  }
+  };
 };
 
 export const Basic = FormControlTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig('formly/input/input-basic', 'FormlyBasicInputModule', 'formly-input-basic')
-}
+  preview: generateConfig('formly/input/input-basic', 'FormlyBasicInputModule', 'formly-input-basic'),
+};

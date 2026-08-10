@@ -10,22 +10,8 @@ import { HighlightModule } from 'ngx-highlightjs';
 export * from './demo-list';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    USWDSCardModule,
-    UsaAccordionModule,
-    HighlightModule
-  ],
-  declarations: [
-    DocumentationExamplesPage,
-    DocumentationWidgetDemoComponent,
-    DemoWrapperComponent,
-  ],
-  exports: [
-    DocumentationExamplesPage, DocumentationWidgetDemoComponent, DemoWrapperComponent
-  ]
+  imports: [CommonModule, RouterModule, USWDSCardModule, UsaAccordionModule, HighlightModule],
+  declarations: [DocumentationExamplesPage, DocumentationWidgetDemoComponent, DemoWrapperComponent],
+  exports: [DocumentationExamplesPage, DocumentationWidgetDemoComponent, DemoWrapperComponent],
 })
-export class DocumentationComponentsSharedModule {
-
-}
+export class DocumentationComponentsSharedModule {}

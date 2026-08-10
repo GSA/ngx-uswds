@@ -6,11 +6,10 @@ describe('TableComponent', () => {
   let component: UsaTableComponent;
   let fixture: ComponentFixture<UsaTableComponent>;
 
-  beforeEach(waitForAsync (() => {
-     TestBed.configureTestingModule({
-      declarations: [ UsaTableComponent ]
-    })
-    .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [UsaTableComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

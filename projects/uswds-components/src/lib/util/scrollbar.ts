@@ -1,15 +1,10 @@
-import {Injectable, Inject} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
-
+import { Injectable, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 const noop = () => {};
 
-
-
 /** Type for the callback used to revert the scrollbar compensation. */
 export type CompensationReverter = () => void;
-
-
 
 /**
  * Utility to handle the scrollbar.
@@ -17,7 +12,7 @@ export type CompensationReverter = () => void;
  * It allows to compensate the lack of a vertical scrollbar by adding an
  * equivalent padding on the right of the body, and to remove this compensation.
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ScrollBar {
   constructor(@Inject(DOCUMENT) private _document: any) {}
 
@@ -46,7 +41,7 @@ export class ScrollBar {
     const userSetPaddingStyle = body.style.paddingRight;
     const actualPadding = parseFloat(window.getComputedStyle(body)['padding-right']);
     body.style['padding-right'] = `${actualPadding + scrollbarWidth}px`;
-    return () => body.style['padding-right'] = userSetPaddingStyle;
+    return () => (body.style['padding-right'] = userSetPaddingStyle);
   }
 
   /**

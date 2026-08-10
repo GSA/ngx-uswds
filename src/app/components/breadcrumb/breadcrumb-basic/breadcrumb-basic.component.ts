@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'breadcrumb-basic',
-  templateUrl: './breadcrumb-basic.component.html'
+  templateUrl: './breadcrumb-basic.component.html',
 })
 export class BreadcrumbBasicComponent {
   items: UsaNavigationLink[] = [
@@ -16,18 +16,18 @@ export class BreadcrumbBasicComponent {
     {
       id: '2',
       text: 'Federal Contracting',
-      path: '/'
+      path: '/',
     },
     {
       id: '3',
       text: 'Contracting assistance programs',
-      path: '/'
+      path: '/',
     },
     {
       id: '4',
       text: 'Women-owned small business federal contracting program',
-      path: '/'
-    }
+      path: '/',
+    },
   ];
 
   wrap = false;

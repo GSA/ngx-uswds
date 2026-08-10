@@ -1,11 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Key } from '../util/key';
 
 let nextId = 0;
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-search',
   templateUrl: './search.component.html',
   providers: [
@@ -18,18 +26,17 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsaSearchComponent {
-
   model: string = '';
 
-  private _onChange = (_: any) => { };
-  private _onTouched = () => { };
+  private _onChange = (_: any) => {};
+  private _onTouched = () => {};
 
-  @Input() ariaLabel = 'search component'
+  @Input() ariaLabel = 'search component';
   @Input() id = `usa-search-${nextId++}`;
   @Input() size: 'big' | 'small' | null;
   @Input() buttonText = 'Search';
   @Input() placeholder = '';
-  @Input() name = "search";
+  @Input() name = 'search';
 
   @Output() onBlur: EventEmitter<string> = new EventEmitter(null);
 
@@ -37,10 +44,10 @@ export class UsaSearchComponent {
 
   @Output() onTextSubmit: EventEmitter<string> = new EventEmitter(null);
 
-  constructor(public cdr: ChangeDetectorRef) { }
+  constructor(public cdr: ChangeDetectorRef) {}
 
   focusChange(event) {
-    this.onBlur.emit(event.target.value)
+    this.onBlur.emit(event.target.value);
   }
 
   onKeydown(event): void {
@@ -92,4 +99,3 @@ export class UsaSearchComponent {
     this._onTouched = fn;
   }
 }
-

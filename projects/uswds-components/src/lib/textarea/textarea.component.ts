@@ -1,19 +1,12 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Optional,
-  Output,
-  Self,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Optional, Output, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormFieldComponent } from '../form-field/form-field.component';
 import { Key } from '../util/key';
 
 let nextId = 0;
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-textarea',
   templateUrl: './textarea.component.html',
 })

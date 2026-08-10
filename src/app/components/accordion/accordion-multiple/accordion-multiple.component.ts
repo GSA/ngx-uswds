@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'accordion-multiple',
   templateUrl: './accordion-multiple.component.html',
 })
@@ -31,7 +31,7 @@ export class AccordionMultipleComponent {
   /**
    * Change the Header background color to the accent cool variation
    */
-  isAccentCoolHeader: boolean =false;
+  isAccentCoolHeader: boolean = false;
   /**
    * Heading level to use for accordion headers - possible inputs are anywhere from heading level 2 to 6.
    */
