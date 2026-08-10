@@ -1,4 +1,3 @@
-
 import { BooleanInput, coerceBooleanProperty } from '../util/boolean-property';
 import {
   AfterContentInit,
@@ -17,21 +16,19 @@ import {
 import { merge, Observable, of as observableOf, Subscription } from 'rxjs';
 import { UsaDatePickerControl, UsaDatePickerPanel } from './date-picker-base';
 
-
 /** Can be used to override the icon of a `usaDatePickerButton`. */
-	@Directive({
-	standalone: false,
-  selector: '[usaDatePickerButtonIcon]'
+@Directive({
+  standalone: false,
+  selector: '[usaDatePickerButtonIcon]',
 })
-export class UsaDatePickerButtonIcon { }
+export class UsaDatePickerButtonIcon {}
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-date-picker-button',
   templateUrl: './date-picker-button.html',
   host: {
-    'class': 'usa-date-picker__button',
+    class: 'usa-date-picker__button',
     '[attr.tabindex]': 'null',
     // Used by the test harness to tie this toggle to its datePicker.
     '[attr.data-usa-calendar]': 'datePicker ? datePicker.id : null',
@@ -53,7 +50,7 @@ export class UsaDatePickerButton<D> implements AfterContentInit, OnChanges, OnDe
   @Input() tabIndex: number | null;
 
   /** Screenreader label for the button. */
-  @Input('aria-label') ariaLabel: string = 'Open Date Picker'
+  @Input('aria-label') ariaLabel: string = 'Open Date Picker';
 
   /** Whether the toggle button is disabled. */
   @Input()
@@ -77,10 +74,10 @@ export class UsaDatePickerButton<D> implements AfterContentInit, OnChanges, OnDe
 
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
-    @Attribute('tabindex') defaultTabIndex: string) {
-
+    @Attribute('tabindex') defaultTabIndex: string,
+  ) {
     const parsedTabIndex = Number(defaultTabIndex);
-    this.tabIndex = (parsedTabIndex || parsedTabIndex === 0) ? parsedTabIndex : null;
+    this.tabIndex = parsedTabIndex || parsedTabIndex === 0 ? parsedTabIndex : null;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -112,17 +109,19 @@ export class UsaDatePickerButton<D> implements AfterContentInit, OnChanges, OnDe
 
   private _watchStateChanges() {
     const datePickerStateChanged = this.datePicker ? this.datePicker.stateChanges : observableOf();
-    const inputStateChanged = this.datePicker && this.datePicker.datePickerInput ?
-      this.datePicker.datePickerInput.stateChanges : observableOf();
-    const datePickerToggled = this.datePicker ?
-      merge(this.datePicker.openedStream, this.datePicker.closedStream) :
-      observableOf();
+    const inputStateChanged =
+      this.datePicker && this.datePicker.datePickerInput
+        ? this.datePicker.datePickerInput.stateChanges
+        : observableOf();
+    const datePickerToggled = this.datePicker
+      ? merge(this.datePicker.openedStream, this.datePicker.closedStream)
+      : observableOf();
 
     this._stateChanges.unsubscribe();
     this._stateChanges = merge(
       datePickerStateChanged as Observable<void>,
       inputStateChanged,
-      datePickerToggled
+      datePickerToggled,
     ).subscribe(() => this._changeDetectorRef.markForCheck());
   }
 

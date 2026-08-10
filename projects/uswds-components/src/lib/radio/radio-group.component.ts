@@ -1,22 +1,33 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChildren, Directive, EventEmitter, forwardRef, Input, OnDestroy, Output, QueryList } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Subscription } from "rxjs";
-import { UsaRadioComponent } from "./radio.component";
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChildren,
+  Directive,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { UsaRadioComponent } from './radio.component';
 
 /**
  * Directive to allow heading for group of radio options
  */
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: '[usaRadioGroupLabel]',
 })
 export class UsaRadioGroupLabel {}
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `usa-radio-group`,
-  template: `
-  <div role="radiogroup" [attr.aria-labelledby]="ariaLabelledBy">
+  template: ` <div role="radiogroup" [attr.aria-labelledby]="ariaLabelledBy">
     <ng-content select="usaRadioGroupLabel"></ng-content>
     <ng-content></ng-content>
   </div>`,
@@ -30,15 +41,14 @@ export class UsaRadioGroupLabel {}
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, ControlValueAccessor {
-
   /**
    * Invoked when the model has been changed
    */
   onChange: (_: any) => void;
 
   /**
-  * Invoked when the model has been touched
-  */
+   * Invoked when the model has been touched
+   */
   onTouched: () => void;
 
   @ContentChildren(UsaRadioComponent) radioComponents: QueryList<UsaRadioComponent>;
@@ -66,9 +76,9 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
   set value(val: string) {
     this._value = val;
     if (!this.radioComponents) return;
-    this.radioComponents.forEach(radio => {
+    this.radioComponents.forEach((radio) => {
       radio.checked = radio.value === val;
-    })
+    });
   }
   _value: string;
 
@@ -85,9 +95,9 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
   set disabled(value: boolean) {
     this._disabled = value;
     if (this.radioComponents) {
-      this.radioComponents.forEach(radio => {
+      this.radioComponents.forEach((radio) => {
         radio.disabled = value;
-      })
+      });
     }
   }
   _disabled: boolean = false;
@@ -100,18 +110,18 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
    * the HTMLInputElement for the selected radio input while value will
    * contain the provided value of the input
    */
-  @Output() change = new EventEmitter<{target: HTMLInputElement, value: string}>();
+  @Output() change = new EventEmitter<{ target: HTMLInputElement; value: string }>();
 
   _subscriptions: Subscription;
 
   constructor() {
-    this.onChange = (_:any) => {};
+    this.onChange = (_: any) => {};
     this.onTouched = () => {};
     this._subscriptions = new Subscription();
   }
 
   ngAfterContentInit() {
-    this.radioComponents.forEach(radio => {
+    this.radioComponents.forEach((radio) => {
       radio.name = radio.name ? radio.name : this.name;
       radio.tile = radio.tile ? radio.tile : this.tile;
       radio.disabled = radio.disabled != undefined ? radio.disabled : this.disabled;
@@ -131,9 +141,9 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
   writeValue(value: string): void {
     this.value = value;
     if (this.radioComponents) {
-      this.radioComponents.forEach(radio => {
+      this.radioComponents.forEach((radio) => {
         radio.checked = value === radio.value;
-      })
+      });
     }
   }
 
@@ -150,18 +160,20 @@ export class UsaRadioGroupComponent implements AfterContentInit, OnDestroy, Cont
   }
 
   _subscribeToRadioChange(radio: UsaRadioComponent) {
-    const changeSubscription = radio.change.subscribe(((change: {target: HTMLInputElement, value: string}) => {
-      this.radioComponents.forEach(component => {
-        component.checked = component === radio;
-        component.cdr.markForCheck();
-      });
+    const changeSubscription = radio.change.subscribe(
+      ((change: { target: HTMLInputElement; value: string }) => {
+        this.radioComponents.forEach((component) => {
+          component.checked = component === radio;
+          component.cdr.markForCheck();
+        });
 
-      if (this.onChange && typeof(this.onChange) === 'function') {
-        this.onChange(change.value);
-      }
+        if (this.onChange && typeof this.onChange === 'function') {
+          this.onChange(change.value);
+        }
 
-      this.change.emit(change);
-    }).bind(this));
+        this.change.emit(change);
+      }).bind(this),
+    );
     this._subscriptions.add(changeSubscription);
   }
 }

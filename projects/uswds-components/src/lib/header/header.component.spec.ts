@@ -9,8 +9,8 @@ describe('HeaderComponent', () => {
   let component: MockHeaderComponent;
   let fixture: ComponentFixture<MockHeaderComponent>;
 
-  beforeEach(waitForAsync (() => {
-     TestBed.configureTestingModule({
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
       declarations: [MockHeaderComponent],
       imports: [UsaHeaderModule],
     }).compileComponents();
@@ -34,16 +34,13 @@ describe('HeaderComponent', () => {
   it('Should have one primary nav with href defined', () => {
     const allNavLinks = fixture.debugElement.queryAll(By.css('.usa-nav__link'));
     const primaryNavWithHref = allNavLinks.filter(
-      (node) =>
-        node.attributes['href'] && node.attributes['href'].includes('item')
+      (node) => node.attributes['href'] && node.attributes['href'].includes('item'),
     );
     expect(primaryNavWithHref.length).toEqual(0);
   });
 
   it('Should have two primary links that are menu buttons', () => {
-    const dropdownLinks = fixture.debugElement.queryAll(
-      By.css('.usa-accordion__button')
-    );
+    const dropdownLinks = fixture.debugElement.queryAll(By.css('.usa-accordion__button'));
     expect(dropdownLinks.length).toEqual(2);
   });
 
@@ -56,14 +53,10 @@ describe('HeaderComponent', () => {
     dropdownLink = fixture.debugElement.query(By.css('#item3'));
     expect(dropdownLink.attributes['aria-expanded']).toEqual('true');
 
-    const subMenuQuery = fixture.debugElement.queryAll(
-      By.css('.usa-nav__submenu')
-    );
+    const subMenuQuery = fixture.debugElement.queryAll(By.css('.usa-nav__submenu'));
     expect(subMenuQuery.length).toEqual(1);
 
-    const megamenuQuery = fixture.debugElement.queryAll(
-      By.css('.usa-megamenu')
-    );
+    const megamenuQuery = fixture.debugElement.queryAll(By.css('.usa-megamenu'));
     expect(megamenuQuery.length).toEqual(0);
   });
 
@@ -85,43 +78,31 @@ describe('HeaderComponent', () => {
     expect(initialDropdownLink.attributes['aria-expanded']).toEqual('false');
 
     // Should only have one submenu, the newly clicked dropdown link
-    const subMenuQuery = fixture.debugElement.queryAll(
-      By.css('.usa-nav__submenu')
-    );
+    const subMenuQuery = fixture.debugElement.queryAll(By.css('.usa-nav__submenu'));
     expect(subMenuQuery.length).toEqual(1);
 
     // Which should also be a megamenu
-    const megamenuQuery = fixture.debugElement.queryAll(
-      By.css('.usa-megamenu')
-    );
+    const megamenuQuery = fixture.debugElement.queryAll(By.css('.usa-megamenu'));
     expect(megamenuQuery.length).toEqual(1);
   });
 
   it('Should not contain provided secondary items if extended input is false', () => {
-    const secondaryNavItems = fixture.debugElement.queryAll(
-      By.css('.usa-nav__secondary-item')
-    );
+    const secondaryNavItems = fixture.debugElement.queryAll(By.css('.usa-nav__secondary-item'));
     expect(secondaryNavItems.length).toEqual(0);
   });
 
   it('Should contain secondary items if extended input is true', () => {
     component.extended = true;
     fixture.detectChanges();
-    const secondaryNavItems = fixture.debugElement.queryAll(
-      By.css('.usa-nav__secondary-item')
-    );
+    const secondaryNavItems = fixture.debugElement.queryAll(By.css('.usa-nav__secondary-item'));
     expect(secondaryNavItems.length).toEqual(2);
   });
 });
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   template: `
-    <usa-header
-      [extended]="extended"
-      [primaryNavItems]="primaryNav"
-      [secondaryNavItems]="secondaryNav"
-    ></usa-header>
+    <usa-header [extended]="extended" [primaryNavItems]="primaryNav" [secondaryNavItems]="secondaryNav"></usa-header>
   `,
 })
 class MockHeaderComponent {

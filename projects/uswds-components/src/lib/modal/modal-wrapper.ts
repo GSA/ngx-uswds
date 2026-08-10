@@ -1,16 +1,14 @@
-import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-modal-wrapper',
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div class="usa-modal-overlay"></div>
-  `,
+  template: ` <div class="usa-modal-overlay"></div> `,
   host: {
-    'class': 'usa-modal-wrapper',
-    'style': 'z-index: 1050'
-  }
+    class: 'usa-modal-wrapper',
+    style: 'z-index: 1050',
+  },
 })
 export class UsaModalWrapper {
   constructor(public _el: ElementRef<HTMLElement>) {}

@@ -10,5 +10,5 @@ export const USA_NATIVE_DATE_FORMATS: UsaDateFormats = {
     monthLabel: { month: 'long' },
     dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
     monthYearA11yLabel: { year: 'numeric', month: 'long' },
-  }
+  },
 };

@@ -1,9 +1,8 @@
-import { ANGULAR_CODESANDBOX } from "./angular-dependencies";
+import { ANGULAR_CODESANDBOX } from './angular-dependencies';
 
 declare var require;
 
 export function generateConfig(filePath: string, moduleName: string, selector: string) {
-
   const splitPath = filePath.split('/');
   const fileName = splitPath[splitPath.length - 1];
 
@@ -16,35 +15,34 @@ export function generateConfig(filePath: string, moduleName: string, selector: s
   const module = require(`!!raw-loader!src/app/${filePath}/${moduleFileName}`);
 
   const files = {};
-  files[tsFileName] = component.default,
-  files[templateFileName] = template.default;
+  ((files[tsFileName] = component.default), (files[templateFileName] = template.default));
   files[moduleFileName] = module.default;
-  
+
   const sandboxConfig = {
     files,
     moduleName,
-    selector
+    selector,
   };
 
   const preview = [
     {
       tab: tsFileName,
       template: component.default,
-      language: "ts",
+      language: 'ts',
       copy: true,
       codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
     },
     {
-        tab: templateFileName,
-        template: template.default,
-        language: "html",
-        copy: true,
-        codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
+      tab: templateFileName,
+      template: template.default,
+      language: 'html',
+      copy: true,
+      codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
     },
     {
       tab: moduleFileName,
       template: module.default,
-      language: "ts",
+      language: 'ts',
       copy: true,
       codesandbox: ANGULAR_CODESANDBOX(sandboxConfig.files, sandboxConfig.moduleName, sandboxConfig.selector),
     },

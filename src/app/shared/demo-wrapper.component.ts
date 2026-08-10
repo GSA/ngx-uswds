@@ -1,11 +1,8 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `demo-wrapper`,
-  template: `
-      <router-outlet></router-outlet>
-  `
+  template: ` <router-outlet></router-outlet> `,
 })
 export class DemoWrapperComponent {}

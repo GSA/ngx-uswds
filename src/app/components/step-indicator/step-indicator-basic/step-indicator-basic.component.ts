@@ -1,20 +1,18 @@
-import { Component, Input } from "@angular/core";
-import { UsaStepIndicatorModel } from "@gsa-sam/ngx-uswds";
+import { Component, Input } from '@angular/core';
+import { UsaStepIndicatorModel } from '@gsa-sam/ngx-uswds';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'step-indicator-basic',
-  templateUrl: './step-indicator-basic.component.html'
+  templateUrl: './step-indicator-basic.component.html',
 })
 export class StepIndicatorBasicComponent {
-
   test = `<usa-step-indicator [steps]="steps" [(currentStep)]="currentStep" 
   [hideLabels]="hideLabels" [centerLabels]="centerLabels" 
   [displayCounters]="displayCounters" [smallCounters]="smallCounters"
   [headerPosition]="headerPosition" [disableStepSelection]="disableStepSelection">
   <h2 UsaStepHeader></h2>
-</usa-step-indicator>`
+</usa-step-indicator>`;
 
   @Input() steps: UsaStepIndicatorModel[] = [
     { label: 'Step 1' },

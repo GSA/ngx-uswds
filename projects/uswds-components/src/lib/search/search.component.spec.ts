@@ -6,11 +6,10 @@ describe('SearchComponent', () => {
   let component: UsaSearchComponent;
   let fixture: ComponentFixture<UsaSearchComponent>;
 
-  beforeEach(waitForAsync (() => {
-     TestBed.configureTestingModule({
-      declarations: [UsaSearchComponent]
-    })
-      .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [UsaSearchComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -27,7 +26,7 @@ describe('SearchComponent', () => {
     it('Should emit an event when the search input value changes', () => {
       const eventSpy = spyOn(component.searchTextChange, 'emit');
       component.onValueChange('test');
-      fixture.detectChanges()
+      fixture.detectChanges();
       expect(eventSpy).toHaveBeenCalled();
     });
   });
@@ -36,7 +35,7 @@ describe('SearchComponent', () => {
     it('Should emit an event on input blur', () => {
       const eventSpy = spyOn(component.onBlur, 'emit');
       component.focusChange({ target: { value: 'test' } });
-      fixture.detectChanges()
+      fixture.detectChanges();
       expect(eventSpy).toHaveBeenCalled();
     });
   });
@@ -49,11 +48,11 @@ describe('SearchComponent', () => {
         },
         code: 'Enter',
         key: 'Enter',
-        preventDefault: function () { }
-      }
+        preventDefault: function () {},
+      };
       const eventSpy = spyOn(component, 'updateModel');
       component.onKeydown(mockEv);
-      fixture.detectChanges()
+      fixture.detectChanges();
       expect(eventSpy).toHaveBeenCalled();
       expect(component.model).toBe('test');
     });
@@ -66,29 +65,28 @@ describe('SearchComponent', () => {
         },
         code: 'Enter',
         key: 'Enter',
-        preventDefault: function () { }
-      }
+        preventDefault: function () {},
+      };
       component.onSubmit('test', mockEv);
-      fixture.detectChanges()
+      fixture.detectChanges();
       expect(component.model).toBe('test');
     });
   });
   describe('writeValue', () => {
     it('should implement controlvalueaccessor with default values', () => {
-      component.registerOnChange(_ => undefined);
+      component.registerOnChange((_) => undefined);
       component.registerOnTouched(() => undefined);
       component.writeValue('aaa');
       expect(component.model).toBe('aaa');
     });
-  })
+  });
 
   describe('writeValue', () => {
     it('should implement controlvalueaccessor with empty values', () => {
-      component.registerOnChange(_ => undefined);
+      component.registerOnChange((_) => undefined);
       component.registerOnTouched(() => undefined);
       component.writeValue('');
       expect(component.model).toBe('');
     });
-  })
-
+  });
 });

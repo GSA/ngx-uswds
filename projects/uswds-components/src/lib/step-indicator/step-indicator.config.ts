@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 /**
  * A configuration service for the Step Indeicator component.
@@ -6,7 +6,7 @@ import {Injectable} from '@angular/core';
  * You can inject this service, typically in your root component, and customize its properties
  * to provide default values for all accordions used in the application.
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UsaStepIndicatorConfig {
   /**
    * Hides labels on each step when set to true
@@ -15,11 +15,11 @@ export class UsaStepIndicatorConfig {
   hideLabels: boolean = false;
 
   /**
-   * Centers labels on each step when set to true - 
+   * Centers labels on each step when set to true -
    * if hideLabels is also true, then labels will be hidden
    * @default false
    */
-  centerLabels: boolean = false
+  centerLabels: boolean = false;
 
   /**
    * Displays step counters in between each step

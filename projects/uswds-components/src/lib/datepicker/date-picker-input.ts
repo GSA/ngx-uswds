@@ -1,35 +1,32 @@
-import { Directive, ElementRef, forwardRef, Inject, Input, OnDestroy, Optional } from "@angular/core";
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidatorFn, Validators } from "@angular/forms";
-import { Subscription } from "rxjs";
-import { DateAdapter } from "./dateadapter/date-adapter";
-import { UsaDateFormats, USA_DATE_FORMATS } from "./dateadapter/date-formats";
-import { DateSelectionModelChange } from "./date-selection-model";
-import { UsaDatePickerPanel, UsaDatePickerControl } from "./date-picker-base";
-import { DateFilterFn, UsaDatePickerInputBase } from "./date-picker-input-base";
+import { Directive, ElementRef, forwardRef, Inject, Input, OnDestroy, Optional } from '@angular/core';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidatorFn, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { DateAdapter } from './dateadapter/date-adapter';
+import { UsaDateFormats, USA_DATE_FORMATS } from './dateadapter/date-formats';
+import { DateSelectionModelChange } from './date-selection-model';
+import { UsaDatePickerPanel, UsaDatePickerControl } from './date-picker-base';
+import { DateFilterFn, UsaDatePickerInputBase } from './date-picker-input-base';
 
 /** @docs-private */
 export const USA_DATEPICKER_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => UsaDatePickerInput),
-  multi: true
+  multi: true,
 };
 
 /** @docs-private */
 export const USA_DATEPICKER_VALIDATORS: any = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => UsaDatePickerInput),
-  multi: true
+  multi: true,
 };
 
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: 'input[usaDatePicker]',
-  providers: [
-    USA_DATEPICKER_VALUE_ACCESSOR,
-    USA_DATEPICKER_VALIDATORS,
-  ],
+  providers: [USA_DATEPICKER_VALUE_ACCESSOR, USA_DATEPICKER_VALIDATORS],
   host: {
-    'class': 'usa-input',
+    class: 'usa-input',
     '[attr.aria-haspopup]': '_datePicker ? "dialog" : null',
     '[attr.aria-owns]': '(_datePicker?.opened && _datePicker.id) || null',
     '[attr.min]': 'min ? _dateAdapter.toIso8601(min) : null',
@@ -42,8 +39,10 @@ export const USA_DATEPICKER_VALIDATORS: any = {
   },
   exportAs: 'usaDatePickerInput',
 })
-export class UsaDatePickerInput<D> extends UsaDatePickerInputBase<D | null, D>
-  implements UsaDatePickerControl<D | null>, OnDestroy {
+export class UsaDatePickerInput<D>
+  extends UsaDatePickerInputBase<D | null, D>
+  implements UsaDatePickerControl<D | null>, OnDestroy
+{
   private _closedSubscription = Subscription.EMPTY;
 
   /** The datePicker that this input is associated with. */
@@ -59,7 +58,9 @@ export class UsaDatePickerInput<D> extends UsaDatePickerInputBase<D | null, D>
 
   /** The minimum valid date. */
   @Input()
-  get min(): D | null { return this._min; }
+  get min(): D | null {
+    return this._min;
+  }
   set min(value: D | null) {
     const validValue = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
 
@@ -72,7 +73,9 @@ export class UsaDatePickerInput<D> extends UsaDatePickerInputBase<D | null, D>
 
   /** The maximum valid date. */
   @Input()
-  get max(): D | null { return this._max; }
+  get max(): D | null {
+    return this._max;
+  }
   set max(value: D | null) {
     const validValue = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
 
@@ -85,7 +88,9 @@ export class UsaDatePickerInput<D> extends UsaDatePickerInputBase<D | null, D>
 
   /** Function that can be used to filter out dates within the datePicker. */
   @Input('usaDatePickerFilter')
-  get dateFilter() { return this._dateFilter; }
+  get dateFilter() {
+    return this._dateFilter;
+  }
   set dateFilter(value: DateFilterFn<D | null>) {
     const wasMatchingValue = this._matchesFilter(this.value);
     this._dateFilter = value;
@@ -102,7 +107,8 @@ export class UsaDatePickerInput<D> extends UsaDatePickerInputBase<D | null, D>
   constructor(
     elementRef: ElementRef<HTMLInputElement>,
     @Optional() dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(USA_DATE_FORMATS) dateFormats: UsaDateFormats,) {
+    @Optional() @Inject(USA_DATE_FORMATS) dateFormats: UsaDateFormats,
+  ) {
     super(elementRef, dateAdapter, dateFormats);
     this._validator = Validators.compose(super._getValidators());
   }
@@ -119,7 +125,6 @@ export class UsaDatePickerInput<D> extends UsaDatePickerInputBase<D | null, D>
   getOverlayLabelId(): string | null {
     return this._elementRef.nativeElement.getAttribute('aria-labelledby');
   }
-
 
   /** Gets the value at which the calendar should start. */
   getStartValue(): D | null {

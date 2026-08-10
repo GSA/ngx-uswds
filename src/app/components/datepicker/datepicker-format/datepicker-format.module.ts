@@ -3,13 +3,9 @@ import { CommonModule } from '@angular/common';
 import { DatepickerFormatComponent } from './datepicker-format.component';
 import { UsaDateFormats, UsaDatePickerModule, USA_DATE_FORMATS, USA_NATIVE_DATE_FORMATS } from '@gsa-sam/ngx-uswds';
 
-
 @NgModule({
   declarations: [DatepickerFormatComponent],
-  imports: [
-    CommonModule,
-    UsaDatePickerModule,
-  ],
-  exports: [DatepickerFormatComponent]
+  imports: [CommonModule, UsaDatePickerModule],
+  exports: [DatepickerFormatComponent],
 })
-export class DatepickerFormatModule { }
+export class DatepickerFormatModule {}

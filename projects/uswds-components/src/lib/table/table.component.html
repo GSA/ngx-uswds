@@ -1,28 +1,37 @@
-<div [ngClass]="{'usa-table-container--scrollable': scrollable}">
-  <table role="table" class="usa-table" 
+<div [ngClass]="{ 'usa-table-container--scrollable': scrollable }">
+  <table
+    role="table"
+    class="usa-table"
     [ngClass]="{
-      'usa-table--borderless': borderless, 
-      'usa-table--striped': striped, 
+      'usa-table--borderless': borderless,
+      'usa-table--striped': striped,
       'usa-table--compact': compact,
       'usa-table--stacked': stacked,
-      'usa-table--stacked-header': stackedHeader
-    }">
+      'usa-table--stacked-header': stackedHeader,
+    }"
+  >
     <ng-content select="caption"></ng-content>
     <thead>
-      <ng-container *ngFor="let headerRowDef of _headerRowDefs"
-        [ngTemplateOutlet]="headerTmpl" [ngTemplateOutletContext]="{tableHeaders: headerRowDef.usaHeaderRowDef}"></ng-container>
+      <ng-container
+        *ngFor="let headerRowDef of _headerRowDefs"
+        [ngTemplateOutlet]="headerTmpl"
+        [ngTemplateOutletContext]="{ tableHeaders: headerRowDef.usaHeaderRowDef }"
+      ></ng-container>
     </thead>
     <tbody>
-      <ng-container *ngFor="let data of displayedData; index as i; trackBy: trackBy ? trackBy : undefined" 
-        [ngTemplateOutlet]="dataTmpl" [ngTemplateOutletContext]="{data: data, index: i}"> </ng-container>
+      <ng-container
+        *ngFor="let data of displayedData; index as i; trackBy: trackBy ? trackBy : undefined"
+        [ngTemplateOutlet]="dataTmpl"
+        [ngTemplateOutletContext]="{ data: data, index: i }"
+      >
+      </ng-container>
     </tbody>
   </table>
 </div>
 
 <div class="usa-sr-only usa-table__announcement-region" aria-live="polite">
-  {{_ariaLiveSortMessage}}
+  {{ _ariaLiveSortMessage }}
 </div>
-
 
 <!-- Table Header Template-->
 <ng-template #headerTmpl let-tableHeaders="tableHeaders">
@@ -33,20 +42,18 @@
   </tr>
 </ng-template>
 
-
 <!-- Table Data Template -->
-<ng-template #dataTmpl let-data="data" let-index="index" >
+<ng-template #dataTmpl let-data="data" let-index="index">
   <tr [usaHighlightOnHover]="highlightRowOnHover" (click)="rowClicked.emit(data)">
-    <th *ngIf="data.rowHeader" scope="row">{{data.rowHeader}}</th>
-    <ng-container 
+    <th *ngIf="data.rowHeader" scope="row">{{ data.rowHeader }}</th>
+    <ng-container
       *ngFor="let header of _tableDataDefs.usaDataRowDefColumns"
       [ngTemplateOutlet]="_columnDataMap.get(header)"
       [ngTemplateOutletContext]="{
-        $implicit: data, 
-        index: index
-      }">
+        $implicit: data,
+        index: index,
+      }"
+    >
     </ng-container>
   </tr>
 </ng-template>
-
-

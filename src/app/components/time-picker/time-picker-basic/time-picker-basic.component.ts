@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `time-picker-basic`,
-  templateUrl: './time-picker-basic.component.html'
+  templateUrl: './time-picker-basic.component.html',
 })
 export class TimePickerBasicComponent {
   /** Minimum time to display in time picker - Time of 00:00 correlates to 12:00am */
@@ -15,7 +15,7 @@ export class TimePickerBasicComponent {
   /** Time increments in dropdown - display every 30 mins from minTime up to maxTime */
   timeStep = 30;
 
-  /** Custom filter function to highlight time values based on user input. 
+  /** Custom filter function to highlight time values based on user input.
    * Undefined here to use default function */
   filterBy: (input, values) => number = undefined;
 }

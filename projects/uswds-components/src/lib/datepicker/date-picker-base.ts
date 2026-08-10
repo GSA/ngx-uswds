@@ -29,20 +29,10 @@ import { BooleanInput, coerceBooleanProperty } from '../util/boolean-property';
 import { usaFocusTrap } from '../util/focus-trap';
 import { coerceStringArray } from '../util/util';
 import { UsaCalendar, UsaCalendarHeader } from './calendar/calendar';
-import {
-  UsaCalendarUserEvent,
-  UsaCalendarCellClassFunction,
-} from './calendar/calendar-body';
+import { UsaCalendarUserEvent, UsaCalendarCellClassFunction } from './calendar/calendar-body';
 import { DateAdapter } from './dateadapter/date-adapter';
-import {
-  UsaDateRangeSelectionStrategy,
-  USA_DATE_RANGE_SELECTION_STRATEGY,
-} from './date-range-selection-strategy';
-import {
-  DateRange,
-  ExtractDateTypeFromSelection,
-  UsaDateSelectionModel,
-} from './date-selection-model';
+import { UsaDateRangeSelectionStrategy, USA_DATE_RANGE_SELECTION_STRATEGY } from './date-range-selection-strategy';
+import { DateRange, ExtractDateTypeFromSelection, UsaDateSelectionModel } from './date-selection-model';
 import { createMissingDateImplError } from './date-picker-errors';
 import { DateFilterFn } from './date-picker-input-base';
 
@@ -66,11 +56,7 @@ export interface UsaDatePickerControl<D> {
 }
 
 /** A datePicker that can be attached to a {@link UsaDatePickerControl}. */
-export interface UsaDatePickerPanel<
-  C extends UsaDatePickerControl<D>,
-  S,
-  D = ExtractDateTypeFromSelection<S>
-> {
+export interface UsaDatePickerPanel<C extends UsaDatePickerControl<D>, S, D = ExtractDateTypeFromSelection<S>> {
   /** Stream that emits whenever the date picker is closed. */
   closedStream: EventEmitter<void>;
   /** The input element the datePicker is associated with. */
@@ -100,8 +86,8 @@ export interface UsaDatePickerPanel<
  * future. (e.g. confirmation buttons).
  * @docs-private
  */
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-date-picker-content',
   templateUrl: './date-picker-content.html',
   host: {
@@ -113,9 +99,7 @@ export interface UsaDatePickerPanel<
   exportAs: 'usaDatePickerContent',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsaDatePickerContent<S, D = ExtractDateTypeFromSelection<S>>
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class UsaDatePickerContent<S, D = ExtractDateTypeFromSelection<S>> implements OnInit, AfterViewInit, OnDestroy {
   private _subscriptions = new Subscription();
   private _model: UsaDateSelectionModel<S, D>;
 
@@ -156,9 +140,7 @@ export class UsaDatePickerContent<S, D = ExtractDateTypeFromSelection<S>>
     this.wasInside = false;
   }
 
-  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(
-    event: KeyboardEvent
-  ) {
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     this.datePicker.close();
     event?.stopImmediatePropagation();
   }
@@ -171,25 +153,21 @@ export class UsaDatePickerContent<S, D = ExtractDateTypeFromSelection<S>>
     private _el: ElementRef,
     @Optional()
     @Inject(USA_DATE_RANGE_SELECTION_STRATEGY)
-    private _rangeSelectionStrategy: UsaDateRangeSelectionStrategy<D>
+    private _rangeSelectionStrategy: UsaDateRangeSelectionStrategy<D>,
   ) {
     this._closeButtonText = 'Close';
   }
 
   ngOnInit() {
     this._model = this._globalModel;
-    usaFocusTrap(
-      this._zone,
-      this._el.nativeElement,
-      this.datePicker.closedStream
-    );
+    usaFocusTrap(this._zone, this._el.nativeElement, this.datePicker.closedStream);
   }
 
   ngAfterViewInit() {
     this._subscriptions.add(
       this.datePicker.stateChanges.subscribe(() => {
         this._changeDetectorRef.markForCheck();
-      })
+      }),
     );
     this._calendar.focusActiveCell();
   }
@@ -212,13 +190,10 @@ export class UsaDatePickerContent<S, D = ExtractDateTypeFromSelection<S>>
       const newSelection = this._rangeSelectionStrategy.selectionFinished(
         value,
         selection as unknown as DateRange<D>,
-        event.event
+        event.event,
       );
       this._model.updateSelection(newSelection as unknown as S, this);
-    } else if (
-      value &&
-      (isRange || !this._dateAdapter.sameDate(value, selection as unknown as D))
-    ) {
+    } else if (value && (isRange || !this._dateAdapter.sameDate(value, selection as unknown as D))) {
       this._model.add(value);
     }
 
@@ -242,11 +217,8 @@ export class UsaDatePickerContent<S, D = ExtractDateTypeFromSelection<S>>
 
 /** Base class for a datePicker. */
 @Directive()
-export abstract class UsaDatePickerBase<
-  C extends UsaDatePickerControl<D>,
-  S,
-  D = ExtractDateTypeFromSelection<S>
-> implements UsaDatePickerPanel<C, S, D>, OnDestroy, OnChanges
+export abstract class UsaDatePickerBase<C extends UsaDatePickerControl<D>, S, D = ExtractDateTypeFromSelection<S>>
+  implements UsaDatePickerPanel<C, S, D>, OnDestroy, OnChanges
 {
   private _inputStateChanges = Subscription.EMPTY;
 
@@ -258,15 +230,10 @@ export abstract class UsaDatePickerBase<
   get startAt(): D | null {
     // If an explicit startAt is set we start there, otherwise we start at whatever the currently
     // selected value is.
-    return (
-      this._startAt ||
-      (this.datePickerInput ? this.datePickerInput.getStartValue() : null)
-    );
+    return this._startAt || (this.datePickerInput ? this.datePickerInput.getStartValue() : null);
   }
   set startAt(value: D | null) {
-    this._startAt = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
-    );
+    this._startAt = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
   private _startAt: D | null;
 
@@ -276,9 +243,7 @@ export abstract class UsaDatePickerBase<
   /** Whether the datePicker pop-up should be disabled. */
   @Input()
   get disabled(): boolean {
-    return this._disabled === undefined && this.datePickerInput
-      ? this.datePickerInput.disabled
-      : !!this._disabled;
+    return this._disabled === undefined && this.datePickerInput ? this.datePickerInput.disabled : !!this._disabled;
   }
   set disabled(value: boolean) {
     const newValue = coerceBooleanProperty(value);
@@ -389,7 +354,7 @@ export abstract class UsaDatePickerBase<
      * @breaking-change 13.0.0
      */
     @Optional() @Inject(DOCUMENT) _document: any,
-    private _model: UsaDateSelectionModel<S, D>
+    private _model: UsaDateSelectionModel<S, D>,
   ) {
     if (!this._dateAdapter && isDevMode()) {
       throw createMissingDateImplError('DateAdapter');
@@ -429,15 +394,11 @@ export abstract class UsaDatePickerBase<
    */
   registerInput(input: C): UsaDateSelectionModel<S, D> {
     if (this.datePickerInput && isDevMode()) {
-      throw Error(
-        'A UsaDatePicker can only be associated with a single input.'
-      );
+      throw Error('A UsaDatePicker can only be associated with a single input.');
     }
     this._inputStateChanges.unsubscribe();
     this.datePickerInput = input;
-    this._inputStateChanges = input.stateChanges.subscribe(() =>
-      this.stateChanges.next(undefined)
-    );
+    this._inputStateChanges = input.stateChanges.subscribe(() => this.stateChanges.next(undefined));
     return this._model;
   }
 
@@ -448,9 +409,7 @@ export abstract class UsaDatePickerBase<
     }
 
     if (!this.datePickerInput && isDevMode()) {
-      throw Error(
-        'Attempted to open an UsaDatePicker with no associated input.'
-      );
+      throw Error('Attempted to open an UsaDatePicker with no associated input.');
     }
 
     this._focusedElementBeforeOpen = document.activeElement as HTMLElement;
@@ -485,9 +444,7 @@ export abstract class UsaDatePickerBase<
       // we're refocusing opens the datePicker on focus, the user could be stuck with not being
       // able to close the calendar at all. We work around it by making the logic, that marks
       // the datePicker as closed, async as well.
-      if (
-        !this.datePickerInput.getConnectedOverlayOrigin().nativeElement.disabled
-      ) {
+      if (!this.datePickerInput.getConnectedOverlayOrigin().nativeElement.disabled) {
         this.datePickerInput.getConnectedOverlayOrigin().nativeElement.focus();
       } else if (this._focusedElementBeforeOpen) {
         this._focusedElementBeforeOpen.focus();
@@ -513,26 +470,14 @@ export abstract class UsaDatePickerBase<
   private _openOverlay(): void {
     this._destroyOverlay();
 
-    const calendarComponent =
-      this._cfr.resolveComponentFactory<UsaDatePickerContent<S, D>>(
-        UsaDatePickerContent
-      );
-    this._componentRef = this._vcr.createComponent(
-      calendarComponent,
-      undefined,
-      this._injector
-    );
+    const calendarComponent = this._cfr.resolveComponentFactory<UsaDatePickerContent<S, D>>(UsaDatePickerContent);
+    this._componentRef = this._vcr.createComponent(calendarComponent, undefined, this._injector);
 
     this._forwardContentValues(this._componentRef.instance);
 
-    const wrapper = this.findAncestor(
-      this._el.nativeElement,
-      'usa-date-picker__wrapper'
-    );
+    const wrapper = this.findAncestor(this._el.nativeElement, 'usa-date-picker__wrapper');
     if (wrapper) {
-      (this._componentRef.location.nativeElement as HTMLElement).style.top = `${
-        (wrapper as any).offsetHeight
-      }px`;
+      (this._componentRef.location.nativeElement as HTMLElement).style.top = `${(wrapper as any).offsetHeight}px`;
     }
     wrapper.appendChild(this._componentRef.location.nativeElement);
   }
@@ -553,10 +498,7 @@ export abstract class UsaDatePickerBase<
    * @returns Either root element if not found or the queried element
    */
   private findAncestor(element: HTMLElement, cls: string) {
-    while (
-      (element = element.parentElement) &&
-      !element.classList.contains(cls)
-    );
+    while ((element = element.parentElement) && !element.classList.contains(cls));
     return element;
   }
 

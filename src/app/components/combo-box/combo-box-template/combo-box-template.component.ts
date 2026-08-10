@@ -1,25 +1,21 @@
-import { Component } from "@angular/core";
-import { Observable } from "rxjs";
-import { ComboBoxMockService } from "../combo-box-dummy-service";
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ComboBoxMockService } from '../combo-box-dummy-service';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `combo-box-template`,
   templateUrl: './combo-box-template.component.html',
   providers: [ComboBoxMockService],
 })
 export class ComboBoxTemplateComponent {
-
   mockdata$: Observable<any>;
 
   searchValue = '';
 
   _paginationAmount = 1;
 
-  constructor(
-    private mockService: ComboBoxMockService
-  ) { }
+  constructor(private mockService: ComboBoxMockService) {}
 
   ngOnInit(): void {
     this.mockdata$ = this.mockService.get();

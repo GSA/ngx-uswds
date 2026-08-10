@@ -1,6 +1,6 @@
-import { Meta, moduleMetadata } from "@storybook/angular";
-import { UsaTimePicker, UsaTimePickerModule } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { Meta, moduleMetadata } from '@storybook/angular';
+import { UsaTimePicker, UsaTimePickerModule } from '@gsa-sam/ngx-uswds';
+import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 export default {
   title: 'Components/TimePicker',
@@ -16,9 +16,9 @@ export default {
     timeStep: 30,
   },
   argTypes: {
-    minTime: {type: 'string'},
-    maxTime: {type: 'string'},
-  }
+    minTime: { type: 'string' },
+    maxTime: { type: 'string' },
+  },
 } as Meta;
 
 const basicTemplate = require('!!raw-loader!./time-picker-basic/time-picker-basic.component.html');
@@ -30,9 +30,9 @@ export const Basic = (args) => ({
     maxTime: args.maxTime,
     timeStep: args.timeStep,
     filterBy: args.filterBy,
-  }
+  },
 });
 
 Basic.parameters = {
-  preview: generateConfig('components/time-picker/time-picker-basic', 'TimePickerBasicModule', 'time-picker-basic')
+  preview: generateConfig('components/time-picker/time-picker-basic', 'TimePickerBasicModule', 'time-picker-basic'),
 };

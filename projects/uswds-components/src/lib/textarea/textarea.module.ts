@@ -6,12 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [UsaTextareaComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    USWDSFormFieldModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, USWDSFormFieldModule, FormsModule],
   exports: [UsaTextareaComponent],
 })
 export class UsaTextareaModule {}

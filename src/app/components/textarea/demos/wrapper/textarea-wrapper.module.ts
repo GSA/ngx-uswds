@@ -5,13 +5,7 @@ import { UsaTextareaModule, USWDSFormFieldModule } from '@gsa-sam/ngx-uswds';
 import { TextareaWrapperComponent } from './textarea-wrapper.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    UsaTextareaModule,
-    USWDSFormFieldModule,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, UsaTextareaModule, USWDSFormFieldModule],
   declarations: [TextareaWrapperComponent],
   exports: [TextareaWrapperComponent],
 })

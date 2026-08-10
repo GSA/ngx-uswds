@@ -1,4 +1,3 @@
-
 export interface UsaStepIndicatorModel {
   /** Defines label to display for step */
   label?: string;

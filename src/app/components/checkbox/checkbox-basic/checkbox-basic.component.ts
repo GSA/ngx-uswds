@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'checkbox-basic',
   templateUrl: './checkbox-basic.component.html',
 })

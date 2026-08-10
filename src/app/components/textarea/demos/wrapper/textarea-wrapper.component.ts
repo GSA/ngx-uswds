@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FormFieldComponent } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-textarea-wrapper',
   templateUrl: './textarea-wrapper.component.html',
 })

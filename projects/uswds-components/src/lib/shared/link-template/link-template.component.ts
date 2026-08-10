@@ -1,14 +1,12 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { UsaNavigationLink, UsaNavigationMode } from "../../util/navigation";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UsaNavigationLink, UsaNavigationMode } from '../../util/navigation';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `usa-link-template`,
-  templateUrl: './link-template.component.html'
+  templateUrl: './link-template.component.html',
 })
 export class UsaLinkTemplateComponent {
-
   NavigationMode = UsaNavigationMode;
 
   @Input() link: UsaNavigationLink;
@@ -20,13 +18,12 @@ export class UsaLinkTemplateComponent {
    */
   @Input() class: string = '';
 
-  /** 
-   * Class to apply for selected item. 
+  /**
+   * Class to apply for selected item.
    * Use empty string to not apply any class for selected item
    * @default 'usa-current'
    * */
   @Input() currentClass: string = 'usa-current';
-
 
   @Output() linkClicked = new EventEmitter<UsaNavigationLink>();
 

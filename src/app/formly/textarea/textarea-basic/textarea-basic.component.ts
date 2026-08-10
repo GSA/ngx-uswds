@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'app-formly-textarea-basic',
   templateUrl: './textarea-basic.component.html',
   styles: [],

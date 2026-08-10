@@ -14,7 +14,8 @@ export class DateRange<D> {
     /** The start date of the range. */
     readonly start: D | null,
     /** The end date of the range. */
-    readonly end: D | null) { }
+    readonly end: D | null,
+  ) {}
 }
 
 /**
@@ -44,8 +45,7 @@ export interface DateSelectionModelChange<S> {
  * @dynamic
  */
 @Injectable()
-export abstract class UsaDateSelectionModel<S, D = ExtractDateTypeFromSelection<S>>
-  implements OnDestroy {
+export abstract class UsaDateSelectionModel<S, D = ExtractDateTypeFromSelection<S>> implements OnDestroy {
   private readonly _selectionChanged = new Subject<DateSelectionModelChange<S>>();
 
   /** Emits when the selection has changed. */
@@ -54,7 +54,8 @@ export abstract class UsaDateSelectionModel<S, D = ExtractDateTypeFromSelection<
   protected constructor(
     /** The current selection. */
     readonly selection: S,
-    protected _adapter: DateAdapter<D>) {
+    protected _adapter: DateAdapter<D>,
+  ) {
     this.selection = selection;
   }
 
@@ -170,13 +171,13 @@ export class UsaRangeDateSelectionModel<D> extends UsaDateSelectionModel<DateRan
 
     // Complete ranges are only valid if both dates are valid and the start is before the end.
     if (start != null && end != null) {
-      return this._isValidDateInstance(start) && this._isValidDateInstance(end) &&
-        this._adapter.compareDate(start, end) <= 0;
+      return (
+        this._isValidDateInstance(start) && this._isValidDateInstance(end) && this._adapter.compareDate(start, end) <= 0
+      );
     }
 
     // Partial ranges are valid if the start/end is valid.
-    return (start == null || this._isValidDateInstance(start)) &&
-      (end == null || this._isValidDateInstance(end));
+    return (start == null || this._isValidDateInstance(start)) && (end == null || this._isValidDateInstance(end));
   }
 
   /**
@@ -197,7 +198,9 @@ export class UsaRangeDateSelectionModel<D> extends UsaDateSelectionModel<DateRan
 
 /** @docs-private */
 export function USA_SINGLE_DATE_SELECTION_MODEL_FACTORY(
-  parent: UsaSingleDateSelectionModel<unknown>, adapter: DateAdapter<unknown>) {
+  parent: UsaSingleDateSelectionModel<unknown>,
+  adapter: DateAdapter<unknown>,
+) {
   return parent || new UsaSingleDateSelectionModel(adapter);
 }
 
@@ -211,10 +214,11 @@ export const USA_SINGLE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider = {
   useFactory: USA_SINGLE_DATE_SELECTION_MODEL_FACTORY,
 };
 
-
 /** @docs-private */
 export function USA_RANGE_DATE_SELECTION_MODEL_FACTORY(
-  parent: UsaSingleDateSelectionModel<unknown>, adapter: DateAdapter<unknown>) {
+  parent: UsaSingleDateSelectionModel<unknown>,
+  adapter: DateAdapter<unknown>,
+) {
   return parent || new UsaRangeDateSelectionModel(adapter);
 }
 

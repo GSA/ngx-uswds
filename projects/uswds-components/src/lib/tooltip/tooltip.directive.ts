@@ -1,13 +1,7 @@
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  Input,
-  Renderer2,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: '[usaTooltip]',
   host: {
     class: 'usa-tooltip__trigger',
@@ -42,7 +36,10 @@ export class UsaTooltipDirective implements AfterViewInit {
   @Input()
   classes: string;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+  ) {}
 
   ngAfterViewInit() {
     const tooltipID = `tooltip-${Math.floor(Math.random() * 900000) + 100000}`;
@@ -62,9 +59,7 @@ export class UsaTooltipDirective implements AfterViewInit {
     this.renderer.addClass(this.tooltipWrapper, 'usa-tooltip');
 
     if (this.classes) {
-      this.classes
-        .split(' ')
-        .forEach((className) => this.tooltipWrapper.classList.add(className));
+      this.classes.split(' ').forEach((className) => this.tooltipWrapper.classList.add(className));
     }
 
     this.renderer.addClass(this.tooltipBody, 'usa-tooltip__body');
@@ -79,16 +74,8 @@ export class UsaTooltipDirective implements AfterViewInit {
   positionTop(): void {
     this.resetPositionStyles(this.tooltipBody);
 
-    const top = this.calculateMarginOffset(
-      'top',
-      this.tooltipBody.offsetHeight,
-      this.tooltipTrigger
-    );
-    const left = this.calculateMarginOffset(
-      'left',
-      this.tooltipBody.offsetWidth,
-      this.tooltipTrigger
-    );
+    const top = this.calculateMarginOffset('top', this.tooltipBody.offsetHeight, this.tooltipTrigger);
+    const left = this.calculateMarginOffset('left', this.tooltipBody.offsetWidth, this.tooltipTrigger);
 
     this.setPositionClass('top');
 
@@ -100,34 +87,24 @@ export class UsaTooltipDirective implements AfterViewInit {
   positionBottom(): void {
     this.resetPositionStyles(this.tooltipBody);
 
-    const left = this.calculateMarginOffset(
-      'left',
-      this.tooltipBody.offsetWidth,
-      this.tooltipTrigger
-    );
+    const left = this.calculateMarginOffset('left', this.tooltipBody.offsetWidth, this.tooltipTrigger);
 
     this.setPositionClass('bottom');
 
     this.tooltipBody.style.left = '50%';
-    this.tooltipBody.style.margin = `${this.TRIANGLE_SIZE}px 0 0 -${
-      left / 2
-    }px`;
+    this.tooltipBody.style.margin = `${this.TRIANGLE_SIZE}px 0 0 -${left / 2}px`;
   }
 
   positionLeft(): void {
     this.resetPositionStyles(this.tooltipBody);
 
-    const top = this.calculateMarginOffset(
-      'top',
-      this.tooltipBody.offsetHeight,
-      this.tooltipTrigger
-    );
+    const top = this.calculateMarginOffset('top', this.tooltipBody.offsetHeight, this.tooltipTrigger);
     const left = this.calculateMarginOffset(
       'left',
       this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth
         ? this.tooltipTrigger.offsetLeft - this.tooltipBody.offsetWidth
         : this.tooltipBody.offsetWidth,
-      this.tooltipTrigger
+      this.tooltipTrigger,
     );
 
     this.setPositionClass('left');
@@ -135,27 +112,19 @@ export class UsaTooltipDirective implements AfterViewInit {
     this.tooltipBody.style.top = `50%`;
     this.tooltipBody.style.left = `-${this.TRIANGLE_SIZE}px`;
     this.tooltipBody.style.margin = `-${top / 2}px 0 0 ${
-      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth
-        ? left
-        : -left
+      this.tooltipTrigger.offsetLeft > this.tooltipBody.offsetWidth ? left : -left
     }px`;
   }
   positionRight(): void {
     this.resetPositionStyles(this.tooltipBody);
 
-    const top = this.calculateMarginOffset(
-      'top',
-      this.tooltipBody.offsetHeight,
-      this.tooltipTrigger
-    );
+    const top = this.calculateMarginOffset('top', this.tooltipBody.offsetHeight, this.tooltipTrigger);
 
     this.setPositionClass('right');
 
     this.tooltipBody.style.top = '50%';
     this.tooltipBody.style.left = `${
-      this.tooltipTrigger.offsetLeft +
-      this.tooltipTrigger.offsetWidth +
-      this.TRIANGLE_SIZE
+      this.tooltipTrigger.offsetLeft + this.tooltipTrigger.offsetWidth + this.TRIANGLE_SIZE
     }px`;
     this.tooltipBody.style.margin = `-${top / 2}px 0 0 0`;
   }
@@ -220,17 +189,13 @@ export class UsaTooltipDirective implements AfterViewInit {
     return (
       rect.top >= 0 &&
       rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   }
 
   offsetMargin(target, propertyToCheck): number {
-    return parseInt(
-      window.getComputedStyle(target).getPropertyValue(propertyToCheck),
-      10
-    );
+    return parseInt(window.getComputedStyle(target).getPropertyValue(propertyToCheck), 10);
   }
 
   calculateMarginOffset(positionToCheck, bodyOffset, trigger) {

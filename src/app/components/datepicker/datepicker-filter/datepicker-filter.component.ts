@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'datepicker-filter',
   templateUrl: './datepicker-filter.component.html',
 })
 export class DatepickerFilterComponent {
-
   weekdaysOnlyFilter(value: Date) {
     if (!value) {
       return;
@@ -16,5 +15,4 @@ export class DatepickerFilterComponent {
     // Saturday corresponds to day 6 and Sunday to day 0
     return day != 0 && day != 6;
   }
-
 }

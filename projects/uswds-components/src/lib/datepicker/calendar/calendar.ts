@@ -1,4 +1,3 @@
-
 import {
   AfterContentInit,
   AfterViewChecked,
@@ -22,10 +21,7 @@ import { Subject } from 'rxjs';
 import { UsaCalendarUserEvent, UsaCalendarCellClassFunction } from './calendar-body';
 import { createMissingDateImplError } from '../date-picker-errors';
 import { UsaMonthView } from './month-view';
-import {
-  isSameMultiYearView,
-  UsaMultiYearView,
-} from './multi-year-view';
+import { isSameMultiYearView, UsaMultiYearView } from './multi-year-view';
 import { UsaYearView } from './year-view';
 import { USA_SINGLE_DATE_SELECTION_MODEL_PROVIDER, DateRange } from '../date-selection-model';
 import { DateAdapter } from '../dateadapter/date-adapter';
@@ -41,8 +37,8 @@ export type UsaCalendarView = 'month' | 'year' | 'multi-year';
 let uniqueId = 0;
 
 /** Default header for MatCalendar */
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-calendar-header',
   templateUrl: './calendar-header.html',
   exportAs: 'usaCalendarHeader',
@@ -56,15 +52,13 @@ export class UsaCalendarHeader<D> {
     @Inject(forwardRef(() => UsaCalendar)) public calendar: UsaCalendar<D>,
     @Optional() private _dateAdapter: DateAdapter<D>,
     @Optional() @Inject(USA_DATE_FORMATS) private _dateFormats: UsaDateFormats,
-    changeDetectorRef: ChangeDetectorRef) {
-
+    changeDetectorRef: ChangeDetectorRef,
+  ) {
     this.calendar.stateChanges.subscribe(() => changeDetectorRef.markForCheck());
   }
 
   get monthLabel(): string {
-    return this._dateAdapter
-      .format(this.calendar.activeDate, this._dateFormats.display.monthLabel)
-      .toLocaleUpperCase();
+    return this._dateAdapter.format(this.calendar.activeDate, this._dateFormats.display.monthLabel).toLocaleUpperCase();
   }
 
   get yearLabel(): string {
@@ -109,49 +103,52 @@ export class UsaCalendarHeader<D> {
     if (!this.calendar.minDate) {
       return true;
     }
-    return !this.calendar.minDate ||
-      !this._isSameView(this.calendar.activeDate, this.calendar.minDate);
+    return !this.calendar.minDate || !this._isSameView(this.calendar.activeDate, this.calendar.minDate);
   }
 
   /** Whether the next period button is enabled. */
   nextEnabled(): boolean {
-    return !this.calendar.maxDate ||
-      !this._isSameView(this.calendar.activeDate, this.calendar.maxDate);
+    return !this.calendar.maxDate || !this._isSameView(this.calendar.activeDate, this.calendar.maxDate);
   }
 
   previousYearEnabled(): boolean {
-    return !this.calendar.minDate ||
-      !(this._dateAdapter.getYear(this.calendar.activeDate) === this._dateAdapter.getYear(this.calendar.minDate));
+    return (
+      !this.calendar.minDate ||
+      !(this._dateAdapter.getYear(this.calendar.activeDate) === this._dateAdapter.getYear(this.calendar.minDate))
+    );
   }
 
   nextYearEnabled(): boolean {
-    return !this.calendar.maxDate ||
-      !(this._dateAdapter.getYear(this.calendar.activeDate) === this._dateAdapter.getYear(this.calendar.maxDate));
+    return (
+      !this.calendar.maxDate ||
+      !(this._dateAdapter.getYear(this.calendar.activeDate) === this._dateAdapter.getYear(this.calendar.maxDate))
+    );
   }
 
   /** Whether the two dates represent the same view in the current view mode (month or year). */
   private _isSameView(date1: D, date2: D): boolean {
     if (this.calendar.currentView == 'month') {
-      return this._dateAdapter.getYear(date1) == this._dateAdapter.getYear(date2) &&
-        this._dateAdapter.getMonth(date1) == this._dateAdapter.getMonth(date2);
+      return (
+        this._dateAdapter.getYear(date1) == this._dateAdapter.getYear(date2) &&
+        this._dateAdapter.getMonth(date1) == this._dateAdapter.getMonth(date2)
+      );
     }
     if (this.calendar.currentView == 'year') {
       return this._dateAdapter.getYear(date1) == this._dateAdapter.getYear(date2);
     }
     // Otherwise we are in 'multi-year' view.
-    return isSameMultiYearView(
-      this._dateAdapter, date1, date2, this.calendar.minDate, this.calendar.maxDate);
+    return isSameMultiYearView(this._dateAdapter, date1, date2, this.calendar.minDate, this.calendar.maxDate);
   }
 }
 
 /** A calendar that is used as part of the datePicker. */
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-calendar',
   templateUrl: 'calendar.html',
   exportAs: 'usaCalendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [USA_SINGLE_DATE_SELECTION_MODEL_PROVIDER]
+  providers: [USA_SINGLE_DATE_SELECTION_MODEL_PROVIDER],
 })
 export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDestroy, OnChanges {
   /** An input indicating the type of the header component, if set. */
@@ -166,7 +163,9 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
 
   /** A date representing the period (month or year) to start the calendar in. */
   @Input()
-  get startAt(): D | null { return this._startAt; }
+  get startAt(): D | null {
+    return this._startAt;
+  }
   set startAt(value: D | null) {
     this._startAt = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
@@ -177,7 +176,9 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
 
   /** The currently selected date. */
   @Input()
-  get selected(): DateRange<D> | D | null { return this._selected; }
+  get selected(): DateRange<D> | D | null {
+    return this._selected;
+  }
   set selected(value: DateRange<D> | D | null) {
     if (value instanceof DateRange) {
       this._selected = value;
@@ -189,7 +190,9 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
 
   /** The minimum selectable date. */
   @Input()
-  get minDate(): D | null { return this._minDate; }
+  get minDate(): D | null {
+    return this._minDate;
+  }
   set minDate(value: D | null) {
     this._minDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
@@ -197,7 +200,9 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
 
   /** The maximum selectable date. */
   @Input()
-  get maxDate(): D | null { return this._maxDate; }
+  get maxDate(): D | null {
+    return this._maxDate;
+  }
   set maxDate(value: D | null) {
     this._maxDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
@@ -233,12 +238,12 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   /**
    * Emits when the current view changes.
    */
-  @Output() readonly viewChanged: EventEmitter<UsaCalendarView> =
-    new EventEmitter<UsaCalendarView>(true);
+  @Output() readonly viewChanged: EventEmitter<UsaCalendarView> = new EventEmitter<UsaCalendarView>(true);
 
   /** Emits when any date is selected. */
-  @Output() readonly _userSelection: EventEmitter<UsaCalendarUserEvent<D | null>> =
-    new EventEmitter<UsaCalendarUserEvent<D | null>>();
+  @Output() readonly _userSelection: EventEmitter<UsaCalendarUserEvent<D | null>> = new EventEmitter<
+    UsaCalendarUserEvent<D | null>
+  >();
 
   /** Reference to the current month view component. */
   @ViewChild(UsaMonthView) monthView: UsaMonthView<D>;
@@ -253,7 +258,9 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
    * The current active date. This determines which time period is shown and which date is
    * highlighted when using keyboard navigation.
    */
-  get activeDate(): D { return this._clampedActiveDate; }
+  get activeDate(): D {
+    return this._clampedActiveDate;
+  }
   set activeDate(value: D) {
     this._clampedActiveDate = this._dateAdapter.clampDate(value, this.minDate, this.maxDate);
     this.stateChanges.next();
@@ -262,7 +269,9 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   private _clampedActiveDate: D;
 
   /** Whether the calendar is in month view. */
-  get currentView(): UsaCalendarView { return this._currentView; }
+  get currentView(): UsaCalendarView {
+    return this._currentView;
+  }
   set currentView(value: UsaCalendarView) {
     const viewChangedResult = this._currentView !== value ? value : null;
     this._currentView = value;
@@ -282,8 +291,8 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   constructor(
     @Optional() private _dateAdapter: DateAdapter<D>,
     @Optional() @Inject(USA_DATE_FORMATS) private _dateFormats: UsaDateFormats,
-    private _changeDetectorRef: ChangeDetectorRef) {
-
+    private _changeDetectorRef: ChangeDetectorRef,
+  ) {
     if (isDevMode()) {
       if (!this._dateAdapter) {
         throw createMissingDateImplError('DateAdapter');
@@ -314,8 +323,7 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const change =
-      changes['minDate'] || changes['maxDate'] || changes['dateFilter'];
+    const change = changes['minDate'] || changes['maxDate'] || changes['dateFilter'];
 
     if (change && !change.firstChange) {
       const view = this._getCurrentViewComponent();
@@ -345,8 +353,7 @@ export class UsaCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   _dateSelected(event: UsaCalendarUserEvent<D | null>): void {
     const date = event.value;
 
-    if (this.selected instanceof DateRange ||
-      (date && !this._dateAdapter.sameDate(date, this.selected))) {
+    if (this.selected instanceof DateRange || (date && !this._dateAdapter.sameDate(date, this.selected))) {
       this.selectedChange.emit(date);
     }
 

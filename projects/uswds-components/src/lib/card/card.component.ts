@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: '[uswds-card]',
   template: `
     <div class="usa-card__container">
@@ -9,11 +9,11 @@ import { Component, Input } from '@angular/core';
     </div>
   `,
   host: {
-    'class': 'usa-card',
+    class: 'usa-card',
     '[class.usa-card--header-first]': 'headerFirst',
     '[class.usa-card--flag]': 'flagView',
     '[class.usa-card--media-right]': 'flagMediaRight',
-  }
+  },
 })
 export class USWDSCardComponent {
   @Input() flagView = false;

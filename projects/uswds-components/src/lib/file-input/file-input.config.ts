@@ -1,8 +1,7 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 export interface FileInputOptions {
-  
   /**
    * Accept multiple files in a single file dropbox
    * @default - false
@@ -41,7 +40,7 @@ export interface FileInputOptions {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FileInputConfig implements Required<FileInputOptions> {
   multiple = false;

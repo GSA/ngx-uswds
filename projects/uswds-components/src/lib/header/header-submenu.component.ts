@@ -1,27 +1,35 @@
-import { 
-  Component, ElementRef, EventEmitter, HostListener, 
-  Input, Output, TemplateRef, ViewChild, ViewContainerRef, ViewRef 
-} from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+  ViewRef,
+} from '@angular/core';
 
 let submenuId = 0;
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `button[usaHeaderSubmenu]`,
   host: {
     class: `usa-accordion__button usa-nav__link`,
     '[attr.aria-expanded]': 'selected',
-    '[attr.aria-controls]': 'id', 
+    '[attr.aria-controls]': 'id',
     '(click)': 'onClick()',
   },
   template: `
     <span><ng-content></ng-content></span>
     <ng-template #submenuView>
-      <div class="usa-nav__submenu" [ngClass]="{'usa-megamenu': isMegamenu}">
+      <div class="usa-nav__submenu" [ngClass]="{ 'usa-megamenu': isMegamenu }">
         <ng-container [ngTemplateOutlet]="content"></ng-container>
       </div>
     </ng-template>
-  `
+  `,
 })
 export class UsaHeaderSubmenuButton {
   @ViewChild('submenuView') submenuTemplate: TemplateRef<any>;

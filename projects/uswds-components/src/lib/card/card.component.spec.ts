@@ -6,11 +6,10 @@ describe('CardComponent', () => {
   let component: USWDSCardComponent;
   let fixture: ComponentFixture<USWDSCardComponent>;
 
-  beforeEach(waitForAsync( () => {
-     TestBed.configureTestingModule({
-      declarations: [ USWDSCardComponent ]
-    })
-    .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [USWDSCardComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

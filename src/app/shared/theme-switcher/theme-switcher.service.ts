@@ -1,17 +1,17 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ThemeSwitcherService {
   /**
-  * Set the stylesheet with the specified key.
-  */
+   * Set the stylesheet with the specified key.
+   */
   setStyle(key: string, href: string) {
-    this.getLinkElementForKey(key).setAttribute("href", href);
+    this.getLinkElementForKey(key).setAttribute('href', href);
   }
 
   /**
-  * Remove the stylesheet with the specified key.
-  */
+   * Remove the stylesheet with the specified key.
+   */
   removeStyle(key: string) {
     const existingLinkElement = this.getExistingLinkElementByKey(key);
     if (existingLinkElement) {
@@ -31,14 +31,12 @@ export class ThemeSwitcherService {
   }
 
   private getExistingLinkElementByKey(key: string) {
-    return document.head.querySelector(
-      `link[rel="stylesheet"].${this.getClassNameForKey(key)}`
-    );
+    return document.head.querySelector(`link[rel="stylesheet"].${this.getClassNameForKey(key)}`);
   }
 
   private createLinkElementWithKey(key: string) {
-    const linkEl = document.createElement("link");
-    linkEl.setAttribute("rel", "stylesheet");
+    const linkEl = document.createElement('link');
+    linkEl.setAttribute('rel', 'stylesheet');
     linkEl.classList.add(this.getClassNameForKey(key));
     document.head.appendChild(linkEl);
     return linkEl;

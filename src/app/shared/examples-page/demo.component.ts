@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'documentation-widget-demo',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './demo.component.html',
@@ -21,12 +21,12 @@ export class DocumentationWidgetDemoComponent {
   viewMode = 'code';
   tabs: any[] = [
     { name: 'Source Code', type: 'code' },
-    { name: 'Template Markup', type: 'markUp'},
-    { name: 'Module', type: 'module'},
+    { name: 'Template Markup', type: 'markUp' },
+    { name: 'Module', type: 'module' },
   ];
 
   activeTab = 'code';
-  
+
   getGithubLink() {
     const baseRepoURL = 'https://github.com/GSA/ngx-uswds/tree/main/';
     if (this.path) {

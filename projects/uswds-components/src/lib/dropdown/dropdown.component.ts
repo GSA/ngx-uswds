@@ -1,10 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { DropdownOptionsModel } from './dropdown-options.model';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 let dropdownId = 0;
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-dropdown',
   templateUrl: './dropdown.component.html',
   providers: [
@@ -14,10 +23,9 @@ let dropdownId = 0;
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsaDropdownComponent implements ControlValueAccessor {
-
   model: DropdownOptionsModel;
 
   /** Id of dropdown field */
@@ -33,10 +41,10 @@ export class UsaDropdownComponent implements ControlValueAccessor {
 
   @Output() optionChange = new EventEmitter<DropdownOptionsModel>();
 
-  private onChange = (v: any) => { };
-  private onTouched = () => { };
+  private onChange = (v: any) => {};
+  private onTouched = () => {};
 
-  constructor(public cdr: ChangeDetectorRef) { }
+  constructor(public cdr: ChangeDetectorRef) {}
 
   onOptionSelected($event) {
     const options: HTMLOptionsCollection = $event.target.options;

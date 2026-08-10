@@ -4,15 +4,8 @@ import { ModalBasicComponent } from './modal-basic.component';
 import { UsaModalModule } from '@gsa-sam/ngx-uswds';
 
 @NgModule({
-  declarations: [
-    ModalBasicComponent
-  ],
-  imports: [
-    CommonModule,
-    UsaModalModule,
-  ],
-  exports: [
-    ModalBasicComponent
-  ]
+  declarations: [ModalBasicComponent],
+  imports: [CommonModule, UsaModalModule],
+  exports: [ModalBasicComponent],
 })
-export class ModalBasicModule { }
+export class ModalBasicModule {}

@@ -4,9 +4,7 @@ import { ModalScrollableContentComponent } from './modal-scrollable-content.comp
 
 @NgModule({
   declarations: [ModalScrollableContentComponent],
-  imports: [
-    CommonModule
-  ],
-  exports: [ModalScrollableContentComponent]
+  imports: [CommonModule],
+  exports: [ModalScrollableContentComponent],
 })
-export class ModalScrollableContentModule { }
+export class ModalScrollableContentModule {}

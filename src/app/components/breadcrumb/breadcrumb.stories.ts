@@ -1,9 +1,9 @@
-import { Meta, moduleMetadata } from "@storybook/angular";
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { UsaBreadcrumbComponent, UsaBreadcrumbLinkTemplate, UsaBreadcrumbModule } from '@gsa-sam/ngx-uswds';
-import { CommonModule } from "@angular/common";
+import { CommonModule } from '@angular/common';
 import { action } from '@storybook/addon-actions';
-import { generateConfig } from "src/sandbox/sandbox-utils";
-import { BreadcrumbCustomTemplateModule } from "./breadcrumb-custom-template/breadcrumb-custom-template.module";
+import { generateConfig } from 'src/sandbox/sandbox-utils';
+import { BreadcrumbCustomTemplateModule } from './breadcrumb-custom-template/breadcrumb-custom-template.module';
 
 declare var require: any;
 
@@ -14,12 +14,11 @@ const actionsData = {
   onSelection: action('Breadcrumb Selected'),
 };
 
-
 export default {
   title: 'Components/Breadcrumb',
   component: UsaBreadcrumbComponent,
   subcomponents: {
-    'UsaBreadcrumbLinkTemplate': UsaBreadcrumbLinkTemplate
+    UsaBreadcrumbLinkTemplate: UsaBreadcrumbLinkTemplate,
   },
   decorators: [
     moduleMetadata({
@@ -36,29 +35,29 @@ export default {
       {
         id: '2',
         text: 'Federal Contracting',
-        path: '/'
+        path: '/',
       },
       {
         id: '3',
         text: 'Contracting assistance programs',
-        path: '/'
+        path: '/',
       },
       {
         id: '4',
         text: 'Women-owned small business federal contracting program',
-        path: '/'
-      }
+        path: '/',
+      },
     ],
     wrap: false,
     hideSingleCrumb: true,
-  }
+  },
 } as Meta;
 
 export const Overview = () => ({
   template: overview.default,
   props: {},
 });
-Overview.parameters = {options: {showPanel: false}};
+Overview.parameters = { options: { showPanel: false } };
 
 export const Basic = (args) => ({
   template: breadcrumbTemplate.default,
@@ -69,14 +68,16 @@ export const Basic = (args) => ({
 });
 
 Basic.parameters = {
-  preview: generateConfig('components/breadcrumb/breadcrumb-basic', 'BreadcrumbBasicModule', 'breadcrumb-basic')
-}
-
+  preview: generateConfig('components/breadcrumb/breadcrumb-basic', 'BreadcrumbBasicModule', 'breadcrumb-basic'),
+};
 
 export const CustomTemplate = () => ({
-  template: `<breadcrumb-custom-template></breadcrumb-custom-template>`
+  template: `<breadcrumb-custom-template></breadcrumb-custom-template>`,
 });
 CustomTemplate.parameters = {
-  preview: generateConfig('components/breadcrumb/breadcrumb-custom-template', 
-    'BreadcrumbCustomTemplateModule', 'breadcrumb-custom-template')
-}
+  preview: generateConfig(
+    'components/breadcrumb/breadcrumb-custom-template',
+    'BreadcrumbCustomTemplateModule',
+    'breadcrumb-custom-template',
+  ),
+};

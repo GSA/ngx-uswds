@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'formly-checkbox-basic',
   templateUrl: './checkbox-basic.component.html',
-
 })
 export class FormlyBasicCheckboxComponent {
   form = new FormGroup({});
@@ -20,7 +19,7 @@ export class FormlyBasicCheckboxComponent {
       templateOptions: {
         label: 'Label for Checkbox',
         description: 'Description for Checkbox',
-      }
-    }
+      },
+    },
   ];
 }

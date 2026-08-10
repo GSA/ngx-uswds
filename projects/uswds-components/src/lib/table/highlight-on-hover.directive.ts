@@ -1,13 +1,7 @@
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-  Renderer2,
-} from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: 'tr[usaHighlightOnHover]',
 })
 export class HighlightOnHoverDirective {
@@ -16,7 +10,10 @@ export class HighlightOnHoverDirective {
   @Input()
   usaHighlightOnHover = false;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+  ) {}
 
   @HostListener('mouseenter') onMouseEnter() {
     if (this.usaHighlightOnHover) {

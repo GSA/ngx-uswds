@@ -1,6 +1,15 @@
-
-<usa-breadcrumb #breadcrumbs [items]="items" [wrap]="wrap" [hideSingleCrumb]="hideSingleCrumb" 
-  (selected)="onSelection($event)">
+<usa-breadcrumb
+  #breadcrumbs
+  [items]="items"
+  [wrap]="wrap"
+  [hideSingleCrumb]="hideSingleCrumb"
+  (selected)="onSelection($event)"
+>
 </usa-breadcrumb>
 
-<button (click)="breadcrumbs.updateSelectedBreadcrumb(items[items.length - 1])" class="usa-button display-block margin-top-3">Reset</button>
+<button
+  (click)="breadcrumbs.updateSelectedBreadcrumb(items[items.length - 1])"
+  class="usa-button display-block margin-top-3"
+>
+  Reset
+</button>

@@ -1,18 +1,29 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Directive, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 let nextId = 0;
 
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: '[usaCheckboxDescription]',
   host: {
-    class: 'usa-checkbox__label-description'
-  }
+    class: 'usa-checkbox__label-description',
+  },
 })
 export class UsaCheckboxLabelDescription {}
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-checkbox',
   templateUrl: './checkbox.component.html',
   providers: [
@@ -25,7 +36,6 @@ export class UsaCheckboxLabelDescription {}
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsaCheckboxComponent implements ControlValueAccessor {
-
   @ViewChild('input') nativeInput: ElementRef<HTMLInputElement>;
 
   @Input() tile: boolean;
@@ -48,7 +58,9 @@ export class UsaCheckboxComponent implements ControlValueAccessor {
   @Input() name: string;
 
   @Input()
-  get indeterminate() { return this._indeterminate};
+  get indeterminate() {
+    return this._indeterminate;
+  }
   set indeterminate(value: boolean) {
     if (!this.nativeInput) {
       return;
@@ -57,42 +69,41 @@ export class UsaCheckboxComponent implements ControlValueAccessor {
     this.nativeInput.nativeElement.indeterminate = value;
   }
 
-  private _indeterminate: boolean
+  private _indeterminate: boolean;
 
   @Output() change = new EventEmitter<boolean>();
 
   /**
-  * Invoked when the model has been changed
-  */
+   * Invoked when the model has been changed
+   */
   onChange: (_: any) => void = (_: any) => {};
 
- /**
-  * Invoked when the model has been touched
-  */
+  /**
+   * Invoked when the model has been touched
+   */
   onTouched: () => void = () => {};
 
-
-  constructor(public cdr: ChangeDetectorRef) { }
+  constructor(public cdr: ChangeDetectorRef) {}
 
   writeValue(value: any): void {
     this.checked = !!value;
     this.cdr.markForCheck();
   }
 
- /**
-  * Registers a callback function that should be called when the control's value changes in the UI.
-  * @param fn
-  */
+  /**
+   * Registers a callback function that should be called when the control's value changes in the UI.
+   * @param fn
+   */
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
   /**
-    * Registers a callback function that should be called when the control receives a blur event.
-    * @param fn
-    */
+   * Registers a callback function that should be called when the control receives a blur event.
+   * @param fn
+   */
   registerOnTouched(fn: any): void {
-     this.onTouched = fn;
+    this.onTouched = fn;
   }
 
   setDisabledState?(isDisabled: boolean): void {
@@ -117,5 +128,4 @@ export class UsaCheckboxComponent implements ControlValueAccessor {
   preventChangePropogation($event: Event) {
     $event.stopPropagation();
   }
-
 }

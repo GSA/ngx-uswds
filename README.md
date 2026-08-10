@@ -1,13 +1,15 @@
 # NgxUSWDS
+
 This project takes components in uswds and implements them through angular.  
 Original USWDS components can be found here - https://designsystem.digital.gov/components  
-Current progress / documentation of this project can be found here - https://gsa.github.io/ngx-uswds   
+Current progress / documentation of this project can be found here - https://gsa.github.io/ngx-uswds
 
 ## Development server
 
 Run `ng serve` or `npm run develop` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Storybook
+
 Run `npm run start` to start storybook documentation in a dev server at port 4200. Run `npm run build-storybook` to build storybook documentation for
 production. Alternatively, run `npm run ghpages` to automatically build storybook documentation and deploy to github pages.
 

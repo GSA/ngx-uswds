@@ -18,16 +18,12 @@ import {
 } from '@angular/core';
 import { TableDataSource } from './models';
 import { UsaDataRowDef, UsaTableData, UsaTableDataDef } from './table-data';
-import {
-  UsaHeaderRowDef,
-  UsaTableHeader,
-  UsaTableHeaderDef,
-} from './table-header';
+import { UsaHeaderRowDef, UsaTableHeader, UsaTableHeaderDef } from './table-header';
 import { UsaSort } from './table-sort.component';
 import { UsaTableConfig } from './table.config';
 
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: `[usaColumnDef]`,
 })
 export class UsaColumnDef {
@@ -56,16 +52,14 @@ export class UsaColumnDef {
   }
 }
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsaTableComponent
-  implements AfterContentInit, OnChanges, AfterContentChecked
-{
+export class UsaTableComponent implements AfterContentInit, OnChanges, AfterContentChecked {
   /**
    * Display table without column borders
    * @default false
@@ -193,11 +187,7 @@ export class UsaTableComponent
       if (column.isSortActive && $event.target != tableSortEl) {
         column.setSortInactive();
       } else if (tableSortEl === $event.target) {
-        this._sortColumnData(
-          column,
-          $event.detail.sortFn,
-          $event.detail.sortState
-        );
+        this._sortColumnData(column, $event.detail.sortFn, $event.detail.sortState);
         isColumnFound = true;
       }
     });
@@ -217,7 +207,10 @@ export class UsaTableComponent
     this.sortClicked.emit(sortEvent);
   }
 
-  constructor(private config: UsaTableConfig, public cdr: ChangeDetectorRef) {
+  constructor(
+    private config: UsaTableConfig,
+    public cdr: ChangeDetectorRef,
+  ) {
     this.borderless = this.config.borderless;
     this.compact = this.config.compact;
     this.scrollable = this.config.scrollable;
@@ -230,10 +223,7 @@ export class UsaTableComponent
   ngAfterContentInit(): void {
     this._contentColumnDefs.forEach((column) => {
       this._columnHeaderMap.set(column.usaColumnDef, column);
-      this._columnDataMap.set(
-        column.usaColumnDef,
-        column.tableDataTemplate?.templateRef
-      );
+      this._columnDataMap.set(column.usaColumnDef, column.tableDataTemplate?.templateRef);
     });
 
     this._headerRowDefs = this._contentHeaderRowDefs.toArray();
@@ -256,17 +246,13 @@ export class UsaTableComponent
     this._sortColumnData(
       this._sortedColumnInfo.sortColumn,
       this._sortedColumnInfo.sortFn,
-      this._sortedColumnInfo.sortState
+      this._sortedColumnInfo.sortState,
     );
     this.cdr.detectChanges();
     this._resortAfterContentCheck = false;
   }
 
-  private _sortColumnData(
-    sortColumn: UsaColumnDef,
-    sortFn: Function,
-    sortState: 'ascending' | 'descending'
-  ) {
+  private _sortColumnData(sortColumn: UsaColumnDef, sortFn: Function, sortState: 'ascending' | 'descending') {
     sortColumn.setSortActive(sortState);
 
     this._sortedColumnInfo = {
@@ -287,22 +273,16 @@ export class UsaTableComponent
       const valueB = b[sortColumn.usaColumnDef];
 
       // Invert sorting if state is descending
-      return sortState === 'ascending'
-        ? sortFn(valueA, valueB)
-        : -1 * sortFn(valueA, valueB);
+      return sortState === 'ascending' ? sortFn(valueA, valueB) : -1 * sortFn(valueA, valueB);
     });
   }
 
   private setAriaLiveOnSort() {
-    if (
-      !this._sortedColumnInfo.sortColumn ||
-      !this._sortedColumnInfo.sortState
-    ) {
+    if (!this._sortedColumnInfo.sortColumn || !this._sortedColumnInfo.sortState) {
       return;
     }
 
-    const sortedColumn =
-      this._sortedColumnInfo.sortColumn.tableHeader._defaultAriaLabel;
+    const sortedColumn = this._sortedColumnInfo.sortColumn.tableHeader._defaultAriaLabel;
     this._ariaLiveSortMessage = `The column ${sortedColumn} is now sorted in ${this._sortedColumnInfo.sortState} order`;
   }
 }

@@ -1,10 +1,10 @@
-import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
-import { CommonModule } from "@angular/common";
-import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
-import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
-import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { FormlyBasicRadioModule } from "./radio-basic/radio-basic.module";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { CommonModule } from '@angular/common';
+import { UsaFormlyModule } from '@gsa-sam/uswds-formly';
+import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormlyBasicRadioModule } from './radio-basic/radio-basic.module';
+import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 export default {
   title: 'Formly/Radio',
@@ -36,17 +36,15 @@ export default {
         value: 'other',
         label: 'Other',
       },
-    ]
+    ],
   },
 } as Meta;
-
 
 declare var require;
 
 const template = require('!!raw-loader!./radio-basic/radio-basic.component.html');
 
 const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
-
   const form = new FormGroup({});
   const model: any = {};
   const options: FormlyFormOptions = {};
@@ -56,7 +54,7 @@ const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
       key: 'historical-figures',
       type: 'radio',
       templateOptions: args,
-    }
+    },
   ];
 
   return {
@@ -65,13 +63,13 @@ const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
       form,
       model,
       options,
-      fields
+      fields,
     },
-  }
+  };
 };
 
 export const Basic = FormControlTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig('formly/radio/radio-basic', 'FormlyBasicRadioModule', 'formly-radio-basic')
-}
+  preview: generateConfig('formly/radio/radio-basic', 'FormlyBasicRadioModule', 'formly-radio-basic'),
+};

@@ -1,11 +1,11 @@
-import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
-import { CommonModule } from "@angular/common";
-import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
-import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
-import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { FormlyBasicCheckboxModule } from "./checkbox-basic/checkbox-basic.module";
-import { FormlyMultiCheckboxModule } from "./multi-checkbox/multi-checkbox.module";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { CommonModule } from '@angular/common';
+import { UsaFormlyModule } from '@gsa-sam/uswds-formly';
+import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormlyBasicCheckboxModule } from './checkbox-basic/checkbox-basic.module';
+import { FormlyMultiCheckboxModule } from './multi-checkbox/multi-checkbox.module';
+import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 declare var require;
 
@@ -14,13 +14,13 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        CommonModule, 
-        UsaFormlyModule, 
-        FormlyModule, 
-        ReactiveFormsModule, 
-        FormsModule, 
+        CommonModule,
+        UsaFormlyModule,
+        FormlyModule,
+        ReactiveFormsModule,
+        FormsModule,
         FormlyBasicCheckboxModule,
-        FormlyMultiCheckboxModule
+        FormlyMultiCheckboxModule,
       ],
     }),
   ],
@@ -30,12 +30,9 @@ export default {
   },
 } as Meta;
 
-
-
 const template = require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html');
 
 const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
-
   const form = new FormGroup({});
   const model: any = {};
   const options: FormlyFormOptions = {};
@@ -45,7 +42,7 @@ const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
       key: 'checkboxDemo',
       type: 'checkbox',
       templateOptions: args,
-    }
+    },
   ];
 
   return {
@@ -54,24 +51,22 @@ const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
       form,
       model,
       options,
-      fields
+      fields,
     },
-  }
+  };
 };
-
 
 export const Basic = FormControlTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig('formly/checkbox/checkbox-basic', 'FormlyBasicCheckboxModule', 'formly-checkbox-basic')
-}
-
+  preview: generateConfig('formly/checkbox/checkbox-basic', 'FormlyBasicCheckboxModule', 'formly-checkbox-basic'),
+};
 
 /** ------------ MultiCheckbox ------------------- */
 export const MultiCheckbox = () => ({
-  template: `<formly-multi-checkbox></formly-multi-checkbox>`
-})
+  template: `<formly-multi-checkbox></formly-multi-checkbox>`,
+});
 
 MultiCheckbox.parameters = {
-  preview: generateConfig('formly/checkbox/multi-checkbox', 'FormlyMultiCheckboxModule', 'formly-multi-checkbox')
-}
+  preview: generateConfig('formly/checkbox/multi-checkbox', 'FormlyMultiCheckboxModule', 'formly-multi-checkbox'),
+};

@@ -1,8 +1,8 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-form-field',
   templateUrl: 'form-field.component.html',
 })
@@ -63,10 +63,7 @@ export class FormFieldComponent {
         const errorObject = control.errors[k];
 
         // to check if it's not null & is object
-        if (
-          errorObject.message !== null &&
-          typeof errorObject.message === 'object'
-        ) {
+        if (errorObject.message !== null && typeof errorObject.message === 'object') {
           this.errorMessage = errorObject.message;
           return;
         }
@@ -88,10 +85,7 @@ export class FormFieldComponent {
         this.errorMessage = `The number of characters should not be less than ${requiredLength}`;
         return;
       case 'maxlength':
-        this.errorMessage =
-          actualLength +
-          ' characters input but max length is ' +
-          requiredLength;
+        this.errorMessage = actualLength + ' characters input but max length is ' + requiredLength;
         return;
       case 'required':
         this.errorMessage = 'This field is required';

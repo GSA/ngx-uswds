@@ -1,12 +1,12 @@
-import {ComponentRef} from '@angular/core';
+import { ComponentRef } from '@angular/core';
 
-import {Observable, of, Subject, zip} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Observable, of, Subject, zip } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { UsaModalWrapper } from './modal-wrapper';
-import {UsaModalWindow} from './modal-window';
+import { UsaModalWindow } from './modal-window';
 
-import {ContentRef} from '../util/popup';
+import { ContentRef } from '../util/popup';
 
 /**
  * A reference to the currently opened (active) modal.
@@ -63,7 +63,9 @@ export class UsaModalRef {
    *
    * @since 8.0.0
    */
-  get closed(): Observable<any> { return this._closed.asObservable().pipe(takeUntil(this._hidden)); }
+  get closed(): Observable<any> {
+    return this._closed.asObservable().pipe(takeUntil(this._hidden));
+  }
 
   /**
    * The observable that emits when the modal is dismissed via the `.dismiss()` method.
@@ -73,7 +75,9 @@ export class UsaModalRef {
    *
    * @since 8.0.0
    */
-  get dismissed(): Observable<any> { return this._dismissed.asObservable().pipe(takeUntil(this._hidden)); }
+  get dismissed(): Observable<any> {
+    return this._dismissed.asObservable().pipe(takeUntil(this._hidden));
+  }
 
   /**
    * The observable that emits when both modal window and backdrop are closed and animations were finished.
@@ -83,7 +87,9 @@ export class UsaModalRef {
    *
    * @since 8.0.0
    */
-  get hidden(): Observable<void> { return this._hidden.asObservable(); }
+  get hidden(): Observable<void> {
+    return this._hidden.asObservable();
+  }
 
   /**
    * The observable that emits when modal is fully visible and animation was finished.
@@ -94,12 +100,19 @@ export class UsaModalRef {
    *
    * @since 8.0.0
    */
-  get shown(): Observable<void> { return this._windowCmptRef.instance.shown.asObservable(); }
+  get shown(): Observable<void> {
+    return this._windowCmptRef.instance.shown.asObservable();
+  }
 
   constructor(
-      private _windowCmptRef: ComponentRef<UsaModalWindow>, private _contentRef: ContentRef,
-      private _backdropCmptRef?: ComponentRef<UsaModalWrapper>, private _beforeDismiss?: Function) {
-    _windowCmptRef.instance.dismissEvent.subscribe((reason: any) => { this.dismiss(reason); });
+    private _windowCmptRef: ComponentRef<UsaModalWindow>,
+    private _contentRef: ContentRef,
+    private _backdropCmptRef?: ComponentRef<UsaModalWrapper>,
+    private _beforeDismiss?: Function,
+  ) {
+    _windowCmptRef.instance.dismissEvent.subscribe((reason: any) => {
+      this.dismiss(reason);
+    });
 
     this.result = new Promise((resolve, reject) => {
       this._resolve = resolve;
@@ -140,12 +153,13 @@ export class UsaModalRef {
         const dismiss = this._beforeDismiss();
         if (dismiss && dismiss.then) {
           dismiss.then(
-              result => {
-                if (result !== false) {
-                  this._dismiss(reason);
-                }
-              },
-              () => {});
+            (result) => {
+              if (result !== false) {
+                this._dismiss(reason);
+              }
+            },
+            () => {},
+          );
         } else if (dismiss !== false) {
           this._dismiss(reason);
         }
@@ -156,7 +170,7 @@ export class UsaModalRef {
   private _removeModalElements() {
     this._windowCmptRef.instance.hide().subscribe(() => {
       if (this._backdropCmptRef) {
-        const {nativeElement} = this._backdropCmptRef.location;
+        const { nativeElement } = this._backdropCmptRef.location;
         nativeElement.parentNode.removeChild(nativeElement);
         this._backdropCmptRef.destroy();
         this._backdropCmptRef = <any>null;
@@ -165,7 +179,7 @@ export class UsaModalRef {
       const nativeElement = this._windowCmptRef.location.nativeElement;
       nativeElement.parentNode.removeChild(nativeElement);
       this._windowCmptRef.destroy();
-  
+
       if (this._contentRef && this._contentRef.viewRef) {
         this._contentRef.viewRef.destroy();
       }

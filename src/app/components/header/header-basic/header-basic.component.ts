@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { UsaHeaderPrimaryLink, UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 import { primaryNavItems, secondaryNavItems } from '../header-data';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'header-basic',
   templateUrl: './header-basic.component.html',
 })
 export class HeaderBasicComponent {
-
   secondaryNavItems: UsaNavigationLink[] = secondaryNavItems;
 
   primaryNavItems: UsaHeaderPrimaryLink[] = primaryNavItems;
@@ -17,12 +16,11 @@ export class HeaderBasicComponent {
 
   displayOverlayOnMenuOpen = false;
 
-  title = 'Ngx USWDS'
+  title = 'Ngx USWDS';
 
   navAriaLabel = 'Demo Navigation';
 
   linkEvent = ($event) => {
     console.log($event);
-  }
-
+  };
 }

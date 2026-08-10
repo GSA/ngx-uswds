@@ -42,7 +42,7 @@ export enum KeyCode {
   ArrowLeft = 37,
   ArrowUp = 38,
   ArrowRight = 39,
-  ArrowDown = 40
+  ArrowDown = 40,
 }
 
 type ModifierKey = 'altKey' | 'shiftKey' | 'ctrlKey' | 'metaKey';
@@ -81,14 +81,17 @@ export function isPageDown(event: KeyboardEvent) {
 
 export function isPageUp(event: KeyboardEvent) {
   return event.key === Key.PageUp || event.key === MicrosfotKeys.PageUp || event.keyCode === KeyCode.PageUp;
-} 
+}
 
 export function isEnter(event: KeyboardEvent) {
   return event.key === Key.Enter || event.key === MicrosfotKeys.Enter || event.keyCode === KeyCode.Enter;
 }
 
 export function isTab(event: KeyboardEvent) {
-  return !hasModifierKey(event) && (event.key === Key.Tab || event.key === MicrosfotKeys.Tab || event.keyCode === KeyCode.Tab);
+  return (
+    !hasModifierKey(event) &&
+    (event.key === Key.Tab || event.key === MicrosfotKeys.Tab || event.keyCode === KeyCode.Tab)
+  );
 }
 
 export function isSpace(event: KeyboardEvent) {
@@ -101,7 +104,7 @@ export function isSpace(event: KeyboardEvent) {
  */
 export function hasModifierKey(event: KeyboardEvent, ...modifiers: ModifierKey[]): boolean {
   if (modifiers.length) {
-    return modifiers.some(modifier => event[modifier]);
+    return modifiers.some((modifier) => event[modifier]);
   }
 
   return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;

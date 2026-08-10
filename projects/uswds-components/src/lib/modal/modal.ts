@@ -1,8 +1,8 @@
-import {Injectable, Injector, ComponentFactoryResolver} from '@angular/core';
+import { Injectable, Injector, ComponentFactoryResolver } from '@angular/core';
 
-import {UsaModalOptions, UsaModalConfig} from './modal-config';
-import {UsaModalRef} from './modal-ref';
-import {UsaModalStack} from './modal-stack';
+import { UsaModalOptions, UsaModalConfig } from './modal-config';
+import { UsaModalRef } from './modal-ref';
+import { UsaModalStack } from './modal-stack';
 
 /**
  * A service for opening modal windows.
@@ -10,13 +10,13 @@ import {UsaModalStack} from './modal-stack';
  * Creating a modal is straightforward: create a component or a template and pass it as an argument to
  * the `.open()` method.
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UsaModalService {
   constructor(
-    private _moduleCFR: ComponentFactoryResolver, 
-    private _injector: Injector, 
+    private _moduleCFR: ComponentFactoryResolver,
+    private _injector: Injector,
     private _modalStack: UsaModalStack,
-    private _config: UsaModalConfig
+    private _config: UsaModalConfig,
   ) {}
 
   /**
@@ -27,26 +27,32 @@ export class UsaModalService {
    * use `UsaActiveModal` methods to close / dismiss modals from "inside" of your component.
    */
   open(content: any, options: UsaModalOptions = {}): UsaModalRef {
-    const combinedOptions = {...this._config, animation: this._config.animation, ...options};
+    const combinedOptions = { ...this._config, animation: this._config.animation, ...options };
     return this._modalStack.open(this._moduleCFR, this._injector, content, combinedOptions);
   }
 
   /**
    * Returns an observable that holds the active modal instances.
    */
-  get activeInstances() { return this._modalStack.activeInstances; }
+  get activeInstances() {
+    return this._modalStack.activeInstances;
+  }
 
   /**
    * Dismisses all currently displayed modal windows with the supplied reason.
    *
    * @since 3.1.0
    */
-  dismissAll(reason?: any) { this._modalStack.dismissAll(reason); }
+  dismissAll(reason?: any) {
+    this._modalStack.dismissAll(reason);
+  }
 
   /**
    * Indicates if there are currently any open modal windows in the application.
    *
    * @since 3.3.0
    */
-  hasOpenModals(): boolean { return this._modalStack.hasOpenModals(); }
+  hasOpenModals(): boolean {
+    return this._modalStack.hasOpenModals();
+  }
 }

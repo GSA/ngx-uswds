@@ -1,12 +1,11 @@
-
 usa-modal-window {
   .component-host-scrollable {
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
-  .usa-modal__close{
-    img{
+  .usa-modal__close {
+    img {
       width: 15px;
     }
   }

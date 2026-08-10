@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { UsaNavigationLink } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'breadcrumb-custom-template',
   templateUrl: './breadcrumb-custom-template.component.html',
 })
 export class BreadcrumbCustomTemplateComponent {
-
   items: UsaNavigationLink[] = [
     {
       id: '1',
@@ -17,17 +16,17 @@ export class BreadcrumbCustomTemplateComponent {
     {
       id: '2',
       text: 'Federal Contracting',
-      path: '/'
+      path: '/',
     },
     {
       id: '3',
       text: 'Contracting assistance programs',
-      path: '/'
+      path: '/',
     },
     {
       id: '4',
       text: 'Women-owned small business federal contracting program',
-      path: '/'
-    }
+      path: '/',
+    },
   ];
 }

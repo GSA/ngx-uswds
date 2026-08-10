@@ -6,41 +6,39 @@ import { UsaStepIndicatorModel } from './step-indicator.model';
 
 let stepIndicatorId = 0;
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-step-indicator',
   templateUrl: './step-indicator.component.html',
   host: {
-    'class': 'usa-step-indicator',
+    class: 'usa-step-indicator',
     '[class.usa-step-indicator--no-labels]': 'hideLabels',
     '[class.usa-step-indicator--center]': 'centerLabels && !hideLabels',
     '[class.usa-step-indicator--counters]': 'displayCounters && !smallCounters',
     '[class.usa-step-indicator--counters-sm]': 'smallCounters',
-
   },
   styleUrls: ['./step-indicator.component.scss'],
 })
 export class UsaStepIndicatorComponent implements OnChanges {
-
   /**
    * Hides labels on each step when set to true
    */
-  @Input() hideLabels: boolean = false
+  @Input() hideLabels: boolean = false;
 
   /**
    * Centers label with the step bar when set to true
    */
-  @Input() centerLabels: boolean = false
+  @Input() centerLabels: boolean = false;
 
   /**
    * Displays step counter
    */
-  @Input() displayCounters: boolean = false
+  @Input() displayCounters: boolean = false;
 
   /**
    * Shrinks size of displayed step counter
    */
-  @Input() smallCounters: boolean = false
+  @Input() smallCounters: boolean = false;
 
   /**
    * Whether to place the header above or below the step indicator
@@ -51,7 +49,6 @@ export class UsaStepIndicatorComponent implements OnChanges {
    * Disables the ability to navigate to steps by clicking on the step bar
    */
   @Input() disableStepSelection: boolean = false;
-
 
   @Input() id: string = `usa-step-indicator-${stepIndicatorId++}`;
 
@@ -99,7 +96,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
   onKeyDown(event: KeyboardEvent, index: number) {
     const keyPressed = event.key || event.keyCode;
     let nextStepIndex: number;
-    switch(keyPressed) {
+    switch (keyPressed) {
       case Key.ArrowRight:
       case MicrosfotKeys.ArrowRight:
       case KeyCode.ArrowRight:
@@ -117,18 +114,18 @@ export class UsaStepIndicatorComponent implements OnChanges {
       case Key.Home:
       case MicrosfotKeys.Home:
       case KeyCode.Home:
-        nextStepIndex = this.steps.findIndex(step => !step.disabled);
+        nextStepIndex = this.steps.findIndex((step) => !step.disabled);
         this._getAllStepListElements()[nextStepIndex].focus();
         event.preventDefault();
         break;
       case Key.End:
       case MicrosfotKeys.End:
       case KeyCode.End:
-        nextStepIndex= findLastIndex(this.steps, (step => !step.disabled));
+        nextStepIndex = findLastIndex(this.steps, (step) => !step.disabled);
         this._getAllStepListElements()[nextStepIndex].focus();
         event.preventDefault();
         break;
-      }
+    }
   }
 
   getFillPercentage(step: UsaStepIndicatorModel) {
@@ -141,7 +138,7 @@ export class UsaStepIndicatorComponent implements OnChanges {
     }
 
     const roundedStep = Math.round(step.completionPercent / 10) * 10;
-    return `fill-${roundedStep}`
+    return `fill-${roundedStep}`;
   }
 
   getSegmentScale(step: UsaStepIndicatorModel) {
@@ -151,8 +148,9 @@ export class UsaStepIndicatorComponent implements OnChanges {
   }
 
   private _getAllStepListElements() {
-    const listElements: NodeList = this.elementRef.nativeElement.querySelectorAll(`#${this.id} .usa-step-indicator__segment`);
+    const listElements: NodeList = this.elementRef.nativeElement.querySelectorAll(
+      `#${this.id} .usa-step-indicator__segment`,
+    );
     return Array.prototype.slice.call(listElements);
   }
-
 }

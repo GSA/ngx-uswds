@@ -1,11 +1,7 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { UsaFormlyModule } from '@gsa-sam/uswds-formly';
-import {
-  FormlyFieldConfig,
-  FormlyFormOptions,
-  FormlyModule,
-} from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { generateConfig } from 'src/sandbox/sandbox-utils';
@@ -63,9 +59,5 @@ const FormControlTemplate: StoryFn<UsaTextareaComponent> = (args: any) => {
 export const Basic = FormControlTemplate.bind({});
 
 Basic.parameters = {
-  preview: generateConfig(
-    'formly/textarea/textarea-basic',
-    'FormlyBasicTextareaModule',
-    'formly-textarea-basic'
-  ),
+  preview: generateConfig('formly/textarea/textarea-basic', 'FormlyBasicTextareaModule', 'formly-textarea-basic'),
 };

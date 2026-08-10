@@ -6,11 +6,10 @@ describe('USWDSFileInputComponent', () => {
   let component: UsaFileInputComponent;
   let fixture: ComponentFixture<UsaFileInputComponent>;
 
-  beforeEach(waitForAsync (() => {
-     TestBed.configureTestingModule({
-      declarations: [ UsaFileInputComponent ]
-    })
-    .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [UsaFileInputComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

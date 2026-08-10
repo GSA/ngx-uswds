@@ -7,27 +7,15 @@ import { FieldWrapper } from '@ngx-formly/core';
  * @param string [to.description] Add a description below the label
  */
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   template: `
     <div class="usa-form-group" [class.usa-form-group--error]="showError">
-      <label
-        class="usa-label"
-        *ngIf="props.label && !props.hideLabel"
-        [attr.for]="id"
-      >
+      <label class="usa-label" *ngIf="props.label && !props.hideLabel" [attr.for]="id">
         {{ props.label }}
       </label>
-      <div
-        *ngIf="props.description"
-        class="usa-hint"
-        [innerHTML]="props.description"
-      ></div>
-      <div
-        *ngIf="showError"
-        class="usa-error-message"
-        [style.display]="'block'"
-      >
+      <div *ngIf="props.description" class="usa-hint" [innerHTML]="props.description"></div>
+      <div *ngIf="showError" class="usa-error-message" [style.display]="'block'">
         <formly-validation-message [field]="field"></formly-validation-message>
       </div>
       <ng-template #fieldComponent></ng-template>

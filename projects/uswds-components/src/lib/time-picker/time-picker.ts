@@ -1,22 +1,20 @@
-import { Directive, Input, OnChanges, OnDestroy, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
-import { UsaComboBoxComponent } from "../combo-box/combo-box.component";
+import { Directive, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { UsaComboBoxComponent } from '../combo-box/combo-box.component';
 
-
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: '[usa-time-picker]',
-  exportAs: 'usaTimePicker'
+  exportAs: 'usaTimePicker',
 })
 export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
-
   readonly MAX_TIME = 60 * 24 - 1;
   readonly MIN_TIME = 0;
 
   readonly LABEL_FIELD = 'label';
   readonly VALUE_FIELD = 'value';
 
-  /** 
+  /**
    * Defines minimum selectable time within a 24 hour window.
    * This can be a date object or a string in hh:mm in 24-hour format.
    * The default min time is 00:00
@@ -49,9 +47,7 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
 
   _inputChangeSubscription: Subscription;
 
-  constructor(
-    private hostComboBox: UsaComboBoxComponent,
-  ) {
+  constructor(private hostComboBox: UsaComboBoxComponent) {
     this._inputChangeSubscription = new Subscription();
   }
 
@@ -66,19 +62,21 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
     wrapperDiv.classList.add('usa-time-picker');
     this.initializeDropdownItems();
 
-    const subscription = this.hostComboBox.changeEvent.subscribe(((value) => {
-      if (!this.hostComboBox.comboBoxDropdown) return;
+    const subscription = this.hostComboBox.changeEvent.subscribe(
+      ((value) => {
+        if (!this.hostComboBox.comboBoxDropdown) return;
 
-      const mappedItems = this.hostComboBox.items.map(item => item[this.LABEL_FIELD]);
-      let index = -1;
-      if (this.filterBy) {
-        index = this.filterBy(value, mappedItems);
-      } else {
-        index = this.defaultFilter(value, mappedItems);
-      }
+        const mappedItems = this.hostComboBox.items.map((item) => item[this.LABEL_FIELD]);
+        let index = -1;
+        if (this.filterBy) {
+          index = this.filterBy(value, mappedItems);
+        } else {
+          index = this.defaultFilter(value, mappedItems);
+        }
 
-      this.hostComboBox.comboBoxDropdown.highlightItem(index);
-    }).bind(this));
+        this.hostComboBox.comboBoxDropdown.highlightItem(index);
+      }).bind(this),
+    );
 
     this._inputChangeSubscription.add(subscription);
   }
@@ -105,14 +103,8 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
    */
   private genetateItems() {
     const items = [];
-    const minTime = Math.max(
-      this.MIN_TIME,
-      this.parseTimeString(this.minTime) || this.MIN_TIME
-    );
-    const maxTime = Math.min(
-      this.MAX_TIME,
-      this.parseTimeString(this.maxTime) || this.MAX_TIME
-    );
+    const minTime = Math.max(this.MIN_TIME, this.parseTimeString(this.minTime) || this.MIN_TIME);
+    const maxTime = Math.min(this.MAX_TIME, this.parseTimeString(this.maxTime) || this.MAX_TIME);
 
     for (let time = minTime; time <= maxTime; time += this.timeStep) {
       const { minute, hour24, hour12, ampm } = this.getTimeContext(time);
@@ -128,9 +120,9 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Adds additional zeros if needed
-   * @param value 
-   * @param length 
-   * @returns 
+   * @param value
+   * @param length
+   * @returns
    */
   private padZeros(value: number, length: number) {
     return `0000${value}`.slice(-length);
@@ -139,13 +131,13 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
   /**
    * Given minuutes, parses number of hours and minutes to represent that time.
    * IE - 0 minutes would be 0:00 AM, 60 minutes would be 1:00 AM, etc
-   * @param minutes 
+   * @param minutes
    */
-  private getTimeContext(minutes: number): {minute: number, hour24: number, hour12: number, ampm: string} {
+  private getTimeContext(minutes: number): { minute: number; hour24: number; hour12: number; ampm: string } {
     const minute = minutes % 60;
     const hour24 = Math.floor(minutes / 60);
     const hour12 = hour24 % 12 || 12;
-    const ampm = hour24 < 12 ? "am" : "pm";
+    const ampm = hour24 < 12 ? 'am' : 'pm';
 
     return {
       minute,
@@ -153,7 +145,7 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
       hour12,
       ampm,
     };
-  };
+  }
 
   /**
    * Parse a string of hh:mm into minutes
@@ -165,7 +157,7 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
     let minutes;
 
     if (timeStr) {
-      const [hours, mins] = timeStr.split(":").map((str) => {
+      const [hours, mins] = timeStr.split(':').map((str) => {
         let value;
         const parsed = parseInt(str, 10);
         if (!Number.isNaN(parsed)) value = parsed;
@@ -178,7 +170,7 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
     }
 
     return minutes;
-  };
+  }
 
   /**
    * Default filter search if one is not provided. Used to find
@@ -189,6 +181,6 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
    */
   defaultFilter(input: string, values: string[]) {
     if (!input || !input.length) return -1;
-    return values.findIndex(value => value.includes(input));
+    return values.findIndex((value) => value.includes(input));
   }
 }

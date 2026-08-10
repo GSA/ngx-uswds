@@ -19,8 +19,8 @@ import { UsaAccordionConfig } from './accordion.config';
 import { AnimationEvent } from '@angular/animations';
 import { UsaExpansionAnimations } from './accordion-animations';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-accordion',
   exportAs: 'usaAccordion',
   templateUrl: './accordion.component.html',
@@ -93,7 +93,7 @@ export class UsaAccordionComponent implements AfterContentChecked {
   constructor(
     config: UsaAccordionConfig,
     private _element: ElementRef,
-    private _renderer: Renderer2
+    private _renderer: Renderer2,
   ) {
     this.animation = config.animation;
     this.bordered = config.bordered;
@@ -175,9 +175,7 @@ export class UsaAccordionComponent implements AfterContentChecked {
     if (this.activeIds.length > 1) {
       // update panels open states
       this.panels.forEach((panel) => {
-        panel.expanded =
-          panel.expanded ||
-          (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);
+        panel.expanded = panel.expanded || (!panel.disabled && this.activeIds.indexOf(panel.id) > -1);
       });
     }
     // closeOthers updates
@@ -193,17 +191,13 @@ export class UsaAccordionComponent implements AfterContentChecked {
       case Key.ArrowDown:
       case MicrosfotKeys.ArrowDown:
       case KeyCode.ArrowDown:
-        this._getPanelElementHeaderButton(
-          this._getNextAccordion(panel, 1).id
-        ).focus();
+        this._getPanelElementHeaderButton(this._getNextAccordion(panel, 1).id).focus();
         $event.preventDefault();
         break;
       case Key.ArrowUp:
       case MicrosfotKeys.ArrowUp:
       case KeyCode.ArrowUp:
-        this._getPanelElementHeaderButton(
-          this._getNextAccordion(panel, -1).id
-        ).focus();
+        this._getPanelElementHeaderButton(this._getNextAccordion(panel, -1).id).focus();
         $event.preventDefault();
         break;
       case Key.Home:
@@ -218,10 +212,7 @@ export class UsaAccordionComponent implements AfterContentChecked {
       case Key.End:
       case MicrosfotKeys.End:
       case KeyCode.End:
-        const lastFocusablePanel = findLast(
-          this.panels.toArray(),
-          (panel) => !panel.disabled
-        );
+        const lastFocusablePanel = findLast(this.panels.toArray(), (panel) => !panel.disabled);
         if (lastFocusablePanel) {
           this._getPanelElementHeaderButton(lastFocusablePanel.id).focus();
         }
@@ -290,20 +281,16 @@ export class UsaAccordionComponent implements AfterContentChecked {
   }
 
   private _updateActiveIds() {
-    this.activeIds = this.panels
-      .filter((panel) => panel.expanded && !panel.disabled)
-      .map((panel) => panel.id);
+    this.activeIds = this.panels.filter((panel) => panel.expanded && !panel.disabled).map((panel) => panel.id);
   }
 
   private _getPanelElementHeaderButton(panelId: string): HTMLElement | null {
-    return this._element.nativeElement.querySelector(
-      '#' + panelId + '-header button'
-    );
+    return this._element.nativeElement.querySelector('#' + panelId + '-header button');
   }
 }
 
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: 'button[UsaAccordionToggle]',
   host: {
     type: 'button',
@@ -312,8 +299,7 @@ export class UsaAccordionComponent implements AfterContentChecked {
     '[class.collapsed]': '!panel.expanded',
     '[attr.aria-expanded]': 'panel.expanded',
     '[attr.aria-controls]': 'panel.expanded ? panel.id : undefined',
-    '[attr.aria-disabled]':
-      'panel.disabled && panel.expanded ? true : undefined',
+    '[attr.aria-disabled]': 'panel.disabled && panel.expanded ? true : undefined',
     '[attr.aria-label]': 'panel.ariaLabel',
     '(click)': 'accordion.toggle(panel.id)',
   },
@@ -330,6 +316,6 @@ export class UsaAccordionToggle {
 
   constructor(
     public accordion: UsaAccordionComponent,
-    @Optional() @Host() public panel: UsaAccordionItem
+    @Optional() @Host() public panel: UsaAccordionItem,
   ) {}
 }

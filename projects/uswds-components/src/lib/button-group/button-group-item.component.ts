@@ -1,14 +1,11 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `uswds-button-group-item`,
-  template: `
-    <ng-content></ng-content>
-  `,
+  template: ` <ng-content></ng-content> `,
   host: {
-    'class': 'usa-button-group__item'
-  }
+    class: 'usa-button-group__item',
+  },
 })
 export class USWDSButtonGroupItemComponent {}

@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `uswds-card-group`,
-  template: `
-  <ul class="usa-card-group">
+  template: ` <ul class="usa-card-group">
     <ng-content></ng-content>
-  </ul>`
+  </ul>`,
 })
-export class USWDSCardGroupComponent {
-  
-}
+export class USWDSCardGroupComponent {}

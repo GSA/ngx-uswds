@@ -1,24 +1,15 @@
-import { 
-  Component, 
-  ElementRef, 
-  Input, 
-  TemplateRef, 
-  ViewChild, 
-  forwardRef,
-  Output,
-  EventEmitter, 
-} from '@angular/core';
+import { Component, ElementRef, Input, TemplateRef, ViewChild, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { FileInputConfig } from './file-input.config';
 
 export interface UploadedFile {
-  isLoading?: boolean, 
-  imageId: string, 
-  file: File
+  isLoading?: boolean;
+  imageId: string;
+  file: File;
 }
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-file-input',
   templateUrl: './file-input.component.html',
   providers: [
@@ -30,7 +21,6 @@ export interface UploadedFile {
   ],
 })
 export class UsaFileInputComponent implements ControlValueAccessor {
-
   @ViewChild('fileInputEl') fileInputElement: ElementRef;
 
   @Input() multiple = false;
@@ -65,10 +55,7 @@ export class UsaFileInputComponent implements ControlValueAccessor {
   private onChange = (v: any) => {};
   private onTouched = () => {};
 
-
-  constructor(
-    private fileInputConfig: FileInputConfig,
-  ) { 
+  constructor(private fileInputConfig: FileInputConfig) {
     this.multiple = this.fileInputConfig.multiple;
     this.acceptFileType = this.fileInputConfig.acceptFileType;
     this.clearFilesOnAdd = this.fileInputConfig.clearFilesOnAdd;
@@ -91,7 +78,7 @@ export class UsaFileInputComponent implements ControlValueAccessor {
   onNewFilesUpload($event) {
     const newFiles: File[] = Array.from($event.target.files);
     this.fileInputElement.nativeElement.value = null;
-    
+
     if (newFiles.length === 0) {
       return;
     }
@@ -107,7 +94,7 @@ export class UsaFileInputComponent implements ControlValueAccessor {
       this.inputFiles = [];
       return;
     }
-    
+
     // Clear current files OR append to existing based on user config
     if (!this.multiple || this.clearFilesOnAdd) {
       this.inputFiles = [];
@@ -117,10 +104,12 @@ export class UsaFileInputComponent implements ControlValueAccessor {
     }
 
     // Read file data and add laoding / preview states
-    newFiles.forEach(file => {
+    newFiles.forEach((file) => {
       const imageId = this.getImageId(file, this.inputFiles);
       const inputFile = {
-        isLoading: true, imageId, file
+        isLoading: true,
+        imageId,
+        file,
       };
       this.inputFiles.push(inputFile);
     });
@@ -191,10 +180,12 @@ export class UsaFileInputComponent implements ControlValueAccessor {
     this.inputFiles = [];
     this.selectedFiles = files;
     // Read file data and add laoding / preview states
-    files.forEach(file => {
+    files.forEach((file) => {
       const imageId = this.getImageId(file, this.inputFiles);
       const inputFile = {
-        isLoading: true, imageId, file
+        isLoading: true,
+        imageId,
+        file,
       };
       this.inputFiles.push(inputFile);
     });
@@ -211,10 +202,10 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
     const acceptedFiles = this.acceptFileType.split(',');
 
-    for(let i = 0; i < files.length; i++) {
-      const isValidFileType = acceptedFiles.some(acceptedFileType => {
+    for (let i = 0; i < files.length; i++) {
+      const isValidFileType = acceptedFiles.some((acceptedFileType) => {
         const endsWithFileType = new RegExp(acceptedFileType + '$', 'i').test(files[i].name);
-        return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\*/g, ""))
+        return endsWithFileType || files[i].type.includes(acceptedFileType.replace(/\*/g, ''));
       });
 
       if (!isValidFileType) {
@@ -224,8 +215,6 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
     return true;
   }
-
-
 
   /**
    * Given a file and list of pre-uploaded files, generates and returns an id for the file.
@@ -240,7 +229,7 @@ export class UsaFileInputComponent implements ControlValueAccessor {
 
     imageId = `a${imageId}`;
     let numExisting = 0;
-    preUploadedFiles.forEach(file => {
+    preUploadedFiles.forEach((file) => {
       if (file.imageId === imageId) {
         numExisting++;
       }
@@ -260,9 +249,9 @@ export class UsaFileInputComponent implements ControlValueAccessor {
   private _makeSafeForID(name: string) {
     return name.replace(/[^a-z0-9]/g, function replaceName(s) {
       const c = s.charCodeAt(0);
-      if (c === 32) return "-";
+      if (c === 32) return '-';
       if (c >= 65 && c <= 90) return `img_${s.toLowerCase()}`;
-      return `__000${(c.toString(16)).slice(-4)}`;
+      return `__000${c.toString(16).slice(-4)}`;
     });
   }
 }

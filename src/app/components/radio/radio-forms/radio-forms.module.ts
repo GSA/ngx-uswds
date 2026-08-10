@@ -4,16 +4,9 @@ import { RadioFormsComponent } from './radio-forms.component';
 import { UsaRadioModule } from '@gsa-sam/ngx-uswds';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [RadioFormsComponent],
-  imports: [
-    CommonModule,
-    UsaRadioModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  exports: [RadioFormsComponent]
+  imports: [CommonModule, UsaRadioModule, FormsModule, ReactiveFormsModule],
+  exports: [RadioFormsComponent],
 })
-export class RadioFormsModule { }
+export class RadioFormsModule {}

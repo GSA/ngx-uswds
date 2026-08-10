@@ -1,19 +1,28 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Directive, EventEmitter, forwardRef, Input, Output } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Directive,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: '[usaRadioDescription]',
   host: {
-    class: 'usa-checkbox__label-description'
-  }
+    class: 'usa-checkbox__label-description',
+  },
 })
-export class UsaRadioLabelDescription { }
+export class UsaRadioLabelDescription {}
 
 let nextId = 0;
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: `usa-radio`,
   templateUrl: `./radio.component.html`,
   providers: [
@@ -25,8 +34,7 @@ let nextId = 0;
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsaRadioComponent implements ControlValueAccessor{
-
+export class UsaRadioComponent implements ControlValueAccessor {
   @Input() tile: boolean;
 
   @Input() value: string;
@@ -48,20 +56,19 @@ export class UsaRadioComponent implements ControlValueAccessor{
   /** Name value will be applied to the input element if present */
   @Input() name: string = null;
 
-  @Output() change = new EventEmitter<{ target: HTMLInputElement, value: string }>();
+  @Output() change = new EventEmitter<{ target: HTMLInputElement; value: string }>();
 
   /**
-  * Invoked when the model has been changed
-  */
-  onChange: (_: any) => void = (_: any) => { };
+   * Invoked when the model has been changed
+   */
+  onChange: (_: any) => void = (_: any) => {};
 
   /**
    * Invoked when the model has been touched
    */
-  onTouched: () => void = () => { };
+  onTouched: () => void = () => {};
 
-
-  constructor(public cdr: ChangeDetectorRef) { }
+  constructor(public cdr: ChangeDetectorRef) {}
 
   writeValue(value: any): void {
     this.checked = !!value;
@@ -77,9 +84,9 @@ export class UsaRadioComponent implements ControlValueAccessor{
   }
 
   /**
-    * Registers a callback function that should be called when the control receives a blur event.
-    * @param fn
-    */
+   * Registers a callback function that should be called when the control receives a blur event.
+   * @param fn
+   */
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }

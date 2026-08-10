@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DropdownOptionsModel } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'dropdown-forms',
   templateUrl: './dropdown-forms.component.html',
 })
 export class DropdownFormsComponent {
-
   templateModel: any;
 
   reactiveFormControl = new FormControl();
@@ -20,24 +19,23 @@ export class DropdownFormsComponent {
     },
     {
       label: 'Option A',
-      value: 'value1'
+      value: 'value1',
     },
     {
       label: 'Option B',
-      value: 'value2'
+      value: 'value2',
     },
     {
       label: 'Option C',
-      value: 'value3'
+      value: 'value3',
     },
     {
       label: 'Option D',
-      value: 'value4'
+      value: 'value4',
     },
     {
       label: 'Option E',
-      value: 'value5'
-    }
-  ]
-
+      value: 'value5',
+    },
+  ];
 }

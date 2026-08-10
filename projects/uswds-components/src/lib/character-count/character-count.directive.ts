@@ -5,16 +5,15 @@ import { Subscription } from 'rxjs';
 declare var ResizeObserver;
 
 let nextId = 0;
-	@Directive({
-	standalone: false,
+@Directive({
+  standalone: false,
   selector: '[usaCharacterCount]',
 })
 export class UsaCharacterCountDirective implements OnInit, OnDestroy {
-
   /** Directive's main input - max length of characters allowed */
   @Input() usaCharacterCount: number;
 
-  /** 
+  /**
    * Id to use for character count message text. Will be auto-generated if not passed in
    */
   @Input() messageId = `usa-character-count-${nextId++}`;
@@ -22,7 +21,7 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
   private readonly MESSAGE_CLASS = `usa-character-count__message`;
   private readonly MESSAGE_INVALID_CLASS = `usa-character-count__message--invalid`;
 
-  /** 
+  /**
    * Subscription to form control's value changes if one exists
    * Allows us to unsubscribe during cleanup
    */
@@ -47,8 +46,8 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
     private element: ElementRef,
     private renderer2: Renderer2,
     private zone: NgZone,
-    @Optional() private control: NgControl
-  ) { }
+    @Optional() private control: NgControl,
+  ) {}
 
   ngOnInit() {
     if (!this.usaCharacterCount) {
@@ -65,13 +64,12 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
     this._messageElement = this.getMessageElement();
     this.setCharacterCountText(0, this.usaCharacterCount);
 
-
     /** Watch for input field's resize event so we can keep character counter text aligned with input */
     this._inputResizeObserver = new ResizeObserver((change) => {
       // Run renderer inside angular's zone so that we can ensure change detection will pick it up
       this.zone.run(() => {
         this._messageElement.style.width = `${change[0].borderBoxSize[0].inlineSize}px`;
-      })
+      });
     });
 
     this._inputResizeObserver.observe(this.element.nativeElement);
@@ -90,7 +88,9 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
    * and attached as sibling to host form element
    */
   private getMessageElement() {
-    let messageElement: HTMLSpanElement = this.element.nativeElement.parentElement.querySelector(`.${this.MESSAGE_CLASS}#${this.messageId}`);
+    let messageElement: HTMLSpanElement = this.element.nativeElement.parentElement.querySelector(
+      `.${this.MESSAGE_CLASS}#${this.messageId}`,
+    );
     if (messageElement) {
       return messageElement;
     }
@@ -100,7 +100,10 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
     messageElement.setAttribute('aria-live', 'polite');
     messageElement.setAttribute('id', this.messageId);
     messageElement.style.width = `${this.element.nativeElement.offsetWidth}px`;
-    (this.element.nativeElement.parentElement as HTMLElement).insertBefore(messageElement, this.element.nativeElement.nextSibling);
+    (this.element.nativeElement.parentElement as HTMLElement).insertBefore(
+      messageElement,
+      this.element.nativeElement.nextSibling,
+    );
     this._messageElement = messageElement;
 
     return messageElement;
@@ -125,10 +128,9 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
    * Sets character counter message based on current number of characters.
    * The message is appended as sibling element to the element this character count directive
    * is attached through reference of shared parent element.
-   * @param currentLength 
+   * @param currentLength
    */
   private setCharacterCountText(currentLength: number, maxLength: number) {
-
     // Get message to display for amount of characters left
     this.characterCounterText = this.generateCharacterCounterText(currentLength, maxLength);
 
@@ -142,7 +144,7 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
   /**
    * Follows logic from USWDS' character counter's JS file so that messaging is consistent
    * @param currentLength
-   * @param maxLength 
+   * @param maxLength
    * @returns - string message to display based on current characters and max characters allowed
    */
   private generateCharacterCounterText(currentLength: number, maxLength: number) {
@@ -152,8 +154,8 @@ export class UsaCharacterCountDirective implements OnInit, OnDestroy {
       return `${maxLength} characters allowed`;
     } else {
       const difference = Math.abs(maxLength - currentLength);
-      const characters = `character${difference === 1 ? "" : "s"}`;
-      const guidance = isOverLimit ? "over limit" : "left";
+      const characters = `character${difference === 1 ? '' : 's'}`;
+      const guidance = isOverLimit ? 'over limit' : 'left';
 
       return `${difference} ${characters} ${guidance}`;
     }

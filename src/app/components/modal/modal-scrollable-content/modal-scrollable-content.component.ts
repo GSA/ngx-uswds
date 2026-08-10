@@ -1,26 +1,28 @@
 import { Component } from '@angular/core';
-import { ModalDismissReasons, UsaModalService, UsaModalRef } from "@gsa-sam/ngx-uswds";
+import { ModalDismissReasons, UsaModalService, UsaModalRef } from '@gsa-sam/ngx-uswds';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'modal-scrollable-content',
   templateUrl: './modal-scrollable-content.component.html',
 })
 export class ModalScrollableContentComponent {
-
   closeResult = '';
 
   modalRef: UsaModalRef;
 
-  constructor(private modalService: UsaModalService) { }
+  constructor(private modalService: UsaModalService) {}
 
   open(content) {
     this.modalRef = this.modalService.open(content);
-    this.modalRef.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalRef.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      },
+    );
   }
 
   close(reason) {
@@ -34,8 +36,7 @@ export class ModalScrollableContentComponent {
       return 'by clicking on a backdrop';
     } else if (reason === ModalDismissReasons.CLOSE_CLICKED) {
       return 'by clicking close button';
-    }
-    else {
+    } else {
       return `with: ${reason}`;
     }
   }

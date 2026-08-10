@@ -1,25 +1,17 @@
-
-
-import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
-import { CommonModule } from "@angular/common";
-import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
-import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
-import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { UsaDatePickerInput, UsaDropdownComponent } from "@gsa-sam/ngx-uswds";
-import { generateConfig } from "src/sandbox/sandbox-utils";
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { CommonModule } from '@angular/common';
+import { UsaFormlyModule } from '@gsa-sam/uswds-formly';
+import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UsaDatePickerInput, UsaDropdownComponent } from '@gsa-sam/ngx-uswds';
+import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 export default {
   title: 'Formly/Dropdown',
   component: UsaDatePickerInput,
   decorators: [
     moduleMetadata({
-      imports: [
-        CommonModule, 
-        UsaFormlyModule, 
-        FormlyModule, 
-        ReactiveFormsModule, 
-        FormsModule, 
-      ],
+      imports: [CommonModule, UsaFormlyModule, FormlyModule, ReactiveFormsModule, FormsModule],
     }),
   ],
   args: {
@@ -30,41 +22,39 @@ export default {
       {
         label: 'Option A',
         value: 'A',
-        disabled: false
+        disabled: false,
       },
       {
         label: 'Option B',
         value: 'B',
-        disabled: false
+        disabled: false,
       },
       {
         label: 'Option C',
         value: 'C',
-        disabled: false
+        disabled: false,
       },
       {
         label: 'Option D',
         value: 'D',
-        disabled: false
+        disabled: false,
       },
       {
         label: 'Option E',
         value: 'E',
-        disabled: false
-      }
-    ]
-      
+        disabled: false,
+      },
+    ],
   },
   argTypes: {
-    max: {type: 'string'},
-    min: {type: 'string'},
-  }
+    max: { type: 'string' },
+    min: { type: 'string' },
+  },
 } as Meta;
 
 const template = require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html');
 
 const FormControlTemplate: StoryFn<UsaDropdownComponent> = (args: any) => {
-
   const form = new FormGroup({});
   const model: any = {};
   const options: FormlyFormOptions = {};
@@ -74,7 +64,7 @@ const FormControlTemplate: StoryFn<UsaDropdownComponent> = (args: any) => {
       key: 'date',
       type: 'dropdown',
       templateOptions: args,
-    }
+    },
   ];
 
   return {
@@ -83,9 +73,9 @@ const FormControlTemplate: StoryFn<UsaDropdownComponent> = (args: any) => {
       form,
       model,
       options,
-      fields
+      fields,
     },
-  }
+  };
 };
 
 export const Basic = FormControlTemplate.bind({});
@@ -93,5 +83,5 @@ export const Basic = FormControlTemplate.bind({});
 declare var require;
 
 Basic.parameters = {
-  preview: generateConfig('formly/dropdown/dropdown-basic', 'FormlyBasicDropdownModule', 'formly-dropdown-basic')
-}
+  preview: generateConfig('formly/dropdown/dropdown-basic', 'FormlyBasicDropdownModule', 'formly-dropdown-basic'),
+};

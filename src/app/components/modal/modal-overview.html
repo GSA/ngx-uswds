@@ -2,22 +2,19 @@
 <p>
   The modal is dynamically opened outside the normal tab flow of the page and traps focus within the modal when opened.
 </p>
+<p>The other elements within the page body have <code>aria-hidden</code> set to true when a modal is opened</p>
 <p>
-  The other elements within the page body have <code>aria-hidden</code> set to true when a modal is opened
+  Users may pass in <code>aria-labelledby</code> or <code>aria-describedby</code> attribute values through model config
+  when opening the modal
 </p>
 <p>
-  Users may pass in <code>aria-labelledby</code> or <code>aria-describedby</code> attribute values through model
-  config when opening the modal
+  The modal will return focus to opener element if the opener was in focus for all browsers. However, that behaviour is
+  inconsistent across browsers if the modal was opened through a click and the opener button was not in focus on click
 </p>
 <p>
-  The modal will return focus to opener element if the opener was in focus for all browsers. However, that behaviour
-  is inconsistent across browsers if the modal was opened through a click and the opener button was not in focus on click
+  Through keyboard, pressing the <code>Esc</code> button will also close the modal (This behavior can be toggled off if
+  needed)
 </p>
-<p>
-  Through keyboard, pressing the <code>Esc</code> button will also close the modal (This behavior can be toggled off if needed)
-</p>
-
-
 
 <h3>Theming</h3>
 <code class="display-block">$theme-modal-border-radius</code>

@@ -1,10 +1,10 @@
-import { Component, TemplateRef } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, TemplateRef } from '@angular/core';
+import { Observable } from 'rxjs';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'file-input-basic',
-  templateUrl: './file-input-basic.component.html'
+  templateUrl: './file-input-basic.component.html',
 })
 export class FileInputBasicComponent {
   multiple = false;

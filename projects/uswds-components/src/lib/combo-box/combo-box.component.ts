@@ -1,23 +1,36 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostListener,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UsaComboboxList, UsaComboBoxItemTemplate } from '../combo-box-list/combo-box-list.component';
 import { Key, KeyCode, MicrosfotKeys } from '../util/key';
 
 let comboBoxId = 0;
 let listBoxId = 0;
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'usa-combobox',
   templateUrl: './combo-box.component.html',
-  providers: [{       
-    provide: NG_VALUE_ACCESSOR, 
-    useExisting: forwardRef(() => UsaComboBoxComponent),
-    multi: true     
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UsaComboBoxComponent),
+      multi: true,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsaComboBoxComponent implements ControlValueAccessor {
-
   @ViewChild('comboBoxInput') comboBoxInput: ElementRef<HTMLInputElement>;
   @ViewChild(UsaComboboxList) comboBoxDropdown: UsaComboboxList;
 
@@ -42,7 +55,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   /** Whether the input field can be written to or not */
   @Input() readonly: boolean = undefined;
 
-  /** 
+  /**
    * Toggles whether or not to emit scrollEnd event when a user scrolls to the
    * bottom of the current item list
    */
@@ -56,7 +69,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   /** Emitted when an item is selected */
   @Output() selected = new EventEmitter<any>();
 
-  /** 
+  /**
    * Emitted when a user scrolls to the bottom of the current item list.
    * This event signals clients to fetch additional data to append to current items
    * list if additional data exists.
@@ -66,8 +79,8 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   /** Custom template to use for rendering each item in items list */
   @ContentChild(UsaComboBoxItemTemplate) itemTemplate: UsaComboBoxItemTemplate;
 
-  private _onChange = (_: any) => { };
-  private _onTouched = () => { };
+  private _onChange = (_: any) => {};
+  private _onTouched = () => {};
 
   _displayDropdown = false;
   _selectedItem: any;
@@ -89,7 +102,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
   constructor(
     public el: ElementRef,
     public cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   writeValue(obj: any): void {
     this.value = obj;
@@ -147,13 +160,13 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
 
   /**
    * Handles keypress on combobox input field
-   * @param $event 
-   * @returns 
+   * @param $event
+   * @returns
    */
   onInputKeyDown($event: KeyboardEvent) {
     const keyPressed = $event.key || $event.keyCode;
 
-    switch(keyPressed) {
+    switch (keyPressed) {
       case Key.ArrowDown:
       case MicrosfotKeys.ArrowDown:
       case KeyCode.ArrowDown:
@@ -161,7 +174,7 @@ export class UsaComboBoxComponent implements ControlValueAccessor {
           this._displayDropdown = true;
           this.cdr.detectChanges();
         }
-        
+
         if (this.comboBoxDropdown) {
           this.comboBoxDropdown.focusHighlightedElement();
         }

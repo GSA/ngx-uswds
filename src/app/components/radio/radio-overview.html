@@ -1,13 +1,15 @@
 <p>
-  The radio group component allows a name value to be passed in - This name value is applied to all radio buttons within the group
-  for Accessibility. It allows browsers and screen readers to understand which set of radio buttons belongs in which group
+  The radio group component allows a name value to be passed in - This name value is applied to all radio buttons within
+  the group for Accessibility. It allows browsers and screen readers to understand which set of radio buttons belongs in
+  which group
 </p>
 <p>
-  Each radio button will have it's <code>aria-checked</code> set to true when checked and false when it becomes unchecked
+  Each radio button will have it's <code>aria-checked</code> set to true when checked and false when it becomes
+  unchecked
 </p>
 <p>
-  Only one radio button within a radio group can be focused in through <code>tab</code> key press. Once focused, users may
-  select options within the radio group using the arrow keys
+  Only one radio button within a radio group can be focused in through <code>tab</code> key press. Once focused, users
+  may select options within the radio group using the arrow keys
 </p>
 <p>
   Screen readers should announce total number of radio buttons within the group as well as the position of the currently
@@ -28,7 +30,9 @@
       <td>
         <ul>
           <li>Moves keyboard focus to the checked <code>radio</code> button in a <code>radiogroup</code>.</li>
-          <li>If no <code>radio</code> button is checked, focus moves to the first <code>radio</code> button in the group.</li>
+          <li>
+            If no <code>radio</code> button is checked, focus moves to the first <code>radio</code> button in the group.
+          </li>
         </ul>
       </td>
     </tr>
@@ -45,7 +49,10 @@
       <td>
         <ul>
           <li>Moves focus to next <code>radio</code> button in the group.</li>
-          <li>If focus is on the last <code>radio</code> button in the group, move focus to the first <code>radio</code> button.</li>
+          <li>
+            If focus is on the last <code>radio</code> button in the group, move focus to the first
+            <code>radio</code> button.
+          </li>
         </ul>
       </td>
     </tr>
@@ -54,7 +61,10 @@
       <td>
         <ul>
           <li>Moves focus to previous <code>radio</code> button in the group.</li>
-          <li>If focus is on the first <code>radio</code> button in the group, move focus to the last <code>radio</code> button.</li>
+          <li>
+            If focus is on the first <code>radio</code> button in the group, move focus to the last
+            <code>radio</code> button.
+          </li>
         </ul>
       </td>
     </tr>
@@ -64,8 +74,10 @@
 <h3>Theming</h3>
 <usa-table [displayedData]="dataRows" borderless="true">
   <ng-container usaColumnDef="variable">
-    <th usa-table-header *usaTableHeaderDef style="width: 40%;">Variable</th>
-    <td usa-table-data *usaTableDataDef="let theme" data-label="Theme"  style="width: 40%;"><code>{{theme.variable}}</code></td>
+    <th usa-table-header *usaTableHeaderDef style="width: 40%">Variable</th>
+    <td usa-table-data *usaTableDataDef="let theme" data-label="Theme" style="width: 40%">
+      <code>{{theme.variable}}</code>
+    </td>
   </ng-container>
   <ng-container usaColumnDef="description">
     <th usa-table-header *usaTableHeaderDef>Description</th>

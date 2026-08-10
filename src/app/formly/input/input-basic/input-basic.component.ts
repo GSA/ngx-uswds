@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   templateUrl: './input-basic.component.html',
   selector: `formly-input-basic`,
 })
@@ -13,8 +13,9 @@ export class FormlyBasicInputComponent {
   @Input() suffix: string = undefined;
   @Input() placeholder = 'Type Here...';
   @Input() label = 'Keyword Search';
-  @Input() description = `For more information on how to use our keyword search, visit our <a href="#"> help guide </a>`;
-  @Input() required = false
+  @Input() description =
+    `For more information on how to use our keyword search, visit our <a href="#"> help guide </a>`;
+  @Input() required = false;
 
   form = new FormGroup({});
   model: any = {};
@@ -33,6 +34,6 @@ export class FormlyBasicInputComponent {
         prefix: this.prefix,
         suffix: this.suffix,
       },
-    },];
-
+    },
+  ];
 }

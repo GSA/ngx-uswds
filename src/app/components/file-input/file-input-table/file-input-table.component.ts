@@ -1,10 +1,9 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-
-	@Component({
-	standalone: false,
+@Component({
+  standalone: false,
   selector: 'file-input-table',
-  templateUrl: './file-input-table.component.html'
+  templateUrl: './file-input-table.component.html',
 })
 export class FileInputTableComponent {
   files: any[] = [];
@@ -12,6 +11,6 @@ export class FileInputTableComponent {
   multiple: boolean = true;
   clearFilesOnAdd: boolean = false;
   displayFileInfo: boolean = false;
-  
+
   displayedColumns = ['name', 'size', 'type', 'action'];
 }
