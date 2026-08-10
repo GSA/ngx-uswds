@@ -46,9 +46,14 @@
               }
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["./node_modules/@uswds/uswds/packages", "./node_modules/@gsa-sam/sam-styles"]
+              "includePaths": [
+                "./node_modules/@uswds/uswds/packages",
+                "./node_modules/@gsa-sam/sam-styles"
+              ]
             },
-            "styles": ["src/styles/app.styles.scss"],
+            "styles": [
+              "src/styles/app.styles.scss"
+            ],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -130,20 +135,10 @@
                 "output": "/assets/uswds/img/"
               }
             ],
-            "styles": ["src/styles/app.styles.scss"],
+            "styles": [
+              "src/styles/app.styles.scss"
+            ],
             "scripts": []
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "usa-components:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "usa-components:serve:production"
-            }
           }
         },
         "storybook": {
@@ -152,7 +147,12 @@
             "configDir": ".storybook",
             "browserTarget": "usa-components:build",
             "compodoc": true,
-            "compodocArgs": ["-e", "json", "-d", "."],
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
             "port": 6006
           }
         },
@@ -162,7 +162,12 @@
             "configDir": ".storybook",
             "browserTarget": "usa-components:build",
             "compodoc": true,
-            "compodocArgs": ["-e", "json", "-d", "."],
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "."
+            ],
             "outputDir": "storybook-static"
           }
         }
@@ -189,7 +194,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "projects/uswds-components/tsconfig.spec.json",
             "karmaConfig": "projects/uswds-components/karma.conf.js"
           }
@@ -197,7 +205,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/uswds-components/**/*.ts", "projects/uswds-components/**/*.html"],
+            "lintFilePatterns": [
+              "projects/uswds-components/**/*.ts",
+              "projects/uswds-components/**/*.html"
+            ],
             "eslintConfig": "projects/uswds-components/eslint.config.js"
           }
         }
@@ -232,7 +243,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/uswds-formly/**/*.ts", "projects/uswds-formly/**/*.html"],
+            "lintFilePatterns": [
+              "projects/uswds-formly/**/*.ts",
+              "projects/uswds-formly/**/*.html"
+            ],
             "eslintConfig": "projects/uswds-formly/eslint.config.js"
           }
         }
