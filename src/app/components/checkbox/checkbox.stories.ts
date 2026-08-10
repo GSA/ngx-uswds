@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from "@storybook/angular";
+import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { UsaCheckboxComponent,  UsaCheckboxModule, UsaTableModule } from "@gsa-sam/ngx-uswds";
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -73,7 +73,7 @@ Basic.parameters = {
 }
 
 
-const FormControlTemplate: Story<UsaCheckboxComponent> = (args: any) => {
+const FormControlTemplate: StoryFn<UsaCheckboxComponent> = (args: any) => {
 
   const formControl = new FormControl();
 

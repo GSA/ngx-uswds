@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from "@storybook/angular";
+import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
 import { UsaComboBoxComponent, UsaComboboxList, UsaComboboxModule } from "@gsa-sam/ngx-uswds";
 import { ComboBoxBasicModule } from "./combo-box-basic/combo-box-basic.module";
 import { ComboBoxBasicComponent } from "./combo-box-basic/combo-box-basic.component";
@@ -21,7 +21,7 @@ export default {
 const mockService = require('!!raw-loader!./combo-box-dummy-service.ts');
 const dummyData = require('!!raw-loader!./combo-box-dummy-data.ts');
 
-const basicTemplate: Story<ComboBoxBasicComponent> = (args: ComboBoxBasicComponent) => ({
+const basicTemplate: StoryFn<ComboBoxBasicComponent> = (args: ComboBoxBasicComponent) => ({
   component: ComboBoxBasicComponent,
   props: args,
 });

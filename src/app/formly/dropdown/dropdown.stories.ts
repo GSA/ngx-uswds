@@ -1,6 +1,6 @@
 
 
-import { Meta, moduleMetadata, Story } from "@storybook/angular";
+import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
@@ -63,7 +63,7 @@ export default {
 
 const template = require('!!raw-loader!./dropdown-basic/dropdown-basic.component.html');
 
-const FormControlTemplate: Story<UsaDropdownComponent> = (args: any) => {
+const FormControlTemplate: StoryFn<UsaDropdownComponent> = (args: any) => {
 
   const form = new FormGroup({});
   const model: any = {};

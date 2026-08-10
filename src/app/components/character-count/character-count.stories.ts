@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from "@storybook/angular";
+import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { UsaCharacterCountDirective, UsaCharacterCountModule } from "@gsa-sam/ngx-uswds";
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ Basic.parameters = {
   preview: generateConfig('components/character-count/character-count-basic', 'CharacterCountBasicModule', 'character-count-basic')
 }
 
-const FormControlTemplate: Story<UsaCharacterCountDirective> = (args: any) => {
+const FormControlTemplate: StoryFn<UsaCharacterCountDirective> = (args: any) => {
 
   const formControl = new FormControl();
 

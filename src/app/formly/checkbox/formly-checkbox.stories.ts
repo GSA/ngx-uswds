@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from "@storybook/angular";
+import { Meta, moduleMetadata, StoryFn } from "@storybook/angular";
 import { CommonModule } from "@angular/common";
 import { UsaFormlyModule } from "@gsa-sam/uswds-formly";
 import { FormlyFieldConfig, FormlyForm, FormlyFormOptions, FormlyModule } from "@ngx-formly/core";
@@ -34,7 +34,7 @@ export default {
 
 const template = require('!!raw-loader!./checkbox-basic/checkbox-basic.component.html');
 
-const FormControlTemplate: Story<FormlyForm> = (args: any) => {
+const FormControlTemplate: StoryFn<FormlyForm> = (args: any) => {
 
   const form = new FormGroup({});
   const model: any = {};
