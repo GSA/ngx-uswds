@@ -1,0 +1,12 @@
+node_modules
+dist
+.angular
+coverage
+storybook-static
+*.min.js
+*.min.css
+
+# Generated artifacts
+documentation.json
+package-lock.json
+src/sandbox/icons.json
