@@ -9,12 +9,18 @@ updates:
       default-days: 5
       semver-major-days: 60
     groups:
-      npm-dependencies:
+      minor:
         patterns:
           - '*'
         update-types:
           - 'minor'
+      patch:
+        patterns:
+          - '*'
+        update-types:
           - 'patch'
+    # Major updates are intentionally ungrouped so each opens as its own PR
+    # and requires human review — they are never auto-merged.
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
