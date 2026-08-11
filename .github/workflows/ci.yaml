@@ -49,6 +49,10 @@ jobs:
           && npm run build:formly
       - name: Build Storybook static assets
         run: npm run build-storybook
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright smoke test
+        run: npm run test:e2e
       - name: Run component tests with coverage
         id: component-tests
         # formly code does not have tests at all; scope coverage to components
