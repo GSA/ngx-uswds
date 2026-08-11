@@ -49,7 +49,7 @@
     "zone.js": "^0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "19.2.24",
+    "@angular-devkit/build-angular": "21.2.20",
     "@angular/cli": "^19.2.24",
     "@angular/compiler-cli": "^19.2.20",
     "@babel/core": "^7.29.7",
@@ -59,7 +59,7 @@
     "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-links": "^8.6.18",
     "@storybook/addon-mdx-gfm": "8.6.14",
-    "@storybook/angular": "^8.6.18",
+    "@storybook/angular": "^10.5.7",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^16.0.0",
     "angular-cli-github-pages": "0.2.0",
@@ -72,7 +72,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "ng-packagr": "^19.0.0",
+    "ng-packagr": "^22.1.1",
     "prettier": "3.9.6",
     "raw-loader": "^4.0.2",
     "react": "^16.4.2",
