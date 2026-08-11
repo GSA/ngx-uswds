@@ -1,6 +1,6 @@
 name: Dependabot auto-approve
 
-on: pull_request
+on: pull_request_target
 
 permissions:
   pull-requests: write
@@ -8,7 +8,12 @@ permissions:
 jobs:
   auto-approve:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    # pull_request_target gives the workflow a writable token for Dependabot PRs.
+    # Keep this job free of checkout/build/test steps so untrusted PR code never runs
+    # in the trusted target-repository context.
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.repository == 'GSA/ngx-uswds'
 
     steps:
       - name: Fetch Dependabot metadata
