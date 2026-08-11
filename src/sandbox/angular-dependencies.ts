@@ -49,8 +49,6 @@ export const ANGULAR_CODESANDBOX = function (files, moduleName, selector) {
       '@angular/platform-browser-dynamic': '^12.2.14',
       '@angular/router': '^12.2.14',
       '@gsa-sam/ngx-uswds': '12.0.4',
-      '@gsa-sam/uswds-formly': '^12.0.4',
-      '@ngx-formly/core': '^5.10.23',
       'core-js': '^2.6.11',
       rxjs: '~6.5.5',
       uswds: '2.11.2',

@@ -128,7 +128,7 @@ export class UsaTextareaComponent implements ControlValueAccessor {
     if (this.wrapperRef) this.wrapperRef.formatErrors(this.control);
   }
 
-  // ControlValueAccessor (and Formly) is trying to update the value of the FormControl (our custom component) programatically
+  // ControlValueAccessor is trying to update the value of the FormControl (our custom component) programatically
   // If there is a value we will just overwrite items
   // If there is no value we reset the items array to be empty
   writeValue(value: any) {
