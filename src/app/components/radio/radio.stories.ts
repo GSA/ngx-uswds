@@ -9,7 +9,7 @@ import {
   UsaTableModule,
 } from '@gsa-sam/ngx-uswds';
 import { ReactiveFormsModule } from '@angular/forms';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 import { RadioFormsModule } from './radio-forms/radio-forms.module';
 import { generateConfig } from 'src/sandbox/sandbox-utils';
 

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { firstValueFrom } from 'rxjs';
 import { Key } from '../util/key';
 import { UsaModalService } from './modal';
 import { UsaModalOptions } from './modal-config';
@@ -32,7 +33,7 @@ describe('UsaModal', () => {
   it('Should open and close modal', (done: DoneFn) => {
     openModal();
 
-    component.modalRef.shown.toPromise().then(() => {
+    firstValueFrom(component.modalRef.shown).then(() => {
       const overlayModel: HTMLElement = document.body.querySelector('.usa-modal-overlay');
       expect(overlayModel).toBeDefined();
       const closeButton: HTMLButtonElement = overlayModel.querySelector('#modal-test-close');

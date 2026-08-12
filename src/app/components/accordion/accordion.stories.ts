@@ -2,7 +2,7 @@ import { Meta, moduleMetadata } from '@storybook/angular';
 import { UsaAccordionComponent, UsaAccordionItem, UsaAccordionModule } from '@gsa-sam/ngx-uswds';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 declare var require: any;

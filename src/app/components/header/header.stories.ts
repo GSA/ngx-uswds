@@ -15,7 +15,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { primaryNavItems, secondaryNavItems } from './header-data';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 import { HeaderExtendedTemplateModule } from './header-extended-template/header-extended-template.module';
 import { HeaderBasicModule } from './header-basic/header-basic.module';
 import { generateConfig } from 'src/sandbox/sandbox-utils';

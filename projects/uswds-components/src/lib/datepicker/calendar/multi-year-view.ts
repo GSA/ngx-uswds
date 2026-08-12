@@ -132,7 +132,9 @@ export class UsaMultiYearView<D> implements AfterContentInit, OnDestroy {
   }
 
   ngAfterContentInit() {
-    this._rerenderSubscription = this._dateAdapter.localeChanges.pipe(startWith(null)).subscribe(() => this._init());
+    this._rerenderSubscription = this._dateAdapter.localeChanges
+      .pipe(startWith<void, [null]>(null))
+      .subscribe(() => this._init());
   }
 
   ngOnDestroy() {

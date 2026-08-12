@@ -8,7 +8,7 @@ import { SortableTableModule } from './sortable-table/sortable-table.module';
 import { TableBasicModule } from './table-basic/table-basic.module';
 import { TableRowHoverModule } from './table-row-hover/table-row-hover.module';
 import { basicColumns, basicData } from './table-static-data';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 
 declare var require: any;
 

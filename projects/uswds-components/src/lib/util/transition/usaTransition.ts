@@ -19,7 +19,7 @@ export interface UsaTransitionOptions<T> {
 }
 
 export interface UsaTransitionCtx<T> {
-  transition$: Subject<any>;
+  transition$: Subject<void>;
   complete: () => void;
   context: T;
 }
@@ -34,7 +34,7 @@ export const usaRunTransition = <T>(
   element: HTMLElement,
   startFn: UsaTransitionStartFn<T>,
   options: UsaTransitionOptions<T>,
-): Observable<undefined> => {
+): Observable<void> => {
   // Getting initial context from options
   let context = options.context || <T>{};
 
@@ -69,8 +69,8 @@ export const usaRunTransition = <T>(
   }
 
   // Starting a new transition
-  const transition$ = new Subject<any>();
-  const finishTransition$ = new Subject<any>();
+  const transition$ = new Subject<void>();
+  const finishTransition$ = new Subject<void>();
   const stop$ = transition$.pipe(endWith(true));
   runningTransitions.set(element, {
     transition$,

@@ -15,9 +15,9 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewChild,
+  DOCUMENT,
 } from '@angular/core';
 import { isArrowDown, isArrowUp, isEnd, isEnter, isHome, isPageDown, isPageUp, isTab } from '../util/key';
-import { DOCUMENT } from '@angular/common';
 
 @Directive({
   standalone: false,
