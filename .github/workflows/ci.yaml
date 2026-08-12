@@ -44,9 +44,7 @@ jobs:
       - name: Install Node Packages
         run: npm ci
       - name: Build the project
-        run: |
-          npm run build:components \
-          && npm run build:formly
+        run: npm run build:components
       - name: Build Storybook static assets
         run: npm run build-storybook
       - name: Install Playwright browsers
@@ -63,7 +61,6 @@ jobs:
           if-no-files-found: ignore
       - name: Run component tests with coverage
         id: component-tests
-        # formly code does not have tests at all; scope coverage to components
         run: npm run test:components
       - name: Upload component coverage artifact
         if: ${{ steps.component-tests.outcome == 'success' }}

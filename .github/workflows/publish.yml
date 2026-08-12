@@ -1,0 +1,191 @@
+name: Publish to npm
+
+# Publishes @gsa-sam/ngx-uswds to the public npm registry.
+#
+# Trigger: a full GitHub Release is published (activity type `released`,
+# which points at a version tag, e.g. v19.0.1). Manual dispatch is also
+# allowed for dry-run rehearsals.
+#
+# Why `released` and not `published`: `published` also fires for
+# pre-releases (e.g. v19.0.1-beta.1). Because we publish with npm's
+# default `latest` dist-tag, a pre-release firing `published` would land as
+# `latest` and be picked up by every consumer by default — not what we
+# want. `released` fires only for full, non-prerelease Releases, so it
+# structurally prevents an accidental beta-as-latest publish. Revisit with
+# explicit dist-tag handling if we ever want beta channels.
+#
+# Why key on Release (not a raw `push: tags`): publishing a Release is a
+# deliberate, auditable act. It gives DevSecOps a clear HITL approval point
+# and pairs with the `release` environment's required reviewers. A raw
+# tag push is quiet and unauthenticated by comparison, so the live
+# `npm publish` only happens on a published *Release*.
+#
+# Security model (locked-down access):
+#   - Runs only in the `release` GitHub Actions environment, which
+#     DevSecOps can gate with required reviewers / protection rules.
+#   - Uses npm Trusted Publishing (OIDC) — no long-lived token stored in
+#     the repo. The `id-token: write` permission mints a short-lived
+#     credential that npm trusts because this repo + workflow filename are
+#     registered as the package's Trusted Publisher.
+#     (npmjs.com → package → Settings → Trusted Publisher:
+#        Publisher = GitHub Actions
+#        Organization = GSA, Repository = ngx-uswds
+#        Workflow filename = publish.yml
+#        Environment name = release)
+#   - Quality gates (format, lint, tests, Playwright smoke test, Angular
+#     package build) must pass before publish.
+#
+# HITL handoff to DevSecOps:
+#   Until the Trusted Publisher connection is live, this workflow runs
+#   `npm publish --dry-run` only (DRY_RUN defaults to "true"). DevSecOps:
+#     1. Registers the Trusted Publisher on npmjs (values above).
+#     2. Flips the workflow to a live publish by setting the repo/environment
+#        variable  DRY_RUN = false  (Settings → Secrets and variables →
+#        Actions → Variables), or edits the default below.
+#
+# Note on workflow_dispatch rehearsals: a manual dry-run against an
+# already-published version will verify the tarball and THEN fail with npm's
+# "cannot publish over previously published version" error. That's expected —
+# the packaging check still ran. Bump to an unpublished version to see a fully
+# clean dry-run.
+
+on:
+  release:
+    types: [released]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Run npm publish in --dry-run mode (no upload)'
+        type: boolean
+        default: true
+
+# Least-privilege at the top level; the publish job opts into id-token.
+permissions:
+  contents: read
+
+jobs:
+  quality-gates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build components
+        run: npm run build:components
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Playwright smoke test
+        run: npm run test:e2e
+
+      - name: Run component tests with coverage
+        run: npm run test:components
+
+  publish:
+    needs: [quality-gates]
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      id-token: write # required for npm Trusted Publishing (OIDC)
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.nvmrc'
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Trusted Publishing needs npm >= 11.5.1. Pin the floor rather than
+      # pulling an unpinned @latest on this security-sensitive job.
+      - name: Ensure npm supports Trusted Publishing
+        run: |
+          NPM_MIN="11.5.1"
+          CURRENT="$(npm --version)"
+          if [ "$(printf '%s\n' "$NPM_MIN" "$CURRENT" | sort -V | head -n1)" != "$NPM_MIN" ]; then
+            echo "npm $CURRENT < $NPM_MIN; upgrading"
+            npm install -g "npm@$NPM_MIN"
+          else
+            echo "npm $CURRENT satisfies >= $NPM_MIN"
+          fi
+
+      - name: Verify tag matches package.json version
+        if: github.event_name == 'release'
+        run: |
+          # Strip an optional leading "v" (v19.0.1 -> 19.0.1); other prefixes fail.
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./projects/uswds-components/package.json').version")"
+          echo "Release tag: $GITHUB_REF_NAME (normalized: $TAG)   projects/uswds-components/package.json: $PKG"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::Release tag ($GITHUB_REF_NAME) does not match projects/uswds-components/package.json version ($PKG). Tags must be <version> or v<version>."
+            exit 1
+          fi
+
+      - name: Build Angular package
+        run: npm run build:components
+
+      - name: Determine dry-run mode
+        id: mode
+        run: |
+          # Priority: workflow_dispatch input > repo/env variable DRY_RUN > default true.
+          # Manual dispatch is rehearsal-only; only a published Release may
+          # perform a live publish.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            DRY="${{ inputs.dry-run }}"
+            if [ "$DRY" != "true" ]; then
+              echo "::error::workflow_dispatch runs must use dry-run=true. Publish a GitHub Release to run a live publish."
+              exit 1
+            fi
+          else
+            DRY="${{ vars.DRY_RUN }}"
+          fi
+          # Default to the safe mode when unset.
+          DRY="${DRY:-true}"
+          # Normalize case so True/FALSE/etc. behave predictably.
+          DRY="$(echo "$DRY" | tr '[:upper:]' '[:lower:]')"
+          # Fail loudly on anything that isn't an explicit boolean, so a
+          # release never silently no-ops (neither dry-run nor live).
+          if [ "$DRY" != "true" ] && [ "$DRY" != "false" ]; then
+            echo "::error::DRY_RUN must be 'true' or 'false' (got '$DRY')"
+            exit 1
+          fi
+          echo "dry-run=$DRY" >> "$GITHUB_OUTPUT"
+          echo "Publish dry-run mode: $DRY"
+
+      - name: Publish (dry-run)
+        if: steps.mode.outputs['dry-run'] == 'true'
+        working-directory: dist/ngx-uswds
+        run: npm publish --dry-run --access public --registry https://registry.npmjs.org
+
+      # Live publish via OIDC Trusted Publishing. No token env is set — npm
+      # mints a short-lived OIDC credential trusted because this repo +
+      # workflow are registered as the package's Trusted Publisher. This is
+      # the only supported publish path; there is no long-lived-token fallback.
+      - name: Publish (live, OIDC Trusted Publishing)
+        if: github.event_name == 'release' && steps.mode.outputs['dry-run'] == 'false'
+        working-directory: dist/ngx-uswds
+        run: npm publish --access public --registry https://registry.npmjs.org

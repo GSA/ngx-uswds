@@ -3,9 +3,9 @@ const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
 
-// Migration baseline: existing code currently reports 512 warnings in uswds-components
-// and 35 warnings in uswds-formly. Keep these rules as warnings so ESLint can run
-// in CI now; tighten them to errors as the legacy lint debt is paid down.
+// Migration baseline: existing uswds-components code currently reports warnings.
+// Keep these rules as warnings so ESLint can run in CI now; tighten them to
+// errors as the legacy lint debt is paid down.
 const existingDebtWarnings = {
   '@angular-eslint/component-class-suffix': 'warn',
   '@angular-eslint/component-selector': [

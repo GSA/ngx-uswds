@@ -62,7 +62,7 @@ export class UsaSearchComponent {
     this.searchTextChange.emit(event);
   }
 
-  // Helper method to programatically update the search value to the model
+  // Helper method to programmatically update the search value to the model
   onSubmit(val, ev) {
     this.model = val;
     this.updateModel();
@@ -75,7 +75,7 @@ export class UsaSearchComponent {
     this._onChange(this.model);
   }
 
-  // ControlValueAccessor (and Formly) is trying to update the value of the FormControl (our custom component) programatically
+  // ControlValueAccessor is trying to update the value of the FormControl (our custom component) programmatically
   // If there is a value we will just overwrite items
   // If there is no value we reset the items array to be empty
   writeValue(value: any) {
