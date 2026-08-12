@@ -33,10 +33,11 @@ describe('UsaModal', () => {
   // `(@dialogContainer.done)` callback fires *synchronously* while `open()` runs,
   // so `modalRef.shown` has already emitted-and-completed by the time the test
   // body regains control. (Under the old Karma/real-browser setup this fired on a
-  // later tick, which is why the original tests subscribed after opening.) We
-  // therefore subscribe to the completion observables *before* the DOM click that
-  // opens the modal, and drive the close interaction against the DOM that is
-  // present synchronously once the overlay is attached.
+  // later tick.) Each test therefore opens the modal first (`openModal()`), which
+  // synchronously attaches the overlay and populates `component.modalRef`, and
+  // only then subscribes to the completion observables (`hidden`/`dismissed`)
+  // *before* driving the close/dismiss interaction against the already-attached
+  // overlay DOM.
   it('Should open and close modal', () =>
     new Promise<void>((done) => {
       openModal();
