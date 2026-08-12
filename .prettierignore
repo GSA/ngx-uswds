@@ -3,6 +3,9 @@ dist
 .angular
 coverage
 storybook-static
+test-results
+playwright-report
+blob-report
 *.min.js
 *.min.css
 
