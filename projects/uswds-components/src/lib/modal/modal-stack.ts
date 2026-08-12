@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import {
   ApplicationRef,
   ComponentFactoryResolver,
@@ -10,6 +9,7 @@ import {
   NgZone,
   RendererFactory2,
   TemplateRef,
+  DOCUMENT,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -23,7 +23,7 @@ import { UsaModalWindow } from './modal-window';
 
 @Injectable({ providedIn: 'root' })
 export class UsaModalStack {
-  private _activeWindowCmptHasChanged = new Subject();
+  private _activeWindowCmptHasChanged = new Subject<void>();
   private _ariaHiddenValues: Map<Element, string | null> = new Map();
   private _modalRefs: UsaModalRef[] = [];
   private _windowAttributes = [

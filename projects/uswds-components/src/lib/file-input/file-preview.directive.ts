@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Directive, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Directive({
   standalone: false,
@@ -27,8 +27,7 @@ export class UsaFilePreviewDirective implements OnInit {
       return;
     }
 
-    this.uploadRequest(this.file)
-      .toPromise()
+    firstValueFrom(this.uploadRequest(this.file))
       .then(() => {
         this.removeLoading(this.file, this.imageElement);
       })

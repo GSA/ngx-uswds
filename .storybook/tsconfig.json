@@ -2,6 +2,7 @@
   "extends": "../tsconfig.app.json",
   "compilerOptions": {
     "types": ["node"],
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["../src/test.ts", "../src/**/*.spec.ts", "../projects/**/*.spec.ts", "../src/styles/*.scss"],

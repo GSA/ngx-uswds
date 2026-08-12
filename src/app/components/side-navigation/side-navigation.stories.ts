@@ -2,7 +2,7 @@ import { Meta, moduleMetadata } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { UsaSidenavComponent, UsaSidenavModule } from '@gsa-sam/ngx-uswds';
 import { FormsModule } from '@angular/forms';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 import { sidenavModel } from './side-navigation.data';
 import { generateConfig } from 'src/sandbox/sandbox-utils';
 

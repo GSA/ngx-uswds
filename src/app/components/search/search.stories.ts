@@ -2,7 +2,7 @@ import { Meta, moduleMetadata } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { UsaSearchComponent, UsaSearchModule } from '@gsa-sam/ngx-uswds';
 import { FormsModule } from '@angular/forms';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 import { generateConfig } from 'src/sandbox/sandbox-utils';
 
 declare var require;

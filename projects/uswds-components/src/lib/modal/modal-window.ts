@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -12,6 +11,7 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
+  DOCUMENT,
 } from '@angular/core';
 
 import { fromEvent, Observable, Subject } from 'rxjs';

@@ -28,6 +28,7 @@ const existingDebtWarnings = {
   '@angular-eslint/no-output-native': 'warn',
   '@angular-eslint/no-output-on-prefix': 'warn',
   '@angular-eslint/no-output-rename': 'warn',
+  '@angular-eslint/prefer-inject': 'warn',
   '@angular-eslint/prefer-standalone': 'warn',
   '@typescript-eslint/array-type': 'warn',
   '@typescript-eslint/consistent-generic-constructors': 'warn',
