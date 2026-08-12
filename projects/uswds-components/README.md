@@ -18,7 +18,7 @@ After building your library with `ng build uswds-components`, go to the dist fol
 
 ## Running unit tests
 
-Run `ng test uswds-components` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run test:components` to execute the unit tests via [Vitest](https://vitest.dev) (through Angular's `@angular/build:unit-test` builder).
 
 ## Further help
 
