@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { UsaCheckboxComponent } from './checkbox.component';
+import { UsaCheckboxModule } from './checkbox.module';
 
 describe('CheckboxComponent', () => {
   let component: UsaCheckboxComponent;
@@ -8,7 +9,7 @@ describe('CheckboxComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UsaCheckboxComponent],
+      imports: [UsaCheckboxModule],
     }).compileComponents();
   }));
 

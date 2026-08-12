@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { UsaFileInputComponent } from './file-input.component';
+import { UsaFileInputModule } from './file-input.module';
 
 describe('USWDSFileInputComponent', () => {
   let component: UsaFileInputComponent;
@@ -8,7 +9,7 @@ describe('USWDSFileInputComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UsaFileInputComponent],
+      imports: [UsaFileInputModule],
     }).compileComponents();
   }));
 

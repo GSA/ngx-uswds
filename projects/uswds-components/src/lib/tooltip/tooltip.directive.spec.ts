@@ -2,6 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, DebugNode, ViewChild }
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { UsaTooltipDirective } from './tooltip.directive';
+import { UsaTooltipModule } from './tooltip.module';
 
 @Component({
   standalone: false,
@@ -18,7 +19,8 @@ describe('TooltipDirective', () => {
     tooltipText: DebugElement;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UsaTooltipDirective, TestTooltipComponent],
+      imports: [UsaTooltipModule],
+      declarations: [TestTooltipComponent],
       schemas: [],
     });
     fixture = TestBed.createComponent(TestTooltipComponent);
