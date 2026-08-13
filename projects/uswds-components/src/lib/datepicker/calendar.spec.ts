@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { UsaDatePickerModule } from './date-picker.module';
 import { UsaCalendar, UsaCalendarHeader, UsaCalendarView } from './calendar/calendar';
@@ -243,12 +243,14 @@ describe('UsaCalendarHeader', () => {
   let fixture: ComponentFixture<CalendarTestHostComponent>;
   let header: UsaCalendarHeader<Date>;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CalendarTestHostComponent],
       imports: [UsaDatePickerModule],
     }).compileComponents();
+  }));
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(CalendarTestHostComponent);
     fixture.detectChanges();
 

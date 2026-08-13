@@ -274,20 +274,17 @@ describe('UsaModalRef — beforeDismiss branches', () => {
     component.el.nativeElement.querySelector('#bd-open').click();
   }
 
-  it('beforeDismiss returning false prevents dismissal', () =>
-    new Promise<void>((done) => {
-      component.beforeDismiss = () => false;
-      openBD();
-      const dismissed: any[] = [];
-      component.modalRef.dismissed.subscribe((r) => dismissed.push(r));
-      component.modalRef.dismiss('test-reason');
-      // give a tick for any async to settle
-      setTimeout(() => {
-        expect(dismissed.length).toBe(0);
-        component.modalRef.close('cleanup');
-        done();
-      }, 50);
-    }));
+  it('beforeDismiss returning false prevents dismissal', async () => {
+    component.beforeDismiss = () => false;
+    openBD();
+    const dismissed: any[] = [];
+    component.modalRef.dismissed.subscribe((r) => dismissed.push(r));
+    component.modalRef.dismiss('test-reason');
+    // flush microtasks — synchronous guard needs no real timer
+    await Promise.resolve();
+    expect(dismissed.length).toBe(0);
+    component.modalRef.close('cleanup');
+  });
 
   it('beforeDismiss returning true allows dismissal', () =>
     new Promise<void>((done) => {
@@ -311,19 +308,18 @@ describe('UsaModalRef — beforeDismiss branches', () => {
       component.modalRef.dismiss('async-reason');
     }));
 
-  it('beforeDismiss returning a Promise<false> prevents dismissal', () =>
-    new Promise<void>((done) => {
-      component.beforeDismiss = () => Promise.resolve(false);
-      openBD();
-      const dismissed: any[] = [];
-      component.modalRef.dismissed.subscribe((r) => dismissed.push(r));
-      component.modalRef.dismiss('should-not-dismiss');
-      setTimeout(() => {
-        expect(dismissed.length).toBe(0);
-        component.modalRef.close('cleanup');
-        done();
-      }, 100);
-    }));
+  it('beforeDismiss returning a Promise<false> prevents dismissal', async () => {
+    component.beforeDismiss = () => Promise.resolve(false);
+    openBD();
+    const dismissed: any[] = [];
+    component.modalRef.dismissed.subscribe((r) => dismissed.push(r));
+    component.modalRef.dismiss('should-not-dismiss');
+    // flush promise microtask queue
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(dismissed.length).toBe(0);
+    component.modalRef.close('cleanup');
+  });
 });
 
 // ---------------------------------------------------------------------------

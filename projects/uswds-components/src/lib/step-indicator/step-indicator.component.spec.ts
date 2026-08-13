@@ -361,14 +361,15 @@ class StepHeaderHostComponent {
 }
 
 describe('UsaStepIndicatorHeaderComponent', () => {
-  it('is created inside a step indicator host', waitForAsync(() => {
+  it('is created inside a step indicator host', async () => {
     TestBed.configureTestingModule({
       declarations: [StepHeaderHostComponent],
       imports: [UsaStepIndicatorModule],
-    }).compileComponents();
+    });
+    await TestBed.compileComponents();
 
     const fixture = TestBed.createComponent(StepHeaderHostComponent);
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
-  }));
+  });
 });
