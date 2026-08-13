@@ -34,42 +34,7 @@
           <ng-container [ngTemplateOutlet]="headerNavigationLinks"></ng-container>
         </div>
       } @else {
-        <button #usaNavClose class="usa-nav__close" (click)="closeMobileNav()">
-          <span>Close</span>
-          <span class="usa-sr-only">Close</span>
-        </button>
-        @if (primaryNavItems) {
-          <ul class="usa-nav__primary usa-accordion">
-            @for (link of primaryNavItems; track link) {
-              <li class="usa-nav__primary-item">
-                <ng-container
-                  [ngTemplateOutlet]="link.children ? dropDownTemplate : linkTemplate"
-                  [ngTemplateOutletContext]="{ $implicit: link, isPrimary: true }"
-                ></ng-container>
-              </li>
-            }
-          </ul>
-        }
-        <ng-content select="[usaHeaderPrimaryLinks]"></ng-content>
-        <ng-content select="[usaHeaderPrimaryExtra]"></ng-content>
-        @if (extended) {
-          <div class="usa-nav__secondary">
-            @if (secondaryNavItems) {
-              <ul class="usa-nav__secondary-links">
-                @for (link of secondaryNavItems; track link) {
-                  <li class="usa-nav__secondary-item">
-                    <ng-container
-                      [ngTemplateOutlet]="linkTemplate"
-                      [ngTemplateOutletContext]="{ $implicit: link, isPrimary: false }"
-                    ></ng-container>
-                  </li>
-                }
-              </ul>
-            }
-            <ng-content select="[usaHeaderSecondaryLinks]"></ng-content>
-            <ng-content select="[usaHeaderSecondaryExtra]"></ng-content>
-          </div>
-        }
+        <ng-container [ngTemplateOutlet]="headerNavigationLinks"></ng-container>
       }
 
       <ng-template #headerNavigationLinks>
