@@ -57,7 +57,15 @@ describe('StepIndicatorComponent', () => {
     fixture = TestBed.createComponent(UsaStepIndicatorComponent);
     component = fixture.componentInstance;
     component.steps = getSteps();
+    // Attach the host element to the document so element.focus() reliably
+    // updates document.activeElement under jsdom (the keyboard-navigation
+    // tests assert on document.activeElement).
+    document.body.appendChild(fixture.nativeElement);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.nativeElement.remove();
   });
 
   it('should create', () => {
