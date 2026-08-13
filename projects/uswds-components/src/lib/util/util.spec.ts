@@ -196,11 +196,7 @@ describe('findLastIndex', () => {
 
 // ─── getNextItemInList ────────────────────────────────────────────────────────
 describe('getNextItemInList', () => {
-  const items = [
-    { disabled: false },
-    { disabled: true },
-    { disabled: false },
-  ];
+  const items = [{ disabled: false }, { disabled: true }, { disabled: false }];
 
   it('returns next enabled item in positive direction', () => {
     expect(getNextItemInList(0, items, 1)).toBe(items[2]);
@@ -222,11 +218,7 @@ describe('getNextItemInList', () => {
 
 // ─── getNextItemIndexInList ───────────────────────────────────────────────────
 describe('getNextItemIndexInList', () => {
-  const items = [
-    { disabled: false },
-    { disabled: true },
-    { disabled: false },
-  ];
+  const items = [{ disabled: false }, { disabled: true }, { disabled: false }];
 
   it('returns index of next enabled item', () => {
     expect(getNextItemIndexInList(0, items, 1)).toBe(2);
