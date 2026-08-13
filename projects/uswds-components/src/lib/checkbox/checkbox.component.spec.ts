@@ -123,15 +123,13 @@ describe('CheckboxComponent', () => {
 
     it('returns "false" when unchecked and not indeterminate', () => {
       component.checked = false;
-      component['_indeterminate'] = false;
+      component.indeterminate = false;
       expect(component._getAriaChecked()).toBe('false');
     });
 
-    it('returns "mixed" when unchecked and indeterminate is set via private field', () => {
+    it('returns "mixed" when unchecked and indeterminate is true', () => {
       component.checked = false;
-      // Set the private backing field directly so we can test the branch
-      // without triggering the setter's nativeInput guard.
-      component['_indeterminate'] = true;
+      component.indeterminate = true;
       expect(component._getAriaChecked()).toBe('mixed');
     });
   });
