@@ -13,6 +13,7 @@
     "format:check": "prettier --check .",
     "test:components": "ng test uswds-components --watch=false --code-coverage",
     "coverage:check": "node scripts/check-coverage.mjs",
+    "coverage:bump": "node scripts/check-coverage.mjs --bump",
     "test:e2e": "playwright test",
     "ghpages": "npm run build-storybook && touch storybook-static/.nojekyll && npx angular-cli-ghpages --dir=storybook-static",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
