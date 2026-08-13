@@ -34,6 +34,16 @@
 - The Vitest runner ignores `vitest.config.*` (`config: false`) and the builder has no threshold option, so coverage floors are enforced by `scripts/check-coverage.mjs`. Those floors are a **ratchet**: only ever raise them (bump in the same PR that adds coverage); never lower them to make CI pass.
 - Build artifacts and coverage output go under `dist/` and `coverage/`; do not commit them.
 
+## Pre-commit checks
+
+There is no automated pre-commit hook in this repo. Before committing, run these manually to avoid CI failures:
+
+- `npm run format:check` — Prettier formatting check (fix with `npm run format`)
+- `npm run test:components` — Vitest unit tests
+- `node scripts/check-coverage.mjs` — coverage gate (requires `test:components` to have run first)
+
+The CI Lint job will fail if formatting is violated. Always run `format:check` after writing or editing any TypeScript, HTML, or JSON files.
+
 ## Workflow notes
 
 - When adding or renaming library APIs, update the relevant `public-api.ts`; otherwise consumers will not see the export in the packaged library.
