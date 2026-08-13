@@ -13,7 +13,7 @@
  * the floor file; they just need to keep current coverage at or above it. When
  * coverage has genuinely improved, lock the gain in with a dedicated bump:
  *
- *     npm run coverage:check -- --bump
+ *     npm run coverage:bump
  *
  * which rewrites `coverage-floor.json` to the current measured values. Commit
  * that on its own (ideally a small standalone PR) so the only shared file
@@ -66,7 +66,10 @@ if (bump) {
       process.exit(1);
     }
     const floored = Math.floor(pct);
-    const current = floors[metric] ?? 0;
+    const rawCurrent = floors[metric];
+    // Treat a missing or malformed floor as 0 so a corrupt coverage-floor.json
+    // can never poison the ratchet with NaN/null values.
+    const current = Number.isFinite(rawCurrent) ? rawCurrent : 0;
     // Ratchet only ever moves up.
     next[metric] = Math.max(current, floored);
     if (next[metric] > current) {
@@ -89,8 +92,8 @@ const failures = [];
 for (const metric of METRICS) {
   const floor = floors[metric];
   const pct = total?.[metric]?.pct;
-  if (typeof floor !== 'number') {
-    failures.push(`${metric}: missing from coverage-floor.json`);
+  if (!Number.isFinite(floor)) {
+    failures.push(`${metric}: missing or invalid in coverage-floor.json`);
     continue;
   }
   if (typeof pct !== 'number') {
