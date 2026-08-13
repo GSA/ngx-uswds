@@ -124,7 +124,7 @@ export class UsaTableComponent implements AfterContentInit, OnChanges, AfterCont
   }>();
 
   @Output()
-  rowClicked = new EventEmitter<TableDataSource>();
+  rowClicked = new EventEmitter<number>();
 
   /**
    * The column definitions provided by the user that contain what the header, data, and footer

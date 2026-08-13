@@ -29,11 +29,13 @@ import { UsaSort } from './table-sort.component';
       (rowClicked)="onRowClick($event)"
     >
       <ng-container usaColumnDef="name">
-        <th usa-table-header *usaTableHeaderDef>Name <button usa-sort [sortFn]="strSort"></button></th>
+        <th usa-table-header *usaTableHeaderDef>
+          Name <button usa-sort [sortFn]="strSort" aria-label="Sort by Name"></button>
+        </th>
         <td usa-table-data *usaTableDataDef="let row">{{ row.name }}</td>
       </ng-container>
       <ng-container usaColumnDef="age">
-        <th usa-table-header *usaTableHeaderDef>Age <button usa-sort></button></th>
+        <th usa-table-header *usaTableHeaderDef>Age <button usa-sort aria-label="Sort by Age"></button></th>
         <td usa-table-data *usaTableDataDef="let row">{{ row.age }}</td>
       </ng-container>
 
@@ -105,7 +107,7 @@ class TableNoSortHostComponent {
 
 @Component({
   standalone: false,
-  template: `<button usa-sort [sortFn]="sortFn" (sortClicked)="onSort($event)"></button>`,
+  template: `<button usa-sort [sortFn]="sortFn" (sortClicked)="onSort($event)" aria-label="Sort"></button>`,
 })
 class SortHostComponent {
   sortFn = (a: any, b: any) => (a > b ? 1 : a < b ? -1 : 0);
@@ -120,7 +122,7 @@ class SortHostComponent {
   template: `
     <usa-table [displayedData]="data">
       <ng-container usaColumnDef="val">
-        <th usa-table-header *usaTableHeaderDef>Val <button usa-sort></button></th>
+        <th usa-table-header *usaTableHeaderDef>Val <button usa-sort aria-label="Sort by Val"></button></th>
         <td usa-table-data *usaTableDataDef="let row">{{ row.val }}</td>
       </ng-container>
       <tr *usaHeaderRowDef="['val']"></tr>
@@ -137,7 +139,7 @@ class DefaultSortHostComponent {
   template: `
     <usa-table [displayedData]="data">
       <ng-container usaColumnDef="val">
-        <th usa-table-header *usaTableHeaderDef>Val <button usa-sort></button></th>
+        <th usa-table-header *usaTableHeaderDef>Val <button usa-sort aria-label="Sort by Val"></button></th>
         <td usa-table-data *usaTableDataDef="let row">{{ row.val }}</td>
       </ng-container>
       <tr *usaHeaderRowDef="['val']"></tr>
@@ -172,11 +174,11 @@ class HoverHostComponent {
   template: `
     <usa-table [displayedData]="data">
       <ng-container usaColumnDef="name">
-        <th usa-table-header *usaTableHeaderDef>Name <button usa-sort></button></th>
+        <th usa-table-header *usaTableHeaderDef>Name <button usa-sort aria-label="Sort by Name"></button></th>
         <td usa-table-data *usaTableDataDef="let row">{{ row.name }}</td>
       </ng-container>
       <ng-container usaColumnDef="age">
-        <th usa-table-header *usaTableHeaderDef>Age <button usa-sort></button></th>
+        <th usa-table-header *usaTableHeaderDef>Age <button usa-sort aria-label="Sort by Age"></button></th>
         <td usa-table-data *usaTableDataDef="let row">{{ row.age }}</td>
       </ng-container>
       <tr *usaHeaderRowDef="['name', 'age']"></tr>
@@ -552,12 +554,12 @@ describe('UsaTableHeader branch coverage', () => {
       <usa-table [displayedData]="data">
         <ng-container usaColumnDef="name">
           <th usa-table-header ariaLabel="Custom Name" *usaTableHeaderDef>
-            <button usa-sort></button>
+            <button usa-sort aria-label="Sort by Custom Name"></button>
           </th>
           <td usa-table-data *usaTableDataDef="let row">{{ row.name }}</td>
         </ng-container>
         <ng-container usaColumnDef="age">
-          <th usa-table-header *usaTableHeaderDef>Age <button usa-sort></button></th>
+          <th usa-table-header *usaTableHeaderDef>Age <button usa-sort aria-label="Sort by Age"></button></th>
           <td usa-table-data *usaTableDataDef="let row">{{ row.age }}</td>
         </ng-container>
         <tr *usaHeaderRowDef="['name', 'age']"></tr>
