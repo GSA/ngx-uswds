@@ -16,16 +16,14 @@ import { USWDSCardModule } from './card.module';
       [headerFirst]="headerFirst"
       [flagMediaRight]="flagMediaRight"
       [additionalStyles]="additionalStyles"
-    >
-      <div class="usa-card__container"></div>
-    </li>
+    ></li>
   `,
 })
 class CardHostComponent {
   flagView = false;
   headerFirst = false;
   flagMediaRight = false;
-  additionalStyles: string = undefined;
+  additionalStyles?: string;
 }
 
 @Component({
@@ -45,8 +43,8 @@ class CardMediaHostComponent {
   standalone: false,
   template: `
     <uswds-card-group>
-      <li uswds-card><div class="usa-card__container"></div></li>
-      <li uswds-card><div class="usa-card__container"></div></li>
+      <li uswds-card></li>
+      <li uswds-card></li>
     </uswds-card-group>
   `,
 })

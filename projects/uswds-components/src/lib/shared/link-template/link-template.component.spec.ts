@@ -135,7 +135,7 @@ describe('UsaLinkTemplateComponent', () => {
     fixture.detectChanges();
     const anchor = fixture.debugElement.query(By.css('a'));
     anchor.nativeElement.click();
-    expect(host.lastClicked).toBeDefined();
+    expect(host.lastClicked).toBe(host.link);
   });
 
   // -------------------------------------------------------------------------
@@ -161,7 +161,7 @@ describe('UsaLinkTemplateComponent', () => {
     fixture.detectChanges();
     const anchor = fixture.debugElement.query(By.css('a'));
     anchor.nativeElement.click();
-    expect(host.lastClicked).toBeDefined();
+    expect(host.lastClicked).toBe(host.link);
   });
 
   // -------------------------------------------------------------------------
@@ -181,7 +181,7 @@ describe('UsaLinkTemplateComponent', () => {
     fixture.detectChanges();
     const anchor = fixture.debugElement.query(By.css('a'));
     anchor.nativeElement.click();
-    expect(host.lastClicked).toBeDefined();
+    expect(host.lastClicked).toBe(host.link);
   });
 
   // -------------------------------------------------------------------------
@@ -211,7 +211,8 @@ describe('UsaLinkTemplateComponent', () => {
     host.currentClass = 'usa-current';
     fixture.detectChanges();
     const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor.nativeElement.getAttribute('class')).toBe(' usa-current');
+    const cls = anchor.nativeElement.getAttribute('class') ?? '';
+    expect(cls.trim()).toBe('usa-current');
   });
 
   it('uses default currentClass of usa-current', () => {
