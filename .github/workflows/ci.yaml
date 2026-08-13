@@ -64,6 +64,8 @@ jobs:
         run: npm run test:components
       - name: Enforce coverage ratchet
         run: npm run coverage:check
+      - name: Run coverage-gate script tests
+        run: npm run test:scripts
       - name: Upload component coverage artifact
         # always() so the artifact still uploads when the coverage ratchet gate
         # fails (a failed step otherwise skips this); the outcome check ensures
