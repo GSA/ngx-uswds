@@ -10,13 +10,8 @@ function makeFile(name: string, type = 'image/png'): File {
 }
 
 // Helper: dispatch a change event on the native file input with a given file list
-function dispatchChangeWithFiles(
-  fixture: ComponentFixture<UsaFileInputComponent>,
-  files: File[],
-) {
-  const input: HTMLInputElement = fixture.debugElement.query(
-    By.css('input[type="file"]'),
-  ).nativeElement;
+function dispatchChangeWithFiles(fixture: ComponentFixture<UsaFileInputComponent>, files: File[]) {
+  const input: HTMLInputElement = fixture.debugElement.query(By.css('input[type="file"]')).nativeElement;
 
   // Vitest/jsdom doesn't allow setting .files directly; use Object.defineProperty
   const dt = { files: Object.assign([...files], { item: (i: number) => files[i] }) };
