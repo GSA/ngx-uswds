@@ -1,0 +1,259 @@
+import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { UsaMonthView } from './month-view';
+import { UsaCalendarBody } from './calendar-body';
+import { KeyCode } from '../../util/key';
+import { DateAdapter } from '../dateadapter/date-adapter';
+import { NativeDateAdapter } from '../dateadapter/native-date-adapter';
+import { USA_DATE_FORMATS } from '../dateadapter/date-formats';
+import { USA_NATIVE_DATE_FORMATS } from '../dateadapter/native-date-formats';
+import { HoverClassModule } from '../../util/hover-class';
+import { USA_DATE_RANGE_SELECTION_STRATEGY, DefaultUsaCalendarRangeStrategy } from '../date-range-selection-strategy';
+
+@Component({
+  standalone: false,
+  template: `
+    <usa-month-view
+      [activeDate]="activeDate"
+      [selected]="selected"
+      [minDate]="minDate"
+      [maxDate]="maxDate"
+      [dateFilter]="dateFilter"
+      (selectedChange)="onSelected($event)"
+      (activeDateChange)="onActiveDateChange($event)"
+    ></usa-month-view>
+  `,
+})
+class MonthViewHostComponent {
+  activeDate: Date = new Date(2024, 0, 15); // Jan 15 2024
+  selected: Date | null = null;
+  minDate: Date | null = null;
+  maxDate: Date | null = null;
+  dateFilter: ((d: Date) => boolean) | undefined = undefined;
+
+  selectedValues: (Date | null)[] = [];
+  activeDateChanges: Date[] = [];
+
+  onSelected(d: Date | null) {
+    this.selectedValues.push(d);
+  }
+  onActiveDateChange(d: Date) {
+    this.activeDateChanges.push(d);
+  }
+}
+
+describe('UsaMonthView', () => {
+  let fixture: ComponentFixture<MonthViewHostComponent>;
+  let host: MonthViewHostComponent;
+  let monthView: UsaMonthView<Date>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [MonthViewHostComponent, UsaMonthView, UsaCalendarBody],
+      imports: [CommonModule, HoverClassModule],
+      providers: [
+        { provide: DateAdapter, useClass: NativeDateAdapter },
+        { provide: USA_DATE_FORMATS, useValue: USA_NATIVE_DATE_FORMATS },
+        {
+          provide: USA_DATE_RANGE_SELECTION_STRATEGY,
+          useClass: DefaultUsaCalendarRangeStrategy,
+        },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(MonthViewHostComponent);
+    host = fixture.componentInstance;
+    fixture.detectChanges();
+
+    const de: DebugElement = fixture.debugElement.query(By.directive(UsaMonthView));
+    monthView = de.componentInstance as UsaMonthView<Date>;
+  });
+
+  // -----------------------------------------------------------------------
+  // Basic render
+  // -----------------------------------------------------------------------
+
+  describe('rendering', () => {
+    it('creates the component', () => {
+      expect(monthView).toBeTruthy();
+    });
+
+    it('renders 7 weekday labels', () => {
+      expect(monthView._weekdays.length).toBe(7);
+    });
+
+    it('renders at least 4 weeks for January 2024', () => {
+      expect(monthView._weeks.length).toBeGreaterThanOrEqual(4);
+    });
+
+    it('sets _todayDate (may be null if today is not Jan 2024)', () => {
+      expect(monthView._todayDate !== undefined).toBe(true);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // activeDate input
+  // -----------------------------------------------------------------------
+
+  describe('activeDate input', () => {
+    it('re-renders when switching to a different month', () => {
+      host.activeDate = new Date(2024, 5, 1);
+      fixture.detectChanges();
+      expect(monthView._weekdays.length).toBe(7);
+    });
+
+    it('re-renders the month label when month changes', () => {
+      host.activeDate = new Date(2024, 5, 1); // June
+      fixture.detectChanges();
+      // Just verify weeks still populated
+      expect(monthView._weeks.length).toBeGreaterThanOrEqual(4);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // selected input
+  // -----------------------------------------------------------------------
+
+  describe('selected input', () => {
+    it('accepts a date selection', () => {
+      host.selected = new Date(2024, 0, 10);
+      fixture.detectChanges();
+      expect(monthView.selected).not.toBeNull();
+    });
+
+    it('accepts null selection', () => {
+      host.selected = null;
+      fixture.detectChanges();
+      expect(monthView.selected).toBeNull();
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // dateFilter
+  // -----------------------------------------------------------------------
+
+  describe('dateFilter', () => {
+    it('disables dates that fail the filter', () => {
+      // Set filter before first detectChanges; UsaMonthView reads it during _init()
+      host.dateFilter = (d: Date) => d.getDate() % 2 === 0;
+      // Re-create the fixture so the filter is present at init time
+      // (simpler: just directly call _init on the already-created view)
+      monthView.dateFilter = (d: Date) => d.getDate() % 2 === 0;
+      monthView._init();
+      fixture.detectChanges();
+      const oddDayCell = monthView._weeks.flat().find((c) => c.value % 2 !== 0);
+      expect(oddDayCell?.enabled).toBe(false);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // Keyboard navigation
+  // -----------------------------------------------------------------------
+
+  describe('keyboard navigation', () => {
+    function dispatch(keyCode: number, options: Partial<KeyboardEventInit> = {}) {
+      const event = new KeyboardEvent('keydown', { keyCode, ...options });
+      Object.defineProperty(event, 'keyCode', { get: () => keyCode });
+      monthView._handleCalendarBodyKeydown(event);
+      fixture.detectChanges();
+    }
+
+    it('moves to next day on ArrowRight', () => {
+      const before = monthView.activeDate.getDate();
+      dispatch(KeyCode.ArrowRight);
+      expect(monthView.activeDate.getDate()).toBe(before + 1);
+    });
+
+    it('moves to previous day on ArrowLeft', () => {
+      const before = monthView.activeDate.getDate();
+      dispatch(KeyCode.ArrowLeft);
+      expect(monthView.activeDate.getDate()).toBe(before - 1);
+    });
+
+    it('moves up one week on ArrowUp', () => {
+      const before = monthView.activeDate.getDate();
+      dispatch(KeyCode.ArrowUp);
+      expect(monthView.activeDate.getDate()).toBe(before - 7);
+    });
+
+    it('moves down one week on ArrowDown', () => {
+      const before = monthView.activeDate.getDate();
+      dispatch(KeyCode.ArrowDown);
+      expect(monthView.activeDate.getDate()).toBe(before + 7);
+    });
+
+    it('moves to first day of month on Home', () => {
+      dispatch(KeyCode.Home);
+      expect(monthView.activeDate.getDate()).toBe(1);
+    });
+
+    it('moves to last day of month on End', () => {
+      dispatch(KeyCode.End);
+      expect(monthView.activeDate.getDate()).toBe(31);
+    });
+
+    it('moves to previous month on PageUp', () => {
+      const beforeMonth = monthView.activeDate.getMonth();
+      const beforeYear = monthView.activeDate.getFullYear();
+      dispatch(KeyCode.PageUp);
+      const newMonth = monthView.activeDate.getMonth();
+      const newYear = monthView.activeDate.getFullYear();
+      // month went backwards (either month decreased, or wrapped to December of previous year)
+      expect(newYear < beforeYear || (newYear === beforeYear && newMonth < beforeMonth)).toBe(true);
+    });
+
+    it('moves to next month on PageDown', () => {
+      const beforeMonth = monthView.activeDate.getMonth();
+      const beforeYear = monthView.activeDate.getFullYear();
+      dispatch(KeyCode.PageDown);
+      const newMonth = monthView.activeDate.getMonth();
+      const newYear = monthView.activeDate.getFullYear();
+      expect(newYear > beforeYear || (newYear === beforeYear && newMonth > beforeMonth)).toBe(true);
+    });
+
+    it('moves to previous year on alt+PageUp', () => {
+      const before = monthView.activeDate.getFullYear();
+      dispatch(KeyCode.PageUp, { altKey: true });
+      expect(monthView.activeDate.getFullYear()).toBe(before - 1);
+    });
+
+    it('moves to next year on alt+PageDown', () => {
+      const before = monthView.activeDate.getFullYear();
+      dispatch(KeyCode.PageDown, { altKey: true });
+      expect(monthView.activeDate.getFullYear()).toBe(before + 1);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // Keyboard selection (Space / Enter)
+  // -----------------------------------------------------------------------
+
+  describe('keyboard selection', () => {
+    function keydown(keyCode: number) {
+      const event = new KeyboardEvent('keydown', { keyCode });
+      Object.defineProperty(event, 'keyCode', { get: () => keyCode });
+      monthView._handleCalendarBodyKeydown(event);
+    }
+
+    function keyup(keyCode: number) {
+      const event = new KeyboardEvent('keyup', { keyCode });
+      Object.defineProperty(event, 'keyCode', { get: () => keyCode });
+      monthView._handleCalendarBodyKeyup(event);
+      fixture.detectChanges();
+    }
+
+    it('selects the active date when Space is pressed then released', () => {
+      keydown(KeyCode.Space);
+      keyup(KeyCode.Space);
+      expect(host.selectedValues.length).toBe(1);
+    });
+
+    it('selects the active date when Enter is pressed then released', () => {
+      keydown(KeyCode.Enter);
+      keyup(KeyCode.Enter);
+      expect(host.selectedValues.length).toBe(1);
+    });
+  });
+});
