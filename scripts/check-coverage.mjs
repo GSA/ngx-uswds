@@ -8,24 +8,34 @@
  * enforce coverage floors here, after `ng test` has written the v8
  * `coverage-summary.json` report.
  *
- * Policy: the committed floors below are a *ratchet*. They may only ever move
- * up. If a change raises real coverage, bump the floors in the same PR so the
- * gain is locked in; never lower them to make a red build pass.
+ * Policy: the committed floors live in `coverage-floor.json` and are a
+ * *ratchet* — they may only ever move up. Feature and test PRs should NOT edit
+ * the floor file; they just need to keep current coverage at or above it. When
+ * coverage has genuinely improved, lock the gain in with a dedicated bump:
  *
- * Usage: node scripts/check-coverage.mjs [path/to/coverage-summary.json]
+ *     npm run coverage:bump
+ *
+ * which rewrites `coverage-floor.json` to the current measured values. Commit
+ * that on its own (ideally a small standalone PR) so the only shared file
+ * parallel work touches changes in isolation and rarely conflicts.
+ *
+ * Usage:
+ *   node scripts/check-coverage.mjs [path/to/coverage-summary.json]
+ *   node scripts/check-coverage.mjs --bump [path/to/coverage-summary.json]
  */
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// Ratcheting floors. Only ever increase these.
-const THRESHOLDS = {
-  statements: 81,
-  branches: 83,
-  functions: 48,
-  lines: 81,
-};
+const METRICS = ['statements', 'branches', 'functions', 'lines'];
 
-const summaryPath = resolve(process.argv[2] ?? 'coverage/coverage-summary.json');
+const scriptDir = dirname(fileURLToPath(import.meta.url));
+const floorPath = resolve(scriptDir, '..', 'coverage-floor.json');
+
+const args = process.argv.slice(2);
+const bump = args.includes('--bump');
+const summaryArg = args.find((arg) => !arg.startsWith('--'));
+const summaryPath = resolve(summaryArg ?? 'coverage/coverage-summary.json');
 
 let total;
 try {
@@ -37,9 +47,55 @@ try {
   process.exit(1);
 }
 
+let floors;
+try {
+  floors = JSON.parse(readFileSync(floorPath, 'utf8'));
+} catch (error) {
+  console.error(`✖ Could not read coverage floors at ${floorPath}`);
+  console.error(`  ${error.message}`);
+  process.exit(1);
+}
+
+if (bump) {
+  const next = {};
+  let raised = false;
+  for (const metric of METRICS) {
+    const pct = total?.[metric]?.pct;
+    if (typeof pct !== 'number') {
+      console.error(`✖ ${metric}: missing from coverage summary; cannot bump.`);
+      process.exit(1);
+    }
+    const floored = Math.floor(pct);
+    const rawCurrent = floors[metric];
+    // Treat a missing or malformed floor as 0 so a corrupt coverage-floor.json
+    // can never poison the ratchet with NaN/null values.
+    const current = Number.isFinite(rawCurrent) ? rawCurrent : 0;
+    // Ratchet only ever moves up.
+    next[metric] = Math.max(current, floored);
+    if (next[metric] > current) {
+      raised = true;
+      console.log(`  ↑ ${metric.padEnd(11)} ${current}% → ${next[metric]}% (measured ${pct.toFixed(2)}%)`);
+    } else {
+      console.log(`  = ${metric.padEnd(11)} ${current}% (measured ${pct.toFixed(2)}%)`);
+    }
+  }
+  if (!raised) {
+    console.log('\n✓ Floors already at or above current coverage; nothing to bump.');
+    process.exit(0);
+  }
+  writeFileSync(floorPath, `${JSON.stringify(next, null, 2)}\n`);
+  console.log(`\n✓ Wrote raised floors to ${floorPath}. Commit this change on its own.`);
+  process.exit(0);
+}
+
 const failures = [];
-for (const [metric, floor] of Object.entries(THRESHOLDS)) {
+for (const metric of METRICS) {
+  const floor = floors[metric];
   const pct = total?.[metric]?.pct;
+  if (!Number.isFinite(floor)) {
+    failures.push(`${metric}: missing or invalid in coverage-floor.json`);
+    continue;
+  }
   if (typeof pct !== 'number') {
     failures.push(`${metric}: missing from coverage summary`);
     continue;
@@ -58,8 +114,8 @@ if (failures.length > 0) {
     console.error(`  ${failure}`);
   }
   console.error(
-    '\nCoverage dropped below the committed ratchet. Add tests to restore it —\n' +
-      'do not lower the floors in scripts/check-coverage.mjs to go green.',
+    '\nCoverage dropped below the committed ratchet in coverage-floor.json.\n' +
+      'Add tests to restore it — do not lower the floors to go green.',
   );
   process.exit(1);
 }
