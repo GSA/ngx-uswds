@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 
 import { UsaFileInputComponent } from './file-input.component';
 import { UsaFileInputModule } from './file-input.module';
@@ -7,19 +6,6 @@ import { UsaFileInputModule } from './file-input.module';
 // Helper: create a minimal File object
 function makeFile(name: string, type = 'image/png'): File {
   return new File(['content'], name, { type });
-}
-
-// Helper: dispatch a change event on the native file input with a given file list
-function dispatchChangeWithFiles(fixture: ComponentFixture<UsaFileInputComponent>, files: File[]) {
-  const input: HTMLInputElement = fixture.debugElement.query(By.css('input[type="file"]')).nativeElement;
-
-  // Vitest/jsdom doesn't allow setting .files directly; use Object.defineProperty
-  const dt = { files: Object.assign([...files], { item: (i: number) => files[i] }) };
-  Object.defineProperty(input, 'files', { value: dt.files, writable: true, configurable: true });
-
-  // Provide a fake target so onNewFilesUpload can read $event.target.files
-  const event = { target: { files } } as any;
-  fixture.componentInstance.onNewFilesUpload(event);
 }
 
 describe('UsaFileInputComponent', () => {

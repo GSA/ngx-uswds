@@ -100,33 +100,40 @@ describe('UsaFilePreviewDirective', () => {
 
   // ─── no uploadRequest ───────────────────────────────────────────────────────────────
 
-  it('shows a direct preview for an image file when no uploadRequest is given', () => {
-    // jsdom does not implement URL.createObjectURL — provide a stub
-    const createObjectURL = vi.fn(() => 'blob:mock-url');
-    vi.stubGlobal('URL', { ...URL, createObjectURL });
+  describe('no uploadRequest', () => {
+    let createObjectURL: ReturnType<typeof vi.fn>;
 
-    build();
-    component.file = new File(['img'], 'photo.png', { type: 'image/png' });
-    // no uploadRequest — stays undefined
-    fixture.detectChanges();
+    beforeEach(() => {
+      // jsdom does not implement URL.createObjectURL — stub only that method
+      // so the URL constructor and other URL statics remain intact.
+      createObjectURL = vi.fn(() => 'blob:mock-url');
+      URL.createObjectURL = createObjectURL;
+    });
 
-    const image = getImage();
-    // loading class should be removed synchronously
-    expect(image.classList.contains('is-loading')).toBe(false);
-    // createObjectURL was called with the image file
-    expect(createObjectURL).toHaveBeenCalledWith(component.file);
+    afterEach(() => {
+      // Restore so the stub never leaks into other tests.
+      delete (URL as any).createObjectURL;
+    });
 
-    vi.unstubAllGlobals();
-  });
+    it('shows a direct preview for an image file when no uploadRequest is given', () => {
+      build();
+      component.file = new File(['img'], 'photo.png', { type: 'image/png' });
+      fixture.detectChanges();
 
-  it('adds a non-image preview class when no uploadRequest and file is not an image', () => {
-    build();
-    component.file = new File(['doc'], 'report.pdf', { type: 'application/pdf' });
-    fixture.detectChanges();
+      const image = getImage();
+      expect(image.classList.contains('is-loading')).toBe(false);
+      expect(createObjectURL).toHaveBeenCalledWith(component.file);
+    });
 
-    const image = getImage();
-    expect(image.classList.contains('is-loading')).toBe(false);
-    expect(image.classList.contains('usa-file-input__preview-image--pdf')).toBe(true);
+    it('adds a non-image preview class when no uploadRequest and file is not an image', () => {
+      build();
+      component.file = new File(['doc'], 'report.pdf', { type: 'application/pdf' });
+      fixture.detectChanges();
+
+      const image = getImage();
+      expect(image.classList.contains('is-loading')).toBe(false);
+      expect(image.classList.contains('usa-file-input__preview-image--pdf')).toBe(true);
+    });
   });
 
   // ─── _getFilePreviewClass branches ──────────────────────────────────────────────
