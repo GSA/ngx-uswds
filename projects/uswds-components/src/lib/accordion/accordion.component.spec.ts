@@ -537,7 +537,15 @@ describe('UsaAccordionComponent — animation callbacks', () => {
     const panel = document.createElement('div');
     panel.style.display = 'none';
     accordion.onBodyExpansionStart(
-      { fromState: 'collapsed', toState: 'expanded', totalTime: 0, phaseName: 'start', element: panel, triggerName: 'bodyExpansion', disabled: false },
+      {
+        fromState: 'collapsed',
+        toState: 'expanded',
+        totalTime: 0,
+        phaseName: 'start',
+        element: panel,
+        triggerName: 'bodyExpansion',
+        disabled: false,
+      },
       panel,
     );
     expect(panel.style.display).toBe('');
@@ -547,7 +555,15 @@ describe('UsaAccordionComponent — animation callbacks', () => {
     const panel = document.createElement('div');
     panel.style.display = 'none';
     accordion.onBodyExpansionStart(
-      { fromState: 'expanded', toState: 'collapsed', totalTime: 0, phaseName: 'start', element: panel, triggerName: 'bodyExpansion', disabled: false },
+      {
+        fromState: 'expanded',
+        toState: 'collapsed',
+        totalTime: 0,
+        phaseName: 'start',
+        element: panel,
+        triggerName: 'bodyExpansion',
+        disabled: false,
+      },
       panel,
     );
     expect(panel.style.display).toBe('none');
@@ -559,7 +575,15 @@ describe('UsaAccordionComponent — animation callbacks', () => {
     const panel = document.createElement('div');
     panel.id = 'one';
     accordion.onBodyExpansionEnd(
-      { fromState: 'collapsed', toState: 'expanded', totalTime: 0, phaseName: 'done', element: panel, triggerName: 'bodyExpansion', disabled: false },
+      {
+        fromState: 'collapsed',
+        toState: 'expanded',
+        totalTime: 0,
+        phaseName: 'done',
+        element: panel,
+        triggerName: 'bodyExpansion',
+        disabled: false,
+      },
       panel,
     );
     expect(shown).toEqual(['one']);
@@ -571,7 +595,15 @@ describe('UsaAccordionComponent — animation callbacks', () => {
     const panel = document.createElement('div');
     panel.id = 'two';
     accordion.onBodyExpansionEnd(
-      { fromState: 'expanded', toState: 'collapsed', totalTime: 0, phaseName: 'done', element: panel, triggerName: 'bodyExpansion', disabled: false },
+      {
+        fromState: 'expanded',
+        toState: 'collapsed',
+        totalTime: 0,
+        phaseName: 'done',
+        element: panel,
+        triggerName: 'bodyExpansion',
+        disabled: false,
+      },
       panel,
     );
     expect(hidden).toEqual(['two']);
@@ -586,7 +618,15 @@ describe('UsaAccordionComponent — animation callbacks', () => {
     const panel = document.createElement('div');
     panel.id = 'three';
     accordion.onBodyExpansionEnd(
-      { fromState: 'void', toState: 'expanded', totalTime: 0, phaseName: 'done', element: panel, triggerName: 'bodyExpansion', disabled: false },
+      {
+        fromState: 'void',
+        toState: 'expanded',
+        totalTime: 0,
+        phaseName: 'done',
+        element: panel,
+        triggerName: 'bodyExpansion',
+        disabled: false,
+      },
       panel,
     );
     expect(shown).toEqual([]);
@@ -606,9 +646,7 @@ describe('UsaAccordionComponent — custom UsaAccordionConfig', () => {
     customConfig.headerLevel = 3;
     TestBed.configureTestingModule({
       imports: [UsaAccordionModule, NoopAnimationsModule],
-      providers: [
-        { provide: UsaAccordionConfig, useValue: customConfig },
-      ],
+      providers: [{ provide: UsaAccordionConfig, useValue: customConfig }],
     });
     // Create the accordion directly so no host @Input bindings override config values
     const fixture = TestBed.createComponent(UsaAccordionComponent);
