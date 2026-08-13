@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { UsaTableComponent } from './table.component';
+import { UsaTableModule } from './table.module';
 
 describe('TableComponent', () => {
   let component: UsaTableComponent;
@@ -8,7 +9,7 @@ describe('TableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UsaTableComponent],
+      imports: [UsaTableModule],
     }).compileComponents();
   }));
 

@@ -1,7 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
-import { UsaCharacterCountDirective } from './character-count.directive';
+import { UsaCharacterCountModule } from './character-count.module';
 
 @Component({
   standalone: false,
@@ -23,8 +23,8 @@ describe('CharacterCountDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [UsaCharacterCountDirective, CharacterCountTestComponent],
+      imports: [ReactiveFormsModule, UsaCharacterCountModule],
+      declarations: [CharacterCountTestComponent],
     }).createComponent(CharacterCountTestComponent);
 
     fixture.detectChanges(); // initial binding

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { UsaSearchComponent } from './search.component';
+import { UsaSearchModule } from './search.module';
 
 describe('SearchComponent', () => {
   let component: UsaSearchComponent;
@@ -8,7 +9,7 @@ describe('SearchComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UsaSearchComponent],
+      imports: [UsaSearchModule],
     }).compileComponents();
   }));
 
@@ -24,7 +25,7 @@ describe('SearchComponent', () => {
 
   describe('onValueChange', () => {
     it('Should emit an event when the search input value changes', () => {
-      const eventSpy = spyOn(component.searchTextChange, 'emit');
+      const eventSpy = vi.spyOn(component.searchTextChange, 'emit');
       component.onValueChange('test');
       fixture.detectChanges();
       expect(eventSpy).toHaveBeenCalled();
@@ -33,7 +34,7 @@ describe('SearchComponent', () => {
 
   describe('focusChange', () => {
     it('Should emit an event on input blur', () => {
-      const eventSpy = spyOn(component.onBlur, 'emit');
+      const eventSpy = vi.spyOn(component.onBlur, 'emit');
       component.focusChange({ target: { value: 'test' } });
       fixture.detectChanges();
       expect(eventSpy).toHaveBeenCalled();
@@ -50,7 +51,7 @@ describe('SearchComponent', () => {
         key: 'Enter',
         preventDefault: function () {},
       };
-      const eventSpy = spyOn(component, 'updateModel');
+      const eventSpy = vi.spyOn(component, 'updateModel');
       component.onKeydown(mockEv);
       fixture.detectChanges();
       expect(eventSpy).toHaveBeenCalled();

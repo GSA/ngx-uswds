@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { UsaComboBoxComponent } from './combo-box.component';
+import { UsaComboboxModule } from './combo-box.module';
 
 describe('ComboboxComponent', () => {
   let component: UsaComboBoxComponent;
@@ -8,7 +9,7 @@ describe('ComboboxComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UsaComboBoxComponent],
+      imports: [UsaComboboxModule],
     }).compileComponents();
   }));
 

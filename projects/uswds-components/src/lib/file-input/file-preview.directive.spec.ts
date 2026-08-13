@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Observable, Subject, of } from 'rxjs';
-import { UsaFilePreviewDirective } from './file-preview.directive';
+import { UsaFileInputModule } from './file-input.module';
 
 @Component({
   standalone: false,
@@ -25,7 +25,8 @@ describe('UsaFilePreviewDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UsaFilePreviewDirective, FilePreviewTestComponent],
+      imports: [UsaFileInputModule],
+      declarations: [FilePreviewTestComponent],
     });
   });
 

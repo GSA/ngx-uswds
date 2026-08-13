@@ -76,7 +76,7 @@ describe('Radio Component', () => {
   /** Tests for basic radio inputs */
 
   it('Should emit change event when a radio option is selected', () => {
-    const eventSpy = spyOn(component, 'onRadioChange');
+    const eventSpy = vi.spyOn(component, 'onRadioChange');
     const bookerTWashingtonRadioInput: HTMLInputElement =
       component.elementRef.nativeElement.querySelector('#historical-washington');
     bookerTWashingtonRadioInput.click();
@@ -85,7 +85,7 @@ describe('Radio Component', () => {
   });
 
   it('Should not emit change event when disabled radio option is selected', () => {
-    const eventSpy = spyOn(component, 'onRadioChange');
+    const eventSpy = vi.spyOn(component, 'onRadioChange');
     const georgeWCarverRadioInput: HTMLInputElement =
       component.elementRef.nativeElement.querySelector('#historical-carver');
     georgeWCarverRadioInput.click();

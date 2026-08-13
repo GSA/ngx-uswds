@@ -104,36 +104,6 @@
             "buildTarget": "usa-components:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@uswds/uswds/dist/fonts/",
-                "output": "/assets/uswds/fonts/"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@uswds/uswds/dist/img/",
-                "output": "/assets/uswds/img/"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@gsa-sam/sam-styles/sam-styles/packages/images",
-                "output": "/assets/uswds/img/"
-              }
-            ],
-            "styles": ["src/styles/app.styles.scss"],
-            "scripts": []
-          }
-        },
         "storybook": {
           "builder": "@storybook/angular:start-storybook",
           "options": {
@@ -174,12 +144,28 @@
             }
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+        "build-test": {
+          "builder": "@angular/build:application",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "outputPath": "dist/uswds-components-test",
+            "index": false,
+            "browser": "projects/uswds-components/src/test-main.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/uswds-components/tsconfig.spec.json",
-            "karmaConfig": "projects/uswds-components/karma.conf.js"
+            "optimization": false,
+            "aot": false,
+            "progress": false
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "uswds-components:build-test",
+            "tsConfig": "projects/uswds-components/tsconfig.spec.json",
+            "runner": "vitest",
+            "setupFiles": ["projects/uswds-components/src/test-setup.ts"],
+            "codeCoverage": true,
+            "codeCoverageReporters": ["text-summary", "lcov", "json-summary", "html"]
           }
         },
         "lint": {

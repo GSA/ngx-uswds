@@ -4,6 +4,7 @@ import { Key } from '../util/key';
 
 import { UsaStepIndicatorComponent } from './step-indicator.component';
 import { UsaStepIndicatorModel } from './step-indicator.model';
+import { UsaStepIndicatorModule } from './step-indicator.module';
 
 function getAllSteps(element: DebugElement): HTMLElement[] {
   const stepNodeList: NodeList = element.nativeElement.querySelectorAll('.usa-step-indicator__segment');
@@ -48,7 +49,7 @@ describe('StepIndicatorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UsaStepIndicatorComponent],
+      imports: [UsaStepIndicatorModule],
     }).compileComponents();
   }));
 
@@ -82,14 +83,14 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should emit event on step click', () => {
-    const eventSpy = spyOn(component.currentStepChange, 'emit');
+    const eventSpy = vi.spyOn(component.currentStepChange, 'emit');
     getAllSteps(fixture.debugElement)[4].click();
     fixture.detectChanges();
     expect(eventSpy).toHaveBeenCalledWith(4);
   });
 
   it('Should update current step on current step change', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
@@ -98,7 +99,7 @@ describe('StepIndicatorComponent', () => {
 
   it('Should not update current step on step click if step is disabled', () => {
     component.steps[2].disabled = true;
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
@@ -107,7 +108,7 @@ describe('StepIndicatorComponent', () => {
 
   it('Should not update current step on step click if step selection is disabled', () => {
     component.disableStepSelection = true;
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
@@ -115,7 +116,7 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should focus on next step on arrow right press', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[0].click();
     fixture.detectChanges();
@@ -134,7 +135,7 @@ describe('StepIndicatorComponent', () => {
     component.steps[1].disabled = true;
     fixture.detectChanges();
 
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[0].click();
     fixture.detectChanges();
@@ -150,7 +151,7 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should focus on previous step on arrow left press', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[0].click();
     fixture.detectChanges();
@@ -169,7 +170,7 @@ describe('StepIndicatorComponent', () => {
     component.steps[4].disabled = true;
     fixture.detectChanges();
 
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[0].click();
     fixture.detectChanges();
@@ -185,7 +186,7 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should focus on first step on home press', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
@@ -205,7 +206,7 @@ describe('StepIndicatorComponent', () => {
     component.steps[1].disabled = true;
     fixture.detectChanges();
 
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[3].click();
     fixture.detectChanges();
@@ -221,7 +222,7 @@ describe('StepIndicatorComponent', () => {
   });
 
   it('Should focus on last step on end press', () => {
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();
@@ -241,7 +242,7 @@ describe('StepIndicatorComponent', () => {
     component.steps[3].disabled = true;
     fixture.detectChanges();
 
-    spyOn(component.currentStepChange, 'emit').and.callFake((index) => (component.currentStep = index));
+    vi.spyOn(component.currentStepChange, 'emit').mockImplementation((index) => (component.currentStep = index));
     const allSteps = getAllSteps(fixture.debugElement);
     allSteps[2].click();
     fixture.detectChanges();

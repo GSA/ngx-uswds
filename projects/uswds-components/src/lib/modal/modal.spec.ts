@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { firstValueFrom } from 'rxjs';
 import { Key } from '../util/key';
 import { UsaModalService } from './modal';
 import { UsaModalOptions } from './modal-config';
@@ -30,64 +29,69 @@ describe('UsaModal', () => {
     fixture.destroy();
   }));
 
-  it('Should open and close modal', (done: DoneFn) => {
-    openModal();
+  // NOTE ON ORDERING: under Vitest + `NoopAnimationsModule`, the modal window's
+  // `(@dialogContainer.done)` callback fires *synchronously* while `open()` runs,
+  // so `modalRef.shown` has already emitted-and-completed by the time the test
+  // body regains control. (Under the old Karma/real-browser setup this fired on a
+  // later tick.) Each test therefore opens the modal first (`openModal()`), which
+  // synchronously attaches the overlay and populates `component.modalRef`, and
+  // only then subscribes to the completion observables (`hidden`/`dismissed`)
+  // *before* driving the close/dismiss interaction against the already-attached
+  // overlay DOM.
+  it('Should open and close modal', () =>
+    new Promise<void>((done) => {
+      openModal();
 
-    firstValueFrom(component.modalRef.shown).then(() => {
+      component.modalRef.hidden.subscribe(() => {
+        expect(document.body.querySelector('.usa-modal-overlay')).toBeNull();
+        done();
+      });
+
       const overlayModel: HTMLElement = document.body.querySelector('.usa-modal-overlay');
       expect(overlayModel).toBeDefined();
       const closeButton: HTMLButtonElement = overlayModel.querySelector('#modal-test-close');
       closeButton.click();
-    });
+    }));
 
-    component.modalRef.hidden.subscribe(() => {
-      expect(document.body.querySelector('.usa-modal-overlay')).toBeNull();
-      done();
-    });
-  });
+  it('Should close on backdrop click', () =>
+    new Promise<void>((done) => {
+      openModal();
 
-  it('Should close on backdrop click', (done: DoneFn) => {
-    openModal();
+      component.modalRef.dismissed.subscribe((reason) => {
+        expect(reason).toEqual(ModalDismissReasons.BACKDROP_CLICK);
+        done();
+      });
 
-    component.modalRef.shown.subscribe(() => {
       const overlayModel: HTMLElement = document.body.querySelector('.usa-modal-overlay');
       overlayModel.click();
-    });
+    }));
 
-    component.modalRef.dismissed.subscribe((reason) => {
-      expect(reason).toEqual(ModalDismissReasons.BACKDROP_CLICK);
-      done();
-    });
-  });
+  it('Should close on close button click', () =>
+    new Promise<void>((done) => {
+      openModal();
 
-  it('Should close on close button click', (done: DoneFn) => {
-    openModal();
+      component.modalRef.dismissed.subscribe((reason) => {
+        expect(reason).toEqual(ModalDismissReasons.CLOSE_CLICKED);
+        done();
+      });
 
-    component.modalRef.shown.subscribe(() => {
       const closeButton: HTMLElement = document.body.querySelector('.usa-modal__close');
       closeButton.click();
-    });
+    }));
 
-    component.modalRef.dismissed.subscribe((reason) => {
-      expect(reason).toEqual(ModalDismissReasons.CLOSE_CLICKED);
-      done();
-    });
-  });
+  it('Should close on escape press', () =>
+    new Promise<void>((done) => {
+      openModal();
 
-  it('Should close on escape press', (done: DoneFn) => {
-    openModal();
+      component.modalRef.dismissed.subscribe((reason) => {
+        expect(reason).toEqual(ModalDismissReasons.ESC);
+        done();
+      });
 
-    component.modalRef.shown.subscribe(() => {
       const modalEl = document.querySelector('usa-modal-window') as HTMLElement;
       const event = new KeyboardEvent('keydown', { key: Key.Escape, bubbles: true });
       modalEl.dispatchEvent(event);
-    });
-
-    component.modalRef.dismissed.subscribe((reason) => {
-      expect(reason).toEqual(ModalDismissReasons.ESC);
-      done();
-    });
-  });
+    }));
 });
 
 @Component({

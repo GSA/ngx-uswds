@@ -47,7 +47,11 @@ function expectOpenPanels(nativeEl: HTMLElement, openPanelsDef: boolean[]) {
   const result = panelsButton.map((titleEl) => {
     const isAriaExpanded = titleEl.getAttribute('aria-expanded') === 'true';
     const isCSSCollapsed = titleEl.classList.contains('collapsed');
-    return isAriaExpanded === !isCSSCollapsed ? isAriaExpanded : fail('inconsistent state');
+    return isAriaExpanded === !isCSSCollapsed
+      ? isAriaExpanded
+      : ((): never => {
+          throw new Error('inconsistent state');
+        })();
   });
 
   const panelContents = getPanelsContent(nativeEl);
