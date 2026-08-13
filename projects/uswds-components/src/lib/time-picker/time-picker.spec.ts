@@ -54,6 +54,10 @@ describe('UsaTimePicker', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   // -------------------------------------------------------------------------
   // 1. Instantiation + CSS class
   // -------------------------------------------------------------------------
@@ -139,16 +143,14 @@ describe('UsaTimePicker', () => {
   // -------------------------------------------------------------------------
   // 6. minTime / maxTime as Date objects
   // -------------------------------------------------------------------------
-  it('should handle minTime as a Date object by converting to string via toTimeString', () => {
-    // parseTimeString calls .split(':') on the value — Date.toString() contains
-    // colons in a different format, so the parsed hours/mins end up wrong and
-    // the clamp keeps the list starting at 00:00 (MIN_TIME fallback via Math.max).
-    // The key behaviour: no exception is thrown and items are still generated.
+  it('should throw a TypeError when minTime is a Date object (unsupported — parseTimeString calls .split on it)', () => {
+    // parseTimeString() calls timeStr.split(':') — Date objects do not have a
+    // .split method, so passing a Date directly throws a TypeError. This test
+    // documents that behaviour so callers know to convert Dates to 'HH:mm'
+    // strings before binding to [minTime].
     const d = new Date(2020, 0, 1, 10, 30);
     host.minTime = d as any;
-    // parseTimeString(Date) calls .split on Date object — throws TypeError.
-    // We expect that and verify the test documents the actual behaviour.
-    expect(() => fixture.detectChanges()).toThrow();
+    expect(() => fixture.detectChanges()).toThrowError(TypeError);
   });
 
   it('should handle minTime as a formatted string derived from a date', () => {
@@ -203,8 +205,6 @@ describe('UsaTimePicker', () => {
 
     comboBox.changeEvent.emit('12:30');
     expect(highlightSpy).toHaveBeenCalled();
-
-    vi.restoreAllMocks();
   });
 
   // -------------------------------------------------------------------------
@@ -238,8 +238,6 @@ describe('UsaTimePicker', () => {
     comboBox.changeEvent.emit('12');
     expect(customFilter).toHaveBeenCalledWith('12', expect.any(Array));
     expect(highlightSpy).toHaveBeenCalledWith(3);
-
-    vi.restoreAllMocks();
   });
 
   // -------------------------------------------------------------------------
