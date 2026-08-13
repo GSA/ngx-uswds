@@ -15,7 +15,7 @@ const ITEMS = [
 /** Stub getClientRects so jsdom doesn't throw in ngAfterViewInit. */
 function stubClientRects() {
   vi.spyOn(HTMLElement.prototype, 'getClientRects').mockReturnValue({
-    item: () => ({ height: 0, top: 0 } as DOMRect),
+    item: () => ({ height: 0, top: 0 }) as DOMRect,
     length: 1,
     [Symbol.iterator]: function* () {
       yield { height: 0, top: 0 } as DOMRect;
@@ -345,9 +345,11 @@ describe('UsaComboboxList', () => {
     it('positions dropdown above input when direction=top and there is no room below', () => {
       // Create fixture with direction='top' - setDropdownDirection applies bottom=100%
       vi.spyOn(HTMLElement.prototype, 'getClientRects').mockReturnValue({
-        item: () => ({ height: 100, top: 500 } as DOMRect),
+        item: () => ({ height: 100, top: 500 }) as DOMRect,
         length: 1,
-        [Symbol.iterator]: function* () { yield { height: 100, top: 500 } as DOMRect; },
+        [Symbol.iterator]: function* () {
+          yield { height: 100, top: 500 } as DOMRect;
+        },
       } as unknown as DOMRectList);
       vi.spyOn(HTMLElement.prototype, 'scrollIntoView').mockImplementation(() => {});
       // window.innerHeight defaults to 768 in jsdom; height+top=600 < 768, so top branch:
@@ -367,9 +369,11 @@ describe('UsaComboboxList', () => {
     it('positions dropdown above when bottom of dropdown exceeds viewport height', () => {
       // dropdownY = height + top >= innerHeight -> apply top style
       vi.spyOn(HTMLElement.prototype, 'getClientRects').mockReturnValue({
-        item: () => ({ height: 400, top: 400 } as DOMRect),
+        item: () => ({ height: 400, top: 400 }) as DOMRect,
         length: 1,
-        [Symbol.iterator]: function* () { yield { height: 400, top: 400 } as DOMRect; },
+        [Symbol.iterator]: function* () {
+          yield { height: 400, top: 400 } as DOMRect;
+        },
       } as unknown as DOMRectList);
       vi.spyOn(HTMLElement.prototype, 'scrollIntoView').mockImplementation(() => {});
       const f2 = TestBed.createComponent(UsaComboboxList);
