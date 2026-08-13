@@ -97,4 +97,66 @@ describe('UsaFilePreviewDirective', () => {
     expect(image.getAttribute('src')).toBe('');
     expect(component.errored).toBe(component.file);
   }));
+
+  // ─── no uploadRequest ───────────────────────────────────────────────────────────────
+
+  describe('no uploadRequest', () => {
+    let createObjectURL: ReturnType<typeof vi.fn>;
+
+    beforeEach(() => {
+      // jsdom does not implement URL.createObjectURL — stub only that method
+      // so the URL constructor and other URL statics remain intact.
+      createObjectURL = vi.fn(() => 'blob:mock-url');
+      URL.createObjectURL = createObjectURL;
+    });
+
+    afterEach(() => {
+      // Restore so the stub never leaks into other tests.
+      delete (URL as any).createObjectURL;
+    });
+
+    it('shows a direct preview for an image file when no uploadRequest is given', () => {
+      build();
+      component.file = new File(['img'], 'photo.png', { type: 'image/png' });
+      fixture.detectChanges();
+
+      const image = getImage();
+      expect(image.classList.contains('is-loading')).toBe(false);
+      expect(createObjectURL).toHaveBeenCalledWith(component.file);
+    });
+
+    it('adds a non-image preview class when no uploadRequest and file is not an image', () => {
+      build();
+      component.file = new File(['doc'], 'report.pdf', { type: 'application/pdf' });
+      fixture.detectChanges();
+
+      const image = getImage();
+      expect(image.classList.contains('is-loading')).toBe(false);
+      expect(image.classList.contains('usa-file-input__preview-image--pdf')).toBe(true);
+    });
+  });
+
+  // ─── _getFilePreviewClass branches ──────────────────────────────────────────────
+
+  const previewClassCases: Array<[string, string, string]> = [
+    ['pdf', 'report.pdf', 'usa-file-input__preview-image--pdf'],
+    ['doc', 'letter.doc', 'usa-file-input__preview-image--word'],
+    ['pages', 'letter.pages', 'usa-file-input__preview-image--word'],
+    ['xls', 'data.xls', 'usa-file-input__preview-image--excel'],
+    ['numbers', 'data.numbers', 'usa-file-input__preview-image--excel'],
+    ['mov', 'clip.mov', 'usa-file-input__preview-image--video'],
+    ['mp4', 'clip.mp4', 'usa-file-input__preview-image--video'],
+    ['generic', 'archive.zip', 'usa-file-input__preview-image--generic'],
+  ];
+
+  previewClassCases.forEach(([label, fileName, expectedClass]) => {
+    it(`applies ${expectedClass} for ${label} file`, () => {
+      build();
+      component.file = new File(['data'], fileName, { type: 'application/octet-stream' });
+      fixture.detectChanges();
+
+      const image = getImage();
+      expect(image.classList.contains(expectedClass)).toBe(true);
+    });
+  });
 });
