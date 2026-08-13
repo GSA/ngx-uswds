@@ -21,12 +21,12 @@ function stubClientRects() {
       yield { height: 0, top: 0 } as DOMRect;
     },
   } as unknown as DOMRectList);
-  // jsdom doesn't implement scrollIntoView
+  // jsdom doesn't implement scrollIntoView — define a no-op so vi.spyOn always has
+  // an existing descriptor to wrap (and vi.restoreAllMocks() can clean it up).
   if (!HTMLElement.prototype.scrollIntoView) {
-    HTMLElement.prototype.scrollIntoView = vi.fn();
-  } else {
-    vi.spyOn(HTMLElement.prototype, 'scrollIntoView').mockImplementation(() => {});
+    HTMLElement.prototype.scrollIntoView = () => {};
   }
+  vi.spyOn(HTMLElement.prototype, 'scrollIntoView').mockImplementation(() => {});
 }
 
 /** Create and initialise a UsaComboboxList fixture with default test inputs. */
