@@ -19,10 +19,10 @@ import { resolve } from 'node:path';
 
 // Ratcheting floors. Only ever increase these.
 const THRESHOLDS = {
-  statements: 78,
-  branches: 78,
-  functions: 42,
-  lines: 78,
+  statements: 79,
+  branches: 85,
+  functions: 50,
+  lines: 79,
 };
 
 const summaryPath = resolve(process.argv[2] ?? 'coverage/coverage-summary.json');
