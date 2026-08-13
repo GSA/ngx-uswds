@@ -253,3 +253,51 @@ describe('coerceStringArray', () => {
     expect(coerceStringArray(['  ', '  '])).toEqual([]);
   });
 });
+
+// ─── getNextItemInList: all-disabled fallback ─────────────────────────────────
+describe('getNextItemInList — all disabled', () => {
+  it('returns the starting item when every other item is disabled', () => {
+    const items = [{ disabled: false }, { disabled: true }, { disabled: true }];
+    // scanning from index 0 finds nothing else enabled → loops back to start
+    expect(getNextItemInList(0, items, 1)).toBe(items[0]);
+  });
+
+  it('returns the starting index when every other item is disabled', () => {
+    const items = [{ disabled: false }, { disabled: true }];
+    expect(getNextItemIndexInList(0, items, 1)).toBe(0);
+  });
+});
+
+// ─── isNumber / isInteger extra branches ──────────────────────────────────────
+describe('isNumber — additional branches', () => {
+  it('returns false for undefined', () => expect(isNumber(undefined)).toBe(false));
+  it('returns true for a float string', () => expect(isNumber('3.14')).toBe(true));
+});
+
+describe('isInteger — additional branches', () => {
+  it('returns false for NaN', () => expect(isInteger(NaN)).toBe(false));
+  it('returns true for negative integer', () => expect(isInteger(-4)).toBe(true));
+});
+
+// ─── padNumber non-numeric branch ─────────────────────────────────────────────
+describe('padNumber — non-numeric', () => {
+  it('returns empty string for a non-numeric string', () => expect(padNumber('x' as any)).toBe(''));
+});
+
+// ─── hasClassName guards ──────────────────────────────────────────────────────
+describe('hasClassName — guard branches', () => {
+  it('returns falsy when element has no className', () => {
+    expect(hasClassName({}, 'bar')).toBeFalsy();
+  });
+  it('returns falsy when className has no split method', () => {
+    expect(hasClassName({ className: 123 }, 'bar')).toBeFalsy();
+  });
+});
+
+// ─── closest — missing native method ──────────────────────────────────────────
+describe('closest — missing native method', () => {
+  it('returns null when element.closest is undefined', () => {
+    const fake = { closest: undefined } as unknown as HTMLElement;
+    expect(closest(fake, '.anything')).toBeNull();
+  });
+});

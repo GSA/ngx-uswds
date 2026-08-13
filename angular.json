@@ -164,8 +164,8 @@
             "tsConfig": "projects/uswds-components/tsconfig.spec.json",
             "runner": "vitest",
             "setupFiles": ["projects/uswds-components/src/test-setup.ts"],
-            "codeCoverage": true,
-            "codeCoverageReporters": ["text-summary", "lcov", "json-summary", "html"]
+            "coverage": true,
+            "coverageReporters": ["text-summary", "lcov", "json-summary", "html"]
           }
         },
         "lint": {

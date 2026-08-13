@@ -1,9 +1,17 @@
 {
   "name": "@gsa-sam/ngx-uswds",
-  "version": "20.0.0",
+  "version": "21.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/GSA/ngx-uswds.git"
+  },
+  "peerDependencies": {
+    "@angular/animations": "^21.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/router": "^21.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"

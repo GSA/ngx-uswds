@@ -133,4 +133,64 @@ describe('TooltipDirective', () => {
     button.triggerEventHandler('blur', null);
     fixture.detectChanges();
   });
+
+  // ---------------------------------------------------------------------------
+  // Viewport fallback branches
+  //
+  // When the primary position is not within the viewport the directive falls
+  // back through the alternate positions. We force `isInViewport` to report
+  // false so the fallback chains execute.
+  // ---------------------------------------------------------------------------
+  describe('viewport fallback', () => {
+    it('falls back from top to bottom when top is off-screen', () => {
+      vi.spyOn(component.directive, 'isInViewport').mockReturnValue(false);
+      component.directive.position = 'top';
+      component.directive.show();
+      fixture.detectChanges();
+      expect(Object.keys(tooltipText.classes).includes('usa-tooltip__body--bottom')).toBe(true);
+    });
+
+    it('falls back from bottom to top when bottom is off-screen', () => {
+      vi.spyOn(component.directive, 'isInViewport').mockReturnValue(false);
+      component.directive.position = 'bottom';
+      component.directive.show();
+      fixture.detectChanges();
+      expect(Object.keys(tooltipText.classes).includes('usa-tooltip__body--top')).toBe(true);
+    });
+
+    it('falls back left → right → top when everything is off-screen', () => {
+      vi.spyOn(component.directive, 'isInViewport').mockReturnValue(false);
+      component.directive.position = 'left';
+      component.directive.show();
+      fixture.detectChanges();
+      expect(Object.keys(tooltipText.classes).includes('usa-tooltip__body--top')).toBe(true);
+    });
+
+    it('falls back right → left → top when everything is off-screen', () => {
+      vi.spyOn(component.directive, 'isInViewport').mockReturnValue(false);
+      component.directive.position = 'right';
+      component.directive.show();
+      fixture.detectChanges();
+      expect(Object.keys(tooltipText.classes).includes('usa-tooltip__body--top')).toBe(true);
+    });
+
+    it('keeps left position when the first placement fits', () => {
+      vi.spyOn(component.directive, 'isInViewport').mockReturnValue(true);
+      component.directive.position = 'left';
+      component.directive.show();
+      fixture.detectChanges();
+      expect(Object.keys(tooltipText.classes).includes('usa-tooltip__body--left')).toBe(true);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // wrapper classes input
+  // ---------------------------------------------------------------------------
+  it('adds custom wrapper classes supplied via the classes input', () => {
+    // Re-init with a classes input on a fresh directive instance.
+    component.directive.classes = 'extra-a extra-b';
+    component.directive.ngAfterViewInit();
+    expect(component.directive.tooltipWrapper.classList.contains('extra-a')).toBe(true);
+    expect(component.directive.tooltipWrapper.classList.contains('extra-b')).toBe(true);
+  });
 });

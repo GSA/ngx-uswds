@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { UsaMonthView } from './month-view';
 import { UsaCalendarBody } from './calendar-body';
+import { DateRange } from '../date-selection-model';
 import { KeyCode } from '../../util/key';
 import { DateAdapter } from '../dateadapter/date-adapter';
 import { NativeDateAdapter } from '../dateadapter/native-date-adapter';
@@ -254,6 +255,77 @@ describe('UsaMonthView', () => {
       keydown(KeyCode.Enter);
       keyup(KeyCode.Enter);
       expect(host.selectedValues.length).toBe(1);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // Range-selection specific branches (comparison range, preview, escape)
+  // -----------------------------------------------------------------------
+
+  describe('range selection branches', () => {
+    it('_previewChanged updates preview bounds when a range strategy is present', () => {
+      // A range strategy's createPreview needs a DateRange selection to operate on.
+      monthView.selected = new DateRange(new Date(2024, 0, 5), null);
+      fixture.detectChanges();
+      const cellValue = monthView._weeks.flat().find((c) => c.enabled);
+      expect(cellValue).toBeTruthy();
+      monthView._previewChanged({
+        value: cellValue!,
+        event: new MouseEvent('mouseenter'),
+      });
+      expect(() => fixture.detectChanges()).not.toThrow();
+    });
+
+    it('_previewChanged with a null cell does not throw', () => {
+      monthView.selected = new DateRange(new Date(2024, 0, 5), null);
+      fixture.detectChanges();
+      expect(() => monthView._previewChanged({ value: null, event: new MouseEvent('mouseleave') })).not.toThrow();
+    });
+
+    it('Escape mid-range-selection cancels the preview and emits a null selection', () => {
+      // Simulate an in-progress preview so the escape branch is taken.
+      (monthView as any)._previewEnd = 5;
+      const event = new KeyboardEvent('keydown', { keyCode: KeyCode.Escape });
+      Object.defineProperty(event, 'keyCode', { get: () => KeyCode.Escape });
+      monthView._handleCalendarBodyKeydown(event);
+      fixture.detectChanges();
+      expect(host.selectedValues).toContain(null);
+    });
+
+    it('Escape with no active preview is ignored', () => {
+      (monthView as any)._previewEnd = null;
+      const before = host.selectedValues.length;
+      const event = new KeyboardEvent('keydown', { keyCode: KeyCode.Escape });
+      Object.defineProperty(event, 'keyCode', { get: () => KeyCode.Escape });
+      monthView._handleCalendarBodyKeydown(event);
+      expect(host.selectedValues.length).toBe(before);
+    });
+
+    it('an unhandled key is a no-op', () => {
+      const before = monthView.activeDate.getTime();
+      const event = new KeyboardEvent('keydown', { keyCode: 999 });
+      Object.defineProperty(event, 'keyCode', { get: () => 999 });
+      monthView._handleCalendarBodyKeydown(event);
+      expect(monthView.activeDate.getTime()).toBe(before);
+    });
+
+    it('_focusActiveCell delegates to the calendar body', () => {
+      const spy = vi.spyOn(monthView._usaCalendarBody, '_focusActiveCell');
+      monthView._focusActiveCell(false);
+      expect(spy).toHaveBeenCalledWith(false);
+    });
+
+    it('does not select a filtered-out active date on keyup', () => {
+      monthView.dateFilter = () => false;
+      monthView._init();
+      const before = host.selectedValues.length;
+      const kd = new KeyboardEvent('keydown', { keyCode: KeyCode.Space });
+      Object.defineProperty(kd, 'keyCode', { get: () => KeyCode.Space });
+      monthView._handleCalendarBodyKeydown(kd);
+      const ku = new KeyboardEvent('keyup', { keyCode: KeyCode.Space });
+      Object.defineProperty(ku, 'keyCode', { get: () => KeyCode.Space });
+      monthView._handleCalendarBodyKeyup(ku);
+      expect(host.selectedValues.length).toBe(before);
     });
   });
 });

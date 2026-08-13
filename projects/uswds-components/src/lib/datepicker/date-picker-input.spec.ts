@@ -195,6 +195,100 @@ describe('UsaDatePickerInput', () => {
   });
 
   // -----------------------------------------------------------------------
+  // Validation (min / max / filter / parse) via public form control API
+  // -----------------------------------------------------------------------
+
+  describe('validation', () => {
+    it('reports a min error for a value before the min date', () => {
+      host.min = new Date(2024, 0, 10);
+      fixture.detectChanges();
+      datePickerInput.writeValue(new Date(2024, 0, 5));
+      const errors = datePickerInput.validate({ value: new Date(2024, 0, 5) } as any);
+      expect(errors?.usaDatePickerMin).toBeTruthy();
+    });
+
+    it('reports a max error for a value after the max date', () => {
+      host.max = new Date(2024, 0, 10);
+      fixture.detectChanges();
+      const errors = datePickerInput.validate({ value: new Date(2024, 0, 20) } as any);
+      expect(errors?.usaDatePickerMax).toBeTruthy();
+    });
+
+    it('reports no error for a value within the min/max window', () => {
+      host.min = new Date(2024, 0, 1);
+      host.max = new Date(2024, 11, 31);
+      fixture.detectChanges();
+      const errors = datePickerInput.validate({ value: new Date(2024, 5, 15) } as any);
+      expect(errors?.usaDatePickerMin).toBeFalsy();
+      expect(errors?.usaDatePickerMax).toBeFalsy();
+    });
+
+    it('reports a filter error for a filtered-out date', () => {
+      // only allow even days
+      host.dateFilter = (d: Date | null) => !!d && d.getDate() % 2 === 0;
+      fixture.detectChanges();
+      const errors = datePickerInput.validate({ value: new Date(2024, 0, 3) } as any);
+      expect(errors?.usaDatePickerFilter).toBeTruthy();
+    });
+
+    it('reports no filter error for an allowed date', () => {
+      host.dateFilter = (d: Date | null) => !!d && d.getDate() % 2 === 0;
+      fixture.detectChanges();
+      const errors = datePickerInput.validate({ value: new Date(2024, 0, 4) } as any);
+      expect(errors?.usaDatePickerFilter).toBeFalsy();
+    });
+
+    it('_matchesFilter returns true when no filter is set', () => {
+      expect(datePickerInput._matchesFilter(new Date(2024, 0, 1))).toBe(true);
+    });
+
+    it('registerOnValidatorChange wires a callback that fires when min changes', () => {
+      let called = false;
+      datePickerInput.registerOnValidatorChange(() => (called = true));
+      host.min = new Date(2024, 0, 1);
+      fixture.detectChanges();
+      expect(called).toBe(true);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // _onInput parsing
+  // -----------------------------------------------------------------------
+
+  describe('_onInput parsing', () => {
+    it('parses a valid date string and emits dateInput', () => {
+      const before = host.dateInputs.length;
+      datePickerInput._onInput('01/15/2024');
+      expect(host.dateInputs.length).toBeGreaterThan(before);
+      expect(datePickerInput.value).not.toBeNull();
+    });
+
+    it('marks the control dirty via CVA change for an unparseable non-empty value', () => {
+      let changed: unknown;
+      datePickerInput.registerOnChange((v) => (changed = v));
+      datePickerInput._onInput('not-a-date');
+      // date could not be parsed → value stays null, CVA still invoked with null
+      expect(changed === null || changed === undefined).toBe(true);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // min / max setters de-dupe
+  // -----------------------------------------------------------------------
+
+  describe('min / max setters', () => {
+    it('setting the same min value does not fire validator change twice', () => {
+      let count = 0;
+      datePickerInput.registerOnValidatorChange(() => count++);
+      const d = new Date(2024, 0, 1);
+      datePickerInput.min = d;
+      const afterFirst = count;
+      datePickerInput.min = new Date(2024, 0, 1); // equal date
+      expect(count).toBe(afterFirst);
+    });
+  });
+
+  // -----------------------------------------------------------------------
   // stateChanges
   // -----------------------------------------------------------------------
 

@@ -92,7 +92,7 @@ export interface UsaDatePickerPanel<C extends UsaDatePickerControl<D>, S, D = Ex
   templateUrl: './date-picker-content.html',
   host: {
     class: 'usa-date-picker__calendar',
-    '[attr.role]': 'dialog',
+    role: 'dialog',
     '[attr.aria-modal]': 'true',
     '[attr.tabindex]': '-1',
   },

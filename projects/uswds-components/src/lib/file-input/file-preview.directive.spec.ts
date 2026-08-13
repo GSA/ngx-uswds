@@ -107,7 +107,7 @@ describe('UsaFilePreviewDirective', () => {
       // jsdom does not implement URL.createObjectURL — stub only that method
       // so the URL constructor and other URL statics remain intact.
       createObjectURL = vi.fn(() => 'blob:mock-url');
-      URL.createObjectURL = createObjectURL;
+      URL.createObjectURL = createObjectURL as unknown as typeof URL.createObjectURL;
     });
 
     afterEach(() => {

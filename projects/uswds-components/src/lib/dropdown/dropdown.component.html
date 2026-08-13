@@ -1,3 +1,5 @@
 <select class="usa-select" [attr.name]="name" [attr.id]="id" (change)="onOptionSelected($event)" [disabled]="disabled">
-  <option *ngFor="let option of options" [value]="option.value" [disabled]="option.disabled">{{ option.label }}</option>
+  @for (option of options; track option) {
+    <option [value]="option.value" [disabled]="option.disabled">{{ option.label }}</option>
+  }
 </select>

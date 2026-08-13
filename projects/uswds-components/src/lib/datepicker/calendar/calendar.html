@@ -1,9 +1,9 @@
 <div class="usa-date-picker__calendar__date-picker">
   <usa-calendar-header></usa-calendar-header>
-  <div [ngSwitch]="currentView">
+  <div>
+    @switch (currentView) { @case ('month') {
     <usa-month-view
       #monthView
-      *ngSwitchCase="'month'"
       [(activeDate)]="activeDate"
       [selected]="selected"
       [dateFilter]="dateFilter"
@@ -15,9 +15,9 @@
       (_userSelection)="_dateSelected($event)"
     >
     </usa-month-view>
+    } @case ('year') {
     <usa-year-view
       #yearView
-      *ngSwitchCase="'year'"
       [(activeDate)]="activeDate"
       [selected]="selected"
       [dateFilter]="dateFilter"
@@ -28,9 +28,9 @@
       (selectedChange)="_goToDateInView($event, 'month')"
     >
     </usa-year-view>
+    } @case ('multi-year') {
     <usa-multi-year-view
       #multiYearView
-      *ngSwitchCase="'multi-year'"
       [(activeDate)]="activeDate"
       [selected]="selected"
       [dateFilter]="dateFilter"
@@ -41,5 +41,6 @@
       (selectedChange)="_goToDateInView($event, 'month')"
     >
     </usa-multi-year-view>
+    } }
   </div>
 </div>

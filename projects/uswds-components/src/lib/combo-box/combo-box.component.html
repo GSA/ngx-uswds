@@ -44,21 +44,22 @@
     </button>
   </span>
 
-  <usa-combo-box-list
-    *ngIf="_displayDropdown"
-    #comboBoxList
-    [items]="items"
-    [labelField]="labelField"
-    [valueField]="valueField"
-    [customItemTemplate]="itemTemplate"
-    [listId]="listId"
-    [virtualScroll]="virtualScroll"
-    [selectedItem]="_selectedItem"
-    (selected)="selectItem($event)"
-    (focusInput)="focusInput()"
-    (scrollEnd)="onScrollEnd()"
-  >
-  </usa-combo-box-list>
+  @if (_displayDropdown) {
+    <usa-combo-box-list
+      #comboBoxList
+      [items]="items"
+      [labelField]="labelField"
+      [valueField]="valueField"
+      [customItemTemplate]="itemTemplate"
+      [listId]="listId"
+      [virtualScroll]="virtualScroll"
+      [selectedItem]="_selectedItem"
+      (selected)="selectItem($event)"
+      (focusInput)="focusInput()"
+      (scrollEnd)="onScrollEnd()"
+    >
+    </usa-combo-box-list>
+  }
 
   <div class="usa-combo-box__status usa-sr-only" role="status"></div>
   <span [attr.id]="id + '--assistiveHint'" class="usa-sr-only">

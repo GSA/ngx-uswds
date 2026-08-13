@@ -276,4 +276,26 @@ describe('UsaMultiYearView', () => {
       expect(host.selectedValues.length).toBe(1);
     });
   });
+
+  // -----------------------------------------------------------------------
+  // Guard branches
+  // -----------------------------------------------------------------------
+
+  describe('guard branches', () => {
+    it('an unhandled key does not move the active date', () => {
+      const before = multiYearView.activeDate.getTime();
+      const event = new KeyboardEvent('keydown', { keyCode: 999 });
+      Object.defineProperty(event, 'keyCode', { get: () => 999 });
+      multiYearView._handleCalendarBodyKeydown(event);
+      expect(multiYearView.activeDate.getTime()).toBe(before);
+    });
+
+    it('keyup for a non-selection key does not select', () => {
+      const before = host.selectedValues.length;
+      const event = new KeyboardEvent('keyup', { keyCode: KeyCode.ArrowRight });
+      Object.defineProperty(event, 'keyCode', { get: () => KeyCode.ArrowRight });
+      multiYearView._handleCalendarBodyKeyup(event);
+      expect(host.selectedValues.length).toBe(before);
+    });
+  });
 });
