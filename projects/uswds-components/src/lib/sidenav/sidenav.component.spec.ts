@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { UsaSidenavModule } from './sidenav.module';
 import { SidenavModel } from './sidenav.model';
 import { UsaNavigationMode } from '../util/navigation';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -78,7 +78,7 @@ describe('UsaSidenavComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HostComponent],
-      imports: [UsaSidenavModule, RouterModule.forRoot([])],
+      imports: [UsaSidenavModule, RouterTestingModule],
     }).compileComponents();
   }));
 
@@ -222,7 +222,8 @@ describe('UsaSidenavComponent', () => {
     fixture.detectChanges();
 
     const sidenavComp = fixture.debugElement.query(By.css('usa-sidenav')).componentInstance;
-    // single expand-type: collapsed was set true in ngOnInit
+    // host.items was just set above, but the fixture was already created with the original
+    // makeLinks(3) items, so ngOnInit already ran. Record the current collapsed state.
     const collapsedBefore = host.items[0].collapsed;
     sidenavComp.expandAll();
     expect(host.items[0].collapsed).toBe(collapsedBefore);
@@ -285,10 +286,7 @@ describe('UsaSidenavComponent', () => {
         children: [{ id: 'a1', text: 'A1', mode: UsaNavigationMode.EVENT }],
       },
     ];
-    // Re-create component so ngOnInit fires with these inputs
-    host.items = items;
-    host.expandType = 'single';
-    // Destroy and re-create the fixture to trigger ngOnInit fresh
+    // A fresh fixture ensures ngOnInit fires with expandType set from the start.
     const f2 = TestBed.createComponent(HostComponent);
     f2.componentInstance.items = items;
     f2.componentInstance.expandType = 'single';

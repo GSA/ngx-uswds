@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { UsaDropdownModule } from './dropdown.module';
 import { DropdownOptionsModel } from './dropdown-options.model';
+import { UsaDropdownComponent } from './dropdown.component';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -129,11 +130,13 @@ describe('UsaDropdownComponent', () => {
     expect(host.lastChange).toEqual({ label: 'Option B', value: 'b' });
   });
 
-  it('writeValue sets the model and marks for check', () => {
+  it('writeValue sets the model and calls markForCheck on the ChangeDetectorRef', () => {
     const dropdownComp = fixture.debugElement.query(By.css('usa-dropdown')).componentInstance;
+    const markForCheckSpy = vi.spyOn(dropdownComp.cdr, 'markForCheck');
     const value: DropdownOptionsModel = { label: 'Option A', value: 'a' };
     dropdownComp.writeValue(value);
     expect(dropdownComp.model).toEqual(value);
+    expect(markForCheckSpy).toHaveBeenCalled();
   });
 
   it('registerOnChange stores the callback', () => {
@@ -147,17 +150,19 @@ describe('UsaDropdownComponent', () => {
     expect(fn).toHaveBeenCalledWith({ label: 'Option A', value: 'a' });
   });
 
-  it('registerOnTouched stores the callback', () => {
+  it('registerOnTouched stores the callback and calls it when the select is blurred', () => {
     const dropdownComp = fixture.debugElement.query(By.css('usa-dropdown')).componentInstance;
     const fn = vi.fn();
     dropdownComp.registerOnTouched(fn);
-    expect(typeof dropdownComp['onTouched']).toBe('function');
+    // onTouched should now be the spy; call it to verify the reference was stored
+    dropdownComp['onTouched']();
+    expect(fn).toHaveBeenCalled();
   });
 
   it('auto-generates a unique id matching the pattern', () => {
-    // Directly instantiate the component class to check the default
-    const { UsaDropdownComponent } = require('./dropdown.component');
-    const comp = new UsaDropdownComponent({ markForCheck: () => {} } as any);
+    // Each new component instance gets an auto-incremented id; verify the default shape.
+    const cdrStub = { markForCheck: () => {} } as any;
+    const comp = new UsaDropdownComponent(cdrStub);
     expect(comp.id).toMatch(/^usa-dropdown-\d+$/);
   });
 });

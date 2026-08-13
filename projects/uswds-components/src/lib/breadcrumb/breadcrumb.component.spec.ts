@@ -114,8 +114,8 @@ describe('UsaBreadcrumbComponent', () => {
     expect(currentEl.nativeElement.textContent.trim()).toBe('Item 1');
   });
 
-  it('renders the correct number of non-current breadcrumbs', () => {
-    // 3 items → 2 displayed crumbs + 1 current
+  it('renders the correct number of breadcrumb list items (including current)', () => {
+    // 3 items → 2 displayed crumbs + 1 current = 3 total list items
     const listItems = fixture.debugElement.queryAll(By.css('.usa-breadcrumb__list-item'));
     expect(listItems.length).toBe(3);
   });
