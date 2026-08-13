@@ -14,6 +14,9 @@ describe('ScrollBar', () => {
   });
 
   afterEach(() => {
+    // Restore all mocks and globals reliably, even if a test assertion throws
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
     // Reset any padding applied to body
     doc.body.style.paddingRight = '';
   });
@@ -56,9 +59,6 @@ describe('ScrollBar', () => {
       // noop: calling it should not throw and body padding should be unchanged
       reverter();
       expect(doc.body.style.paddingRight).toBe('');
-
-      vi.restoreAllMocks();
-      vi.unstubAllGlobals();
     });
 
     it('adds padding to body when a scrollbar is present, and reverts it', () => {
@@ -107,9 +107,6 @@ describe('ScrollBar', () => {
 
       reverter();
       expect(doc.body.style.paddingRight).toBe(originalPadding);
-
-      vi.restoreAllMocks();
-      vi.unstubAllGlobals();
     });
   });
 });
