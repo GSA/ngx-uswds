@@ -227,9 +227,10 @@ describe('UsaComboBoxComponent', () => {
       component.changeEvent.subscribe(changespy);
       const selectedSpy = vi.fn();
       component.selected.subscribe(selectedSpy);
-      // select same item again — updateValue guard fires (value === labelField)
+      // select same item again — selectItem returns early when _selectedItem === item
       component.selectItem(ITEMS[0]);
       expect(changespy).not.toHaveBeenCalled();
+      expect(selectedSpy).not.toHaveBeenCalled();
     });
   });
 
@@ -294,21 +295,17 @@ describe('UsaComboBoxComponent', () => {
     });
 
     it('ArrowDown delegates to comboBoxDropdown.focusHighlightedElement when dropdown is open', fakeAsync(() => {
-      // Open the dropdown first so comboBoxDropdown is rendered
+      // Open the dropdown so comboBoxDropdown ViewChild is rendered.
+      // OnPush: must flush via the component's own ChangeDetectorRef.
       component._displayDropdown = true;
-      fixture.detectChanges();
+      component.cdr.detectChanges();
       tick();
-      fixture.detectChanges();
+      component.cdr.detectChanges();
 
-      if (component.comboBoxDropdown) {
-        const spy = vi.spyOn(component.comboBoxDropdown, 'focusHighlightedElement').mockImplementation(() => {});
-        component.onInputKeyDown(keyEvent('ArrowDown'));
-        expect(spy).toHaveBeenCalled();
-      } else {
-        // comboBoxDropdown may not render in isolation (no items displayed yet) — just verify dropdown stays open
-        component.onInputKeyDown(keyEvent('ArrowDown'));
-        expect(component._displayDropdown).toBe(true);
-      }
+      expect(component.comboBoxDropdown).toBeTruthy();
+      const spy = vi.spyOn(component.comboBoxDropdown, 'focusHighlightedElement').mockImplementation(() => {});
+      component.onInputKeyDown(keyEvent('ArrowDown'));
+      expect(spy).toHaveBeenCalled();
     }));
 
     it('ArrowDown when dropdown already open does not toggle it closed', () => {
@@ -345,14 +342,16 @@ describe('UsaComboBoxComponent', () => {
     });
 
     it('handles legacy keyCode for ArrowDown (40)', () => {
-      const event = new KeyboardEvent('keydown', { keyCode: 40, bubbles: true, cancelable: true });
+      // Use a plain object cast so keyCode is guaranteed — jsdom does not
+      // reliably propagate keyCode through the KeyboardEvent constructor.
+      const event = { keyCode: 40, key: '', preventDefault: () => {} } as unknown as KeyboardEvent;
       component._displayDropdown = false;
       component.onInputKeyDown(event);
       expect(component._displayDropdown).toBe(true);
     });
 
     it('handles legacy keyCode for ArrowUp (38)', () => {
-      const event = new KeyboardEvent('keydown', { keyCode: 38, bubbles: true, cancelable: true });
+      const event = { keyCode: 38, key: '', preventDefault: () => {} } as unknown as KeyboardEvent;
       component._displayDropdown = true;
       component.onInputKeyDown(event);
       expect(component._displayDropdown).toBe(false);
