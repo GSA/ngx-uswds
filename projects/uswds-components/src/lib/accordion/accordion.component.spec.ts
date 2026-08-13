@@ -661,4 +661,12 @@ describe('UsaAccordionComponent — custom UsaAccordionConfig', () => {
     expect(acc.bordered).toBe(true);
     expect(acc.headerLevel).toBe(3);
   });
+
+  it('UsaAccordionConfig animation setter and getter round-trip', () => {
+    const config = new UsaAccordionConfig();
+    config.animation = false;
+    expect(config.animation).toBe(false);
+    config.animation = true;
+    expect(config.animation).toBe(true);
+  });
 });

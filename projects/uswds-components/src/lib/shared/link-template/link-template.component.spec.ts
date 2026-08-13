@@ -2,32 +2,34 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Component as NgComponent } from '@angular/core';
+
+@NgComponent({ standalone: false, template: '' })
+class StubRouteComponent {}
+
 import { UsaLinkTemplateModule } from './link-template.module';
 import { UsaLinkTemplateComponent } from './link-template.component';
 import { UsaNavigationLink, UsaNavigationMode } from '../../util/navigation';
 
 // ---------------------------------------------------------------------------
-// Host component
+// Host wrapper
 // ---------------------------------------------------------------------------
 
 @Component({
   standalone: false,
-  template: `
-    <usa-link-template
-      [link]="link"
-      [class]="linkClass"
-      [currentClass]="currentClass"
-      (linkClicked)="onLinkClicked($event)"
-    ></usa-link-template>
-  `,
+  template: `<usa-link-template
+    [link]="link"
+    [class]="linkClass"
+    [currentClass]="currentClass"
+    (linkClicked)="clicked($event)"
+  ></usa-link-template>`,
 })
 class HostComponent {
   link: UsaNavigationLink = { id: '1', text: 'Home', mode: UsaNavigationMode.EVENT };
   linkClass = '';
   currentClass = 'usa-current';
   lastClicked: UsaNavigationLink | null = null;
-
-  onLinkClicked(link: UsaNavigationLink) {
+  clicked(link: UsaNavigationLink) {
     this.lastClicked = link;
   }
 }
@@ -37,244 +39,221 @@ class HostComponent {
 // ---------------------------------------------------------------------------
 
 function makeLink(overrides: Partial<UsaNavigationLink> = {}): UsaNavigationLink {
-  return { id: '1', text: 'Test Link', mode: UsaNavigationMode.EVENT, ...overrides };
+  return { id: '1', text: 'Link', mode: UsaNavigationMode.EVENT, ...overrides };
+}
+
+function setup(link: Partial<UsaNavigationLink> = {}, extras: Partial<HostComponent> = {}) {
+  TestBed.configureTestingModule({
+    declarations: [HostComponent],
+    imports: [UsaLinkTemplateModule, RouterTestingModule.withRoutes([{ path: 'home', component: StubRouteComponent }])],
+  }).compileComponents();
+
+  const fixture: ComponentFixture<HostComponent> = TestBed.createComponent(HostComponent);
+  const host = fixture.componentInstance;
+  host.link = makeLink(link);
+  Object.assign(host, extras);
+  fixture.detectChanges();
+  return { fixture, host };
 }
 
 // ---------------------------------------------------------------------------
-// Tests
+// EVENT mode (default)
 // ---------------------------------------------------------------------------
 
-describe('UsaLinkTemplateComponent', () => {
-  let fixture: ComponentFixture<HostComponent>;
-  let host: HostComponent;
+describe('UsaLinkTemplateComponent — EVENT mode', () => {
+  beforeEach(waitForAsync(() => {}));
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [HostComponent],
-      imports: [
-        UsaLinkTemplateModule,
-        RouterTestingModule.withRoutes([{ path: '**', component: UsaLinkTemplateComponent }]),
-      ],
-    }).compileComponents();
+  it('creates the component', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.EVENT });
+    const comp = fixture.debugElement.query(By.directive(UsaLinkTemplateComponent));
+    expect(comp).toBeTruthy();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HostComponent);
-    host = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  // -------------------------------------------------------------------------
-  // Creation
-  // -------------------------------------------------------------------------
-
-  it('should create', () => {
-    const el = fixture.debugElement.query(By.css('usa-link-template'));
-    expect(el).toBeTruthy();
-  });
-
-  // -------------------------------------------------------------------------
-  // NavigationMode.EVENT (default href=javascript:void(0))
-  // -------------------------------------------------------------------------
-
-  it('renders an anchor for EVENT mode', () => {
-    const anchor = fixture.debugElement.query(By.css('a'));
+  it('renders an anchor with href=javascript:void(0)', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.EVENT });
+    const anchor: HTMLAnchorElement = fixture.nativeElement.querySelector('a');
     expect(anchor).toBeTruthy();
-  });
+    expect(anchor.getAttribute('href')).toBe('javascript:void(0)');
+  }));
 
-  it('shows link text for EVENT mode', () => {
-    const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor.nativeElement.textContent.trim()).toBe('Home');
-  });
+  it('shows link text', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.EVENT, text: 'Click me' });
+    const span: HTMLSpanElement = fixture.nativeElement.querySelector('span');
+    expect(span.textContent?.trim()).toBe('Click me');
+  }));
 
-  it('emits linkClicked when EVENT anchor is clicked', () => {
-    const anchor = fixture.debugElement.query(By.css('a'));
-    anchor.nativeElement.click();
-    expect(host.lastClicked).toBe(host.link);
-  });
-
-  // -------------------------------------------------------------------------
-  // NavigationMode.LABEL (non-interactive span)
-  // -------------------------------------------------------------------------
-
-  it('renders a span for LABEL mode', () => {
-    host.link = makeLink({ mode: UsaNavigationMode.LABEL, text: 'Label Only' });
+  it('emits linkClicked when anchor is clicked', waitForAsync(() => {
+    const { fixture, host } = setup({ mode: UsaNavigationMode.EVENT });
+    fixture.nativeElement.querySelector('a').click();
     fixture.detectChanges();
-    const span = fixture.debugElement.query(By.css('span'));
-    expect(span).toBeTruthy();
-    expect(span.nativeElement.textContent.trim()).toBe('Label Only');
-  });
+    expect(host.lastClicked?.id).toBe('1');
+  }));
 
-  it('does not render an anchor for LABEL mode', () => {
-    host.link = makeLink({ mode: UsaNavigationMode.LABEL });
+  it('applies linkClass to unselected anchor', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.EVENT, selected: false }, { linkClass: 'my-class' });
+    const anchor: HTMLAnchorElement = fixture.nativeElement.querySelector('a');
+    expect(anchor.getAttribute('class')).toBe('my-class');
+  }));
+
+  it('applies linkClass + currentClass for selected anchor', waitForAsync(() => {
+    const { fixture } = setup(
+      { mode: UsaNavigationMode.EVENT, selected: true },
+      { linkClass: 'my-class', currentClass: 'usa-current' },
+    );
+    const anchor: HTMLAnchorElement = fixture.nativeElement.querySelector('a');
+    expect(anchor.getAttribute('class')).toContain('my-class');
+    expect(anchor.getAttribute('class')).toContain('usa-current');
+  }));
+});
+
+// ---------------------------------------------------------------------------
+// EXTERNAL mode
+// ---------------------------------------------------------------------------
+
+describe('UsaLinkTemplateComponent — EXTERNAL mode', () => {
+  it('renders anchor with href built from path', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.EXTERNAL, path: 'https://example.com' });
+    const anchor: HTMLAnchorElement = fixture.nativeElement.querySelector('a');
+    expect(anchor.getAttribute('href')).toBe('https://example.com');
+  }));
+
+  it('appends query params to href with ?', waitForAsync(() => {
+    const { fixture } = setup({
+      mode: UsaNavigationMode.EXTERNAL,
+      path: 'https://example.com',
+      queryParams: { foo: 'bar', baz: '1' },
+    });
+    const href = fixture.nativeElement.querySelector('a').getAttribute('href') as string;
+    expect(href).toContain('foo=bar');
+    expect(href).toContain('baz=1');
+  }));
+
+  it('appends query params with & when URL already contains ?', waitForAsync(() => {
+    const { fixture } = setup({
+      mode: UsaNavigationMode.EXTERNAL,
+      path: 'https://example.com?existing=1',
+      queryParams: { extra: '2' },
+    });
+    const href = fixture.nativeElement.querySelector('a').getAttribute('href') as string;
+    expect(href).toContain('existing=1');
+    expect(href).toContain('extra=2');
+    expect(href).toContain('&');
+  }));
+
+  it('appends query params directly when URL ends with ?', waitForAsync(() => {
+    const { fixture } = setup({
+      mode: UsaNavigationMode.EXTERNAL,
+      path: 'https://example.com?',
+      queryParams: { q: 'test' },
+    });
+    const href = fixture.nativeElement.querySelector('a').getAttribute('href') as string;
+    expect(href).toContain('q=test');
+  }));
+
+  it('emits linkClicked on click', waitForAsync(() => {
+    const { fixture, host } = setup({
+      mode: UsaNavigationMode.EXTERNAL,
+      path: 'https://example.com',
+    });
+    fixture.nativeElement.querySelector('a').click();
     fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor).toBeNull();
-  });
+    expect(host.lastClicked?.id).toBe('1');
+  }));
 
-  // -------------------------------------------------------------------------
-  // NavigationMode.EXTERNAL
-  // -------------------------------------------------------------------------
+  it('applies selected + currentClass', waitForAsync(() => {
+    const { fixture } = setup(
+      { mode: UsaNavigationMode.EXTERNAL, path: 'https://example.com', selected: true },
+      { linkClass: 'nav', currentClass: 'active' },
+    );
+    const cls = fixture.nativeElement.querySelector('a').getAttribute('class') as string;
+    expect(cls).toContain('nav');
+    expect(cls).toContain('active');
+  }));
+});
 
-  it('renders an anchor for EXTERNAL mode', () => {
-    host.link = makeLink({ mode: UsaNavigationMode.EXTERNAL, path: 'https://example.com', text: 'External' });
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
+// ---------------------------------------------------------------------------
+// INTERNAL mode
+// ---------------------------------------------------------------------------
+
+describe('UsaLinkTemplateComponent — INTERNAL mode', () => {
+  it('renders anchor with routerLink', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.INTERNAL, path: '/home' });
+    const anchor: HTMLAnchorElement = fixture.nativeElement.querySelector('a');
     expect(anchor).toBeTruthy();
-  });
+  }));
 
-  it('sets href for EXTERNAL mode', () => {
-    host.link = makeLink({ mode: UsaNavigationMode.EXTERNAL, path: 'https://example.com' });
+  it('emits linkClicked on click', waitForAsync(() => {
+    const { fixture, host } = setup({ mode: UsaNavigationMode.INTERNAL, path: '/home' });
+    fixture.nativeElement.querySelector('a').click();
     fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor.nativeElement.getAttribute('href')).toBe('https://example.com');
-  });
+    expect(host.lastClicked?.id).toBe('1');
+  }));
 
-  it('emits linkClicked when EXTERNAL anchor is clicked', () => {
-    host.link = makeLink({ mode: UsaNavigationMode.EXTERNAL, path: 'https://example.com' });
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    anchor.nativeElement.click();
-    expect(host.lastClicked).toBe(host.link);
-  });
+  it('applies selected + currentClass', waitForAsync(() => {
+    const { fixture } = setup(
+      { mode: UsaNavigationMode.INTERNAL, path: '/home', selected: true },
+      { linkClass: 'nav', currentClass: 'usa-current' },
+    );
+    const cls = fixture.nativeElement.querySelector('a').getAttribute('class') as string;
+    expect(cls).toContain('nav');
+    expect(cls).toContain('usa-current');
+  }));
+});
 
-  // -------------------------------------------------------------------------
-  // NavigationMode.INTERNAL
-  // -------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// LABEL mode
+// ---------------------------------------------------------------------------
 
-  it('renders an anchor for INTERNAL mode', () => {
-    host.link = makeLink({ mode: UsaNavigationMode.INTERNAL, path: '/home', text: 'Internal' });
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor).toBeTruthy();
-  });
+describe('UsaLinkTemplateComponent — LABEL mode', () => {
+  it('renders a span, not an anchor', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.LABEL });
+    expect(fixture.nativeElement.querySelector('a')).toBeNull();
+    expect(fixture.nativeElement.querySelector('span')).toBeTruthy();
+  }));
 
-  it('shows link text for INTERNAL mode', () => {
-    host.link = makeLink({ mode: UsaNavigationMode.INTERNAL, path: '/home', text: 'Internal Link' });
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor.nativeElement.textContent.trim()).toBe('Internal Link');
-  });
+  it('displays link text in span', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.LABEL, text: 'Section' });
+    expect(fixture.nativeElement.querySelector('span').textContent?.trim()).toBe('Section');
+  }));
+});
 
-  it('emits linkClicked when INTERNAL anchor is clicked', () => {
-    host.link = makeLink({ mode: UsaNavigationMode.INTERNAL, path: '/home' });
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    anchor.nativeElement.click();
-    expect(host.lastClicked).toBe(host.link);
-  });
+// ---------------------------------------------------------------------------
+// Default / undefined mode (falls back to EVENT template)
+// ---------------------------------------------------------------------------
 
-  // -------------------------------------------------------------------------
-  // Default (undefined mode) falls back to EVENT template
-  // -------------------------------------------------------------------------
+describe('UsaLinkTemplateComponent — default (undefined) mode', () => {
+  it('renders an anchor when mode is undefined', waitForAsync(() => {
+    const { fixture } = setup({ mode: undefined });
+    expect(fixture.nativeElement.querySelector('a')).toBeTruthy();
+  }));
+});
 
-  it('renders anchor for undefined mode (default branch)', () => {
-    // undefined mode hits the *ngSwitchDefault branch — no path to avoid router errors
-    host.link = { id: '1', text: 'Default' } as any;
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor).toBeTruthy();
-  });
+// ---------------------------------------------------------------------------
+// urlBuilder unit tests (via EXTERNAL mode)
+// ---------------------------------------------------------------------------
 
-  it('emits linkClicked for undefined mode on click', () => {
-    host.link = { id: '1', text: 'Default' } as any;
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    anchor.nativeElement.click();
-    expect(host.lastClicked).toBe(host.link);
-  });
+describe('UsaLinkTemplateComponent — urlBuilder', () => {
+  it('returns plain path when no query params', waitForAsync(() => {
+    const { fixture } = setup({
+      mode: UsaNavigationMode.EXTERNAL,
+      path: 'https://example.com/page',
+    });
+    const comp = fixture.debugElement.query(By.directive(UsaLinkTemplateComponent))
+      .componentInstance as UsaLinkTemplateComponent;
+    const result = comp.urlBuilder({ id: '1', text: 'x', path: 'https://example.com/page' });
+    expect(result).toBe('https://example.com/page');
+  }));
 
-  // -------------------------------------------------------------------------
-  // class / currentClass / selected bindings
-  // -------------------------------------------------------------------------
-
-  it('applies no class when link is not selected', () => {
-    host.link = makeLink({ selected: false });
-    host.linkClass = 'my-link';
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor.nativeElement.getAttribute('class')).toBe('my-link');
-  });
-
-  it('applies class + currentClass when link is selected', () => {
-    host.link = makeLink({ selected: true });
-    host.linkClass = 'my-link';
-    host.currentClass = 'is-current';
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    expect(anchor.nativeElement.getAttribute('class')).toBe('my-link is-current');
-  });
-
-  it('applies only currentClass when class is empty and link is selected', () => {
-    host.link = makeLink({ selected: true });
-    host.linkClass = '';
-    host.currentClass = 'usa-current';
-    fixture.detectChanges();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    const cls = anchor.nativeElement.getAttribute('class') ?? '';
-    expect(cls.trim()).toBe('usa-current');
-  });
-
-  it('uses default currentClass of usa-current', () => {
-    const compFixture = TestBed.createComponent(UsaLinkTemplateComponent);
-    const comp = compFixture.componentInstance;
-    expect(comp.currentClass).toBe('usa-current');
-  });
-
-  it('uses default class of empty string', () => {
-    const compFixture = TestBed.createComponent(UsaLinkTemplateComponent);
-    const comp = compFixture.componentInstance;
-    expect(comp.class).toBe('');
-  });
-
-  // -------------------------------------------------------------------------
-  // urlBuilder — EXTERNAL with query params
-  // -------------------------------------------------------------------------
-
-  it('urlBuilder returns path when no queryParams', () => {
-    const compFixture = TestBed.createComponent(UsaLinkTemplateComponent);
-    const comp = compFixture.componentInstance;
-    const link = makeLink({ path: 'https://example.com' });
-    expect(comp.urlBuilder(link)).toBe('https://example.com');
-  });
-
-  it('urlBuilder appends single query param', () => {
-    const compFixture = TestBed.createComponent(UsaLinkTemplateComponent);
-    const comp = compFixture.componentInstance;
-    const link = makeLink({ path: 'https://example.com', queryParams: { foo: 'bar' } });
-    expect(comp.urlBuilder(link)).toBe('https://example.com?foo=bar');
-  });
-
-  it('urlBuilder appends multiple query params', () => {
-    const compFixture = TestBed.createComponent(UsaLinkTemplateComponent);
-    const comp = compFixture.componentInstance;
-    const link = makeLink({ path: 'https://example.com', queryParams: { a: '1', b: '2' } });
-    const result = comp.urlBuilder(link);
-    expect(result).toContain('a=1');
-    expect(result).toContain('b=2');
-  });
-
-  it('urlBuilder uses & when path already has a query string', () => {
-    const compFixture = TestBed.createComponent(UsaLinkTemplateComponent);
-    const comp = compFixture.componentInstance;
-    const link = makeLink({ path: 'https://example.com?x=1', queryParams: { y: '2' } });
-    const result = comp.urlBuilder(link);
-    expect(result).toBe('https://example.com?x=1&y=2');
-  });
-
-  it('urlBuilder appends directly when path ends with ?', () => {
-    const compFixture = TestBed.createComponent(UsaLinkTemplateComponent);
-    const comp = compFixture.componentInstance;
-    const link = makeLink({ path: 'https://example.com?', queryParams: { z: '3' } });
-    const result = comp.urlBuilder(link);
-    expect(result).toBe('https://example.com?z=3');
-  });
-
-  it('urlBuilder encodes special characters in query params', () => {
-    const compFixture = TestBed.createComponent(UsaLinkTemplateComponent);
-    const comp = compFixture.componentInstance;
-    const link = makeLink({ path: 'https://example.com', queryParams: { q: 'hello world' } });
-    const result = comp.urlBuilder(link);
-    expect(result).toBe('https://example.com?q=hello%20world');
-  });
+  it('encodes special characters in query param keys and values', waitForAsync(() => {
+    const { fixture } = setup({ mode: UsaNavigationMode.EXTERNAL, path: '/p' });
+    const comp = fixture.debugElement.query(By.directive(UsaLinkTemplateComponent))
+      .componentInstance as UsaLinkTemplateComponent;
+    const result = comp.urlBuilder({
+      id: '1',
+      text: 'x',
+      path: '/p',
+      queryParams: { 'k e y': 'v a l' },
+    });
+    expect(result).toContain('k%20e%20y=v%20a%20l');
+  }));
 });

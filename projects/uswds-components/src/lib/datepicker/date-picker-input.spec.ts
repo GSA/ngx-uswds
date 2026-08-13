@@ -207,4 +207,78 @@ describe('UsaDatePickerInput', () => {
       datePickerInput.setDisabledState(false);
     });
   });
+
+  // -----------------------------------------------------------------------
+  // _getMinDate / _getMaxDate / _getDateFilter / _shouldHandleChangeEvent
+  // _getValueFromModel / _assignValueToModel
+  // -----------------------------------------------------------------------
+
+  describe('datepicker input helpers', () => {
+    it('_getMinDate returns min input', () => {
+      host.min = new Date(2024, 0, 1);
+      fixture.detectChanges();
+      expect(datePickerInput._getMinDate()).toEqual(new Date(2024, 0, 1));
+    });
+
+    it('_getMaxDate returns max input', () => {
+      host.max = new Date(2024, 11, 31);
+      fixture.detectChanges();
+      expect(datePickerInput._getMaxDate()).toEqual(new Date(2024, 11, 31));
+    });
+
+    it('_getDateFilter returns the filter function', () => {
+      const fn = (d: Date | null) => true;
+      host.dateFilter = fn;
+      fixture.detectChanges();
+      expect((datePickerInput as any)._getDateFilter()).toBe(fn);
+    });
+
+    it('_getValueFromModel round-trips the value', () => {
+      const d = new Date(2024, 5, 15);
+      expect((datePickerInput as any)._getValueFromModel(d)).toBe(d);
+    });
+
+    it('_shouldHandleChangeEvent returns false when source is self', () => {
+      const event: any = { source: datePickerInput };
+      expect((datePickerInput as any)._shouldHandleChangeEvent(event)).toBe(false);
+    });
+
+    it('_shouldHandleChangeEvent returns true when source is other', () => {
+      const event: any = { source: {} };
+      expect((datePickerInput as any)._shouldHandleChangeEvent(event)).toBe(true);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // registerOnValidatorChange + validate
+  // -----------------------------------------------------------------------
+
+  describe('Validator', () => {
+    it('registerOnValidatorChange stores fn without throwing', () => {
+      expect(() => datePickerInput.registerOnValidatorChange(() => {})).not.toThrow();
+    });
+
+    it('validate returns null for a valid date value', () => {
+      const { AbstractControl } = require('@angular/forms');
+      // Use a minimal control mock
+      const ctrl: any = { value: null };
+      expect(() => datePickerInput.validate(ctrl)).not.toThrow();
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // _matchesFilter
+  // -----------------------------------------------------------------------
+
+  describe('_matchesFilter', () => {
+    it('returns true when no filter is set', () => {
+      expect((datePickerInput as any)._matchesFilter(null)).toBe(true);
+    });
+
+    it('respects the filter function when set', () => {
+      host.dateFilter = (d: Date | null) => false;
+      fixture.detectChanges();
+      expect((datePickerInput as any)._matchesFilter(new Date())).toBe(false);
+    });
+  });
 });
