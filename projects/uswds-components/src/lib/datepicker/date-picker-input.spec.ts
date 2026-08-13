@@ -1,7 +1,7 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { UsaDatePickerModule } from './date-picker.module';
 import { UsaDatePickerInput } from './date-picker-input';
 import { KeyCode } from '../util/key';
@@ -12,7 +12,7 @@ import { KeyCode } from '../util/key';
     <usa-date-picker-wrapper>
       <input
         #input
-        usaDatePicker
+        [usaDatePicker]="picker"
         [min]="min"
         [max]="max"
         [usaDatePickerFilter]="dateFilter"
@@ -117,7 +117,7 @@ describe('UsaDatePickerInput', () => {
   describe('keyboard', () => {
     it('Alt+ArrowDown triggers _openPopup (calls datePicker.open)', () => {
       const picker = (datePickerInput as any)._datePicker;
-      if (!picker) return; // picker not registered yet
+      expect(picker).toBeTruthy(); // fails fast if input registration broke
       let opened = false;
       vi.spyOn(picker, 'open').mockImplementation(() => {
         opened = true;
@@ -131,7 +131,7 @@ describe('UsaDatePickerInput', () => {
 
     it('does not open on other keys', () => {
       const picker = (datePickerInput as any)._datePicker;
-      if (!picker) return;
+      expect(picker).toBeTruthy();
       let opened = false;
       vi.spyOn(picker, 'open').mockImplementation(() => {
         opened = true;

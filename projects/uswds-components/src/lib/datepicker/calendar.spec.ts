@@ -114,16 +114,16 @@ describe('UsaCalendar', () => {
   // -----------------------------------------------------------------------
 
   describe('currentView setter', () => {
-    it('switches to year view and emits viewChanged', () => {
-      // calendar starts in month; switching to year should emit
+    it('switches to year view and emits viewChanged', fakeAsync(() => {
+      // calendar starts in month; switching to year should emit viewChanged
       const before = host.viewChangedValues.length;
       calendar.currentView = 'year';
       fixture.detectChanges();
+      tick(); // flush async EventEmitter (created with `true`)
       expect(calendar.currentView).toBe('year');
-      // viewChanged is internal to UsaCalendar — it uses its own EventEmitter,
-      // not the host binding.  Verify the view changed.
-      expect(calendar.currentView).toBe('year');
-    });
+      expect(host.viewChangedValues.length).toBeGreaterThan(before);
+      expect(host.viewChangedValues[host.viewChangedValues.length - 1]).toBe('year');
+    }));
 
     it('switches to multi-year view', () => {
       calendar.currentView = 'multi-year';

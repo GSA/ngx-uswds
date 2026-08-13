@@ -1,4 +1,4 @@
-import { DateAdapter, USA_DATE_LOCALE } from './date-adapter';
+import { DateAdapter } from './date-adapter';
 import { NativeDateAdapter } from './native-date-adapter';
 
 /**

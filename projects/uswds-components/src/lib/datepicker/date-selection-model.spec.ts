@@ -1,13 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { DateAdapter } from './dateadapter/date-adapter';
 import { NativeDateAdapter } from './dateadapter/native-date-adapter';
 import {
   DateRange,
   UsaSingleDateSelectionModel,
   UsaRangeDateSelectionModel,
-  UsaDateSelectionModel,
-  USA_SINGLE_DATE_SELECTION_MODEL_PROVIDER,
-  USA_RANGE_DATE_SELECTION_MODEL_PROVIDER,
   USA_SINGLE_DATE_SELECTION_MODEL_FACTORY,
   USA_RANGE_DATE_SELECTION_MODEL_FACTORY,
 } from './date-selection-model';
