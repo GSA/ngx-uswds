@@ -37,9 +37,12 @@ class ElementTemplateAffixHostComponent {}
 
 @Component({
   standalone: false,
-  template: `<input input />`,
+  template: `<input input [prefix]="prefix" [suffix]="suffix" />`,
 })
-class NoAffixHostComponent {}
+class NoAffixHostComponent {
+  prefix: string | null = null;
+  suffix: string | null = null;
+}
 
 describe('UsaInputAffixDirective', () => {
   beforeEach(waitForAsync(() => {

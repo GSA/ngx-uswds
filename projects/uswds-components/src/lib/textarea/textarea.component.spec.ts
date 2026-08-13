@@ -184,15 +184,13 @@ describe('UsaTextareaComponent', () => {
       expect(ta.value).toBe('initial');
     });
 
-    it('propagates user input to the FormControl', () => {
+    it('propagates user input to the FormControl via CVA', async () => {
       const ta: HTMLTextAreaElement = hostFixture.nativeElement.querySelector('textarea');
       ta.value = 'user typed';
-      ta.dispatchEvent(new Event('ngModelChange'));
+      ta.dispatchEvent(new Event('input', { bubbles: true }));
       hostFixture.detectChanges();
-      // model is kept in sync via CVA writeValue
-      const textareaComp = hostFixture.debugElement.query(By.directive(UsaTextareaComponent))
-        .componentInstance as UsaTextareaComponent;
-      expect(textareaComp).toBeTruthy();
+      await hostFixture.whenStable();
+      expect(host.ctrl.value).toBe('user typed');
     });
 
     it('disables the textarea when FormControl is disabled', async () => {
