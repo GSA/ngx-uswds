@@ -40,7 +40,7 @@ There is no automated pre-commit hook in this repo. Before committing, run these
 
 - `npm run format:check` — Prettier formatting check (fix with `npm run format`)
 - `npm run test:components` — Vitest unit tests
-- `node scripts/check-coverage.mjs` — coverage gate (requires `test:components` to have run first)
+- `npm run coverage:check` — coverage gate (requires `test:components` to have run first)
 
 The CI Lint job will fail if formatting is violated. Always run `format:check` after writing or editing any TypeScript, HTML, or JSON files.
 
