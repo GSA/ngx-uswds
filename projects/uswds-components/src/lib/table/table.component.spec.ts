@@ -1,8 +1,8 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { UsaTableComponent, UsaColumnDef } from './table.component';
+import { UsaTableComponent } from './table.component';
 import { UsaTableModule } from './table.module';
 import { UsaTableConfig } from './table.config';
 import { TableDataSource } from './models';
@@ -44,9 +44,9 @@ import { UsaSort } from './table-sort.component';
 })
 class TableHostComponent {
   data: TableDataSource[] = [
+    { name: 'Carol', age: 35 },
     { name: 'Alice', age: 30 },
     { name: 'Bob', age: 25 },
-    { name: 'Carol', age: 35 },
   ];
   borderless = false;
   striped = false;
@@ -261,7 +261,7 @@ describe('UsaTableComponent', () => {
       const text = Array.from(cells as NodeListOf<HTMLElement>)
         .map((c) => c.textContent?.trim())
         .join(' ');
-      expect(text).toContain('Alice');
+      expect(text).toContain('Carol');
     });
   });
 
@@ -336,7 +336,7 @@ describe('UsaTableComponent', () => {
       const row: HTMLElement = fixture.nativeElement.querySelector('tbody tr');
       row.click();
       fixture.detectChanges();
-      expect(host.lastRowClick).toEqual({ name: 'Alice', age: 30 });
+      expect(host.lastRowClick).toEqual({ name: 'Carol', age: 35 });
     });
   });
 
@@ -378,9 +378,9 @@ describe('UsaTableComponent', () => {
       fixture.detectChanges();
       getSortBtn(1).click();
       fixture.detectChanges();
-      const tableComp = getTableComponent(fixture);
-      const nameCol = tableComp._contentColumnDefs.find((c) => c.usaColumnDef === 'name');
-      expect(nameCol?.isSortActive).toBe(false);
+      // After sorting age, the name header should have no aria-sort attribute
+      const nameHeader: HTMLElement = fixture.nativeElement.querySelector('thead th:first-child');
+      expect(nameHeader.getAttribute('aria-sort')).toBeFalsy();
     });
 
     it('updates aria-live region after sorting', () => {
@@ -392,6 +392,12 @@ describe('UsaTableComponent', () => {
 
     it('does NOT mutate data when serverSideSort=true', () => {
       host.serverSideSort = true;
+      // Use intentionally reverse-sorted data so we can detect if client sort runs
+      host.data = [
+        { name: 'Zara', age: 1 },
+        { name: 'Alice', age: 2 },
+        { name: 'Bob', age: 3 },
+      ];
       fixture.detectChanges();
       const originalNames = host.data.map((d) => d['name']);
       getSortBtn(0).click();
