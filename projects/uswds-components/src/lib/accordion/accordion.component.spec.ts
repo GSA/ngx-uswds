@@ -142,12 +142,18 @@ describe('UsaAccordionComponent — @Input bindings', () => {
     });
   });
 
-  it('singleSelect=true sets aria-multiselectable', () => {
+  it('singleSelect=false sets aria-multiselectable=true (multi-expand allowed)', () => {
+    const { nativeEl } = buildFixture(ACCORDION_TEMPLATE);
+    const acc = nativeEl.querySelector('usa-accordion > div') as HTMLElement;
+    expect(acc.getAttribute('aria-multiselectable')).toBe('true');
+  });
+
+  it('singleSelect=true removes aria-multiselectable (single-expand, ARIA pattern)', () => {
     const { fixture, nativeEl } = buildFixture(ACCORDION_TEMPLATE);
     fixture.componentInstance.singleSelect = true;
     fixture.detectChanges();
     const acc = nativeEl.querySelector('usa-accordion > div') as HTMLElement;
-    expect(acc.getAttribute('aria-multiselectable')).toBe('true');
+    expect(acc.getAttribute('aria-multiselectable')).toBeNull();
   });
 
   it('renders one button per panel with the header text', () => {
@@ -523,14 +529,13 @@ describe('UsaAccordionComponent — keyboard navigation', () => {
 
 describe('UsaAccordionComponent — animation callbacks', () => {
   let accordion: UsaAccordionComponent;
-  let fixture: ComponentFixture<TestComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [UsaAccordionModule, NoopAnimationsModule],
     });
-    ({ fixture, accordion } = buildFixture(ACCORDION_TEMPLATE));
+    ({ accordion } = buildFixture(ACCORDION_TEMPLATE));
   });
 
   it('onBodyExpansionStart removes display style when expanding', () => {
@@ -642,7 +647,7 @@ describe('UsaAccordionComponent — custom UsaAccordionConfig', () => {
   it('accepts overrides from UsaAccordionConfig', () => {
     const customConfig = new UsaAccordionConfig();
     customConfig.singleSelect = true;
-    (customConfig as any).bordered = true;
+    customConfig.bordered = true;
     customConfig.headerLevel = 3;
     TestBed.configureTestingModule({
       imports: [UsaAccordionModule, NoopAnimationsModule],
