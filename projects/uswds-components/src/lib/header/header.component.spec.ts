@@ -1,11 +1,10 @@
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { UsaNavigationLink } from '../util/navigation';
 import { UsaHeaderPrimaryLink } from './header.model';
 import { UsaHeaderModule } from './header.module';
 import { UsaHeaderComponent } from './header.component';
-import { UsaHeaderPrimaryLinkTemplate, UsaHeaderSecondaryLinkTemplate } from './header-selectors';
 import { UsaHeaderSubmenuButton } from './header-submenu.component';
 
 // ---------------------------------------------------------------------------
@@ -817,16 +816,14 @@ describe('UsaHeaderSubmenuButton', () => {
   it('document click inside the button does NOT close the submenu', () => {
     button.onClick(); // open
     fixture.detectChanges();
+    expect(button.selected).toBe(true);
 
-    // Click inside the button element itself
-    buttonDE.nativeElement.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    // Call onDocumentClick directly with a target *inside* the button element.
+    // The guard should return early, leaving the submenu open.
+    button.onDocumentClick({ target: buttonDE.nativeElement });
     fixture.detectChanges();
 
-    // The button's own click opens/closes (onClick fires), so check it still reflects toggle
-    // The key behavior: onDocumentClick should not additionally close it (it returns early)
-    // After onClick (open) + click inside = toggles to closed via onClick, not onDocumentClick
-    // So we just confirm onDocumentClick guard works — selected will be toggled by onClick
-    expect(button.selected).toBeDefined();
+    expect(button.selected).toBe(true);
   });
 
   it('onDocumentClick is a no-op when submenu is already closed', () => {
