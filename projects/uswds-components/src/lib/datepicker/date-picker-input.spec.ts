@@ -258,9 +258,8 @@ describe('UsaDatePickerInput', () => {
       expect(() => datePickerInput.registerOnValidatorChange(() => {})).not.toThrow();
     });
 
-    it('validate returns null for a valid date value', () => {
-      const { AbstractControl } = require('@angular/forms');
-      // Use a minimal control mock
+    it('validate does not throw for a null-value control', () => {
+      // Use a minimal control mock — no import needed
       const ctrl: any = { value: null };
       expect(() => datePickerInput.validate(ctrl)).not.toThrow();
     });
