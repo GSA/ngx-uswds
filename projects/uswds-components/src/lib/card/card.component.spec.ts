@@ -96,6 +96,14 @@ describe('USWDSCardComponent', () => {
     expect(cardEl.classList).toContain('usa-card--media-right');
   });
 
+  it('exposes additionalStyles input', () => {
+    host.additionalStyles = 'tablet:grid-col-6';
+    fixture.detectChanges();
+
+    const comp = fixture.debugElement.query(By.directive(USWDSCardComponent));
+    expect((comp.componentInstance as USWDSCardComponent).additionalStyles).toBe('tablet:grid-col-6');
+  });
+
   it('renders card container div inside host element', () => {
     const container = cardEl.querySelector('.usa-card__container');
     expect(container).toBeTruthy();
