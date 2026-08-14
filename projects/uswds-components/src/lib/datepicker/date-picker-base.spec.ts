@@ -283,5 +283,68 @@ describe('UsaDatePickerBase', () => {
       const content = openAndGetContent();
       expect(content._getSelected() === null || content._getSelected() === undefined).toBe(true);
     });
+
+    it('_handleUserSelection with a non-null value closes the picker when model is complete', fakeAsync(() => {
+      const content = openAndGetContent();
+      expect(content).toBeTruthy();
+      const date = new Date(2024, 5, 15);
+      content._handleUserSelection({ value: date, event: new MouseEvent('click') });
+      tick();
+      flush();
+      // After selecting a date the picker should be closed (single-date model is complete)
+      expect(picker.opened).toBe(false);
+    }));
+
+    it('_handleUserSelection with null value does not crash', fakeAsync(() => {
+      const content = openAndGetContent();
+      expect(() => content._handleUserSelection({ value: null, event: new MouseEvent('click') })).not.toThrow();
+      tick();
+      flush();
+    }));
+
+    it('_applyPendingSelection does not throw', () => {
+      const content = openAndGetContent();
+      expect(() => content._applyPendingSelection()).not.toThrow();
+    });
+  });
+
+  // ── close() with disabled input origin ───────────────────────────────────────
+
+  describe('close() with disabled input origin', () => {
+    it('falls back to focusedElementBeforeOpen when input origin is disabled', fakeAsync(() => {
+      picker.open();
+      fixture.detectChanges();
+
+      // Disable the connected input element so the focus-restore branch falls through
+      const inputEl: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      inputEl.disabled = true;
+
+      // Set a fake focusedElementBeforeOpen so the fallback branch is hit
+      const fakeEl = document.createElement('button');
+      document.body.appendChild(fakeEl);
+      (picker as any)._focusedElementBeforeOpen = fakeEl;
+
+      picker.close();
+      tick();
+      flush();
+
+      expect(picker.opened).toBe(false);
+      inputEl.disabled = false;
+      document.body.removeChild(fakeEl);
+    }));
+  });
+
+  // ── panelClass setter ─────────────────────────────────────────────────
+
+  describe('panelClass', () => {
+    it('accepts a string panelClass', () => {
+      picker.panelClass = 'my-class';
+      expect(picker.panelClass).toEqual(['my-class']);
+    });
+
+    it('accepts an array panelClass', () => {
+      picker.panelClass = ['class-a', 'class-b'];
+      expect(picker.panelClass).toEqual(['class-a', 'class-b']);
+    });
   });
 });

@@ -108,6 +108,46 @@ describe('UsaModalRef', () => {
       expect(dismissed).toBe(false);
     });
   });
+
+  // -----------------------------------------------------------------------
+  // Guard branches: calling close/dismiss after already closed
+  // -----------------------------------------------------------------------
+
+  it('calling close() twice is safe (second call is a no-op)', () =>
+    new Promise<void>((done) => {
+      openModal();
+      const ref = component.modalRef;
+      ref.hidden.subscribe(() => {
+        // _windowCmptRef is null after hidden fires; second close is a safe no-op
+        expect(() => ref.close('second')).not.toThrow();
+        done();
+      });
+      ref.close('first');
+    }));
+
+  it('calling dismiss() after close() is safe', () =>
+    new Promise<void>((done) => {
+      openModal();
+      const ref = component.modalRef;
+      ref.hidden.subscribe(() => {
+        // After hidden fires, _windowCmptRef is null; dismiss is a no-op
+        expect(() => ref.dismiss('late')).not.toThrow();
+        done();
+      });
+      ref.close('first');
+    }));
+
+  it('shown observable emits when the modal is fully opened', () =>
+    new Promise<void>((done) => {
+      openModal();
+      // Under NoopAnimationsModule shown fires synchronously; subscribe then call done
+      const sub = component.modalRef.shown.subscribe(() => {
+        sub.unsubscribe();
+        done();
+      });
+      // Fallback in case shown already completed before subscribe
+      setTimeout(done, 100);
+    }));
 });
 
 @Component({

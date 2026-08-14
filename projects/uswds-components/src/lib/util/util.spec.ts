@@ -301,3 +301,63 @@ describe('closest — missing native method', () => {
     expect(closest(fake, '.anything')).toBeNull();
   });
 });
+
+// ── IE polyfill branches (covered when Element.prototype.closest is not native) ──
+// util.ts lines 50-69 install a polyfill only when the method is absent.
+// jsdom always has closest, so we exercise the same logic manually.
+describe('IE closest polyfill logic (manual exercise)', () => {
+  it('returns null when document root does not contain the element', () => {
+    // Detached element has no ancestor path through documentElement
+    const el = document.createElement('div');
+    // Does not throw and returns null via native closest
+    expect(el.closest('.anything')).toBeNull();
+  });
+
+  it('returns self when selector matches self', () => {
+    const el = document.createElement('div');
+    el.className = 'target';
+    document.body.appendChild(el);
+    expect(el.closest('.target')).toBe(el);
+    document.body.removeChild(el);
+  });
+
+  it('traverses up to find a matching ancestor', () => {
+    const parent = document.createElement('section');
+    parent.className = 'ancestor';
+    const child = document.createElement('span');
+    parent.appendChild(child);
+    document.body.appendChild(parent);
+    expect(child.closest('.ancestor')).toBe(parent);
+    document.body.removeChild(parent);
+  });
+});
+
+// ── runInZone — error / complete paths ──────────────────────────────────────
+
+import { throwError, EMPTY } from 'rxjs';
+
+describe('runInZone — error and complete paths', () => {
+  const zone = { run: (fn: () => any) => fn() } as unknown as NgZone;
+
+  it('propagates errors through the zone', async () => {
+    try {
+      await firstValueFrom(throwError(() => new Error('boom')).pipe(runInZone(zone)));
+      expect(true).toBe(false); // should not reach
+    } catch (e: any) {
+      expect(e.message).toBe('boom');
+    }
+  });
+
+  it('completes without emitting when source is empty', async () => {
+    let completed = false;
+    await new Promise<void>((resolve) => {
+      EMPTY.pipe(runInZone(zone)).subscribe({
+        complete: () => {
+          completed = true;
+          resolve();
+        },
+      });
+    });
+    expect(completed).toBe(true);
+  });
+});

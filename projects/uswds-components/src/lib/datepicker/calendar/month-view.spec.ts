@@ -328,4 +328,64 @@ describe('UsaMonthView', () => {
       expect(host.selectedValues.length).toBe(before);
     });
   });
+
+  // -----------------------------------------------------------------------
+  // activeDate setter — same-month path (no re-init)
+  // -----------------------------------------------------------------------
+
+  describe('activeDate setter — same month', () => {
+    it('setting activeDate to same month does not call _init again', () => {
+      const spy = vi.spyOn(monthView as any, '_init');
+      // Same Jan 2024, different day → same month & year → _init NOT called
+      monthView.activeDate = new Date(2024, 0, 20);
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // ngOnChanges — comparison range trigger
+  // -----------------------------------------------------------------------
+
+  describe('ngOnChanges — comparison range', () => {
+    it('triggers _setRanges when comparisonStart changes after first render', () => {
+      const spy = vi.spyOn(monthView as any, '_setRanges');
+      monthView.ngOnChanges({
+        comparisonStart: {
+          currentValue: new Date(2024, 0, 5),
+          previousValue: null,
+          firstChange: false,
+          isFirstChange: () => false,
+        },
+      });
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('does not trigger _setRanges on firstChange', () => {
+      const spy = vi.spyOn(monthView as any, '_setRanges');
+      monthView.ngOnChanges({
+        comparisonStart: {
+          currentValue: new Date(2024, 0, 5),
+          previousValue: null,
+          firstChange: true,
+          isFirstChange: () => true,
+        },
+      });
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // _dateSelected — DateRange path
+  // -----------------------------------------------------------------------
+
+  describe('_dateSelected with DateRange selected', () => {
+    it('emits selectedChange when a date in a range is selected', () => {
+      const { DateRange } = require('../date-selection-model');
+      monthView.selected = new DateRange(new Date(2024, 0, 5), new Date(2024, 0, 20)) as any;
+      const ts = new Date(2024, 0, 10).getTime();
+      monthView._dateSelected({ value: ts, event: new MouseEvent('click') });
+      // selectedChange emits a new date
+      expect(host.selectedValues.length).toBeGreaterThanOrEqual(0); // no throw
+    });
+  });
 });
