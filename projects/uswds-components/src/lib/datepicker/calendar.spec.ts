@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angul
 import { By } from '@angular/platform-browser';
 import { UsaDatePickerModule } from './date-picker.module';
 import { UsaCalendar, UsaCalendarHeader, UsaCalendarView } from './calendar/calendar';
+import { DateRange } from './date-selection-model';
 
 @Component({
   standalone: false,
@@ -226,7 +227,6 @@ describe('UsaCalendar', () => {
     });
 
     it('handles selected as DateRange in the selected setter', () => {
-      const { DateRange } = require('./date-selection-model');
       expect(() => {
         calendar.selected = new DateRange(new Date(2024, 0, 1), new Date(2024, 11, 31));
         fixture.detectChanges();

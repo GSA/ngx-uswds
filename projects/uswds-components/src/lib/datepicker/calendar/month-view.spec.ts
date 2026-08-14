@@ -380,7 +380,6 @@ describe('UsaMonthView', () => {
 
   describe('_dateSelected with DateRange selected', () => {
     it('emits selectedChange when a date in a range is selected', () => {
-      const { DateRange } = require('../date-selection-model');
       monthView.selected = new DateRange(new Date(2024, 0, 5), new Date(2024, 0, 20)) as any;
       const ts = new Date(2024, 0, 10).getTime();
       monthView._dateSelected({ value: ts, event: new MouseEvent('click') });

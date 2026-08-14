@@ -10,6 +10,7 @@ import { NativeDateAdapter } from '../dateadapter/native-date-adapter';
 import { USA_DATE_FORMATS } from '../dateadapter/date-formats';
 import { USA_NATIVE_DATE_FORMATS } from '../dateadapter/native-date-formats';
 import { HoverClassModule } from '../../util/hover-class';
+import { DateRange } from '../date-selection-model';
 
 @Component({
   standalone: false,
@@ -266,7 +267,6 @@ describe('UsaYearView', () => {
 
   describe('selected DateRange path', () => {
     it('accepts a DateRange as selected', () => {
-      const { DateRange } = require('../date-selection-model');
       const start = new Date(2024, 0, 1);
       const end = new Date(2024, 11, 31);
       yearView.selected = new DateRange(start, end);
@@ -275,7 +275,6 @@ describe('UsaYearView', () => {
     });
 
     it('accepts a DateRange with only start', () => {
-      const { DateRange } = require('../date-selection-model');
       yearView.selected = new DateRange(new Date(2024, 3, 1), null);
       expect(yearView._selectedMonth).toBe(3);
     });

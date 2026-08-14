@@ -8,6 +8,7 @@ import { KeyCode } from '../../util/key';
 import { DateAdapter } from '../dateadapter/date-adapter';
 import { NativeDateAdapter } from '../dateadapter/native-date-adapter';
 import { HoverClassModule } from '../../util/hover-class';
+import { DateRange } from '../date-selection-model';
 
 @Component({
   standalone: false,
@@ -305,21 +306,18 @@ describe('UsaMultiYearView', () => {
 
   describe('selected DateRange path', () => {
     it('accepts a DateRange as selected (start only)', () => {
-      const { DateRange } = require('../date-selection-model');
       const start = new Date(2024, 0, 1);
       multiYearView.selected = new DateRange(start, null);
       expect(multiYearView._selectedYear).toBe(2024);
     });
 
     it('accepts a DateRange as selected (end only)', () => {
-      const { DateRange } = require('../date-selection-model');
       const end = new Date(2025, 5, 1);
       multiYearView.selected = new DateRange(null, end);
       expect(multiYearView._selectedYear).toBe(2025);
     });
 
     it('accepts a DateRange with no start/end', () => {
-      const { DateRange } = require('../date-selection-model');
       multiYearView.selected = new DateRange(null, null);
       expect(multiYearView._selectedYear).toBeNull();
     });
