@@ -55,7 +55,7 @@
     "@angular/build": "21.2.21",
     "@angular/cli": "21.2.21",
     "@angular/compiler-cli": "21.2.20",
-    "@babel/core": "^7.29.7",
+    "@babel/core": "^8.0.0",
     "@compodoc/compodoc": "^1.2.1",
     "@playwright/test": "1.62.1",
     "@storybook/addon-a11y": "10.5.7",
