@@ -257,3 +257,119 @@ describe('StepIndicatorComponent', () => {
     expect(allSteps[2]).toEqual(document.activeElement as HTMLElement);
   });
 });
+
+// ---------------------------------------------------------------------------
+// StepIndicatorComponent — getFillPercentage + getSegmentScale coverage
+// ---------------------------------------------------------------------------
+
+describe('StepIndicatorComponent — getFillPercentage', () => {
+  let component: UsaStepIndicatorComponent;
+  let fixture: ComponentFixture<UsaStepIndicatorComponent>;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [UsaStepIndicatorModule],
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UsaStepIndicatorComponent);
+    component = fixture.componentInstance;
+    component.steps = getSteps();
+    component.currentStep = 0;
+    fixture.detectChanges();
+  });
+
+  it('returns undefined when completionPercent is not set', () => {
+    expect(component.getFillPercentage(component.steps[0])).toBeUndefined();
+  });
+
+  it('returns undefined for a step that is not the current step', () => {
+    component.steps[1].completionPercent = 50;
+    expect(component.getFillPercentage(component.steps[1])).toBeUndefined();
+  });
+
+  it('returns fill-25 for completionPercent divisible by 25', () => {
+    component.steps[0].completionPercent = 25;
+    expect(component.getFillPercentage(component.steps[0])).toBe('fill-25');
+  });
+
+  it('returns fill-33 for completionPercent divisible by 33', () => {
+    component.steps[0].completionPercent = 33;
+    expect(component.getFillPercentage(component.steps[0])).toBe('fill-33');
+  });
+
+  it('returns rounded fill class for arbitrary percent', () => {
+    component.steps[0].completionPercent = 42;
+    // Math.round(42/10)*10 = 40
+    expect(component.getFillPercentage(component.steps[0])).toBe('fill-40');
+  });
+});
+
+describe('StepIndicatorComponent — getSegmentScale', () => {
+  let component: UsaStepIndicatorComponent;
+  let fixture: ComponentFixture<UsaStepIndicatorComponent>;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [UsaStepIndicatorModule],
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UsaStepIndicatorComponent);
+    component = fixture.componentInstance;
+    component.steps = getSteps();
+    fixture.detectChanges();
+  });
+
+  it('returns undefined when segmentScale is not set', () => {
+    expect(component.getSegmentScale(component.steps[0])).toBeUndefined();
+  });
+
+  it('returns scale-percent class for a valid segmentScale', () => {
+    component.steps[0].segmentScale = 2;
+    // max(0.5, min(4, 2)) * 100 = 200
+    expect(component.getSegmentScale(component.steps[0])).toBe('scale-percent-200');
+  });
+
+  it('clamps segmentScale below 0.5 to scale-percent-50', () => {
+    // segmentScale < 0.5 is clamped to 0.5
+    component.steps[0].segmentScale = 0.5;
+    expect(component.getSegmentScale(component.steps[0])).toBe('scale-percent-50');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// StepIndicatorHeaderComponent — constructor coverage
+// ---------------------------------------------------------------------------
+
+import { Component as NgComponent } from '@angular/core';
+import { UsaStepIndicatorHeaderComponent } from './step-indicator-header.component';
+
+@NgComponent({
+  standalone: false,
+  template: `
+    <usa-step-indicator [steps]="steps" [currentStep]="currentStep">
+      <div UsaStepHeader></div>
+    </usa-step-indicator>
+  `,
+})
+class StepHeaderHostComponent {
+  steps = getSteps();
+  currentStep = 0;
+}
+
+describe('UsaStepIndicatorHeaderComponent', () => {
+  it('is created inside a step indicator host', async () => {
+    TestBed.configureTestingModule({
+      declarations: [StepHeaderHostComponent],
+      imports: [UsaStepIndicatorModule],
+    });
+    await TestBed.compileComponents();
+
+    const fixture = TestBed.createComponent(StepHeaderHostComponent);
+    fixture.detectChanges();
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+});

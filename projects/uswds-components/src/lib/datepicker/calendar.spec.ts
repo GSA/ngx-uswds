@@ -1,9 +1,8 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { UsaDatePickerModule } from './date-picker.module';
-import { UsaCalendar } from './calendar/calendar';
-import { UsaCalendarView } from './calendar/calendar';
+import { UsaCalendar, UsaCalendarHeader, UsaCalendarView } from './calendar/calendar';
 
 @Component({
   standalone: false,
@@ -233,5 +232,97 @@ describe('UsaCalendar', () => {
       expect(calendar.currentView).toBe('year');
       expect(calendar.activeDate.getFullYear()).toBe(2025);
     });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// UsaCalendarHeader — nav button coverage
+// ---------------------------------------------------------------------------
+
+describe('UsaCalendarHeader', () => {
+  let fixture: ComponentFixture<CalendarTestHostComponent>;
+  let header: UsaCalendarHeader<Date>;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CalendarTestHostComponent],
+      imports: [UsaDatePickerModule],
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CalendarTestHostComponent);
+    fixture.detectChanges();
+
+    const headerDe = fixture.debugElement.query(By.directive(UsaCalendarHeader));
+    header = headerDe.componentInstance;
+  });
+
+  it('creates the header', () => {
+    expect(header).toBeTruthy();
+  });
+
+  it('monthLabel returns a non-empty string', () => {
+    expect(header.monthLabel.length).toBeGreaterThan(0);
+  });
+
+  it('yearLabel returns a non-empty string', () => {
+    expect(header.yearLabel.length).toBeGreaterThan(0);
+  });
+
+  it('previousClicked steps back a month', () => {
+    const before = header.calendar.activeDate.getTime();
+    header.previousClicked();
+    fixture.detectChanges();
+    expect(header.calendar.activeDate.getTime()).toBeLessThan(before);
+  });
+
+  it('nextClicked steps forward a month', () => {
+    const before = header.calendar.activeDate.getTime();
+    header.nextClicked();
+    fixture.detectChanges();
+    expect(header.calendar.activeDate.getTime()).toBeGreaterThan(before);
+  });
+
+  it('monthClicked switches to year view', () => {
+    header.monthClicked();
+    fixture.detectChanges();
+    expect(header.calendar.currentView).toBe('year');
+  });
+
+  it('yearClicked switches to multi-year view', () => {
+    header.yearClicked();
+    fixture.detectChanges();
+    expect(header.calendar.currentView).toBe('multi-year');
+  });
+
+  it('nextYearClicked steps forward a year', () => {
+    const before = header.calendar.activeDate.getFullYear();
+    header.nextYearClicked();
+    fixture.detectChanges();
+    expect(header.calendar.activeDate.getFullYear()).toBeGreaterThan(before);
+  });
+
+  it('previousYearClicked steps back a year', () => {
+    const before = header.calendar.activeDate.getFullYear();
+    header.previousYearClicked();
+    fixture.detectChanges();
+    expect(header.calendar.activeDate.getFullYear()).toBeLessThan(before);
+  });
+
+  it('previousEnabled returns true when no minDate', () => {
+    expect(header.previousEnabled()).toBe(true);
+  });
+
+  it('nextEnabled returns true when no maxDate', () => {
+    expect(header.nextEnabled()).toBe(true);
+  });
+
+  it('previousYearEnabled returns true when no minDate', () => {
+    expect(header.previousYearEnabled()).toBe(true);
+  });
+
+  it('nextYearEnabled returns true when no maxDate', () => {
+    expect(header.nextYearEnabled()).toBe(true);
   });
 });

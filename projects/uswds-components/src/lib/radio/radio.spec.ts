@@ -112,3 +112,65 @@ describe('Radio Component', () => {
     expect(checkedRadioOption.checked).toEqual(true);
   });
 });
+
+// ---------------------------------------------------------------------------
+// UsaRadioComponent — ControlValueAccessor coverage
+// ---------------------------------------------------------------------------
+
+describe('UsaRadioComponent — ControlValueAccessor', () => {
+  let fixture: ComponentFixture<RadioTestComponent>;
+  let component: RadioTestComponent;
+
+  beforeEach(() => {
+    fixture = TestBed.configureTestingModule({
+      imports: [CommonModule, UsaRadioModule, ReactiveFormsModule],
+      declarations: [RadioTestComponent],
+    }).createComponent(RadioTestComponent);
+    fixture.detectChanges();
+    component = fixture.componentInstance;
+  });
+
+  it('writeValue sets checked=true for truthy value', () => {
+    const radio = component.radioGroupA.radioComponents.first;
+    radio.writeValue('any-truthy-value');
+    expect(radio.checked).toBe(true);
+  });
+
+  it('writeValue sets checked=false for falsy value', () => {
+    const radio = component.radioGroupA.radioComponents.first;
+    radio.writeValue(null);
+    expect(radio.checked).toBe(false);
+  });
+
+  it('registerOnChange stores and calls the callback', () => {
+    const fn = vi.fn();
+    const radio = component.radioGroupA.radioComponents.first;
+    radio.registerOnChange(fn);
+    radio.onChange('test');
+    expect(fn).toHaveBeenCalledWith('test');
+  });
+
+  it('registerOnTouched stores and calls the callback', () => {
+    const fn = vi.fn();
+    const radio = component.radioGroupA.radioComponents.first;
+    radio.registerOnTouched(fn);
+    radio.onTouched();
+    expect(fn).toHaveBeenCalled();
+  });
+
+  it('setDisabledState disables and enables the radio', () => {
+    const radio = component.radioGroupA.radioComponents.first;
+    radio.setDisabledState(true);
+    expect(radio.disabled).toBe(true);
+    radio.setDisabledState(false);
+    expect(radio.disabled).toBe(false);
+  });
+
+  it('preventChangePropogation stops event propagation', () => {
+    const radio = component.radioGroupA.radioComponents.first;
+    const event = new Event('change', { bubbles: true });
+    const stopSpy = vi.spyOn(event, 'stopPropagation');
+    radio.preventChangePropogation(event);
+    expect(stopSpy).toHaveBeenCalled();
+  });
+});
