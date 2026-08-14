@@ -7,17 +7,19 @@
   <div class="usa-nav-container">
     <div class="usa-navbar">
       <div class="usa-logo">
-        <ng-container *ngIf="getTypeOfTitle() === 'object'; else titleText" [ngTemplateOutlet]="title"></ng-container>
-        <ng-template #titleText
-          ><em class="usa-logo__text">{{ title }}</em></ng-template
-        >
+        @if (getTypeOfTitle() === 'object') {
+          <ng-container [ngTemplateOutlet]="title"></ng-container>
+        } @else {
+          <em class="usa-logo__text">{{ title }}</em>
+        }
       </div>
       <button #usaNavOpen class="usa-menu-btn" (click)="openMobileNav()">
-        <ng-container *ngIf="menuButtonTemplate; else menu" [ngTemplateOutlet]="menuButtonTemplate"></ng-container>
-        <ng-template #menu>
+        @if (menuButtonTemplate) {
+          <ng-container [ngTemplateOutlet]="menuButtonTemplate"></ng-container>
+        } @else {
           Menu
           <span class="usa-sr-only">Menu</span>
-        </ng-template>
+        }
       </button>
     </div>
     <nav
@@ -27,11 +29,13 @@
       (animationend)="navAnimationEnd()"
       [class.is-visible]="mobileNavActive"
     >
-      <ng-container *ngIf="extended; else headerNavigationLinks">
+      @if (extended) {
         <div class="usa-nav__inner">
           <ng-container [ngTemplateOutlet]="headerNavigationLinks"></ng-container>
         </div>
-      </ng-container>
+      } @else {
+        <ng-container [ngTemplateOutlet]="headerNavigationLinks"></ng-container>
+      }
 
       <ng-template #headerNavigationLinks>
         <button #usaNavClose class="usa-nav__close" (click)="closeMobileNav()">
@@ -39,30 +43,40 @@
           <span class="usa-sr-only">Close</span>
         </button>
 
-        <ul class="usa-nav__primary usa-accordion" *ngIf="primaryNavItems">
-          <li *ngFor="let link of primaryNavItems" class="usa-nav__primary-item">
-            <ng-container
-              [ngTemplateOutlet]="link.children ? dropDownTemplate : linkTemplate"
-              [ngTemplateOutletContext]="{ $implicit: link, isPrimary: true }"
-            ></ng-container>
-          </li>
-        </ul>
+        @if (primaryNavItems) {
+          <ul class="usa-nav__primary usa-accordion">
+            @for (link of primaryNavItems; track link) {
+              <li class="usa-nav__primary-item">
+                <ng-container
+                  [ngTemplateOutlet]="link.children ? dropDownTemplate : linkTemplate"
+                  [ngTemplateOutletContext]="{ $implicit: link, isPrimary: true }"
+                ></ng-container>
+              </li>
+            }
+          </ul>
+        }
 
         <ng-content select="[usaHeaderPrimaryLinks]"></ng-content>
         <ng-content select="[usaHeaderPrimaryExtra]"></ng-content>
 
-        <div *ngIf="extended" class="usa-nav__secondary">
-          <ul *ngIf="secondaryNavItems" class="usa-nav__secondary-links">
-            <li *ngFor="let link of secondaryNavItems" class="usa-nav__secondary-item">
-              <ng-container
-                [ngTemplateOutlet]="linkTemplate"
-                [ngTemplateOutletContext]="{ $implicit: link, isPrimary: false }"
-              ></ng-container>
-            </li>
-          </ul>
-          <ng-content select="[usaHeaderSecondaryLinks]"></ng-content>
-          <ng-content select="[usaHeaderSecondaryExtra]"></ng-content>
-        </div>
+        @if (extended) {
+          <div class="usa-nav__secondary">
+            @if (secondaryNavItems) {
+              <ul class="usa-nav__secondary-links">
+                @for (link of secondaryNavItems; track link) {
+                  <li class="usa-nav__secondary-item">
+                    <ng-container
+                      [ngTemplateOutlet]="linkTemplate"
+                      [ngTemplateOutletContext]="{ $implicit: link, isPrimary: false }"
+                    ></ng-container>
+                  </li>
+                }
+              </ul>
+            }
+            <ng-content select="[usaHeaderSecondaryLinks]"></ng-content>
+            <ng-content select="[usaHeaderSecondaryExtra]"></ng-content>
+          </div>
+        }
       </ng-template>
     </nav>
   </div>
@@ -94,20 +108,23 @@
   >
     <span>{{ link.text }}</span>
   </button>
-  <ul
-    *ngIf="link === selectedDropdownLink"
-    [attr.id]="removeWhiteSpace(link.text) + '-section'"
-    class="usa-nav__submenu"
-    [ngClass]="{ 'usa-megamenu': link.isMegamenu }"
-  >
-    <li *ngFor="let childLink of link.children" class="usa-nav__submenu-item">
-      <ng-container
-        [ngTemplateOutlet]="linkTemplate"
-        [ngTemplateOutletContext]="{ $implicit: childLink, parentNav: link }"
-      >
-      </ng-container>
-    </li>
-  </ul>
+  @if (link === selectedDropdownLink) {
+    <ul
+      [attr.id]="removeWhiteSpace(link.text) + '-section'"
+      class="usa-nav__submenu"
+      [ngClass]="{ 'usa-megamenu': link.isMegamenu }"
+    >
+      @for (childLink of link.children; track childLink) {
+        <li class="usa-nav__submenu-item">
+          <ng-container
+            [ngTemplateOutlet]="linkTemplate"
+            [ngTemplateOutletContext]="{ $implicit: childLink, parentNav: link }"
+          >
+          </ng-container>
+        </li>
+      }
+    </ul>
+  }
 </ng-template>
 
 <ng-template #linkHREFTemplate let-link let-isPrimary>

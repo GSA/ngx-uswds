@@ -1,48 +1,49 @@
 <!-- Create the first row separately so we can include a special spacer cell. -->
-<tr *ngFor="let row of rows; let rowIndex = index" role="row">
+@for (row of rows; track row; let rowIndex = $index) {
+<tr role="row">
   <!-- First Row -->
-  <ng-container *ngIf="rowIndex === 0">
-    <td *ngFor="let item of prevMonthRow; let colIndex = index">
-      <ng-container
-        [ngTemplateOutlet]="cellButton"
-        [ngTemplateOutletContext]="{$implicit: {item: item, prevMonth: true}}"
-      ></ng-container>
-    </td>
-    <td *ngFor="let item of rows[0]; let colIndex = index">
-      <ng-container
-        [ngTemplateOutlet]="cellButton"
-        [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}"
-      >
-      </ng-container>
-    </td>
-  </ng-container>
-
+  @if (rowIndex === 0) { @for (item of prevMonthRow; track item; let colIndex = $index) {
+  <td>
+    <ng-container
+      [ngTemplateOutlet]="cellButton"
+      [ngTemplateOutletContext]="{$implicit: {item: item, prevMonth: true}}"
+    ></ng-container>
+  </td>
+  } @for (item of rows[0]; track item; let colIndex = $index) {
+  <td>
+    <ng-container
+      [ngTemplateOutlet]="cellButton"
+      [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}"
+    >
+    </ng-container>
+  </td>
+  } }
   <!-- Middle rows -->
-  <ng-container *ngIf="rowIndex > 0 && rowIndex < rows.length - 1">
-    <td *ngFor="let item of row; let colIndex = index">
-      <ng-container
-        [ngTemplateOutlet]="cellButton"
-        [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}"
-      ></ng-container>
-    </td>
-  </ng-container>
-
-  <ng-container *ngIf="rowIndex === rows.length - 1">
-    <td *ngFor="let item of rows[rows.length - 1]; let colIndex = index">
-      <ng-container
-        [ngTemplateOutlet]="cellButton"
-        [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}"
-      ></ng-container>
-    </td>
-    <td *ngFor="let item of nextMonthRow; let colIndex = index">
-      <ng-container
-        [ngTemplateOutlet]="cellButton"
-        [ngTemplateOutletContext]="{$implicit: {item: item, nextMonth: true}}"
-      >
-      </ng-container>
-    </td>
-  </ng-container>
+  @if (rowIndex > 0 && rowIndex < rows.length - 1) { @for (item of row; track item; let colIndex = $index) {
+  <td>
+    <ng-container
+      [ngTemplateOutlet]="cellButton"
+      [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}"
+    ></ng-container>
+  </td>
+  } } @if (rowIndex === rows.length - 1) { @for (item of rows[rows.length - 1]; track item; let colIndex = $index) {
+  <td>
+    <ng-container
+      [ngTemplateOutlet]="cellButton"
+      [ngTemplateOutletContext]="{$implicit: {item: item, rowIndex: rowIndex, colIndex: colIndex}}"
+    ></ng-container>
+  </td>
+  } @for (item of nextMonthRow; track item; let colIndex = $index) {
+  <td>
+    <ng-container
+      [ngTemplateOutlet]="cellButton"
+      [ngTemplateOutletContext]="{$implicit: {item: item, nextMonth: true}}"
+    >
+    </ng-container>
+  </td>
+  } }
 </tr>
+}
 
 <ng-template #cellButton let-data>
   <button

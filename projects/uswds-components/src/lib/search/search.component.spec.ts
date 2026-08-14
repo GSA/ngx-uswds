@@ -90,4 +90,37 @@ describe('SearchComponent', () => {
       expect(component.model).toBe('');
     });
   });
+
+  // -----------------------------------------------------------------------
+  // onKeydown — non-Enter key (else branch)
+  // -----------------------------------------------------------------------
+
+  describe('onKeydown', () => {
+    it('does not update model when a non-Enter key is pressed', () => {
+      component.model = 'original';
+      // Use a key code that is NOT Enter
+      component.onKeydown({ code: 'Space', target: { value: 'new-value' }, preventDefault: () => {} });
+      expect(component.model).toBe('original');
+    });
+
+    it('updates model and emits when Enter is pressed', () => {
+      const submitted: string[] = [];
+      component.registerOnChange((v) => submitted.push(v));
+      component.onKeydown({ code: 'Enter', target: { value: 'search-term' }, preventDefault: () => {} });
+      expect(component.model).toBe('search-term');
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // focusChange
+  // -----------------------------------------------------------------------
+
+  describe('focusChange', () => {
+    it('emits the target value via onBlur output', () => {
+      const values: string[] = [];
+      component.onBlur.subscribe((v) => values.push(v));
+      component.focusChange({ target: { value: 'typed-text' } });
+      expect(values).toContain('typed-text');
+    });
+  });
 });

@@ -57,7 +57,15 @@ describe('StepIndicatorComponent', () => {
     fixture = TestBed.createComponent(UsaStepIndicatorComponent);
     component = fixture.componentInstance;
     component.steps = getSteps();
+    // Attach the host element to the document so element.focus() reliably
+    // updates document.activeElement under jsdom (the keyboard-navigation
+    // tests assert on document.activeElement).
+    document.body.appendChild(fixture.nativeElement);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.nativeElement.remove();
   });
 
   it('should create', () => {
@@ -255,6 +263,92 @@ describe('StepIndicatorComponent', () => {
     fixture.detectChanges();
 
     expect(allSteps[2]).toEqual(document.activeElement as HTMLElement);
+  });
+
+  // ---------------------------------------------------------------------------
+  // ngOnChanges bounds guard
+  // ---------------------------------------------------------------------------
+
+  describe('ngOnChanges bounds guard', () => {
+    it('throws when currentStep exceeds the last step index', () => {
+      component.currentStep = 99;
+      expect(() =>
+        component.ngOnChanges({
+          currentStep: { currentValue: 99, previousValue: 0, firstChange: false, isFirstChange: () => false },
+        }),
+      ).toThrow(/out of bounds/);
+    });
+
+    it('throws when currentStep is negative', () => {
+      component.currentStep = -1;
+      expect(() =>
+        component.ngOnChanges({
+          currentStep: { currentValue: -1, previousValue: 0, firstChange: false, isFirstChange: () => false },
+        }),
+      ).toThrow(/out of bounds/);
+    });
+
+    it('does not throw when currentStep is within range', () => {
+      component.currentStep = 2;
+      expect(() =>
+        component.ngOnChanges({
+          currentStep: { currentValue: 2, previousValue: 0, firstChange: false, isFirstChange: () => false },
+        }),
+      ).not.toThrow();
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // getFillPercentage
+  // ---------------------------------------------------------------------------
+
+  describe('getFillPercentage', () => {
+    it('returns undefined when the step has no completionPercent', () => {
+      expect(component.getFillPercentage(component.steps[0])).toBeUndefined();
+    });
+
+    it('returns undefined for a step that is not the current step', () => {
+      component.currentStep = 0;
+      component.steps[1].completionPercent = 50;
+      expect(component.getFillPercentage(component.steps[1])).toBeUndefined();
+    });
+
+    it('returns an exact fill class for a multiple of 25 on the current step', () => {
+      component.currentStep = 0;
+      component.steps[0].completionPercent = 50;
+      expect(component.getFillPercentage(component.steps[0])).toBe('fill-50');
+    });
+
+    it('rounds to the nearest 10 for a non-multiple on the current step', () => {
+      component.currentStep = 0;
+      component.steps[0].completionPercent = 47;
+      expect(component.getFillPercentage(component.steps[0])).toBe('fill-50');
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // getSegmentScale
+  // ---------------------------------------------------------------------------
+
+  describe('getSegmentScale', () => {
+    it('returns undefined when segmentScale is not set', () => {
+      expect(component.getSegmentScale(component.steps[0])).toBeUndefined();
+    });
+
+    it('scales a normal value by 100', () => {
+      component.steps[0].segmentScale = 2;
+      expect(component.getSegmentScale(component.steps[0])).toBe('scale-percent-200');
+    });
+
+    it('clamps a value above the max of 4', () => {
+      component.steps[0].segmentScale = 10 as never;
+      expect(component.getSegmentScale(component.steps[0])).toBe('scale-percent-400');
+    });
+
+    it('clamps a value below the min of 0.5', () => {
+      component.steps[0].segmentScale = 0.1 as never;
+      expect(component.getSegmentScale(component.steps[0])).toBe('scale-percent-50');
+    });
   });
 });
 

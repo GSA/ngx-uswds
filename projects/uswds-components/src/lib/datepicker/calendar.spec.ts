@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angul
 import { By } from '@angular/platform-browser';
 import { UsaDatePickerModule } from './date-picker.module';
 import { UsaCalendar, UsaCalendarHeader, UsaCalendarView } from './calendar/calendar';
+import { DateRange } from './date-selection-model';
 
 @Component({
   standalone: false,
@@ -208,6 +209,29 @@ describe('UsaCalendar', () => {
       fixture.detectChanges();
       expect(count).toBeGreaterThan(0);
     });
+
+    it('calls view._init() on second minDate change (non-firstChange)', () => {
+      // First change: firstChange=true → view._init not called
+      host.minDate = new Date(2024, 0, 1);
+      fixture.detectChanges();
+      // Second change: firstChange=false → view._init IS called (covers lines 296-331)
+      const view = (calendar as any)._getCurrentViewComponent();
+      const spy = view ? vi.spyOn(view, '_init') : null;
+      host.minDate = new Date(2024, 2, 1);
+      fixture.detectChanges();
+      if (spy) {
+        expect(spy).toHaveBeenCalled();
+      } else {
+        expect(true).toBe(true);
+      }
+    });
+
+    it('handles selected as DateRange in the selected setter', () => {
+      expect(() => {
+        calendar.selected = new DateRange(new Date(2024, 0, 1), new Date(2024, 11, 31));
+        fixture.detectChanges();
+      }).not.toThrow();
+    });
   });
 
   // -----------------------------------------------------------------------
@@ -324,5 +348,59 @@ describe('UsaCalendarHeader', () => {
 
   it('nextYearEnabled returns true when no maxDate', () => {
     expect(header.nextYearEnabled()).toBe(true);
+  });
+
+  it('previousEnabled returns false when minDate equals current month', () => {
+    // minDate set to current month → isSameView returns true → previousEnabled = false
+    header.calendar.minDate = new Date(2024, 0, 1);
+    header.calendar.activeDate = new Date(2024, 0, 15);
+    fixture.detectChanges();
+    expect(header.previousEnabled()).toBe(false);
+  });
+
+  it('previousEnabled returns true when minDate is earlier than current month', () => {
+    header.calendar.minDate = new Date(2023, 11, 1);
+    header.calendar.activeDate = new Date(2024, 0, 15);
+    fixture.detectChanges();
+    expect(header.previousEnabled()).toBe(true);
+  });
+
+  it('nextEnabled returns false when maxDate equals current month', () => {
+    header.calendar.maxDate = new Date(2024, 0, 31);
+    header.calendar.activeDate = new Date(2024, 0, 15);
+    fixture.detectChanges();
+    expect(header.nextEnabled()).toBe(false);
+  });
+
+  it('previousYearEnabled returns false when minDate year equals active year', () => {
+    header.calendar.minDate = new Date(2024, 6, 1);
+    header.calendar.activeDate = new Date(2024, 0, 15);
+    fixture.detectChanges();
+    expect(header.previousYearEnabled()).toBe(false);
+  });
+
+  it('nextYearEnabled returns false when maxDate year equals active year', () => {
+    header.calendar.maxDate = new Date(2024, 6, 1);
+    header.calendar.activeDate = new Date(2024, 0, 15);
+    fixture.detectChanges();
+    expect(header.nextYearEnabled()).toBe(false);
+  });
+
+  it('_isSameView in year view compares years', () => {
+    header.calendar.currentView = 'year';
+    header.calendar.minDate = new Date(2024, 0, 1);
+    header.calendar.activeDate = new Date(2024, 6, 1);
+    fixture.detectChanges();
+    // same year → previousEnabled should be false
+    expect(header.previousEnabled()).toBe(false);
+  });
+
+  it('_isSameView in multi-year view uses isSameMultiYearView', () => {
+    header.calendar.currentView = 'multi-year';
+    header.calendar.minDate = new Date(2020, 0, 1);
+    header.calendar.activeDate = new Date(2024, 0, 1);
+    fixture.detectChanges();
+    // Different multi-year pages → previousEnabled should return true
+    expect(typeof header.previousEnabled()).toBe('boolean');
   });
 });

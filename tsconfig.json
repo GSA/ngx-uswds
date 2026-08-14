@@ -12,7 +12,6 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "es2022",
-    "lib": ["es2018", "esnext.disposable", "dom"],
     "paths": {
       "@gsa-sam/ngx-uswds": ["projects/uswds-components/src/public-api.ts"]
     },

@@ -4,7 +4,7 @@
   [class.usa-accordion--bordered]="bordered"
   [attr.aria-multiselectable]="singleSelect ? null : true"
 >
-  <ng-template ngFor let-panel [ngForOf]="panels">
+  @for (panel of panels; track panel) {
     <div role="heading" id="{{ panel.id }}-header" class="usa-accordion__heading" [attr.aria-level]="headerLevel">
       <button class="usa-accordion__button" [UsaAccordionToggle]="panel" (keydown)="onKeyDown($event, panel)">
         {{ panel.header }}
@@ -23,5 +23,5 @@
     >
       <ng-template [ngTemplateOutlet]="panel.contentTpl?.templateRef || null"></ng-template>
     </section>
-  </ng-template>
+  }
 </div>

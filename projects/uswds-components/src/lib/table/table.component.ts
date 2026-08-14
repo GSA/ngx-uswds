@@ -103,6 +103,13 @@ export class UsaTableComponent implements AfterContentInit, OnChanges, AfterCont
   @Input() trackBy: TrackByFunction<TableDataSource>;
 
   /**
+   * Track expression for the row `@for` loop. Mirrors the previous `trackBy` behaviour:
+   * when a `trackBy` function is supplied it is used, otherwise falls back to the row
+   * identity so the loop remains valid.
+   */
+  trackRow = (index: number, data: TableDataSource) => (this.trackBy ? this.trackBy(index, data) : data);
+
+  /**
    * Whether or not the data is sorted server side. If set to true, then
    * the table will not perform sort operations on given data, but simply
    * handle bookkeeping of sort state and event emission

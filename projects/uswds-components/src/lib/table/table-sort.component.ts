@@ -9,21 +9,29 @@ import { Component, ElementRef, EventEmitter, Inject, Input, Output, DOCUMENT } 
     '(click)': 'onClick($event)',
   },
   template: `
-    <svg [ngSwitch]="ariaSort" class="usa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <g *ngSwitchCase="'descending'" class="descending">
-        <path d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
-      </g>
-      <g *ngSwitchCase="'ascending'" class="ascending">
-        <path
-          transform="rotate(180, 12, 12)"
-          d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"
-        ></path>
-      </g>
-      <g *ngSwitchCase="'none'" class="unsorted">
-        <polygon
-          points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"
-        ></polygon>
-      </g>
+    <svg class="usa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      @switch (ariaSort) {
+        @case ('descending') {
+          <g class="descending">
+            <path d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
+          </g>
+        }
+        @case ('ascending') {
+          <g class="ascending">
+            <path
+              transform="rotate(180, 12, 12)"
+              d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"
+            ></path>
+          </g>
+        }
+        @case ('none') {
+          <g class="unsorted">
+            <polygon
+              points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"
+            ></polygon>
+          </g>
+        }
+      }
     </svg>
   `,
 })
@@ -42,7 +50,7 @@ export class UsaSort {
     @Inject(DOCUMENT) private _document,
   ) {}
 
-  onClick() {
+  onClick(_event?: Event) {
     this.toggleAriaSort();
     const sortFn = this.sortFn ? this.sortFn : this.defaultSortFunction;
     const eventDetails = {

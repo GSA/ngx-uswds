@@ -1,18 +1,24 @@
 <ul class="usa-sidenav">
-  <li *ngFor="let link of sidenavContent" class="usa-sidenav__item">
-    <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{ $implicit: link }">
-    </ng-container>
-  </li>
+  @for (link of sidenavContent; track link) {
+    <li class="usa-sidenav__item">
+      <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{ $implicit: link }">
+      </ng-container>
+    </li>
+  }
 </ul>
 
 <ng-template #sideNavLinkTemplate let-link>
   <usa-link-template [link]="link" (linkClicked)="onSidenavItemClicked($event)"></usa-link-template>
-  <div *ngIf="!expandType || (expandType && !link.collapsed)">
-    <ul class="usa-sidenav__sublist">
-      <li *ngFor="let link of link.children" class="sidenav__item">
-        <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{ $implicit: link }">
-        </ng-container>
-      </li>
-    </ul>
-  </div>
+  @if (!expandType || (expandType && !link.collapsed)) {
+    <div>
+      <ul class="usa-sidenav__sublist">
+        @for (link of link.children; track link) {
+          <li class="sidenav__item">
+            <ng-container [ngTemplateOutlet]="sideNavLinkTemplate" [ngTemplateOutletContext]="{ $implicit: link }">
+            </ng-container>
+          </li>
+        }
+      </ul>
+    </div>
+  }
 </ng-template>

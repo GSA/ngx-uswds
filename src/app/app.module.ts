@@ -11,12 +11,11 @@ import { UsaAppHeaderModule } from './shared/app-header/app-header.module';
   declarations: [AppComponent],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, MarkdownModule.forRoot(), UsaAppHeaderModule],
   providers: [
-    provideZoneChangeDetection({ ignoreChangesOutsideZone: true }),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
         coreLibraryLoader: () => import('highlight.js/lib/core'),
-        lineNumbersLoader: () => import('highlightjs-line-numbers.js'), // Optional, only if you want the line numbers
         languages: {
           typescript: () => import('highlight.js/lib/languages/typescript'),
           css: () => import('highlight.js/lib/languages/css'),

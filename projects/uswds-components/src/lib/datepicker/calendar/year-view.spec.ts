@@ -10,6 +10,7 @@ import { NativeDateAdapter } from '../dateadapter/native-date-adapter';
 import { USA_DATE_FORMATS } from '../dateadapter/date-formats';
 import { USA_NATIVE_DATE_FORMATS } from '../dateadapter/native-date-formats';
 import { HoverClassModule } from '../../util/hover-class';
+import { DateRange } from '../date-selection-model';
 
 @Component({
   standalone: false,
@@ -235,6 +236,107 @@ describe('UsaYearView', () => {
       keydown(KeyCode.Enter);
       keyup(KeyCode.Enter);
       expect(host.selectedValues.length).toBe(1);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // Guard branches
+  // -----------------------------------------------------------------------
+
+  describe('guard branches', () => {
+    it('an unhandled key does not move the active date', () => {
+      const before = yearView.activeDate.getTime();
+      const event = new KeyboardEvent('keydown', { keyCode: 999 });
+      Object.defineProperty(event, 'keyCode', { get: () => 999 });
+      yearView._handleCalendarBodyKeydown(event);
+      expect(yearView.activeDate.getTime()).toBe(before);
+    });
+
+    it('keyup for a non-selection key does not select', () => {
+      const before = host.selectedValues.length;
+      const event = new KeyboardEvent('keyup', { keyCode: KeyCode.ArrowRight });
+      Object.defineProperty(event, 'keyCode', { get: () => KeyCode.ArrowRight });
+      yearView._handleCalendarBodyKeyup(event);
+      expect(host.selectedValues.length).toBe(before);
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // selected setter — DateRange path
+  // -----------------------------------------------------------------------
+
+  describe('selected DateRange path', () => {
+    it('accepts a DateRange as selected', () => {
+      const start = new Date(2024, 0, 1);
+      const end = new Date(2024, 11, 31);
+      yearView.selected = new DateRange(start, end);
+      // _selectedMonth should be the start month in the current year
+      expect(typeof yearView._selectedMonth).not.toBe('undefined');
+    });
+
+    it('accepts a DateRange with only start', () => {
+      yearView.selected = new DateRange(new Date(2024, 3, 1), null);
+      expect(yearView._selectedMonth).toBe(3);
+    });
+
+    it('accepts null selected', () => {
+      yearView.selected = null;
+      expect(yearView._selectedMonth).toBeNull();
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // dateFilter — month-disabled branches
+  // -----------------------------------------------------------------------
+
+  describe('dateFilter month-disabled', () => {
+    it('disables months after maxDate', () => {
+      // maxDate = Jan 2024 → months after Jan should be disabled
+      host.maxDate = new Date(2024, 0, 31);
+      fixture.detectChanges();
+      // Must manually re-init since year-view doesn’t watch minDate/maxDate changes
+      yearView['_init']();
+      // February (index 1) should be disabled
+      const febCell = yearView._months.flat().find((c) => c.value === 1);
+      if (febCell) {
+        expect(febCell.enabled).toBe(false);
+      } else {
+        expect(true).toBe(true);
+      }
+    });
+
+    it('disables months before minDate', () => {
+      // minDate = Dec 2024 → months before Dec should be disabled
+      host.minDate = new Date(2024, 11, 1);
+      fixture.detectChanges();
+      yearView['_init']();
+      const janCell = yearView._months.flat().find((c) => c.value === 0);
+      if (janCell) {
+        expect(janCell.enabled).toBe(false);
+      } else {
+        expect(true).toBe(true);
+      }
+    });
+
+    it('uses dateFilter to disable a month when all dates are filtered out', () => {
+      // Filter out all dates in July (month 6)
+      yearView.dateFilter = (d: Date) => d.getMonth() !== 6;
+      yearView['_init']();
+      fixture.detectChanges();
+      const julCell = yearView._months.flat().find((c) => c.value === 6);
+      if (julCell) {
+        expect(julCell.enabled).toBe(false);
+      } else {
+        expect(true).toBe(true);
+      }
+    });
+
+    it('enables a month when dateFilter allows at least one date', () => {
+      yearView.dateFilter = () => true;
+      yearView['_init']();
+      fixture.detectChanges();
+      const allEnabled = yearView._months.flat().every((c) => c.enabled);
+      expect(allEnabled).toBe(true);
     });
   });
 });

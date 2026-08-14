@@ -364,4 +364,31 @@ describe('NativeDateAdapter', () => {
       expect(adapter.isValid(adapter.invalid())).toBe(false);
     });
   });
+
+  describe('createDate guard branches', () => {
+    it('throws when month is out of range (< 0)', () => {
+      expect(() => adapter.createDate(2024, -1, 1)).toThrow();
+    });
+
+    it('throws when month is out of range (> 11)', () => {
+      expect(() => adapter.createDate(2024, 12, 1)).toThrow();
+    });
+
+    it('throws when date is < 1', () => {
+      expect(() => adapter.createDate(2024, 0, 0)).toThrow();
+    });
+
+    it('throws when date overflows the month', () => {
+      // Feb 31 overflows; month would be March
+      expect(() => adapter.createDate(2024, 1, 31)).toThrow();
+    });
+  });
+
+  describe('deserialize guard branches', () => {
+    it('returns null for a non-ISO string', () => {
+      // A non-ISO-8601 string should fail the regex and return null/invalid
+      const result = adapter.deserialize('not-a-date');
+      expect(adapter.isValid(result as Date)).toBe(false);
+    });
+  });
 });

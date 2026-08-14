@@ -302,4 +302,38 @@ describe('UsaSidenavComponent', () => {
     f2.detectChanges();
     expect(items[0].collapsed).toBe(false);
   });
+
+  it('collapses LABEL-mode items based on expandType=single (autoCollapseLabels=false)', () => {
+    const items: SidenavModel[] = [
+      {
+        id: 'label-1',
+        text: 'Label 1',
+        mode: UsaNavigationMode.LABEL,
+        children: [{ id: 'c1', text: 'C1', mode: UsaNavigationMode.EVENT }],
+      },
+    ];
+    const f2 = TestBed.createComponent(HostComponent);
+    f2.componentInstance.items = items;
+    f2.componentInstance.expandType = 'single';
+    f2.componentInstance.autoCollapseLabels = false; // collapsed = !false && single !== 'multiple' = true
+    f2.detectChanges();
+    expect(items[0].collapsed).toBe(true);
+  });
+
+  it('expands LABEL-mode items when expandType=multiple', () => {
+    const items: SidenavModel[] = [
+      {
+        id: 'label-2',
+        text: 'Label 2',
+        mode: UsaNavigationMode.LABEL,
+        children: [{ id: 'c2', text: 'C2', mode: UsaNavigationMode.EVENT }],
+      },
+    ];
+    const f2 = TestBed.createComponent(HostComponent);
+    f2.componentInstance.items = items;
+    f2.componentInstance.expandType = 'multiple';
+    f2.componentInstance.autoCollapseLabels = false; // !false && multiple !== 'multiple' = false
+    f2.detectChanges();
+    expect(items[0].collapsed).toBe(false);
+  });
 });

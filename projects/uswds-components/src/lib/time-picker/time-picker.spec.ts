@@ -253,12 +253,43 @@ describe('UsaTimePicker', () => {
   });
 
   // -------------------------------------------------------------------------
-  // 13. ngOnDestroy unsubscribes
+  // ngOnChanges early return when hostComboBox is null
   // -------------------------------------------------------------------------
   it('should unsubscribe on destroy', () => {
     const tp = host.timePicker;
     const unsubSpy = vi.spyOn(tp._inputChangeSubscription, 'unsubscribe');
     fixture.destroy();
     expect(unsubSpy).toHaveBeenCalled();
+  });
+
+  it('ngOnChanges early-returns when hostComboBox is null', () => {
+    const tp = host.timePicker;
+    const original = (tp as any).hostComboBox;
+    (tp as any).hostComboBox = null;
+    expect(() => tp.ngOnChanges()).not.toThrow();
+    (tp as any).hostComboBox = original;
+  });
+
+  it('parseTimeString returns null for invalid string (NaN hours path)', () => {
+    const tp = host.timePicker;
+    // A string with non-numeric parts causes NaN parse → hours/mins are undefined
+    const result = (tp as any).parseTimeString('abc:xyz');
+    expect(result).toBeUndefined();
+  });
+
+  it('parseTimeString returns null for empty string (no timeStr)', () => {
+    const tp = host.timePicker;
+    const result = (tp as any).parseTimeString('');
+    expect(result).toBeUndefined();
+  });
+
+  it('genetateItems uses MIN_TIME when parseTimeString returns falsy for minTime', () => {
+    host.minTime = 'invalid';
+    fixture.detectChanges();
+    const tp = host.timePicker;
+    tp.ngOnChanges();
+    const items = (tp as any).hostComboBox.items;
+    // Should still generate items starting from MIN_TIME
+    expect(items.length).toBeGreaterThan(0);
   });
 });
