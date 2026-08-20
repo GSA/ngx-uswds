@@ -8,6 +8,8 @@
     "build": "npm run build:components",
     "test": "npm run test:components",
     "build:components": "ng build uswds-components --configuration production",
+    "build:demo": "ng build usa-components",
+    "validate:security-workflow": "node scripts/validate-security-workflow.mjs",
     "lint": "ng lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
