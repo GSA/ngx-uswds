@@ -8,13 +8,13 @@
  */
 
 /**
- * @license Angular v21.2.20
+ * @license Angular
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
 
 /**
- * @license Angular v<unknown>
- * (c) 2010-2025 Google LLC. https://angular.io/
+ * @license Angular v21.2.20
+ * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
