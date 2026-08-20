@@ -43,7 +43,7 @@ if (!existsSync(workflowPath)) {
       'enforces the JSON report severity gate',
       /node scripts\/check-zap-severity\.mjs report_json\.json \.zap\/rules\.tsv/,
     ],
-    ['uses an explicit reviewed ZAP rules file', /rules_file_name:\s*['"]\.zap\/rules\.tsv['"]/],
+    ['does not hand the 6-column exception file to ZAP as a 2-column config', !/rules_file_name:/.test(workflow)],
   ];
 
   for (const [description, condition] of checks) {

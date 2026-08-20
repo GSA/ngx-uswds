@@ -37,6 +37,13 @@ never obtain one.
   whose JSON `riskcode` is medium (`2`) or high (`3`); low-risk alerts remain
   visible in the retained `zap-report` artifact.
 
+  The reviewed exception file (`.zap/rules.tsv`) is consumed by our own severity
+  gate, **not** handed to ZAP via `-c`/`rules_file_name`: ZAP's baseline config
+  expects a two-column `id<TAB>action` file, whereas our file carries six
+  columns (id, action, issue, owner, expiry, rationale) so every suppression is
+  auditable. Passing it to ZAP directly fails the scan with "too many values to
+  unpack".
+
   **Scope caveat (see [ADR 0001](adr/0001-security-scanning-posture.md)):** ZAP
   scans the `usa-components` **demo app**, which is internal tooling and is
   **not** the published package. The library built from

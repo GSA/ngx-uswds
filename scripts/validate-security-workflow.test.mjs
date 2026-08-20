@@ -154,3 +154,17 @@ test('fails when documentation drops a required section', () => {
   assert.equal(result.status, 1);
   assert.match(result.stderr, /names the DAST required status check/);
 });
+
+test('fails when the 6-column exception file is handed to ZAP as a config', () => {
+  const result = withMirror((dir) => {
+    const path = join(dir, '.github/workflows/security.yml');
+    const workflow = readFileSync(path, 'utf8').replace(
+      /target: 'http:\/\/127\.0\.0\.1:4200'/,
+      "target: 'http://127.0.0.1:4200'\n          rules_file_name: '.zap/rules.tsv'",
+    );
+    writeFileSync(path, workflow);
+    return run(dir);
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /does not hand the 6-column exception file to ZAP/);
+});
