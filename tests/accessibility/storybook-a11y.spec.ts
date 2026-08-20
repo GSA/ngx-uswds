@@ -15,6 +15,7 @@ import { join } from 'node:path';
 
 const WCAG_21_AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 const BASELINE_PATH = join(__dirname, 'wcag-2.1-aa-baseline.json');
+const RENDER_FAILURES_PATH = join(__dirname, 'storybook-render-failures.json');
 
 interface AxeNode {
   target: string[];
@@ -25,9 +26,24 @@ interface AxeViolation {
   nodes: AxeNode[];
 }
 
+// Angular stamps view-encapsulation classes (`ng-tns-c<hash>-<index>`) and
+// content/host attributes (`_ngcontent-*`, `_nghost-*`) into rendered markup.
+// Their hashes and indices shift with unrelated compilation or instance-order
+// changes, so leaving them in a committed fingerprint makes the same violation
+// churn as simultaneously "new" and "resolved". Strip them so a fingerprint is
+// stable across builds.
+function normalizeTarget(selector: string): string {
+  return selector
+    .replace(/\.ng-tns-c\d+-\d+/g, '')
+    .replace(/\[_ngcontent-[^\]]+\]/g, '')
+    .replace(/\[_nghost-[^\]]+\]/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
 function violationFingerprints(storyId: string, violations: AxeViolation[]): string[] {
   return violations.flatMap((violation) =>
-    violation.nodes.map((node) => [storyId, violation.id, ...node.target].join(' | ')),
+    violation.nodes.map((node) => [storyId, violation.id, ...node.target.map(normalizeTarget)].join(' | ')),
   );
 }
 
@@ -59,9 +75,10 @@ test('Storybook stories have no unresolved WCAG 2.1 AA violations', async ({ pag
 
     // Wait for Storybook to settle into either the rendered state or its own
     // error display. A story that Storybook itself fails to render (a story
-    // config defect, not an a11y issue) cannot be axe-assessed, so it is
-    // recorded separately and reported — it is not silently skipped, and it is
-    // not a11y-failed either.
+    // config defect, not an a11y issue) cannot be axe-assessed. Such stories
+    // are tracked in a committed allow-list (`storybook-render-failures.json`)
+    // so a *new* render failure fails the gate — a newly published story can
+    // never silently bypass the a11y check by failing to render.
     await expect(page.locator('body'), `${story.id} should settle`).toHaveClass(
       /\bsb-show-main\b|\bsb-show-errordisplay\b/,
     );
@@ -80,17 +97,11 @@ test('Storybook stories have no unresolved WCAG 2.1 AA violations', async ({ pag
   }
 
   const current = [...new Set(fingerprints)].sort();
-
-  if (renderFailures.length > 0) {
-    // Surface, don't hide: these stories could not be a11y-checked because
-    // Storybook failed to render them. Tracked separately from the AA gate.
-    console.warn(
-      `Skipped ${renderFailures.length} stor${renderFailures.length === 1 ? 'y' : 'ies'} that Storybook failed to render: ${renderFailures.join(', ')}`,
-    );
-  }
+  const currentRenderFailures = [...new Set(renderFailures)].sort();
 
   if (process.env.UPDATE_A11Y_BASELINE === '1') {
     writeFileSync(BASELINE_PATH, `${JSON.stringify(current, null, 2)}\n`);
+    writeFileSync(RENDER_FAILURES_PATH, `${JSON.stringify(currentRenderFailures, null, 2)}\n`);
   }
 
   const baseline = JSON.parse(readFileSync(BASELINE_PATH, 'utf8')) as string[];
@@ -99,9 +110,26 @@ test('Storybook stories have no unresolved WCAG 2.1 AA violations', async ({ pag
   const newViolations = current.filter((fingerprint) => !baselineSet.has(fingerprint));
   const resolvedViolations = baseline.filter((fingerprint) => !currentSet.has(fingerprint));
 
+  // Render failures are a ratchet too: known-broken stories are allow-listed,
+  // but a new one fails the gate (it would otherwise slip past a11y unchecked),
+  // and a fixed one must be removed from the allow-list.
+  const knownRenderFailures = JSON.parse(readFileSync(RENDER_FAILURES_PATH, 'utf8')) as string[];
+  const knownRenderFailureSet = new Set(knownRenderFailures);
+  const currentRenderFailureSet = new Set(currentRenderFailures);
+  const newRenderFailures = currentRenderFailures.filter((id) => !knownRenderFailureSet.has(id));
+  const fixedRenderFailures = knownRenderFailures.filter((id) => !currentRenderFailureSet.has(id));
+
   expect(newViolations, 'New WCAG 2.1 A/AA violations (fix them; do not update the baseline)').toEqual([]);
   expect(
     resolvedViolations,
     'Resolved WCAG 2.1 A/AA violations (remove them from the baseline with UPDATE_A11Y_BASELINE=1)',
+  ).toEqual([]);
+  expect(
+    newRenderFailures,
+    'Stories Storybook failed to render and could not be a11y-checked (fix the story so it renders)',
+  ).toEqual([]);
+  expect(
+    fixedRenderFailures,
+    'Stories that now render (remove them from storybook-render-failures.json with UPDATE_A11Y_BASELINE=1)',
   ).toEqual([]);
 });

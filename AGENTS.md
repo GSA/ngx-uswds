@@ -39,10 +39,11 @@
 Two layers enforce WCAG 2.1 AA on **new/changed** code (GH #273). Both are wired into CI (`.github/workflows/ci.yaml`).
 
 - **Lint layer (static templates):** the five `templateAccessibility` rules above are `error` for all templates except the `legacyA11yDebt` allow-list in `eslint.config.js`. A new a11y violation in new work fails `npm run lint`.
-- **Runtime layer (rendered axe check):** `npm run test:a11y` builds the static Storybook, serves it, and walks every story with `@axe-core/playwright` (WCAG 2.1 A/AA tags). Violations are fingerprinted (`storyId | ruleId | target`) and diffed against `tests/accessibility/wcag-2.1-aa-baseline.json`. **New** violations fail; **resolved** ones must be pruned from the baseline. This catches what lint can't — contrast, computed focus order, rendered ARIA state.
+- **Runtime layer (rendered axe check):** `npm run test:a11y` serves the static Storybook and walks every story with `@axe-core/playwright` (WCAG 2.1 A/AA tags). Violations are fingerprinted (`storyId | ruleId | target`, with Angular-generated `ng-tns-*`/`_ngcontent-*`/`_nghost-*` fragments stripped so hashes don't churn) and diffed against `tests/accessibility/wcag-2.1-aa-baseline.json`. **New** violations fail; **resolved** ones must be pruned from the baseline. This catches what lint can't — contrast, computed focus order, rendered ARIA state.
   - The baseline is the "triage, don't red-wall" mechanism: the pre-existing backlog is recorded, not blocking. It is a ratchet — shrink it as stories are fixed, never pad it.
   - Regenerate after an intentional change: `UPDATE_A11Y_BASELINE=1 npm run test:a11y`. Commit the baseline diff and explain it in the PR.
-  - Stories Storybook itself fails to render (config defects, not a11y issues) are reported to the console and skipped, not a11y-failed.
+  - Stories Storybook itself fails to render (config defects, not a11y issues) can't be axe-assessed, so they are tracked in a committed allow-list, `tests/accessibility/storybook-render-failures.json`. A **new** render failure fails the gate (a newly published broken story can't silently bypass a11y); a fixed one must be removed from the list. Same ratchet, regenerated with `UPDATE_A11Y_BASELINE=1`.
+  - In CI the gate reuses the `storybook-static` already built by the build/test job; locally it builds Storybook first. It serves via a pinned `http-server` dev dependency (`npx --no-install`).
   - Config lives in `playwright.a11y.config.ts` (separate from the demo-app smoke `playwright.config.ts`).
 - Making these CI steps **required** status checks is admin-owned (DevSecOps).
 

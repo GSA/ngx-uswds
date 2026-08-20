@@ -59,8 +59,6 @@ const legacyA11yDebt = [
   'projects/uswds-components/src/lib/datepicker/calendar/year-view.html',
   'projects/uswds-components/src/lib/file-input/file-input.component.html',
   'projects/uswds-components/src/lib/header/header.component.html',
-  'projects/uswds-components/src/lib/search/search.component.html',
-  'projects/uswds-components/src/lib/step-indicator/step-indicator.component.html',
 ];
 
 module.exports = tseslint.config(

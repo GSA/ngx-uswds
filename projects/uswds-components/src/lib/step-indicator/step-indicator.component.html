@@ -23,8 +23,8 @@
           'usa-step-indicator__segment--no-counter': displayCounters && !step.label,
           'cursor-pointer': !step.disabled && !disableStepSelection,
         }"
-        [attr.aria-current]="i == currentStep ? true : undefined"
-        [attr.aria-selected]="i == currentStep ? true : undefined"
+        [attr.aria-current]="i === currentStep ? true : undefined"
+        [attr.aria-selected]="i === currentStep ? true : undefined"
       >
         <span class="usa-step-indicator__segment-label"
           >{{ step.label }}
