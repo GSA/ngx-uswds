@@ -57,7 +57,7 @@ test('axe detects a rendered WCAG 2.1 AA violation', async ({ page }) => {
   expect(results.violations.map(({ id }) => id)).toContain('color-contrast');
 });
 
-test('Storybook stories have no unresolved WCAG 2.1 AA violations', async ({ page, request }) => {
+test('Storybook stories have no unresolved WCAG 2.1 AA violations', async ({ page, request, context }) => {
   const response = await request.get('/index.json');
   expect(response.ok()).toBeTruthy();
 
@@ -71,29 +71,55 @@ test('Storybook stories have no unresolved WCAG 2.1 AA violations', async ({ pag
   const fingerprints: string[] = [];
   const renderFailures: string[] = [];
   for (const story of stories) {
-    await page.goto(`/iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story`);
+    // Fresh page per story: a clean frame with no carried-over render/axe state
+    // from the previous iteration.
+    const storyPage = await context.newPage();
+    try {
+      await storyPage.goto(`/iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story`);
 
-    // Wait for Storybook to settle into either the rendered state or its own
-    // error display. A story that Storybook itself fails to render (a story
-    // config defect, not an a11y issue) cannot be axe-assessed. Such stories
-    // are tracked in a committed allow-list (`storybook-render-failures.json`)
-    // so a *new* render failure fails the gate — a newly published story can
-    // never silently bypass the a11y check by failing to render.
-    await expect(page.locator('body'), `${story.id} should settle`).toHaveClass(
-      /\bsb-show-main\b|\bsb-show-errordisplay\b/,
-    );
-    const bodyClass = (await page.locator('body').getAttribute('class')) ?? '';
-    if (bodyClass.includes('sb-show-errordisplay')) {
-      renderFailures.push(story.id);
-      continue;
+      // Wait for Storybook to settle. A broken story flashes `sb-show-main`
+      // for ~200ms before flipping to `sb-show-errordisplay`, so matching
+      // "main OR error" can latch onto that transient main state and
+      // misclassify a render failure as a rendered story. Wait for the class
+      // to be *stable* across a short window before reading it.
+      await expect(storyPage.locator('body'), `${story.id} should settle`).toHaveClass(
+        /\bsb-show-main\b|\bsb-show-errordisplay\b/,
+      );
+      let bodyClass = '';
+      await expect
+        .poll(
+          async () => {
+            const current = (await storyPage.locator('body').getAttribute('class')) ?? '';
+            const stable = current === bodyClass;
+            bodyClass = current;
+            return stable && /\bsb-show-main\b|\bsb-show-errordisplay\b/.test(current);
+          },
+          { message: `${story.id} should reach a stable render state`, timeout: 10_000, intervals: [250] },
+        )
+        .toBe(true);
+
+      // A story config defect (not an a11y issue) shows Storybook's own error
+      // display and cannot be axe-assessed. Such stories are tracked in a
+      // committed allow-list (`storybook-render-failures.json`) so a *new*
+      // render failure fails the gate — a newly published story can never
+      // silently bypass the a11y check by failing to render.
+      if (bodyClass.includes('sb-show-errordisplay')) {
+        renderFailures.push(story.id);
+        continue;
+      }
+
+      // addon-a11y's automatic axe run is disabled via `a11y.test: 'off'` in
+      // .storybook/preview.js, so this AxeBuilder.analyze() is the only axe run
+      // in the frame — no "Axe is already running" race.
+      const results = await new AxeBuilder({ page: storyPage })
+        .withTags(WCAG_21_AA_TAGS)
+        .exclude("#storybook-root[aria-hidden='true']")
+        .analyze();
+
+      fingerprints.push(...violationFingerprints(story.id, results.violations as AxeViolation[]));
+    } finally {
+      await storyPage.close();
     }
-
-    const results = await new AxeBuilder({ page })
-      .withTags(WCAG_21_AA_TAGS)
-      .exclude("#storybook-root[aria-hidden='true']")
-      .analyze();
-
-    fingerprints.push(...violationFingerprints(story.id, results.violations as AxeViolation[]));
   }
 
   const current = [...new Set(fingerprints)].sort();
