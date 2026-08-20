@@ -90,17 +90,24 @@ temporarily added to the ZAP rules file using the process below.
 For ZAP, use one tab-separated row per exception:
 
 ```text
-rule-id<TAB>IGNORE<TAB>issue-url<TAB>owner<TAB>expiry(YYYY-MM-DD)<TAB>rationale
+rule-id<TAB>IGNORE<TAB>scope<TAB>issue-url<TAB>owner<TAB>expiry(YYYY-MM-DD)<TAB>rationale
 ```
 
-The policy validator rejects malformed or expired rows. Every exception must be
-reviewed in a pull request and include:
+The `scope` column is a **URL substring** the exception is limited to (the
+narrowest available scope), or a literal `*` for a rule-wide exception that must
+be explicitly justified. Matching on plugin id plus scope means a baseline row
+suppresses only the reviewed instance(s) of a finding, not every current and
+future instance of that ZAP rule across all URLs — preserving the new-code gate.
+
+The policy validator rejects malformed rows, rows missing a scope, and rows
+whose expiry is not a real calendar date or is in the past. Every exception must
+be reviewed in a pull request and include:
 
 1. the scanner rule or alert identifier;
-2. a link to its triage or remediation issue;
-3. the technical rationale for accepting or suppressing it;
-4. an owner and an expiry date; and
-5. the narrowest available scope.
+2. the narrowest URL scope it applies to (or `*` with justification);
+3. a link to its triage or remediation issue;
+4. the technical rationale for accepting or suppressing it; and
+5. an owner and an expiry date.
 
 Expired exceptions must be removed or explicitly renewed through review. Never
 lower the workflow threshold or broadly ignore medium/high findings to make CI

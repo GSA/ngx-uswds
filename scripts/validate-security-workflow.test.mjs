@@ -109,7 +109,7 @@ test('fails when the CI workflow does not run the validator', () => {
 
 test('rejects a malformed ZAP exception row', () => {
   const result = withMirror((dir) => {
-    writeFileSync(join(dir, '.zap/rules.tsv'), 'not-a-number\tIGNORE\tno-url\t\t\t\n');
+    writeFileSync(join(dir, '.zap/rules.tsv'), 'not-a-number\tIGNORE\t*\tno-url\t\t\t\n');
     return run(dir);
   });
   assert.equal(result.status, 1);
@@ -118,7 +118,38 @@ test('rejects a malformed ZAP exception row', () => {
 
 test('rejects an expired ZAP exception row', () => {
   const result = withMirror((dir) => {
-    const row = '10038\tIGNORE\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t2000-01-01\told';
+    const row = '10038\tIGNORE\t*\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t2000-01-01\told';
+    writeFileSync(join(dir, '.zap/rules.tsv'), `${row}\n`);
+    return run(dir);
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /valid, unexpired ZAP exception row/);
+});
+
+test('rejects a row with a syntactically valid but impossible calendar date', () => {
+  const result = withMirror((dir) => {
+    const row = '10038\tIGNORE\t*\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t2027-02-30\treason';
+    writeFileSync(join(dir, '.zap/rules.tsv'), `${row}\n`);
+    return run(dir);
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /valid, unexpired ZAP exception row/);
+});
+
+test('rejects a row with an out-of-range date (9999-99-99)', () => {
+  const result = withMirror((dir) => {
+    const row = '10038\tIGNORE\t*\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t9999-99-99\treason';
+    writeFileSync(join(dir, '.zap/rules.tsv'), `${row}\n`);
+    return run(dir);
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /valid, unexpired ZAP exception row/);
+});
+
+test('rejects a row missing the scope column', () => {
+  const result = withMirror((dir) => {
+    // 6 columns (no scope) must now be rejected under the 7-column layout.
+    const row = '10038\tIGNORE\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t2999-01-01\treason';
     writeFileSync(join(dir, '.zap/rules.tsv'), `${row}\n`);
     return run(dir);
   });
@@ -128,11 +159,22 @@ test('rejects an expired ZAP exception row', () => {
 
 test('accepts a well-formed, unexpired ZAP exception row', () => {
   const result = withMirror((dir) => {
-    const row = '10038\tIGNORE\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t2999-01-01\treason';
+    const row = '10038\tIGNORE\t*\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t2999-01-01\treason';
     writeFileSync(join(dir, '.zap/rules.tsv'), `# header\n${row}\n`);
     return run(dir);
   });
   assert.equal(result.status, 0, result.stderr);
+});
+
+test('fails when the CI workflow grants write-all permissions', () => {
+  const result = withMirror((dir) => {
+    const path = join(dir, '.github/workflows/ci.yaml');
+    const ci = readFileSync(path, 'utf8').replace(/^permissions:\s*\n {2}contents:\s*read/m, 'permissions: write-all');
+    writeFileSync(path, ci);
+    return run(dir);
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /declares least-privilege permissions in the CI workflow/);
 });
 
 test('fails when Dependabot config is removed', () => {

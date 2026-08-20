@@ -56,6 +56,11 @@ function reportWith(alerts) {
   return { site: [{ alerts }] };
 }
 
+// New 7-column exception layout: rule-id  IGNORE  scope  issue  owner  expiry  rationale
+function ruleRow(pluginId, scope = '*') {
+  return `${pluginId}\tIGNORE\t${scope}\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t2999-01-01\trationale`;
+}
+
 test('passes when there are no alerts', () => {
   const result = withFixtures({ report: reportWith([]) }, run);
   assert.equal(result.status, 0);
@@ -88,20 +93,31 @@ test('fails on a high-risk alert', () => {
   assert.match(result.stderr, /\[40012\] Cross Site Scripting/);
 });
 
-test('honors an IGNORE exception in the rules file', () => {
-  const report = reportWith([{ pluginid: '10038', alert: 'CSP Header Not Set', riskcode: '2', riskdesc: 'Medium' }]);
-  const rules = [
-    '# comment line is ignored',
-    '10038\tIGNORE\thttps://github.com/GSA/ngx-uswds/issues/1\towner\t2999-01-01\trationale',
-  ].join('\n');
+test('honors a rule-wide (*) IGNORE exception in the rules file', () => {
+  const report = reportWith([
+    { pluginid: '10038', alert: 'CSP Header Not Set', riskcode: '2', riskdesc: 'Medium', url: 'http://x/a' },
+  ]);
+  const rules = ['# comment line is ignored', ruleRow('10038', '*')].join('\n');
   const result = withFixtures({ report, rules }, run);
   assert.equal(result.status, 0);
   assert.match(result.stdout, /no unexcepted/);
 });
 
+test('a URL-scoped exception suppresses only the matching instance', () => {
+  const report = reportWith([
+    { pluginid: '10038', alert: 'CSP', riskcode: '2', riskdesc: 'Medium', url: 'http://127.0.0.1:4200/docs' },
+    { pluginid: '10038', alert: 'CSP', riskcode: '2', riskdesc: 'Medium', url: 'http://127.0.0.1:4200/other' },
+  ]);
+  const rules = ruleRow('10038', '/docs');
+  const result = withFixtures({ report, rules }, run);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /\/other/);
+  assert.doesNotMatch(result.stderr, /\/docs/);
+});
+
 test('an unrelated exception does not suppress a different rule', () => {
   const report = reportWith([{ pluginid: '40012', alert: 'Cross Site Scripting', riskcode: '3', riskdesc: 'High' }]);
-  const rules = '10038\tIGNORE\thttps://x/1\towner\t2999-01-01\trationale';
+  const rules = ruleRow('10038', '*');
   const result = withFixtures({ report, rules }, run);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /\[40012\]/);
@@ -123,4 +139,36 @@ test('exits non-zero on an unreadable report', () => {
   const result = run([join(tmpdir(), 'does-not-exist-zap.json')]);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Unable to read ZAP JSON report/);
+});
+
+test('fails closed on an empty-object report (missing site array)', () => {
+  const result = withFixtures({ report: {} }, run);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /missing the expected "site" array/);
+});
+
+test('fails closed on a site with no alerts array', () => {
+  const result = withFixtures({ report: { site: [{}] } }, run);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /no "alerts" array/);
+});
+
+test('fails closed on invalid top-level JSON (array instead of object)', () => {
+  const result = withFixtures({ report: [] }, run);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /missing the expected "site" array/);
+});
+
+test('fails closed on a missing riskcode', () => {
+  const report = reportWith([{ pluginid: '10038', alert: 'No riskcode', riskdesc: 'Medium' }]);
+  const result = withFixtures({ report }, run);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /missing or non-numeric riskcode/);
+});
+
+test('fails closed on a non-numeric riskcode', () => {
+  const report = reportWith([{ pluginid: '10038', alert: 'Bad', riskcode: 'oops', riskdesc: 'Medium' }]);
+  const result = withFixtures({ report }, run);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /missing or non-numeric riskcode/);
 });

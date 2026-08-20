@@ -43,7 +43,14 @@ const securityHeaders = {
 };
 
 createServer((request, response) => {
-  const pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://localhost').pathname);
+  let pathname;
+  try {
+    pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://localhost').pathname);
+  } catch {
+    // Malformed percent-encoding (e.g. `%zz`) must not crash the server.
+    response.writeHead(400, securityHeaders).end('Bad request');
+    return;
+  }
   const requestedPath = normalize(pathname).replace(/^(\.\.(\/|\\|$))+/, '');
   let filePath = join(root, requestedPath);
 

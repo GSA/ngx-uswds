@@ -1,6 +1,17 @@
 import { existsSync, readFileSync } from 'node:fs';
 
 /**
+ * Return true only if `value` is a real ISO calendar date (YYYY-MM-DD) that
+ * round-trips through Date — rejecting values like 9999-99-99 or 2027-02-30
+ * that pass a naive \d{4}-\d{2}-\d{2} regex but are not real dates.
+ */
+function isRealIsoDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+}
+
+/**
  * Policy validator for the security CI configuration. Runs in the main CI job
  * (`npm run validate:security-workflow`) so that any drift in the security
  * workflow, the ZAP severity gate, the reviewed exception baseline, or the
@@ -56,7 +67,10 @@ if (!existsSync(ciWorkflowPath) || !/npm run validate:security-workflow/.test(re
   failures.push('runs this policy validator in the main CI job');
 } else {
   const ciWorkflow = readFileSync(ciWorkflowPath, 'utf8');
-  if (!/^permissions:|permissions:\s*\n\s*contents:\s*read/m.test(ciWorkflow)) {
+  // Enforce a genuine least-privilege default: the top-level permissions block
+  // must be exactly `contents: read`. A bare `permissions:` or
+  // `permissions: write-all` must fail this check.
+  if (!/^permissions:\s*\n {2}contents:\s*read\s*$/m.test(ciWorkflow)) {
     failures.push('declares least-privilege permissions in the CI workflow');
   }
 }
@@ -69,13 +83,14 @@ if (!existsSync(rulesPath)) {
     .split(/\r?\n/)
     .filter((line) => line.trim() && !line.startsWith('#'));
   for (const row of exceptionRows) {
-    const [ruleId, action, issue, owner, expiry, rationale, ...extra] = row.split('\t');
+    const [ruleId, action, scope, issue, owner, expiry, rationale, ...extra] = row.split('\t');
     if (
       !/^\d+$/.test(ruleId) ||
       action !== 'IGNORE' ||
+      !scope?.trim() ||
       !/^https:\/\/github\.com\/GSA\/ngx-uswds\/issues\/\d+$/.test(issue) ||
       !owner?.trim() ||
-      !/^\d{4}-\d{2}-\d{2}$/.test(expiry) ||
+      !isRealIsoDate(expiry) ||
       expiry < today ||
       !rationale?.trim() ||
       extra.length > 0
@@ -89,8 +104,14 @@ if (!existsSync(severityGatePath)) {
   failures.push('provides the ZAP JSON severity gate');
 } else {
   const severityGate = readFileSync(severityGatePath, 'utf8');
-  if (!/Number\(alert\.riskcode\) >= 2/.test(severityGate)) {
+  if (!/riskcodeOf\(alert\) >= 2/.test(severityGate)) {
     failures.push('blocks ZAP medium- and high-risk alerts by JSON riskcode');
+  }
+  if (!/Number\.isNaN\(riskcodeOf\(alert\)\)/.test(severityGate)) {
+    failures.push('fails closed on a missing or non-numeric riskcode');
+  }
+  if (!/Array\.isArray\(report\.site\)/.test(severityGate)) {
+    failures.push('fails closed on a malformed ZAP report schema');
   }
 }
 
