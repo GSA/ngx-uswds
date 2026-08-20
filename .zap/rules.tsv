@@ -1,0 +1,2 @@
+# ZAP exceptions: rule-id<TAB>IGNORE<TAB>issue-url<TAB>owner<TAB>expiry(YYYY-MM-DD)<TAB>rationale
+# No exceptions are currently approved. Low-risk alerts are reported but do not block the medium/high gate.

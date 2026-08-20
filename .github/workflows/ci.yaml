@@ -7,6 +7,9 @@ on:
       - main
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     name: Lint
@@ -27,6 +30,8 @@ jobs:
         run: npm run format:check
       - name: Run lint
         run: npm run lint
+      - name: Validate security workflow
+        run: npm run validate:security-workflow
 
   build_and_run_tests:
     name: Build and Run Tests
