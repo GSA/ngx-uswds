@@ -18,6 +18,7 @@
     "coverage:bump": "node scripts/check-coverage.mjs --bump coverage/uswds-components/coverage-summary.json",
     "test:scripts": "node --test scripts/*.test.mjs",
     "test:e2e": "playwright test",
+    "test:a11y": "playwright test --config=playwright.a11y.config.ts",
     "ghpages": "npm run build-storybook && touch storybook-static/.nojekyll && npx angular-cli-ghpages --dir=storybook-static",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
     "sandbox-icons": "node src/sandbox/generate-icons.js",
@@ -57,6 +58,7 @@
     "@angular/build": "21.2.21",
     "@angular/cli": "21.2.21",
     "@angular/compiler-cli": "21.2.20",
+    "@axe-core/playwright": "^4.13.0",
     "@babel/core": "^7.29.7",
     "@compodoc/compodoc": "^1.2.1",
     "@playwright/test": "1.62.1",
@@ -68,6 +70,7 @@
     "@types/node": "^24.0.0",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
+    "@vitest/coverage-v8": "4.1.10",
     "angular-cli-github-pages": "0.2.0",
     "angular-eslint": "21.4.0",
     "ejs": "^3.1.6",
@@ -81,7 +84,6 @@
     "storybook": "10.5.7",
     "typescript": "5.9.3",
     "typescript-eslint": "8.67.0",
-    "vitest": "4.1.10",
-    "@vitest/coverage-v8": "4.1.10"
+    "vitest": "4.1.10"
   }
 }
