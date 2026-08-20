@@ -66,7 +66,10 @@ Pre-existing findings are triaged and burned down rather than red-walled up
 front (ADR-0010). ZAP's rule actions do **not** determine the gate: the JSON
 report's risk codes do, so pre-existing low-risk observations remain report-only
 while medium/high findings block immediately. `.zap/rules.tsv` currently
-contains no ignored alerts. CodeQL's pull-request comparison identifies findings
+contains one reviewed exception — rule `10055` (CSP `style-src 'unsafe-inline'`),
+which is inherent to the Angular build inlining a critical-CSS `<style>` block
+into the unpublished demo's `index.html`, not a property of the shipped library.
+CodeQL's pull-request comparison identifies findings
 introduced by changed code; existing default-branch findings remain visible in
 Security → Code scanning for separate triage rather than blocking the rollout.
 

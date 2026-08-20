@@ -1,2 +1,3 @@
 # ZAP exceptions: rule-id<TAB>IGNORE<TAB>issue-url<TAB>owner<TAB>expiry(YYYY-MM-DD)<TAB>rationale
-# No exceptions are currently approved. Low-risk alerts are reported but do not block the medium/high gate.
+# Low-risk alerts are reported but do not block the medium/high gate; only rows below are suppressed.
+10055	IGNORE	https://github.com/GSA/ngx-uswds/issues/272	ngx-uswds maintainers	2027-02-20	Angular inlines a critical-CSS <style> block into the demo index.html at build time, so the demo server must allow style-src 'unsafe-inline'; ZAP flags the policy itself (10055). This is toolchain behavior on the unpublished usa-components demo, not the shipped @gsa-sam/ngx-uswds library. Same finding baselined in GSA/sam-styles. Revisit when Angular supports nonce/hash-based inline styles for the demo.
