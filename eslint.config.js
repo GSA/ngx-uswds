@@ -73,7 +73,7 @@ module.exports = tseslint.config(
     //
     // These five templateAccessibility rules are hard errors for all new and
     // changed templates: a new violation fails `npm run lint` in CI. The
-    // pre-existing backlog is NOT red-walled — the eight legacy templates listed
+    // pre-existing backlog is NOT red-walled — the six legacy templates listed
     // in `legacyA11yDebt` below keep these rules at `warn` so their known
     // violations remain visible without blocking CI, and are burned down over
     // time (tracked by the lint-debt burndown issue). Do not add files to that
