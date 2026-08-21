@@ -1,0 +1,11 @@
+[
+  "components-accordion--basic | aria-allowed-attr | .usa-accordion",
+  "components-accordion--multiple | aria-allowed-attr | .usa-accordion[aria-multiselectable=\"true\"]",
+  "components-accordion--multiple | aria-allowed-attr | usa-accordion:nth-child(1) > .usa-accordion.margin-bottom-1[aria-multiselectable=\"true\"]",
+  "components-accordion--multiple | aria-allowed-attr | usa-accordion:nth-child(2) > .usa-accordion.margin-bottom-1[aria-multiselectable=\"true\"]",
+  "components-combobox--basic | label | #usa-combo-box-0",
+  "components-dropdown--dropdown-forms | select-name | #usa-dropdown-0",
+  "components-dropdown--dropdown-forms | select-name | #usa-dropdown-1",
+  "components-fileinput--basic | label | #file-input-basic",
+  "components-timepicker--basic | label | #usa-combo-box-0"
+]
