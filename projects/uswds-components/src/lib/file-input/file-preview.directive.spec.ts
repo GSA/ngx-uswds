@@ -5,7 +5,13 @@ import { UsaFileInputModule } from './file-input.module';
 
 @Component({
   standalone: false,
-  template: `<img [usaFilePreview] [file]="file" [uploadRequest]="uploadRequest" (uploadError)="onError($event)" />`,
+  template: `<img
+    alt="file preview"
+    [usaFilePreview]
+    [file]="file"
+    [uploadRequest]="uploadRequest"
+    (uploadError)="onError($event)"
+  />`,
 })
 class FilePreviewTestComponent {
   file = new File(['content'], 'document.pdf', { type: 'application/pdf' });
