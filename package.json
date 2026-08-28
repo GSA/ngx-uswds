@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "21.2.21",
-    "@angular/build": "21.2.21",
+    "@angular/build": "22.0.4",
     "@angular/cli": "21.2.21",
     "@angular/compiler-cli": "21.2.20",
     "@axe-core/playwright": "4.13.0",
