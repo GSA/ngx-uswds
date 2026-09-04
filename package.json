@@ -59,7 +59,7 @@
     "@angular/cli": "21.2.23",
     "@angular/compiler-cli": "21.2.20",
     "@axe-core/playwright": "4.13.0",
-    "@babel/core": "^7.29.7",
+    "@babel/core": "^8.0.1",
     "@compodoc/compodoc": "^2.0.0",
     "@playwright/test": "1.62.1",
     "@storybook/addon-a11y": "10.5.10",
