@@ -11,6 +11,13 @@ describe('ScrollBar', () => {
     TestBed.configureTestingModule({ providers: [ScrollBar] });
     scrollBar = TestBed.inject(ScrollBar);
     doc = TestBed.inject(DOCUMENT);
+    // Defensive reset: the Vitest builder defaults to `isolate: false`, which
+    // shares the JS realm (and therefore `document`) across spec files within a
+    // worker. Other suites (e.g. modal.spec.ts) exercise the *real* ScrollBar
+    // via real `document.body` mutations, so padding can leak in from a
+    // previous file/test if it hasn't been reverted yet. Resetting here as well
+    // as in `afterEach` makes this suite self-contained regardless of run order.
+    doc.body.style.paddingRight = '';
   });
 
   afterEach(() => {
@@ -55,10 +62,19 @@ describe('ScrollBar', () => {
       Object.defineProperty(measurer, 'clientWidth', { value: 0, configurable: true });
       vi.spyOn(doc, 'createElement').mockReturnValue(measurer);
 
+      // Assert against the actual computed state rather than an exact-string
+      // literal: capture whatever padding is on the body *before* calling
+      // compensate(), then assert it is unchanged afterwards. This is the
+      // real contract of the noop branch ("if there was none, there is
+      // nothing to do") and holds regardless of what any other suite may
+      // have left on `document.body` before this test ran.
+      const paddingBefore = doc.body.style.paddingRight;
       const reverter = scrollBar.compensate();
+      // The noop path must not touch padding at all, not just after revert.
+      expect(doc.body.style.paddingRight).toBe(paddingBefore);
       // noop: calling it should not throw and body padding should be unchanged
       reverter();
-      expect(doc.body.style.paddingRight).toBe('');
+      expect(doc.body.style.paddingRight).toBe(paddingBefore);
     });
 
     it('adds padding to body when a scrollbar is present, and reverts it', () => {
