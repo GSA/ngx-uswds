@@ -9,6 +9,25 @@ import { ModalDismissReasons } from './modal-dismiss-reasons';
 import { UsaModalRef } from './modal-ref';
 import { UsaModalModule } from './modal.module';
 
+// `UsaModalRef.close()`/`.dismiss()` synchronously emit on the `closed`/
+// `dismissed` Subjects *before* the ref's `result` promise settles (see
+// modal-ref.ts: `_closed.next()` fires, then `_resolve()`, then
+// `_removeModalElements()`). `UsaModalStack.open()` reverts the real
+// `ScrollBar` body-padding compensation via `result.then(revertPaddingForScrollBar, ...)`,
+// which is therefore only *scheduled* as a microtask after several of the
+// tests below have already called `done()`. Left unflushed, that revert can
+// fire after this file's tests finish and mutate the shared `document.body`
+// that other spec files assert against — under the Vitest builder's default
+// `isolate: false`, spec files can share a realm, so this bled into
+// `scrollbar.spec.ts` as an intermittent CI flake (GH #302). A root-level
+// `afterEach` here flushes the event loop (guaranteeing any pending revert
+// microtask has run) and defensively resets the padding, so this file never
+// leaks state to whatever spec runs next.
+afterEach(async () => {
+  await new Promise<void>((resolve) => setTimeout(resolve, 0));
+  document.body.style.paddingRight = '';
+});
+
 describe('UsaModal', () => {
   let fixture: ComponentFixture<UsaModalTestComponent>;
   let component: UsaModalTestComponent;
