@@ -25,6 +25,10 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `npm run test` to execute the unit tests via [Vitest](https://vitest.dev) (through Angular's `@angular/build:unit-test` builder).
 
+## Contributing
+
+This repository does not currently accept external pull requests — see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
