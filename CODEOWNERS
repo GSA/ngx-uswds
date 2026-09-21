@@ -4,4 +4,4 @@
 # Changes to GitHub Actions workflows and repo configuration require
 # DevSecOps (sam-shared-frontend-admin) review in addition to the
 # default owners.
-/.github/ @GSA/sam-shared-frontend-admin @christyhermansen
+/.github/ @GSA/sam-shared-frontend-admin
