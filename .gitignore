@@ -54,3 +54,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# ESLint reports
+eslint-report.json
+
