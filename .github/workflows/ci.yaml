@@ -30,6 +30,8 @@ jobs:
         run: npm run format:check
       - name: Run lint
         run: npm run lint
+      - name: Guard ESLint warning baseline
+        run: npm run lint:baseline:check
       - name: Validate security workflow
         run: npm run validate:security-workflow
 
