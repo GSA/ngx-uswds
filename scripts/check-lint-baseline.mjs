@@ -54,6 +54,30 @@ try {
   process.exit(1);
 }
 
+if (!Array.isArray(report)) {
+  console.error(`✖ Invalid ESLint report format: report must be a JSON array.`);
+  process.exit(1);
+}
+
+for (const result of report) {
+  if (!result || typeof result !== 'object') {
+    console.error(`✖ Invalid ESLint report format: report contains non-object results.`);
+    process.exit(1);
+  }
+  const { errorCount, warningCount } = result;
+  if (
+    typeof errorCount !== 'number' ||
+    !Number.isFinite(errorCount) ||
+    errorCount < 0 ||
+    typeof warningCount !== 'number' ||
+    !Number.isFinite(warningCount) ||
+    warningCount < 0
+  ) {
+    console.error(`✖ Invalid ESLint report format: missing or invalid errorCount/warningCount values.`);
+    process.exit(1);
+  }
+}
+
 let baselines;
 try {
   baselines = JSON.parse(readFileSync(baselinePath, 'utf8'));
@@ -65,8 +89,8 @@ try {
 
 const totals = report.reduce(
   (acc, result) => {
-    acc.errors += result.errorCount ?? 0;
-    acc.warnings += result.warningCount ?? 0;
+    acc.errors += result.errorCount;
+    acc.warnings += result.warningCount;
     return acc;
   },
   { errors: 0, warnings: 0 },

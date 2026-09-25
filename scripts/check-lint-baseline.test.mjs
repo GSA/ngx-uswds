@@ -228,3 +228,51 @@ test('exits non-zero with usage when arguments are missing', () => {
   assert.equal(status, 1);
   assert.match(stderr, /Usage:/);
 });
+
+test('fails closed if the report is not a JSON array', () => {
+  withBaselines({ 'uswds-components': 10 }, () => {
+    withTempDir((dir) => {
+      const path = join(dir, 'eslint-report.json');
+      writeFileSync(path, JSON.stringify({ errorCount: 0, warningCount: 0 }));
+      const { status, stderr } = run(['uswds-components', path]);
+      assert.equal(status, 1);
+      assert.match(stderr, /report must be a JSON array/);
+    });
+  });
+});
+
+test('fails closed if report contains non-object results', () => {
+  withBaselines({ 'uswds-components': 10 }, () => {
+    withTempDir((dir) => {
+      const path = join(dir, 'eslint-report.json');
+      writeFileSync(path, JSON.stringify([null]));
+      const { status, stderr } = run(['uswds-components', path]);
+      assert.equal(status, 1);
+      assert.match(stderr, /contains non-object results/);
+    });
+  });
+});
+
+test('fails closed if any result object does not have finite errorCount', () => {
+  withBaselines({ 'uswds-components': 10 }, () => {
+    withTempDir((dir) => {
+      const path = join(dir, 'eslint-report.json');
+      writeFileSync(path, JSON.stringify([{ filePath: 'x.ts', messages: [], warningCount: 0 }]));
+      const { status, stderr } = run(['uswds-components', path]);
+      assert.equal(status, 1);
+      assert.match(stderr, /missing or invalid errorCount\/warningCount values/);
+    });
+  });
+});
+
+test('fails closed if any result object has negative or non-finite counts', () => {
+  withBaselines({ 'uswds-components': 10 }, () => {
+    withTempDir((dir) => {
+      const path = join(dir, 'eslint-report.json');
+      writeFileSync(path, JSON.stringify([{ filePath: 'x.ts', messages: [], errorCount: -1, warningCount: 0 }]));
+      const { status, stderr } = run(['uswds-components', path]);
+      assert.equal(status, 1);
+      assert.match(stderr, /missing or invalid errorCount\/warningCount/);
+    });
+  });
+});
