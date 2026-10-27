@@ -142,18 +142,37 @@ describe('UsaAccordionComponent — @Input bindings', () => {
     });
   });
 
-  it('singleSelect=false sets aria-multiselectable=true (multi-expand allowed)', () => {
-    const { nativeEl } = buildFixture(ACCORDION_TEMPLATE);
-    const acc = nativeEl.querySelector('usa-accordion > div') as HTMLElement;
-    expect(acc.getAttribute('aria-multiselectable')).toBe('true');
+  it('omits aria-multiselectable in multi-select mode while preserving multi-open and keyboard focus', () => {
+    const { fixture, nativeEl } = buildFixture(ACCORDION_TEMPLATE);
+    const accordionEl = nativeEl.querySelector('usa-accordion') as HTMLElement;
+    const btns = buttons(accordionEl);
+    expect(accordionEl.querySelector('.usa-accordion')).not.toBeNull();
+    expect(accordionEl.querySelector('[aria-multiselectable]')).toBeNull();
+
+    btns[0].click();
+    btns[1].click();
+    fixture.detectChanges();
+    expect(btns[0].getAttribute('aria-expanded')).toBe('true');
+    expect(btns[1].getAttribute('aria-expanded')).toBe('true');
+
+    btns[0].focus();
+    btns[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(btns[1]);
+    expect(accordionEl.querySelector('[aria-multiselectable]')).toBeNull();
   });
 
-  it('singleSelect=true removes aria-multiselectable (single-expand, ARIA pattern)', () => {
+  it('omits aria-multiselectable in single-select mode and after mode changes', () => {
     const { fixture, nativeEl } = buildFixture(ACCORDION_TEMPLATE);
+    const accordionEl = nativeEl.querySelector('usa-accordion') as HTMLElement;
     fixture.componentInstance.singleSelect = true;
     fixture.detectChanges();
-    const acc = nativeEl.querySelector('usa-accordion > div') as HTMLElement;
-    expect(acc.getAttribute('aria-multiselectable')).toBeNull();
+    expect(accordionEl.querySelector('.usa-accordion')).not.toBeNull();
+    expect(accordionEl.querySelector('[aria-multiselectable]')).toBeNull();
+
+    fixture.componentInstance.singleSelect = false;
+    fixture.detectChanges();
+    expect(accordionEl.querySelector('[aria-multiselectable]')).toBeNull();
   });
 
   it('renders one button per panel with the header text', () => {
