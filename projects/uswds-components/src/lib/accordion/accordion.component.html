@@ -1,9 +1,4 @@
-<div
-  class="usa-accordion"
-  [ngClass]="class"
-  [class.usa-accordion--bordered]="bordered"
-  [attr.aria-multiselectable]="singleSelect ? null : true"
->
+<div class="usa-accordion" [ngClass]="class" [class.usa-accordion--bordered]="bordered">
   @for (panel of panels; track panel) {
     <div role="heading" id="{{ panel.id }}-header" class="usa-accordion__heading" [attr.aria-level]="headerLevel">
       <button class="usa-accordion__button" [UsaAccordionToggle]="panel" (keydown)="onKeyDown($event, panel)">
