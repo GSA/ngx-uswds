@@ -59,7 +59,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "21.2.23",
     "@angular/build": "21.2.23",
-    "@angular/cli": "21.2.23",
+    "@angular/cli": "21.2.29",
     "@angular/compiler-cli": "21.2.20",
     "@axe-core/playwright": "4.13.0",
     "@babel/core": "^7.29.7",
