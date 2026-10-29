@@ -84,7 +84,7 @@
     "raw-loader": "^4.0.2",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "storybook": "10.6.0",
+    "storybook": "10.6.3",
     "typescript": "5.9.3",
     "typescript-eslint": "8.70.0",
     "vitest": "4.1.11"
