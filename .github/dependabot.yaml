@@ -28,6 +28,29 @@ updates:
       - dependency-name: 'typescript'
         versions: ['>= 6.0.0']
     groups:
+      # Keep coupled toolchains ahead of the catch-all groups (first match wins).
+      # animations and platform-browser-dynamic are deprecated on npm, so Dependabot skips them.
+      # If an angular group PR fails npm ci with ERESOLVE, push a commit to that PR
+      # bumping those two packages to the same version as the other Angular framework packages.
+      angular:
+        patterns:
+          - '@angular/*'
+          - '@angular-devkit/*'
+          - '@angular-eslint/*'
+          - 'angular-eslint'
+          - '@schematics/angular'
+          - 'ng-packagr'
+        update-types:
+          - 'minor'
+          - 'patch'
+      storybook:
+        patterns:
+          - 'storybook'
+          - '@storybook/*'
+          - 'eslint-plugin-storybook'
+        update-types:
+          - 'minor'
+          - 'patch'
       minor:
         patterns:
           - '*'
