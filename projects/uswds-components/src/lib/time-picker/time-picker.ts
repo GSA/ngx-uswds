@@ -67,12 +67,7 @@ export class UsaTimePicker implements OnInit, OnChanges, OnDestroy {
         if (!this.hostComboBox.comboBoxDropdown) return;
 
         const mappedItems = this.hostComboBox.items.map((item) => item[this.LABEL_FIELD]);
-        let index = -1;
-        if (this.filterBy) {
-          index = this.filterBy(value, mappedItems);
-        } else {
-          index = this.defaultFilter(value, mappedItems);
-        }
+        const index = this.filterBy ? this.filterBy(value, mappedItems) : this.defaultFilter(value, mappedItems);
 
         this.hostComboBox.comboBoxDropdown.highlightItem(index);
       }).bind(this),
